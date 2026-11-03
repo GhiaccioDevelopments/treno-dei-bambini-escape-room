@@ -1,0 +1,2 @@
+*.unityweb -filter -diff -merge binary
+*.wasm -filter binary
