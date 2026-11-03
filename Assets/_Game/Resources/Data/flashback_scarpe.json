@@ -1,0 +1,182 @@
+{
+  "id": "flashback_scarpe",
+  "oggetto": "scarpe",
+  "titolo": "Il gioco delle scarpe",
+  "scena": "30_FB_Scarpe",
+  "introduzione": "Chiudi gli occhi e senti il rumore dei passi sui sampietrini. Sei di nuovo nel vicolo, bambino, seduto sul gradino. Come ogni pomeriggio guardi in basso e conti le scarpe di chi passa: ognuna racconta una vita. Prova a mettere insieme i pezzi del ricordo.",
+  "conclusione": "Il ricordo si dissolve piano. Contare le scarpe era un gioco, ma dietro c'era una domanda seria: chi ha diritto a un paio di scarpe, a un pasto, a un futuro? La Repubblica ha scritto la sua risposta nella Costituzione, e tocca a ciascuno di noi darle vita.",
+  "enigmi": [
+    {
+      "id": "enigma_quiz",
+      "tipo": "quiz",
+      "titolo": "La cassetta dei diritti",
+      "consegna": "Sulla cassetta di legno c'è una scritta sbiadita. Rispondi alle tre domande per aprirla. Ricorda bene una data: ti servirà più avanti.",
+      "temaCivico": "Diritti dell'infanzia: Convenzione ONU e Costituzione italiana",
+      "indizi": [
+        "Pensa a quali testi proteggono i bambini: uno è internazionale, l'altro è la nostra Costituzione.",
+        "L'articolo 3 parla di uguaglianza; l'articolo 31 parla di famiglia, maternità e infanzia.",
+        "La Convenzione ONU sui diritti dell'infanzia è stata adottata alla fine degli anni Ottanta."
+      ],
+      "spiegazione": "Amerigo non conosceva i suoi diritti, ma li viveva negati ogni giorno: niente scarpe, poco cibo, poca scuola. La Costituzione del 1948 e la Convenzione ONU del 1989 hanno trasformato quei bisogni in diritti riconosciuti.",
+      "erroreMsg": "Non è questa, ma sei sulla strada giusta. Leggi di nuovo con calma e riprova.",
+      "x": -3.0,
+      "y": 0.0,
+      "z": -3.0,
+      "modello": "cassetta",
+      "codice": "",
+      "domande": [
+        {
+          "testo": "In che anno l'Assemblea generale delle Nazioni Unite ha adottato la Convenzione sui diritti dell'infanzia e dell'adolescenza?",
+          "opzioni": ["1948", "1989", "1991", "2001"],
+          "corretta": 1,
+          "spiegazione": "La Convenzione ONU è stata adottata il 20 novembre 1989 e l'Italia l'ha ratificata nel 1991 (legge 176). Ricorda l'anno 1989: ti servirà per il lucchetto.",
+          "erroreMsg": "Quasi. Una delle date indicate riguarda la ratifica italiana, un'altra la Dichiarazione universale dei diritti umani. Riprova."
+        },
+        {
+          "testo": "Quale articolo della Costituzione italiana afferma che la Repubblica protegge la maternità, l'infanzia e la gioventù?",
+          "opzioni": ["Articolo 1", "Articolo 3", "Articolo 21", "Articolo 31"],
+          "corretta": 3,
+          "spiegazione": "L'articolo 31 impegna la Repubblica ad agevolare la formazione della famiglia e a proteggere maternità, infanzia e gioventù, favorendo gli istituti necessari a tale scopo.",
+          "erroreMsg": "Non è quello. Pensa all'articolo che parla di famiglia e di sostegno a madri e bambini."
+        },
+        {
+          "testo": "Secondo l'articolo 3, comma 2, che cosa deve fare la Repubblica?",
+          "opzioni": [
+            "Rimuovere gli ostacoli economici e sociali che limitano l'uguaglianza dei cittadini",
+            "Garantire a tutti lo stesso stipendio",
+            "Vietare ogni forma di proprietà privata",
+            "Lasciare che ognuno si arrangi da solo"
+          ],
+          "corretta": 0,
+          "spiegazione": "L'articolo 3, comma 2, assegna alla Repubblica il compito di rimuovere gli ostacoli di ordine economico e sociale che, limitando di fatto libertà ed eguaglianza, impediscono il pieno sviluppo della persona. È l'uguaglianza sostanziale.",
+          "erroreMsg": "Rileggi con attenzione: la Costituzione non promette uguali stipendi, ma chiede di rimuovere gli ostacoli che impediscono pari opportunità."
+        }
+      ],
+      "oggetti": [],
+      "eventi": [],
+      "coppie": []
+    },
+    {
+      "id": "enigma_nascosto",
+      "tipo": "nascosto",
+      "titolo": "Il baule delle scarpe",
+      "consegna": "Nel vicolo ogni scarpa racconta una storia. Cerca nella stanza le cinque calzature nascoste e leggi che cosa dicono di chi le porta.",
+      "temaCivico": "Disuguaglianze sociali e dignità della persona",
+      "indizi": [
+        "Guarda in basso, vicino ai muri e negli angoli: le scarpe stanno per terra.",
+        "Non sono tutte contro le pareti: una è nascosta non lontano dal centro della stanza.",
+        "Avvicinati a ogni oggetto sospetto e premi E per esaminarlo."
+      ],
+      "spiegazione": "Le cinque calzature mostrano un Paese diviso: c'è chi ha scarpe buone, chi le ripara con il cartone, chi porta gli zoccoli e chi cammina scalzo. Per la Costituzione nessuno deve restare indietro per la condizione in cui nasce: la dignità spetta a tutti.",
+      "erroreMsg": "Per ora non le hai trovate tutte. Continua a cercare con calma, sono sparse per la stanza.",
+      "x": 3.0,
+      "y": 0.0,
+      "z": -3.2,
+      "modello": "baule",
+      "codice": "",
+      "domande": [],
+      "oggetti": [
+        {
+          "id": "scarpa_cartone",
+          "nome": "Scarpa con suola di cartone",
+          "descrizione": "Una scarpa con un pezzo di cartone infilato dentro per coprire il buco. Basta una pozzanghera per rovinarla: è la scarpa di chi non può permettersi il calzolaio.",
+          "x": -4.2,
+          "y": 0.0,
+          "z": 0.5,
+          "modello": "scarpa"
+        },
+        {
+          "id": "zoccolo_legno",
+          "nome": "Zoccolo di legno",
+          "descrizione": "Uno zoccolo di legno rumoroso, tipico di chi lavorava duro e consumava poco. Fa male ai piedi, ma dura una vita ed è tutto quello che c'è.",
+          "x": 0.5,
+          "y": 0.0,
+          "z": -4.2,
+          "modello": "zoccolo"
+        },
+        {
+          "id": "scarpone_soldato",
+          "nome": "Scarpone del soldato tornato",
+          "descrizione": "Uno scarpone militare ancora sporco di fango lontano. Un uomo è tornato dalla guerra con quello solo ai piedi: tanti non sono tornati affatto.",
+          "x": 4.2,
+          "y": 0.0,
+          "z": 0.3,
+          "modello": "scarpa"
+        },
+        {
+          "id": "scarpa_signora",
+          "nome": "Scarpa da signora",
+          "descrizione": "Una scarpa elegante, con il tacco lucido. Per qualcuno la guerra non aveva tolto tutto: nello stesso vicolo passano vite molto diverse.",
+          "x": -1.5,
+          "y": 0.0,
+          "z": 4.2,
+          "modello": "scarpa"
+        },
+        {
+          "id": "pezze_piedi",
+          "nome": "Pezze per i piedi",
+          "descrizione": "Strisce di stoffa legate attorno ai piedi al posto delle scarpe. Per chi non ha niente, anche una pezza è un riparo. Nel gioco di Amerigo questi piedi non contano: ma per noi sì.",
+          "x": 1.2,
+          "y": 0.0,
+          "z": 1.9,
+          "modello": "zoccolo"
+        }
+      ],
+      "eventi": [],
+      "coppie": []
+    },
+    {
+      "id": "enigma_ordina",
+      "tipo": "ordina",
+      "titolo": "Il calendario della memoria",
+      "consegna": "Sul calendario sono scritti sei eventi che hanno cambiato l'Italia. Mettili in ordine, dal più antico al più recente.",
+      "temaCivico": "Dalla guerra alla Repubblica: la nascita della Costituzione",
+      "indizi": [
+        "Parti dalla guerra: l'armistizio e la liberazione vengono prima del voto.",
+        "Il voto del 2 giugno 1946 precede la Costituzione, che è entrata in vigore nel 1948.",
+        "I treni dei bambini partono in un inverno dopo il referendum, ma prima della Costituzione."
+      ],
+      "spiegazione": "Dalla caduta del fascismo alla Repubblica passano pochi anni di fame e ricostruzione. Il 2 giugno 1946 per la prima volta le donne votano a livello nazionale (alle amministrative di marzo avevano già votato), e il 1° gennaio 1948 entra in vigore la Costituzione. In mezzo ci sono i bambini del Sud ospitati dalle famiglie del Nord.",
+      "erroreMsg": "Non è ancora l'ordine giusto. Il pulsante Verifica ti dice quante carte sono al posto giusto: riprova.",
+      "x": 3.0,
+      "y": 0.0,
+      "z": 3.0,
+      "modello": "calendario",
+      "codice": "",
+      "domande": [],
+      "oggetti": [],
+      "eventi": [
+        { "testo": "Armistizio e inizio dell'occupazione tedesca", "data": "8 settembre 1943" },
+        { "testo": "Le Quattro giornate di Napoli: il popolo si ribella", "data": "27-30 settembre 1943" },
+        { "testo": "La Liberazione dell'Italia dal nazifascismo", "data": "25 aprile 1945" },
+        { "testo": "Referendum Monarchia-Repubblica e prima volta delle donne al voto nazionale", "data": "2 giugno 1946" },
+        { "testo": "Partono da Napoli i treni dei bambini verso il Nord", "data": "inverno 1946-47" },
+        { "testo": "Entra in vigore la Costituzione della Repubblica", "data": "1° gennaio 1948" }
+      ],
+      "coppie": []
+    },
+    {
+      "id": "enigma_lucchetto",
+      "tipo": "lucchetto",
+      "titolo": "Il lucchetto dell'uscita",
+      "consegna": "La porta del ricordo è chiusa con un lucchetto a quattro cifre. Il codice è l'anno in cui l'ONU adottò la Convenzione sui diritti dell'infanzia: te lo diceva la prima domanda della cassetta.",
+      "temaCivico": "Diritti dell'infanzia: la Convenzione ONU del 1989",
+      "indizi": [
+        "Ripensa alla cassetta: una domanda chiedeva l'anno della Convenzione ONU.",
+        "Non è l'anno della Dichiarazione universale dei diritti umani (1948), ma uno degli anni Ottanta.",
+        "È l'anno in cui cadde il Muro di Berlino, e finisce per 9."
+      ],
+      "spiegazione": "Nel 1989 l'ONU ha riconosciuto per la prima volta, in un trattato vincolante, che i bambini sono titolari di diritti: salute, istruzione, gioco, protezione. L'Italia l'ha ratificata nel 1991. Quello che Amerigo sognava è oggi scritto nero su bianco.",
+      "erroreMsg": "Il lucchetto non si apre. Ricorda la data della Convenzione ONU: se serve, usa l'indizio.",
+      "x": -3.0,
+      "y": 0.0,
+      "z": 3.0,
+      "modello": "lucchetto",
+      "codice": "1989",
+      "domande": [],
+      "oggetti": [],
+      "eventi": [],
+      "coppie": []
+    }
+  ]
+}

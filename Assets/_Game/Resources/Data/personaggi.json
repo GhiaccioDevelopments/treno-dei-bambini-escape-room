@@ -1,0 +1,9 @@
+{
+  "personaggi": [
+    { "id": "amerigo", "nome": "Amerigo", "ritratto": "amerigo", "colore": "#C2703D" },
+    { "id": "antonietta", "nome": "Antonietta", "ritratto": "antonietta", "colore": "#8C3B2A" },
+    { "id": "tommasino", "nome": "Tommasino", "ritratto": "tommasino", "colore": "#D9A441" },
+    { "id": "maddalena", "nome": "Maddalena", "ritratto": "maddalena", "colore": "#B5483A" },
+    { "id": "narratore", "nome": "Narratore", "ritratto": "narratore", "colore": "#6B4E2E" }
+  ]
+}

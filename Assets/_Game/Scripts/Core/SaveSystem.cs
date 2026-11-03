@@ -1,0 +1,65 @@
+using System;
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace TrenoBambini.Core
+{
+    [Serializable]
+    public class SaveData
+    {
+        public string scena = "";
+        public string spawn = "";
+        public List<string> inventario = new List<string>();
+        public List<string> flashbackCompletati = new List<string>();
+        public List<string> enigmiRisolti = new List<string>(); // "flashbackId/enigmaId"
+        public List<string> cutsceneViste = new List<string>();
+        public string ritornoScena = "";
+        public string ritornoSpawn = "";
+        public float volume = 1f;
+    }
+
+    /// <summary>Salvataggio su PlayerPrefs (chiave treno_save, JSON).</summary>
+    public static class SaveSystem
+    {
+        const string Key = "treno_save";
+
+        public static bool Exists() { return PlayerPrefs.HasKey(Key); }
+
+        public static SaveData Load()
+        {
+            SaveData d = null;
+            if (PlayerPrefs.HasKey(Key))
+            {
+                try { d = JsonUtility.FromJson<SaveData>(PlayerPrefs.GetString(Key)); }
+                catch (Exception e) { Debug.LogWarning("Salvataggio illeggibile, riparto da zero: " + e.Message); }
+            }
+            if (d == null) d = new SaveData();
+            if (d.inventario == null) d.inventario = new List<string>();
+            if (d.flashbackCompletati == null) d.flashbackCompletati = new List<string>();
+            if (d.enigmiRisolti == null) d.enigmiRisolti = new List<string>();
+            if (d.cutsceneViste == null) d.cutsceneViste = new List<string>();
+            if (d.scena == null) d.scena = "";
+            if (d.spawn == null) d.spawn = "";
+            if (d.ritornoScena == null) d.ritornoScena = "";
+            if (d.ritornoSpawn == null) d.ritornoSpawn = "";
+            return d;
+        }
+
+        public static void Save(SaveData d)
+        {
+            if (d == null) return;
+            try
+            {
+                PlayerPrefs.SetString(Key, JsonUtility.ToJson(d));
+                PlayerPrefs.Save();
+            }
+            catch (Exception e) { Debug.LogWarning("Salvataggio non riuscito: " + e.Message); }
+        }
+
+        public static void Delete()
+        {
+            PlayerPrefs.DeleteKey(Key);
+            PlayerPrefs.Save();
+        }
+    }
+}
