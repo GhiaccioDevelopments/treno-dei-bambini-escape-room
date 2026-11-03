@@ -1,0 +1,27 @@
+DOPPIAGGIO - Il Treno dei Bambini
+=================================
+
+Questa cartella contiene le voci registrate delle battute di cutscene.
+
+Regole
+------
+- Un file per battuta, nominato con l'ID della battuta: cs_<oggetto>_NNN
+  (esempio: cs_scarpe_001.ogg).
+- Formati accettati: .ogg (consigliato), .wav, .mp3.
+- Se nel JSON della cutscene la battuta ha il campo "audio", il file deve
+  chiamarsi come quel valore (senza estensione).
+- I file audio sono gestiti con Git LFS.
+
+Flusso di lavoro
+----------------
+1. Menu Treno > Doppiaggio > Esporta copione CSV
+   Genera Doppiaggio/copione.csv (ID; Personaggio; Testo; Emozione; FileAudio)
+   da consegnare a chi registra le voci.
+2. Copiare qui i file audio ricevuti.
+3. Menu Treno > Doppiaggio > Aggiorna libreria voci
+   Collega i file alle battute (Assets/_Game/Resources/VoiceLibrary.asset).
+
+Comportamento nel gioco
+-----------------------
+- Battuta con audio: il testo avanza alla fine della clip (click per saltare).
+- Battuta senza audio: avanza con click / E / Spazio / Invio.

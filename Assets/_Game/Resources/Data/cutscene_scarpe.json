@@ -1,0 +1,197 @@
+{
+  "id": "cutscene_scarpe",
+  "titolo": "Il gioco delle scarpe",
+  "sfondo": "cs_vicolo",
+  "battute": [
+    {
+      "id": "cs_scarpe_001",
+      "personaggio": "narratore",
+      "testo": "Napoli, 1946. In un vicolo stretto, dove il sole arriva a fatica, due bambini siedono su un gradino e guardano in basso, verso i piedi di chi passa.",
+      "emozione": "neutra",
+      "audio": "",
+      "azione": "dissolvenza",
+      "sfondo": "",
+      "posizione": "sx"
+    },
+    {
+      "id": "cs_scarpe_002",
+      "personaggio": "amerigo",
+      "testo": "Tommasì, comincia il gioco! Chi conta più scarpe buone prima che suoni la campana vince. Io parto da quelle di quel signore.",
+      "emozione": "felice",
+      "audio": "",
+      "azione": "entra_sx",
+      "sfondo": "",
+      "posizione": "sx"
+    },
+    {
+      "id": "cs_scarpe_003",
+      "personaggio": "tommasino",
+      "testo": "Scarpe buone, un punto. Scarpe rotte, mezzo punto. Lo so a memoria, Amerigo. E quelle di quel signore sono lucide: un punto per te.",
+      "emozione": "neutra",
+      "audio": "",
+      "azione": "entra_dx",
+      "sfondo": "",
+      "posizione": "dx"
+    },
+    {
+      "id": "cs_scarpe_004",
+      "personaggio": "amerigo",
+      "testo": "Ecco una signora con i tacchi. Un punto. Poi viene un uomo con le suole di cartone: mezzo punto, se la scarpa regge ancora.",
+      "emozione": "pensierosa",
+      "audio": "",
+      "azione": "zoom",
+      "sfondo": "",
+      "posizione": "sx"
+    },
+    {
+      "id": "cs_scarpe_005",
+      "personaggio": "tommasino",
+      "testo": "Quello là, scalzo, non lo contiamo. Niente scarpe, niente punti. Non conta.",
+      "emozione": "neutra",
+      "audio": "",
+      "azione": "",
+      "sfondo": "",
+      "posizione": "dx"
+    },
+    {
+      "id": "cs_scarpe_006",
+      "personaggio": "amerigo",
+      "testo": "Già... non conta. Strano, però: non conta perché non ha le scarpe, o non ha le scarpe perché nessuno lo conta?",
+      "emozione": "triste",
+      "audio": "",
+      "azione": "",
+      "sfondo": "",
+      "posizione": "sx"
+    },
+    {
+      "id": "cs_scarpe_007",
+      "personaggio": "tommasino",
+      "testo": "Mah, questa è una domanda troppo grande per il gioco. Guarda, è suonata la campana! Io ho nove punti e mezzo, tu?",
+      "emozione": "sorpresa",
+      "audio": "",
+      "azione": "scuoti",
+      "sfondo": "",
+      "posizione": "dx"
+    },
+    {
+      "id": "cs_scarpe_008",
+      "personaggio": "narratore",
+      "testo": "Amerigo saluta l'amico e rientra nel basso, una stanza sola in cui si vive, si cucina e si dorme. Le sue scarpe, intanto, fanno un po' di rumore a ogni passo.",
+      "emozione": "neutra",
+      "audio": "",
+      "azione": "esce",
+      "sfondo": "cs_basso",
+      "posizione": "sx"
+    },
+    {
+      "id": "cs_scarpe_009",
+      "personaggio": "antonietta",
+      "testo": "Sei tornato tardi. Hai le scarpe bagnate? Se le rovini, non so quando potrò comprartene altre. Mettile vicino al fuoco.",
+      "emozione": "arrabbiata",
+      "audio": "",
+      "azione": "entra_dx",
+      "sfondo": "",
+      "posizione": "dx"
+    },
+    {
+      "id": "cs_scarpe_010",
+      "personaggio": "amerigo",
+      "testo": "Mamma, giocavo con Tommasino. Contavamo le scarpe. Quelle dei signori valgono un punto, le nostre mezzo.",
+      "emozione": "triste",
+      "audio": "",
+      "azione": "entra_sx",
+      "sfondo": "",
+      "posizione": "sx"
+    },
+    {
+      "id": "cs_scarpe_011",
+      "personaggio": "antonietta",
+      "testo": "Non voglio sentire certi giochi. Noi non siamo mezzo punto di nessuno. Lavoro dalla mattina alla sera per tenerti al caldo e con la pancia piena.",
+      "emozione": "decisa",
+      "audio": "",
+      "azione": "",
+      "sfondo": "",
+      "posizione": "dx"
+    },
+    {
+      "id": "cs_scarpe_012",
+      "personaggio": "narratore",
+      "testo": "Antonietta è dura perché ha paura: in un mondo che non perdona, la tenerezza le sembra un lusso che non può permettersi. Ma ogni gesto suo è protezione.",
+      "emozione": "pensierosa",
+      "audio": "",
+      "azione": "",
+      "sfondo": "",
+      "posizione": "dx"
+    },
+    {
+      "id": "cs_scarpe_013",
+      "personaggio": "maddalena",
+      "testo": "Permesso, Antonietta? Scusate l'ora. Passo a parlarvi dei treni: portano i bambini al Nord, dove famiglie pronte li accolgono. Avranno scarpe, cappotti e tre pasti al giorno.",
+      "emozione": "decisa",
+      "audio": "",
+      "azione": "entra_dx",
+      "sfondo": "",
+      "posizione": "dx"
+    },
+    {
+      "id": "cs_scarpe_014",
+      "personaggio": "antonietta",
+      "testo": "In quartiere dicono che chi organizza queste cose porta i bambini lontano per altri fini. Come faccio a fidarmi di voi?",
+      "emozione": "sorpresa",
+      "audio": "",
+      "azione": "",
+      "sfondo": "",
+      "posizione": "sx"
+    },
+    {
+      "id": "cs_scarpe_015",
+      "personaggio": "maddalena",
+      "testo": "Le dicerie corrono più veloci dei treni. Non vi chiedo fiducia cieca: venite alla sede, guardate, domandate. Ogni bambino tornerà a casa a primavera.",
+      "emozione": "neutra",
+      "audio": "",
+      "azione": "",
+      "sfondo": "",
+      "posizione": "dx"
+    },
+    {
+      "id": "cs_scarpe_016",
+      "personaggio": "amerigo",
+      "testo": "Mamma, al Nord forse avrò scarpe che non sono di nessun altro. Scarpe mie, nuove, senza il cartone dentro. Non ci ho mai sperato davvero.",
+      "emozione": "pensierosa",
+      "audio": "",
+      "azione": "zoom",
+      "sfondo": "cs_ricordo",
+      "posizione": "sx"
+    },
+    {
+      "id": "cs_scarpe_017",
+      "personaggio": "antonietta",
+      "testo": "Non so ancora cosa rispondere, Amerigo. Lascia che ci pensi. Ora vai a dormire, la notte porta consiglio.",
+      "emozione": "triste",
+      "audio": "",
+      "azione": "",
+      "sfondo": "",
+      "posizione": "dx"
+    },
+    {
+      "id": "cs_scarpe_018",
+      "personaggio": "narratore",
+      "testo": "Per Amerigo un paio di scarpe è la prova che qualcuno lo conta. Ma non dovrebbe essere un sogno: dignità e cure sono diritti di ogni bambino, anche oggi.",
+      "emozione": "pensierosa",
+      "audio": "",
+      "azione": "dissolvenza",
+      "sfondo": "",
+      "posizione": "sx"
+    },
+    {
+      "id": "cs_scarpe_019",
+      "personaggio": "narratore",
+      "testo": "Ora tocca a te: entra nel ricordo di Amerigo e scopri che cosa dicono quelle scarpe sul nostro Paese e sulla sua Costituzione.",
+      "emozione": "decisa",
+      "audio": "",
+      "azione": "",
+      "sfondo": "",
+      "posizione": "sx"
+    }
+  ]
+}

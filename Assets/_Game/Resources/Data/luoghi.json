@@ -1,0 +1,44 @@
+{
+  "luoghi": [
+    {
+      "id": "basso_antonietta",
+      "nome": "Il basso di Antonietta",
+      "scena": "20_Int_BassoAntonietta",
+      "spawn": "ingresso",
+      "aperto": true,
+      "descrizione": "Un'unica stanza al pianterreno, senza finestre sul vicolo, dove Antonietta e Amerigo vivono tra un letto, un tavolo e qualche cassa. Poco spazio, ma è casa."
+    },
+    {
+      "id": "casa_capa_e_fierro",
+      "nome": "La casa di Capa e Fierro",
+      "scena": "",
+      "spawn": "",
+      "aperto": false,
+      "descrizione": "L'abitazione di un vicino di Antonietta, noto nel quartiere per il carattere testardo. Si aprirà più avanti nella storia."
+    },
+    {
+      "id": "sede_partito",
+      "nome": "La sede del partito",
+      "scena": "",
+      "spawn": "",
+      "aperto": false,
+      "descrizione": "Una sede politica dove le volontarie organizzano l'accoglienza dei bambini. Nel quartiere si dicono molte cose strane su chi la frequenta. Si aprirà più avanti."
+    },
+    {
+      "id": "stazione",
+      "nome": "La stazione",
+      "scena": "",
+      "spawn": "",
+      "aperto": false,
+      "descrizione": "Binari, fumo e saluti lunghi: da qui partono i treni diretti verso il Nord. Si aprirà più avanti nella storia."
+    },
+    {
+      "id": "vicolo_stracci",
+      "nome": "Il vicolo degli stracci",
+      "scena": "",
+      "spawn": "",
+      "aperto": false,
+      "descrizione": "Un vicolo stretto dove si raccolgono e si vendono stracci e panni usati. Si aprirà più avanti nella storia."
+    }
+  ]
+}

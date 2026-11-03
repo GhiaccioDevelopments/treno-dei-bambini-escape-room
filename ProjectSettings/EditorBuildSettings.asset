@@ -6,7 +6,19 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 99c9720ab356a0642a771bea13969a05
+    path: Assets/_Game/Scenes/00_Boot.unity
+    guid: e9f8aaada6771b94c8d600100bee40f2
+  - enabled: 1
+    path: Assets/_Game/Scenes/01_Titolo.unity
+    guid: 38f645c8a1719b64183bcf1f55b8ade6
+  - enabled: 1
+    path: Assets/_Game/Scenes/10_Hub_Vicolo.unity
+    guid: ad958d41ca94f9d4ab4dc1da0e88b3a4
+  - enabled: 1
+    path: Assets/_Game/Scenes/20_Int_BassoAntonietta.unity
+    guid: f598599e6ea67004799f7014922c60e9
+  - enabled: 1
+    path: Assets/_Game/Scenes/30_FB_Scarpe.unity
+    guid: d0f37b5e1ca7b264bab050b8d10f9720
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
