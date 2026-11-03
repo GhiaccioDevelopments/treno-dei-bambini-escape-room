@@ -98,7 +98,7 @@ namespace TrenoBambini.Puzzles
 
             for (int k = 0; k < 10; k++)
             {
-                var d = kb[(Key)((int)Key.Digit0 + k)];
+                var d = kb[k == 0 ? Key.Digit0 : (Key)((int)Key.Digit1 + k - 1)]; // enum: Digit1..Digit9, Digit0
                 var p = kb[(Key)((int)Key.Numpad0 + k)];
                 if (d.wasPressedThisFrame || p.wasPressedThisFrame)
                 {

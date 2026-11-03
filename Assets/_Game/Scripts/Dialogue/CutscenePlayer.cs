@@ -204,8 +204,9 @@ namespace TrenoBambini.Dialogue
             textLbl.ForceMeshUpdate();
             int total = textLbl.textInfo.characterCount;
 
-            AudioClip clip = VoiceLibrary.Get(string.IsNullOrEmpty(b.audio) ? b.id : b.audio);
+            AudioClip clip = VoiceLibrary.Get(System.IO.Path.GetFileNameWithoutExtension(string.IsNullOrEmpty(b.audio) ? b.id : b.audio));
             if (clip != null && AudioManager.I != null) AudioManager.I.PlayVoice(clip);
+            float clipEnd = clip != null ? Time.unscaledTime + clip.length + 0.4f : 0f;
 
             float shown = 0f;
             while (shown < total && !skip)
@@ -220,7 +221,6 @@ namespace TrenoBambini.Dialogue
             yield return null;
 
             hintLbl.gameObject.SetActive(true);
-            float clipEnd = clip != null ? Time.unscaledTime + clip.length + 0.4f : 0f;
             while (!skip)
             {
                 if (Time.unscaledTime >= guardUntil && InputHelper.ConfirmPressed(true)) break;

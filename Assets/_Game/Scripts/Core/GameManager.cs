@@ -77,6 +77,7 @@ namespace TrenoBambini.Core
         public void NewGame()
         {
             save = new SaveData();
+            save.volume = AudioListener.volume;
             save.scena = SceneHub;
             save.spawn = "inizio";
             SaveSystem.Save(save);
@@ -89,6 +90,7 @@ namespace TrenoBambini.Core
             var s = Save;
             string scena = string.IsNullOrEmpty(s.scena) ? SceneHub : s.scena;
             string spawn = string.IsNullOrEmpty(s.spawn) ? "inizio" : s.spawn;
+            if (!Application.CanStreamedLevelBeLoaded(scena)) { scena = SceneHub; spawn = "inizio"; }
             ResetBlocks();
             SceneLoader.I.Load(scena, spawn);
         }
@@ -147,6 +149,7 @@ namespace TrenoBambini.Core
             string spawn = s.ritornoSpawn;
             s.ritornoScena = "";
             s.ritornoSpawn = "";
+            s.scena = scena; s.spawn = spawn ?? "";
             SaveGame();
             SceneLoader.I.Load(scena, spawn, TransitionStyle.Ricordo);
         }

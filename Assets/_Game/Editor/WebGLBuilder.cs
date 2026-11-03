@@ -65,23 +65,10 @@ namespace TrenoBambini.EditorTools
 
             ApplyWebGLSettings();
 
-            // pipeline mobile per la build, poi ripristino delle impostazioni dell'editor
-            var oldDefault = GraphicsSettings.defaultRenderPipeline;
-            int oldLevel = QualitySettings.GetQualityLevel();
-            int levels = QualitySettings.names.Length;
-            var oldPerLevel = new RenderPipelineAsset[levels];
+            // La pipeline Mobile_RPAsset arriva dal livello di qualita "Mobile" (il livello PC e' escluso per WebGL in QualitySettings)
             BuildReport report;
             try
             {
-                for (int i = 0; i < levels; i++)
-                {
-                    QualitySettings.SetQualityLevel(i, false);
-                    oldPerLevel[i] = QualitySettings.renderPipeline;
-                    QualitySettings.renderPipeline = rp;
-                }
-                QualitySettings.SetQualityLevel(oldLevel, false);
-                GraphicsSettings.defaultRenderPipeline = rp;
-
                 string outPath = Path.GetFullPath(Path.Combine(Application.dataPath, "..", OutputFolder));
                 Directory.CreateDirectory(outPath);
 
@@ -98,13 +85,6 @@ namespace TrenoBambini.EditorTools
             }
             finally
             {
-                for (int i = 0; i < levels; i++)
-                {
-                    QualitySettings.SetQualityLevel(i, false);
-                    QualitySettings.renderPipeline = oldPerLevel[i];
-                }
-                QualitySettings.SetQualityLevel(oldLevel, false);
-                GraphicsSettings.defaultRenderPipeline = oldDefault;
                 AssetDatabase.SaveAssets();
             }
 

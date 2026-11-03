@@ -114,6 +114,7 @@ namespace TrenoBambini.Player
             for (int i = 0; i < n; i++)
             {
                 if (hits[i].collider.transform.IsChildOf(transform)) continue; // ignora il player stesso
+                if (hits[i].collider.name.StartsWith("Muro")) continue;          // muri resi trasparenti dalla camera
                 if (hits[i].distance < bestD) { bestD = hits[i].distance; bestI = i; }
             }
             if (bestI < 0) return;

@@ -22,7 +22,7 @@ namespace TrenoBambini.Puzzles
             var go = GameObject.CreatePrimitive(type);
             go.name = name;
             if (parent != null) go.transform.SetParent(parent, true);
-            go.transform.position = pos;
+            go.transform.position = pos + Vector3.up * (type == PrimitiveType.Cube || type == PrimitiveType.Sphere ? scale.y * 0.5f : scale.y); // appoggiato al pavimento
             go.transform.localScale = scale;
             var r = go.GetComponent<Renderer>();
             if (r != null) r.material.color = color;
