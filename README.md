@@ -10,9 +10,9 @@ all'istruzione, voto alle donne, fake news e pregiudizi, uguaglianza). Risolti g
 entra nell'inventario e una cutscene racconta la sua storia.
 
 ## Giocare
-- **Online**: https://ghiacciodevelopments.github.io/treno-dei-bambini-escape-room/ (build WebGL, nessuna installazione)
-- Comandi: **WASD / frecce** per muoversi, **E** per interagire, **I** inventario, **Esc** pausa.
-  Su LIM, Chromebook e touch: tocca il punto dove andare, tocca gli oggetti che brillano, usa i pulsanti a schermo.
+- **Online**: https://ghiacciodevelopments.github.io/treno-dei-bambini-escape-room/ (build WebGL 3D, nessuna installazione)
+- Comandi: **WASD / frecce** per muoversi, **mouse** per la camera, **E** per interagire, **I** inventario, **Esc** pausa.
+  Su LIM, Chromebook e touch: joystick e pulsanti a schermo.
 - I progressi vengono salvati automaticamente nel browser.
 
 ## Aprire il progetto
