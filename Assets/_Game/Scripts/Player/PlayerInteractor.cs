@@ -109,15 +109,22 @@ namespace TrenoBambini.Player
 
             Ray ray = cam.ScreenPointToRay(mouse.position.ReadValue());
             int n = Physics.RaycastNonAlloc(ray, hits, 60f, ~0, QueryTriggerInteraction.Collide);
-            float bestD = float.MaxValue;
+            // Il colpo interattivo piu' vicino vince, a meno che un ostacolo solido gli stia davanti di piu' di 30 cm
+            // (un battente incassato nella facciata non deve essere coperto dal collider dell'edificio).
+            float intD = float.MaxValue, solidD = float.MaxValue;
             int bestI = -1;
             for (int i = 0; i < n; i++)
             {
-                if (hits[i].collider.transform.IsChildOf(transform)) continue; // ignora il player stesso
-                if (hits[i].collider.name.StartsWith("Muro")) continue;          // muri resi trasparenti dalla camera
-                if (hits[i].distance < bestD) { bestD = hits[i].distance; bestI = i; }
+                var col = hits[i].collider;
+                if (col.transform.IsChildOf(transform)) continue; // ignora il player stesso
+                if (col.name.StartsWith("Muro")) continue;          // muri resi trasparenti dalla camera
+                if (col.GetComponentInParent<Interactable>() != null)
+                {
+                    if (hits[i].distance < intD) { intD = hits[i].distance; bestI = i; }
+                }
+                else if (hits[i].distance < solidD) solidD = hits[i].distance;
             }
-            if (bestI < 0) return;
+            if (bestI < 0 || solidD < intD - 0.3f) return;
 
             var it = hits[bestI].collider.GetComponentInParent<Interactable>();
             if (it == null || !it.CanInteract) return;

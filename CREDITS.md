@@ -87,3 +87,10 @@ Il gioco è pubblicato online: si usano preferibilmente asset con licenza **CC0*
 | Timeline | Pacchetto Unity | Packages/ | https://docs.unity3d.com/Packages/com.unity.timeline@6.6/ | Unity Technologies | Unity Companion License | Nessuna |
 | Universal Render Pipeline (URP) | Pacchetto Unity | Packages/ | https://docs.unity3d.com/Packages/com.unity.render-pipelines.universal@17.6/ | Unity Technologies | Unity Companion License | Nessuna |
 | TextMesh Pro (incluso in uGUI 2.6.0) | Pacchetto Unity | Packages/ | https://docs.unity3d.com/Packages/com.unity.ugui@2.6/ | Unity Technologies | Unity Companion License | Nessuna |
+
+## Kit ambienti (Fase 2.3)
+
+Nessun asset esterno nuovo. Facciate, pareti, porte e arredi semplici sono mesh generate da codice
+(`Assets/_Game/Editor/SceneBuilderKit.cs`, `SceneBuilderAmbienti.cs`, output in `Assets/_Game/Generated/Kit/`),
+con le texture PBR Poly Haven (CC0) e i modelli già elencati sopra. Materiali derivati (tinte di tessuto, cuoio, insegne)
+in `Assets/Art/Materials/M_Panno_*`, `M_Cuoio_Scarpe`, `M_Insegna_*`, copie tinteggiate di materiali già censiti.
