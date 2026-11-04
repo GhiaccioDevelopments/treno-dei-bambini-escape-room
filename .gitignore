@@ -115,3 +115,6 @@ InitTestScene*.unity*
 
 # Artefatti della build WebGL (burst)
 /Data/
+
+# Screenshot di revisione
+/Docs/Screenshots/

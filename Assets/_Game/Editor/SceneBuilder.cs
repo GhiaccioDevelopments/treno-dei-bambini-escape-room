@@ -56,6 +56,11 @@ namespace TrenoBambini.EditorTools
                 SetBuildSettings();
                 AssetDatabase.SaveAssets();
                 AssetDatabase.Refresh();
+
+                // look d'epoca (profili, nebbia, luci, probe); il bake resta un menu a parte: Treno/Look/Bake luci di tutte le scene
+                EditorUtility.DisplayProgressBar("Costruisci scene", "Look d'epoca", 0.95f);
+                LookBuilder.ApplyLookToScenes();
+                Debug.LogWarning("[SceneBuilder] Luci da rifare: Treno ▸ Look ▸ Bake luci di tutte le scene");
                 EditorSceneManager.OpenScene(ScenePath(SceneNames[0]), OpenSceneMode.Single);
                 Debug.Log("[SceneBuilder] Costruite le 5 scene e aggiornati i Build Settings.");
             }
@@ -179,7 +184,7 @@ namespace TrenoBambini.EditorTools
             cam.farClipPlane = 150f;
             cam.fieldOfView = 60f;
             go.AddComponent<AudioListener>();
-            go.AddComponent<UniversalAdditionalCameraData>();
+            go.AddComponent<UniversalAdditionalCameraData>().renderPostProcessing = true; // voluto: post-processing del look d'epoca su tutte le camere (anche Boot, innocuo)
             return cam;
         }
 

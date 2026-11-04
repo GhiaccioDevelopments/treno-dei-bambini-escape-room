@@ -9,13 +9,13 @@ using UnityEngine.Rendering;
 namespace TrenoBambini.EditorTools
 {
     /// <summary>
-    /// Build WebGL (Gzip + decompression fallback, pipeline Mobile_RPAsset).
+    /// Build WebGL (Gzip + decompression fallback, preset grafico Bassa (URP_Bassa)).
     /// Menu: Treno/Build WebGL  -  Riga di comando: -executeMethod TrenoBambini.EditorTools.WebGLBuilder.BuildFromCommandLine
     /// </summary>
     public static class WebGLBuilder
     {
         const string OutputFolder = "Build/WebGL";
-        const string MobileRpPath = "Assets/Settings/Mobile_RPAsset.asset";
+        const string BassaRpPath = "Assets/Settings/Quality/URP_Bassa.asset"; // preset Bassa (Treno > Look > Crea preset grafici e profili)
 
         [MenuItem("Treno/Build WebGL")]
         public static void Build()
@@ -50,10 +50,10 @@ namespace TrenoBambini.EditorTools
                 return false;
             }
 
-            var rp = AssetDatabase.LoadAssetAtPath<RenderPipelineAsset>(MobileRpPath);
+            var rp = AssetDatabase.LoadAssetAtPath<RenderPipelineAsset>(BassaRpPath);
             if (rp == null)
             {
-                Debug.LogError("[WebGLBuilder] Render pipeline asset non trovato: " + MobileRpPath);
+                Debug.LogError("[WebGLBuilder] Render pipeline asset non trovato: " + BassaRpPath);
                 return false;
             }
 
@@ -63,9 +63,19 @@ namespace TrenoBambini.EditorTools
                 return false;
             }
 
+            // le luci sono baked: senza lightingDataAsset la scena in build risulta scura/piatta
+            foreach (var sp in scenes)
+            {
+                var sc = UnityEditor.SceneManagement.EditorSceneManager.OpenScene(sp, UnityEditor.SceneManagement.OpenSceneMode.Additive);
+                bool bakedExpected = sp.Contains("01_Titolo") || sp.Contains("10_Hub") || sp.Contains("20_Int") || sp.Contains("30_FB");
+                if (bakedExpected && Lightmapping.GetLightingDataAssetForScene(sc) == null)
+                    Debug.LogWarning("[WebGLBuilder] Luci da rifare: Treno ▸ Look ▸ Bake luci di tutte le scene (manca il lighting data di " + sp + ")");
+                UnityEditor.SceneManagement.EditorSceneManager.CloseScene(sc, true);
+            }
+
             ApplyWebGLSettings();
 
-            // La pipeline Mobile_RPAsset arriva dal livello di qualita "Mobile" (il livello PC e' escluso per WebGL in QualitySettings)
+            // La pipeline URP_Bassa arriva dal livello di qualita "Bassa", default di WebGL in QualitySettings (applicato all avvio da GraphicsPresets)
             BuildReport report;
             try
             {
