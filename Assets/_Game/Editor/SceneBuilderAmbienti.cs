@@ -608,7 +608,7 @@ namespace TrenoBambini.EditorTools
 
             // spawn
             Spawn("inizio", new Vector3(0f, 0f, -13f), 0f, spawns);
-            Spawn("da_basso_antonietta", new Vector3(-3.7f, 0f, -2f), 90f, spawns);
+            Spawn("da_basso_antonietta", new Vector3(-1.8f, 0f, -2f), -90f, spawns); // al centro del vicolo, lontano dalla porta (x = -5)
 
             var cam = MakeCamera("Main Camera", Vector3.zero, Quaternion.identity, new Color(0.85f, 0.76f, 0.60f), true);
             BuildPlayer(new Vector3(0f, 0.05f, -13f), 0f, cam);
@@ -805,7 +805,7 @@ namespace TrenoBambini.EditorTools
             Spawn("oggetto_scarpe", new Vector3(0.7f, 0f, -1.4f), 90f, spawns);
 
             var cam = MakeCamera("Main Camera", Vector3.zero, Quaternion.identity, new Color(0.10f, 0.07f, 0.05f), true);
-            BuildPlayer(new Vector3(0f, 0.05f, -1.7f), 0f, cam, true);
+            BuildPlayer(new Vector3(0f, 0.05f, -1.7f), 0f, cam, CamProfilo.InternoPiccolo);
             SaveScene(scene, "20_Int_BassoAntonietta");
         }
 
@@ -870,7 +870,7 @@ namespace TrenoBambini.EditorTools
             Spawn("inizio", new Vector3(0f, 0f, 0f), 0f, spawns);
 
             var cam = MakeCamera("Main Camera", Vector3.zero, Quaternion.identity, sepiaFog, true);
-            BuildPlayer(new Vector3(0f, 0.05f, 0f), 0f, cam);
+            BuildPlayer(new Vector3(0f, 0.05f, 0f), 0f, cam, CamProfilo.InternoLargo);
             SaveScene(scene, "30_FB_Scarpe");
         }
     }

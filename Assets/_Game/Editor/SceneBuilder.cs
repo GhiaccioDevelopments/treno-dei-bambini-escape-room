@@ -225,35 +225,32 @@ namespace TrenoBambini.EditorTools
             Box("Sciarpa", root, new Vector3(0f, 0.86f, 0f), new Vector3(0.38f, 0.07f, 0.38f), "Tessuto1", null, false);
         }
 
-        static GameObject BuildPlayer(Vector3 pos, float yaw, Camera cam, bool interno = false)
+        static GameObject BuildPlayer(Vector3 pos, float yaw, Camera cam, CamProfilo profilo = CamProfilo.Esterno)
         {
             var p = new GameObject("Amerigo");
             p.tag = "Player";
             p.transform.SetPositionAndRotation(pos, Quaternion.Euler(0f, yaw, 0f));
+            // bambino di ~7 anni: capsula 1.2 m, raggio 22 cm
             var cc = p.AddComponent<CharacterController>();
             cc.height = 1.2f;
-            cc.radius = 0.25f;
+            cc.radius = 0.22f;
             cc.center = new Vector3(0f, 0.6f, 0f);
-            cc.stepOffset = 0.25f;
+            cc.stepOffset = 0.2f;
             cc.slopeLimit = 45f;
-            BuildAmerigoModel(p.transform);
+            cc.skinWidth = 0.03f;
+            // punto di montaggio del modello: la 2.5 mette qui l'FBX di Amerigo (con Animator); per ora il segnaposto
+            var modello = new GameObject(ThirdPersonController.ModelloName).transform;
+            modello.SetParent(p.transform, false);
+            BuildAmerigoModel(modello);
             p.AddComponent<ThirdPersonController>();
             p.AddComponent<PlayerInteractor>();
+            // punto mirato dalla camera (petto/testa del bambino)
+            var punto = new GameObject("PuntoCamera").transform;
+            punto.SetParent(p.transform, false);
+            punto.localPosition = new Vector3(0f, 1.0f, 0f);
 
-            if (cam != null)
-            {
-                var follow = cam.gameObject.AddComponent<CameraFollow>();
-                follow.target = p.transform;
-                // Negli interni piccoli la camera sta più in alto e più vicina, guardando dall'alto
-                if (interno)
-                {
-                    follow.distance = 3.4f;
-                    follow.height = 3.0f;
-                    follow.minPitch = 15f;
-                }
-                cam.transform.position = pos + Quaternion.Euler(0f, yaw, 0f) * new Vector3(0f, follow.height, -follow.distance);
-                cam.transform.LookAt(pos + Vector3.up * 1f);
-            }
+            if (cam != null) BuildCameraRig(cam, p.transform, punto, yaw, profilo);
+            AssegnaLayerVistaLibera(p.scene);
             return p;
         }
 

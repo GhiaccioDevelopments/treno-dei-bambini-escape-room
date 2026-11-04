@@ -71,8 +71,10 @@ namespace TrenoBambini.Core
             if (cc != null) cc.enabled = true;
             Physics.SyncTransforms();
 
-            var cam = FindAnyObjectByType<CameraFollow>();
-            if (cam != null) cam.Snap();
+            var tpc = player.GetComponent<ThirdPersonController>();
+            if (tpc != null) tpc.ResetMotion();
+            var rig = FindAnyObjectByType<CameraRig>();
+            if (rig != null) rig.Snap();
         }
     }
 }

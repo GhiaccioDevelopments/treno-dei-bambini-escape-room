@@ -13,7 +13,7 @@ Unità: 1 = 1 metro. Amerigo è un bambino: altezza ~1.2.
 | 20_Int_BassoAntonietta | interno arredato, `ItemPickup` oggettoId=`scarpe`, porta di uscita verso hub |
 | 30_FB_Scarpe | stanza-ricordo seppia, `EscapeRoomController` flashbackId=`flashback_scarpe`, porta d'uscita (`EscapeExit`) |
 
-Ogni scena di gioco (10, 20, 30) contiene: Directional Light, `Main Camera` (tag MainCamera) con `CameraFollow`,
+Ogni scena di gioco (10, 20, 30) contiene: Directional Light, `Main Camera` (tag MainCamera) con `CinemachineBrain` e la `CinemachineCamera` `CM_Amerigo` (`CameraRig` + `WallFader`),
 il player `Amerigo` (prefab-less: capsula + `CharacterController` + `ThirdPersonController` + `PlayerInteractor`, tag `Player`),
 uno o più `SpawnPoint` (id string). Tutti i sistemi globali si auto-creano a runtime (vedi GameManager), quindi ogni scena è
 giocabile premendo Play direttamente.
@@ -54,9 +54,9 @@ giocabile premendo Play direttamente.
 
 ### TrenoBambini.Player
 - `ThirdPersonController` (richiede CharacterController): WASD/frecce + joystick virtuale (`VirtualJoystick.Value`), movimento relativo alla camera,
-  gravità, rotazione verso la direzione. Velocità 3.2 m/s, Shift corsa 5. Fermo se `GameManager.I.InputBlocked`.
-- `CameraFollow` (sulla Main Camera): `public Transform target` (se null cerca tag Player); orbita con mouse (tasto destro trascinato)
-  e trascinamento touch nella metà destra dello schermo; distanza 4.5, altezza 2.2, collisione semplice con SphereCast; smoothing.
+  gravità, rotazione verso la direzione. Camminata 1.9 m/s, Shift/leva a fondo corsa 4.0. Fermo se `GameManager.I.InputBlocked`.
+- `CameraRig` (su `CM_Amerigo`, CinemachineOrbitalFollow a 3 anelli + Deoccluder): orbita con mouse (tasto destro tenuto), stick destro e
+  trascinamento touch nella metà destra dello schermo; sensibilità/inversione Y da `CameraSettings`. `WallFader` nasconde i muri (layer VistaLibera) tra camera e player.
 - `PlayerInteractor`: trova l'`Interactable` attivo più vicino entro 1.6 m davanti al player; mostra prompt via `UIRoot.I.ShowPrompt(text)`;
   E / pulsante a schermo "Interagisci" / click sinistro sull'oggetto (raycast, se entro 3 m) → `Interact()`.
 

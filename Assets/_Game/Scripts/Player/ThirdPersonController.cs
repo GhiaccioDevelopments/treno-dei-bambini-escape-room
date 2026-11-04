@@ -5,27 +5,61 @@ using UnityEngine.InputSystem;
 
 namespace TrenoBambini.Player
 {
-    /// <summary>Movimento in terza persona relativo alla camera (WASD/frecce, joystick virtuale, gamepad).</summary>
+    /// <summary>
+    /// Movimento in terza persona relativo alla camera per un bambino di ~7 anni (CharacterController 1.2 m).
+    /// Camminata di default, corsa leggera con Shift (tastiera) o stick/joystick premuto a fondo (oltre 0.9).
+    /// Accelerazione e decelerazione morbide, rotazione verso la direzione di movimento, gravità, gradini e pendenze
+    /// (il corpo resta aderente al suolo in discesa). Nessun salto.
+    /// Aggancio per l'Animator (sotto-fase 2.5): parametri Speed (0..1 = velocità / corsa), MotionSpeed (moltiplicatore
+    /// di riproduzione, default 1) e Grounded; l'Animator viene cercato nel figlio "Modello" (assente = nessun errore).
+    /// </summary>
     [RequireComponent(typeof(CharacterController))]
     public class ThirdPersonController : MonoBehaviour
     {
-        public float walkSpeed = 3.2f;
-        public float runSpeed = 5f;
-        public float turnSpeed = 12f;
+        public const string ModelloName = "Modello";
+
+        [Header("Velocità (m/s)")]
+        public float walkSpeed = 1.9f;
+        public float runSpeed = 4.0f;
+        public float acceleration = 7f;
+        public float deceleration = 10f;
+        [Header("Rotazione e fisica")]
+        public float turnSpeed = 10f;
         public float gravity = -20f;
+        [Tooltip("Soglia dell'input analogico oltre la quale scatta la corsa.")]
+        public float analogRunThreshold = 0.9f;
+
+        [Header("Animator (2.5)")]
+        public Animator animator;
+        public float dampSpeedParam = 0.1f;
+
+        public float Speed01 { get; private set; }
+        public float MotionSpeed { get; private set; } = 1f;
+        public bool Grounded { get; private set; } = true;
+        public float CurrentSpeed { get { return new Vector3(velocity.x, 0f, velocity.z).magnitude; } }
+
+        static readonly int HSpeed = Animator.StringToHash("Speed");
+        static readonly int HMotionSpeed = Animator.StringToHash("MotionSpeed");
+        static readonly int HGrounded = Animator.StringToHash("Grounded");
 
         CharacterController cc;
         Transform cam;
-        float vy;
+        Vector3 velocity;   // orizzontale (x,z) + verticale (y)
+        float nextAnimSearch;
+        bool hasSpeed, hasMotion, hasGrounded, animChecked;
 
         void Awake() { cc = GetComponent<CharacterController>(); }
+
+        /// <summary>Azzera la velocità (dopo un teletrasporto/cambio scena).</summary>
+        public void ResetMotion() { velocity = Vector3.zero; Speed01 = 0f; }
 
         void Update()
         {
             if (cc == null || !cc.enabled) return;
+            float dt = Time.deltaTime;
 
             Vector2 input = Vector2.zero;
-            bool run = false;
+            bool shift = false;
             bool blocked = GameManager.I != null && GameManager.I.InputBlocked;
             if (!blocked)
             {
@@ -36,12 +70,16 @@ namespace TrenoBambini.Player
                     if (kb.sKey.isPressed || kb.downArrowKey.isPressed) input.y -= 1f;
                     if (kb.dKey.isPressed || kb.rightArrowKey.isPressed) input.x += 1f;
                     if (kb.aKey.isPressed || kb.leftArrowKey.isPressed) input.x -= 1f;
-                    run = kb.leftShiftKey.isPressed || kb.rightShiftKey.isPressed;
+                    shift = kb.leftShiftKey.isPressed || kb.rightShiftKey.isPressed;
                 }
-                input += VirtualJoystick.Value;
+                bool analog = false;
+                Vector2 a = VirtualJoystick.Value;
                 var gp = Gamepad.current;
-                if (gp != null) input += gp.leftStick.ReadValue();
+                if (gp != null) a += gp.leftStick.ReadValue();
+                if (a.sqrMagnitude > 0.0001f) { input += a; analog = true; }
                 input = Vector2.ClampMagnitude(input, 1f);
+                // la corsa analogica si decide sulla leva
+                if (analog && input.magnitude >= analogRunThreshold) shift = true;
             }
 
             if (cam == null)
@@ -51,25 +89,92 @@ namespace TrenoBambini.Player
             }
 
             Vector3 fwd = Vector3.forward, right = Vector3.right;
-            if (cam != null)
+            if (!float.IsNaN(CameraRig.MoveYaw))
+            {
+                // asse della camera orbitale: l'inquadratura "sopra la spalla" non deve deviare il cammino
+                var q = Quaternion.Euler(0f, CameraRig.MoveYaw, 0f);
+                fwd = q * Vector3.forward;
+                right = q * Vector3.right;
+            }
+            else if (cam != null)
             {
                 fwd = Vector3.ProjectOnPlane(cam.forward, Vector3.up).normalized;
                 right = Vector3.ProjectOnPlane(cam.right, Vector3.up).normalized;
             }
 
             Vector3 dir = fwd * input.y + right * input.x;
-            Vector3 move = dir * (run ? runSpeed : walkSpeed);
+            float mag = Mathf.Clamp01(dir.magnitude);
+            // velocità voluta: corsa con Shift/leva a fondo, altrimenti camminata proporzionale alla leva
+            float targetSpeed = mag < 0.01f ? 0f : (shift ? runSpeed : walkSpeed * Mathf.Clamp01(mag / Mathf.Max(0.01f, analogRunThreshold)));
+            Vector3 desired = mag < 0.01f ? Vector3.zero : dir.normalized * targetSpeed;
 
-            if (cc.isGrounded && vy < 0f) vy = -2f;
-            vy += gravity * Time.deltaTime;
-            move.y = vy;
-            cc.Move(move * Time.deltaTime);
+            Vector3 horiz = new Vector3(velocity.x, 0f, velocity.z);
+            if (blocked) { horiz = Vector3.zero; desired = Vector3.zero; } // dialoghi/pausa: fermo subito, resta solo la gravità
+            float rate = desired.sqrMagnitude > horiz.sqrMagnitude ? acceleration : deceleration;
+            if (!blocked) horiz = Vector3.MoveTowards(horiz, desired, rate * dt);
 
-            if (dir.sqrMagnitude > 0.01f)
+            // verticale: gravità, con piccola spinta a terra per restare incollato a pendenze e gradini
+            Grounded = cc.isGrounded;
+            if (Grounded && velocity.y < 0f) velocity.y = -3f;
+            velocity.y += gravity * dt;
+
+            Vector3 move = horiz;
+            // in pendenza il movimento segue il piano del suolo (niente rimbalzi in discesa)
+            if (Grounded && horiz.sqrMagnitude > 0.0001f &&
+                Physics.Raycast(transform.position + Vector3.up * 0.3f, Vector3.down, out var gh, 0.8f, ~0, QueryTriggerInteraction.Ignore) &&
+                gh.normal.y > 0.5f && gh.normal.y < 0.999f)
             {
-                Quaternion target = Quaternion.LookRotation(dir.normalized, Vector3.up);
-                transform.rotation = Quaternion.Slerp(transform.rotation, target, 1f - Mathf.Exp(-turnSpeed * Time.deltaTime));
+                move = Vector3.ProjectOnPlane(horiz, gh.normal);
+                move *= horiz.magnitude / Mathf.Max(0.0001f, move.magnitude);
             }
+            move.y += velocity.y;
+            cc.Move(move * dt);
+
+            velocity = new Vector3(horiz.x, velocity.y, horiz.z);
+            // se ho urtato qualcosa la velocità effettiva è minore: la riallineo per non accumulare contro i muri
+            Vector3 actual = cc.velocity;
+            if (new Vector3(actual.x, 0f, actual.z).sqrMagnitude < horiz.sqrMagnitude * 0.25f)
+                velocity = new Vector3(actual.x, velocity.y, actual.z);
+
+            if (!blocked && horiz.sqrMagnitude > 0.04f)
+            {
+                Quaternion tr = Quaternion.LookRotation(new Vector3(horiz.x, 0f, horiz.z), Vector3.up);
+                transform.rotation = Quaternion.Slerp(transform.rotation, tr, 1f - Mathf.Exp(-turnSpeed * dt));
+            }
+
+            UpdateAnimator(dt);
+        }
+
+        void UpdateAnimator(float dt)
+        {
+            Speed01 = Mathf.Clamp01(CurrentSpeed / Mathf.Max(0.01f, runSpeed));
+            MotionSpeed = 1f;
+            // ricerca dell'Animator al massimo una volta al secondo; il controller può essere assegnato dopo
+            if (animator == null)
+            {
+                if (Time.unscaledTime < nextAnimSearch) return;
+                nextAnimSearch = Time.unscaledTime + 1f;
+                var mod = transform.Find(ModelloName);
+                if (mod == null) return;
+                animator = mod.GetComponentInChildren<Animator>();
+                animChecked = false;
+                if (animator == null) return;
+            }
+            if (animator.runtimeAnimatorController == null) { animChecked = false; return; }
+            if (!animChecked)
+            {
+                animChecked = true;
+                hasSpeed = hasMotion = hasGrounded = false;
+                foreach (var p in animator.parameters)
+                {
+                    if (p.nameHash == HSpeed) hasSpeed = true;
+                    else if (p.nameHash == HMotionSpeed) hasMotion = true;
+                    else if (p.nameHash == HGrounded) hasGrounded = true;
+                }
+            }
+            if (hasSpeed) animator.SetFloat(HSpeed, Speed01, dampSpeedParam, dt);
+            if (hasMotion) animator.SetFloat(HMotionSpeed, MotionSpeed);
+            if (hasGrounded) animator.SetBool(HGrounded, Grounded);
         }
     }
 }

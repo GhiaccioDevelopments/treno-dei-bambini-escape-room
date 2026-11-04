@@ -74,7 +74,7 @@ Protagonista: Amerigo Speranza, Napoli 1946.
 Assets/_Game/
   Scenes/            00_Boot, 01_Titolo, 10_Hub_Vicolo, 20_Int_BassoAntonietta, 30_FB_Scarpe
   Scripts/Core       GameManager, SaveSystem, SceneLoader, Transition, GameData (loader JSON)
-  Scripts/Player     ThirdPersonController (CharacterController), CameraFollow, PlayerInteractor
+  Scripts/Player     ThirdPersonController (CharacterController), CameraRig (Cinemachine 3), WallFader, PlayerInteractor
   Scripts/World      Interactable, Door, ItemPickup (avvia flashback), Glow (emissione pulsante)
   Scripts/Puzzles    EscapeRoomController, PuzzleBase + Quiz/Lucchetto/Nascosto/Ordina/Abbina
   Scripts/Dialogue   CutscenePlayer, VoiceLibrary
