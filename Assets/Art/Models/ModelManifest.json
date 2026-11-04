@@ -1,0 +1,624 @@
+{
+ "models": [
+  {
+   "name": "BotteVino",
+   "fbx": "Assets/Art/Models/BotteVino/BotteVino.fbx",
+   "materials": [
+    {
+     "name": "wine_barrel_01",
+     "base": "polyhaven/wine_barrel_01/textures/wine_barrel_01_diff_1k.jpg",
+     "mr": "polyhaven/wine_barrel_01/textures/wine_barrel_01_arm_1k.jpg",
+     "normal": "polyhaven/wine_barrel_01/textures/wine_barrel_01_nor_gl_1k.jpg",
+     "emissive": "",
+     "baseFactor": [
+      1,
+      1,
+      1,
+      1
+     ],
+     "emissiveFactor": [
+      0,
+      0,
+      0
+     ],
+     "metal": 1.0,
+     "rough": 1.0,
+     "alphaMode": "OPAQUE",
+     "doubleSided": true
+    }
+   ]
+  },
+  {
+   "name": "CassaLegno",
+   "fbx": "Assets/Art/Models/CassaLegno/CassaLegno.fbx",
+   "materials": [
+    {
+     "name": "wooden_crate_01",
+     "base": "polyhaven/wooden_crate_01/textures/wooden_crate_01_diff_1k.jpg",
+     "mr": "polyhaven/wooden_crate_01/textures/wooden_crate_01_arm_1k.jpg",
+     "normal": "polyhaven/wooden_crate_01/textures/wooden_crate_01_nor_gl_1k.jpg",
+     "emissive": "",
+     "baseFactor": [
+      1,
+      1,
+      1,
+      1
+     ],
+     "emissiveFactor": [
+      0,
+      0,
+      0
+     ],
+     "metal": 1.0,
+     "rough": 1.0,
+     "alphaMode": "OPAQUE",
+     "doubleSided": true
+    }
+   ]
+  },
+  {
+   "name": "SediaDipinta",
+   "fbx": "Assets/Art/Models/SediaDipinta/SediaDipinta.fbx",
+   "materials": [
+    {
+     "name": "painted_wooden_chair_01",
+     "base": "polyhaven/painted_wooden_chair_01/textures/painted_wooden_chair_01_diff_1k.jpg",
+     "mr": "polyhaven/painted_wooden_chair_01/textures/painted_wooden_chair_01_arm_1k.jpg",
+     "normal": "polyhaven/painted_wooden_chair_01/textures/painted_wooden_chair_01_nor_gl_1k.jpg",
+     "emissive": "",
+     "baseFactor": [
+      1,
+      1,
+      1,
+      1
+     ],
+     "emissiveFactor": [
+      0,
+      0,
+      0
+     ],
+     "metal": 1.0,
+     "rough": 1.0,
+     "alphaMode": "OPAQUE",
+     "doubleSided": true
+    }
+   ]
+  },
+  {
+   "name": "TavoloLegno01",
+   "fbx": "Assets/Art/Models/TavoloLegno01/TavoloLegno01.fbx",
+   "materials": [
+    {
+     "name": "WoodenTable_01",
+     "base": "polyhaven/WoodenTable_01/textures/WoodenTable_01_diff_1k.jpg",
+     "mr": "polyhaven/WoodenTable_01/textures/WoodenTable_01_arm_1k.jpg",
+     "normal": "polyhaven/WoodenTable_01/textures/WoodenTable_01_nor_gl_1k.jpg",
+     "emissive": "",
+     "baseFactor": [
+      1,
+      1,
+      1,
+      1
+     ],
+     "emissiveFactor": [
+      0,
+      0,
+      0
+     ],
+     "metal": 1.0,
+     "rough": 1.0,
+     "alphaMode": "OPAQUE",
+     "doubleSided": true
+    }
+   ]
+  },
+  {
+   "name": "TavoloLegno02",
+   "fbx": "Assets/Art/Models/TavoloLegno02/TavoloLegno02.fbx",
+   "materials": [
+    {
+     "name": "WoodenTable_02",
+     "base": "polyhaven/WoodenTable_02/textures/WoodenTable_02_diff_1k.jpg",
+     "mr": "polyhaven/WoodenTable_02/textures/WoodenTable_02_arm_1k.jpg",
+     "normal": "polyhaven/WoodenTable_02/textures/WoodenTable_02_nor_gl_1k.jpg",
+     "emissive": "",
+     "baseFactor": [
+      1,
+      1,
+      1,
+      1
+     ],
+     "emissiveFactor": [
+      0,
+      0,
+      0
+     ],
+     "metal": 1.0,
+     "rough": 1.0,
+     "alphaMode": "OPAQUE",
+     "doubleSided": true
+    }
+   ]
+  },
+  {
+   "name": "SecchioLegno",
+   "fbx": "Assets/Art/Models/SecchioLegno/SecchioLegno.fbx",
+   "materials": [
+    {
+     "name": "wooden_bucket_01",
+     "base": "polyhaven/wooden_bucket_01/textures/wooden_bucket_01_diff_1k.jpg",
+     "mr": "polyhaven/wooden_bucket_01/textures/wooden_bucket_01_arm_1k.jpg",
+     "normal": "polyhaven/wooden_bucket_01/textures/wooden_bucket_01_nor_gl_1k.jpg",
+     "emissive": "",
+     "baseFactor": [
+      1,
+      1,
+      1,
+      1
+     ],
+     "emissiveFactor": [
+      0,
+      0,
+      0
+     ],
+     "metal": 1.0,
+     "rough": 1.0,
+     "alphaMode": "OPAQUE",
+     "doubleSided": true
+    }
+   ]
+  },
+  {
+   "name": "CestaVimini",
+   "fbx": "Assets/Art/Models/CestaVimini/CestaVimini.fbx",
+   "materials": [
+    {
+     "name": "wicker_basket_01",
+     "base": "polyhaven/wicker_basket_01/textures/wicker_basket_01_diff_1k.jpg",
+     "mr": "polyhaven/wicker_basket_01/textures/wicker_basket_01_arm_1k.jpg",
+     "normal": "polyhaven/wicker_basket_01/textures/wicker_basket_01_nor_gl_1k.jpg",
+     "emissive": "",
+     "baseFactor": [
+      1,
+      1,
+      1,
+      1
+     ],
+     "emissiveFactor": [
+      0,
+      0,
+      0
+     ],
+     "metal": 1.0,
+     "rough": 1.0,
+     "alphaMode": "OPAQUE",
+     "doubleSided": true
+    }
+   ]
+  },
+  {
+   "name": "ScalaLegno",
+   "fbx": "Assets/Art/Models/ScalaLegno/ScalaLegno.fbx",
+   "materials": [
+    {
+     "name": "wooden_ladder",
+     "base": "polyhaven/wooden_ladder/textures/wooden_ladder_diff_1k.jpg",
+     "mr": "polyhaven/wooden_ladder/textures/wooden_ladder_arm_1k.jpg",
+     "normal": "polyhaven/wooden_ladder/textures/wooden_ladder_nor_gl_1k.jpg",
+     "emissive": "",
+     "baseFactor": [
+      1,
+      1,
+      1,
+      1
+     ],
+     "emissiveFactor": [
+      0,
+      0,
+      0
+     ],
+     "metal": 1.0,
+     "rough": 1.0,
+     "alphaMode": "OPAQUE",
+     "doubleSided": true
+    }
+   ]
+  },
+  {
+   "name": "LanternaPH",
+   "fbx": "Assets/Art/Models/LanternaPH/LanternaPH.fbx",
+   "materials": [
+    {
+     "name": "Lantern_01_brass",
+     "base": "polyhaven/Lantern_01/textures/Lantern_01_brass_diff_1k.jpg",
+     "mr": "polyhaven/Lantern_01/textures/Lantern_01_brass_arm_1k.jpg",
+     "normal": "polyhaven/Lantern_01/textures/Lantern_01_brass_nor_gl_1k.jpg",
+     "emissive": "",
+     "baseFactor": [
+      1,
+      1,
+      1,
+      1
+     ],
+     "emissiveFactor": [
+      0,
+      0,
+      0
+     ],
+     "metal": 1.0,
+     "rough": 1.0,
+     "alphaMode": "OPAQUE",
+     "doubleSided": true
+    },
+    {
+     "name": "Lantern_01_glass",
+     "base": "polyhaven/Lantern_01/textures/Lantern_01_brass_diff_1k.jpg",
+     "mr": "polyhaven/Lantern_01/textures/Lantern_01_brass_arm_1k.jpg",
+     "normal": "polyhaven/Lantern_01/textures/Lantern_01_brass_nor_gl_1k.jpg",
+     "emissive": "",
+     "baseFactor": [
+      1,
+      1,
+      1,
+      1
+     ],
+     "emissiveFactor": [
+      0,
+      0,
+      0
+     ],
+     "metal": 1.0,
+     "rough": 1.0,
+     "alphaMode": "BLEND",
+     "doubleSided": true
+    }
+   ]
+  },
+  {
+   "name": "LampadaPetrolio_A",
+   "fbx": "Assets/Art/Models/LampadaPetrolio_A/LampadaPetrolio_A.fbx",
+   "materials": [
+    {
+     "name": "gorelka",
+     "base": "sketchfab/acca9775f0c14a899f7ec539e7b1a34d/textures/gorelka_baseColor.png",
+     "mr": "sketchfab/acca9775f0c14a899f7ec539e7b1a34d/textures/gorelka_metallicRoughness.png",
+     "normal": "sketchfab/acca9775f0c14a899f7ec539e7b1a34d/textures/gorelka_normal.png",
+     "emissive": "",
+     "baseFactor": [
+      1,
+      1,
+      1,
+      1
+     ],
+     "emissiveFactor": [
+      0,
+      0,
+      0
+     ],
+     "metal": 1.0,
+     "rough": 1.0,
+     "alphaMode": "OPAQUE",
+     "doubleSided": false
+    }
+   ]
+  },
+  {
+   "name": "LampadaPetrolio_B",
+   "fbx": "Assets/Art/Models/LampadaPetrolio_B/LampadaPetrolio_B.fbx",
+   "materials": [
+    {
+     "name": "lamp",
+     "base": "sketchfab/e0f645dba5484fc1b99d9eff85600002/textures/lamp_baseColor.png",
+     "mr": "sketchfab/e0f645dba5484fc1b99d9eff85600002/textures/lamp_metallicRoughness.png",
+     "normal": "sketchfab/e0f645dba5484fc1b99d9eff85600002/textures/lamp_normal.png",
+     "emissive": "",
+     "baseFactor": [
+      1.0,
+      1.0,
+      1.0,
+      0.5063644212587175
+     ],
+     "emissiveFactor": [
+      0,
+      0,
+      0
+     ],
+     "metal": 1.0,
+     "rough": 1.0,
+     "alphaMode": "BLEND",
+     "doubleSided": true
+    },
+    {
+     "name": "Material.001",
+     "base": "sketchfab/e0f645dba5484fc1b99d9eff85600002/textures/Material.001_baseColor.png",
+     "mr": "sketchfab/e0f645dba5484fc1b99d9eff85600002/textures/Material.001_metallicRoughness.png",
+     "normal": "sketchfab/e0f645dba5484fc1b99d9eff85600002/textures/Material.001_normal.png",
+     "emissive": "",
+     "baseFactor": [
+      1,
+      1,
+      1,
+      1
+     ],
+     "emissiveFactor": [
+      0,
+      0,
+      0
+     ],
+     "metal": 1.0,
+     "rough": 1.0,
+     "alphaMode": "OPAQUE",
+     "doubleSided": true
+    },
+    {
+     "name": "base",
+     "base": "sketchfab/e0f645dba5484fc1b99d9eff85600002/textures/base_baseColor.png",
+     "mr": "sketchfab/e0f645dba5484fc1b99d9eff85600002/textures/base_metallicRoughness.png",
+     "normal": "",
+     "emissive": "",
+     "baseFactor": [
+      1,
+      1,
+      1,
+      1
+     ],
+     "emissiveFactor": [
+      0,
+      0,
+      0
+     ],
+     "metal": 1.0,
+     "rough": 1.0,
+     "alphaMode": "OPAQUE",
+     "doubleSided": true
+    }
+   ]
+  },
+  {
+   "name": "Carretto_Filip",
+   "fbx": "Assets/Art/Models/Carretto_Filip/Carretto_Filip.fbx",
+   "materials": [
+    {
+     "name": "Material",
+     "base": "sketchfab/eb41c6490a5546269055916029e623ee/textures/Material_baseColor.png",
+     "mr": "sketchfab/eb41c6490a5546269055916029e623ee/textures/Material_metallicRoughness.png",
+     "normal": "sketchfab/eb41c6490a5546269055916029e623ee/textures/Material_normal.png",
+     "emissive": "",
+     "baseFactor": [
+      1,
+      1,
+      1,
+      1
+     ],
+     "emissiveFactor": [
+      0,
+      0,
+      0
+     ],
+     "metal": 1.0,
+     "rough": 1.0,
+     "alphaMode": "OPAQUE",
+     "doubleSided": true
+    }
+   ]
+  },
+  {
+   "name": "SecchioMetallo",
+   "fbx": "Assets/Art/Models/SecchioMetallo/SecchioMetallo.fbx",
+   "materials": [
+    {
+     "name": "Scene_-_Root",
+     "base": "sketchfab/0a7a3ccfdb624369b54dc7e06a5f2486/textures/Scene_-_Root_baseColor.png",
+     "mr": "sketchfab/0a7a3ccfdb624369b54dc7e06a5f2486/textures/Scene_-_Root_metallicRoughness.png",
+     "normal": "sketchfab/0a7a3ccfdb624369b54dc7e06a5f2486/textures/Scene_-_Root_normal.png",
+     "emissive": "",
+     "baseFactor": [
+      1,
+      1,
+      1,
+      1
+     ],
+     "emissiveFactor": [
+      0,
+      0,
+      0
+     ],
+     "metal": 1.0,
+     "rough": 1.0,
+     "alphaMode": "OPAQUE",
+     "doubleSided": true
+    }
+   ]
+  },
+  {
+   "name": "LampioneMuro_Kigha",
+   "fbx": "Assets/Art/Models/LampioneMuro_Kigha/LampioneMuro_Kigha.fbx",
+   "materials": [
+    {
+     "name": "Lantern",
+     "base": "sketchfab/dc8fa19703224286b0bb95cdd028cc06/textures/Lantern_baseColor.png",
+     "mr": "sketchfab/dc8fa19703224286b0bb95cdd028cc06/textures/Lantern_metallicRoughness.png",
+     "normal": "sketchfab/dc8fa19703224286b0bb95cdd028cc06/textures/Lantern_normal.png",
+     "emissive": "sketchfab/dc8fa19703224286b0bb95cdd028cc06/textures/Lantern_emissive.png",
+     "baseFactor": [
+      1,
+      1,
+      1,
+      1
+     ],
+     "emissiveFactor": [
+      1.0,
+      1.0,
+      1.0
+     ],
+     "metal": 1.0,
+     "rough": 1.0,
+     "alphaMode": "OPAQUE",
+     "doubleSided": true
+    }
+   ]
+  },
+  {
+   "name": "Candela",
+   "fbx": "Assets/Art/Models/Candela/Candela.fbx",
+   "materials": [
+    {
+     "name": "candle_flame2",
+     "base": "sketchfab/c408586d8c1547448c4ff47abb4fb981/textures/candle_flame2_baseColor.png",
+     "mr": "",
+     "normal": "sketchfab/c408586d8c1547448c4ff47abb4fb981/textures/candle_flame2_normal.png",
+     "emissive": "sketchfab/c408586d8c1547448c4ff47abb4fb981/textures/candle_flame2_emissive.png",
+     "baseFactor": [
+      1,
+      1,
+      1,
+      1
+     ],
+     "emissiveFactor": [
+      1.0,
+      1.0,
+      1.0
+     ],
+     "metal": 0.0,
+     "rough": 0.772727,
+     "alphaMode": "BLEND",
+     "doubleSided": true
+    },
+    {
+     "name": "LowCandle",
+     "base": "sketchfab/c408586d8c1547448c4ff47abb4fb981/textures/LowCandle_baseColor.png",
+     "mr": "sketchfab/c408586d8c1547448c4ff47abb4fb981/textures/LowCandle_metallicRoughness.png",
+     "normal": "",
+     "emissive": "",
+     "baseFactor": [
+      1,
+      1,
+      1,
+      1
+     ],
+     "emissiveFactor": [
+      0,
+      0,
+      0
+     ],
+     "metal": 0.0,
+     "rough": 0.5,
+     "alphaMode": "OPAQUE",
+     "doubleSided": true
+    }
+   ]
+  },
+  {
+   "name": "LanternaAppesa",
+   "fbx": "Assets/Art/Models/LanternaAppesa/LanternaAppesa.fbx",
+   "materials": [
+    {
+     "name": "DefaultMaterial",
+     "base": "sketchfab/1bdbe7ea2e5242948f6cd7cccfd7206e/textures/DefaultMaterial_baseColor.png",
+     "mr": "sketchfab/1bdbe7ea2e5242948f6cd7cccfd7206e/textures/DefaultMaterial_metallicRoughness.png",
+     "normal": "sketchfab/1bdbe7ea2e5242948f6cd7cccfd7206e/textures/DefaultMaterial_normal.png",
+     "emissive": "",
+     "baseFactor": [
+      1,
+      1,
+      1,
+      1
+     ],
+     "emissiveFactor": [
+      0,
+      0,
+      0
+     ],
+     "metal": 1.0,
+     "rough": 1.0,
+     "alphaMode": "BLEND",
+     "doubleSided": true
+    }
+   ]
+  },
+  {
+   "name": "LampioneStrada_Pixie",
+   "fbx": "Assets/Art/Models/LampioneStrada_Pixie/LampioneStrada_Pixie.fbx",
+   "materials": [
+    {
+     "name": "Scene_-_Root",
+     "base": "sketchfab/a58ad12fb9a24a10ba2328d6c18d8775/textures/Scene_-_Root_baseColor.png",
+     "mr": "sketchfab/a58ad12fb9a24a10ba2328d6c18d8775/textures/Scene_-_Root_metallicRoughness.png",
+     "normal": "",
+     "emissive": "",
+     "baseFactor": [
+      1,
+      1,
+      1,
+      1
+     ],
+     "emissiveFactor": [
+      0,
+      0,
+      0
+     ],
+     "metal": 1.0,
+     "rough": 1.0,
+     "alphaMode": "OPAQUE",
+     "doubleSided": true
+    }
+   ]
+  },
+  {
+   "name": "Macerie_Mattoni",
+   "fbx": "Assets/Art/Models/Macerie_Mattoni/Macerie_Mattoni.fbx",
+   "materials": [
+    {
+     "name": "RBPmed_mat",
+     "base": "sketchfab/a61ea99ff8da40c8998741afb8a57a84/textures/RBPmed_mat_baseColor.jpeg",
+     "mr": "",
+     "normal": "",
+     "emissive": "",
+     "baseFactor": [
+      1,
+      1,
+      1,
+      1
+     ],
+     "emissiveFactor": [
+      0,
+      0,
+      0
+     ],
+     "metal": 0.0,
+     "rough": 1.0,
+     "alphaMode": "OPAQUE",
+     "doubleSided": true
+    }
+   ]
+  },
+  {
+   "name": "VasoTerracotta",
+   "fbx": "Assets/Art/Models/VasoTerracotta/VasoTerracotta.fbx",
+   "materials": [
+    {
+     "name": "T_plant_pot_1001",
+     "base": "sketchfab/2bcf7aab467e490e9095257a2107a751/textures/T_plant_pot_1001_baseColor.jpeg",
+     "mr": "sketchfab/2bcf7aab467e490e9095257a2107a751/textures/T_plant_pot_1001_metallicRoughness.png",
+     "normal": "sketchfab/2bcf7aab467e490e9095257a2107a751/textures/T_plant_pot_1001_normal.png",
+     "emissive": "",
+     "baseFactor": [
+      1,
+      1,
+      1,
+      1
+     ],
+     "emissiveFactor": [
+      0,
+      0,
+      0
+     ],
+     "metal": 1.0,
+     "rough": 1.0,
+     "alphaMode": "OPAQUE",
+     "doubleSided": true
+    }
+   ]
+  }
+ ]
+}

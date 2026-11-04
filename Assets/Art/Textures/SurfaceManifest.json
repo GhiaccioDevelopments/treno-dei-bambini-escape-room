@@ -1,0 +1,104 @@
+{
+ "surfaces": [
+  {
+   "name": "IntonacoMattoni",
+   "src": "plaster_brick_pattern",
+   "res": "1k"
+  },
+  {
+   "name": "IntonacoRustico05",
+   "src": "rough_plasterbrick_05",
+   "res": "1k"
+  },
+  {
+   "name": "IntonacoRossoSbiadito",
+   "src": "red_plaster_weathered",
+   "res": "1k"
+  },
+  {
+   "name": "ArenariaCrepe",
+   "src": "sandstone_cracks",
+   "res": "1k"
+  },
+  {
+   "name": "ArenariaBlocchi",
+   "src": "large_sandstone_blocks_01",
+   "res": "1k"
+  },
+  {
+   "name": "MuroRotto",
+   "src": "broken_wall",
+   "res": "1k"
+  },
+  {
+   "name": "LegnoVernicePelata",
+   "src": "wood_peeling_paint_weathered",
+   "res": "1k"
+  },
+  {
+   "name": "LegnoDipintoBlu",
+   "src": "blue_painted_planks",
+   "res": "1k"
+  },
+  {
+   "name": "AssiStagionate",
+   "src": "weathered_planks",
+   "res": "1k"
+  },
+  {
+   "name": "AssiConsunte",
+   "src": "worn_planks",
+   "res": "1k"
+  },
+  {
+   "name": "PavimentoPiastreGrandi",
+   "src": "large_floor_tiles_02",
+   "res": "1k"
+  },
+  {
+   "name": "PavimentoBattuto",
+   "src": "concrete_floor_worn_001",
+   "res": "1k"
+  },
+  {
+   "name": "CoppiArgilla",
+   "src": "clay_roof_tiles_02",
+   "res": "1k"
+  },
+  {
+   "name": "FerroRuggine02",
+   "src": "rusty_metal_02",
+   "res": "1k"
+  },
+  {
+   "name": "FerroRuggineGrossa",
+   "src": "rust_coarse_01",
+   "res": "1k"
+  },
+  {
+   "name": "TessutoLino",
+   "src": "rough_linen",
+   "res": "1k"
+  },
+  {
+   "name": "TessutoIuta",
+   "src": "hessian_230",
+   "res": "1k"
+  },
+  {
+   "name": "TerraPolverosa",
+   "src": "dirt_floor",
+   "res": "1k"
+  },
+  {
+   "name": "BasoliLavica",
+   "src": "stone_pathway_02",
+   "res": "2k"
+  },
+  {
+   "name": "PavimentoCotto",
+   "src": "terracotta_floor_tiles",
+   "res": "1k"
+  }
+ ]
+}

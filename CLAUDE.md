@@ -122,4 +122,5 @@ Namespace: `TrenoBambini.<Area>` (es. `TrenoBambini.Core`).
   2.7 interfaccia, impostazioni, finestra · 2.8 ottimizzazione e consegna.
   Dopo ogni sotto-fase: console pulita + screenshot all'utente per approvazione prima di proseguire.
   Misurare FPS e peso build per preset. Merge su `main` e tag v0.2 solo dopo l'ok dell'utente.
+  Richieste dell'utente in sospeso: `Docs/BACKLOG.md` (controllarlo all'inizio di ogni sotto-fase).
 - Oggetti futuri: stracci, volantino del treno, cappotto, violino, finale.
