@@ -1,0 +1,1 @@
+Audio di ambiente ed effetti sonori non vocali (le voci stanno in Assets/Audio/Voci). Origine e licenza in CREDITS.md.

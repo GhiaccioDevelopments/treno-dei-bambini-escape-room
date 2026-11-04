@@ -1,0 +1,1 @@
+Mappe HDRI (.hdr/.exr) per illuminazione e cielo. Origine e licenza in CREDITS.md.

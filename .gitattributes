@@ -80,6 +80,8 @@ Packages/packages-lock.json linguist-generated
 *.blend                 lfs
 *.blend1                lfs
 *.c4d                   lfs
+*.glb                   lfs
+*.gltf                  lfs
 *.collada               lfs
 *.dae                   lfs
 *.dxf                   lfs
@@ -125,6 +127,7 @@ Packages/packages-lock.json linguist-generated
 *.gif                   lfs
 *.hdr                   lfs
 *.iff                   lfs
+*.ktx2                  lfs
 *.jpeg                  lfs
 *.jpg                   lfs
 *.pict                  lfs

@@ -1,0 +1,1 @@
+Animazioni dei personaggi (clip FBX e Animator). Origine e licenza in CREDITS.md.

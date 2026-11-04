@@ -1,0 +1,1 @@
+Modelli 3D realistici d'epoca (edifici, oggetti, carretti, macerie), con LOD. Origine e licenza in CREDITS.md.

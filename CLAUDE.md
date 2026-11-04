@@ -7,11 +7,17 @@ Protagonista: Amerigo Speranza, Napoli 1946.
 ## Regole fisse
 - **Unity 6.6 (6000.6.7f1)**, **3D URP**, **terza persona** (camera che segue Amerigo), C#.
   Decisione dell'utente (2026-11-03): il gioco è 3D, NON 2D (sostituisce "2D top-down/tilemap" del brief).
-  Build finale **WebGL** (PC scuola, Chromebook, LIM): low-poly, poche luci, ombre semplici,
-  niente post-processing pesante; usare il renderer Mobile_RPAsset per WebGL.
-- Personaggi: modellati in **Blender** (MCP blender) ed esportati FBX in `Assets/_Game/Art/Characters/`.
-  Fase personaggi rimandata: per ora placeholder (capsule/forme semplici). Personaggi ORIGINALI ispirati
-  alla descrizione del romanzo: non copiare foto/sembianze degli attori del film.
+- **Piattaforme** (decisione 2026-11-04, Fase 2): build principale **Windows .exe**, avvio in finestra
+  ridimensionabile 1280×720, schermo intero da Impostazioni o Alt+Invio. In più una build **WebGL leggera**
+  (preset Bassa, renderer Mobile_RPAsset) su `gh-pages` per PC scuola, Chromebook e LIM.
+- Personaggi: basi **CC0 MPFB2/MakeHuman** in **Blender** (MCP blender), personalizzate con abiti d'epoca
+  (Napoli e Modena 1946), rig, LOD; FBX in `Assets/Art/Characters/`, avatar Humanoid.
+  Animazioni **Mixamo** (Git LFS) in `Assets/Art/Animations/`. Screenshot di ogni personaggio all'utente
+  prima di considerarlo finito. Personaggi ORIGINALI ispirati alla descrizione del romanzo:
+  non copiare foto/sembianze degli attori del film.
+- **Amerigo (obbligatorio)**: capelli divisi verticalmente, lato sinistro castano scuro, lato destro
+  rosso ramato naturale (non fluo). Vale anche per Amerigo adulto. Bambino magro (~7 anni), vestiti
+  logori e rattoppati, scarpe rotte all'inizio.
 - Lavoro nell'editor **solo tramite MCP for Unity** (server HTTP `127.0.0.1:8080`).
   Se la connessione cade: fermarsi e chiedere all'utente di riavviare il server
   (Window ▸ MCP for Unity ▸ Start Server, poi `/mcp` ▸ Reconnect).
@@ -20,14 +26,41 @@ Protagonista: Amerigo Speranza, Napoli 1946.
   script dell'editor (menu **Treno ▸ …**) e quindi riproducibili.
 - **Contenuti fuori dal codice**: oggetti, luoghi, enigmi, cutscene in JSON in
   `Assets/_Game/Resources/Data/`. Il codice non contiene testi narrativi.
-- Grafica: ambienti low-poly originali (moduli semplici: case in tufo, vicoli, panni stesi, macerie),
-  materiali in palette seppia/anni '40.
-  **Mai** immagini, musiche o dialoghi presi dal film/libro: dialoghi originali.
+- **Mai** immagini, musiche o dialoghi presi dal film/libro: dialoghi originali.
 - Didattica non punitiva: errore = feedback gentile + spiegazione + riprova; pulsante Indizio sempre presente.
 - Input: nuovo Input System. Tastiera (WASD/frecce, E interagisci, I inventario, Esc pausa), mouse per
   ruotare la camera; touch: joystick virtuale + pulsanti a schermo (LIM/Chromebook).
 - Salvataggio: PlayerPrefs (chiave `treno_save`, JSON).
 - Lingua del gioco, dei commit e della documentazione: italiano.
+
+## Stile visivo e prestazioni (Fase 2)
+- Tono **serio, realistico, cinematografico** (riferimento d'atmosfera: The Last of Us), mai cartoon.
+  Look neorealista del dopoguerra: colori desaturati e caldi, seppia e terra, contrasti morbidi,
+  grana leggera, luce naturale che filtra tra i palazzi. Interni dei bassi bui, lampade a petrolio e candele.
+- Coerenza d'epoca (Napoli 1946): nessun oggetto, abito, insegna o materiale moderno.
+  Dubbi storici → chiedere all'utente.
+- Flashback con look distinto (seppia più marcato, bordi sfumati). Cutscene con **Timeline + Cinemachine** (pacchetti 6.6.0;
+  Cinemachine con API 3: namespace `Unity.Cinemachine`, `CinemachineCamera`, non le vecchie `CinemachineVirtualCamera`).
+- Bello ma leggero: luce **baked** (lightmap, light probes, reflection probes), poche luci dinamiche,
+  LUT d'epoca, nebbia semplice (no volumetrica), LOD su tutti i modelli, occlusion culling,
+  texture compresse e atlas. Obiettivo: ≥60 FPS stabili a preset Alta su PC normale, fluido a Bassa
+  su PC scolastici. Preset grafici: Bassa, Media, Alta, Ultra, Personalizzata.
+- HUD minimale: solo elementi piccoli che compaiono quando servono; prompt di interazione discreti.
+  UI d'epoca (carta invecchiata, tipografia anni '40 leggibile, colori spenti); inventario come
+  scatola di latta o quaderno di scuola.
+- Menu **Impostazioni** completo (grafica, audio, controlli, gioco, accessibilità) da menu principale
+  e pausa, preferenze salvate.
+
+## Asset esterni e licenze
+- Fonti affidabili, licenza adatta a un progetto scolastico pubblicato online: **CC0 preferito**,
+  CC-BY ammesso con attribuzione. NC/ND o licenze dubbie: segnalarle all'utente
+  e non usarle senza il suo ok esplicito.
+- Ogni asset usato va annotato in **`CREDITS.md`** (origine, autore, licenza, modifiche).
+- Ogni candidato: importato, screenshot con la luce del gioco, valutazione qualità/epoca/peso
+  (poligoni, texture); confronti mostrati all'utente, scarti motivati. Se manca qualcosa di
+  importante, dirlo invece di ripiegare su soluzioni scadenti.
+- Texture PBR complete (albedo, normal, roughness/metallic, AO), materiali uniformati.
+- Peso del repo: Git LFS gratuito ha 1 GB di spazio e 1 GB/mese di traffico, tenerlo d'occhio.
 
 ## Doppiaggio
 - Ogni battuta di cutscene ha un **ID univoco** `cs_<oggetto>_NNN` e un campo `audio` opzionale.
@@ -50,8 +83,9 @@ Assets/_Game/
   Editor/            generatori sprite/tileset, costruttore scene, export CSV, build WebGL
   Resources/Data/    *.json dei contenuti
   Resources/Sprites/ icone inventario, ritratti, sfondi cutscene
-  Art/Characters/    FBX personaggi da Blender
-  Art/Environment/   moduli low-poly, materiali seppia
+  Art/               asset generati della Fase 1 (segnaposto low-poly, materiali seppia)
+Assets/Art/          asset realistici della Fase 2 (LFS), annotati in CREDITS.md
+  Textures/ Materials/ Models/ Characters/ Animations/ HDRI/ Audio/
 Assets/Audio/Voci/   doppiaggio (LFS)
 Doppiaggio/          copione CSV esportato
 ```
@@ -81,4 +115,11 @@ Namespace: `TrenoBambini.<Area>` (es. `TrenoBambini.Core`).
 ## Stato fasi
 - Fase 1 (v0.1): hub vicolo, basso di Antonietta, oggetto **Le scarpe** (4 enigmi + cutscene),
   inventario, pausa, titolo, salvataggio. **Non sviluppare altri oggetti senza ok dell'utente.**
+- Fase 2 (v0.2, branch `feature/upgrade-realistico`): upgrade a gioco realistico d'epoca, stessa
+  struttura, storia, JSON, enigmi, inventario, cutscene e ID doppiaggio. Sotto-fasi:
+  2.0 setup · 2.1 look d'epoca (preset URP, LUT, nebbia, luce baked) · 2.2 ricerca asset ·
+  2.3 ambienti · 2.4 giocatore e camera · 2.5 personaggi · 2.6 cutscene Timeline ·
+  2.7 interfaccia, impostazioni, finestra · 2.8 ottimizzazione e consegna.
+  Dopo ogni sotto-fase: console pulita + screenshot all'utente per approvazione prima di proseguire.
+  Misurare FPS e peso build per preset. Merge su `main` e tag v0.2 solo dopo l'ok dell'utente.
 - Oggetti futuri: stracci, volantino del treno, cappotto, violino, finale.

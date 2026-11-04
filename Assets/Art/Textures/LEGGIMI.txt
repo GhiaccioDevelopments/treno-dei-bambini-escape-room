@@ -1,0 +1,1 @@
+Texture PBR d'epoca (albedo, normal, roughness, AO). Origine e licenza in CREDITS.md.
