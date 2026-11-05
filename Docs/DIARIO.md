@@ -19,6 +19,8 @@ Regole d'uso: vedi la sezione "Diario e lavoro su più PC" in `CLAUDE.md`.
   PickUp, Interact), velocità e animazioni sincronizzate per personaggio, menu riproducibili in Treno ▸ Personaggi.
 - Ricerca di capelli/vestiti CC0: nessun asset migliore dei nostri; capelli a ciocche e vestiti generati da script Blender
   (`ArtSource/Characters/build_scripts_v4`, in git solo le versioni finali dei .blend).
+- **Gioco online aggiornato** (su richiesta dell'utente): build WebGL della Fase 2 in corso pubblicata su `gh-pages` (commit a4dd3ca).
+  Texture ridotte solo per WebGL (override in `WebGLBuilder.cs`): dati da 110 MB a 31,5 MB, totale ~42 MB. Editor rimasto su piattaforma WebGL.
 - Bake delle luci spostato su Progressive CPU (il GPU mandava in crash l'editor): ~3,5 minuti per tutte le scene.
 
 ### Decisioni
