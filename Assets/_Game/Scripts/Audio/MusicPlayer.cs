@@ -81,7 +81,7 @@ namespace TrenoBambini.Audio
                 if (clip == null) return;
                 stingerSrc.Stop();
                 stingerSrc.clip = clip;
-                stingerSrc.volume = 0.9f * Gain();
+                stingerSrc.volume = StingerVolume();
                 stingerSrc.Play();
                 stingerUntil = Time.unscaledTime + clip.length;
             });
@@ -95,6 +95,14 @@ namespace TrenoBambini.Audio
             return am != null ? am.ChannelGain(AudioChannel.Musica) : 0.6f;
         }
 
+        // lo stinger rispetta attesa del primo clic (WebGL), pausa e ducking delle voci come la musica
+        float StingerVolume()
+        {
+            var am = AudioManager.I;
+            if (am != null && am.WaitingForGesture) return 0f;
+            return 0.9f * Gain() * (am != null ? am.MusicDuck : 1f) * pauseFactor;
+        }
+
         void Update()
         {
             var am = AudioManager.I;
@@ -103,7 +111,7 @@ namespace TrenoBambini.Audio
             pauseFactor = Mathf.MoveTowards(pauseFactor, paused ? 0.3f : 1f, Time.unscaledDeltaTime * 2f);
             bool stinging = Time.unscaledTime < stingerUntil;
             stingerDuck = Mathf.MoveTowards(stingerDuck, stinging ? 0.45f : 1f, Time.unscaledDeltaTime * 1.5f);
-            if (stingerSrc.isPlaying) stingerSrc.volume = 0.9f * Gain();
+            if (stingerSrc.isPlaying) stingerSrc.volume = StingerVolume();
 
             for (int i = 0; i < 2; i++)
             {
