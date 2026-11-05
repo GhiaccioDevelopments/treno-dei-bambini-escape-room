@@ -121,6 +121,7 @@ namespace TrenoBambini.UI
             SetSpecial(isSpecial);
 
             UITween.Cancel(tagRt);
+            UITween.Cancel(EnsureGroup());
             tagRt.gameObject.SetActive(true);
             tagRt.localScale = Vector3.one;
             tagImg.color = special ? new Color(1f, 0.93f, 0.7f, 1f) : Color.white;
