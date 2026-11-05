@@ -99,6 +99,13 @@ namespace TrenoBambini.UI
 
             if (visible && !hiding)
             {
+                if (key.gameObject.activeSelf != hasKey)
+                {
+                    // passaggio tastiera <-> touch con il cartellino già visibile: mostra/nasconde il tasto E
+                    key.gameObject.SetActive(hasKey);
+                    UIFactory.Stretch(label.rectTransform, hasKey ? 74f : 20f, 4f, 20f, 4f);
+                    tagRt.sizeDelta = new Vector2(Mathf.Clamp(label.GetPreferredValues(text).x + (hasKey ? 120f : 70f), 240f, 760f), 66f);
+                }
                 if (text != shownText)
                 {
                     shownText = text;

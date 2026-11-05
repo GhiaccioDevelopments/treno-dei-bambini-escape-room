@@ -83,7 +83,12 @@ namespace TrenoBambini.Player
                 bool analog = false;
                 Vector2 a = VirtualJoystick.Value;
                 var gp = Gamepad.current;
-                if (gp != null) a += gp.leftStick.ReadValue();
+                if (gp != null)
+                {
+                    // zona morta: un gamepad "fantasma" o con deriva (frequente nei browser) non deve annullare WASD
+                    Vector2 g = gp.leftStick.ReadValue();
+                    if (g.magnitude > 0.25f) a += g;
+                }
                 if (a.sqrMagnitude > 0.0001f) { input += a; analog = true; }
                 input = Vector2.ClampMagnitude(input, 1f);
                 // la corsa analogica si decide sulla leva

@@ -19,6 +19,7 @@ namespace TrenoBambini.Player
 
         string lastSource;
         string displayed;
+        bool lastTouch;
         static readonly RaycastHit[] hits = new RaycastHit[24];
 
         void OnEnable() { Active = this; }
@@ -87,10 +88,11 @@ namespace TrenoBambini.Player
             if (UIRoot.I == null) return;
             if (Current == null) { Clear(); return; }
             string src = Current.GetPrompt();
-            if (src != lastSource)
+            if (src != lastSource || lastTouch != UIRoot.TouchMode)
             {
                 lastSource = src;
-                displayed = (Touchscreen.current == null ? "[E] " : "") + src;
+                lastTouch = UIRoot.TouchMode;
+                displayed = (lastTouch ? "" : "[E] ") + src;
             }
             UIRoot.I.ShowPrompt(displayed, Current.IsSpecial);
             UIRoot.I.ShowMarker(Current.MarkerPoint);

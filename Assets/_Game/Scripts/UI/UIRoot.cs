@@ -40,6 +40,14 @@ namespace TrenoBambini.UI
         bool menuScene = true;
         bool touchBuilt;
 
+        /// <summary>
+        /// Controlli touch attivi: piattaforma mobile oppure un tocco reale rilevato (l'ultimo ingresso vince: un tasto della tastiera
+        /// riporta a "desktop"). In WebGL Touchscreen.current esiste anche su PC senza touch, quindi la sua presenza non basta.
+        /// </summary>
+        public static bool TouchMode { get; private set; }
+        RectTransform interactButton;
+        bool interactShown;
+
         // HUD
         InteractPrompt prompt;
         TicketHud ticket;
@@ -207,8 +215,46 @@ namespace TrenoBambini.UI
             joy.knob = knob.rectTransform;
             joy.radius = 65f;
 
+            // pulsante Interagisci: compare solo in modalità touch e solo vicino a un interagibile (vedi UpdateInteractButton)
             var act = UIFactory.MakeButton(HudLayer, "Interagisci", OnInteractButton, new Vector2(240f, 90f), ButtonStyle.Seal, 30f, true);
             UIFactory.Place((RectTransform)act.transform, new Vector2(1f, 0f), new Vector2(1f, 0f), new Vector2(-40f, 70f), new Vector2(240f, 90f));
+            interactButton = (RectTransform)act.transform;
+            interactButton.gameObject.SetActive(false);
+            interactShown = false;
+        }
+
+        /// <summary>Aggiorna TouchMode: mobile o tocco reale = true; pressione di un tasto = false.</summary>
+        void UpdateTouchMode()
+        {
+            if (!TouchMode && Application.isMobilePlatform) TouchMode = true;
+            var ts = Touchscreen.current;
+            if (ts != null && ts.primaryTouch.press.isPressed) TouchMode = true;
+            else if (TouchMode && !Application.isMobilePlatform)
+            {
+                var kb = Keyboard.current;
+                if (kb != null && kb.anyKey.wasPressedThisFrame) TouchMode = false;
+            }
+        }
+
+        void UpdateInteractButton()
+        {
+            if (interactButton == null) return;
+            var gm = GameManager.I;
+            var pi = PlayerInteractor.Active;
+            bool want = TouchMode && !menuScene && gm != null && !gm.InputBlocked && pi != null && pi.Current != null && pi.Current.CanInteract;
+            if (want == interactShown) return;
+            interactShown = want;
+            UITween.Cancel(interactButton);
+            if (want)
+            {
+                interactButton.gameObject.SetActive(true);
+                interactButton.localScale = Vector3.zero;
+                UITween.Scale(interactButton, Vector3.one, 0.25f, Ease.OutBack);
+            }
+            else
+            {
+                UITween.Scale(interactButton, Vector3.zero, 0.12f, Ease.InCubic, () => { if (interactButton != null && !interactShown) interactButton.gameObject.SetActive(false); });
+            }
         }
 
         static void OnInteractButton()
@@ -425,6 +471,8 @@ namespace TrenoBambini.UI
         void Update()
         {
             if (!touchBuilt && Touchscreen.current != null) BuildTouchControls();
+            UpdateTouchMode();
+            UpdateInteractButton();
 
             bool showHud = !menuScene && !Cutscene.IsPlaying;
             if (HudLayer.gameObject.activeSelf != showHud)
