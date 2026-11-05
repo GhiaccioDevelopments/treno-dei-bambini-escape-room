@@ -525,5 +525,24 @@ namespace TrenoBambini.UI.Fx
                     }
             });
         }
+
+        static Texture2D ruledTex;
+
+        /// <summary>Texture ripetibile (4x30) con una riga azzurra: righe del quaderno. Usare con RawImage.uvRect.</summary>
+        public static Texture2D Ruled()
+        {
+            if (ruledTex != null) return ruledTex;
+            var px = new Color32[4 * 30];
+            for (int y = 0; y < 30; y++)
+                for (int x = 0; x < 4; x++)
+                    px[y * 4 + x] = y == 0 ? new Color32(80, 110, 160, 90) : new Color32(0, 0, 0, 0);
+            ruledTex = new Texture2D(4, 30, TextureFormat.RGBA32, false);
+            ruledTex.name = "UIArt_ruled";
+            ruledTex.wrapMode = TextureWrapMode.Repeat;
+            ruledTex.filterMode = FilterMode.Point;
+            ruledTex.SetPixels32(px);
+            ruledTex.Apply(false, true);
+            return ruledTex;
+        }
     }
 }

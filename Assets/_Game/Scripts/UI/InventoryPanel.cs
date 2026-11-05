@@ -1,21 +1,33 @@
+using System.Collections.Generic;
 using TMPro;
 using TrenoBambini.Core;
 using TrenoBambini.Data;
+using TrenoBambini.UI.Fx;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 namespace TrenoBambini.UI
 {
-    /// <summary>Inventario: griglia di icone a sinistra, dettaglio dell'oggetto a destra.</summary>
+    /// <summary>
+    /// Inventario come valigia di cartone che si spalanca: gli oggetti sono cartoline leggermente storte (si raddrizzano e seguono
+    /// il mouse in hover), gli oggetti non ancora trovati sono sagome tratteggiate con il nome del luogo. Il dettaglio si può "girare":
+    /// sul retro ci sono il significato e il tema civico con un timbro.
+    /// </summary>
     public class InventoryPanel : MonoBehaviour
     {
         public bool IsOpen { get; private set; }
 
         GameObject view;
-        RectTransform grid;
+        PanelFx fx;
+        RectTransform card, grid, detail, front, back;
         Image detailIcon;
-        TextMeshProUGUI detailTitle, detailBody;
+        TextMeshProUGUI detailTitle, detailBody, backBody, hint;
+        Button flipBtn;
         string selected;
+        bool showingBack;
+        readonly List<PostcardFx> cards = new List<PostcardFx>();
 
         void Awake()
         {
@@ -23,46 +35,75 @@ namespace TrenoBambini.UI
             var veil = UIFactory.MakePanel(transform, "Vista", UIFactory.Velo, true);
             UIFactory.Stretch(veil.rectTransform);
             view = veil.gameObject;
+            fx = view.AddComponent<PanelFx>();
+            fx.entry = PanelEntry.Suitcase;
 
-            var card = UIFactory.MakePanel(veil.rectTransform, "Carta", UIFactory.Carta, true);
-            UIFactory.Place(card.rectTransform, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(1120f, 640f));
+            // corpo della valigia: cartone + cornice d'ottone
+            var body = UIFactory.MakePaper(veil.rectTransform, "Valigia", UITheme.Cartone, true);
+            UIFactory.Place(body.rectTransform, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(1120f, 640f));
+            card = body.rectTransform;
+            fx.card = card;
+            UIFactory.MakeBrassFrame(card, 8f);
 
-            var title = UIFactory.MakeText(card.rectTransform, "Inventario", 40, UIFactory.Accento, TextAlignmentOptions.Center, FontStyles.Bold);
-            title.rectTransform.anchorMin = new Vector2(0f, 1f); title.rectTransform.anchorMax = new Vector2(1f, 1f);
-            title.rectTransform.pivot = new Vector2(0.5f, 1f);
-            title.rectTransform.offsetMin = new Vector2(30f, -76f); title.rectTransform.offsetMax = new Vector2(-30f, -16f);
+            // targhetta del titolo (il "coperchio")
+            var plate = UIFactory.MakePanel(card, "Targa", Color.white, false);
+            plate.sprite = UIArt.Brass(); plate.type = Image.Type.Sliced;
+            UIFactory.Place(plate.rectTransform, new Vector2(0.5f, 1f), new Vector2(0.5f, 0.5f), new Vector2(0f, 0f), new Vector2(360f, 64f));
+            var title = UIFactory.MakeText(plate.rectTransform, "La valigia", 36, UITheme.Inchiostro, TextAlignmentOptions.Center, FontStyles.Bold);
+            UIFactory.Stretch(title.rectTransform);
 
-            // griglia (sinistra)
-            grid = UIFactory.NewRect("Griglia", card.rectTransform);
+            // scomparti (sinistra)
+            grid = UIFactory.NewRect("Scomparti", card);
             grid.anchorMin = new Vector2(0f, 0f); grid.anchorMax = new Vector2(0f, 1f);
             grid.pivot = new Vector2(0f, 1f);
-            grid.offsetMin = new Vector2(30f, 100f); grid.offsetMax = new Vector2(400f, -90f);
+            grid.offsetMin = new Vector2(34f, 100f); grid.offsetMax = new Vector2(450f, -62f);
             var gl = grid.gameObject.AddComponent<GridLayoutGroup>();
-            gl.cellSize = new Vector2(110f, 110f);
-            gl.spacing = new Vector2(12f, 12f);
+            gl.cellSize = new Vector2(120f, 150f);
+            gl.spacing = new Vector2(14f, 14f);
             gl.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
             gl.constraintCount = 3;
             gl.childAlignment = TextAnchor.UpperLeft;
 
-            // dettaglio (destra)
-            var det = UIFactory.NewRect("Dettaglio", card.rectTransform);
-            det.anchorMin = new Vector2(0f, 0f); det.anchorMax = new Vector2(1f, 1f);
-            det.offsetMin = new Vector2(430f, 100f); det.offsetMax = new Vector2(-30f, -90f);
-            var detBg = det.gameObject.AddComponent<Image>();
-            detBg.color = new Color(0.82f, 0.75f, 0.58f, 0.5f);
-            detBg.raycastTarget = false;
+            // dettaglio (destra): una grande cartolina girevole
+            var det = UIFactory.MakePaper(card, "Dettaglio", Color.white, true);
+            detail = det.rectTransform;
+            detail.anchorMin = new Vector2(0f, 0f); detail.anchorMax = new Vector2(1f, 1f);
+            detail.offsetMin = new Vector2(480f, 100f); detail.offsetMax = new Vector2(-34f, -62f);
 
-            detailIcon = UIFactory.MakeImage(det, "Icona", null, UIFactory.Marrone);
-            UIFactory.Place(detailIcon.rectTransform, new Vector2(0f, 1f), new Vector2(0f, 1f), new Vector2(16f, -16f), new Vector2(120f, 120f));
-            detailTitle = UIFactory.MakeText(det, "", 34, UIFactory.Accento, TextAlignmentOptions.Left, FontStyles.Bold);
+            front = UIFactory.NewRect("Fronte", detail);
+            UIFactory.Stretch(front);
+            detailIcon = UIFactory.MakeImage(front, "Icona", null, UIFactory.Marrone);
+            UIFactory.Place(detailIcon.rectTransform, new Vector2(0f, 1f), new Vector2(0f, 1f), new Vector2(26f, -26f), new Vector2(130f, 130f));
+            detailTitle = UIFactory.MakeText(front, "", 34, UITheme.Ceralacca, TextAlignmentOptions.Left, FontStyles.Bold);
             detailTitle.rectTransform.anchorMin = new Vector2(0f, 1f); detailTitle.rectTransform.anchorMax = new Vector2(1f, 1f);
             detailTitle.rectTransform.pivot = new Vector2(0f, 1f);
-            detailTitle.rectTransform.offsetMin = new Vector2(150f, -136f); detailTitle.rectTransform.offsetMax = new Vector2(-16f, -16f);
-            detailBody = UIFactory.MakeText(det, "", 22, UIFactory.Inchiostro, TextAlignmentOptions.TopLeft);
-            UIFactory.Stretch(detailBody.rectTransform, 20f, 10f, 20f, 150f);
-            detailBody.enableAutoSizing = true; detailBody.fontSizeMin = 14; detailBody.fontSizeMax = 22;
+            detailTitle.rectTransform.offsetMin = new Vector2(176f, -146f); detailTitle.rectTransform.offsetMax = new Vector2(-24f, -26f);
+            detailBody = UIFactory.MakeText(front, "", 23, UITheme.Inchiostro, TextAlignmentOptions.TopLeft);
+            UIFactory.Stretch(detailBody.rectTransform, 30f, 80f, 30f, 170f);
+            detailBody.enableAutoSizing = true; detailBody.fontSizeMin = 14; detailBody.fontSizeMax = 23;
 
-            var close = UIFactory.MakeButton(card.rectTransform, "Chiudi", Hide, new Vector2(260f, 64f));
+            back = UIFactory.NewRect("Retro", detail);
+            UIFactory.Stretch(back);
+            backBody = UIFactory.MakeText(back, "", 22, UITheme.Inchiostro, TextAlignmentOptions.TopLeft);
+            UIFactory.Stretch(backBody.rectTransform, 30f, 80f, 30f, 40f);
+            backBody.enableAutoSizing = true; backBody.fontSizeMin = 14; backBody.fontSizeMax = 22;
+            // timbro postale
+            var stamp = UIFactory.MakePanel(back, "Timbro", new Color(UITheme.InchiostroBlu.r, UITheme.InchiostroBlu.g, UITheme.InchiostroBlu.b, 0.8f), false);
+            stamp.sprite = UIArt.StampFrame(); stamp.type = Image.Type.Sliced;
+            UIFactory.Place(stamp.rectTransform, new Vector2(1f, 1f), new Vector2(1f, 1f), new Vector2(-24f, -20f), new Vector2(230f, 76f));
+            stamp.rectTransform.localRotation = Quaternion.Euler(0f, 0f, 7f);
+            var st = UIFactory.MakeText(stamp.rectTransform, "NAPOLI\nEDUCAZIONE CIVICA", 17, UITheme.InchiostroBlu, TextAlignmentOptions.Center, FontStyles.Bold);
+            UIFactory.Stretch(st.rectTransform);
+            back.gameObject.SetActive(false);
+
+            flipBtn = UIFactory.MakeButton(detail, "Gira", FlipDetail, new Vector2(200f, 60f), ButtonStyle.Tag, 26f);
+            UIFactory.Place((RectTransform)flipBtn.transform, new Vector2(1f, 0f), new Vector2(1f, 0f), new Vector2(-24f, 18f), new Vector2(200f, 60f));
+
+            hint = UIFactory.MakeText(card, "", 20, new Color(0.96f, 0.9f, 0.75f, 0.9f), TextAlignmentOptions.BottomLeft);
+            UIFactory.Stretch(hint.rectTransform, 40f, 18f, 400f, 0f);
+            hint.rectTransform.sizeDelta = new Vector2(0f, 40f);
+
+            var close = UIFactory.MakeButton(card, "Chiudi", Hide, new Vector2(260f, 64f), ButtonStyle.Seal, 28f);
             UIFactory.Place((RectTransform)close.transform, new Vector2(0.5f, 0f), new Vector2(0.5f, 0f), new Vector2(0f, 22f), new Vector2(260f, 64f));
 
             view.SetActive(false);
@@ -74,60 +115,157 @@ namespace TrenoBambini.UI
             IsOpen = true;
             if (GameManager.I != null) GameManager.I.PushBlock();
             Refresh();
-            view.SetActive(true);
             transform.SetAsLastSibling();
+            fx.Show();
+            Cascade();
         }
 
         public void Hide()
         {
             if (!IsOpen) return;
             IsOpen = false;
-            view.SetActive(false);
+            fx.Hide();
             if (GameManager.I != null) GameManager.I.PopBlock();
+        }
+
+        void Cascade()
+        {
+            for (int i = 0; i < cards.Count; i++)
+            {
+                var c = cards[i];
+                if (c == null) continue;
+                var rt = (RectTransform)c.transform;
+                float rot = c.restRotation;
+                rt.localScale = Vector3.zero;
+                UITween.Scale(rt, Vector3.one, 0.35f, Ease.OutBack, null, 0.2f + i * 0.04f);
+                UITween.Rotate(rt, rot, 0.35f, Ease.OutCubic, null, 0.2f + i * 0.04f);
+            }
         }
 
         void Refresh()
         {
             UIFactory.Clear(grid);
+            cards.Clear();
+            showingBack = false;
             var inv = GameManager.I != null ? GameManager.I.Save.inventario : null;
-            if (inv == null || inv.Count == 0)
-            {
-                selected = null;
-                ShowDetail(null);
-                return;
-            }
-            if (selected == null || !inv.Contains(selected)) selected = inv[0];
+            bool any = inv != null && inv.Count > 0;
+            if (any && (selected == null || !inv.Contains(selected))) selected = inv[0];
+            if (!any) selected = null;
 
-            for (int i = 0; i < inv.Count; i++)
-            {
-                string id = inv[i];
-                var o = GameData.Oggetto(id);
-                var btn = UIFactory.MakeButton(grid, "", () => { selected = id; ShowDetail(id); }, new Vector2(110f, 110f), UIFactory.CartaScura);
-                Sprite spr = o != null ? UIFactory.LoadSprite("oggetti", o.icona) : null;
-                if (spr != null)
+            if (any)
+                for (int i = 0; i < inv.Count; i++) MakeCard(inv[i], i);
+
+            // sagome degli oggetti ancora da trovare
+            var all = GameData.Oggetti;
+            int shown = any ? inv.Count : 0;
+            if (all != null)
+                for (int i = 0; i < all.Count; i++)
                 {
-                    var icon = UIFactory.MakeImage(btn.transform, "Icona", spr, Color.white);
-                    UIFactory.Stretch(icon.rectTransform, 8f, 8f, 8f, 8f);
+                    if (any && inv.Contains(all[i].id)) continue;
+                    MakeLocked(all[i], shown++);
                 }
-                else
-                {
-                    string nome = o != null && !string.IsNullOrEmpty(o.nome) ? o.nome : id;
-                    UIFactory.SetLabel(btn, nome.Substring(0, 1).ToUpperInvariant());
-                }
-            }
             ShowDetail(selected);
+        }
+
+        void MakeCard(string id, int index)
+        {
+            var o = GameData.Oggetto(id);
+            var img = UIFactory.MakePanel(grid, "Cartolina_" + id, Color.white, true);
+            img.sprite = UIArt.Postcard(); img.type = Image.Type.Sliced;
+            var btn = img.gameObject.AddComponent<Button>();
+            btn.transition = Selectable.Transition.None;
+            btn.targetGraphic = img;
+            btn.onClick.AddListener(() => { selected = id; ShowDetail(id); UISfx.Play(Sfx.ClickPaper, 0.6f); });
+
+            var pic = UIFactory.NewRect("Foto", img.rectTransform);
+            UIFactory.Stretch(pic, 12f, 40f, 12f, 12f);
+            var photoBg = pic.gameObject.AddComponent<Image>();
+            photoBg.color = new Color(0.36f, 0.3f, 0.22f, 1f);
+            photoBg.raycastTarget = false;
+            Sprite spr = o != null ? UIFactory.LoadSprite("oggetti", o.icona) : null;
+            if (spr != null)
+            {
+                photoBg.color = new Color(0.9f, 0.84f, 0.7f, 1f);
+                var icon = UIFactory.MakeImage(pic, "Icona", spr, Color.white);
+                UIFactory.Stretch(icon.rectTransform, 6f, 6f, 6f, 6f);
+            }
+            string nome = o != null && !string.IsNullOrEmpty(o.nome) ? o.nome : id;
+            if (spr == null)
+            {
+                var ini = UIFactory.MakeText(pic, nome.Substring(0, 1).ToUpperInvariant(), 56, UITheme.Carta, TextAlignmentOptions.Center, FontStyles.Bold);
+                UIFactory.Stretch(ini.rectTransform);
+            }
+            var lbl = UIFactory.MakeText(img.rectTransform, nome, 18, UITheme.Inchiostro, TextAlignmentOptions.Center, FontStyles.Bold);
+            lbl.rectTransform.anchorMin = new Vector2(0f, 0f); lbl.rectTransform.anchorMax = new Vector2(1f, 0f);
+            lbl.rectTransform.pivot = new Vector2(0.5f, 0f);
+            lbl.rectTransform.offsetMin = new Vector2(8f, 6f); lbl.rectTransform.offsetMax = new Vector2(-8f, 38f);
+            lbl.enableAutoSizing = true; lbl.fontSizeMin = 11; lbl.fontSizeMax = 18;
+
+            var pc = img.gameObject.AddComponent<PostcardFx>();
+            pc.photo = pic;
+            pc.restRotation = Mathf.Sin(index * 12.9898f + 1.7f) * 3f; // storta in modo ripetibile, ±3°
+            ((RectTransform)img.transform).localRotation = Quaternion.Euler(0f, 0f, pc.restRotation);
+            cards.Add(pc);
+        }
+
+        void MakeLocked(OggettoDef o, int index)
+        {
+            var img = UIFactory.MakePanel(grid, "Slot_" + o.id, new Color(0.14f, 0.09f, 0.05f, 0.35f), true);
+            img.sprite = UIArt.DashedFrame(); img.type = Image.Type.Sliced;
+            img.color = new Color(1f, 1f, 1f, 1f);
+            var ghost = UIFactory.MakePanel(img.rectTransform, "Sfondo", new Color(0.1f, 0.06f, 0.03f, 0.25f), false);
+            UIFactory.Stretch(ghost.rectTransform, 6f, 6f, 6f, 6f);
+            var q = UIFactory.MakeText(img.rectTransform, "?", 64, new Color(0.96f, 0.9f, 0.75f, 0.85f), TextAlignmentOptions.Center, FontStyles.Bold);
+            UIFactory.Stretch(q.rectTransform, 0f, 40f, 0f, 0f);
+            var luogo = GameData.Luogo(o.luogo);
+            string dove = luogo != null ? luogo.nome : "";
+            var lbl = UIFactory.MakeText(img.rectTransform, dove, 17, new Color(0.96f, 0.9f, 0.75f, 0.9f), TextAlignmentOptions.Center);
+            lbl.rectTransform.anchorMin = new Vector2(0f, 0f); lbl.rectTransform.anchorMax = new Vector2(1f, 0f);
+            lbl.rectTransform.pivot = new Vector2(0.5f, 0f);
+            lbl.rectTransform.offsetMin = new Vector2(6f, 6f); lbl.rectTransform.offsetMax = new Vector2(-6f, 46f);
+            lbl.enableAutoSizing = true; lbl.fontSizeMin = 11; lbl.fontSizeMax = 17;
+            var btn = img.gameObject.AddComponent<Button>();
+            btn.transition = Selectable.Transition.None;
+            btn.targetGraphic = img;
+            btn.onClick.AddListener(() =>
+            {
+                UISfx.Play(Sfx.ClickPaper, 0.4f);
+                hint.text = string.IsNullOrEmpty(dove) ? "Un ricordo ancora da trovare." : "Un ricordo ancora da trovare: cerca vicino a " + dove + ".";
+            });
+        }
+
+        void FlipDetail()
+        {
+            if (selected == null) return;
+            UIFx.FlipX(detail, () => { showingBack = !showingBack; ApplySide(); });
+        }
+
+        void ApplySide()
+        {
+            front.gameObject.SetActive(!showingBack);
+            back.gameObject.SetActive(showingBack);
+            UIFactory.SetLabel(flipBtn, showingBack ? "Gira indietro" : "Gira");
+            if (showingBack)
+            {
+                UISfx.Play(Sfx.Stamp, 0.35f);
+                UIParticles.BurstAtRect(ParticleKind.Dust, detail, 3);
+            }
         }
 
         void ShowDetail(string id)
         {
+            showingBack = false;
+            ApplySide();
+            hint.text = "";
             var o = GameData.Oggetto(id);
+            flipBtn.gameObject.SetActive(id != null && o != null);
             if (id == null || o == null)
             {
                 detailIcon.sprite = null;
                 detailIcon.color = new Color(0f, 0f, 0f, 0f);
                 detailTitle.text = "";
                 detailBody.text = id == null
-                    ? "L'inventario è vuoto. Esplora il vicolo e cerca gli oggetti che custodiscono i ricordi."
+                    ? "La valigia è vuota. Esplora il vicolo e cerca gli oggetti che custodiscono i ricordi."
                     : "Oggetto sconosciuto.";
                 return;
             }
@@ -135,10 +273,56 @@ namespace TrenoBambini.UI
             detailIcon.sprite = spr;
             detailIcon.color = spr != null ? Color.white : UIFactory.Marrone;
             detailTitle.text = o.nome;
-            string t = o.descrizione ?? "";
-            if (!string.IsNullOrEmpty(o.significato)) t += "\n\n<b>Che cosa significa</b>\n" + o.significato;
-            if (!string.IsNullOrEmpty(o.temaCivico)) t += "\n\n<b>Educazione civica</b>\n" + o.temaCivico;
-            detailBody.text = t;
+            detailBody.text = o.descrizione ?? "";
+            string t = "";
+            if (!string.IsNullOrEmpty(o.significato)) t += "<b>Che cosa significa</b>\n" + o.significato;
+            if (!string.IsNullOrEmpty(o.temaCivico)) t += (t.Length > 0 ? "\n\n" : "") + "<b>Educazione civica</b>\n" + o.temaCivico;
+            backBody.text = t;
+        }
+    }
+
+    /// <summary>Cartolina dell'inventario: in hover si raddrizza, si solleva e la foto segue il mouse (parallasse).</summary>
+    public class PostcardFx : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+    {
+        public RectTransform photo;
+        public float restRotation;
+        bool hover;
+        RectTransform rt;
+
+        void Awake() { rt = (RectTransform)transform; }
+
+        public void OnPointerEnter(PointerEventData e)
+        {
+            if (e.pointerId >= 0) return;
+            hover = true;
+            UISfx.Play(Sfx.Hover, 0.4f, 0.1f);
+            UITween.Cancel(rt);
+            UITween.Scale(rt, new Vector3(1.1f, 1.1f, 1f), 0.15f, Ease.OutCubic);
+            UITween.Rotate(rt, 0f, 0.15f, Ease.OutCubic);
+        }
+
+        public void OnPointerExit(PointerEventData e)
+        {
+            hover = false;
+            UITween.Cancel(rt);
+            UITween.Scale(rt, Vector3.one, 0.18f, Ease.OutCubic);
+            UITween.Rotate(rt, restRotation, 0.18f, Ease.OutCubic);
+            if (photo != null) photo.anchoredPosition = Vector2.zero;
+        }
+
+        void OnDisable()
+        {
+            hover = false;
+            if (rt != null) { UITween.Cancel(rt); }
+        }
+
+        void Update()
+        {
+            if (!hover || photo == null || UITheme.ReduceEffects || Mouse.current == null) return;
+            Vector2 local;
+            if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(rt, Mouse.current.position.ReadValue(), null, out local)) return;
+            Vector2 n = new Vector2(local.x / Mathf.Max(1f, rt.rect.width), local.y / Mathf.Max(1f, rt.rect.height));
+            photo.anchoredPosition = Vector2.Lerp(photo.anchoredPosition, new Vector2(n.x * 10f, n.y * 10f), 0.3f);
         }
     }
 }
