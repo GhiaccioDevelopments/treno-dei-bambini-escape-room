@@ -57,7 +57,9 @@ namespace TrenoBambini.World
                 if (UIRoot.I != null) UIRoot.I.Toast("Questa porta è chiusa a chiave.");
                 return;
             }
-            AudioManager.FireAt("porta_apre", transform.position);
+            // il suono parte solo se la scena è davvero caricabile (altrimenti SceneLoader mostra l'avviso)
+            if (!SceneLoader.I.IsLoading && Application.CanStreamedLevelBeLoaded(scena))
+                AudioManager.FireAt("porta_apre", transform.position);
             SceneLoader.I.Load(scena, spawn);
         }
     }
