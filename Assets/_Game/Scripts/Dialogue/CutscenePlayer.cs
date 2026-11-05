@@ -159,7 +159,7 @@ namespace TrenoBambini.Dialogue
             IsPlaying = true;
             skip = false;
             guardUntil = Time.unscaledTime + 0.3f;
-            GameManager.I.PushBlock();
+            GameManager.I.PushBlock("cutscene");
             if (UIRoot.I != null) UIRoot.I.HidePrompt();
 
             sideOf.Clear(); sideCounter = 0; shownL = shownR = false;
@@ -182,7 +182,7 @@ namespace TrenoBambini.Dialogue
             UITween.Cancel(arrow);
             view.SetActive(false);
             IsPlaying = false;
-            GameManager.I.PopBlock();
+            GameManager.I.PopBlock("cutscene");
 
             var s = GameManager.I.Save;
             if (!string.IsNullOrEmpty(def.id) && !s.cutsceneViste.Contains(def.id)) s.cutsceneViste.Add(def.id);

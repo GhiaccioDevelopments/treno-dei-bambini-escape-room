@@ -110,7 +110,7 @@ namespace TrenoBambini.UI
         {
             if (IsOpen) return;
             IsOpen = true;
-            if (GameManager.I != null) GameManager.I.PushBlock();
+            if (GameManager.I != null) GameManager.I.PushBlock("pausa");
             var am = AudioManager.I;
             volume.SetValueWithoutNotify(am != null ? am.Volume : 1f);
             music.SetValueWithoutNotify(am != null ? am.GetChannel(AudioChannel.Musica) : 1f);
@@ -129,7 +129,7 @@ namespace TrenoBambini.UI
             IsOpen = false;
             if (AudioManager.I != null) AudioManager.I.Music.SetPaused(false);
             fx.Hide();
-            if (GameManager.I != null) { GameManager.I.PopBlock(); GameManager.I.SaveGame(); } // salva slider e preferenze
+            if (GameManager.I != null) { GameManager.I.PopBlock("pausa"); GameManager.I.SaveGame(); } // salva slider e preferenze
         }
 
         void OnVolume(float v)

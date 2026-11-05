@@ -32,7 +32,7 @@ namespace TrenoBambini.Core
         IEnumerator LoadRoutine(string scena, string spawnId, TransitionStyle stile)
         {
             IsLoading = true;
-            GameManager.I.PushBlock();
+            GameManager.I.PushBlock("caricamento");
             Fader fader = UIRoot.I != null ? UIRoot.I.Fader : null;
 
             // audio: uscita dal ricordo (proiettore che si ferma) oppure cambio scena normale (audio.json "eventi")
@@ -52,7 +52,7 @@ namespace TrenoBambini.Core
             yield return null;
 
             if (fader != null) yield return fader.In(stile);
-            GameManager.I.PopBlock();
+            GameManager.I.PopBlock("caricamento");
             IsLoading = false;
         }
 

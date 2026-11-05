@@ -60,7 +60,7 @@ namespace TrenoBambini.Puzzles
         {
             def = d;
             onSolved = solvedCb;
-            if (GameManager.I != null) GameManager.I.PushBlock();
+            if (GameManager.I != null) GameManager.I.PushBlock("puzzle");
             UIRoot.I.PushModal();
             UIRoot.I.HidePrompt();
             BuildFrame();
@@ -284,7 +284,7 @@ namespace TrenoBambini.Puzzles
         {
             if (closed) return;
             closed = true;
-            if (GameManager.I != null) GameManager.I.PopBlock();
+            if (GameManager.I != null) GameManager.I.PopBlock("puzzle");
             if (UIRoot.I != null) UIRoot.I.PopModal();
             if (fx != null) fx.Hide(() => { if (this != null) Destroy(gameObject); });
             else Destroy(gameObject);
@@ -294,7 +294,7 @@ namespace TrenoBambini.Puzzles
         {
             if (closed) return;
             closed = true;
-            if (GameManager.I != null) GameManager.I.PopBlock();
+            if (GameManager.I != null) GameManager.I.PopBlock("puzzle");
             if (UIRoot.I != null) UIRoot.I.PopModal();
         }
     }

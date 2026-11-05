@@ -417,7 +417,7 @@ namespace TrenoBambini.UI
             dlgFx.Show();
             Typewriter.Play(dlgBody, r.testo ?? "", 70f, true);
             dialogOpenedAt = Time.unscaledTime;
-            if (GameManager.I != null) GameManager.I.PushBlock();
+            if (GameManager.I != null) GameManager.I.PushBlock("dialogo");
             PushModal();
         }
 
@@ -432,7 +432,7 @@ namespace TrenoBambini.UI
                 dlgHiding = false;
                 if (dialogCurrent == null && dialogQueue.Count > 0) ShowNextDialog();
             });
-            if (GameManager.I != null) GameManager.I.PopBlock();
+            if (GameManager.I != null) GameManager.I.PopBlock("dialogo");
             PopModal();
             if (ok && r.onOk != null) r.onOk();
         }

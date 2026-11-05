@@ -41,6 +41,11 @@ namespace TrenoBambini.Player
         public Animator animator;
         public float dampSpeedParam = 0.1f;
 
+        /// <summary>Ultimo input di movimento letto e stato di blocco (diagnosi F3).</summary>
+        public Vector2 DebugInput { get; private set; }
+        public bool DebugBlocked { get; private set; }
+        public Vector3 DebugVelocity { get { return cc != null ? cc.velocity : Vector3.zero; } }
+        public bool DebugControllerEnabled { get { return cc != null && cc.enabled; } }
         public float Speed01 { get; private set; }
         public float MotionSpeed { get; private set; } = 1f;
         public bool Grounded { get; private set; } = true;
@@ -94,6 +99,8 @@ namespace TrenoBambini.Player
                 // la corsa analogica si decide sulla leva
                 if (analog && input.magnitude >= analogRunThreshold) shift = true;
             }
+
+            DebugInput = input; DebugBlocked = blocked;
 
             if (cam == null)
             {

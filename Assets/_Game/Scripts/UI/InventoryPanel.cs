@@ -113,7 +113,7 @@ namespace TrenoBambini.UI
         {
             if (IsOpen) return;
             IsOpen = true;
-            if (GameManager.I != null) GameManager.I.PushBlock();
+            if (GameManager.I != null) GameManager.I.PushBlock("inventario");
             Refresh();
             transform.SetAsLastSibling();
             fx.Show();
@@ -125,7 +125,7 @@ namespace TrenoBambini.UI
             if (!IsOpen) return;
             IsOpen = false;
             fx.Hide();
-            if (GameManager.I != null) GameManager.I.PopBlock();
+            if (GameManager.I != null) GameManager.I.PopBlock("inventario");
         }
 
         void Cascade()

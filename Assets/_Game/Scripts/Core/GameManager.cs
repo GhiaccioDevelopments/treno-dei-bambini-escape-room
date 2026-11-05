@@ -19,6 +19,8 @@ namespace TrenoBambini.Core
 
         SaveData save;
         int blockers;
+        readonly System.Collections.Generic.List<string> blockReasons = new System.Collections.Generic.List<string>();
+        float orphanSince = -1f;
 
         public SaveData Save { get { if (save == null) save = SaveSystem.Load(); return save; } }
         public bool HasSave { get { return SaveSystem.Exists(); } }
@@ -43,6 +45,7 @@ namespace TrenoBambini.Core
 
             gameObject.AddComponent<AudioManager>();
             gameObject.AddComponent<SceneLoader>();
+            gameObject.AddComponent<DiagOverlay>();
 
             var ui = new GameObject("UIRoot", typeof(RectTransform));
             ui.transform.SetParent(transform, false);
@@ -57,18 +60,57 @@ namespace TrenoBambini.Core
         }
 
         // ---------- blocco input ----------
-        public void PushBlock() { blockers++; }
-
-        public void PopBlock()
+        /// <summary>Chiede un blocco dell'input; il motivo serve solo alla diagnosi (F3).</summary>
+        public void PushBlock(string motivo = "?")
         {
-            if (blockers > 0) blockers--;
+            blockers++;
+            blockReasons.Add(motivo ?? "?");
+        }
+
+        public void PopBlock(string motivo = null)
+        {
+            if (blockers > 0)
+            {
+                blockers--;
+                int i = motivo != null ? blockReasons.LastIndexOf(motivo) : -1;
+                if (i < 0) i = blockReasons.Count - 1;
+                if (i >= 0) blockReasons.RemoveAt(i);
+            }
             LastUnblockTime = Time.unscaledTime;
         }
 
         public void ResetBlocks()
         {
             blockers = 0;
+            blockReasons.Clear();
+            orphanSince = -1f;
             LastUnblockTime = Time.unscaledTime;
+        }
+
+        /// <summary>Motivi dei blocchi attivi (diagnosi).</summary>
+        public string BlockReasons { get { return string.Join(",", blockReasons); } }
+
+        /// <summary>
+        /// Rete di sicurezza: se c'è un blocco ma nessun proprietario noto è attivo (caricamento, dialogo/puzzle, pausa,
+        /// inventario, cutscene, dissolvenza) per oltre 1,5 s, il blocco è rimasto "appeso" e lo azzero.
+        /// </summary>
+        void Update()
+        {
+            if (blockers <= 0) { orphanSince = -1f; return; }
+            var ui = UIRoot.I;
+            bool owner = (SceneLoader.I != null && SceneLoader.I.IsLoading)
+                || ui == null || ui.ModalOpen
+                || (ui.Pause != null && ui.Pause.IsOpen)
+                || (ui.Inventory != null && ui.Inventory.IsOpen)
+                || (ui.Cutscene != null && ui.Cutscene.IsPlaying)
+                || (ui.Fader != null && ui.Fader.Busy);
+            if (owner) { orphanSince = -1f; return; }
+            if (orphanSince < 0f) { orphanSince = Time.unscaledTime; return; }
+            if (Time.unscaledTime - orphanSince > 1.5f)
+            {
+                Debug.LogWarning("Blocco input orfano azzerato: " + BlockReasons);
+                ResetBlocks();
+            }
         }
 
         // ---------- salvataggio ----------
