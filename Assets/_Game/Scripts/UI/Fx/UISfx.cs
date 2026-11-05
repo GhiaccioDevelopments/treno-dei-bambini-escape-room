@@ -29,7 +29,7 @@ namespace TrenoBambini.UI.Fx
         static void Ensure()
         {
             if (inst != null) return;
-            var go = new GameObject("UISfx") { hideFlags = HideFlags.HideAndDontSave };
+            var go = new GameObject("UISfx") { hideFlags = HideFlags.HideInHierarchy };
             DontDestroyOnLoad(go);
             inst = go.AddComponent<UISfx>();
             inst.sources = new AudioSource[6];

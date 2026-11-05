@@ -21,17 +21,19 @@ namespace TrenoBambini.UI.Fx
             public Action<float> onUpdate;
             public Action onDone;
             public bool loop, pingPong, active;
+            public int gen; // cambia a ogni rilascio: distingue un tween riciclato dal pool
         }
 
         static UITween runner;
         static readonly List<T> live = new List<T>(64);
         static readonly Stack<T> pool = new Stack<T>(64);
         static readonly List<T> doneBuffer = new List<T>(16);
+        static readonly List<int> doneGen = new List<int>(16);
 
         static void EnsureRunner()
         {
             if (runner != null) return;
-            var go = new GameObject("UITween") { hideFlags = HideFlags.HideAndDontSave };
+            var go = new GameObject("UITween") { hideFlags = HideFlags.HideInHierarchy };
             DontDestroyOnLoad(go);
             runner = go.AddComponent<UITween>();
         }
@@ -59,7 +61,7 @@ namespace TrenoBambini.UI.Fx
 
         static void Release(T t)
         {
-            t.active = false; t.onUpdate = null; t.onDone = null; t.key = null;
+            t.active = false; t.onUpdate = null; t.onDone = null; t.key = null; t.gen++;
             pool.Push(t);
         }
 
@@ -153,7 +155,7 @@ namespace TrenoBambini.UI.Fx
         void Update()
         {
             float dt = Mathf.Min(Time.unscaledDeltaTime, 0.1f); // evita salti dopo un hiccup/caricamento
-            doneBuffer.Clear();
+            doneBuffer.Clear(); doneGen.Clear();
             // ciclo a indice: i callback possono aggiungere tween (finiscono in coda e partono al frame dopo)
             int n = live.Count;
             for (int i = 0; i < n && i < live.Count; i++)
@@ -162,11 +164,11 @@ namespace TrenoBambini.UI.Fx
                 if (!t.active) continue;
                 var uo = t.key as UnityEngine.Object;
                 if (uo != null || !(t.key is UnityEngine.Object)) { /* bersaglio vivo (o chiave non Unity) */ }
-                else { t.active = false; doneBuffer.Add(t); t.onDone = null; continue; } // bersaglio distrutto: il tween (anche in loop) termina in silenzio
+                else { t.active = false; doneBuffer.Add(t); doneGen.Add(t.gen); t.onDone = null; continue; } // bersaglio distrutto: il tween (anche in loop) termina in silenzio
                 if (t.delay > 0f) { t.delay -= dt; if (t.delay > 0f) continue; }
                 t.t += dt;
                 float x = t.t / t.dur;
-                if (x >= 1f && !t.loop) { x = 1f; doneBuffer.Add(t); }
+                if (x >= 1f && !t.loop) { x = 1f; doneBuffer.Add(t); doneGen.Add(t.gen); }
                 else if (x >= 1f) { t.t = 0f; x = 0f; }
                 float u = t.pingPong ? 1f - Mathf.Abs(2f * x - 1f) : x;
                 if (t.onUpdate != null) t.onUpdate(Evaluate(t.ease, u));
@@ -174,6 +176,7 @@ namespace TrenoBambini.UI.Fx
             for (int i = 0; i < doneBuffer.Count; i++)
             {
                 T t = doneBuffer[i];
+                if (t.gen != doneGen[i]) continue; // annullato (e magari riciclato) da un callback: non chiuderlo
                 int idx = live.IndexOf(t);
                 if (idx < 0) continue; // annullato da un callback
                 live.RemoveAt(idx);
