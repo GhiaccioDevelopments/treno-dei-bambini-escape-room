@@ -118,3 +118,7 @@ InitTestScene*.unity*
 
 # Screenshot di revisione
 /Docs/Screenshots/
+
+# Strumento audio (R002)
+Tools/AudioGen/bin/
+Tools/AudioGen/obj/
