@@ -59,6 +59,14 @@ namespace TrenoBambini.UI.Fx
             s.Play();
         }
 
+        /// <summary>Clip di un effetto UI (sintetizzata alla prima richiesta). Usata da AudioLibrary per gli id ui_*.</summary>
+        public static AudioClip GetClip(Sfx id)
+        {
+            AudioClip clip;
+            if (!clips.TryGetValue(id, out clip) || clip == null) { clip = Build(id); clips[id] = clip; }
+            return clip;
+        }
+
         // ------------------------------------------------------------ sintesi
         static AudioClip Gen(string name, float dur, Func<float, float> f)
         {

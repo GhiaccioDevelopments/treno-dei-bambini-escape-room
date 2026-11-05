@@ -83,4 +83,39 @@ namespace TrenoBambini.Data
         public string azione; public string sfondo;
         public string posizione; // "sx" | "dx"
     }
+
+    // ---- audio.json (R002): quale musica e quale ambiente suonano in ogni scena, eventi e volumi di base ----
+    [Serializable]
+    public class AudioFile
+    {
+        public List<AudioSceneDef> scene = new List<AudioSceneDef>();
+        public List<AudioEventDef> eventi = new List<AudioEventDef>();
+        public AudioVolumiDef volumi = new AudioVolumiDef();
+    }
+
+    [Serializable]
+    public class AudioSceneDef
+    {
+        public string scena;
+        public string musica;                                  // id musica ("" = nessuna)
+        public List<string> ambiente = new List<string>();     // loop d'ambiente
+        public List<string> sparsi = new List<string>();       // suoni casuali sparsi
+        public float[] intervallo = new float[] { 8f, 20f };   // secondi min/max tra due suoni sparsi
+        public string superficie;                              // pietra | legno | ovattato (passi)
+    }
+
+    [Serializable]
+    public class AudioEventDef
+    {
+        public string id;       // enigma_risolto, oggetto_ritrovato, ricordo_entra, ricordo_esce, porta_apre ...
+        public string stinger;  // musica breve sopra il brano corrente
+        public string sfx;      // effetto
+    }
+
+    [Serializable]
+    public class AudioVolumiDef
+    {
+        public float musica = 0.6f, ambiente = 0.7f, effetti = 0.9f, voci = 1f;
+        public float duckingMusica = 0.35f, duckingAmbiente = 0.6f;
+    }
 }

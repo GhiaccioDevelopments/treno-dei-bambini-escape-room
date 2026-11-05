@@ -11,13 +11,14 @@ namespace TrenoBambini.Core
         static List<LuogoDef> luoghi;
         static List<OggettoDef> oggetti;
         static List<PersonaggioDef> personaggi;
+        static AudioFile audio;
         static readonly Dictionary<string, FlashbackDef> flashbacks = new Dictionary<string, FlashbackDef>();
         static readonly Dictionary<string, CutsceneDef> cutscenes = new Dictionary<string, CutsceneDef>();
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         static void ResetStatics()
         {
-            luoghi = null; oggetti = null; personaggi = null;
+            luoghi = null; oggetti = null; personaggi = null; audio = null;
             flashbacks.Clear(); cutscenes.Clear();
         }
 
@@ -57,6 +58,16 @@ namespace TrenoBambini.Core
                     personaggi = (f != null && f.personaggi != null) ? f.personaggi : new List<PersonaggioDef>();
                 }
                 return personaggi;
+            }
+        }
+
+        /// <summary>Configurazione audio (audio.json). Mai null: se il file manca ritorna una configurazione vuota.</summary>
+        public static AudioFile Audio
+        {
+            get
+            {
+                if (audio == null) audio = LoadJson<AudioFile>("audio") ?? new AudioFile();
+                return audio;
             }
         }
 
