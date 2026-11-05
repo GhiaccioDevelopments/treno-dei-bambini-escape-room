@@ -5,18 +5,24 @@ Regole d'uso: vedi la sezione "Diario e lavoro su più PC" in `CLAUDE.md`.
 
 ---
 
-## 2026-11-05 – PC scuola – Protocollo richieste e R001 (UI)
-**Branch:** main + `richiesta/R001-ui-spettacolare`
+## 2026-11-05 – PC scuola – Protocollo richieste, R001 (UI) e R002 (audio)
+**Branch:** main + `richiesta/R001-ui-spettacolare` + `richiesta/R002-audio-musica-violino`
 
 ### Fatto
 - Creato il protocollo per passare idee tra sessioni/PC: `Docs/richieste/README.md` + regola in `CLAUDE.md`.
 - Scritta la richiesta **R001 – UI spettacolare in stile antico** (PR in bozza): UI dinamica e "antica"
   (carta, ottone, ceralacca, timbri, biglietti del treno), effetti su pulsanti, prompt interagisci,
   inventario a valigia, HUD, toast, dialoghi, pausa, titolo, enigmi, transizioni, cutscene.
+- Scritta la richiesta **R002 – Effetti sonori e musica d'epoca** (PR in bozza): canali audio con slider,
+  musica con crossfade e ducking sotto le voci, **"Tema di Amerigo" originale per violino** con varianti,
+  ambienti di Napoli 1946, passi per superficie, effetti per enigmi e transizioni. Niente musica del film.
+
+### Domande aperte per l'utente (da R002)
+- Qualcuno può registrare il tema al violino dal vivo? Va bene usare canzoni napoletane di pubblico dominio?
 
 ### Prossimi passi (PC casa)
 - Prima chiudere e pubblicare il lavoro in corso (fase 2.5…), poi implementare R001 sul suo branch
-  seguendo `Docs/richieste/README.md`. Merge solo con l'ok dell'utente.
+  seguendo `Docs/richieste/README.md` (R001, poi R002). Merge solo con l'ok dell'utente.
 
 ---
 
