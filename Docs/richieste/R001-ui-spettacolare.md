@@ -232,7 +232,7 @@ Dopo ogni punto: `read_console`, zero errori, e prova nel Play Mode.
 - [ ] Zero errori in console, flashback delle scarpe giocabile dall'inizio alla fine.
 
 ## 9. Rapporto
-**Implementata da:** Claude Opus 5.5 (sottomente della sessione principale, senza Unity) · **Date:** 2026-11-05 · **Branch:** `richiesta-R001-fase2` (worktree `C:\Users\rosan\treno-richieste`), costruito sopra `feature/upgrade-realistico` @ 05e0274 · **Stato:** compila, **mai eseguito in Unity** (MCP spento, nessuna Library nel worktree).
+**Implementata da:** Claude Opus 5.5 (sottomente della sessione principale, senza Unity) · **Date:** 2026-11-05 · **Branch:** `richiesta-R001-fase2` (worktree `una cartella di lavoro separata`), costruito sopra `feature/upgrade-realistico` @ 05e0274 · **Stato:** compila, **mai eseguito in Unity** (MCP spento, nessuna Library nel worktree).
 
 ### Fatto (tutto in `Assets/_Game/Scripts/UI/Fx/` e nei file UI/Puzzles/Dialogue esistenti)
 - **Base:** `UITheme` (palette d'epoca, durate, interruttore Effetti ridotti), `UITween` (mini motore interno con pool, easing, ritardi, loop, annullamento per target, tempo *unscaled*, i tween si chiudono da soli se il bersaglio è distrutto), `UIFx` (scossa, oscillazione gentile, salto, girata X finta, spago), `Typewriter` (maxVisibleCharacters, rispetta i tag rich text, suono a tasti, campanello a fine testo lungo), `UIParticles` (pool fisso di 72 Image su Canvas annidato: polvere, inchiostro, scintille, coriandoli), `ButtonFx`, `PanelFx`.
