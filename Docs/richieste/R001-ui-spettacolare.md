@@ -216,39 +216,70 @@ pulsante **Indizio** a forma di lampadina/lente che si illumina quando l'indizio
 Dopo ogni punto: `read_console`, zero errori, e prova nel Play Mode.
 
 ## 8. Criteri di accettazione
-- [ ] Nessun pannello a colore piatto rimasto: tutta la UI usa i materiali del §4.
-- [ ] Ogni pulsante ha hover, pressione, rilascio animati e suono; funziona con mouse, touch e tastiera dove previsto.
-- [ ] Inventario con apertura a valigia, cartoline, dettaglio con retro, animazione "nuovo oggetto".
-- [ ] Prompt interagisci con indicatore nel mondo e cartellino animato.
-- [ ] Contatore enigmi a biglietto punzonato.
-- [ ] Toast, dialoghi, pausa, titolo, cutscene e tutti e 5 i tipi di enigma restilizzati e animati.
-- [ ] Transizione "Ricordo" nuova.
-- [ ] Opzione "Effetti ridotti" funzionante e salvata; attivazione automatica a fps bassi.
-- [ ] Animazioni funzionanti anche in pausa (`unscaledTime`) e mai bloccanti per l'input più di 0,5 s.
+- [x] (codice; da vedere in Unity) Nessun pannello a colore piatto rimasto: tutta la UI usa i materiali del §4.
+- [x] (codice; da provare) Ogni pulsante ha hover, pressione, rilascio animati e suono; funziona con mouse, touch e tastiera dove previsto.
+- [x] (codice; da provare) Inventario con apertura a valigia, cartoline, dettaglio con retro, animazione "nuovo oggetto".
+- [x] (codice; da provare) Prompt interagisci con indicatore nel mondo e cartellino animato.
+- [x] (codice; da provare) Contatore enigmi a biglietto punzonato.
+- [~] Toast, dialoghi, pausa, titolo, cutscene e i tipi quiz/lucchetto/ordina/abbina restilizzati e animati (nascosto: solo scintille + riga nel biglietto, niente lente) di enigma restilizzati e animati.
+- [x] (codice; da provare) Transizione "Ricordo" nuova.
+- [x] (codice; da provare) Opzione "Effetti ridotti" funzionante e salvata; attivazione automatica a fps bassi.
+- [x] (codice) Animazioni funzionanti anche in pausa (`unscaledTime`) e mai bloccanti per l'input più di 0,5 s.
 - [ ] Testi leggibili sulla LIM (dimensione minima del corpo ~24 px a 1280×720).
 - [ ] Build WebGL fluida (≥ 30 fps su un PC scolastico/Chromebook; annotare gli fps misurati nel Rapporto).
 - [ ] Dimensione build aumentata di meno di ~4 MB (annotare prima/dopo).
 - [ ] Font e suoni con licenza documentata (`Assets/_Game/Art/Licenze/` o simile) e crediti nel README.
 - [ ] Zero errori in console, flashback delle scarpe giocabile dall'inizio alla fine.
 
-## 9. Rapporto (da compilare da chi implementa)
-**Implementata da:** … · **Date:** … · **Commit finali:** …
+## 9. Rapporto
+**Implementata da:** Claude Opus 5.5 (sottomente della sessione principale, senza Unity) · **Date:** 2026-11-05 · **Branch:** `richiesta-R001-fase2` (worktree `C:\Users\rosan\treno-richieste`), costruito sopra `feature/upgrade-realistico` @ 05e0274 · **Stato:** compila, **mai eseguito in Unity** (MCP spento, nessuna Library nel worktree).
 
-### Fatto
-- …
+### Fatto (tutto in `Assets/_Game/Scripts/UI/Fx/` e nei file UI/Puzzles/Dialogue esistenti)
+- **Base:** `UITheme` (palette d'epoca, durate, interruttore Effetti ridotti), `UITween` (mini motore interno con pool, easing, ritardi, loop, annullamento per target, tempo *unscaled*, i tween si chiudono da soli se il bersaglio è distrutto), `UIFx` (scossa, oscillazione gentile, salto, girata X finta, spago), `Typewriter` (maxVisibleCharacters, rispetta i tag rich text, suono a tasti, campanello a fine testo lungo), `UIParticles` (pool fisso di 72 Image su Canvas annidato: polvere, inchiostro, scintille, coriandoli), `ButtonFx`, `PanelFx`.
+- **Texture procedurali** (`UIArt`): carta con bordo bruciacchiato, carta scura, cartellino manila, cartolina, quaderno, copertina, targa d'ottone, cornice d'ottone con ribattini, ceralacca, biglietto del treno, tasto da macchina da scrivere, cornice di timbro, slot tratteggiato, alone, vapore, scintilla, rombo, icone valigia/orologio/lente, grana di pellicola con graffi, righe del quaderno, iride (anche con bordo che brucia). Generate al volo e in cache, **zero file e zero peso** nella build. Menu **Treno ▸ UI ▸ Esporta anteprime texture** le salva in `Docs/richieste/media/R001/texture/` per guardarle.
+- **Suoni UI** (`UISfx`): 17 effetti **sintetizzati da codice** (hover, click ottone/carta/ceralacca, timbro, punzonatrice, tasti, campanello, valigia apre/chiude, whoosh, arpeggio di successo, errore gentile a due note basse, proiettore...). Nessun file, nessuna licenza. Volume = slider globale (AudioListener) × `UISfx.Volume` (aggancio per R002).
+- **UIFactory:** le chiamate esistenti producono già la UI nuova: nessun colore (o `Accento`) = targa d'ottone, `Marrone` = cartellino, altro colore = cartoncino tinto; nuovo overload con `ButtonStyle` esplicito (`Brass/Tag/Seal/Card/Ink`) e `recommended` (respiro). `MakePaper`, `MakeBrassFrame`, slider a leva d'ottone.
+- **UIRoot:** ogni layer è un Canvas annidato con il proprio raycaster (le animazioni di un layer non ricostruiscono gli altri; l'ordine segue la gerarchia, il fader è l'ultimo). HUD con dissolvenza in ingresso. Pulsanti **Valigia** e **Pausa** con icona.
+- **Interagisci:** `InteractPrompt` = cartellino appeso a uno spago che cade rimbalzando e dondola, tasto **E** da macchina da scrivere (assente su touch), testo che gira (flip) al cambio, E premuto = tasto che si abbassa; oggetti ricordo (`ItemPickup`, `Interactable.IsSpecial`) con cartellino dorato e scintille. **Rombo dorato** nel mondo 3D ancorato a `Interactable.MarkerPoint` (bounds del collider), nascosto se dietro la camera, con alone pulsante.
+- **Inventario:** valigia di cartone con cornice d'ottone che si apre, scomparti a cascata (0,04 s), **cartoline** storte ±3° che in hover si raddrizzano, si ingrandiscono e fanno parallasse col mouse, **slot vuoti tratteggiati con "?" e nome del luogo**, dettaglio con pulsante **Gira** (retro: significato + tema civico + timbro postale). **Nuovo oggetto:** a fine flashback (`GameManager.CompleteFlashback` -> `UIRoot.QueueNewItem`) la cartolina compare al centro, poi vola con scia di scintille sul pulsante Valigia, che sobbalza con "+1".
+- **HUD:** `TicketHud` = biglietto "NAPOLI -> RICORDO" con una casella per enigma, la punzonatrice buca la casella risolta (foro, scossa, coriandoli, suono). `EscapeRoomController` ora chiama `SetHudProgress(risolti, totale, extra)`; la vecchia `SetHudCounter(testo)` resta funzionante.
+- **Toast a telegramma** (`ToastStack`): fino a 3 impilati, testo a macchina, duplicati rinnovati invece di impilarsi.
+- **Dialoghi a lettera:** carta con titolo in ceralacca, testo a macchina (E/Spazio/click = completa, poi chiude), sigillo di ceralacca come pulsante principale, cartellino per Annulla; coda dei dialoghi rispettata durante l'animazione di chiusura.
+- **Pausa a quaderno** (copertina nera, pagina a righe con margine rosso, voci a inchiostro con sottolineatura che si disegna in hover, volume con leva d'ottone) con **Effetti ridotti** (salvato in `SaveData.effettiRidotti`; attivazione automatica se gli fps restano < 25 per 3 finestre da 2 s, con toast).
+- **Titolo:** lettere che cadono e si imprimono (con schiacciamento e tasto), passata di luce dorata, vapore e polvere che salgono, grana di pellicola, pulsanti a cascata; "Continua" (se c'è un salvataggio) o "Nuova partita" respira.
+- **Enigmi:** cornice d'ottone + numero romano + Indizio con lente; errore = oscillazione gentile + suono a due note basse + messaggio (nessun rosso aggressivo); successo = timbro **RISOLTO** che sbatte (scossa, polvere, inchiostro, suono) e poi la spiegazione a macchina. **Quiz:** cartoncini, timbro ESATTO sulla risposta giusta, la sbagliata oscilla e sbiadisce. **Lucchetto:** ruote che scorrono davvero con clic, arco che salta e si apre con luce dorata, codice sbagliato = scossa e ruote che tornano a zero. **Ordina:** vero **drag and drop** (mouse e touch) con ombra che si allunga e carte che si scostano; **senza Su/Giù** come da `Docs/BACKLOG.md`; per la tastiera si sceglie la carta col clic e si usano frecce Su/Giù o W/S; puntine di ceralacca sulle carte giuste. **Abbina:** spago rosso tra le coppie giuste, spago che cade se sbagliata. **Nascosto:** scintille dove si trova l'oggetto.
+- **Transizioni:** Fade = iride che si chiude; **Ricordo** = iride dal bordo che brucia, virata seppia, grana e graffi, suono di proiettore, uscita inversa; durante i flashback grana leggera + vignetta seppia (`Fader.SetFlashbackLook`, scene con `_FB_` nel nome). Senza shader.
+- **Cutscene:** bande nere che scendono, box a lettera con targhetta d'ottone per il nome, cornici d'ottone ai ritratti, ritratti che entrano con OutBack, indicatore "continua" che oscilla, scossa/tasti con `UITween`/`UIFx`.
 
 ### Scostamenti dalla specifica (e perché)
-- …
+- **Texture e suoni generati a runtime, non in editor e non come file**: non potendo aprire Unity non potevo lanciare un generatore e verificare i PNG; così non pesano nulla, sono riproducibili e a prova di LFS. Il menu **Treno ▸ UI ▸ Esporta anteprime texture** le rende visibili. Se l'utente li preferisce come asset, basta salvarli da lì.
+- **Font TMP (IM Fell / Special Elite ecc.) NON fatti**: servono download, controllo licenze e generazione dei TMP Font Asset da editor. Il codice usa il font di default di TMP; `UITheme` è il punto dove agganciarli.
+- **Cursore personalizzato (§6.12) NON fatto.** **Lente d'ingrandimento per l'enigma "nascosto" NON fatta** (resta la riga "Trovati n/m" sul biglietto + scintille).
+- **Cornici dei ritratti rettangolari** (angoli arrotondati) invece che ovali: l'ovale richiede una Mask (stencil) per ritratto.
+- **Valigia:** il "coperchio" è una targa d'ottone sul bordo, l'apertura è uno scale-Y con rimbalzo (niente rotazione 3D); sfondo del gioco scurito dal velo, non sfocato.
+- **Sigillo nei dialoghi/pannelli:** pulsanti principali di dialoghi e di "Avanti" sono ceralacca; "Gira"/"Chiudi"/"Indizio" cartellini.
+- **Punzonatrice/lock/spago** sono realizzati con sprite e tween (nessun shader custom, nessun asset da includere): `Fader` non usa più la vecchia `vignetta.png` (resta nel progetto, non più referenziata dal codice).
+- **Palette:** `UITheme` aggiunge i colori richiesti; `UIFactory.Carta/Inchiostro/...` restano per compatibilità.
 
 ### Domande aperte per l'utente
-- …
+- Font d'epoca: ok scaricare IM Fell English (titoli) + Special Elite (toast/biglietto) con licenze OFL/Apache e generare i TMP Font Asset? (richiede Unity attivo)
+- Cursore a pennino: lo vuole davvero anche in WebGL?
+- Le cornici dei ritratti vanno bene rettangolari o le vuole ovali (costo: una Mask per ritratto)?
+- La grana/vignetta fissa nei flashback le piace, o troppo?
 
-### Come testare
-1. …
+### Come testare (in Unity, appena MCP è acceso)
+1. Aprire il progetto, **read_console**: devono sparire tutti gli errori di compilazione; creare i `.meta` dei nuovi file (Unity li genera da solo).
+2. Menu **Treno ▸ UI ▸ Esporta anteprime texture** e guardare i PNG in `Docs/richieste/media/R001/texture/` (carta, ottone, ceralacca, biglietto: sono la parte più "a gusto").
+3. Play dal titolo (`01_Titolo`): titolo che si stampa, vapore, pulsanti a cascata, suoni (la prima volta che si muove il mouse parte l'audio; in WebGL serve un click prima).
+4. Nuova partita -> vicolo: avvicinarsi a un'interagibile (rombo dorato + cartellino che cade), premere E, aprire Valigia (I) e Pausa (Esc), passare col mouse sulle cartoline e sui pulsanti, alternare "Effetti ridotti".
+5. Entrare nel flashback delle scarpe (transizione Ricordo con pellicola che brucia): giocare i 4 enigmi (quiz, oggetti nascosti, **ordina trascinando**, lucchetto), sbagliare apposta (feedback gentile), controllare il biglietto che si buca; cutscene finale; ritorno nel vicolo con la cartolina "Le scarpe" che vola nella valigia.
+6. Misure ancora da fare: fps in editor, **build WebGL** e fps su Chromebook/LIM, peso build prima/dopo (atteso: ~0 MB di asset, solo codice), nessuna allocazione per frame (profiler).
+7. Rischi da controllare con gli occhi: leggibilità del testo sulla LIM (corpo >= 24 px), proporzioni dei 9-slice, sovrapposizione del cartellino con altri elementi in basso, draw order dei layer (il fader deve coprire tutto, le particelle stanno sotto il fader), clic sui pulsanti dentro ai Canvas annidati (ogni layer interattivo ha il suo `GraphicRaycaster`).
 
 ### Misure
-- fps (PC / Chromebook / LIM): …
-- dimensione build prima → dopo: …
+- Compilazione: `dotnet build` su csproj generato da Unity puntati ai sorgenti del worktree (Assembly-CSharp + Assembly-CSharp-Editor): **0 errori, 0 avvisi nuovi**. Nessun test eseguito in editor.
+- fps (PC / Chromebook / LIM): **non misurato**.
+- dimensione build prima -> dopo: **non misurata** (nessun asset nuovo).
 
 ### Media
-- `Docs/richieste/media/R001/…`
+- `Docs/richieste/media/R001/…` (da generare con il menu Treno ▸ UI ▸ Esporta anteprime texture; nessuno screenshot disponibile senza Unity).
