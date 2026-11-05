@@ -39,6 +39,8 @@ namespace TrenoBambini.World
             }
         }
 
+        public override bool IsSpecial { get { return !Collected; } }
+
         public override string GetPrompt()
         {
             if (currentPrompt == null) Refresh();

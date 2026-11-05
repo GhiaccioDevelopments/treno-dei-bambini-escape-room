@@ -116,9 +116,7 @@ namespace TrenoBambini.Puzzles
         void UpdateHud(int solved)
         {
             if (UIRoot.I == null) return;
-            string t = "Enigmi: " + solved + "/" + stations.Count;
-            if (!string.IsNullOrEmpty(extraHud)) t += "  |  " + extraHud;
-            UIRoot.I.SetHudCounter(t);
+            UIRoot.I.SetHudProgress(solved, stations.Count, extraHud);
         }
 
         /// <summary>Testo extra nell'HUD (es. progressi dell'enigma "nascosto"). Vuoto = nessuno.</summary>

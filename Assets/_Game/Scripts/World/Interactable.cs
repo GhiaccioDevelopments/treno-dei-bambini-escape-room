@@ -11,6 +11,19 @@ namespace TrenoBambini.World
         public string prompt;
         public virtual bool CanInteract { get { return true; } }
         public virtual string GetPrompt() { return prompt; }
+        /// <summary>Oggetto speciale (es. ricordo da vivere): il prompt ha bordo dorato e scintille.</summary>
+        public virtual bool IsSpecial { get { return false; } }
+
+        /// <summary>Punto nel mondo sopra l'oggetto dove ancorare il rombo dorato dell'indicatore.</summary>
+        public Vector3 MarkerPoint
+        {
+            get
+            {
+                if (!colSearched) { col = GetComponentInChildren<Collider>(); colSearched = true; }
+                if (col != null) { var b = col.bounds; return new Vector3(b.center.x, b.max.y + 0.35f, b.center.z); }
+                return transform.position + Vector3.up * 1.8f;
+            }
+        }
         public abstract void Interact();
 
         Collider col;

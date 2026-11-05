@@ -16,6 +16,7 @@ namespace TrenoBambini.Core
         public string ritornoScena = "";
         public string ritornoSpawn = "";
         public float volume = 1f;
+        public bool effettiRidotti; // R001: UI senza tremolii/particelle (accessibilità o PC lento)
     }
 
     /// <summary>Salvataggio su PlayerPrefs (chiave treno_save, JSON).</summary>

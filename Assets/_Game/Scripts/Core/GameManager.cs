@@ -134,6 +134,7 @@ namespace TrenoBambini.Core
             if (o != null && !string.IsNullOrEmpty(o.flashback) && !s.flashbackCompletati.Contains(o.flashback))
                 s.flashbackCompletati.Add(o.flashback);
             SaveGame();
+            if (UIRoot.I != null) UIRoot.I.QueueNewItem(oggettoId); // animazione "nuovo oggetto" al ritorno nel vicolo
 
             string cutsceneId = o != null ? o.cutscene : null;
             if (!string.IsNullOrEmpty(cutsceneId) && UIRoot.I != null && UIRoot.I.Cutscene != null)
