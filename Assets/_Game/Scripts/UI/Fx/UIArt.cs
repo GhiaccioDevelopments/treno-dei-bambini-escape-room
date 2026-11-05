@@ -544,5 +544,15 @@ namespace TrenoBambini.UI.Fx
             ruledTex.Apply(false, true);
             return ruledTex;
         }
+
+        /// <summary>Genera tutte le sprite (per l'esportazione delle anteprime da editor).</summary>
+        public static void WarmUp()
+        {
+            Paper(); PaperDark(); Tag(); Postcard(); Notebook(); Cover(); Brass(); BrassFrame(); Seal(); Ticket(); KeyCap();
+            StampFrame(); DashedFrame(); White(); Glow(); Smoke(); Spark(); Diamond(); IconSuitcase(); IconWatch(); IconLens();
+            Iris(false); Iris(true); Vignette(new Color(0.2f, 0.1f, 0.03f));
+        }
+
+        public static IEnumerable<Sprite> AllSprites() { return cache.Values; }
     }
 }

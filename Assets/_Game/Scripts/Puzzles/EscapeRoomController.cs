@@ -89,6 +89,13 @@ namespace TrenoBambini.Puzzles
 
         bool IsSolved(EnigmaDef e) { return GameManager.I.Save.enigmiRisolti.Contains(Key(e)); }
 
+        /// <summary>Posizione (0..n-1) dell enigma nel flashback, -1 se sconosciuto. Serve al numero romano nel titolo del pannello.</summary>
+        public int IndexOfEnigma(EnigmaDef d)
+        {
+            for (int i = 0; i < stations.Count; i++) if (stations[i].def == d) return i;
+            return -1;
+        }
+
         int CountSolved()
         {
             int c = 0;

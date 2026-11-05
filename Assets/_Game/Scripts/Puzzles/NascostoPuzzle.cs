@@ -1,6 +1,7 @@
 using System;
 using TrenoBambini.Data;
 using TrenoBambini.UI;
+using TrenoBambini.UI.Fx;
 using TrenoBambini.World;
 using UnityEngine;
 
@@ -77,6 +78,13 @@ namespace TrenoBambini.Puzzles
             if (finished || h == null) return;
             if (UIRoot.I != null && h.item != null)
                 UIRoot.I.Toast(h.item.nome + ": " + h.item.descrizione, 4.5f);
+            // scintille dorate dove l'oggetto è stato trovato
+            UISfx.Play(Sfx.Sparkle, 0.8f);
+            if (Camera.main != null)
+            {
+                Vector3 sp = Camera.main.WorldToScreenPoint(h.transform.position);
+                if (sp.z > 0f) UIParticles.BurstAtScreen(ParticleKind.Spark, sp, 10);
+            }
             Destroy(h.gameObject);
             found++;
             if (found >= total) Complete();
