@@ -130,6 +130,9 @@ namespace TrenoBambini.Puzzles
         /// <summary>Hook per aggiornare il contenuto quando l'enigma è risolto.</summary>
         protected virtual void OnSolvedVisual() { }
         protected virtual void OnUpdate() { }
+        /// <summary>Se true, Esc non chiude il pannello (es. animazione di vittoria in corso).</summary>
+        protected virtual bool BlockEscape { get { return false; } }
+        protected bool IsClosed { get { return closed; } }
 
         void Update()
         {
@@ -137,6 +140,7 @@ namespace TrenoBambini.Puzzles
             var kb = Keyboard.current;
             if (kb != null && kb.escapeKey.wasPressedThisFrame)
             {
+                if (BlockEscape) return;
                 if (solved) FinishSolved(); else Close();
                 return;
             }

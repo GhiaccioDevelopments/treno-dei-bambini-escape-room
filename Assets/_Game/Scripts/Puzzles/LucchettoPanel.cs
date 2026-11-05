@@ -197,7 +197,7 @@ namespace TrenoBambini.Puzzles
                 glow.sprite = UIArt.Glow();
                 UIFactory.Stretch(glow.rectTransform, -60f, -60f, -60f, -60f);
                 UITween.Fade(glow, 0.55f, 0.3f);
-                UITween.After(this, 0.5f, () => { locked = false; Solved("Clic! Il lucchetto si apre."); });
+                UITween.After(this, 0.5f, () => { locked = false; if (!IsClosed) Solved("Clic! Il lucchetto si apre."); });
             }
             else
             {
@@ -226,6 +226,8 @@ namespace TrenoBambini.Puzzles
             }
             locked = false;
         }
+
+        protected override bool BlockEscape { get { return locked; } } // niente Esc durante l'apertura: l'enigma deve risultare risolto
 
         protected override void OnUpdate()
         {
