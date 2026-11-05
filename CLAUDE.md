@@ -4,6 +4,11 @@ Gioco educativo (Educazione Civica, **secondaria di 2° grado**) ispirato al rom
 "Il treno dei bambini" di Viola Ardone (2019) e al film di Cristina Comencini (2024).
 Protagonista: Amerigo Speranza, Napoli 1946.
 
+## Trama (riferimento obbligatorio)
+- **`Docs/TRAMA.md`** è la bibbia narrativa (trama di libro e film, cronologia, personaggi, oggetti, temi,
+  guida ai dialoghi, proposta per il gioco). Leggerla e seguirla **prima di ogni lavoro** su storia,
+  personaggi, ambienti, dialoghi, enigmi o cutscene. Se un lavoro la contraddice, segnalarlo all'utente.
+
 ## Regole fisse
 - **Unity 6.6 (6000.6.7f1)**, **3D URP**, **terza persona** (camera che segue Amerigo), C#.
   Decisione dell'utente (2026-11-03): il gioco è 3D, NON 2D (sostituisce "2D top-down/tilemap" del brief).
@@ -18,6 +23,9 @@ Protagonista: Amerigo Speranza, Napoli 1946.
 - **Amerigo (obbligatorio)**: capelli divisi verticalmente, lato sinistro castano scuro, lato destro
   rosso ramato naturale (non fluo). Vale anche per Amerigo adulto. Bambino magro (~7 anni), vestiti
   logori e rattoppati, scarpe rotte all'inizio.
+- **Due personaggi Amerigo** (decisione 2026-11-05): nel presente a Napoli (hub) il giocatore è **Amerigo adulto**,
+  tornato a Napoli per la morte della madre; nei **flashback** è **Amerigo bambino** (~7 anni, 1946).
+  Sono due modelli distinti, entrambi con i capelli divisi castano/ramato.
 - Lavoro nell'editor **solo tramite MCP for Unity** (server HTTP `127.0.0.1:8080`).
   Se la connessione cade: fermarsi e chiedere all'utente di riavviare il server
   (Window ▸ MCP for Unity ▸ Start Server, poi `/mcp` ▸ Reconnect).

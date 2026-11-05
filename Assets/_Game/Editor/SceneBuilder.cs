@@ -241,7 +241,16 @@ namespace TrenoBambini.EditorTools
             // punto di montaggio del modello: la 2.5 mette qui l'FBX di Amerigo (con Animator); per ora il segnaposto
             var modello = new GameObject(ThirdPersonController.ModelloName).transform;
             modello.SetParent(p.transform, false);
-            BuildAmerigoModel(modello);
+            var amerigoPrefab = PersonaggiBuilder.LoadAmerigoPrefab();
+            if (amerigoPrefab != null)
+            {
+                // modello definitivo (2.5): prefab FBX Humanoid con Animator; nessun collider sul modello
+                var corpo = (GameObject)PrefabUtility.InstantiatePrefab(amerigoPrefab, modello);
+                corpo.name = "Amerigo_Mesh";
+                corpo.transform.localPosition = Vector3.zero;
+                corpo.transform.localRotation = Quaternion.identity;
+            }
+            else BuildAmerigoModel(modello);
             p.AddComponent<ThirdPersonController>();
             p.AddComponent<PlayerInteractor>();
             // punto mirato dalla camera (petto/testa del bambino)
