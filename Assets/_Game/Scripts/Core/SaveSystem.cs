@@ -16,6 +16,8 @@ namespace TrenoBambini.Core
         public string ritornoScena = "";
         public string ritornoSpawn = "";
         public float volume = 1f;
+        // R002: canali audio (1 = livello di base di audio.json). I salvataggi vecchi non li hanno: restano a 1.
+        public float volMusica = 1f, volAmbiente = 1f, volEffetti = 1f, volVoci = 1f;
         public bool effettiRidotti; // R001: UI senza tremolii/particelle (accessibilità o PC lento)
     }
 

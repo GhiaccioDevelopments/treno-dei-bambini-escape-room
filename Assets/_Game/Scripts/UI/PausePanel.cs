@@ -1,4 +1,5 @@
 using TMPro;
+using TrenoBambini.Audio;
 using TrenoBambini.Core;
 using TrenoBambini.UI.Fx;
 using UnityEngine;
@@ -13,7 +14,7 @@ namespace TrenoBambini.UI
 
         GameObject view;
         PanelFx fx;
-        Slider volume;
+        Slider volume, music, ambient, effects, voices;
         Button reduceBtn;
 
         void Awake()
@@ -54,26 +55,45 @@ namespace TrenoBambini.UI
             var vl = UIFactory.AddVLayout(content.gameObject, 8f);
             vl.padding = new RectOffset(0, 0, 10, 10);
 
-            var title = UIFactory.MakeText(content, "Pausa", 48, UITheme.InchiostroBlu, TextAlignmentOptions.Center, FontStyles.Bold | FontStyles.Italic);
-            Add(title, 440f, 70f);
-            Add(Item(content, "Riprendi", Hide), 440f, 60f);
-            Add(Item(content, "Valigia", () => { if (UIRoot.I != null) UIRoot.I.Inventory.Show(); }), 440f, 60f);
+            var title = UIFactory.MakeText(content, "Pausa", 42, UITheme.InchiostroBlu, TextAlignmentOptions.Center, FontStyles.Bold | FontStyles.Italic);
+            Add(title, 440f, 54f);
+            Add(Item(content, "Riprendi", Hide), 440f, 48f);
+            Add(Item(content, "Valigia", () => { if (UIRoot.I != null) UIRoot.I.Inventory.Show(); }), 440f, 48f);
 
-            Add(UIFactory.MakeText(content, "Volume", 26, UITheme.Inchiostro, TextAlignmentOptions.Center), 440f, 34f);
-            volume = UIFactory.MakeSlider(content, 1f, OnVolume, new Vector2(400f, 46f));
-            Add(volume, 400f, 46f);
+            // R002: volume generale + quattro canali, una riga per slider (etichetta a sinistra)
+            volume = SliderRow(content, "Generale", OnVolume);
+            music = SliderRow(content, "Musica", v => OnChannel(AudioChannel.Musica, v));
+            ambient = SliderRow(content, "Ambiente", v => OnChannel(AudioChannel.Ambiente, v));
+            effects = SliderRow(content, "Effetti", v => OnChannel(AudioChannel.Effetti, v));
+            voices = SliderRow(content, "Voci", v => OnChannel(AudioChannel.Voci, v));
 
             reduceBtn = Item(content, "", OnToggleReduce);
-            Add(reduceBtn, 440f, 60f);
-            Add(Item(content, "Salva", OnSave), 440f, 60f);
-            Add(Item(content, "Torna al titolo", OnTitle), 440f, 60f);
+            Add(reduceBtn, 440f, 48f);
+            Add(Item(content, "Salva", OnSave), 440f, 48f);
+            Add(Item(content, "Torna al titolo", OnTitle), 440f, 48f);
 
             view.SetActive(false);
         }
 
         static Button Item(Transform parent, string label, UnityEngine.Events.UnityAction cb)
         {
-            return UIFactory.MakeButton(parent, label, cb, new Vector2(440f, 60f), ButtonStyle.Ink, 32f);
+            return UIFactory.MakeButton(parent, label, cb, new Vector2(440f, 48f), ButtonStyle.Ink, 28f);
+        }
+
+        static Slider SliderRow(Transform parent, string label, UnityEngine.Events.UnityAction<float> onChange)
+        {
+            var row = UIFactory.NewRect("Riga_" + label, parent);
+            row.sizeDelta = new Vector2(440f, 36f);
+            var h = row.gameObject.AddComponent<HorizontalLayoutGroup>();
+            h.spacing = 8f;
+            h.childAlignment = TextAnchor.MiddleCenter;
+            h.childControlWidth = false; h.childControlHeight = false;
+            h.childForceExpandWidth = false; h.childForceExpandHeight = false;
+            var t = UIFactory.MakeText(row, label, 24, UITheme.Inchiostro, TextAlignmentOptions.MidlineLeft);
+            Add(t, 130f, 36f);
+            var s = UIFactory.MakeSlider(row, 1f, onChange, new Vector2(290f, 36f));
+            Add(s, 290f, 36f);
+            return s;
         }
 
         static void Add(Component c, float w, float h)
@@ -91,7 +111,13 @@ namespace TrenoBambini.UI
             if (IsOpen) return;
             IsOpen = true;
             if (GameManager.I != null) GameManager.I.PushBlock();
-            volume.SetValueWithoutNotify(AudioManager.I != null ? AudioManager.I.Volume : 1f);
+            var am = AudioManager.I;
+            volume.SetValueWithoutNotify(am != null ? am.Volume : 1f);
+            music.SetValueWithoutNotify(am != null ? am.GetChannel(AudioChannel.Musica) : 1f);
+            ambient.SetValueWithoutNotify(am != null ? am.GetChannel(AudioChannel.Ambiente) : 1f);
+            effects.SetValueWithoutNotify(am != null ? am.GetChannel(AudioChannel.Effetti) : 1f);
+            voices.SetValueWithoutNotify(am != null ? am.GetChannel(AudioChannel.Voci) : 1f);
+            if (am != null) am.Music.SetPaused(true); // la musica scende al 30% senza fermarsi
             RefreshReduceLabel();
             transform.SetAsLastSibling();
             fx.Show();
@@ -101,6 +127,7 @@ namespace TrenoBambini.UI
         {
             if (!IsOpen) return;
             IsOpen = false;
+            if (AudioManager.I != null) AudioManager.I.Music.SetPaused(false);
             fx.Hide();
             if (GameManager.I != null) GameManager.I.PopBlock();
         }
@@ -108,6 +135,11 @@ namespace TrenoBambini.UI
         void OnVolume(float v)
         {
             if (AudioManager.I != null) AudioManager.I.SetVolume(v);
+        }
+
+        void OnChannel(AudioChannel ch, float v)
+        {
+            if (AudioManager.I != null) AudioManager.I.SetChannel(ch, v);
         }
 
         void OnToggleReduce()
