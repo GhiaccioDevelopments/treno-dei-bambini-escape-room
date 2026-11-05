@@ -236,5 +236,8 @@ Nessun slot vuoto in `audio.json` (tutti gli id hanno la sintesi). Da sostituire
 ### Come testare
 1. Aprire il progetto, `read_console` pulita. 2. Titolo: violino solo. Entrare nel vicolo: mandolino basso, ambiente, suoni sparsi, passi su pietra. Basso di Antonietta: passi su legno, quasi silenzio. 3. Raccogliere le scarpe: transizione di ricordo, tema "ricordo", passi ovattati. Risolvere un enigma: timbro + stinger. 4. Pausa: 5 slider; musica scende. 5. Cutscene: la musica si abbassa quando parla una voce. 6. Build WebGL: nessun audio fino al primo clic.
 
+### Problema aperto: sintesi musicale sul thread principale
+- La sintesi dei brani (`MusicSynth.Render`) e una coroutine che cede il controllo a tempo (`Over(sw)`), ma il calcolo gira comunque sul thread principale: durante la costruzione di un brano il frame cala e puo scattare, soprattutto in WebGL e sui PC scolastici (il tema ricordo e il piu pesante). **Non e asincrona nel senso di non bloccare il frame.** In attesa di una decisione dell'utente (registrazioni vere, pre-rendering a editor-time in file, oppure budget per frame piu basso). Intanto il monitor FPS di R001 e sospeso mentre `AudioLibrary.IsBuilding` e vero, cosi il calo non attiva per errore gli effetti ridotti.
+
 ### Misure
-- Peso build: nessun asset aggiunto (0 byte); memoria: tema ricordo ~7 MB di PCM in RAM quando suona; sintesi dei brani asincrona (qualche secondo senza bloccare il frame), ambienti 10-16 s sintetizzati in pochi ms.
+- Peso build: nessun asset aggiunto (0 byte); memoria: tema ricordo ~7 MB di PCM in RAM quando suona; ambienti 10-16 s sintetizzati in pochi ms.
