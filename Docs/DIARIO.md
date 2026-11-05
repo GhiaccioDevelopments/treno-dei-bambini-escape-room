@@ -5,6 +5,21 @@ Regole d'uso: vedi la sezione "Diario e lavoro su più PC" in `CLAUDE.md`.
 
 ---
 
+## 2026-11-05 – PC scuola – Protocollo richieste e R001 (UI)
+**Branch:** main + `richiesta/R001-ui-spettacolare`
+
+### Fatto
+- Creato il protocollo per passare idee tra sessioni/PC: `Docs/richieste/README.md` + regola in `CLAUDE.md`.
+- Scritta la richiesta **R001 – UI spettacolare in stile antico** (PR in bozza): UI dinamica e "antica"
+  (carta, ottone, ceralacca, timbri, biglietti del treno), effetti su pulsanti, prompt interagisci,
+  inventario a valigia, HUD, toast, dialoghi, pausa, titolo, enigmi, transizioni, cutscene.
+
+### Prossimi passi (PC casa)
+- Prima chiudere e pubblicare il lavoro in corso (fase 2.5…), poi implementare R001 sul suo branch
+  seguendo `Docs/richieste/README.md`. Merge solo con l'ok dell'utente.
+
+---
+
 ## 2026-11-05 – PC scuola – Release v0.1 e avvio del diario
 **Branch:** main · **Ultimo commit su GitHub prima di oggi:** 4fd38aa (3/11)
 

@@ -91,6 +91,10 @@ dove sono state create: **l'unica memoria condivisa è `Docs/DIARIO.md`**, che v
   release e build su `gh-pages` restano su conferma dell'utente.
 - Se il push fallisce perché il remoto è avanti: `git pull --rebase`, risolvere, ripetere il push.
 - Il repository è pubblico: nel diario niente dati personali, nomi di persone reali, password o token.
+- **Richieste da altre sessioni:** idee dell'utente raccolte su un PC e da implementare su un altro arrivano
+  come PR in bozza `[RNNN] ...` su branch `richiesta/...`, con la specifica in `Docs/richieste/`.
+  Protocollo completo in `Docs/richieste/README.md`. A inizio sessione: `gh pr list --draft` e segnalare
+  all'utente le richieste aperte; implementarle **solo dopo** aver chiuso e pubblicato il lavoro in corso.
 
 Formato voce:
 ```
