@@ -1,0 +1,25 @@
+PROSSIMO PROMPT DA SCRIVERE A CLAUDE CODE
+==========================================
+
+--- STASERA AL PC DI CASA (solo la prima volta) ---
+Apri Claude Code nella cartella del progetto e scrivi:
+
+fai commit di tutto il lavoro non salvato, poi git pull --rebase e git push. Poi leggi CLAUDE.md e Docs/DIARIO.md e aggiungi una voce al diario con tutto quello che avevamo fatto nell'ultima sessione. Infine crea la release con tutti i cambiamenti e aggiorna la build su gh-pages.
+
+
+--- QUANDO HAI FINITO IL LAVORO IN CORSO (fase 2.5 ecc.) ---
+Per far eseguire le migliorie preparate a scuola (pull request "richiesta"):
+
+implementa le richieste aperte (gh pr list --draft) seguendo Docs/richieste/README.md, in ordine: R001, R002, R003
+
+
+--- DA LI' IN POI, SU QUALSIASI PC ---
+All'inizio:
+leggi il diario e continua
+
+Alla fine (prima di chiudere!):
+ho finito, aggiorna il diario e fai push
+
+
+--- SUL PC DELLA SCUOLA, PRIMA DI ANDARE VIA ---
+! gh auth logout

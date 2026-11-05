@@ -116,9 +116,41 @@ Namespace: `TrenoBambini.<Area>` (es. `TrenoBambini.Core`).
 
 ## Git
 - `main` sempre funzionante; ogni fase/oggetto su branch dedicato (`feature/...`), merge solo dopo test.
-- Commit piccoli, messaggi in italiano. Tag a fine fase (v0.1, v0.2…), **push solo dopo conferma dell'utente**.
+- Commit piccoli, messaggi in italiano. Tag a fine fase (v0.1, v0.2…), **push solo dopo conferma dell'utente**
+  (eccezione: il push del lavoro in corso sul branch corrente, vedi "Diario e lavoro su più PC").
 - Build WebGL su branch `gh-pages` (compressione Gzip + Decompression Fallback).
 - Remote: `GhiaccioDevelopments/treno-dei-bambini-escape-room` (pubblico). Mai token/password/dati personali.
+
+## Diario e lavoro su più PC
+L'utente lavora da più computer (PC di casa, PC della scuola). Chat e memorie di Claude restano sul PC
+dove sono state create: **l'unica memoria condivisa è `Docs/DIARIO.md`**, che viaggia con il repository.
+- **Inizio sessione**: `git pull`, poi leggere le ultime voci di `Docs/DIARIO.md` e `git log -10`.
+  Se il diario segnala lavoro rimasto su un altro PC, ricordarlo all'utente prima di iniziare.
+- **Durante la sessione**: dopo ogni blocco di lavoro importante, commit.
+- **Fine sessione** (l'utente saluta, dice che ha finito o che cambia PC) e comunque prima di risposte
+  lunghe di chiusura: aggiungere in cima al diario una voce nel formato sotto, commit e **push sul branch
+  corrente** senza chiedere conferma (serve a non lasciare lavoro bloccato su un PC). Merge su `main`, tag,
+  release e build su `gh-pages` restano su conferma dell'utente.
+- Se il push fallisce perché il remoto è avanti: `git pull --rebase`, risolvere, ripetere il push.
+- Il repository è pubblico: nel diario niente dati personali, nomi di persone reali, password o token.
+- **Richieste da altre sessioni:** idee dell'utente raccolte su un PC e da implementare su un altro arrivano
+  come PR in bozza `[RNNN] ...` su branch `richiesta/...`, con la specifica in `Docs/richieste/`.
+  Protocollo completo in `Docs/richieste/README.md`. A inizio sessione: `gh pr list --draft` e segnalare
+  all'utente le richieste aperte; implementarle **solo dopo** aver chiuso e pubblicato il lavoro in corso.
+
+Formato voce:
+```
+## AAAA-MM-GG – PC <casa|scuola> – <titolo breve>
+**Branch:** <branch> · **Ultimo commit:** <hash breve>
+### Fatto
+- ...
+### Decisioni
+- ...
+### Problemi aperti
+- ...
+### Prossimi passi
+- ...
+```
 
 ## Stato fasi
 - Fase 1 (v0.1): hub vicolo, basso di Antonietta, oggetto **Le scarpe** (4 enigmi + cutscene),
