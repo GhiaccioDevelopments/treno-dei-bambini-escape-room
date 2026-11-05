@@ -227,13 +227,19 @@ namespace TrenoBambini.EditorTools
 
         static GameObject BuildPlayer(Vector3 pos, float yaw, Camera cam, CamProfilo profilo = CamProfilo.Esterno, bool adulto = false)
         {
+            // se manca il prefab dell'adulto si ripiega sul bambino: capsula, camera e velocità restano coerenti col modello usato
+            var prefabAdulto = adulto ? PersonaggiBuilder.LoadAmerigoAdultoPrefab() : null;
+            if (adulto && prefabAdulto == null)
+                Debug.LogWarning("[SceneBuilder] Prefab di Amerigo adulto mancante: uso il bambino (esegui Treno > Personaggi > Configura import Amerigo adulto).");
+            bool usaAdulto = adulto && prefabAdulto != null;
+            if (!usaAdulto && profilo == CamProfilo.InternoPiccoloAdulto) profilo = CamProfilo.InternoPiccolo;
             var p = new GameObject("Amerigo");
             p.tag = "Player";
             p.transform.SetPositionAndRotation(pos, Quaternion.Euler(0f, yaw, 0f));
             // bambino di ~7 anni: capsula 1.2 m, raggio 22 cm. Adulto (presente, hub): 1.75 m, raggio 28 cm
             var cc = p.AddComponent<CharacterController>();
-            cc.height = adulto ? 1.75f : 1.2f;
-            cc.radius = adulto ? 0.28f : 0.22f;
+            cc.height = usaAdulto ? 1.75f : 1.2f;
+            cc.radius = usaAdulto ? 0.28f : 0.22f;
             cc.center = new Vector3(0f, cc.height * 0.5f, 0f);
             cc.stepOffset = 0.2f;
             cc.slopeLimit = 45f;
@@ -241,7 +247,7 @@ namespace TrenoBambini.EditorTools
             // punto di montaggio del modello: la 2.5 mette qui l'FBX di Amerigo (con Animator); per ora il segnaposto
             var modello = new GameObject(ThirdPersonController.ModelloName).transform;
             modello.SetParent(p.transform, false);
-            var amerigoPrefab = (adulto ? PersonaggiBuilder.LoadAmerigoAdultoPrefab() : null) ?? PersonaggiBuilder.LoadAmerigoPrefab();
+            var amerigoPrefab = usaAdulto ? prefabAdulto : PersonaggiBuilder.LoadAmerigoPrefab();
             if (amerigoPrefab != null)
             {
                 // modello definitivo (2.5): prefab FBX Humanoid con Animator; nessun collider sul modello
@@ -253,13 +259,13 @@ namespace TrenoBambini.EditorTools
             else BuildAmerigoModel(modello);
             var tpc = p.AddComponent<ThirdPersonController>();
             // velocità di gioco e velocità di riferimento delle clip Mixamo (misurate) per personaggio: i piedi non scivolano
-            if (adulto) { tpc.walkSpeed = 1.4f; tpc.runSpeed = 3.2f; tpc.clipWalkSpeed = 1.2f; tpc.clipRunSpeed = 1.9f; }
+            if (usaAdulto) { tpc.walkSpeed = 1.4f; tpc.runSpeed = 3.2f; tpc.clipWalkSpeed = 1.2f; tpc.clipRunSpeed = 1.9f; }
             else { tpc.walkSpeed = 1.1f; tpc.runSpeed = 2.7f; tpc.clipWalkSpeed = 0.46f; tpc.clipRunSpeed = 1.15f; }
             p.AddComponent<PlayerInteractor>();
             // punto mirato dalla camera (petto/testa del bambino)
             var punto = new GameObject("PuntoCamera").transform;
             punto.SetParent(p.transform, false);
-            punto.localPosition = new Vector3(0f, adulto ? 1.45f : 1.0f, 0f);
+            punto.localPosition = new Vector3(0f, usaAdulto ? 1.45f : 1.0f, 0f);
 
             if (cam != null) BuildCameraRig(cam, p.transform, punto, yaw, profilo);
             AssegnaLayerVistaLibera(p.scene);

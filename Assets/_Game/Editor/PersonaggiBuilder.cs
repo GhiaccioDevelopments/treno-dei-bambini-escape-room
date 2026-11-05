@@ -20,8 +20,9 @@ namespace TrenoBambini.EditorTools
         const float RootHeightPlaceholder = 0.55f; // altezza anca di un bambino di 1,2 m (unità avatar)
         const string PlaceholderFolder = AnimFolder + "/Segnaposto";
 
-        // soglie del blend tree: Speed01 mappato in ThirdPersonController (walk = 0.475)
-        const float WalkThreshold = 0.475f;
+        // soglie del blend tree: Speed01 mappato in ThirdPersonController (costante condivisa col runtime)
+        const float WalkThreshold = TrenoBambini.Player.ThirdPersonController.WalkBlendThreshold;
+        const string LfsMarker = "version https://git-lfs";
 
         [MenuItem("Treno/Personaggi/Aggiorna animazioni")]
         public static void AggiornaAnimazioni()
@@ -42,9 +43,19 @@ namespace TrenoBambini.EditorTools
             if (Find("Walk") != null) found.Add("Walk");
             if (Find("Run") != null) found.Add("Run");
 
-            // se il controller esiste lo ricostruiamo da zero (generato, quindi riproducibile)
-            if (File.Exists(AmerigoController)) AssetDatabase.DeleteAsset(AmerigoController);
-            var ctrl = AnimatorController.CreateAnimatorControllerAtPath(AmerigoController);
+            // il controller è generato (riproducibile): se esiste lo svuotiamo e lo ricostruiamo NELLO STESSO asset,
+            // così il GUID resta stabile e i prefab/scene che lo referenziano non perdono il collegamento
+            var ctrl = File.Exists(AmerigoController) ? AssetDatabase.LoadAssetAtPath<AnimatorController>(AmerigoController) : null;
+            if (ctrl != null)
+            {
+                ctrl.layers = new AnimatorControllerLayer[0];
+                ctrl.parameters = new AnimatorControllerParameter[0];
+                // sotto-asset orfani (state machine, stati, blend tree della versione precedente)
+                foreach (var sub in AssetDatabase.LoadAllAssetsAtPath(AmerigoController))
+                    if (sub != null && sub != ctrl) Object.DestroyImmediate(sub, true);
+                ctrl.AddLayer("Base Layer");
+            }
+            else ctrl = AnimatorController.CreateAnimatorControllerAtPath(AmerigoController);
             ctrl.AddParameter("Speed", AnimatorControllerParameterType.Float);
             ctrl.AddParameter("MotionSpeed", AnimatorControllerParameterType.Float);
             ctrl.AddParameter("Grounded", AnimatorControllerParameterType.Bool);
@@ -106,7 +117,8 @@ namespace TrenoBambini.EditorTools
             foreach (var c in clips)
             {
                 if (c.loopTime != loop) { c.loopTime = loop; changed = true; }
-                if (!c.lockRootRotation || !c.lockRootHeightY || !c.lockRootPositionXZ || !c.keepOriginalPositionY) changed = true;
+                if (!c.lockRootRotation || !c.lockRootHeightY || !c.lockRootPositionXZ || !c.keepOriginalPositionY
+                    || !c.keepOriginalOrientation || !c.keepOriginalPositionXZ) changed = true;
                 c.lockRootRotation = true; c.lockRootHeightY = true; c.lockRootPositionXZ = true;
                 c.keepOriginalOrientation = true; c.keepOriginalPositionY = true; c.keepOriginalPositionXZ = true; // rotazione, altezza e XZ: Original
             }
@@ -155,7 +167,7 @@ namespace TrenoBambini.EditorTools
             public string Nome;            // prefisso di FBX, texture, materiali, prefab
             public string Folder;
             public bool HairBande;         // atlas capelli a 16 bande orizzontali (adulto: 8 ramato in basso, 8 castano in alto) invece che a due metà in U
-            public bool VarianteCapelli;   // il bambino usa l'albedo capelli ricolorata (HairSplit); l'adulto l'originale
+            public bool VarianteCapelli;   // il bambino usa l'albedo capelli ricolorata (HairSplit); anche l'adulto (16 bande orizzontali)
             public string Fbx { get { return Folder + "/" + Nome + ".fbx"; } }
             public string Prefab { get { return Folder + "/" + Nome + ".prefab"; } }
             public string TexF { get { return Folder + "/Textures"; } }
@@ -192,6 +204,10 @@ namespace TrenoBambini.EditorTools
         static void ConfiguraImport(Pers p)
         {
             if (!File.Exists(p.Fbx)) { Debug.LogError("[Personaggi] Manca " + p.Fbx); return; }
+            if (EPuntatoreLfs(p.Fbx)) { Debug.LogError("[Personaggi] " + p.Fbx + " è un puntatore Git LFS, non il file vero: esegui 'git lfs pull'."); return; }
+            if (Directory.Exists(p.TexF))
+                foreach (var f in Directory.GetFiles(p.TexF, "*.png"))
+                    if (EPuntatoreLfs(f)) { Debug.LogError("[Personaggi] " + f.Replace("\\", "/") + " è un puntatore Git LFS, non il file vero: esegui 'git lfs pull'."); return; }
             if (p.VarianteCapelli) CreaVarianteCapelli(p);
             ConfiguraTexture(p);
             var imp = AssetImporter.GetAtPath(p.Fbx) as ModelImporter;
@@ -208,9 +224,13 @@ namespace TrenoBambini.EditorTools
 
             // prefab con Animator, materiali URP e LODGroup (LOD0/1/2)
             var model = AssetDatabase.LoadAssetAtPath<GameObject>(p.Fbx);
+            if (model == null) { Debug.LogError("[Personaggi] Impossibile caricare il GameObject di " + p.Fbx); return; }
             var inst = (GameObject)PrefabUtility.InstantiatePrefab(model);
+            try
+            {
             inst.name = p.Nome;
-            var anim = inst.GetComponent<Animator>() ?? inst.AddComponent<Animator>();
+            var anim = inst.GetComponent<Animator>();
+            if (anim == null) anim = inst.AddComponent<Animator>();
             anim.avatar = avatar;
             anim.applyRootMotion = false;
             var lods = new Renderer[3];
@@ -221,7 +241,7 @@ namespace TrenoBambini.EditorTools
                 lods[k] = r;
                 // materiali assegnati per NOME dello slot dell'FBX (Skin/Face/Clothes/Hair), mai per ordine fisso
                 var slots = new Material[slotNomi.Length];
-                for (int i = 0; i < slots.Length; i++) slots[i] = mats[slotNomi[i]];
+                for (int i = 0; i < slots.Length; i++) slots[i] = TrovaMateriale(mats, slotNomi[i], p, i);
                 r.sharedMaterials = slots;
                 r.updateWhenOffscreen = false;
                 r.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
@@ -236,9 +256,48 @@ namespace TrenoBambini.EditorTools
             lg.fadeMode = LODFadeMode.None;
             lg.RecalculateBounds();
             PrefabUtility.SaveAsPrefabAsset(inst, p.Prefab);
-            Object.DestroyImmediate(inst);
+            }
+            finally { Object.DestroyImmediate(inst); }
             if (p == Bambino) AggiornaAnimazioni();      // rigenera il controller e lo assegna a entrambi i prefab
             else AssignControllerToPrefab(p);            // l'adulto usa lo stesso controller del bambino
+        }
+
+        static readonly string[] OrdineSlot = { "Skin", "Face", "Clothes", "Hair" };
+
+        /// <summary>Nome slot normalizzato: senza suffisso ".NNN" e senza prefisso del personaggio (es. "AmerigoAdulto_Hair.001" -> "Hair").</summary>
+        static string NormalizzaSlot(string nm, Pers p)
+        {
+            if (string.IsNullOrEmpty(nm)) return "";
+            nm = System.Text.RegularExpressions.Regex.Replace(nm, @"\.\d+$", "");
+            foreach (var pre in new[] { p.Nome + "_", "AmerigoAdulto_", "Amerigo_" })
+                if (nm.StartsWith(pre)) { nm = nm.Substring(pre.Length); break; }
+            return nm;
+        }
+
+        static Material TrovaMateriale(Dictionary<string, Material> mats, string slotNome, Pers p, int indice)
+        {
+            Material m;
+            if (mats.TryGetValue(NormalizzaSlot(slotNome, p), out m) && m != null) return m;
+            Material fb = null;
+            if (indice < OrdineSlot.Length) mats.TryGetValue(OrdineSlot[indice], out fb);
+            Debug.LogWarning("[Personaggi] " + p.Nome + ": slot materiale '" + slotNome + "' (indice " + indice
+                + ") non riconosciuto; uso per ordine " + (indice < OrdineSlot.Length ? OrdineSlot[indice] : "(nessuno)"));
+            return fb;
+        }
+
+        // vero se il file è un puntatore Git LFS non scaricato (testo "version https://git-lfs...")
+        static bool EPuntatoreLfs(string path)
+        {
+            try
+            {
+                using (var fs = File.OpenRead(path))
+                {
+                    var buf = new byte[LfsMarker.Length];
+                    int n = fs.Read(buf, 0, buf.Length);
+                    return n == buf.Length && System.Text.Encoding.ASCII.GetString(buf) == LfsMarker;
+                }
+            }
+            catch (System.Exception) { return false; }
         }
 
         static double Satur(Color32 c)
@@ -278,6 +337,7 @@ namespace TrenoBambini.EditorTools
 
         static void ConfiguraTexture(Pers p)
         {
+            if (!Directory.Exists(p.TexF)) { Debug.LogWarning("[Personaggi] Manca la cartella texture " + p.TexF); return; }
             foreach (var f in Directory.GetFiles(p.TexF, "*.png"))
             {
                 string path = f.Replace("\\", "/");
@@ -317,8 +377,14 @@ namespace TrenoBambini.EditorTools
             string dst = p.TexF + "/" + p.Nome + "_HairSplit_albedo.png";
             if (!File.Exists(src)) return;
             var t = new Texture2D(2, 2, TextureFormat.RGBA32, false, false);
-            t.LoadImage(File.ReadAllBytes(src));
+            bool okImg = t.LoadImage(File.ReadAllBytes(src));
             int w = t.width, h = t.height;
+            if (!okImg || w <= 2 || h <= 2)
+            {
+                Object.DestroyImmediate(t);
+                Debug.LogError("[Personaggi] " + src + " non è un'immagine valida (puntatore LFS? esegui 'git lfs pull'): variante capelli non creata.");
+                return;
+            }
             var px = t.GetPixels32();
             // metà-colore: bambino = metà in U (x < w/2); adulto = 16 bande orizzontali, le 8 in basso del buffer
             // (origine in basso, y < h/2) sono il ramato, le 8 in alto il castano (misurato sul colore medio per banda)
@@ -332,7 +398,7 @@ namespace TrenoBambini.EditorTools
                     int m = meta(x, y);
                     somma[m] += 0.299 * c.r + 0.587 * c.g + 0.114 * c.b; n[m]++;
                 }
-            double[] media = { somma[0] / Mathf.Max(1, n[0]), somma[1] / Mathf.Max(1, n[1]) };
+            double[] media = { n[0] > 0 ? somma[0] / n[0] : 1.0, n[1] > 0 ? somma[1] / n[1] : 1.0 };
             // adulto: saturazione di riferimento = prima banda di ogni metà; nelle bande successive l'albedo originale
             // ingrigisce (tempie) e la variante preserva quel grigio crescente
             double[] satRef = { 1, 1 };
@@ -381,8 +447,15 @@ namespace TrenoBambini.EditorTools
         {
             string dst = p.TexF + "/" + p.Nome + "_Clothes_metalgloss.png";
             string src = p.TexF + "/" + p.Nome + "_Clothes_roughness.png";
+            if (!File.Exists(src)) { Debug.LogWarning("[Personaggi] Manca " + src + ": niente mappa metalgloss per i vestiti."); return null; }
             var rough = new Texture2D(2, 2, TextureFormat.RGBA32, false, true);
-            rough.LoadImage(File.ReadAllBytes(src));
+            bool okImg = rough.LoadImage(File.ReadAllBytes(src));
+            if (!okImg || rough.width <= 2 || rough.height <= 2)
+            {
+                Object.DestroyImmediate(rough);
+                Debug.LogError("[Personaggi] " + src + " non è un'immagine valida (puntatore LFS? esegui 'git lfs pull'): metalgloss non creata.");
+                return null;
+            }
             var px = rough.GetPixels32();
             for (int i = 0; i < px.Length; i++) px[i] = new Color32(0, 0, 0, (byte)(255 - px[i].r));
             var o = new Texture2D(rough.width, rough.height, TextureFormat.RGBA32, false, true);

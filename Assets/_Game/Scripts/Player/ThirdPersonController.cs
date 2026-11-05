@@ -6,17 +6,20 @@ using UnityEngine.InputSystem;
 namespace TrenoBambini.Player
 {
     /// <summary>
-    /// Movimento in terza persona relativo alla camera per un bambino di ~7 anni (CharacterController 1.2 m).
+    /// Movimento in terza persona relativo alla camera per Amerigo (bambino 1.2 m o adulto 1.75 m: capsula e velocità
+    /// sono impostate dal costruttore di scena).
     /// Camminata di default, corsa leggera con Shift (tastiera) o stick/joystick premuto a fondo (oltre 0.9).
     /// Accelerazione e decelerazione morbide, rotazione verso la direzione di movimento, gravità, gradini e pendenze
     /// (il corpo resta aderente al suolo in discesa). Nessun salto.
-    /// Aggancio per l'Animator (sotto-fase 2.5): parametri Speed (0..1 = velocità / corsa), MotionSpeed (moltiplicatore
+    /// Aggancio per l'Animator (sotto-fase 2.5): parametro Speed (0 = fermo, WalkBlendThreshold = camminata, 1 = corsa), MotionSpeed (moltiplicatore
     /// di riproduzione, default 1) e Grounded; l'Animator viene cercato nel figlio "Modello" (assente = nessun errore).
     /// </summary>
     [RequireComponent(typeof(CharacterController))]
     public class ThirdPersonController : MonoBehaviour
     {
         public const string ModelloName = "Modello";
+        /// <summary>Valore di Speed (blend tree) corrispondente alla camminata; letto anche dal builder dell'AnimatorController.</summary>
+        public const float WalkBlendThreshold = 0.475f;
 
         [Header("Velocità (m/s)")]
         public float walkSpeed = 1.9f;
@@ -155,7 +158,7 @@ namespace TrenoBambini.Player
             // parametro del blend tree: 0 = fermo, WalkThreshold (0.475) = camminata, 1 = corsa, indipendente dalle velocità di gioco
             float v = CurrentSpeed;
             float w = Mathf.Max(0.01f, walkSpeed), r = Mathf.Max(w + 0.01f, runSpeed);
-            const float walkThreshold = 0.475f;
+            const float walkThreshold = WalkBlendThreshold;
             Speed01 = v <= w ? walkThreshold * v / w : Mathf.Lerp(walkThreshold, 1f, Mathf.Clamp01((v - w) / (r - w)));
             // moltiplicatore di riproduzione = velocità di gioco / velocità della clip (mix del blend tree), limitato
             float wRun = v <= w ? 0f : Mathf.Clamp01((v - w) / (r - w));

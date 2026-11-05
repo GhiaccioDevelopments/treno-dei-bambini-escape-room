@@ -508,9 +508,9 @@ namespace TrenoBambini.EditorTools
                 ls = new LightingSettings { name = "LS_Treno" };
                 AssetDatabase.CreateAsset(ls, LightingAsset);
             }
-            // GPU (Unity Compute, in Unity 6.6 sostituisce il Progressive CPU) se la scheda lo consente, altrimenti Progressive CPU
-            // 2026-11-05: il backend GPU (Radeon Rays) manda in crash l'editor nel bake delle light probe
-            // su questo PC; si usa il Progressive CPU, più lento ma stabile.
+            // Ramo GPU (Unity Compute) DISATTIVATO di proposito (gpu = false): il backend Radeon Rays manda in crash
+            // l'editor nel bake delle light probe su questo PC (2026-11-05). Si usa sempre il Progressive CPU,
+            // più lento ma stabile; il ramo GPU resta per un eventuale riuso su altre schede.
             bool gpu = false;
 #pragma warning disable CS0618
             ls.lightmapper = gpu ? LightingSettings.Lightmapper.UnityComputeGPU : LightingSettings.Lightmapper.ProgressiveCPU;
