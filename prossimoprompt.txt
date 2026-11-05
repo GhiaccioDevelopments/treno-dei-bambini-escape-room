@@ -10,7 +10,7 @@ fai commit di tutto il lavoro non salvato, poi git pull --rebase e git push. Poi
 --- QUANDO HAI FINITO IL LAVORO IN CORSO (fase 2.5 ecc.) ---
 Per far eseguire le migliorie preparate a scuola (pull request "richiesta"):
 
-implementa le richieste aperte (gh pr list --draft) seguendo Docs/richieste/README.md, partendo da R001 e poi R002
+implementa le richieste aperte (gh pr list --draft) seguendo Docs/richieste/README.md, in ordine: R001, R002, R003
 
 
 --- DA LI' IN POI, SU QUALSIASI PC ---

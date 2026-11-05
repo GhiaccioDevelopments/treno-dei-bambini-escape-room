@@ -5,8 +5,8 @@ Regole d'uso: vedi la sezione "Diario e lavoro su più PC" in `CLAUDE.md`.
 
 ---
 
-## 2026-11-05 – PC scuola – Protocollo richieste, R001 (UI) e R002 (audio)
-**Branch:** main + `richiesta/R001-ui-spettacolare` + `richiesta/R002-audio-musica-violino`
+## 2026-11-05 – PC scuola – Protocollo richieste, R001 (UI), R002 (audio), R003 (NPC)
+**Branch:** main + `richiesta/R001-ui-spettacolare` + `richiesta/R002-audio-musica-violino` + `richiesta/R003-npc-napoli-blender`
 
 ### Fatto
 - Creato il protocollo per passare idee tra sessioni/PC: `Docs/richieste/README.md` + regola in `CLAUDE.md`.
@@ -16,13 +16,17 @@ Regole d'uso: vedi la sezione "Diario e lavoro su più PC" in `CLAUDE.md`.
 - Scritta la richiesta **R002 – Effetti sonori e musica d'epoca** (PR in bozza): canali audio con slider,
   musica con crossfade e ducking sotto le voci, **"Tema di Amerigo" originale per violino** con varianti,
   ambienti di Napoli 1946, passi per superficie, effetti per enigmi e transizioni. Niente musica del film.
+- Scritta la richiesta **R003 – Personaggi in Blender: la gente di Napoli** (PR in bozza): pipeline Blender
+  a script (base umana + parti modulari + varianti, atlante unico), 12–16 NPC del 1946 con attività animate,
+  battute in `npc.json` con condizioni sui progressi, IK della testa; proposta di fare Amerigo per primo.
 
-### Domande aperte per l'utente (da R002)
-- Qualcuno può registrare il tema al violino dal vivo? Va bene usare canzoni napoletane di pubblico dominio?
+### Domande aperte per l'utente
+- (R002) Qualcuno può registrare il tema al violino dal vivo? Va bene usare canzoni napoletane di pubblico dominio?
+- (R003) Amerigo come primo modello? Battute con espressioni napoletane? Il cast proposto va bene?
 
 ### Prossimi passi (PC casa)
 - Prima chiudere e pubblicare il lavoro in corso (fase 2.5…), poi implementare R001 sul suo branch
-  seguendo `Docs/richieste/README.md` (R001, poi R002). Merge solo con l'ok dell'utente.
+  seguendo `Docs/richieste/README.md` (R001, R002, R003). Merge solo con l'ok dell'utente.
 
 ---
 

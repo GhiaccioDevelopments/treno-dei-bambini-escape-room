@@ -35,3 +35,4 @@ MCP for Unity) le implementa. Le due sessioni non si parlano: comunicano **solo 
 |---|---|---|
 | R001 | UI spettacolare in stile antico | aperta (in attesa del PC di casa) |
 | R002 | Effetti sonori e musica d'epoca (tema del violino) | aperta (in attesa del PC di casa) |
+| R003 | Personaggi in Blender: la gente di Napoli (NPC) | aperta (in attesa del PC di casa) |
