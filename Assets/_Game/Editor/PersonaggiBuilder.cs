@@ -20,7 +20,7 @@ namespace TrenoBambini.EditorTools
         const float RootHeightPlaceholder = 0.55f; // altezza anca di un bambino di 1,2 m (unità avatar)
         const string PlaceholderFolder = AnimFolder + "/Segnaposto";
 
-        // soglie del blend tree: walkSpeed/runSpeed = 1.9/4.0
+        // soglie del blend tree: Speed01 mappato in ThirdPersonController (walk = 0.475)
         const float WalkThreshold = 0.475f;
 
         [MenuItem("Treno/Personaggi/Aggiorna animazioni")]
@@ -154,7 +154,7 @@ namespace TrenoBambini.EditorTools
         {
             public string Nome;            // prefisso di FBX, texture, materiali, prefab
             public string Folder;
-            public string[] SlotOrdine;    // ordine dei 4 slot materiale nell'FBX
+            public bool HairBande;         // atlas capelli a 16 bande orizzontali (adulto: 8 ramato in basso, 8 castano in alto) invece che a due metà in U
             public bool VarianteCapelli;   // il bambino usa l'albedo capelli ricolorata (HairSplit); l'adulto l'originale
             public string Fbx { get { return Folder + "/" + Nome + ".fbx"; } }
             public string Prefab { get { return Folder + "/" + Nome + ".prefab"; } }
@@ -164,10 +164,8 @@ namespace TrenoBambini.EditorTools
         }
 
         public const string AdultoFolder = "Assets/Art/Characters/AmerigoAdulto";
-        static readonly Pers Bambino = new Pers { Nome = "Amerigo", Folder = AmerigoFolder, VarianteCapelli = true,
-            SlotOrdine = new[] { "Skin", "Face", "Clothes", "Hair" } };
-        static readonly Pers Adulto = new Pers { Nome = "AmerigoAdulto", Folder = AdultoFolder, VarianteCapelli = false,
-            SlotOrdine = new[] { "Skin", "Hair", "Face", "Clothes" } };
+        static readonly Pers Bambino = new Pers { Nome = "Amerigo", Folder = AmerigoFolder, VarianteCapelli = true };
+        static readonly Pers Adulto = new Pers { Nome = "AmerigoAdulto", Folder = AdultoFolder, VarianteCapelli = true, HairBande = true };
 
         static void AssignControllerToPrefab(Pers p)
         {
@@ -197,6 +195,7 @@ namespace TrenoBambini.EditorTools
             if (p.VarianteCapelli) CreaVarianteCapelli(p);
             ConfiguraTexture(p);
             var imp = AssetImporter.GetAtPath(p.Fbx) as ModelImporter;
+            var slotNomi = LeggiNomiSlot(p, imp);
             imp.animationType = ModelImporterAnimationType.Human;
             imp.avatarSetup = ModelImporterAvatarSetup.CreateFromThisModel;
             imp.importAnimation = false;
@@ -220,9 +219,9 @@ namespace TrenoBambini.EditorTools
                 int k = r.name.EndsWith("LOD0") ? 0 : r.name.EndsWith("LOD1") ? 1 : r.name.EndsWith("LOD2") ? 2 : -1;
                 if (k < 0) continue;
                 lods[k] = r;
-                // 4 slot dell'FBX nell'ordine p.SlotOrdine = ordine dei materiali generati
-                var slots = new Material[4];
-                for (int i = 0; i < 4; i++) slots[i] = mats[i];
+                // materiali assegnati per NOME dello slot dell'FBX (Skin/Face/Clothes/Hair), mai per ordine fisso
+                var slots = new Material[slotNomi.Length];
+                for (int i = 0; i < slots.Length; i++) slots[i] = mats[slotNomi[i]];
                 r.sharedMaterials = slots;
                 r.updateWhenOffscreen = false;
                 r.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
@@ -240,6 +239,41 @@ namespace TrenoBambini.EditorTools
             Object.DestroyImmediate(inst);
             if (p == Bambino) AggiornaAnimazioni();      // rigenera il controller e lo assegna a entrambi i prefab
             else AssignControllerToPrefab(p);            // l'adulto usa lo stesso controller del bambino
+        }
+
+        static double Satur(Color32 c)
+        {
+            int mx = Mathf.Max(c.r, Mathf.Max(c.g, c.b)), mn = Mathf.Min(c.r, Mathf.Min(c.g, c.b));
+            return mx > 0 ? (mx - mn) / (double)mx : 0.0;
+        }
+
+        /// <summary>
+        /// Nomi degli slot materiale dell'FBX nell'ordine reale dei sottomesh (es. Skin, Face, Clothes, Hair), letti
+        /// importando temporaneamente i materiali dell'FBX: l'ordine cambia da un modello all'altro, quindi mai fisso.
+        /// </summary>
+        static string[] LeggiNomiSlot(Pers p, ModelImporter imp)
+        {
+            imp.materialImportMode = ModelImporterMaterialImportMode.ImportStandard;
+            imp.materialLocation = ModelImporterMaterialLocation.InPrefab;
+            imp.SaveAndReimport();
+            var g = AssetDatabase.LoadAssetAtPath<GameObject>(p.Fbx);
+            string[] res = null;
+            foreach (var r in g.GetComponentsInChildren<SkinnedMeshRenderer>(true))
+            {
+                if (!r.name.EndsWith("LOD0")) continue;
+                var ms = r.sharedMaterials;
+                res = new string[ms.Length];
+                for (int i = 0; i < ms.Length; i++)
+                {
+                    string nm = ms[i] != null ? ms[i].name : "";
+                    res[i] = nm.StartsWith(p.Nome + "_") ? nm.Substring(p.Nome.Length + 1) : nm;
+                }
+                break;
+            }
+            imp.materialImportMode = ModelImporterMaterialImportMode.None;
+            imp.SaveAndReimport();
+            Debug.Log("[Personaggi] " + p.Nome + " slot materiali FBX: " + (res == null ? "?" : string.Join(", ", res)));
+            return res ?? new[] { "Skin", "Face", "Clothes", "Hair" };
         }
 
         static void ConfiguraTexture(Pers p)
@@ -263,7 +297,7 @@ namespace TrenoBambini.EditorTools
                 ti.mipMapsPreserveCoverage = capelli;
                 ti.alphaTestReferenceValue = 0.5f;
                 // bambino: atlas a due metà (Clamp). Adulto: atlas a 16 bande orizzontali, il wrap U resta Repeat
-                ti.wrapMode = capelli && p.VarianteCapelli ? TextureWrapMode.Clamp : TextureWrapMode.Repeat;
+                ti.wrapMode = capelli && p.VarianteCapelli && !p.HairBande ? TextureWrapMode.Clamp : TextureWrapMode.Repeat;
                 ti.maxTextureSize = 1024;
                 ti.textureCompression = capelli ? TextureImporterCompression.CompressedHQ : TextureImporterCompression.Compressed;
                 ti.SaveAndReimport();
@@ -286,16 +320,34 @@ namespace TrenoBambini.EditorTools
             t.LoadImage(File.ReadAllBytes(src));
             int w = t.width, h = t.height;
             var px = t.GetPixels32();
+            // metà-colore: bambino = metà in U (x < w/2); adulto = 16 bande orizzontali, le 8 in basso del buffer
+            // (origine in basso, y < h/2) sono il ramato, le 8 in alto il castano (misurato sul colore medio per banda)
+            System.Func<int, int, int> meta = (xx, yy) => p.HairBande ? (yy < h / 2 ? 0 : 1) : (xx < w / 2 ? 0 : 1);
             double[] somma = new double[2]; int[] n = new int[2];
             for (int y = 0; y < h; y++)
                 for (int x = 0; x < w; x++)
                 {
                     var c = px[y * w + x];
                     if (c.a < 128) continue;
-                    int m = x < w / 2 ? 0 : 1;
+                    int m = meta(x, y);
                     somma[m] += 0.299 * c.r + 0.587 * c.g + 0.114 * c.b; n[m]++;
                 }
             double[] media = { somma[0] / Mathf.Max(1, n[0]), somma[1] / Mathf.Max(1, n[1]) };
+            // adulto: saturazione di riferimento = prima banda di ogni metà; nelle bande successive l'albedo originale
+            // ingrigisce (tempie) e la variante preserva quel grigio crescente
+            double[] satRef = { 1, 1 };
+            if (p.HairBande)
+                for (int k = 0; k < 2; k++)
+                {
+                    double s = 0; int cnt = 0;
+                    for (int y = k * (h / 2); y < k * (h / 2) + h / 16; y++)
+                        for (int x = 0; x < w; x++)
+                        {
+                            var c = px[y * w + x]; if (c.a < 128) continue;
+                            s += Satur(c); cnt++;
+                        }
+                    satRef[k] = Mathf.Max(0.001f, (float)(s / Mathf.Max(1, cnt)));
+                }
             // base in sRGB. Nell'atlas esportato da Blender la metà sinistra (x < w/2) è il ramato
             // (lato destro di Amerigo) e la metà destra il castano (lato sinistro): stesso ordine qui.
             double[][] baseCol = { new[] { 184.0, 90.0, 46.0 }, new[] { 42.0, 33.0, 28.0 } };
@@ -303,13 +355,19 @@ namespace TrenoBambini.EditorTools
                 for (int x = 0; x < w; x++)
                 {
                     var c = px[y * w + x];
-                    int m = x < w / 2 ? 0 : 1;
+                    int m = meta(x, y);
                     double rel = (0.299 * c.r + 0.587 * c.g + 0.114 * c.b) / media[m];
                     rel = 1.0 + (rel - 1.0) * 0.8; // un po' meno contrasto interno per non sporcare la divisione
+                    double r = baseCol[m][0] * rel, g = baseCol[m][1] * rel, b = baseCol[m][2] * rel;
+                    if (p.HairBande)
+                    {
+                        // grigio alle tempie: dove l'originale perde saturazione il colore vira a un grigio chiaro
+                        double keep = System.Math.Min(1.0, Satur(c) / satRef[m]);
+                        double grigio = (0.299 * r + 0.587 * g + 0.114 * b) * 1.6 + 30.0;
+                        r = grigio + (r - grigio) * keep; g = grigio + (g - grigio) * keep; b = grigio + (b - grigio) * keep;
+                    }
                     px[y * w + x] = new Color32(
-                        (byte)Mathf.Clamp((float)(baseCol[m][0] * rel), 0, 255),
-                        (byte)Mathf.Clamp((float)(baseCol[m][1] * rel), 0, 255),
-                        (byte)Mathf.Clamp((float)(baseCol[m][2] * rel), 0, 255), c.a);
+                        (byte)Mathf.Clamp((float)r, 0, 255), (byte)Mathf.Clamp((float)g, 0, 255), (byte)Mathf.Clamp((float)b, 0, 255), c.a);
                 }
             var o = new Texture2D(w, h, TextureFormat.RGBA32, false, false);
             o.SetPixels32(px);
@@ -341,13 +399,13 @@ namespace TrenoBambini.EditorTools
 
         static Texture2D Tex(Pers p, string nome) { return AssetDatabase.LoadAssetAtPath<Texture2D>(p.TexF + "/" + nome + ".png"); }
 
-        static Material[] CreaMateriali(Pers p)
+        static Dictionary<string, Material> CreaMateriali(Pers p)
         {
             Directory.CreateDirectory(p.MatF);
             AssetDatabase.Refresh();
             var shader = Shader.Find("Universal Render Pipeline/Lit");
             var metalGloss = CreaMetalGlossClothes(p);
-            var res = new List<Material>();
+            var res = new Dictionary<string, Material>();
             // nome, albedo, normal, occlusion, metalgloss, smoothness costante
             var tutti = new Dictionary<string, object[]> {
                 { "Skin", new object[]{"Skin", p.Nome + "_Skin_albedo", null, null, null, 0.25f} },
@@ -355,7 +413,7 @@ namespace TrenoBambini.EditorTools
                 { "Clothes", new object[]{"Clothes", p.Nome + "_Clothes_albedo", p.Nome + "_Clothes_normal", p.Nome + "_Clothes_ao", metalGloss, 0.5f} },
                 { "Hair", new object[]{"Hair", p.HairAlbedo, p.Nome + "_Hair_normal", null, null, 0.3f} },
             };
-            foreach (var slot in p.SlotOrdine)
+            foreach (var slot in new[] { "Skin", "Face", "Clothes", "Hair" })
             {
                 var d = tutti[slot];
                 string nome = (string)d[0];
@@ -383,10 +441,10 @@ namespace TrenoBambini.EditorTools
                     m.SetOverrideTag("RenderType", "TransparentCutout");
                 }
                 EditorUtility.SetDirty(m);
-                res.Add(m);
+                res[nome] = m;
             }
             AssetDatabase.SaveAssets();
-            return res.ToArray();
+            return res;
         }
 
         /// <summary>Prefab del corpo di Amerigo se presente (usato da SceneBuilder.BuildPlayer), altrimenti null.</summary>

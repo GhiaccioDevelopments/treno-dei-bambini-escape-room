@@ -21,6 +21,11 @@ namespace TrenoBambini.Player
         [Header("Velocità (m/s)")]
         public float walkSpeed = 1.9f;
         public float runSpeed = 4.0f;
+        [Tooltip("Velocità di avanzamento incorporata nelle clip Mixamo (m/s): serve a sincronizzare i piedi.")]
+        public float clipWalkSpeed = 1.2f;
+        public float clipRunSpeed = 1.9f;
+        public float minAnimMultiplier = 0.8f;
+        public float maxAnimMultiplier = 2.4f;
         public float acceleration = 7f;
         public float deceleration = 10f;
         [Header("Rotazione e fisica")]
@@ -147,8 +152,16 @@ namespace TrenoBambini.Player
 
         void UpdateAnimator(float dt)
         {
-            Speed01 = Mathf.Clamp01(CurrentSpeed / Mathf.Max(0.01f, runSpeed));
-            MotionSpeed = 1f;
+            // parametro del blend tree: 0 = fermo, WalkThreshold (0.475) = camminata, 1 = corsa, indipendente dalle velocità di gioco
+            float v = CurrentSpeed;
+            float w = Mathf.Max(0.01f, walkSpeed), r = Mathf.Max(w + 0.01f, runSpeed);
+            const float walkThreshold = 0.475f;
+            Speed01 = v <= w ? walkThreshold * v / w : Mathf.Lerp(walkThreshold, 1f, Mathf.Clamp01((v - w) / (r - w)));
+            // moltiplicatore di riproduzione = velocità di gioco / velocità della clip (mix del blend tree), limitato
+            float wRun = v <= w ? 0f : Mathf.Clamp01((v - w) / (r - w));
+            float clipV = v <= w ? clipWalkSpeed * v / w : Mathf.Lerp(clipWalkSpeed, clipRunSpeed, wRun);
+            float mult = clipV > 0.01f ? Mathf.Clamp(v / clipV, minAnimMultiplier, maxAnimMultiplier) : 1f;
+            MotionSpeed = Mathf.Lerp(1f, mult, Mathf.Clamp01(v / 0.3f));
             // ricerca dell'Animator al massimo una volta al secondo; il controller può essere assegnato dopo
             if (animator == null)
             {

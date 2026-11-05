@@ -251,7 +251,10 @@ namespace TrenoBambini.EditorTools
                 corpo.transform.localRotation = Quaternion.identity;
             }
             else BuildAmerigoModel(modello);
-            p.AddComponent<ThirdPersonController>();
+            var tpc = p.AddComponent<ThirdPersonController>();
+            // velocità di gioco e velocità di riferimento delle clip Mixamo (misurate) per personaggio: i piedi non scivolano
+            if (adulto) { tpc.walkSpeed = 1.4f; tpc.runSpeed = 3.2f; tpc.clipWalkSpeed = 1.2f; tpc.clipRunSpeed = 1.9f; }
+            else { tpc.walkSpeed = 1.1f; tpc.runSpeed = 2.7f; tpc.clipWalkSpeed = 0.46f; tpc.clipRunSpeed = 1.15f; }
             p.AddComponent<PlayerInteractor>();
             // punto mirato dalla camera (petto/testa del bambino)
             var punto = new GameObject("PuntoCamera").transform;
