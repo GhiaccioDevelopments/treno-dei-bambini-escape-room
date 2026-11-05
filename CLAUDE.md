@@ -113,6 +113,11 @@ Namespace: `TrenoBambini.<Area>` (es. `TrenoBambini.Core`).
 - `cutscene_<id>.json`: `{ id, titolo, sfondo, battute: [ {id, personaggio, testo, emozione, audio, azione, sfondo} ] }`
   - azione: `entra_sx | entra_dx | esce | zoom | scuoti | dissolvenza | ""`
 - `personaggi.json`: `{ "personaggi": [ {id, nome, ritratto, colore} ] }`
+- `audio.json`: `{ scene: [ {scena, musica, ambiente[], sparsi[], intervallo[min,max], superficie: pietra|legno|ovattato} ],
+  eventi: [ {id, stinger, sfx} ], volumi: {musica, ambiente, effetti, voci, duckingMusica, duckingAmbiente} }`
+  - Gli id sono nomi di file in `Assets/Audio/{Musica,Ambienti,Effetti}` (menu **Treno > Audio > Aggiorna libreria**); se manca il file
+    suona la versione sintetizzata da codice (`Scripts/Audio/`), se manca anche quella, silenzio. Eventi usati dal codice:
+    `enigma_risolto, oggetto_ritrovato, ricordo_entra, ricordo_esce, porta_apre, porta_chiusa, raccolta, trovato, cambio_scena`.
 
 ## Git
 - `main` sempre funzionante; ogni fase/oggetto su branch dedicato (`feature/...`), merge solo dopo test.
