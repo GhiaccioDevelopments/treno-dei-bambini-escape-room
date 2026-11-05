@@ -3,7 +3,9 @@
 Documento di lavoro per il gioco. Prima stesura: ricerca web del 2026-11-05. Revisione e verifica delle fonti: 2026-11-05.
 Scritto con parole nostre: nessun dialogo o frase del libro o del film è riprodotto o parafrasato da vicino.
 
-## Decisioni da prendere (utente)
+## Decisioni dell'utente
+
+> **Approvate tutte dall'utente il 2026-11-05**, così come raccomandate qui sotto. Sono vincolanti per il gioco.
 
 1. **Cornice nel 1994.** Mostrare Amerigo adulto (≈55 anni) che torna nel basso alla morte della madre, con i flashback giocabili nel 1946? *Raccomandazione:* sì, Opzione A (§7.1): poche cutscene e una sola stanza-cornice nel 1994; hub e basso del 1946 restano come sono.
 2. **Famiglia di Modena: versione del libro o del film?** Libro: Derna sola, la coppia di cugini Rosa e Alcide Benvenuti con tre figli. Film: Alcide è il fratello di Derna. *Raccomandazione:* libro (fonte primaria, meglio documentata); nei testi dire solo "la famiglia Benvenuti", senza insistere sulle parentele finché non le si verifica sul testo.

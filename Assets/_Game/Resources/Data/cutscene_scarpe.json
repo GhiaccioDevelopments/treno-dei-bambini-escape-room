@@ -16,7 +16,7 @@
     {
       "id": "cs_scarpe_002",
       "personaggio": "amerigo",
-      "testo": "Tommasì, comincia il gioco! Chi conta più scarpe buone prima che suoni la campana vince. Io parto da quelle di quel signore.",
+      "testo": "Tommasì, facciamo il gioco delle scarpe! Indoviniamo che lavoro fa la gente solo guardando le scarpe. Io parto da quelle di quel signore.",
       "emozione": "felice",
       "audio": "",
       "azione": "entra_sx",
@@ -26,7 +26,7 @@
     {
       "id": "cs_scarpe_003",
       "personaggio": "tommasino",
-      "testo": "Scarpe buone, un punto. Scarpe rotte, mezzo punto. Lo so a memoria, Amerigo. E quelle di quel signore sono lucide: un punto per te.",
+      "testo": "Facile: quelle lucide sono di uno che lavora seduto, in ufficio. Non si sporca mai le scarpe. Tocca a te, adesso.",
       "emozione": "neutra",
       "audio": "",
       "azione": "entra_dx",
@@ -36,7 +36,7 @@
     {
       "id": "cs_scarpe_004",
       "personaggio": "amerigo",
-      "testo": "Ecco una signora con i tacchi. Un punto. Poi viene un uomo con le suole di cartone: mezzo punto, se la scarpa regge ancora.",
+      "testo": "Ecco una signora con i tacchi: va a fare spese, non cammina per lavoro. Poi passa un uomo con le suole di cartone: va in fabbrica di corsa, e il calzolaio non se lo può permettere.",
       "emozione": "pensierosa",
       "audio": "",
       "azione": "zoom",
@@ -46,7 +46,7 @@
     {
       "id": "cs_scarpe_005",
       "personaggio": "tommasino",
-      "testo": "Quello là, scalzo, non lo contiamo. Niente scarpe, niente punti. Non conta.",
+      "testo": "Quello là, scalzo, non si indovina. Dai suoi piedi non si capisce niente.",
       "emozione": "neutra",
       "audio": "",
       "azione": "",
@@ -56,7 +56,7 @@
     {
       "id": "cs_scarpe_006",
       "personaggio": "amerigo",
-      "testo": "Già... non conta. Strano, però: non conta perché non ha le scarpe, o non ha le scarpe perché nessuno lo conta?",
+      "testo": "Già... dai suoi piedi non si capisce niente. Ma anche lui un lavoro ce l'avrà, o lo cercherà ogni mattina.",
       "emozione": "triste",
       "audio": "",
       "azione": "",
@@ -66,7 +66,7 @@
     {
       "id": "cs_scarpe_007",
       "personaggio": "tommasino",
-      "testo": "Mah, questa è una domanda troppo grande per il gioco. Guarda, è suonata la campana! Io ho nove punti e mezzo, tu?",
+      "testo": "Mah, la domanda è troppo grande per un gioco da gradino. Guarda, è suonata la campana! Andiamo a casa, che mamma ci aspetta.",
       "emozione": "sorpresa",
       "audio": "",
       "azione": "scuoti",
@@ -96,7 +96,7 @@
     {
       "id": "cs_scarpe_010",
       "personaggio": "amerigo",
-      "testo": "Mamma, giocavo con Tommasino. Contavamo le scarpe. Quelle dei signori valgono un punto, le nostre mezzo.",
+      "testo": "Mamma, giocavo con Tommasino. Indovinavamo i mestieri dalle scarpe. Quelle dei signori raccontano di uffici e di negozi. Le nostre raccontano solo di strada.",
       "emozione": "triste",
       "audio": "",
       "azione": "entra_sx",
@@ -106,7 +106,7 @@
     {
       "id": "cs_scarpe_011",
       "personaggio": "antonietta",
-      "testo": "Non voglio sentire certi giochi. Noi non siamo mezzo punto di nessuno. Lavoro dalla mattina alla sera per tenerti al caldo e con la pancia piena.",
+      "testo": "Non voglio sentire certi giochi con le scarpe degli altri. Lavoro dalla mattina alla sera per tenerti al caldo e con la pancia piena.",
       "emozione": "decisa",
       "audio": "",
       "azione": "",
@@ -176,7 +176,7 @@
     {
       "id": "cs_scarpe_018",
       "personaggio": "narratore",
-      "testo": "Per Amerigo un paio di scarpe è la prova che qualcuno lo conta. Ma non dovrebbe essere un sogno: dignità e cure sono diritti di ogni bambino, anche oggi.",
+      "testo": "Per Amerigo un paio di scarpe è la prova che qualcuno si prende cura di lui. Ma non dovrebbe essere un sogno: dignità e cure sono diritti di ogni bambino, anche oggi.",
       "emozione": "pensierosa",
       "audio": "",
       "azione": "dissolvenza",

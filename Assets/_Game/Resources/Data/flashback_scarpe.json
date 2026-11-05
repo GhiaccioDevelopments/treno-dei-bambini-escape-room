@@ -3,8 +3,8 @@
   "oggetto": "scarpe",
   "titolo": "Il gioco delle scarpe",
   "scena": "30_FB_Scarpe",
-  "introduzione": "Chiudi gli occhi e senti il rumore dei passi sui sampietrini. Sei di nuovo nel vicolo, bambino, seduto sul gradino. Come ogni pomeriggio guardi in basso e conti le scarpe di chi passa: ognuna racconta una vita. Prova a mettere insieme i pezzi del ricordo.",
-  "conclusione": "Il ricordo si dissolve piano. Contare le scarpe era un gioco, ma dietro c'era una domanda seria: chi ha diritto a un paio di scarpe, a un pasto, a un futuro? La Repubblica ha scritto la sua risposta nella Costituzione, e tocca a ciascuno di noi darle vita.",
+  "introduzione": "Chiudi gli occhi e senti il rumore dei passi sui sampietrini. Sei di nuovo nel vicolo, bambino, seduto sul gradino. Come ogni pomeriggio guardi in basso e indovini il mestiere di chi passa dalle scarpe: ognuna racconta una vita. Prova a mettere insieme i pezzi del ricordo.",
+  "conclusione": "Il ricordo si dissolve piano. Indovinare il lavoro dalle scarpe era un gioco, ma dietro c'era una domanda seria: chi ha diritto a un paio di scarpe, a un pasto, a un futuro? La Repubblica ha scritto la sua risposta nella Costituzione, e tocca a ciascuno di noi darle vita.",
   "enigmi": [
     {
       "id": "enigma_quiz",
@@ -115,7 +115,7 @@
         {
           "id": "pezze_piedi",
           "nome": "Pezze per i piedi",
-          "descrizione": "Strisce di stoffa legate attorno ai piedi al posto delle scarpe. Per chi non ha niente, anche una pezza è un riparo. Nel gioco di Amerigo questi piedi non contano: ma per noi sì.",
+          "descrizione": "Strisce di stoffa legate attorno ai piedi al posto delle scarpe. Per chi non ha niente, anche una pezza è un riparo. Nel gioco di Amerigo da questi piedi non si indovina nessun mestiere: ma dietro c'è sempre una persona.",
           "x": 1.2,
           "y": 0.0,
           "z": 1.9,
