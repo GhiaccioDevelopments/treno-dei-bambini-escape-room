@@ -118,3 +118,6 @@ InitTestScene*.unity*
 
 # Screenshot di revisione
 /Docs/Screenshots/
+
+# Download di asset esterni (troppo pesanti per Git LFS): restano solo in locale
+ArtSource/Downloads/

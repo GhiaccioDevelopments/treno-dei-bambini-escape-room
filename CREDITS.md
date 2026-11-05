@@ -94,3 +94,22 @@ Nessun asset esterno nuovo. Facciate, pareti, porte e arredi semplici sono mesh 
 (`Assets/_Game/Editor/SceneBuilderKit.cs`, `SceneBuilderAmbienti.cs`, output in `Assets/_Game/Generated/Kit/`),
 con le texture PBR Poly Haven (CC0) e i modelli già elencati sopra. Materiali derivati (tinte di tessuto, cuoio, insegne)
 in `Assets/Art/Materials/M_Panno_*`, `M_Cuoio_Scarpe`, `M_Insegna_*`, copie tinteggiate di materiali già censiti.
+
+## Personaggi Amerigo bambino e adulto (Fase 2.5)
+
+Fonte comune: MakeHuman / MPFB2 2.0.18 (http://static.makehumancommunity.org/mpfb.html). Gli asset di libreria vengono dal pacchetto
+ufficiale "MakeHuman system assets" (https://files.makehumancommunity.org/asset_packs/makehuman_system_assets/makehuman_system_assets_cc0.zip),
+tutti dichiarati CC0 nel file packs/makehuman_system_assets.json (autore "makehuman_system"). Pacchetto scaricato in ArtSource/Downloads/ (fuori da Assets/).
+L'addon MPFB2 è GPL-3.0 e non è incluso nel progetto.
+
+| Asset | Tipo | Percorso nel progetto | Autore | Licenza | Modifiche |
+|-------|------|------------------------|--------|---------|-----------|
+| Basemesh MakeHuman 1.1 e target macro | Modello 3D base | Assets/Art/Characters/Amerigo/Amerigo.fbx, AmerigoAdulto/AmerigoAdulto.fbx | MakeHuman Community (MPFB2: Joel Palmius) | CC0 1.0 | Bambino ~7 anni (1,20 m) e adulto ~55 anni (1,78 m); helper rimossi, shape key cotte, decimazione e LOD |
+| Rig "game_engine" | Scheletro e pesi | stessi FBX | MakeHuman Community / MPFB2 | CC0 1.0 | Pesi max 4 influenze per vertice |
+| Pelle young_caucasian_male | Texture | Amerigo/Textures/Amerigo_Skin_albedo.png | makehuman_system | CC0 | Ridotta a 1024, tono mediterraneo, sporco dipinto |
+| Pelle middleage_caucasian_male | Texture | AmerigoAdulto/Textures/AmerigoAdulto_Skin_albedo.png | makehuman_system | CC0 | Ridotta a 1024, tono ritoccato |
+| Capelli short02 (bambino) e short04 (adulto) | Mesh + texture alpha | Amerigo_Hair_albedo.png, AmerigoAdulto_Hair_albedo.png | makehuman_system | CC0 | Mesh divisa a x=0; texture ricolorata: sinistra castano scuro, destra ramato; adulto con fili grigi alle tempie |
+| Occhi high-poly (brown), sopracciglia 001 e 005, ciglia 01, denti base | Mesh + texture | atlas Amerigo_Face_albedo.png, AmerigoAdulto_Face_albedo.png | makehuman_system | CC0 | Decimati, UV rimappate in atlas, colori ritoccati |
+| Abito male_elegantsuit01 (adulto) | Mesh + texture | AmerigoAdulto_Suit_albedo.png | makehuman_system | CC0 | Decimato, texture a 1024, scritta di copyright della texture coperta |
+| Scarpe shoes04 (adulto) | Mesh + texture | AmerigoAdulto_Shoes_albedo.png | makehuman_system | CC0 | Decimate, texture a 512 |
+| Abiti del bambino (camicia, calzoncini, scarpe, toppe, bretelle, cintura) | Mesh originali | Amerigo.fbx | Progetto Il Treno dei Bambini | Proprietà del progetto | Ricavati dalla superficie del basemesh; texture atlas generata proceduralmente (Amerigo_Clothes_*) |
