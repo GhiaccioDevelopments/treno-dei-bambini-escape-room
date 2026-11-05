@@ -120,14 +120,22 @@ namespace TrenoBambini.Audio
         /// <summary>Rende una variante in modo asincrono (cede il controllo per non bloccare il frame). Alla fine chiama done(clip).</summary>
         public static IEnumerator Render(string id, Action<AudioClip> done)
         {
+            float[] samples = null;
+            var e = RenderBuffer(id, b => samples = b);
+            while (e.MoveNext()) yield return null;
+            var clip = Synth.ToClip(id, samples);
+            if (done != null) done(clip);
+        }
+
+        /// <summary>Rende i campioni (mono, Synth.Rate) a blocchi: cede il controllo di continuo (note, riverbero, patina). Usata anche dallo strumento che pre-genera i file.</summary>
+        public static IEnumerator RenderBuffer(string id, Action<float[]> done)
+        {
             var rng = new Synth.Rng(0xA11CEu);
             var sw = Stopwatch.StartNew();
             float[] buf;
-            bool loop = true;
 
             if (id == Scoperta || id == StingerRisolto)
             {
-                loop = false;
                 buf = Synth.Buffer(id == Scoperta ? 8.5f : 3.2f);
                 if (id == Scoperta)
                 {
@@ -142,7 +150,7 @@ namespace TrenoBambini.Audio
                     }
                     Synth.Violin(buf, new Synth.Note { midi = 64, start = 2.5f, dur = 4f, vel = 0.5f }, 1f, rng);
                     Synth.Violin(buf, new Synth.Note { midi = 76, start = 2.5f, dur = 4f, vel = 0.4f }, 1f, rng);
-                    Synth.Reverb(buf, 0.5f, 2.4f);
+                    var rv = Synth.ReverbSteps(buf, 0.5f, 2.4f); while (rv.MoveNext()) yield return null;
                 }
                 else
                 {
@@ -153,7 +161,7 @@ namespace TrenoBambini.Audio
                         Synth.Pluck(buf, new Synth.Note { midi = seq[i], start = i * 0.13f, dur = 0.5f, vel = 0.9f }, 1f, 0.7f, 0f, rng);
                         Synth.Bell(buf, i * 0.13f + 0.02f, seq[i] + 12, 0.28f, 1.6f);
                     }
-                    Synth.Reverb(buf, 0.3f, 1.4f);
+                    var rv = Synth.ReverbSteps(buf, 0.3f, 1.4f); while (rv.MoveNext()) yield return null;
                 }
                 Synth.Normalize(buf, 0.75f);
                 Synth.FadeEdges(buf, 0.002f, 0.25f);
@@ -217,18 +225,20 @@ namespace TrenoBambini.Audio
                 if (Over(sw)) yield return null;
                 float wet = id == Solo ? 0.5f : (id == Ricordo ? 0.38f : 0.2f);
                 float room = id == Solo ? 2.4f : 1.6f;
-                Synth.Reverb(buf, wet, room);
-                if (Over(sw)) yield return null;
-                if (id == Ricordo) Synth.Patina(buf, rng, 1f);        // grammofono: è un ricordo
-                else if (id == Solo) Synth.Patina(buf, rng, 0.25f);   // appena un velo di fruscio
+                var rvb = Synth.ReverbSteps(buf, wet, room);
+                while (rvb.MoveNext()) yield return null;
+                if (id == Ricordo || id == Solo)
+                {
+                    // grammofono: è un ricordo (1), appena un velo di fruscio nel solo (0.25)
+                    var pat = Synth.PatinaSteps(buf, rng, id == Ricordo ? 1f : 0.25f);
+                    while (pat.MoveNext()) yield return null;
+                }
                 Synth.Normalize(buf, id == Vicolo ? 0.5f : 0.7f);
                 // coda e inizio si fondono: loop senza clic
                 buf = Synth.MakeLoop(buf, 2.5f);
             }
 
-            var clip = Synth.ToClip(id, buf);
-            if (!loop) clip.name = id;
-            if (done != null) done(clip);
+            if (done != null) done(buf);
         }
 
         /// <summary>Versione sincrona per gli strumenti dell'editor (esporta WAV).</summary>

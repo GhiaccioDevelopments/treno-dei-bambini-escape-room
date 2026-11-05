@@ -49,9 +49,20 @@ namespace TrenoBambini.Audio
             return b == null ? null : Synth.ToClip("sfx_" + id, b);
         }
 
+        /// <summary>Seme stabile (FNV-1a): string.GetHashCode non è deterministico tra piattaforme/versioni, e i file pre-generati devono coincidere con la sintesi di ripiego.</summary>
+        static uint SeedOf(string id)
+        {
+            uint h = 2166136261u;
+            for (int i = 0; i < id.Length; i++) { h ^= id[i]; h *= 16777619u; }
+            return h | 1u;
+        }
+
+        /// <summary>Campioni dell'effetto (mono, Synth.Rate), senza AudioClip: usata anche dallo strumento che pre-genera i file.</summary>
+        public static float[] BuildSamples(string id) { return Build(id); }
+
         static float[] Build(string id)
         {
-            var rng = new Synth.Rng((uint)(id.GetHashCode() | 1));
+            var rng = new Synth.Rng(SeedOf(id));
             float[] x;
             switch (id)
             {

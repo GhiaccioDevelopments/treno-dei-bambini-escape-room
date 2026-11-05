@@ -13,6 +13,8 @@ namespace TrenoBambini.Audio
     /// (passo_pietra_01.wav e passo_pietra_02.wav -> id passo_pietra, due varianti).
     /// Se per un id non c'è nessun file, si usa il suono sintetizzato dal codice (SfxSynth / MusicSynth): il gioco suona anche
     /// senza file, e basta aggiungere una registrazione vera con lo stesso id per sostituire quella sintetica.
+    /// I brani e gli effetti pesanti sono PRE-GENERATI come .ogg (Tools/AudioGen, stesso codice di sintesi e stessi seed):
+    /// quando il file c'è la sintesi non parte affatto; resta solo come ripiego (musica a blocchi, effetti brevi sincroni).
     /// </summary>
     public class AudioLibrary : ScriptableObject
     {
@@ -42,6 +44,9 @@ namespace TrenoBambini.Audio
             instance = null; searched = false; map = null;
             synthCache.Clear(); synthBuilding.Clear();
         }
+
+        /// <summary>Carica la libreria (e quindi i file compressi) all'avvio, cosi la prima richiesta di un brano o di un effetto non aspetta il caricamento.</summary>
+        public static void Preload() { Init(); }
 
         static void Init()
         {
@@ -133,6 +138,7 @@ namespace TrenoBambini.Audio
             AudioClip c;
             if (synthCache.TryGetValue(id, out c) && c != null) { done(c); yield break; }
             synthBuilding[id] = true;
+            Debug.LogWarning("[AudioLibrary] Nessun file per '" + id + "': uso la sintesi di ripiego (lenta; rigenerare i file con Tools/AudioGen e menu Treno > Audio > Aggiorna libreria).");
             var e = MusicSynth.Render(id, clip => { synthCache[id] = clip; });
             while (e.MoveNext()) yield return null;
             synthBuilding.Remove(id);

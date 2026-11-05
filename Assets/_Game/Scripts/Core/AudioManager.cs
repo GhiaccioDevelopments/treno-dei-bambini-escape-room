@@ -44,6 +44,7 @@ namespace TrenoBambini.Core
             voice = gameObject.AddComponent<AudioSource>();
             voice.playOnAwake = false;
             voice.spatialBlend = 0f;
+            AudioLibrary.Preload(); // file audio pre-generati: caricati subito, la sintesi di ripiego non serve
 
             Music = gameObject.AddComponent<MusicPlayer>();
             Ambient = gameObject.AddComponent<AmbientPlayer>();

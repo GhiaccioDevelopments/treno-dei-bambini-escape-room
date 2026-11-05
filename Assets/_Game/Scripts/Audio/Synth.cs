@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 namespace TrenoBambini.Audio
@@ -256,6 +257,13 @@ namespace TrenoBambini.Audio
         /// <summary>Riverbero di Schroeder (4 comb + 2 allpass). Funziona in-place; wet 0..1; room scala le durate.</summary>
         public static void Reverb(float[] x, float wet, float room)
         {
+            var e = ReverbSteps(x, wet, room);
+            while (e.MoveNext()) { }
+        }
+
+        /// <summary>Come Reverb ma a blocchi: cede il controllo ogni ChunkSamples campioni (lo stato resta nelle variabili locali). Stesso risultato di Reverb.</summary>
+        public static IEnumerator ReverbSteps(float[] x, float wet, float room)
+        {
             float[] times = { 0.0297f, 0.0371f, 0.0411f, 0.0437f };
             var combs = new float[4][];
             var pos = new int[4];
@@ -280,8 +288,12 @@ namespace TrenoBambini.Audio
                 float o1 = AllPass(ap1, ref p1, sum * 0.5f);
                 float o2 = AllPass(ap2, ref p2, o1);
                 x[i] = inp * (1f - wet * 0.5f) + o2 * wet * 0.9f;
+                if ((i & (ChunkSamples - 1)) == ChunkSamples - 1) yield return null;
             }
         }
+
+        /// <summary>Campioni elaborati tra una cessione e l'altra negli effetti a blocchi (potenza di 2).</summary>
+        public const int ChunkSamples = 2048;
 
         static float AllPass(float[] buf, ref int p, float x)
         {
@@ -295,16 +307,28 @@ namespace TrenoBambini.Audio
         /// <summary>"Patina da grammofono" applicata al file: taglio di bassi e alti, fruscio e crepitii discreti, lieve saturazione.</summary>
         public static void Patina(float[] x, Rng rng, float amount)
         {
-            HighPass(x, 170f);
-            LowPass(x, 4200f);
+            var e = PatinaSteps(x, rng, amount);
+            while (e.MoveNext()) { }
+        }
+
+        /// <summary>Come Patina ma a blocchi (filtri e crepitii con stato in variabili locali). Stesso risultato di HighPass(170) + LowPass(4200) + fruscio.</summary>
+        public static IEnumerator PatinaSteps(float[] x, Rng rng, float amount)
+        {
+            float ah = 1f - Mathf.Exp(-2f * Mathf.PI * 170f / Rate);
+            float al = 1f - Mathf.Exp(-2f * Mathf.PI * 4200f / Rate);
+            float yh = 0f, yl = 0f;
             float hiss = 0.0045f * amount;
             float click = 0f;
             for (int i = 0; i < x.Length; i++)
             {
+                yh += ah * (x[i] - yh);
+                float v = x[i] - yh;
+                yl += al * (v - yl);
                 if (rng.Next() < 9f * amount / Rate * 1.0f) click = rng.Range(0.02f, 0.08f) * amount * (rng.Next() > 0.5f ? 1f : -1f);
                 click *= 0.92f;
-                float s = x[i] + rng.Signed() * hiss + click;
+                float s = yl + rng.Signed() * hiss + click;
                 x[i] = (float)Math.Tanh(s * 1.15f) * 0.9f;
+                if ((i & (ChunkSamples - 1)) == ChunkSamples - 1) yield return null;
             }
         }
     }
