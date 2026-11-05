@@ -12,6 +12,8 @@ namespace TrenoBambini.EditorTools
     /// </summary>
     public class AudioImportSettings : AssetPostprocessor
     {
+        const string Marker = "r002";
+
         static bool InGameAudio(string path)
         {
             return path.StartsWith("Assets/Audio/Musica/") || path.StartsWith("Assets/Audio/Ambienti/") || path.StartsWith("Assets/Audio/Effetti/");
@@ -19,7 +21,7 @@ namespace TrenoBambini.EditorTools
 
         void OnPreprocessAudio()
         {
-            if (!InGameAudio(assetPath) || !assetImporter.importSettingsMissing) return;
+            if (!InGameAudio(assetPath) || assetImporter.userData == Marker) return; // userData = marker: importSettingsMissing non è affidabile con i .meta appena creati
             var ai = (AudioImporter)assetImporter;
             bool breve = assetPath.StartsWith("Assets/Audio/Effetti/");
             ai.forceToMono = true;
@@ -31,6 +33,7 @@ namespace TrenoBambini.EditorTools
             s.quality = 0.6f; // i file sono già Vorbis a ~38 kbps: la ricodifica a questa qualità non li appesantisce
             s.sampleRateSetting = AudioSampleRateSetting.PreserveSampleRate; // 22050 Hz
             ai.defaultSampleSettings = s;
+            ai.userData = Marker;
         }
 
         static void OnPostprocessAllAssets(string[] imported, string[] deleted, string[] moved, string[] movedFrom)

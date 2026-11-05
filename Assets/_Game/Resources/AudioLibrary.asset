@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5dfce8018bf52354cb977cbcc5cb2625, type: 3}
+  m_Name: AudioLibrary
+  m_EditorClassIdentifier: Assembly-CSharp::TrenoBambini.Audio.AudioLibrary
+  entries:
+  - id: campane
+    categoria: Effetti
+    clips:
+    - {fileID: 8300000, guid: ffe301ed01db77d44a2e7333200a55a2, type: 3}
+  - id: interno_silenzio
+    categoria: Ambienti
+    clips:
+    - {fileID: 8300000, guid: 2bfca2b48812f5e4b8f797f567ac0d75, type: 3}
+  - id: porta_apri
+    categoria: Effetti
+    clips:
+    - {fileID: 8300000, guid: 633d09bdc1f45104eaf58b696b558064, type: 3}
+  - id: ricordo_tono
+    categoria: Ambienti
+    clips:
+    - {fileID: 8300000, guid: ef6a9390c098f0b4587b1a26fe335167, type: 3}
+  - id: stazione_vapore
+    categoria: Ambienti
+    clips:
+    - {fileID: 8300000, guid: 0f0e4695012dd1f46b5379903e9862d6, type: 3}
+  - id: stinger_risolto
+    categoria: Musica
+    clips:
+    - {fileID: 8300000, guid: e5a85ecf45cfc4942ae7cefa5521328d, type: 3}
+  - id: tema_amerigo_ricordo
+    categoria: Musica
+    clips:
+    - {fileID: 8300000, guid: f3b8488ef024f7c43861b144eff21e55, type: 3}
+  - id: tema_amerigo_scoperta
+    categoria: Musica
+    clips:
+    - {fileID: 8300000, guid: 2e014e4d141bcc9439461616aa96ad8c, type: 3}
+  - id: tema_amerigo_solo
+    categoria: Musica
+    clips:
+    - {fileID: 8300000, guid: a40ea1674da7b76459d96f11acc0ef76, type: 3}
+  - id: venditore
+    categoria: Effetti
+    clips:
+    - {fileID: 8300000, guid: 8fcdb57f2ce5b374da0076a1e1c7dc36, type: 3}
+  - id: vento_mare
+    categoria: Ambienti
+    clips:
+    - {fileID: 8300000, guid: e846097020a5fb742a58aa12c65f55da, type: 3}
+  - id: vicolo_brusio
+    categoria: Ambienti
+    clips:
+    - {fileID: 8300000, guid: 5ba73821dfb725941bc88461b6798e98, type: 3}
+  - id: vicolo_mandolino
+    categoria: Musica
+    clips:
+    - {fileID: 8300000, guid: f3723a4c7958d9a418911e7ed012577d, type: 3}
+  - id: violino_sale
+    categoria: Effetti
+    clips:
+    - {fileID: 8300000, guid: 87a6896fd10b1c342ac2091e1c93a5d2, type: 3}
