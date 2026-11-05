@@ -40,6 +40,7 @@ namespace TrenoBambini.World
                 {
                     if (!l.aperto)
                     {
+                        AudioManager.FireAt("porta_chiusa", transform.position);
                         if (UIRoot.I != null) UIRoot.I.Toast(l.nome + " si aprirà più avanti.");
                         return;
                     }
@@ -52,9 +53,11 @@ namespace TrenoBambini.World
             if (string.IsNullOrEmpty(scena))
             {
                 Debug.LogWarning("Door senza scena di destinazione: " + name);
+                AudioManager.FireAt("porta_chiusa", transform.position);
                 if (UIRoot.I != null) UIRoot.I.Toast("Questa porta è chiusa a chiave.");
                 return;
             }
+            AudioManager.FireAt("porta_apre", transform.position);
             SceneLoader.I.Load(scena, spawn);
         }
     }

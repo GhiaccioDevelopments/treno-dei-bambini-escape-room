@@ -1,4 +1,5 @@
 using System;
+using TrenoBambini.Core;
 using TrenoBambini.Data;
 using TrenoBambini.UI;
 using TrenoBambini.UI.Fx;
@@ -80,6 +81,7 @@ namespace TrenoBambini.Puzzles
                 UIRoot.I.Toast(h.item.nome + ": " + h.item.descrizione, 4.5f);
             // scintille dorate dove l'oggetto è stato trovato
             UISfx.Play(Sfx.Sparkle, 0.8f);
+            AudioManager.FireAt("trovato", h.transform.position);
             if (Camera.main != null)
             {
                 Vector3 sp = Camera.main.WorldToScreenPoint(h.transform.position);

@@ -513,6 +513,7 @@ namespace TrenoBambini.UI
             cr.localScale = Vector3.zero;
             cr.localRotation = Quaternion.Euler(0f, 0f, UnityEngine.Random.Range(-4f, 4f));
             UISfx.Play(Sfx.Chime, 0.8f);
+            AudioManager.Fire("oggetto_ritrovato");
             UITween.Scale(cr, Vector3.one, 0.5f, Ease.OutBack);
             lg.alpha = 0f;
             UITween.Alpha(lg, 1f, 0.3f);

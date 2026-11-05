@@ -61,6 +61,7 @@ namespace TrenoBambini.World
             s.ritornoScena = SceneManager.GetActiveScene().name;
             s.ritornoSpawn = "oggetto_" + oggettoId;
             GameManager.I.SaveGame();
+            AudioManager.FireAt("raccolta", transform.position);
             GameManager.I.StartFlashback(oggettoId);
         }
     }

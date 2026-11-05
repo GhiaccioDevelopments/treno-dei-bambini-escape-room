@@ -185,6 +185,7 @@ namespace TrenoBambini.Puzzles
         {
             if (solved) return;
             solved = true;
+            AudioManager.Fire("enigma_risolto");
             string t = prefix ?? "";
             if (!string.IsNullOrEmpty(def.spiegazione)) t += (t.Length > 0 ? "\n" : "") + def.spiegazione;
             if (!string.IsNullOrEmpty(def.temaCivico)) t += (t.Length > 0 ? "\n" : "") + "Educazione civica: " + def.temaCivico;
