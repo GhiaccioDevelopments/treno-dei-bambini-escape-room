@@ -33,6 +33,9 @@ namespace TrenoBambini.Audio
         static readonly Dictionary<string, bool> synthBuilding = new Dictionary<string, bool>();
         static int lastVariant = -1;
 
+        /// <summary>True mentre un brano sintetizzato è in costruzione (il frame può calare: non è colpa del PC).</summary>
+        public static bool IsBuilding { get { return synthBuilding.Count > 0; } }
+
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         static void ResetStatics()
         {

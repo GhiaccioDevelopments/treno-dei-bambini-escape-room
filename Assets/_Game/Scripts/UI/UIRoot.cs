@@ -470,7 +470,7 @@ namespace TrenoBambini.UI
         // ---------------------------------------------------------------- fps bassi => effetti ridotti
         void MonitorFps()
         {
-            if (autoReduceDone || UITheme.ReduceEffects || menuScene || (SceneLoader.I != null && SceneLoader.I.IsLoading) || Fader.Busy)
+            if (autoReduceDone || UITheme.ReduceEffects || menuScene || TrenoBambini.Audio.AudioLibrary.IsBuilding || (SceneLoader.I != null && SceneLoader.I.IsLoading) || Fader.Busy)
             {
                 fpsAcc = 0f; fpsFrames = 0;
                 return;
@@ -484,7 +484,7 @@ namespace TrenoBambini.UI
             if (lowWindows >= 3)
             {
                 autoReduceDone = true;
-                SetReduceEffects(true);
+                SetReduceEffects(true, false); // automatico: non salvato, alla prossima partenza si riprova
                 Toast("Il computer fatica: ho attivato gli effetti ridotti. Puoi cambiarli dalla Pausa.", 5f);
             }
         }

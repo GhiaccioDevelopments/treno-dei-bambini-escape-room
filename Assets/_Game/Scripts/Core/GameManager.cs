@@ -76,8 +76,15 @@ namespace TrenoBambini.Core
 
         public void NewGame()
         {
+            var vecchio = Save;
             save = new SaveData();
             save.volume = AudioListener.volume;
+            if (vecchio != null)
+            {
+                save.volMusica = vecchio.volMusica; save.volAmbiente = vecchio.volAmbiente;
+                save.volEffetti = vecchio.volEffetti; save.volVoci = vecchio.volVoci;
+                save.effettiRidotti = vecchio.effettiRidotti;
+            }
             save.scena = SceneHub;
             save.spawn = "inizio";
             SaveSystem.Save(save);

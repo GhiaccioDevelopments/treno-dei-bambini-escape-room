@@ -36,8 +36,8 @@ namespace TrenoBambini.Core
             Fader fader = UIRoot.I != null ? UIRoot.I.Fader : null;
 
             // audio: uscita dal ricordo (proiettore che si ferma) oppure cambio scena normale (audio.json "eventi")
-            if (stile == TransitionStyle.Ricordo) AudioManager.Fire("ricordo_entra");
-            else if (SceneManager.GetActiveScene().name.Contains("_FB_")) AudioManager.Fire("ricordo_esce");
+            if (SceneManager.GetActiveScene().name.Contains("_FB_")) AudioManager.Fire("ricordo_esce");
+            else if (stile == TransitionStyle.Ricordo) AudioManager.Fire("ricordo_entra");
             else AudioManager.Fire("cambio_scena");
 
             if (fader != null) yield return fader.Out(stile);
