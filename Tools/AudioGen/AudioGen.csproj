@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><OutputType>Exe</OutputType><TargetFramework>net10.0</TargetFramework><Nullable>disable</Nullable><EnableDefaultCompileItems>false</EnableDefaultCompileItems><NoWarn>CS0168;CS0219;CS8632</NoWarn><ImplicitUsings>disable</ImplicitUsings></PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Program.cs" />
+    <Compile Include="../../Assets/_Game/Scripts/Audio/Synth.cs" />
+    <Compile Include="../../Assets/_Game/Scripts/Audio/SfxSynth.cs" />
+    <Compile Include="../../Assets/_Game/Scripts/Audio/MusicSynth.cs" />
+  </ItemGroup>
+</Project>

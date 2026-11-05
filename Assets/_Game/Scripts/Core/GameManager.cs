@@ -76,8 +76,15 @@ namespace TrenoBambini.Core
 
         public void NewGame()
         {
+            var vecchio = Save;
             save = new SaveData();
             save.volume = AudioListener.volume;
+            if (vecchio != null)
+            {
+                save.volMusica = vecchio.volMusica; save.volAmbiente = vecchio.volAmbiente;
+                save.volEffetti = vecchio.volEffetti; save.volVoci = vecchio.volVoci;
+                save.effettiRidotti = vecchio.effettiRidotti;
+            }
             save.scena = SceneHub;
             save.spawn = "inizio";
             SaveSystem.Save(save);
@@ -134,6 +141,7 @@ namespace TrenoBambini.Core
             if (o != null && !string.IsNullOrEmpty(o.flashback) && !s.flashbackCompletati.Contains(o.flashback))
                 s.flashbackCompletati.Add(o.flashback);
             SaveGame();
+            if (UIRoot.I != null) UIRoot.I.QueueNewItem(oggettoId); // animazione "nuovo oggetto" al ritorno nel vicolo
 
             string cutsceneId = o != null ? o.cutscene : null;
             if (!string.IsNullOrEmpty(cutsceneId) && UIRoot.I != null && UIRoot.I.Cutscene != null)

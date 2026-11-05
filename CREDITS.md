@@ -73,6 +73,7 @@ Il gioco è pubblicato online: si usano preferibilmente asset con licenza **CC0*
 
 | Asset | Tipo | Percorso nel progetto | Fonte (URL) | Autore | Licenza | Modifiche |
 |-------|------|------------------------|-------------|--------|---------|-----------|
+| Musica, effetti e ambienti (Tema di Amerigo, passi, porte, ambienti dei luoghi) | Audio sintetizzato da codice | Assets/_Game/Scripts/Audio/ | Nessuna (originale) | Ghiaccio Developments / Claude | Originale del progetto | Nessun file esterno; brani, ambienti e effetti pesanti pre-generati come .ogg in Assets/Audio/{Musica,Ambienti,Effetti} dal codice originale (Tools/AudioGen); dettagli in Docs/audio/CREDITI.md |
 
 ## Font
 

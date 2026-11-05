@@ -39,6 +39,8 @@ namespace TrenoBambini.World
             }
         }
 
+        public override bool IsSpecial { get { return !Collected; } }
+
         public override string GetPrompt()
         {
             if (currentPrompt == null) Refresh();
@@ -59,6 +61,7 @@ namespace TrenoBambini.World
             s.ritornoScena = SceneManager.GetActiveScene().name;
             s.ritornoSpawn = "oggetto_" + oggettoId;
             GameManager.I.SaveGame();
+            AudioManager.FireAt("raccolta", transform.position);
             GameManager.I.StartFlashback(oggettoId);
         }
     }

@@ -1,42 +1,99 @@
 using TMPro;
+using TrenoBambini.Audio;
 using TrenoBambini.Core;
+using TrenoBambini.UI.Fx;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace TrenoBambini.UI
 {
-    /// <summary>Pausa: Riprendi, Inventario, Volume, Salva, Torna al titolo.</summary>
+    /// <summary>Pausa come quaderno di scuola anni '40: copertina nera, pagina a righe con margine rosso, voci a inchiostro con sottolineatura.</summary>
     public class PausePanel : MonoBehaviour
     {
         public bool IsOpen { get; private set; }
 
         GameObject view;
-        Slider volume;
+        PanelFx fx;
+        Slider volume, music, ambient, effects, voices;
+        Button reduceBtn;
 
         void Awake()
         {
             UIFactory.Stretch((RectTransform)transform);
-            var veil = UIFactory.MakePanel(transform, "Vista", UIFactory.Velo, true);
+            var veil = UIFactory.MakePanel(transform, "Vista", new Color(0.06f, 0.04f, 0.02f, 0.82f), true);
             UIFactory.Stretch(veil.rectTransform);
             view = veil.gameObject;
+            fx = view.AddComponent<PanelFx>();
+            fx.entry = PanelEntry.Notebook;
 
-            var card = UIFactory.MakePanel(veil.rectTransform, "Carta", UIFactory.Carta, true);
-            UIFactory.Place(card.rectTransform, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(560f, 620f));
-            var vl = UIFactory.AddVLayout(card.gameObject, 14f);
-            vl.padding = new RectOffset(0, 0, 24, 24);
+            // copertina + pagina
+            var cover = UIFactory.MakePanel(veil.rectTransform, "Copertina", Color.white, true);
+            cover.sprite = UIArt.Cover(); cover.type = Image.Type.Sliced;
+            UIFactory.Place(cover.rectTransform, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(640f, 690f));
+            fx.card = cover.rectTransform;
+            var page = UIFactory.MakePanel(cover.rectTransform, "Pagina", Color.white, false);
+            page.sprite = UIArt.Notebook(); page.type = Image.Type.Sliced;
+            UIFactory.Stretch(page.rectTransform, 26f, 22f, 22f, 22f);
+            var pr = page.rectTransform;
 
-            Add(UIFactory.MakeText(card.rectTransform, "Pausa", 42, UIFactory.Accento, TextAlignmentOptions.Center, FontStyles.Bold), 400f, 60f);
-            Add(UIFactory.MakeButton(card.rectTransform, "Riprendi", Hide, new Vector2(400f, 64f)), 400f, 64f);
-            Add(UIFactory.MakeButton(card.rectTransform, "Inventario", () => { if (UIRoot.I != null) UIRoot.I.Inventory.Show(); }, new Vector2(400f, 64f), UIFactory.Marrone), 400f, 64f);
+            // righe azzurre ripetute + margine rosso
+            var rulesGo = UIFactory.NewRect("Righe", pr);
+            UIFactory.Stretch(rulesGo, 18f, 18f, 18f, 18f);
+            var rules = rulesGo.gameObject.AddComponent<RawImage>();
+            rules.texture = UIArt.Ruled();
+            rules.raycastTarget = false;
+            rules.uvRect = new Rect(0f, 0f, 1f, 600f / 30f);
+            var margin = UIFactory.MakePanel(pr, "Margine", new Color(0.7f, 0.2f, 0.18f, 0.55f), false);
+            margin.sprite = UIArt.White();
+            margin.rectTransform.anchorMin = new Vector2(0f, 0f); margin.rectTransform.anchorMax = new Vector2(0f, 1f);
+            margin.rectTransform.pivot = new Vector2(0f, 0.5f);
+            margin.rectTransform.anchoredPosition = new Vector2(78f, 0f);
+            margin.rectTransform.sizeDelta = new Vector2(2f, -24f);
 
-            Add(UIFactory.MakeText(card.rectTransform, "Volume", 26, UIFactory.Inchiostro, TextAlignmentOptions.Center), 400f, 36f);
-            volume = UIFactory.MakeSlider(card.rectTransform, 1f, OnVolume, new Vector2(400f, 44f));
-            ((RectTransform)volume.transform).sizeDelta = new Vector2(400f, 44f);
+            var content = UIFactory.NewRect("Voci", pr);
+            UIFactory.Stretch(content, 90f, 20f, 20f, 20f);
+            var vl = UIFactory.AddVLayout(content.gameObject, 8f);
+            vl.padding = new RectOffset(0, 0, 10, 10);
 
-            Add(UIFactory.MakeButton(card.rectTransform, "Salva", OnSave, new Vector2(400f, 64f), UIFactory.Marrone), 400f, 64f);
-            Add(UIFactory.MakeButton(card.rectTransform, "Torna al titolo", OnTitle, new Vector2(400f, 64f)), 400f, 64f);
+            var title = UIFactory.MakeText(content, "Pausa", 42, UITheme.InchiostroBlu, TextAlignmentOptions.Center, FontStyles.Bold | FontStyles.Italic);
+            Add(title, 440f, 54f);
+            Add(Item(content, "Riprendi", Hide), 440f, 48f);
+            Add(Item(content, "Valigia", () => { if (UIRoot.I != null) UIRoot.I.Inventory.Show(); }), 440f, 48f);
+
+            // R002: volume generale + quattro canali, una riga per slider (etichetta a sinistra)
+            volume = SliderRow(content, "Generale", OnVolume);
+            music = SliderRow(content, "Musica", v => OnChannel(AudioChannel.Musica, v));
+            ambient = SliderRow(content, "Ambiente", v => OnChannel(AudioChannel.Ambiente, v));
+            effects = SliderRow(content, "Effetti", v => OnChannel(AudioChannel.Effetti, v));
+            voices = SliderRow(content, "Voci", v => OnChannel(AudioChannel.Voci, v));
+
+            reduceBtn = Item(content, "", OnToggleReduce);
+            Add(reduceBtn, 440f, 48f);
+            Add(Item(content, "Salva", OnSave), 440f, 48f);
+            Add(Item(content, "Torna al titolo", OnTitle), 440f, 48f);
 
             view.SetActive(false);
+        }
+
+        static Button Item(Transform parent, string label, UnityEngine.Events.UnityAction cb)
+        {
+            return UIFactory.MakeButton(parent, label, cb, new Vector2(440f, 48f), ButtonStyle.Ink, 28f);
+        }
+
+        static Slider SliderRow(Transform parent, string label, UnityEngine.Events.UnityAction<float> onChange)
+        {
+            var row = UIFactory.NewRect("Riga_" + label, parent);
+            row.sizeDelta = new Vector2(440f, 36f);
+            var h = row.gameObject.AddComponent<HorizontalLayoutGroup>();
+            h.spacing = 8f;
+            h.childAlignment = TextAnchor.MiddleCenter;
+            h.childControlWidth = false; h.childControlHeight = false;
+            h.childForceExpandWidth = false; h.childForceExpandHeight = false;
+            var t = UIFactory.MakeText(row, label, 24, UITheme.Inchiostro, TextAlignmentOptions.MidlineLeft);
+            Add(t, 130f, 36f);
+            var s = UIFactory.MakeSlider(row, 1f, onChange, new Vector2(290f, 36f));
+            Add(s, 290f, 36f);
+            return s;
         }
 
         static void Add(Component c, float w, float h)
@@ -44,27 +101,51 @@ namespace TrenoBambini.UI
             ((RectTransform)c.transform).sizeDelta = new Vector2(w, h);
         }
 
+        void RefreshReduceLabel()
+        {
+            UIFactory.SetLabel(reduceBtn, "Effetti ridotti: " + (UITheme.ReduceEffects ? "sì" : "no"));
+        }
+
         public void Show()
         {
             if (IsOpen) return;
             IsOpen = true;
             if (GameManager.I != null) GameManager.I.PushBlock();
-            volume.SetValueWithoutNotify(AudioManager.I != null ? AudioManager.I.Volume : 1f);
-            view.SetActive(true);
+            var am = AudioManager.I;
+            volume.SetValueWithoutNotify(am != null ? am.Volume : 1f);
+            music.SetValueWithoutNotify(am != null ? am.GetChannel(AudioChannel.Musica) : 1f);
+            ambient.SetValueWithoutNotify(am != null ? am.GetChannel(AudioChannel.Ambiente) : 1f);
+            effects.SetValueWithoutNotify(am != null ? am.GetChannel(AudioChannel.Effetti) : 1f);
+            voices.SetValueWithoutNotify(am != null ? am.GetChannel(AudioChannel.Voci) : 1f);
+            if (am != null) am.Music.SetPaused(true); // la musica scende al 30% senza fermarsi
+            RefreshReduceLabel();
             transform.SetAsLastSibling();
+            fx.Show();
         }
 
         public void Hide()
         {
             if (!IsOpen) return;
             IsOpen = false;
-            view.SetActive(false);
-            if (GameManager.I != null) GameManager.I.PopBlock();
+            if (AudioManager.I != null) AudioManager.I.Music.SetPaused(false);
+            fx.Hide();
+            if (GameManager.I != null) { GameManager.I.PopBlock(); GameManager.I.SaveGame(); } // salva slider e preferenze
         }
 
         void OnVolume(float v)
         {
             if (AudioManager.I != null) AudioManager.I.SetVolume(v);
+        }
+
+        void OnChannel(AudioChannel ch, float v)
+        {
+            if (AudioManager.I != null) AudioManager.I.SetChannel(ch, v);
+        }
+
+        void OnToggleReduce()
+        {
+            if (UIRoot.I != null) UIRoot.I.SetReduceEffects(!UITheme.ReduceEffects);
+            RefreshReduceLabel();
         }
 
         void OnSave()

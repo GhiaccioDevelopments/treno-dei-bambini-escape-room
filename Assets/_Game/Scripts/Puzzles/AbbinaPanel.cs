@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using TrenoBambini.UI;
+using TrenoBambini.UI.Fx;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,11 +14,16 @@ namespace TrenoBambini.Puzzles
         int[] rightOrder;   // posizione colonna destra -> indice coppia
         int selLeft = -1, selRight = -1;
         int matches;
+        RectTransform area;
+        float rowH;
+        static readonly Color Spago = new Color(0.62f, 0.12f, 0.1f, 1f);
+        const float HalfGap = 70f;
 
         static readonly Color Sel = new Color(0.8f, 0.55f, 0.25f);
 
         protected override void BuildContent(RectTransform area)
         {
+            this.area = area;
             int n = def.coppie != null ? def.coppie.Count : 0;
             if (n == 0)
             {
@@ -43,13 +49,14 @@ namespace TrenoBambini.Puzzles
 
             float availH = area.rect.height > 50f ? area.rect.height : 320f;
             float h = Mathf.Clamp(availH / n - 8f, 56f, 64f);
+            rowH = h;
 
             var colL = UIFactory.NewRect("ColonnaSx", area);
             colL.anchorMin = new Vector2(0f, 0f); colL.anchorMax = new Vector2(0.5f, 1f);
-            colL.offsetMin = Vector2.zero; colL.offsetMax = new Vector2(-16f, 0f);
+            colL.offsetMin = Vector2.zero; colL.offsetMax = new Vector2(-HalfGap, 0f);
             var colR = UIFactory.NewRect("ColonnaDx", area);
             colR.anchorMin = new Vector2(0.5f, 0f); colR.anchorMax = new Vector2(1f, 1f);
-            colR.offsetMin = new Vector2(16f, 0f); colR.offsetMax = Vector2.zero;
+            colR.offsetMin = new Vector2(HalfGap, 0f); colR.offsetMax = Vector2.zero;
 
             for (int i = 0; i < n; i++)
             {
@@ -58,7 +65,31 @@ namespace TrenoBambini.Puzzles
                 int ri = i;
                 right[i] = MakeRow(colR, def.coppie[rightOrder[i]].destra, i, h, () => ClickRight(ri));
             }
-            Info("Tocca un elemento a sinistra e poi quello che gli corrisponde a destra.");
+            Info("Tocca un elemento a sinistra e poi quello che gli corrisponde a destra: uno spago li legherà.");
+        }
+
+        float RowY(int i) { return area.rect.yMax - (i * (rowH + 8f) + rowH * 0.5f); }
+
+        /// <summary>Spago rosso teso tra la voce di sinistra e quella di destra (con leggero cedimento).</summary>
+        RectTransform TieRope(int l, int r)
+        {
+            return UIFx.Line(area, new Vector2(-HalfGap + 6f, RowY(l)), new Vector2(HalfGap - 6f, RowY(r)), Spago, 5f, 8f);
+        }
+
+        /// <summary>Coppia sbagliata: lo spago si allenta e cade, poi sparisce.</summary>
+        void DropRope(int l, int r)
+        {
+            var rope = UIFx.Line(area, new Vector2(-HalfGap + 6f, RowY(l)), new Vector2(HalfGap - 6f, RowY(r)), Spago, 5f, 26f);
+            var cg = rope.gameObject.AddComponent<CanvasGroup>();
+            if (UITheme.ReduceEffects) { UITween.Alpha(cg, 0f, 0.3f, Ease.Linear, () => { if (rope != null) Destroy(rope.gameObject); }); return; }
+            Vector2 start = rope.anchoredPosition;
+            UITween.Run(rope, 0.55f, Ease.Linear, v =>
+            {
+                if (rope == null) return;
+                rope.anchoredPosition = start + new Vector2(0f, -70f * v * v);
+                rope.localRotation = Quaternion.Euler(0f, 0f, 6f * v);
+                cg.alpha = 1f - v * v;
+            }, () => { if (rope != null) Destroy(rope.gameObject); });
         }
 
         static Button MakeRow(RectTransform col, string label, int i, float h, UnityEngine.Events.UnityAction cb)
@@ -75,8 +106,9 @@ namespace TrenoBambini.Puzzles
         void ClickLeft(int i)
         {
             if (solved || matchedLeft[i]) return;
-            if (selLeft >= 0) UIFactory.SetBg(left[selLeft], UIFactory.Marrone);
+            if (selLeft >= 0) UIFactory.SetBg(left[selLeft], Color.white);
             selLeft = i;
+            UISfx.Play(Sfx.ClickPaper, 0.4f);
             UIFactory.SetBg(left[i], Sel);
             TryMatch();
         }
@@ -84,8 +116,9 @@ namespace TrenoBambini.Puzzles
         void ClickRight(int j)
         {
             if (solved || matchedRight[j]) return;
-            if (selRight >= 0) UIFactory.SetBg(right[selRight], UIFactory.Marrone);
+            if (selRight >= 0) UIFactory.SetBg(right[selRight], Color.white);
             selRight = j;
+            UISfx.Play(Sfx.ClickPaper, 0.4f);
             UIFactory.SetBg(right[j], Sel);
             TryMatch();
         }
@@ -99,16 +132,21 @@ namespace TrenoBambini.Puzzles
             if (rightOrder[r] == l)
             {
                 matchedLeft[l] = true; matchedRight[r] = true;
-                UIFactory.SetBg(left[l], Ok); UIFactory.SetBg(right[r], Ok);
+                UIFactory.SetBg(left[l], new Color(0.75f, 0.9f, 0.7f)); UIFactory.SetBg(right[r], new Color(0.75f, 0.9f, 0.7f));
                 left[l].interactable = false; right[r].interactable = false;
+                var rope = TieRope(l, r);
+                UIFx.FadeIn(rope, 0.3f);
+                UISfx.Play(Sfx.Tick, 0.7f);
+                UIParticles.BurstAtRect(ParticleKind.Dust, rope, 3);
                 matches++;
                 if (matches >= left.Length) Solved("Tutte le coppie sono giuste!");
                 else SetFeedback("Giusto! Ne mancano " + (left.Length - matches) + ".", Ok);
             }
             else
             {
-                UIFactory.SetBg(left[l], UIFactory.Marrone);
-                UIFactory.SetBg(right[r], UIFactory.Marrone);
+                UIFactory.SetBg(left[l], Color.white);
+                UIFactory.SetBg(right[r], Color.white);
+                DropRope(l, r);
                 Wrong(def.erroreMsg);
             }
         }

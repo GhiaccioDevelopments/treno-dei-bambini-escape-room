@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using TMPro;
 using TrenoBambini.Data;
 using TrenoBambini.UI;
+using TrenoBambini.UI.Fx;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -55,7 +56,11 @@ namespace TrenoBambini.Puzzles
             if (i == d.corretta)
             {
                 for (int k = 0; k < options.Count; k++) options[k].interactable = false;
-                UIFactory.SetBg(options[i], Ok); // evidenzia la risposta giusta
+                UIFactory.SetBg(options[i], new Color(0.75f, 0.9f, 0.7f)); // evidenzia la risposta giusta
+                var ort = (RectTransform)options[i].transform;
+                SlamStamp(ort, "ESATTO", Ok, new Vector2(200f, 44f), new Vector2(ort.rect.width * 0.5f - 130f, 0f), -6f, 30f, null);
+                UISfx.Play(Sfx.Chime, 0.5f);
+                UIParticles.BurstAtRect(ParticleKind.Spark, ort, 8);
                 string expl = string.IsNullOrEmpty(d.spiegazione) ? "Esatto!" : "Esatto! " + d.spiegazione;
                 if (q >= def.domande.Count - 1)
                     Solved(expl);
@@ -68,6 +73,10 @@ namespace TrenoBambini.Puzzles
             else
             {
                 options[i].interactable = false;
+                var wrt = (RectTransform)options[i].transform;
+                UIFx.Wobble(wrt, 3f, 0.5f);
+                var wt = options[i].GetComponentInChildren<TMP_Text>();
+                if (wt != null) UITween.Run(wt, 0.6f, Ease.OutCubic, v => { if (wt != null) { var c = wt.color; c.a = Mathf.Lerp(1f, 0.4f, v); wt.color = c; } });
                 Wrong(!string.IsNullOrEmpty(d.erroreMsg) ? d.erroreMsg : null);
             }
         }

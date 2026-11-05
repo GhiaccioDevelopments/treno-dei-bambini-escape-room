@@ -1,6 +1,8 @@
 using System;
+using TrenoBambini.Core;
 using TrenoBambini.Data;
 using TrenoBambini.UI;
+using TrenoBambini.UI.Fx;
 using TrenoBambini.World;
 using UnityEngine;
 
@@ -77,6 +79,14 @@ namespace TrenoBambini.Puzzles
             if (finished || h == null) return;
             if (UIRoot.I != null && h.item != null)
                 UIRoot.I.Toast(h.item.nome + ": " + h.item.descrizione, 4.5f);
+            // scintille dorate dove l'oggetto è stato trovato
+            UISfx.Play(Sfx.Sparkle, 0.8f);
+            AudioManager.FireAt("trovato", h.transform.position);
+            if (Camera.main != null)
+            {
+                Vector3 sp = Camera.main.WorldToScreenPoint(h.transform.position);
+                if (sp.z > 0f) UIParticles.BurstAtScreen(ParticleKind.Spark, sp, 10);
+            }
             Destroy(h.gameObject);
             found++;
             if (found >= total) Complete();
@@ -101,6 +111,7 @@ namespace TrenoBambini.Puzzles
         {
             if (finished) return;
             finished = true;
+            AudioManager.Fire("enigma_risolto");
             if (onProgress != null) onProgress("");
             string t = def.spiegazione ?? "";
             if (!string.IsNullOrEmpty(def.temaCivico)) t += (t.Length > 0 ? "\n\n" : "") + "Educazione civica: " + def.temaCivico;

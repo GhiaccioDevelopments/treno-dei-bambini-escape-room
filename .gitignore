@@ -121,3 +121,6 @@ InitTestScene*.unity*
 
 # Download di asset esterni (troppo pesanti per Git LFS): restano solo in locale
 ArtSource/Downloads/
+# Strumento audio (R002)
+Tools/AudioGen/bin/
+Tools/AudioGen/obj/

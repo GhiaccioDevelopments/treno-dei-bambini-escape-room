@@ -52,7 +52,11 @@ namespace TrenoBambini.Player
         {
             var gm = GameManager.I;
             if (gm == null || gm.InputBlocked || Time.unscaledTime - gm.LastUnblockTime < 0.2f) return;
-            if (Current != null && Current.CanInteract) Current.Interact();
+            if (Current != null && Current.CanInteract)
+            {
+                if (UIRoot.I != null) UIRoot.I.PromptPressed();
+                Current.Interact();
+            }
         }
 
         Interactable FindBest()
@@ -88,7 +92,8 @@ namespace TrenoBambini.Player
                 lastSource = src;
                 displayed = (Touchscreen.current == null ? "[E] " : "") + src;
             }
-            UIRoot.I.ShowPrompt(displayed);
+            UIRoot.I.ShowPrompt(displayed, Current.IsSpecial);
+            UIRoot.I.ShowMarker(Current.MarkerPoint);
         }
 
         void Clear()
