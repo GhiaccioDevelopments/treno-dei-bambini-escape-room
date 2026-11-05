@@ -124,3 +124,14 @@ ArtSource/Downloads/
 # Strumento audio (R002)
 Tools/AudioGen/bin/
 Tools/AudioGen/obj/
+# Sorgenti Blender dei personaggi: in git solo le versioni finali (le intermedie restano in locale)
+ArtSource/Characters/*
+!ArtSource/Characters/Amerigo_v5.blend
+!ArtSource/Characters/AmerigoAdulto_v6.blend
+!ArtSource/Characters/build_scripts_v4/
+!ArtSource/Characters/textures_v4/
+!ArtSource/Characters/screenshots/
+ArtSource/Characters/screenshots/*
+!ArtSource/Characters/screenshots/v5_*.png
+!ArtSource/Characters/screenshots/adulto_v6_*.png
+ArtSource/tmp/
