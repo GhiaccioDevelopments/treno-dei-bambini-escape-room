@@ -198,23 +198,43 @@ Aggiornare `CLAUDE.md` (sezione "Schema JSON") con il formato definitivo.
 2. Va bene usare anche **canzoni napoletane di pubblico dominio** (es. da un grammofono nel vicolo), o
    preferisci solo musica originale?
 
-## 12. Rapporto (da compilare da chi implementa)
-**Implementata da:** … · **Date:** … · **Commit finali:** …
+## 12. Rapporto
+**Implementata da:** Claude (sessione worktree, senza editor Unity aperto) · **Date:** 2026-11-05 · **Commit finali:** vedi `git log` del branch `richiesta-R002-fase2` (prefisso `R002:`)
 
 ### Fatto
-- …
+- **Audio tutto sintetizzato da codice** (`Scripts/Audio/Synth.cs`, `SfxSynth.cs`, `MusicSynth.cs`): nessun file esterno, nessuna licenza, peso asset zero. Se in futuro si aggiunge un file con lo stesso id in `Assets/Audio/{Musica,Ambienti,Effetti}`, sostituisce il suono sintetico (menu **Treno > Audio > Aggiorna libreria**). Senza file e senza sintesi: silenzio, nessun errore.
+- **Canali** Generale/Musica/Ambiente/Effetti/Voci: 5 slider nel quaderno di pausa (layout compattato per farli stare), salvati in `SaveData` (`volMusica`, `volAmbiente`, `volEffetti`, `volVoci`; `volume` resta il generale; i vecchi salvataggi caricano a 1).
+- **MusicPlayer**: crossfade 2,5 s su due sorgenti, stinger sopra il brano, musica al 30% in pausa. **Ducking** (musica 35%, ambiente 60%, da `audio.json`) mentre parla una voce del doppiaggio.
+- **Tema di Amerigo** originale (La minore, 72 bpm, sesta napoletana) in 4 varianti: `tema_amerigo_solo` (titolo), `tema_amerigo_ricordo` (flashback, con patina da grammofono), `tema_amerigo_scoperta` (stinger 8,5 s), `vicolo_mandolino` (hub) + `stinger_risolto`. Partitura ABC in `Docs/audio/tema_amerigo.abc`.
+- **Ambienti** per le 4 scene con suoni sparsi casuali (campane, gabbiani, carretto, venditore, bambini, panni, finestra, pendolo, sedia, pentola, fischio di treno), tutto in `audio.json`.
+- **Passi** per superficie (pietra, legno, ovattato), 4 varianti ciascuno, legati alla velocita reale (camminata/corsa), alternanza sinistro/destro.
+- **Eventi** (`audio.json` > `eventi`): enigma risolto, oggetto ritrovato, ricordo entra/esce, porta apre/chiusa, raccolta, oggetto nascosto trovato, cambio scena. I suoni UI di R001 passano dal canale Effetti (`UISfx.Volume`) e sono indicizzati con gli id `ui_*`.
+- **WebGL**: nessun suono prima del primo clic/tocco/tasto; compare il toast "Tocca o clicca per attivare l'audio." Nessun DSP in tempo reale (solo volumi).
 
-### Scostamenti dalla specifica (e perché)
-- …
+### Scostamenti dalla specifica (e perche)
+- Niente registrazioni: il tema e sintetizzato (violino modellato con armoniche, vibrato e portamento). **Una registrazione dal vivo resta la soluzione migliore** (domanda aperta 1): basta salvare il file `.ogg` come `Assets/Audio/Musica/tema_amerigo_solo.ogg` e aggiornare la libreria.
+- Il loop `tema_amerigo_ricordo` dura circa 80 s (2 passate), non 2 minuti.
+- Il basso di Antonietta non ha le "2-3 note sparse di violino": solo ambiente e suoni sparsi. Manca anche il ronzio 3D dell'oggetto-ricordo (`ricordo_brilla` e sintetizzato ma non agganciato a `ItemPickup`).
+- Niente grammofono con canzoni napoletane di pubblico dominio (domanda aperta 2 non risolta, serve registrazione libera verificata).
+- `CREDITI.md` e la partitura sono in `Docs/audio/` e non in `Assets/Audio/` (per non generare `.meta` fuori dall'editor).
+- `eventi` in `audio.json` e una lista, non un oggetto.
+- Il "ricordo_entra" suona sulla partenza della transizione di ricordo insieme al proiettore di R001.
 
 ### Fonti audio usate
-- (riassunto; elenco completo in `Assets/Audio/CREDITI.md`)
+Nessuna esterna. Tutto originale (vedi `Docs/audio/CREDITI.md` e riga in `CREDITS.md`). Nessuna musica del film o imitazione.
+
+### File audio mancanti / slot vuoti
+Nessun slot vuoto in `audio.json` (tutti gli id hanno la sintesi). Da sostituire con registrazioni quando possibile: tema al violino (vero violino), mandolino del vicolo, voce del venditore, campane.
 
 ### Domande aperte per l'utente
-- …
+1. Qualcuno sa suonare il violino per registrare il tema? 2. Canzoni napoletane di pubblico dominio da un grammofono nel vicolo: si o no?
+
+### Verifica (cosa e cosa no)
+- Verificato: `dotnet build` di Assembly-CSharp e Assembly-CSharp-Editor (csproj di Unity adattati) senza errori, quindi API e riferimenti sono coerenti; `audio.json` e JSON valido.
+- **Non verificato**: esecuzione nell'editor (nessun Unity aperto in questo worktree). Da controllare a mano: l'aspetto dei 5 slider nella pausa, l'ascolto e il bilanciamento di tema/ambienti/passi, assenza di scatti nei loop, il crossfade tra scene, l'attesa del gesto in WebGL, `read_console` pulita, la creazione dell'asset `AudioLibrary` (non necessario finche non ci sono file veri).
 
 ### Come testare
-1. …
+1. Aprire il progetto, `read_console` pulita. 2. Titolo: violino solo. Entrare nel vicolo: mandolino basso, ambiente, suoni sparsi, passi su pietra. Basso di Antonietta: passi su legno, quasi silenzio. 3. Raccogliere le scarpe: transizione di ricordo, tema "ricordo", passi ovattati. Risolvere un enigma: timbro + stinger. 4. Pausa: 5 slider; musica scende. 5. Cutscene: la musica si abbassa quando parla una voce. 6. Build WebGL: nessun audio fino al primo clic.
 
 ### Misure
-- dimensione build prima → dopo: …
+- Peso build: nessun asset aggiunto (0 byte); memoria: tema ricordo ~7 MB di PCM in RAM quando suona; sintesi dei brani asincrona (qualche secondo senza bloccare il frame), ambienti 10-16 s sintetizzati in pochi ms.
