@@ -160,6 +160,9 @@ namespace TrenoBambini.UI.Fx
             {
                 T t = live[i];
                 if (!t.active) continue;
+                var uo = t.key as UnityEngine.Object;
+                if (uo != null || !(t.key is UnityEngine.Object)) { /* bersaglio vivo (o chiave non Unity) */ }
+                else { t.active = false; doneBuffer.Add(t); t.onDone = null; continue; } // bersaglio distrutto: il tween (anche in loop) termina in silenzio
                 if (t.delay > 0f) { t.delay -= dt; if (t.delay > 0f) continue; }
                 t.t += dt;
                 float x = t.t / t.dur;
