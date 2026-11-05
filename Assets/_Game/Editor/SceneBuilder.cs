@@ -225,23 +225,23 @@ namespace TrenoBambini.EditorTools
             Box("Sciarpa", root, new Vector3(0f, 0.86f, 0f), new Vector3(0.38f, 0.07f, 0.38f), "Tessuto1", null, false);
         }
 
-        static GameObject BuildPlayer(Vector3 pos, float yaw, Camera cam, CamProfilo profilo = CamProfilo.Esterno)
+        static GameObject BuildPlayer(Vector3 pos, float yaw, Camera cam, CamProfilo profilo = CamProfilo.Esterno, bool adulto = false)
         {
             var p = new GameObject("Amerigo");
             p.tag = "Player";
             p.transform.SetPositionAndRotation(pos, Quaternion.Euler(0f, yaw, 0f));
-            // bambino di ~7 anni: capsula 1.2 m, raggio 22 cm
+            // bambino di ~7 anni: capsula 1.2 m, raggio 22 cm. Adulto (presente, hub): 1.75 m, raggio 28 cm
             var cc = p.AddComponent<CharacterController>();
-            cc.height = 1.2f;
-            cc.radius = 0.22f;
-            cc.center = new Vector3(0f, 0.6f, 0f);
+            cc.height = adulto ? 1.75f : 1.2f;
+            cc.radius = adulto ? 0.28f : 0.22f;
+            cc.center = new Vector3(0f, cc.height * 0.5f, 0f);
             cc.stepOffset = 0.2f;
             cc.slopeLimit = 45f;
             cc.skinWidth = 0.03f;
             // punto di montaggio del modello: la 2.5 mette qui l'FBX di Amerigo (con Animator); per ora il segnaposto
             var modello = new GameObject(ThirdPersonController.ModelloName).transform;
             modello.SetParent(p.transform, false);
-            var amerigoPrefab = PersonaggiBuilder.LoadAmerigoPrefab();
+            var amerigoPrefab = (adulto ? PersonaggiBuilder.LoadAmerigoAdultoPrefab() : null) ?? PersonaggiBuilder.LoadAmerigoPrefab();
             if (amerigoPrefab != null)
             {
                 // modello definitivo (2.5): prefab FBX Humanoid con Animator; nessun collider sul modello
@@ -256,7 +256,7 @@ namespace TrenoBambini.EditorTools
             // punto mirato dalla camera (petto/testa del bambino)
             var punto = new GameObject("PuntoCamera").transform;
             punto.SetParent(p.transform, false);
-            punto.localPosition = new Vector3(0f, 1.0f, 0f);
+            punto.localPosition = new Vector3(0f, adulto ? 1.45f : 1.0f, 0f);
 
             if (cam != null) BuildCameraRig(cam, p.transform, punto, yaw, profilo);
             AssegnaLayerVistaLibera(p.scene);

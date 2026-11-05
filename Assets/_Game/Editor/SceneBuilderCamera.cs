@@ -13,6 +13,8 @@ namespace TrenoBambini.EditorTools
         Esterno,
         /// <summary>Basso di Antonietta (6x5 m): camera più alta e centrata, i muri tra camera e player si nascondono.</summary>
         InternoPiccolo,
+        /// <summary>Basso di Antonietta con Amerigo adulto (1,78 m, punto camera a 1,45 m): orbita più bassa e larga, per non inquadrare il soffitto né entrare nei muri.</summary>
+        InternoPiccoloAdulto,
         /// <summary>Stanza dei flashback (10x10 m): camera alta e larga.</summary>
         InternoLargo
     }
@@ -92,6 +94,12 @@ namespace TrenoBambini.EditorTools
                     orbit.Orbits = Orbits(top: (3.7f, 1.4f), centro: (2.3f, 3.0f), basso: (1.1f, 2.4f));
                     comp.Composition.ScreenPosition = new Vector2(0f, -0.04f);
                     break;
+                case CamProfilo.InternoPiccoloAdulto:
+                    // altezze relative al punto camera (1,45 m): camera a ~1,7 / 2,5 / 3,2 m dal suolo, sotto o appena sopra i muri da 3 m
+                    vcam.Lens.FieldOfView = 55f;
+                    orbit.Orbits = Orbits(top: (1.75f, 1.2f), centro: (1.0f, 2.5f), basso: (0.2f, 2.0f));
+                    comp.Composition.ScreenPosition = new Vector2(0f, -0.04f);
+                    break;
                 case CamProfilo.InternoLargo:
                     vcam.Lens.FieldOfView = 55f;
                     orbit.Orbits = Orbits(top: (4.8f, 1.8f), centro: (2.9f, 4.2f), basso: (1.2f, 3.2f));
@@ -105,7 +113,7 @@ namespace TrenoBambini.EditorTools
             }
             orbit.Orbits.SplineCurvature = 0.5f;
 
-            float off = profilo == CamProfilo.InternoPiccolo ? -135f : 0f;
+            float off = (profilo == CamProfilo.InternoPiccolo || profilo == CamProfilo.InternoPiccoloAdulto) ? -135f : 0f;
             orbit.HorizontalAxis = new InputAxis
             {
                 Value = Mathf.DeltaAngle(0f, yaw + off), Center = Mathf.DeltaAngle(0f, yaw + off),
@@ -135,7 +143,7 @@ namespace TrenoBambini.EditorTools
             rig.orbit = orbit;
             rig.target = punto;
             // basso: la camera nasce in diagonale (nord-ovest), così la porta d'uscita (parete sud nascosta) resta visibile dietro al player
-            rig.snapYawOffset = profilo == CamProfilo.InternoPiccolo ? -135f : 0f;
+            rig.snapYawOffset = (profilo == CamProfilo.InternoPiccolo || profilo == CamProfilo.InternoPiccoloAdulto) ? -135f : 0f;
 
             var fader = go.AddComponent<WallFader>();
             fader.target = punto;

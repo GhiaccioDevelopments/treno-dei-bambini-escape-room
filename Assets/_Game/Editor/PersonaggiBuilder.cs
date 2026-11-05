@@ -97,19 +97,18 @@ namespace TrenoBambini.EditorTools
             if (imp == null) return;
             bool changed = false;
             if (imp.animationType != ModelImporterAnimationType.Human) { imp.animationType = ModelImporterAnimationType.Human; changed = true; }
-            if (File.Exists(AmerigoFbx))
-            {
-                var avatar = AssetDatabase.LoadAssetAtPath<Avatar>(AmerigoFbx);
-                if (avatar != null && imp.sourceAvatar != avatar) { imp.sourceAvatar = avatar; changed = true; }
-            }
+            // le clip Mixamo hanno lo scheletro mixamorig:*: l'avatar è creato dal loro modello (Copy From Other fallirebbe
+            // con "No human bone found"); il retargeting Humanoid le applica comunque ad Amerigo.
+            if (imp.avatarSetup != ModelImporterAvatarSetup.CreateFromThisModel) { imp.avatarSetup = ModelImporterAvatarSetup.CreateFromThisModel; changed = true; }
             bool loop = nome == "Idle" || nome == "Idle2" || nome == "Walk" || nome == "Run";
             var clips = imp.clipAnimations;
             if (clips == null || clips.Length == 0) clips = imp.defaultClipAnimations;
             foreach (var c in clips)
             {
                 if (c.loopTime != loop) { c.loopTime = loop; changed = true; }
+                if (!c.lockRootRotation || !c.lockRootHeightY || !c.lockRootPositionXZ || !c.keepOriginalPositionY) changed = true;
                 c.lockRootRotation = true; c.lockRootHeightY = true; c.lockRootPositionXZ = true;
-                c.keepOriginalOrientation = true; c.keepOriginalPositionY = true; c.keepOriginalPositionXZ = true;
+                c.keepOriginalOrientation = true; c.keepOriginalPositionY = true; c.keepOriginalPositionXZ = true; // rotazione, altezza e XZ: Original
             }
             imp.clipAnimations = clips;
             if (changed) imp.SaveAndReimport();
@@ -146,8 +145,34 @@ namespace TrenoBambini.EditorTools
 
         static void AssignControllerToPrefab()
         {
+            AssignControllerToPrefab(Bambino);
+            AssignControllerToPrefab(Adulto);
+        }
+
+        /// <summary>Descrizione di uno dei due Amerigo (stesso schema di import; cartella e prefisso dei nomi diversi).</summary>
+        sealed class Pers
+        {
+            public string Nome;            // prefisso di FBX, texture, materiali, prefab
+            public string Folder;
+            public string[] SlotOrdine;    // ordine dei 4 slot materiale nell'FBX
+            public bool VarianteCapelli;   // il bambino usa l'albedo capelli ricolorata (HairSplit); l'adulto l'originale
+            public string Fbx { get { return Folder + "/" + Nome + ".fbx"; } }
+            public string Prefab { get { return Folder + "/" + Nome + ".prefab"; } }
+            public string TexF { get { return Folder + "/Textures"; } }
+            public string MatF { get { return Folder + "/Materials"; } }
+            public string HairAlbedo { get { return VarianteCapelli ? Nome + "_HairSplit_albedo" : Nome + "_Hair_albedo"; } }
+        }
+
+        public const string AdultoFolder = "Assets/Art/Characters/AmerigoAdulto";
+        static readonly Pers Bambino = new Pers { Nome = "Amerigo", Folder = AmerigoFolder, VarianteCapelli = true,
+            SlotOrdine = new[] { "Skin", "Face", "Clothes", "Hair" } };
+        static readonly Pers Adulto = new Pers { Nome = "AmerigoAdulto", Folder = AdultoFolder, VarianteCapelli = false,
+            SlotOrdine = new[] { "Skin", "Hair", "Face", "Clothes" } };
+
+        static void AssignControllerToPrefab(Pers p)
+        {
             var ctrl = AssetDatabase.LoadAssetAtPath<RuntimeAnimatorController>(AmerigoController);
-            var prefabPath = AmerigoFolder + "/Amerigo.prefab";
+            var prefabPath = p.Prefab;
             if (!File.Exists(prefabPath) || ctrl == null) return;
             var root = PrefabUtility.LoadPrefabContents(prefabPath);
             var anim = root.GetComponentInChildren<Animator>();
@@ -161,25 +186,31 @@ namespace TrenoBambini.EditorTools
         // ------------------------------------------------------------------ import FBX di Amerigo
 
         [MenuItem("Treno/Personaggi/Configura import Amerigo")]
-        public static void ConfiguraImportAmerigo()
+        public static void ConfiguraImportAmerigo() { ConfiguraImport(Bambino); }
+
+        [MenuItem("Treno/Personaggi/Configura import Amerigo adulto")]
+        public static void ConfiguraImportAmerigoAdulto() { ConfiguraImport(Adulto); }
+
+        static void ConfiguraImport(Pers p)
         {
-            if (!File.Exists(AmerigoFbx)) { Debug.LogError("[Personaggi] Manca " + AmerigoFbx); return; }
-            ConfiguraTextureAmerigo();
-            var imp = AssetImporter.GetAtPath(AmerigoFbx) as ModelImporter;
+            if (!File.Exists(p.Fbx)) { Debug.LogError("[Personaggi] Manca " + p.Fbx); return; }
+            if (p.VarianteCapelli) CreaVarianteCapelli(p);
+            ConfiguraTexture(p);
+            var imp = AssetImporter.GetAtPath(p.Fbx) as ModelImporter;
             imp.animationType = ModelImporterAnimationType.Human;
             imp.avatarSetup = ModelImporterAvatarSetup.CreateFromThisModel;
             imp.importAnimation = false;
             imp.materialImportMode = ModelImporterMaterialImportMode.None;
             imp.SaveAndReimport();
-            var avatar = AssetDatabase.LoadAssetAtPath<Avatar>(AmerigoFbx);
-            Debug.Log("[Personaggi] Amerigo.fbx Humanoid, avatar valido: " + (avatar != null && avatar.isValid && avatar.isHuman));
+            var avatar = AssetDatabase.LoadAssetAtPath<Avatar>(p.Fbx);
+            Debug.Log("[Personaggi] " + p.Nome + ".fbx Humanoid, avatar valido: " + (avatar != null && avatar.isValid && avatar.isHuman));
 
-            var mats = CreaMaterialiAmerigo();
+            var mats = CreaMateriali(p);
 
             // prefab con Animator, materiali URP e LODGroup (LOD0/1/2)
-            var model = AssetDatabase.LoadAssetAtPath<GameObject>(AmerigoFbx);
+            var model = AssetDatabase.LoadAssetAtPath<GameObject>(p.Fbx);
             var inst = (GameObject)PrefabUtility.InstantiatePrefab(model);
-            inst.name = "Amerigo";
+            inst.name = p.Nome;
             var anim = inst.GetComponent<Animator>() ?? inst.AddComponent<Animator>();
             anim.avatar = avatar;
             anim.applyRootMotion = false;
@@ -189,7 +220,7 @@ namespace TrenoBambini.EditorTools
                 int k = r.name.EndsWith("LOD0") ? 0 : r.name.EndsWith("LOD1") ? 1 : r.name.EndsWith("LOD2") ? 2 : -1;
                 if (k < 0) continue;
                 lods[k] = r;
-                // 4 slot dell'FBX nell'ordine Skin, Face, Clothes, Hair = ordine dei materiali generati
+                // 4 slot dell'FBX nell'ordine p.SlotOrdine = ordine dei materiali generati
                 var slots = new Material[4];
                 for (int i = 0; i < 4; i++) slots[i] = mats[i];
                 r.sharedMaterials = slots;
@@ -205,17 +236,15 @@ namespace TrenoBambini.EditorTools
             lg.SetLODs(lodArr);
             lg.fadeMode = LODFadeMode.None;
             lg.RecalculateBounds();
-            PrefabUtility.SaveAsPrefabAsset(inst, AmerigoFolder + "/Amerigo.prefab");
+            PrefabUtility.SaveAsPrefabAsset(inst, p.Prefab);
             Object.DestroyImmediate(inst);
-            AggiornaAnimazioni();
+            if (p == Bambino) AggiornaAnimazioni();      // rigenera il controller e lo assegna a entrambi i prefab
+            else AssignControllerToPrefab(p);            // l'adulto usa lo stesso controller del bambino
         }
 
-        const string TexFolder = AmerigoFolder + "/Textures";
-        const string MatFolder = AmerigoFolder + "/Materials";
-
-        static void ConfiguraTextureAmerigo()
+        static void ConfiguraTexture(Pers p)
         {
-            foreach (var f in Directory.GetFiles(TexFolder, "*.png"))
+            foreach (var f in Directory.GetFiles(p.TexF, "*.png"))
             {
                 string path = f.Replace("\\", "/");
                 var ti = AssetImporter.GetAtPath(path) as TextureImporter;
@@ -225,21 +254,75 @@ namespace TrenoBambini.EditorTools
                 bool lineare = normal || n.EndsWith("_roughness") || n.EndsWith("_ao") || n.EndsWith("_metalgloss");
                 ti.textureType = normal ? TextureImporterType.NormalMap : TextureImporterType.Default;
                 ti.sRGBTexture = !lineare;
-                bool conAlpha = n == "Amerigo_Hair_albedo" || n.EndsWith("_metalgloss");
+                bool capelli = n == p.Nome + "_Hair_albedo" || n == p.Nome + "_HairSplit_albedo";
+                bool conAlpha = capelli || n.EndsWith("_metalgloss");
                 ti.alphaSource = conAlpha ? TextureImporterAlphaSource.FromInput : TextureImporterAlphaSource.None;
-                ti.alphaIsTransparency = n == "Amerigo_Hair_albedo";
+                ti.alphaIsTransparency = capelli;
                 ti.mipmapEnabled = true;
+                // capelli: il bordo tra le due metà dell'atlas non deve sbavare nei mip, e le ciocche (alpha clip) restano piene
+                ti.mipMapsPreserveCoverage = capelli;
+                ti.alphaTestReferenceValue = 0.5f;
+                // bambino: atlas a due metà (Clamp). Adulto: atlas a 16 bande orizzontali, il wrap U resta Repeat
+                ti.wrapMode = capelli && p.VarianteCapelli ? TextureWrapMode.Clamp : TextureWrapMode.Repeat;
                 ti.maxTextureSize = 1024;
-                ti.textureCompression = TextureImporterCompression.Compressed;
+                ti.textureCompression = capelli ? TextureImporterCompression.CompressedHQ : TextureImporterCompression.Compressed;
                 ti.SaveAndReimport();
             }
         }
 
-        // mappa Metallic (R=0) + Smoothness (A = 1 - roughness) per Clothes, generata dalla roughness
-        static Texture2D CreaMetalGlossClothes()
+
+        /// <summary>
+        /// Variante dell'albedo dei capelli con divisione molto netta, leggibile anche sotto LUT seppia e luce calda
+        /// (che azzerano la tinta e lasciano solo la luminanza): metà sinistra dell'atlas (u<0.5, lato sinistro del
+        /// personaggio) = castano scuro quasi neutro, metà destra (lato destro del personaggio) = rosso ramato naturale. Il dettaglio delle ciocche (luminanza relativa e alpha)
+        /// viene dall'albedo originale; l'originale resta intatto.
+        /// </summary>
+        static void CreaVarianteCapelli(Pers p)
         {
-            string dst = TexFolder + "/Amerigo_Clothes_metalgloss.png";
-            string src = TexFolder + "/Amerigo_Clothes_roughness.png";
+            string src = p.TexF + "/" + p.Nome + "_Hair_albedo.png";
+            string dst = p.TexF + "/" + p.Nome + "_HairSplit_albedo.png";
+            if (!File.Exists(src)) return;
+            var t = new Texture2D(2, 2, TextureFormat.RGBA32, false, false);
+            t.LoadImage(File.ReadAllBytes(src));
+            int w = t.width, h = t.height;
+            var px = t.GetPixels32();
+            double[] somma = new double[2]; int[] n = new int[2];
+            for (int y = 0; y < h; y++)
+                for (int x = 0; x < w; x++)
+                {
+                    var c = px[y * w + x];
+                    if (c.a < 128) continue;
+                    int m = x < w / 2 ? 0 : 1;
+                    somma[m] += 0.299 * c.r + 0.587 * c.g + 0.114 * c.b; n[m]++;
+                }
+            double[] media = { somma[0] / Mathf.Max(1, n[0]), somma[1] / Mathf.Max(1, n[1]) };
+            // base in sRGB. Nell'atlas esportato da Blender la metà sinistra (x < w/2) è il ramato
+            // (lato destro di Amerigo) e la metà destra il castano (lato sinistro): stesso ordine qui.
+            double[][] baseCol = { new[] { 184.0, 90.0, 46.0 }, new[] { 42.0, 33.0, 28.0 } };
+            for (int y = 0; y < h; y++)
+                for (int x = 0; x < w; x++)
+                {
+                    var c = px[y * w + x];
+                    int m = x < w / 2 ? 0 : 1;
+                    double rel = (0.299 * c.r + 0.587 * c.g + 0.114 * c.b) / media[m];
+                    rel = 1.0 + (rel - 1.0) * 0.8; // un po' meno contrasto interno per non sporcare la divisione
+                    px[y * w + x] = new Color32(
+                        (byte)Mathf.Clamp((float)(baseCol[m][0] * rel), 0, 255),
+                        (byte)Mathf.Clamp((float)(baseCol[m][1] * rel), 0, 255),
+                        (byte)Mathf.Clamp((float)(baseCol[m][2] * rel), 0, 255), c.a);
+                }
+            var o = new Texture2D(w, h, TextureFormat.RGBA32, false, false);
+            o.SetPixels32(px);
+            File.WriteAllBytes(dst, o.EncodeToPNG());
+            Object.DestroyImmediate(t); Object.DestroyImmediate(o);
+            AssetDatabase.ImportAsset(dst, ImportAssetOptions.ForceUpdate);
+        }
+
+        // mappa Metallic (R=0) + Smoothness (A = 1 - roughness) per Clothes, generata dalla roughness
+        static Texture2D CreaMetalGlossClothes(Pers p)
+        {
+            string dst = p.TexF + "/" + p.Nome + "_Clothes_metalgloss.png";
+            string src = p.TexF + "/" + p.Nome + "_Clothes_roughness.png";
             var rough = new Texture2D(2, 2, TextureFormat.RGBA32, false, true);
             rough.LoadImage(File.ReadAllBytes(src));
             var px = rough.GetPixels32();
@@ -256,35 +339,36 @@ namespace TrenoBambini.EditorTools
             return AssetDatabase.LoadAssetAtPath<Texture2D>(dst);
         }
 
-        static Texture2D Tex(string nome) { return AssetDatabase.LoadAssetAtPath<Texture2D>(TexFolder + "/" + nome + ".png"); }
+        static Texture2D Tex(Pers p, string nome) { return AssetDatabase.LoadAssetAtPath<Texture2D>(p.TexF + "/" + nome + ".png"); }
 
-        static Material[] CreaMaterialiAmerigo()
+        static Material[] CreaMateriali(Pers p)
         {
-            Directory.CreateDirectory(MatFolder);
+            Directory.CreateDirectory(p.MatF);
             AssetDatabase.Refresh();
             var shader = Shader.Find("Universal Render Pipeline/Lit");
-            var metalGloss = CreaMetalGlossClothes();
+            var metalGloss = CreaMetalGlossClothes(p);
             var res = new List<Material>();
             // nome, albedo, normal, occlusion, metalgloss, smoothness costante
-            var def = new[] {
-                new object[]{"Skin", "Amerigo_Skin_albedo", null, null, null, 0.25f},
-                new object[]{"Face", "Amerigo_Face_albedo", null, null, null, 0.25f},
-                new object[]{"Clothes", "Amerigo_Clothes_albedo", "Amerigo_Clothes_normal", "Amerigo_Clothes_ao", metalGloss, 0.5f},
-                new object[]{"Hair", "Amerigo_Hair_albedo", "Amerigo_Hair_normal", null, null, 0.3f},
+            var tutti = new Dictionary<string, object[]> {
+                { "Skin", new object[]{"Skin", p.Nome + "_Skin_albedo", null, null, null, 0.25f} },
+                { "Face", new object[]{"Face", p.Nome + "_Face_albedo", null, null, null, 0.25f} },
+                { "Clothes", new object[]{"Clothes", p.Nome + "_Clothes_albedo", p.Nome + "_Clothes_normal", p.Nome + "_Clothes_ao", metalGloss, 0.5f} },
+                { "Hair", new object[]{"Hair", p.HairAlbedo, p.Nome + "_Hair_normal", null, null, 0.3f} },
             };
-            foreach (var d in def)
+            foreach (var slot in p.SlotOrdine)
             {
+                var d = tutti[slot];
                 string nome = (string)d[0];
-                string path = MatFolder + "/Amerigo_" + nome + ".mat";
+                string path = p.MatF + "/" + p.Nome + "_" + nome + ".mat";
                 var m = AssetDatabase.LoadAssetAtPath<Material>(path);
                 if (m == null) { m = new Material(shader); AssetDatabase.CreateAsset(m, path); }
                 m.shader = shader;
-                m.name = "Amerigo_" + nome;
-                m.SetTexture("_BaseMap", Tex((string)d[1]));
+                m.name = p.Nome + "_" + nome;
+                m.SetTexture("_BaseMap", Tex(p, (string)d[1]));
                 m.SetColor("_BaseColor", Color.white);
                 m.SetFloat("_Metallic", 0f);
-                if (d[2] != null) { m.SetTexture("_BumpMap", Tex((string)d[2])); m.EnableKeyword("_NORMALMAP"); m.SetFloat("_BumpScale", 1f); }
-                if (d[3] != null) { m.SetTexture("_OcclusionMap", Tex((string)d[3])); m.SetFloat("_OcclusionStrength", 1f); }
+                if (d[2] != null) { m.SetTexture("_BumpMap", Tex(p, (string)d[2])); m.EnableKeyword("_NORMALMAP"); m.SetFloat("_BumpScale", 1f); }
+                if (d[3] != null) { m.SetTexture("_OcclusionMap", Tex(p, (string)d[3])); m.SetFloat("_OcclusionStrength", 1f); }
                 if (d[4] != null)
                 {
                     m.SetTexture("_MetallicGlossMap", (Texture)d[4]); m.EnableKeyword("_METALLICSPECGLOSSMAP");
@@ -308,7 +392,13 @@ namespace TrenoBambini.EditorTools
         /// <summary>Prefab del corpo di Amerigo se presente (usato da SceneBuilder.BuildPlayer), altrimenti null.</summary>
         public static GameObject LoadAmerigoPrefab()
         {
-            return AssetDatabase.LoadAssetAtPath<GameObject>(AmerigoFolder + "/Amerigo.prefab");
+            return AssetDatabase.LoadAssetAtPath<GameObject>(Bambino.Prefab);
+        }
+
+        /// <summary>Prefab di Amerigo adulto (presente a Napoli, hub) se presente, altrimenti null.</summary>
+        public static GameObject LoadAmerigoAdultoPrefab()
+        {
+            return AssetDatabase.LoadAssetAtPath<GameObject>(Adulto.Prefab);
         }
     }
 }

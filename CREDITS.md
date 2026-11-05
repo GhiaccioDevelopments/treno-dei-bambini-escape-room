@@ -114,3 +114,20 @@ L'addon MPFB2 è GPL-3.0 e non è incluso nel progetto.
 | Abito male_elegantsuit01 (adulto) | Mesh + texture | AmerigoAdulto_Suit_albedo.png | makehuman_system | CC0 | Decimato, texture a 1024, scritta di copyright della texture coperta |
 | Scarpe shoes04 (adulto) | Mesh + texture | AmerigoAdulto_Shoes_albedo.png | makehuman_system | CC0 | Decimate, texture a 512 |
 | Abiti del bambino (camicia, calzoncini, scarpe, toppe, bretelle, cintura) | Mesh originali | Amerigo.fbx | Progetto Il Treno dei Bambini | Proprietà del progetto | Ricavati dalla superficie del basemesh; texture atlas generata proceduralmente (Amerigo_Clothes_*) |
+
+## Animazioni di Amerigo (Fase 2.5)
+
+Fonte: Adobe Mixamo (https://www.mixamo.com), scaricate il 2026-11-05 con l'account del progetto. Licenza: termini d'uso Adobe Mixamo,
+uso gratuito anche commerciale e in progetti pubblicati, all'interno di un gioco (non è ammessa la redistribuzione dei file come asset a sé).
+Formato FBX for Unity, senza skin, 30 fps, nessuna riduzione dei keyframe; retarget Humanoid in Unity su Amerigo bambino e adulto.
+
+| File | Clip Mixamo | Modifiche |
+|------|-------------|-----------|
+| Assets/Art/Animations/Amerigo/Amerigo_Idle.fbx | Breathing Idle | nessuna |
+| Assets/Art/Animations/Amerigo/Amerigo_Idle2.fbx | Weight Shift | nessuna |
+| Assets/Art/Animations/Amerigo/Amerigo_Walk.fbx | Walking (In Place) | nessuna |
+| Assets/Art/Animations/Amerigo/Amerigo_Run.fbx | Jogging (In Place) | nessuna |
+| Assets/Art/Animations/Amerigo/Amerigo_TurnL.fbx | Left Turn 90 | nessuna |
+| Assets/Art/Animations/Amerigo/Amerigo_TurnR.fbx | Right Turn 90 | nessuna |
+| Assets/Art/Animations/Amerigo/Amerigo_PickUp.fbx | Picking Up | nessuna |
+| Assets/Art/Animations/Amerigo/Amerigo_Interact.fbx | Button Pushing | nessuna |
