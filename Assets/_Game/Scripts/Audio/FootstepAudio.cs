@@ -13,7 +13,7 @@ namespace TrenoBambini.Audio
     public class FootstepAudio : MonoBehaviour
     {
         public float strideWalk = 0.95f;   // metri per passo camminando
-        public float strideRun = 1.5f;     // metri per passo correndo
+        public float runStepTime = 0.367f; // secondi per passo correndo alla velocità della clip (mezzo ciclo di Slow Run: 22 fotogrammi a 30 fps / 2)
 
         ThirdPersonController tpc;
         float travelled;
@@ -29,7 +29,8 @@ namespace TrenoBambini.Audio
             if (GameManager.I != null && GameManager.I.InputBlocked && speed < 0.6f) return;
 
             bool running = speed > (tpc.walkSpeed + tpc.runSpeed) * 0.5f;
-            float stride = running ? strideRun : strideWalk;
+            // in corsa il passo è quello della clip (velocità dei piedi x durata del passo): cade sul contatto del piede per adulto e bambino
+            float stride = running ? Mathf.Max(0.4f, tpc.clipRunSpeed * runStepTime) : strideWalk;
             travelled += speed * Time.deltaTime;
             if (travelled < stride) return;
             travelled -= stride;

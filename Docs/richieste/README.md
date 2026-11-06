@@ -36,5 +36,5 @@ MCP for Unity) le implementa. Le due sessioni non si parlano: comunicano **solo 
 | R001 | UI spettacolare in stile antico | implementata in `feature/upgrade-realistico` (6/11) |
 | R002 | Effetti sonori e musica d'epoca (tema del violino) | implementata in `feature/upgrade-realistico` (6/11) |
 | R003 | Personaggi in Blender: la gente di Napoli (NPC) | aperta (in attesa del PC di casa) |
-| R004 | Animazione di corsa nuova (da Mixamo) | aperta (in attesa del PC di casa) |
-| R005 | Inventario e pausa da tastiera, cursore bloccato | implementata in `richiesta/R005-tastiera-cursore-bloccato` (6/11), da provare online |
+| R005 | Inventario e pausa da tastiera, cursore bloccato | integrata in `feature/upgrade-realistico` (6/11), in prova |
+| R004 | Animazione di corsa nuova (da Mixamo) | integrata in `feature/upgrade-realistico` (6/11), in prova |
