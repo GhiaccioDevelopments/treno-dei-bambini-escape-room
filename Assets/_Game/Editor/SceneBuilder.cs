@@ -302,11 +302,16 @@ namespace TrenoBambini.EditorTools
             kitScene = "Titolo"; kitIndex = 0;
             var r = new System.Random(1946);
             doorWallPoints.Clear();
+            ResetSpazio();
             Ambient(new Color(0.80f, 0.72f, 0.58f), new Color(0.56f, 0.48f, 0.38f), new Color(0.30f, 0.25f, 0.19f));
             Sun(new Color(1f, 0.90f, 0.72f), 1.1f, new Vector3(48f, -28f, 0f));
 
             var env = new GameObject("Diorama").transform;
             Street("Selciato", env, -4.5f, 4.5f, -7f, 7f, 0.15f);
+
+            // punti da tenere liberi da balconi: ancoraggi dei fili e lampione
+            foreach (var z in new[] { -4.5f, -0.5f, 3.5f, 5.5f }) { noBalcone.Add(new Vector3(-1.6f, 0f, z)); noBalcone.Add(new Vector3(1.6f, 0f, z)); }
+            noBalcone.Add(new Vector3(1.2f, 0f, -1.5f));
 
             Building(env, -1, 1.6f, -7f, -1f, 2.5f, 3, "Tufo", r, 1.8f);
             Building(env, -1, 1.6f, -1f, 2.5f, 2.5f, 4, "Intonaco", r, 1.8f);
@@ -318,14 +323,17 @@ namespace TrenoBambini.EditorTools
             // porta e scarpe
             Box("PortaDiorama", env, new Vector3(1.5f, 1.0f, -3f), new Vector3(0.2f, 2.0f, 1.0f), "Legno");
             Box("PortaDiorama", env, new Vector3(-1.5f, 1.0f, 1.5f), new Vector3(0.2f, 2.0f, 1.0f), "Legno");
-            Clothesline(env, r, -4.5f, 5.6f, 5.2f, -1.55f, 1.55f, 4);
-            Clothesline(env, r, -0.5f, 6.4f, 6.8f, -1.55f, 1.55f, 3);
-            Clothesline(env, r, 3.5f, 5.2f, 5.0f, -1.55f, 1.55f, 4);
-            Clothesline(env, r, 5.5f, 7.0f, 6.6f, -1.55f, 1.55f, 3);
+            // fili nella fascia libera tra i piani (y 6.1-6.55), a ridosso delle facciate
+            Clothesline(env, r, -4.5f, 6.3f, 6.2f, -1.6f, 1.6f, 4);
+            Clothesline(env, r, -0.5f, 6.45f, 6.3f, -1.6f, 1.6f, 3);
+            Clothesline(env, r, 3.5f, 6.2f, 6.15f, -1.6f, 1.6f, 4);
+            Clothesline(env, r, 5.5f, 6.5f, 6.35f, -1.6f, 1.6f, 3);
             Lamp(env, new Vector3(1.2f, 0f, -1.5f));
             Cart(env, new Vector3(-0.9f, 0f, 4.2f));
             Bucket(env, new Vector3(1.2f, 0f, 2.2f));
-            Rubble(env, r, new Vector3(0.6f, 0f, 5.8f), 6, 0.6f);
+            Rubble(env, r, new Vector3(0.2f, 0f, 5.8f), 5, 0.4f, 1.3f);
+            RisolviSpazio("01_Titolo");
+            AssestaMacerie();
             SetStatic(env.gameObject);
 
             // Amerigo di spalle nel diorama (solo scenografia)

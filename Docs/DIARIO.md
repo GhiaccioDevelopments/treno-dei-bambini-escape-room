@@ -5,6 +5,23 @@ Regole d'uso: vedi la sezione "Diario e lavoro su più PC" in `CLAUDE.md`.
 
 ---
 
+## 2026-11-06 – PC casa – Nuove richieste R006–R010, chiusa R003
+**Branch:** feature/upgrade-realistico · **Ultimo commit:** fdeaedc
+### Fatto
+- Chiusa la PR #3 (R003, NPC) su richiesta dell'utente.
+- Aperte 5 richieste in bozza verso `feature/upgrade-realistico`: R006 mappe grandi + compenetrazioni (#8),
+  R007 grafica realistica con pioggia (#9), R008 impostazioni grafiche dettagliate (#10),
+  R009 enigmi dentro il mondo senza oggetti viola (#11), R010 ridisegno enigmi "Le scarpe" (#12).
+- Aperte altre 6 richieste: R011 easter egg e segreti in ogni stanza (#13); capitoli nuovi, uno per PR:
+  R012 Stracci (#14, contiene le regole comuni), R013 Volantino (#15), R014 Cappotto (#16), R015 Violino (#17), R016 Finale 1994 (#18).
+### Decisioni
+- L'utente dà l'ok a sviluppare tutti gli altri oggetti/capitoli (annotato in CLAUDE.md).
+- Ordine: R006 → R007 → R008, poi R009 → R010 → R011, poi i capitoli R012 → R016. R010 va approvata dall'utente (schema della catena) prima di svilupparla.
+### Problemi aperti
+- Bug del movimento nel gioco online ancora da confermare dall'utente.
+### Prossimi passi
+- Implementare R006 per prima.
+
 ## 2026-11-06 – PC casa – PR #7, #6, #5 (R005) e #4 (R004) integrate, gioco online aggiornato
 **Branch:** feature/upgrade-realistico · **Ultimo commit:** 194ca23 (+ questa voce) · **gh-pages:** d03141e
 

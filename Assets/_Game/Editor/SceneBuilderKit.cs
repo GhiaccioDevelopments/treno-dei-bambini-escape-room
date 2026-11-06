@@ -89,6 +89,64 @@ namespace TrenoBambini.EditorTools
             else { t.Add(b); t.Add(b + 2); t.Add(b + 1); t.Add(b); t.Add(b + 3); t.Add(b + 2); }
         }
 
+        /// <summary>R006: quadrilatero libero (a,b,c,d in ordine); il verso viene scelto in modo che il fronte guardi 'nrm'. UV proiettate sull'asse dominante della normale.</summary>
+        public void Quad(Vector3 a, Vector3 b, Vector3 c, Vector3 d, Vector3 nrm, int sub, float tile)
+        {
+            nrm = nrm.normalized;
+            int axis = Mathf.Abs(nrm.x) >= Mathf.Abs(nrm.y) && Mathf.Abs(nrm.x) >= Mathf.Abs(nrm.z) ? 0 : (Mathf.Abs(nrm.y) >= Mathf.Abs(nrm.z) ? 1 : 2);
+            bool flip = Vector3.Dot(Vector3.Cross(b - a, c - a), nrm) < 0f;
+            int bi = v.Count;
+            Vector3[] ps = { a, b, c, d };
+            for (int i = 0; i < 4; i++) { v.Add(ps[i]); n.Add(nrm); uv.Add(UvOf(axis, ps[i], tile)); }
+            var t = tris[sub];
+            if (!flip) { t.Add(bi); t.Add(bi + 1); t.Add(bi + 2); t.Add(bi); t.Add(bi + 2); t.Add(bi + 3); }
+            else { t.Add(bi); t.Add(bi + 2); t.Add(bi + 1); t.Add(bi); t.Add(bi + 3); t.Add(bi + 2); }
+        }
+
+        /// <summary>R006: triangolo con normale 'nrm' (usato per le campiture curve degli archi).</summary>
+        public void Tri(Vector3 a, Vector3 b, Vector3 c, Vector3 nrm, int sub, float tile)
+        {
+            nrm = nrm.normalized;
+            int axis = Mathf.Abs(nrm.x) >= Mathf.Abs(nrm.y) && Mathf.Abs(nrm.x) >= Mathf.Abs(nrm.z) ? 0 : (Mathf.Abs(nrm.y) >= Mathf.Abs(nrm.z) ? 1 : 2);
+            bool flip = Vector3.Dot(Vector3.Cross(b - a, c - a), nrm) < 0f;
+            int bi = v.Count;
+            Vector3[] ps = { a, b, c };
+            for (int i = 0; i < 3; i++) { v.Add(ps[i]); n.Add(nrm); uv.Add(UvOf(axis, ps[i], tile)); }
+            var t = tris[sub];
+            if (!flip) { t.Add(bi); t.Add(bi + 1); t.Add(bi + 2); } else { t.Add(bi); t.Add(bi + 2); t.Add(bi + 1); }
+        }
+
+        /// <summary>R006: tubo a sezione poligonale tra due punti (telai di biciclette, aste, cerchi).</summary>
+        public void Tube(Vector3 p0, Vector3 p1, float radius, int sides, int sub, float tile)
+        {
+            Vector3 dir = (p1 - p0);
+            if (dir.sqrMagnitude < 1e-8f) return;
+            dir.Normalize();
+            Vector3 u = Vector3.Cross(dir, Mathf.Abs(dir.y) < 0.9f ? Vector3.up : Vector3.right).normalized;
+            Vector3 w = Vector3.Cross(dir, u);
+            for (int i = 0; i < sides; i++)
+            {
+                float a0 = i * Mathf.PI * 2f / sides, a1 = (i + 1) * Mathf.PI * 2f / sides;
+                Vector3 o0 = (u * Mathf.Cos(a0) + w * Mathf.Sin(a0)), o1 = (u * Mathf.Cos(a1) + w * Mathf.Sin(a1));
+                Vector3 nm = (o0 + o1).normalized;
+                Quad(p0 + o0 * radius, p0 + o1 * radius, p1 + o1 * radius, p1 + o0 * radius, nm, sub, tile);
+            }
+        }
+
+        /// <summary>R006: anello (ruota, cerchio) nel piano ortogonale a 'axis', raggio R, sezione r.</summary>
+        public void Torus(Vector3 center, Vector3 axis, float R, float r, int segs, int sub, float tile)
+        {
+            axis.Normalize();
+            Vector3 u = Vector3.Cross(axis, Mathf.Abs(axis.y) < 0.9f ? Vector3.up : Vector3.right).normalized;
+            Vector3 w = Vector3.Cross(axis, u);
+            for (int i = 0; i < segs; i++)
+            {
+                float a0 = i * Mathf.PI * 2f / segs, a1 = (i + 1) * Mathf.PI * 2f / segs;
+                Vector3 c0 = center + (u * Mathf.Cos(a0) + w * Mathf.Sin(a0)) * R, c1 = center + (u * Mathf.Cos(a1) + w * Mathf.Sin(a1)) * R;
+                Tube(c0, c1, r, 4, sub, tile);
+            }
+        }
+
         static Vector2 UvOf(int axis, Vector3 p, float tile)
         {
             float k = 1f / Mathf.Max(0.01f, tile);
