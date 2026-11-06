@@ -244,7 +244,7 @@ namespace TrenoBambini.UI
         void OnCredits()
         {
             UIRoot.I.ShowMessage("Crediti",
-                "Il treno dei bambini - Escape room\n\nGioco educativo di Educazione Civica ispirato al romanzo di Viola Ardone (2019) e al film di Cristina Comencini (2024).\n\nPersonaggi, dialoghi e grafica originali.\n\nGhiaccio Developments",
+                "Il treno dei bambini - Escape room\n\nGioco educativo di Educazione Civica ispirato al romanzo di Viola Ardone (2019) e al film di Cristina Comencini (2024).\n\nPersonaggi, dialoghi e grafica originali.\n\nSviluppo principale: Thomas Rosania, Luca Arduini\nCollaboratori: Zaim Halili, Renis Caushi",
                 null);
         }
     }

@@ -96,7 +96,7 @@ namespace TrenoBambini.Audio
             var sb = new System.Text.StringBuilder();
             sb.AppendLine("X:1");
             sb.AppendLine("T:Tema di Amerigo");
-            sb.AppendLine("C:originale per il gioco \"Il treno dei bambini\" (Ghiaccio Developments)");
+            sb.AppendLine("C:originale per il gioco \"Il treno dei bambini\" (Thomas Rosania, Luca Arduini)");
             sb.AppendLine("M:4/4");
             sb.AppendLine("L:1/8");
             sb.AppendLine("Q:1/4=72");
