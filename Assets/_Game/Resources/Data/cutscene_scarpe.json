@@ -6,7 +6,7 @@
     {
       "id": "cs_scarpe_001",
       "personaggio": "narratore",
-      "testo": "Napoli, 1946. In un vicolo stretto, dove il sole arriva a fatica, due bambini siedono su un gradino e guardano in basso, verso i piedi di chi passa.",
+      "testo": "Napoli, 1946. In un vicolo stretto, dove il sole arriva a fatica, due bambini siedono su un gradino e guardano in basso, verso i piedi di chi passa. Amerigo, i piedi suoi, li ha nudi e neri di strada.",
       "emozione": "neutra",
       "audio": "",
       "azione": "dissolvenza",
@@ -16,7 +16,7 @@
     {
       "id": "cs_scarpe_002",
       "personaggio": "amerigo",
-      "testo": "Tommasì, facciamo il gioco delle scarpe! Indoviniamo che lavoro fa la gente solo guardando le scarpe. Io parto da quelle di quel signore.",
+      "testo": "Tommasì, facciamo il gioco delle scarpe! Indoviniamo che lavoro fa la gente solo guardando quello che porta ai piedi. Comincio io, con quel signore.",
       "emozione": "felice",
       "audio": "",
       "azione": "entra_sx",
@@ -46,7 +46,7 @@
     {
       "id": "cs_scarpe_005",
       "personaggio": "tommasino",
-      "testo": "Quello là, scalzo, non si indovina. Dai suoi piedi non si capisce niente.",
+      "testo": "E i tuoi piedi, Amerì? Che mestiere dicono?",
       "emozione": "neutra",
       "audio": "",
       "azione": "",
@@ -56,7 +56,7 @@
     {
       "id": "cs_scarpe_006",
       "personaggio": "amerigo",
-      "testo": "Già... dai suoi piedi non si capisce niente. Ma anche lui un lavoro ce l'avrà, o lo cercherà ogni mattina.",
+      "testo": "I miei? Dicono che corro più veloce di tutti e che d'inverno la pietra morde. Ma un giorno avrò un paio di scarpe mie, e allora sarete voi a dover indovinare chi sono.",
       "emozione": "triste",
       "audio": "",
       "azione": "",
@@ -66,7 +66,7 @@
     {
       "id": "cs_scarpe_007",
       "personaggio": "tommasino",
-      "testo": "Mah, la domanda è troppo grande per un gioco da gradino. Guarda, è suonata la campana! Andiamo a casa, che mamma ci aspetta.",
+      "testo": "Mah, intanto indovina che ore sono. È suonata la campana! Andiamo, che a casa ci aspettano.",
       "emozione": "sorpresa",
       "audio": "",
       "azione": "scuoti",
@@ -76,7 +76,7 @@
     {
       "id": "cs_scarpe_008",
       "personaggio": "narratore",
-      "testo": "Amerigo saluta l'amico e rientra nel basso, una stanza sola in cui si vive, si cucina e si dorme. Le sue scarpe, intanto, fanno un po' di rumore a ogni passo.",
+      "testo": "Amerigo saluta l'amico e rientra nel basso, una stanza sola in cui si vive, si cucina e si dorme. I suoi piedi nudi lasciano piccole impronte umide sul pavimento.",
       "emozione": "neutra",
       "audio": "",
       "azione": "esce",
@@ -86,7 +86,7 @@
     {
       "id": "cs_scarpe_009",
       "personaggio": "antonietta",
-      "testo": "Sei tornato tardi. Hai le scarpe bagnate? Se le rovini, non so quando potrò comprartene altre. Mettile vicino al fuoco.",
+      "testo": "Sei tornato tardi. E guarda che piedi: lavali nel catino prima di salire sul letto. Se ti tagli con un vetro, il medico non lo possiamo pagare.",
       "emozione": "arrabbiata",
       "audio": "",
       "azione": "entra_dx",
@@ -96,7 +96,7 @@
     {
       "id": "cs_scarpe_010",
       "personaggio": "amerigo",
-      "testo": "Mamma, giocavo con Tommasino. Indovinavamo i mestieri dalle scarpe. Quelle dei signori raccontano di uffici e di negozi. Le nostre raccontano solo di strada.",
+      "testo": "Mamma, giocavo con Tommasino. Indovinavamo i mestieri dalle scarpe. Quelle dei signori raccontano di uffici e di negozi. I miei piedi raccontano solo di strada.",
       "emozione": "triste",
       "audio": "",
       "azione": "entra_sx",
@@ -106,7 +106,7 @@
     {
       "id": "cs_scarpe_011",
       "personaggio": "antonietta",
-      "testo": "Non voglio sentire certi giochi con le scarpe degli altri. Lavoro dalla mattina alla sera per tenerti al caldo e con la pancia piena.",
+      "testo": "Le scarpe degli altri lasciale agli altri. Io lavoro dalla mattina alla sera perché tu abbia un tetto e la pancia piena. Il resto verrà, quando potrà venire.",
       "emozione": "decisa",
       "audio": "",
       "azione": "",
@@ -126,7 +126,7 @@
     {
       "id": "cs_scarpe_013",
       "personaggio": "maddalena",
-      "testo": "Permesso, Antonietta? Scusate l'ora. Passo a parlarvi dei treni: portano i bambini al Nord, dove famiglie pronte li accolgono. Avranno scarpe, cappotti e tre pasti al giorno.",
+      "testo": "Permesso, Antonietta? Scusate l'ora. Passo a parlarvi dei treni: portano i bambini al Nord, dove famiglie pronte li accolgono. Avranno vestiti caldi, scarpe ai piedi e tre pasti al giorno.",
       "emozione": "decisa",
       "audio": "",
       "azione": "entra_dx",
@@ -156,7 +156,7 @@
     {
       "id": "cs_scarpe_016",
       "personaggio": "amerigo",
-      "testo": "Mamma, al Nord forse avrò scarpe che non sono di nessun altro. Scarpe mie, nuove, senza il cartone dentro. Non ci ho mai sperato davvero.",
+      "testo": "Mamma, hai sentito? Scarpe. Scarpe mie, che nessuno ha portato prima di me. Non le ho mai chieste, perché non si chiede quello che non c'è.",
       "emozione": "pensierosa",
       "audio": "",
       "azione": "zoom",
@@ -176,7 +176,7 @@
     {
       "id": "cs_scarpe_018",
       "personaggio": "narratore",
-      "testo": "Per Amerigo un paio di scarpe è la prova che qualcuno si prende cura di lui. Ma non dovrebbe essere un sogno: dignità e cure sono diritti di ogni bambino, anche oggi.",
+      "testo": "Per Amerigo un paio di scarpe non è un capriccio: è la prova che qualcuno ha pensato a lui. Ma ciò che serve per crescere non dovrebbe essere un sogno: oggi è un diritto di ogni bambino.",
       "emozione": "pensierosa",
       "audio": "",
       "azione": "dissolvenza",
@@ -186,7 +186,7 @@
     {
       "id": "cs_scarpe_019",
       "personaggio": "narratore",
-      "testo": "Ora tocca a te: entra nel ricordo di Amerigo e scopri che cosa dicono quelle scarpe sul nostro Paese e sulla sua Costituzione.",
+      "testo": "Ora tocca a te: entra nel ricordo di Amerigo e scopri che cosa dicono le scarpe degli altri, e i suoi piedi nudi, sul nostro Paese e sulla sua Costituzione.",
       "emozione": "decisa",
       "audio": "",
       "azione": "",

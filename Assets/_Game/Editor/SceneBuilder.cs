@@ -236,10 +236,14 @@ namespace TrenoBambini.EditorTools
             var p = new GameObject("Amerigo");
             p.tag = "Player";
             p.transform.SetPositionAndRotation(pos, Quaternion.Euler(0f, yaw, 0f));
-            // bambino di ~7 anni: capsula 1.2 m, raggio 22 cm. Adulto (presente, hub): 1.75 m, raggio 28 cm
+            // modello in gioco: prefab MakeHuman (bambino 1,0 m, adulto 1,75 m) oppure v5/v6 di riserva (bambino 1,2 m, adulto 1,78 m)
+            var amerigoPrefab = usaAdulto ? prefabAdulto : PersonaggiBuilder.LoadAmerigoPrefab();
+            bool mh = PersonaggiBuilder.PrefabEMakeHuman(amerigoPrefab);
+            // bambino di ~7 anni: capsula 1.0 m (MakeHuman) o 1.2 m (v5 / segnaposto), raggio 20-22 cm. Adulto (presente, hub): 1.75 m, raggio 28 cm
+            float altBambino = amerigoPrefab != null && !mh ? 1.2f : (amerigoPrefab == null ? 1.2f : PersonaggiBuilder.AltezzaBambino);
             var cc = p.AddComponent<CharacterController>();
-            cc.height = usaAdulto ? 1.75f : 1.2f;
-            cc.radius = usaAdulto ? 0.28f : 0.22f;
+            cc.height = usaAdulto ? 1.75f : altBambino;
+            cc.radius = usaAdulto ? 0.28f : (altBambino < 1.1f ? 0.2f : 0.22f);
             cc.center = new Vector3(0f, cc.height * 0.5f, 0f);
             cc.stepOffset = 0.2f;
             cc.slopeLimit = 45f;
@@ -247,27 +251,33 @@ namespace TrenoBambini.EditorTools
             // punto di montaggio del modello: la 2.5 mette qui l'FBX di Amerigo (con Animator); per ora il segnaposto
             var modello = new GameObject(ThirdPersonController.ModelloName).transform;
             modello.SetParent(p.transform, false);
-            var amerigoPrefab = usaAdulto ? prefabAdulto : PersonaggiBuilder.LoadAmerigoPrefab();
             if (amerigoPrefab != null)
             {
                 // modello definitivo (2.5): prefab FBX Humanoid con Animator; nessun collider sul modello
                 var corpo = (GameObject)PrefabUtility.InstantiatePrefab(amerigoPrefab, modello);
                 corpo.name = "Amerigo_Mesh";
-                corpo.transform.localPosition = Vector3.zero;
+                // MakeHuman: l'offset verticale del prefab (suola a quota 0) lo calcola il menu di import; in più il CharacterController
+                // resta sospeso di skinWidth (3 cm) sopra il pavimento: si abbassa il modello della stessa quota, così le suole toccano terra.
+                // v5/v6 (riserva): posizione zero come prima.
+                corpo.transform.localPosition = mh ? amerigoPrefab.transform.localPosition + Vector3.down * cc.skinWidth : Vector3.zero;
                 corpo.transform.localRotation = Quaternion.identity;
             }
             else BuildAmerigoModel(modello);
             var tpc = p.AddComponent<ThirdPersonController>();
             // velocità di gioco e velocità di riferimento delle clip Mixamo (misurate) per personaggio: i piedi non scivolano
-            if (usaAdulto) { tpc.walkSpeed = 1.4f; tpc.runSpeed = 3.2f; tpc.clipWalkSpeed = 1.2f; tpc.clipRunSpeed = 1.9f; }
+            // MakeHuman: velocità dei piedi appoggiati misurate sulle clip Mixamo con i due avatar (Animator.Update a passo fisso, piede più basso):
+            // adulto 1,70 m/s in cammino e 1,9 in corsa, bambino 0,89 e 0,96. Il bambino in corsa (2,7 m/s) richiede una riproduzione ~2,8x.
+            if (usaAdulto && mh) { tpc.walkSpeed = 1.4f; tpc.runSpeed = 3.2f; tpc.clipWalkSpeed = 1.7f; tpc.clipRunSpeed = 1.9f; }
+            else if (usaAdulto) { tpc.walkSpeed = 1.4f; tpc.runSpeed = 3.2f; tpc.clipWalkSpeed = 1.2f; tpc.clipRunSpeed = 1.9f; }
+            else if (mh) { tpc.walkSpeed = 1.1f; tpc.runSpeed = 2.7f; tpc.clipWalkSpeed = 0.89f; tpc.clipRunSpeed = 0.96f; tpc.maxAnimMultiplier = 3f; }
             else { tpc.walkSpeed = 1.1f; tpc.runSpeed = 2.7f; tpc.clipWalkSpeed = 0.46f; tpc.clipRunSpeed = 1.15f; }
             p.AddComponent<PlayerInteractor>();
-            // punto mirato dalla camera (petto/testa del bambino)
+            // punto mirato dalla camera (petto/testa: bambino MakeHuman 1,0 m a 0,85 m; v5 1,2 m a 1,0 m)
             var punto = new GameObject("PuntoCamera").transform;
             punto.SetParent(p.transform, false);
-            punto.localPosition = new Vector3(0f, usaAdulto ? 1.45f : 1.0f, 0f);
+            punto.localPosition = new Vector3(0f, usaAdulto ? 1.45f : (mh ? 0.85f : 1.0f), 0f);
 
-            if (cam != null) BuildCameraRig(cam, p.transform, punto, yaw, profilo);
+            if (cam != null) BuildCameraRig(cam, p.transform, punto, yaw, profilo, !usaAdulto && mh ? altBambino / 1.2f : 1f);
             AssegnaLayerVistaLibera(p.scene);
             return p;
         }

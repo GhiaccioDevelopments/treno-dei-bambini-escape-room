@@ -1,0 +1,34 @@
+# Written by MakeHuman 1.2.1 alpha
+version v1.2.1
+camera 0.0 0.0 0.0 -0.022561836438380327 -0.03877241285893878 1.0
+modifier nose/nose-scale-vert-decr|incr 0.100000
+modifier chin/chin-prominent-decr|incr 0.150000
+modifier cheek/l-cheek-volume-decr|incr -0.150000
+modifier cheek/r-cheek-volume-decr|incr -0.150000
+modifier breast/BreastSize 0.500000
+modifier breast/BreastFirmness 0.500000
+modifier macrodetails/Gender 1.000000
+modifier macrodetails/Age 0.730769
+modifier macrodetails/African 0.100000
+modifier macrodetails/Asian 0.100000
+modifier macrodetails/Caucasian 0.800000
+modifier macrodetails-universal/Muscle 0.400000
+modifier macrodetails-universal/Weight 0.420000
+modifier macrodetails-height/Height 0.580000
+modifier macrodetails-proportions/BodyProportions 0.600000
+teeth Teeth_Base 0a5ec82a-0d5f-43ce-a765-8f076f95692d
+hair short04 e09bfd91-f83f-4f9a-ba8c-4635cd1ae0d8
+eyelashes Eyelashes01 d533836f-13ad-4836-8b65-051108253cd2
+skeleton game_engine.mhskel
+eyebrows eyebrow002 a4e73c2f-3a12-47c8-b706-31a68cac6907
+eyes HighPolyEyes 2c12f43b-1303-432c-b7ce-d78346baf2e6
+clothes male_elegantsuit01 1d2e3843-dda5-40a8-84a0-96666aa681bb
+clothes shoes03 ad622a26-da1e-4e3c-9f8e-454edf10d504
+clothesHideFaces True
+skinMaterial skins/middleage_caucasian_male/middleage_caucasian_male.mhmat
+material short04 e09bfd91-f83f-4f9a-ba8c-4635cd1ae0d8 amerigo/amerigo_adulto_capelli.mhmat
+material HighPolyEyes 2c12f43b-1303-432c-b7ce-d78346baf2e6 eyes/materials/brown.mhmat
+material eyebrow002 a4e73c2f-3a12-47c8-b706-31a68cac6907 eyebrow002.mhmat
+material Eyelashes01 d533836f-13ad-4836-8b65-051108253cd2 eyelashes01.mhmat
+material Teeth_Base 0a5ec82a-0d5f-43ce-a765-8f076f95692d teeth/materials/teeth.mhmat
+subdivide False
