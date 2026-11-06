@@ -486,6 +486,18 @@ namespace TrenoBambini.EditorTools
             DoorLeaf(props, "PortaRetro", new WallFrame(new Vector3(1.2f, 0f, 14.1f), Vector3.right, Vector3.back), 2.5f, 0.08f, 0.2f, 1.0f, 2.15f, 0.25f);
             noBalcone.Add(new Vector3(3.7f, 0f, 14.1f));
 
+            // soffitto del basso (R006 tappa 4): lastra sopra stanza, alcova, blocco e cucina (il cortile resta a cielo aperto) con travi a vista.
+            // Il nome "MuroSoffitto" lo mette sul layer VistaLibera: WallFader lo nasconde solo quando sta fra la camera e Amerigo
+            // (camera sopra il soffitto); con la camera sotto la volta il soffitto si vede.
+            Box("MuroSoffittoStanza", env, new Vector3(0f, H + 0.075f, 2.65f), new Vector3(9.6f, 0.15f, 10.9f), PL, null, true);
+            foreach (float zt in new[] { -2.0f, -0.5f, 1.0f, 2.5f })
+                Box("AppesoTraveStanza", props, new Vector3(0f, H - 0.1f, zt), new Vector3(8.95f, 0.2f, 0.2f), "M_LegnoVernicePelata", null, false);
+            foreach (float zt in new[] { 5.0f, 6.8f })
+            {
+                Box("AppesoTraveAlcova", props, new Vector3(-3.0f, H - 0.1f, zt), new Vector3(2.95f, 0.2f, 0.2f), "M_LegnoVernicePelata", null, false);
+                Box("AppesoTraveCucina", props, new Vector3(3.0f, H - 0.1f, zt), new Vector3(2.95f, 0.2f, 0.2f), "M_LegnoVernicePelata", null, false);
+            }
+
             RisolviSpazio("20_Int_BassoAntonietta");
 
             // le scarpe (due blocchi a forma di scarpa) vicino alla porta

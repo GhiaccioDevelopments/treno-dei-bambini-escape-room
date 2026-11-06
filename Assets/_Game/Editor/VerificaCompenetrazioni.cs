@@ -182,7 +182,7 @@ namespace TrenoBambini.EditorTools
         {
             var idx = new int[obbs.Count];
             for (int i = 0; i < idx.Length; i++) idx[i] = i;
-            Array.Sort(idx, (p, q) => obbs[p].aabb.min.x.CompareTo(obbs[q].aabb.min.x));
+            Array.Sort(idx, (p, q) => { int c = obbs[p].aabb.min.x.CompareTo(obbs[q].aabb.min.x); return c != 0 ? c : p.CompareTo(q); }); // spareggio per indice: ordinamento stabile
             for (int ii = 0; ii < idx.Length; ii++)
             {
                 var a = obbs[idx[ii]];
@@ -223,10 +223,25 @@ namespace TrenoBambini.EditorTools
 
         // ------------------------------------------------------------------ raccolta degli ingombri
 
+        static string ChiaveOrdine(Transform t)
+        {
+            var sb = new StringBuilder();
+            var st = new Stack<int>();
+            for (var c = t; c != null; c = c.parent) st.Push(c.GetSiblingIndex());
+            sb.Append(t.gameObject.scene.rootCount >= 0 ? t.root.name : "");
+            foreach (var i in st) sb.Append('/').Append(i.ToString("D6"));
+            return sb.ToString();
+        }
+
         static List<Obb> Raccogli()
         {
             var list = new List<Obb>();
-            foreach (var r in UnityEngine.Object.FindObjectsByType<MeshRenderer>(FindObjectsInactive.Exclude))
+            // ordine stabile: per percorso di indici di fratellanza nella gerarchia (FindObjectsByType non garantisce alcun ordine)
+            var rends = UnityEngine.Object.FindObjectsByType<MeshRenderer>(FindObjectsInactive.Exclude);
+            var chiavi = new Dictionary<MeshRenderer, string>(rends.Length);
+            foreach (var r0 in rends) chiavi[r0] = ChiaveOrdine(r0.transform);
+            Array.Sort(rends, (x, y) => string.CompareOrdinal(chiavi[x], chiavi[y]));
+            foreach (var r in rends)
             {
                 if (!r.enabled) continue;
                 var go = r.gameObject;
