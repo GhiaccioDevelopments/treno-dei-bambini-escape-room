@@ -29,6 +29,15 @@ namespace TrenoBambini.Player
         readonly Dictionary<Renderer, ShadowCastingMode> original = new Dictionary<Renderer, ShadowCastingMode>();
         readonly List<Renderer> rendBuf = new List<Renderer>();
         readonly List<Renderer> release = new List<Renderer>();
+        // cache: Collider.name alloca una stringa a ogni accesso, quindi il nome si controlla una volta sola per collider
+        readonly Dictionary<Collider, bool> soffitti = new Dictionary<Collider, bool>();
+
+        bool EraSoffitto(Collider c)
+        {
+            if (c == null) return false;
+            if (!soffitti.TryGetValue(c, out bool s)) { s = c.name.Contains("Soffitto"); soffitti[c] = s; }
+            return s;
+        }
 
         void Awake() { mask = LayerMask.GetMask(LayerName); }
 
@@ -56,7 +65,13 @@ namespace TrenoBambini.Player
                 Collect(Physics.SphereCastNonAlloc(tgt, castRadius, -dir, hits, dist + 0.6f, mask, QueryTriggerInteraction.Ignore), true);
             }
             int n = Physics.OverlapSphereNonAlloc(cam, 0.6f, overlaps, mask, QueryTriggerInteraction.Ignore);
-            for (int i = 0; i < n; i++) Hide(overlaps[i]);
+            for (int i = 0; i < n; i++)
+            {
+                // il soffitto degli interni si nasconde solo se la camera e' davvero sopra la sua faccia inferiore:
+                // con la camera sotto la volta (anche a meno di 60 cm) resta visibile
+                if (EraSoffitto(overlaps[i]) && cam.y < overlaps[i].bounds.min.y) continue;
+                Hide(overlaps[i]);
+            }
 
             // renderer distrutti (cambio scena, rebuild): via anche da 'original'
             if (original.Count > hidden.Count)
@@ -86,7 +101,9 @@ namespace TrenoBambini.Player
             for (int i = 0; i < n; i++)
             {
                 if (fromTarget && hits[i].distance <= 0.0001f) continue;
-                Hide(hits[i].collider);
+                var col = hits[i].collider;
+                if (col != null && camT != null && EraSoffitto(col) && camT.position.y < col.bounds.min.y) continue; // camera sotto la volta
+                Hide(col);
             }
         }
 
@@ -110,6 +127,7 @@ namespace TrenoBambini.Player
                 if (kv.Key != null) kv.Key.shadowCastingMode = kv.Value;
             original.Clear();
             hidden.Clear();
+            soffitti.Clear();
         }
     }
 }

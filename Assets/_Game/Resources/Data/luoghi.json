@@ -6,23 +6,23 @@
       "scena": "20_Int_BassoAntonietta",
       "spawn": "ingresso",
       "aperto": true,
-      "descrizione": "Un'unica stanza al pianterreno, senza finestre sul vicolo, dove Antonietta e Amerigo vivono tra un letto, un tavolo e qualche cassa. Poco spazio, ma è casa."
+      "descrizione": "Un basso al pianterreno, senza finestre sul vicolo: la stanza principale affollata di casse, materassi e una credenza, l'alcova col letto dietro una tenda, un angolo cucina e, sul retro, un piccolo cortile. Poco spazio, ma è casa."
     },
     {
       "id": "casa_capa_e_fierro",
-      "nome": "La casa di Capa e Fierro",
+      "nome": "La bottega di Capa 'e fierro",
       "scena": "",
       "spawn": "",
       "aperto": false,
-      "descrizione": "L'abitazione di un vicino di Antonietta, noto nel quartiere per il carattere testardo. Si aprirà più avanti nella storia."
+      "descrizione": "La bottega di robivecchi (stracci e ferri vecchi) di un vicino di Antonietta, noto nel quartiere per il carattere testardo. Si aprirà più avanti nella storia."
     },
     {
       "id": "sede_partito",
-      "nome": "La sede del partito",
+      "nome": "La sede del Comitato",
       "scena": "",
       "spawn": "",
       "aperto": false,
-      "descrizione": "Una sede politica dove le volontarie organizzano l'accoglienza dei bambini. Nel quartiere si dicono molte cose strane su chi la frequenta. Si aprirà più avanti."
+      "descrizione": "La sede del Comitato, dove le volontarie organizzano l'accoglienza dei bambini. Nel quartiere si dicono molte cose strane su chi la frequenta. Si aprirà più avanti."
     },
     {
       "id": "stazione",

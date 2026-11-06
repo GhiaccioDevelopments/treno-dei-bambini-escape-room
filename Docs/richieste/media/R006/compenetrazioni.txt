@@ -1,0 +1,12 @@
+Verifica compenetrazioni - 2026-11-06 23:05
+Tolleranza penetrazione 2 cm, appoggio 5 cm, sotto il pavimento 3 cm.
+
+== 01_Titolo: 0 segnalazioni ==
+
+== 10_Hub_Vicolo: 0 segnalazioni ==
+
+== 20_Int_BassoAntonietta: 0 segnalazioni ==
+
+== 30_FB_Scarpe: 0 segnalazioni ==
+
+TOTALE: 0

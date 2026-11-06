@@ -1,0 +1,603 @@
+{
+ "testi": [
+  {
+   "chiave": "Ricostruiamo",
+   "gruppo": "quartiere",
+   "tipo": "manifesto",
+   "w": 256,
+   "h": 384,
+   "seed": 3,
+   "righe": [
+    "RICOSTRUIAMO",
+    "INSIEME",
+    "LA NOSTRA CITTA",
+    "",
+    "ASSEMBLEA IN PIAZZA",
+    "SABATO ORE 16"
+   ],
+   "carta": [
+    0.88,
+    0.8,
+    0.62
+   ],
+   "inchiostro": [
+    0.1,
+    0.08,
+    0.06
+   ]
+  },
+  {
+   "chiave": "Acqua",
+   "gruppo": "quartiere",
+   "tipo": "manifesto",
+   "w": 256,
+   "h": 384,
+   "seed": 4,
+   "righe": [
+    "AVVISO",
+    "ACQUA ALLA",
+    "FONTANELLA",
+    "",
+    "DALLE 6 ALLE 10",
+    "PORTARE I SECCHI"
+   ],
+   "carta": [
+    0.88,
+    0.8,
+    0.62
+   ],
+   "inchiostro": [
+    0.1,
+    0.08,
+    0.06
+   ]
+  },
+  {
+   "chiave": "Viveri",
+   "gruppo": "quartiere",
+   "tipo": "manifesto",
+   "w": 256,
+   "h": 384,
+   "seed": 5,
+   "righe": [
+    "AVVISO",
+    "DISTRIBUZIONE",
+    "DEI VIVERI",
+    "",
+    "OGNI MARTEDI",
+    "PORTARE LA TESSERA"
+   ],
+   "carta": [
+    0.88,
+    0.8,
+    0.62
+   ],
+   "inchiostro": [
+    0.1,
+    0.08,
+    0.06
+   ]
+  },
+  {
+   "chiave": "Affitto",
+   "gruppo": "quartiere",
+   "tipo": "manifesto",
+   "w": 256,
+   "h": 384,
+   "seed": 6,
+   "righe": [
+    "SI AFFITTA",
+    "BASSO",
+    "",
+    "RIVOLGERSI",
+    "AL PORTIERE",
+    "DI SERA"
+   ],
+   "carta": [
+    0.88,
+    0.8,
+    0.62
+   ],
+   "inchiostro": [
+    0.1,
+    0.08,
+    0.06
+   ]
+  },
+  {
+   "chiave": "Scuola",
+   "gruppo": "quartiere",
+   "tipo": "manifesto",
+   "w": 256,
+   "h": 384,
+   "seed": 7,
+   "righe": [
+    "PER LA SCUOLA",
+    "PER I BAMBINI",
+    "",
+    "OFFERTE AL",
+    "COMITATO DI VIA",
+    "GRAZIE"
+   ],
+   "carta": [
+    0.88,
+    0.8,
+    0.62
+   ],
+   "inchiostro": [
+    0.1,
+    0.08,
+    0.06
+   ]
+  },
+  {
+   "chiave": "Lavoro",
+   "gruppo": "quartiere",
+   "tipo": "manifesto",
+   "w": 256,
+   "h": 384,
+   "seed": 8,
+   "righe": [
+    "CERCASI",
+    "MANOVALI",
+    "",
+    "PER LA",
+    "RICOSTRUZIONE",
+    "PAGA A GIORNATA"
+   ],
+   "carta": [
+    0.88,
+    0.8,
+    0.62
+   ],
+   "inchiostro": [
+    0.45,
+    0.08,
+    0.05
+   ]
+  },
+  {
+   "chiave": "Festa",
+   "gruppo": "quartiere",
+   "tipo": "manifesto",
+   "w": 256,
+   "h": 384,
+   "seed": 9,
+   "righe": [
+    "FESTA DI",
+    "QUARTIERE",
+    "",
+    "SABATO SERA",
+    "MUSICA E BALLI",
+    "PER TUTTI"
+   ],
+   "carta": [
+    0.88,
+    0.8,
+    0.62
+   ],
+   "inchiostro": [
+    0.1,
+    0.08,
+    0.06
+   ]
+  },
+  {
+   "chiave": "Crollo",
+   "gruppo": "quartiere",
+   "tipo": "manifesto",
+   "w": 256,
+   "h": 384,
+   "seed": 10,
+   "righe": [
+    "PERICOLO",
+    "CROLLO",
+    "",
+    "NON ENTRARE",
+    "VIA LIBERA",
+    "SOLO AI TECNICI"
+   ],
+   "carta": [
+    0.88,
+    0.8,
+    0.62
+   ],
+   "inchiostro": [
+    0.45,
+    0.08,
+    0.05
+   ]
+  },
+  {
+   "chiave": "Salumeria",
+   "gruppo": "quartiere",
+   "tipo": "insegna",
+   "w": 512,
+   "h": 96,
+   "seed": 11,
+   "righe": [
+    "SALUMERIA"
+   ],
+   "carta": [
+    0.38,
+    0.1,
+    0.08
+   ],
+   "inchiostro": [
+    0.9,
+    0.82,
+    0.6
+   ]
+  },
+  {
+   "chiave": "Barbiere",
+   "gruppo": "quartiere",
+   "tipo": "insegna",
+   "w": 512,
+   "h": 96,
+   "seed": 12,
+   "righe": [
+    "BARBIERE"
+   ],
+   "carta": [
+    0.12,
+    0.22,
+    0.3
+   ],
+   "inchiostro": [
+    0.9,
+    0.82,
+    0.6
+   ]
+  },
+  {
+   "chiave": "Calzolaio",
+   "gruppo": "quartiere",
+   "tipo": "insegna",
+   "w": 512,
+   "h": 96,
+   "seed": 13,
+   "righe": [
+    "CALZOLAIO"
+   ],
+   "carta": [
+    0.22,
+    0.15,
+    0.08
+   ],
+   "inchiostro": [
+    0.9,
+    0.82,
+    0.6
+   ]
+  },
+  {
+   "chiave": "Latteria",
+   "gruppo": "quartiere",
+   "tipo": "insegna",
+   "w": 512,
+   "h": 96,
+   "seed": 14,
+   "righe": [
+    "LATTERIA"
+   ],
+   "carta": [
+    0.18,
+    0.3,
+    0.24
+   ],
+   "inchiostro": [
+    0.9,
+    0.82,
+    0.6
+   ]
+  },
+  {
+   "chiave": "Ferramenta",
+   "gruppo": "quartiere",
+   "tipo": "insegna",
+   "w": 512,
+   "h": 96,
+   "seed": 15,
+   "righe": [
+    "FERRAMENTA"
+   ],
+   "carta": [
+    0.16,
+    0.16,
+    0.17
+   ],
+   "inchiostro": [
+    0.9,
+    0.82,
+    0.6
+   ]
+  },
+  {
+   "chiave": "Trattoria",
+   "gruppo": "quartiere",
+   "tipo": "insegna",
+   "w": 512,
+   "h": 96,
+   "seed": 16,
+   "righe": [
+    "TRATTORIA"
+   ],
+   "carta": [
+    0.4,
+    0.22,
+    0.08
+   ],
+   "inchiostro": [
+    0.9,
+    0.82,
+    0.6
+   ]
+  },
+  {
+   "chiave": "Sarto",
+   "gruppo": "quartiere",
+   "tipo": "insegna",
+   "w": 512,
+   "h": 96,
+   "seed": 17,
+   "righe": [
+    "SARTO"
+   ],
+   "carta": [
+    0.2,
+    0.2,
+    0.3
+   ],
+   "inchiostro": [
+    0.9,
+    0.82,
+    0.6
+   ]
+  },
+  {
+   "chiave": "Fruttivendolo",
+   "gruppo": "quartiere",
+   "tipo": "insegna",
+   "w": 512,
+   "h": 96,
+   "seed": 18,
+   "righe": [
+    "FRUTTA E VERDURA"
+   ],
+   "carta": [
+    0.22,
+    0.3,
+    0.14
+   ],
+   "inchiostro": [
+    0.9,
+    0.82,
+    0.6
+   ]
+  },
+  {
+   "chiave": "Stazione",
+   "gruppo": "quartiere",
+   "tipo": "insegna",
+   "w": 512,
+   "h": 96,
+   "seed": 19,
+   "righe": [
+    "STAZIONE"
+   ],
+   "carta": [
+    0.16,
+    0.2,
+    0.17
+   ],
+   "inchiostro": [
+    0.92,
+    0.86,
+    0.68
+   ]
+  },
+  {
+   "chiave": "Comitato",
+   "gruppo": "quartiere",
+   "tipo": "insegna",
+   "w": 512,
+   "h": 96,
+   "seed": 20,
+   "righe": [
+    "SEDE DEL COMITATO"
+   ],
+   "carta": [
+    0.38,
+    0.1,
+    0.08
+   ],
+   "inchiostro": [
+    0.92,
+    0.86,
+    0.68
+   ]
+  },
+  {
+   "chiave": "CapaFierro",
+   "gruppo": "quartiere",
+   "tipo": "insegna",
+   "w": 512,
+   "h": 96,
+   "seed": 21,
+   "righe": [
+    "STRACCI E FERRI VECCHI"
+   ],
+   "carta": [
+    0.12,
+    0.22,
+    0.3
+   ],
+   "inchiostro": [
+    0.92,
+    0.86,
+    0.68
+   ]
+  },
+  {
+   "chiave": "Stracci",
+   "gruppo": "quartiere",
+   "tipo": "insegna",
+   "w": 512,
+   "h": 96,
+   "seed": 22,
+   "righe": [
+    "VICOLO DEGLI STRACCI"
+   ],
+   "carta": [
+    0.22,
+    0.15,
+    0.08
+   ],
+   "inchiostro": [
+    0.92,
+    0.86,
+    0.68
+   ]
+  },
+  {
+   "chiave": "SantinoGennaro",
+   "gruppo": "basso",
+   "tipo": "manifesto",
+   "w": 128,
+   "h": 192,
+   "seed": 21,
+   "righe": [
+    "S. GENNARO",
+    "",
+    "PROTEGGI",
+    "NAPOLI"
+   ],
+   "carta": [
+    0.86,
+    0.78,
+    0.6
+   ],
+   "inchiostro": [
+    0.42,
+    0.08,
+    0.06
+   ]
+  },
+  {
+   "chiave": "SantinoMadonna",
+   "gruppo": "basso",
+   "tipo": "manifesto",
+   "w": 128,
+   "h": 192,
+   "seed": 22,
+   "righe": [
+    "MADONNA",
+    "DEL CARMINE",
+    "",
+    "PREGA PER NOI"
+   ],
+   "carta": [
+    0.86,
+    0.78,
+    0.6
+   ],
+   "inchiostro": [
+    0.1,
+    0.08,
+    0.06
+   ]
+  },
+  {
+   "chiave": "SantinoCuore",
+   "gruppo": "basso",
+   "tipo": "manifesto",
+   "w": 128,
+   "h": 192,
+   "seed": 23,
+   "righe": [
+    "SACRO",
+    "CUORE",
+    "",
+    "BENEDICI",
+    "QUESTA CASA"
+   ],
+   "carta": [
+    0.86,
+    0.78,
+    0.6
+   ],
+   "inchiostro": [
+    0.42,
+    0.08,
+    0.06
+   ]
+  },
+  {
+   "chiave": "Calendario",
+   "gruppo": "basso",
+   "tipo": "manifesto",
+   "w": 128,
+   "h": 192,
+   "seed": 24,
+   "righe": [
+    "ANNO",
+    "1946",
+    "",
+    "NOVEMBRE"
+   ],
+   "carta": [
+    0.9,
+    0.86,
+    0.72
+   ],
+   "inchiostro": [
+    0.42,
+    0.08,
+    0.06
+   ]
+  },
+  {
+   "chiave": "Graffito",
+   "gruppo": "ricordo",
+   "tipo": "insegna",
+   "w": 256,
+   "h": 96,
+   "seed": 31,
+   "righe": [
+    "C'ERO ANCH'IO"
+   ],
+   "carta": [
+    0.34,
+    0.28,
+    0.22
+   ],
+   "inchiostro": [
+    0.9,
+    0.88,
+    0.8
+   ]
+  },
+  {
+   "chiave": "Campana",
+   "gruppo": "ricordo",
+   "tipo": "insegna",
+   "w": 128,
+   "h": 96,
+   "seed": 32,
+   "righe": [
+    "CIELO"
+   ],
+   "carta": [
+    0.3,
+    0.26,
+    0.2
+   ],
+   "inchiostro": [
+    0.9,
+    0.88,
+    0.8
+   ]
+  }
+ ]
+}
