@@ -74,6 +74,34 @@ namespace TrenoBambini.UI
         float fpsAcc; int fpsFrames; int lowWindows; bool autoReduceDone;
 
         public bool ModalOpen { get { return modalCount > 0; } }
+        /// <summary>
+        /// Joystick a schermo: in modalità touch, oppure su PC con la visuale "a tasto destro" (cursore libero: utile alle LIM che
+        /// simulano il mouse). Con la visuale "muovendo il mouse" su PC non serve (in WebGL un Touchscreen esiste sempre).
+        /// </summary>
+        public static bool JoystickVisible { get { return TouchMode || !CursorManager.MouseLookMode; } }
+
+        /// <summary>Titolo o boot: niente HUD, niente blocco del cursore.</summary>
+        public bool MenuScene { get { return menuScene; } }
+
+        // R005: cartellino "Clicca per giocare" (WebGL, finché il browser non concede il blocco del cursore)
+        RectTransform clickCard;
+        CanvasGroup clickCardGroup;
+        TextMeshProUGUI clickSub;
+        bool clickRefusedShown;
+        float ignoreEscUntil;
+        static bool comandiMostrati;
+        RectTransform joystickRoot;
+
+        /// <summary>Testo dei comandi (pausa ▸ Comandi e toast d'inizio partita).</summary>
+        public static string ComandiTesto(bool tastoDestro)
+        {
+            return (tastoDestro ? "Mouse con tasto destro premuto: guardarsi intorno\n" : "Muovi il mouse: guardarsi intorno\n")
+                + "W A S D o frecce: camminare (Maiusc: correre)\n"
+                + "E: interagire con l'oggetto evidenziato\n"
+                + "I o Tab: valigia (inventario)\n"
+                + "Esc o P: pausa\n"
+                + "F3: finestra di diagnosi";
+        }
 
         void Awake()
         {
@@ -198,6 +226,67 @@ namespace TrenoBambini.UI
             UIFactory.Stretch(anim);
             anim.gameObject.AddComponent<Canvas>();
             prompt = InteractPrompt.Create(anim);
+
+            BuildClickCard();
+        }
+
+        void BuildClickCard()
+        {
+            // sul layer delle schermate: sopra l'HUD, sotto pausa e dialoghi
+            var card = UIFactory.MakePaper(ScreenLayer, "CliccaPerGiocare", Color.white, true);
+            UIFactory.Place(card.rectTransform, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(460f, 130f));
+            clickCard = card.rectTransform;
+            clickCardGroup = card.gameObject.AddComponent<CanvasGroup>();
+            var t = UIFactory.MakeText(clickCard, "Clicca per giocare", 34, UITheme.Ceralacca, TextAlignmentOptions.Center, FontStyles.Bold);
+            UIFactory.Stretch(t.rectTransform, 20f, 46f, 20f, 14f);
+            clickSub = UIFactory.MakeText(clickCard, "Il mouse girerà la visuale · Esc per la pausa", 20, UITheme.Inchiostro, TextAlignmentOptions.Center, FontStyles.Italic);
+            UIFactory.Stretch(clickSub.rectTransform, 20f, 14f, 20f, 80f);
+            clickCard.gameObject.SetActive(false);
+        }
+
+        void UpdateClickCard()
+        {
+            if (clickCard == null) return;
+            var cm = CursorManager.I;
+            bool want = cm != null && cm.NeedsClick && !menuScene;
+            bool refused = want && cm.LockRefused;
+            if (refused != clickRefusedShown && clickSub != null)
+            {
+                clickRefusedShown = refused;
+                clickSub.text = refused
+                    ? "Il browser non concede il blocco del mouse: oppure scegli Visuale: col tasto destro nella pausa"
+                    : "Il mouse girerà la visuale · Esc per la pausa";
+            }
+            if (clickCard.gameObject.activeSelf == want) return;
+            clickCard.gameObject.SetActive(want);
+            if (want)
+            {
+                clickCard.SetAsLastSibling();
+                clickCardGroup.alpha = 0f;
+                UITween.Cancel(clickCardGroup);
+                UITween.Alpha(clickCardGroup, 1f, 0.25f, Ease.OutCubic);
+            }
+        }
+
+        /// <summary>
+        /// Il browser (o l'editor) ha tolto il blocco del cursore mentre si esplorava: si apre la pausa, così non resta mai
+        /// un cursore libero senza menu. Esc che arriva subito dopo non deve richiuderla.
+        /// </summary>
+        public void OpenPauseFromLockLoss()
+        {
+            ignoreEscUntil = Time.unscaledTime + 0.5f;
+            if (Pause == null || Pause.IsOpen || Inventory.IsOpen || !CanOpenMenus) return;
+            Pause.Show();
+        }
+
+        /// <summary>Una volta per sessione, al primo ingresso in una scena di gioco: i comandi in un telegramma.</summary>
+        void MaybeShowComandiToast()
+        {
+            if (comandiMostrati || menuScene || TouchMode || !CanOpenMenus) return;
+            comandiMostrati = true;
+            bool rmb = CursorManager.I != null && !CursorManager.MouseLookMode;
+            Toast((rmb ? "Tasto destro + mouse per guardarti intorno" : "Muovi il mouse per guardarti intorno")
+                + " · I inventario · Esc pausa", 7f);
         }
 
         void BuildTouchControls()
@@ -214,6 +303,8 @@ namespace TrenoBambini.UI
             joy.background = back.rectTransform;
             joy.knob = knob.rectTransform;
             joy.radius = 65f;
+            joystickRoot = back.rectTransform;
+            joystickRoot.gameObject.SetActive(JoystickVisible);
 
             // pulsante Interagisci: compare solo in modalità touch e solo vicino a un interagibile (vedi UpdateInteractButton)
             var act = UIFactory.MakeButton(HudLayer, "Interagisci", OnInteractButton, new Vector2(240f, 90f), ButtonStyle.Seal, 30f, true);
@@ -472,7 +563,9 @@ namespace TrenoBambini.UI
         {
             if (!touchBuilt && Touchscreen.current != null) BuildTouchControls();
             UpdateTouchMode();
+            if (joystickRoot != null && joystickRoot.gameObject.activeSelf != JoystickVisible) joystickRoot.gameObject.SetActive(JoystickVisible);
             UpdateInteractButton();
+            UpdateClickCard();
 
             bool showHud = !menuScene && !Cutscene.IsPlaying;
             if (HudLayer.gameObject.activeSelf != showHud)
@@ -510,9 +603,11 @@ namespace TrenoBambini.UI
             }
 
             if (menuScene || Cutscene.IsPlaying || Fader.Busy || lastModalPopFrame == Time.frameCount) return;
+            MaybeShowComandiToast();
 
-            if (kb.iKey.wasPressedThisFrame) ToggleInventory();
-            else if (kb.escapeKey.wasPressedThisFrame || kb.pKey.wasPressedThisFrame) TogglePause();
+            if (kb.iKey.wasPressedThisFrame || kb.tabKey.wasPressedThisFrame) ToggleInventory();
+            else if (kb.pKey.wasPressedThisFrame) TogglePause();
+            else if (kb.escapeKey.wasPressedThisFrame && Time.unscaledTime >= ignoreEscUntil) TogglePause();
         }
 
         // ---------------------------------------------------------------- fps bassi => effetti ridotti

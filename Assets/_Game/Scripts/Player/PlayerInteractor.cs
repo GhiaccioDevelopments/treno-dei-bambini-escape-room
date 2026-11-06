@@ -109,6 +109,10 @@ namespace TrenoBambini.Player
         {
             var mouse = Mouse.current;
             if (mouse == null || !mouse.leftButton.wasPressedThisFrame) return;
+            // R005: il clic che serve a bloccare il cursore (o subito dopo) non attiva oggetti
+            if (CursorManager.SwallowPointer) return;
+            // con il cursore bloccato non si punta un oggetto preciso e il clic sinistro non fa nulla (decisione R005): si usa E
+            if (CursorManager.I != null && CursorManager.I.Locked) return;
             var es = EventSystem.current;
             if (es != null && es.IsPointerOverGameObject()) return;
             var cam = Camera.main;
