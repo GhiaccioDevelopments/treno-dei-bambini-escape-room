@@ -1,4 +1,5 @@
 using TrenoBambini.Core;
+using TrenoBambini.UI;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -12,8 +13,8 @@ namespace TrenoBambini.Player
     /// <summary>
     /// Pilota la CinemachineCamera in terza persona (CinemachineOrbitalFollow a 3 anelli).
     /// Input di rotazione:
-    ///  - mouse: SOLO tenendo premuto il tasto DESTRO (il sinistro resta all'interazione con il click, vedi PlayerInteractor);
-    ///    durante il trascinamento il cursore è bloccato e nascosto, al rilascio torna libero;
+    ///  - mouse (R005): con il cursore bloccato la visuale segue il mouse senza clic (CursorManager decide quando bloccarlo);
+    ///    in alternativa, o se nelle impostazioni si sceglie il "tasto destro", trascinando con il tasto DESTRO premuto;
     ///  - gamepad: stick destro;
     ///  - touch: trascinamento in qualsiasi punto della metà destra dello schermo non coperto dalla UI.
     /// Con input bloccato (dialoghi, pausa, inventario, enigmi) la camera non ruota e il cursore è libero.
@@ -49,7 +50,6 @@ namespace TrenoBambini.Player
         int camTouch = -1;
         int pendingTouch = -1;
         int pendingFrame;
-        bool dragging;
 
         void Awake()
         {
@@ -65,7 +65,7 @@ namespace TrenoBambini.Player
 #endif
         }
 
-        void OnDisable() { SetDragging(false); MoveYaw = float.NaN; }
+        void OnDisable() { MoveYaw = float.NaN; }
 
         /// <summary>Riporta la camera dietro al player e azzera lo smorzamento (dopo cambio scena o teletrasporto).</summary>
         public void Snap()
@@ -84,26 +84,26 @@ namespace TrenoBambini.Player
             if (orbit == null) return;
             MoveYaw = orbit.HorizontalAxis.Value;
             bool blocked = GameManager.I != null && GameManager.I.InputBlocked;
-            if (blocked) { camTouch = -1; pendingTouch = -1; SetDragging(false); return; }
+            if (blocked) { camTouch = -1; pendingTouch = -1; return; }
 
             float sens = CameraSettings.Sensibilita;
             float ySign = CameraSettings.InvertiY ? -1f : 1f;
             float dYaw = 0f, dPitch = 0f; // gradi; dPitch > 0 = guarda in su
 
             var mouse = Mouse.current;
-            bool rmb = mouse != null && mouse.rightButton.isPressed;
-            SetDragging(rmb);
-            if (rmb)
+            bool rmb = mouse != null && mouse.rightButton.isPressed && !UIRoot.TouchMode;
+            if (mouse != null && (rmb || CursorManager.MouseLookActive))
             {
                 Vector2 d = mouse.delta.ReadValue();
+                if (float.IsNaN(d.x) || float.IsNaN(d.y)) d = Vector2.zero;
                 dYaw += d.x * mouseDegPerPixel * sens;
                 dPitch += d.y * mouseDegPerPixel * sens * ySign;
             }
 
-            var gp = Gamepad.current;
+            var gp = InputHelper.ActiveGamepad;
             if (gp != null)
             {
-                Vector2 s = gp.rightStick.ReadValue();
+                Vector2 s = InputHelper.SafeStick(gp.rightStick.ReadValue());
                 if (s.sqrMagnitude > 0.04f)
                 {
                     dYaw += s.x * padYawSpeed * sens * Time.unscaledDeltaTime;
@@ -159,19 +159,6 @@ namespace TrenoBambini.Player
                 v.Value = Mathf.Clamp(v.Value - dPitch / degreesPerPitchUnit, v.Range.x, v.Range.y);
                 orbit.VerticalAxis = v;
             }
-        }
-
-        void SetDragging(bool on)
-        {
-            if (dragging == on) return;
-            dragging = on;
-#if UNITY_WEBGL && !UNITY_EDITOR
-            // WebGL: nessun blocco del cursore (pointer lock fragile nel browser), si usa solo il delta del mouse
-            return;
-#else
-            Cursor.lockState = on ? CursorLockMode.Locked : CursorLockMode.None;
-            Cursor.visible = !on;
-#endif
         }
     }
 }

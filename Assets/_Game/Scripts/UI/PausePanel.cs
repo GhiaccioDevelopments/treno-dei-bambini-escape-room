@@ -15,7 +15,8 @@ namespace TrenoBambini.UI
         GameObject view;
         PanelFx fx;
         Slider volume, music, ambient, effects, voices;
-        Button reduceBtn;
+        Button reduceBtn, lookBtn;
+        const float ItemH = 42f, RowH = 32f;
 
         void Awake()
         {
@@ -52,13 +53,13 @@ namespace TrenoBambini.UI
 
             var content = UIFactory.NewRect("Voci", pr);
             UIFactory.Stretch(content, 90f, 20f, 20f, 20f);
-            var vl = UIFactory.AddVLayout(content.gameObject, 8f);
-            vl.padding = new RectOffset(0, 0, 10, 10);
+            var vl = UIFactory.AddVLayout(content.gameObject, 5f);
+            vl.padding = new RectOffset(0, 0, 4, 4);
 
             var title = UIFactory.MakeText(content, "Pausa", 42, UITheme.InchiostroBlu, TextAlignmentOptions.Center, FontStyles.Bold | FontStyles.Italic);
-            Add(title, 440f, 54f);
-            Add(Item(content, "Riprendi", Hide), 440f, 48f);
-            Add(Item(content, "Valigia", () => { if (UIRoot.I != null) UIRoot.I.Inventory.Show(); }), 440f, 48f);
+            Add(title, 440f, 50f);
+            Add(Item(content, "Riprendi", Hide), 440f, ItemH);
+            Add(Item(content, "Valigia", () => { if (UIRoot.I != null) UIRoot.I.Inventory.Show(); }), 440f, ItemH);
 
             // R002: volume generale + quattro canali, una riga per slider (etichetta a sinistra)
             volume = SliderRow(content, "Generale", OnVolume);
@@ -68,31 +69,35 @@ namespace TrenoBambini.UI
             voices = SliderRow(content, "Voci", v => OnChannel(AudioChannel.Voci, v));
 
             reduceBtn = Item(content, "", OnToggleReduce);
-            Add(reduceBtn, 440f, 48f);
-            Add(Item(content, "Salva", OnSave), 440f, 48f);
-            Add(Item(content, "Torna al titolo", OnTitle), 440f, 48f);
+            Add(reduceBtn, 440f, ItemH);
+            // R005: comandi da tastiera e scelta di come si gira la visuale (salvata)
+            Add(Item(content, "Comandi", OnComandi), 440f, ItemH);
+            lookBtn = Item(content, "", OnToggleLook);
+            Add(lookBtn, 440f, ItemH);
+            Add(Item(content, "Salva", OnSave), 440f, ItemH);
+            Add(Item(content, "Torna al titolo", OnTitle), 440f, ItemH);
 
             view.SetActive(false);
         }
 
         static Button Item(Transform parent, string label, UnityEngine.Events.UnityAction cb)
         {
-            return UIFactory.MakeButton(parent, label, cb, new Vector2(440f, 48f), ButtonStyle.Ink, 28f);
+            return UIFactory.MakeButton(parent, label, cb, new Vector2(440f, ItemH), ButtonStyle.Ink, 26f);
         }
 
         static Slider SliderRow(Transform parent, string label, UnityEngine.Events.UnityAction<float> onChange)
         {
             var row = UIFactory.NewRect("Riga_" + label, parent);
-            row.sizeDelta = new Vector2(440f, 36f);
+            row.sizeDelta = new Vector2(440f, RowH);
             var h = row.gameObject.AddComponent<HorizontalLayoutGroup>();
             h.spacing = 8f;
             h.childAlignment = TextAnchor.MiddleCenter;
             h.childControlWidth = false; h.childControlHeight = false;
             h.childForceExpandWidth = false; h.childForceExpandHeight = false;
             var t = UIFactory.MakeText(row, label, 24, UITheme.Inchiostro, TextAlignmentOptions.MidlineLeft);
-            Add(t, 130f, 36f);
-            var s = UIFactory.MakeSlider(row, 1f, onChange, new Vector2(290f, 36f));
-            Add(s, 290f, 36f);
+            Add(t, 130f, RowH);
+            var s = UIFactory.MakeSlider(row, 1f, onChange, new Vector2(290f, RowH));
+            Add(s, 290f, RowH);
             return s;
         }
 
@@ -119,6 +124,7 @@ namespace TrenoBambini.UI
             voices.SetValueWithoutNotify(am != null ? am.GetChannel(AudioChannel.Voci) : 1f);
             if (am != null) am.Music.SetPaused(true); // la musica scende al 30% senza fermarsi
             RefreshReduceLabel();
+            RefreshLookLabel();
             transform.SetAsLastSibling();
             fx.Show();
         }
@@ -146,6 +152,30 @@ namespace TrenoBambini.UI
         {
             if (UIRoot.I != null) UIRoot.I.SetReduceEffects(!UITheme.ReduceEffects);
             RefreshReduceLabel();
+        }
+
+        void RefreshLookLabel()
+        {
+            UIFactory.SetLabel(lookBtn, CursorManager.MouseLookMode ? "Visuale: muovendo il mouse" : "Visuale: col tasto destro");
+        }
+
+        void OnToggleLook()
+        {
+            var gm = GameManager.I;
+            if (gm == null) return;
+            gm.Save.visualeTastoDestro = !gm.Save.visualeTastoDestro;
+            gm.SaveGame();
+            RefreshLookLabel();
+            if (UIRoot.I != null)
+                UIRoot.I.Toast(gm.Save.visualeTastoDestro
+                    ? "Visuale: tieni premuto il tasto destro e muovi il mouse."
+                    : "Visuale: muovi il mouse, senza tenere premuto nulla.");
+        }
+
+        void OnComandi()
+        {
+            if (UIRoot.I == null) return;
+            UIRoot.I.ShowMessage("Comandi", UIRoot.ComandiTesto(!CursorManager.MouseLookMode), null);
         }
 
         void OnSave()

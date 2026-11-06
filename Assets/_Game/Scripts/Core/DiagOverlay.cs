@@ -86,6 +86,11 @@ namespace TrenoBambini.Core
             }
             else sb.Append("  Gamepad assente");
             sb.Append("  Focus ").Append(Application.isFocused ? "si" : "NO").Append('\n');
+            var cm = CursorManager.I;
+            if (cm != null)
+                sb.Append("Cursore ").Append(cm.Locked ? "bloccato" : "libero").Append("  vuole blocco ").Append(cm.WantLock ? "si" : "no")
+                  .Append("  esplora ").Append(cm.Exploring ? "si" : "no").Append("  visuale ").Append(CursorManager.MouseLookMode ? "mouse" : "tasto destro")
+                  .Append("  gamepad usato ").Append(InputHelper.ActiveGamepad != null ? "si" : "no").Append('\n');
             if (tpc != null)
             {
                 Vector3 v = tpc.DebugVelocity;

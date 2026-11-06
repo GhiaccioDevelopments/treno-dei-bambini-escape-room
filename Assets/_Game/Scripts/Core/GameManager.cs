@@ -46,6 +46,7 @@ namespace TrenoBambini.Core
             gameObject.AddComponent<AudioManager>();
             gameObject.AddComponent<SceneLoader>();
             gameObject.AddComponent<DiagOverlay>();
+            gameObject.AddComponent<CursorManager>();
 
             var ui = new GameObject("UIRoot", typeof(RectTransform));
             ui.transform.SetParent(transform, false);
@@ -126,6 +127,7 @@ namespace TrenoBambini.Core
                 save.volMusica = vecchio.volMusica; save.volAmbiente = vecchio.volAmbiente;
                 save.volEffetti = vecchio.volEffetti; save.volVoci = vecchio.volVoci;
                 save.effettiRidotti = vecchio.effettiRidotti;
+                save.visualeTastoDestro = vecchio.visualeTastoDestro;
             }
             save.scena = SceneHub;
             save.spawn = "inizio";

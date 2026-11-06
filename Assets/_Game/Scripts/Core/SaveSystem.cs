@@ -19,6 +19,8 @@ namespace TrenoBambini.Core
         // R002: canali audio (1 = livello di base di audio.json). I salvataggi vecchi non li hanno: restano a 1.
         public float volMusica = 1f, volAmbiente = 1f, volEffetti = 1f, volVoci = 1f;
         public bool effettiRidotti; // R001: UI senza tremolii/particelle (accessibilità o PC lento)
+        // R005: true = la visuale gira solo tenendo premuto il tasto destro (cursore libero); false = muovendo il mouse (cursore bloccato)
+        public bool visualeTastoDestro;
     }
 
     /// <summary>Salvataggio su PlayerPrefs (chiave treno_save, JSON).</summary>
