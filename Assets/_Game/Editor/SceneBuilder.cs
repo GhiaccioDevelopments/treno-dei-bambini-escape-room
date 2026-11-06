@@ -265,12 +265,13 @@ namespace TrenoBambini.EditorTools
             else BuildAmerigoModel(modello);
             var tpc = p.AddComponent<ThirdPersonController>();
             // velocità di gioco e velocità di riferimento delle clip Mixamo (misurate) per personaggio: i piedi non scivolano
-            // MakeHuman: velocità dei piedi appoggiati misurate sulle clip Mixamo con i due avatar (Animator.Update a passo fisso, piede più basso):
-            // adulto 1,70 m/s in cammino e 1,9 in corsa, bambino 0,89 e 0,96. Il bambino in corsa (2,7 m/s) richiede una riproduzione ~2,8x.
-            if (usaAdulto && mh) { tpc.walkSpeed = 1.4f; tpc.runSpeed = 3.2f; tpc.clipWalkSpeed = 1.7f; tpc.clipRunSpeed = 1.9f; }
-            else if (usaAdulto) { tpc.walkSpeed = 1.4f; tpc.runSpeed = 3.2f; tpc.clipWalkSpeed = 1.2f; tpc.clipRunSpeed = 1.9f; }
-            else if (mh) { tpc.walkSpeed = 1.1f; tpc.runSpeed = 2.7f; tpc.clipWalkSpeed = 0.89f; tpc.clipRunSpeed = 0.96f; tpc.maxAnimMultiplier = 3f; }
-            else { tpc.walkSpeed = 1.1f; tpc.runSpeed = 2.7f; tpc.clipWalkSpeed = 0.46f; tpc.clipRunSpeed = 1.15f; }
+            // MakeHuman: velocità dei piedi appoggiati misurate in Play (Animator.Update a passo fisso, mediana dei fotogrammi con il piede a terra).
+            // Cammino (clip Mixamo Walk): adulto 1,70 m/s, bambino 0,89. Corsa (R004, clip Mixamo "Slow Run"): adulto 3,4 m/s, bambino 1,7 m/s;
+            // v6/v5 di riserva: 3,4 e 2,15. Moltiplicatore di riproduzione a velocità di corsa: adulto 0,94x, bambino 1,29x (runSpeed 2,2: a 2,7 sarebbe 1,6x).
+            if (usaAdulto && mh) { tpc.walkSpeed = 1.4f; tpc.runSpeed = 3.2f; tpc.clipWalkSpeed = 1.7f; tpc.clipRunSpeed = 3.4f; }
+            else if (usaAdulto) { tpc.walkSpeed = 1.4f; tpc.runSpeed = 3.2f; tpc.clipWalkSpeed = 1.2f; tpc.clipRunSpeed = 3.4f; }
+            else if (mh) { tpc.walkSpeed = 1.1f; tpc.runSpeed = 2.2f; tpc.clipWalkSpeed = 0.89f; tpc.clipRunSpeed = 1.7f; tpc.maxAnimMultiplier = 3f; }
+            else { tpc.walkSpeed = 1.1f; tpc.runSpeed = 2.7f; tpc.clipWalkSpeed = 0.46f; tpc.clipRunSpeed = 2.15f; }
             p.AddComponent<PlayerInteractor>();
             // punto mirato dalla camera (petto/testa: bambino MakeHuman 1,0 m a 0,85 m; v5 1,2 m a 1,0 m)
             var punto = new GameObject("PuntoCamera").transform;
