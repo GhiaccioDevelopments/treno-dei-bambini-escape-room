@@ -750,224 +750,28 @@ namespace TrenoBambini.EditorTools
             }
             var mesh = kb.Build(KitName(name));
             var go = MeshObject(parent, name, mesh, subs, false);
-            Vector3 c, s;
-            fr.Bounds(0, len, 0, thick, 0, h, out c, out s);
-            var bc = go.AddComponent<BoxCollider>();
-            bc.center = c; bc.size = s;
+            // collider a pezzi: i varchi (porte e finestre) restano liberi; sotto e sopra le aperture il muro e' pieno
+            var colOps = new List<WallOpening>(ops);
+            colOps.Sort((p, q) => p.u.CompareTo(q.u));
+            float cu = 0f;
+            Action<float, float, float, float> pezzo = (u0, u1, y0, y1) =>
+            {
+                if (u1 - u0 < 0.001f || y1 - y0 < 0.001f) return;
+                Vector3 cc, ss;
+                fr.Bounds(u0, u1, 0, thick, y0, y1, out cc, out ss);
+                var bc = go.AddComponent<BoxCollider>();
+                bc.center = cc; bc.size = ss;
+            };
+            foreach (var o in colOps)
+            {
+                pezzo(cu, o.U0, 0f, h);
+                pezzo(o.U0, o.U1, 0f, o.y0);
+                pezzo(o.U0, o.U1, o.y1, h);
+                cu = o.U1;
+            }
+            pezzo(cu, len, 0f, h);
             return go;
         }
 
-        static void BuildBasso()
-        {
-            var scene = NewScene();
-            kitScene = "Basso"; kitIndex = 0;
-            var r = new System.Random(1947);
-            doorWallPoints.Clear();
-            ResetSpazio();
-            Ambient(new Color(0.62f, 0.52f, 0.40f), new Color(0.42f, 0.34f, 0.26f), new Color(0.24f, 0.19f, 0.14f));
-            Sun(new Color(1f, 0.88f, 0.68f), 0.6f, new Vector3(55f, -25f, 0f));
-
-            var env = new GameObject("Ambiente").transform;
-            var props = new GameObject("Arredo").transform;
-            var spawns = new GameObject("SpawnPoints").transform;
-
-            // stanza 6 x 5 m, x in [-3,3], z in [-2.5,2.5], pareti alte 3 m, spesse 30 cm verso l'esterno
-            Ground("Pavimento", env, new Vector3(-3.3f, -0.3f, -2.8f), new Vector3(3.3f, 0f, 2.8f), "M_PavimentoCotto", 1.2f);
-            const float H = 3.0f, TH = 0.3f;
-            const string PL = "M_IntonacoMattoni", DADO = "M_IntonacoRossoSbiadito", TRIM = "M_ArenariaCrepe";
-            // nord: finestrella chiusa
-            InteriorWall(env, "MuroNord", new WallFrame(new Vector3(-3f, 0f, 2.5f), Vector3.right, Vector3.back), 6f, H, TH,
-                new List<WallOpening> { new WallOpening(4.6f, 0.9f, 1.4f, 2.3f) }, PL, DADO, 1.0f, TRIM);
-            // sud: porta d'uscita
-            InteriorWall(env, "MuroSud", new WallFrame(new Vector3(3f, 0f, -2.5f), Vector3.left, Vector3.forward), 6f, H, TH,
-                new List<WallOpening> { new WallOpening(3f, 1.3f, 0f, 2.2f, true) }, PL, DADO, 1.0f, TRIM);
-            InteriorWall(env, "MuroOvest", new WallFrame(new Vector3(-3f, 0f, -2.5f), Vector3.forward, Vector3.right), 5f, H, TH,
-                new List<WallOpening>(), PL, DADO, 1.0f, TRIM);
-            InteriorWall(env, "MuroEst", new WallFrame(new Vector3(3f, 0f, 2.5f), Vector3.back, Vector3.left), 5f, H, TH,
-                new List<WallOpening>(), PL, DADO, 1.0f, TRIM);
-            // angoli esterni (le pareti si sovrappongono solo di 0.3 m: chiusura degli spigoli)
-            int cornerIdx = 0;
-            foreach (var sx in new[] { -1f, 1f })
-                foreach (var sz in new[] { -1f, 1f })
-                {
-                    var corner = new KitBuilder(PL);
-                    corner.Box(new Vector3(sx * 3f, 0f, sz * 2.5f), new Vector3(sx * 3.3f, H, sz * 2.8f), 0, TileWall, 16);
-                    MeshObject(env, "MuroAngolo_" + (++cornerIdx), corner.Build(KitName("Angolo")), new[] { PL }, true);
-                }
-
-            // ---- arredo
-            // letto (testata al muro nord, lato ovest)
-            {
-                var kb = new KitBuilder("M_LegnoVernicePelata", "M_TessutoLino", "Tessuto1");
-                Vector3 c = new Vector3(-1.95f, 0f, 1.15f); // testata a 5 cm dal muro: il cappello del dado (a 1 m) sporge 4,5 cm
-                kb.Box(c + new Vector3(-0.9f, 0.18f, -1.25f), c + new Vector3(0.9f, 0.3f, 1.25f), 0, TileWood);
-                foreach (var sx in new[] { -1f, 1f })
-                    foreach (var sz in new[] { -1f, 1f })
-                        kb.Box(c + new Vector3(sx * 0.85f - 0.05f, 0f, sz * 1.2f - 0.05f), c + new Vector3(sx * 0.85f + 0.05f, 0.18f, sz * 1.2f + 0.05f), 0, TileWood);
-                kb.Box(c + new Vector3(-0.9f, 0.18f, 1.2f), c + new Vector3(0.9f, 1.05f, 1.3f), 0, TileWood);
-                kb.Box(c + new Vector3(-0.9f, 0.18f, -1.3f), c + new Vector3(0.9f, 0.55f, -1.2f), 0, TileWood);
-                kb.Box(c + new Vector3(-0.85f, 0.3f, -1.2f), c + new Vector3(0.85f, 0.5f, 1.2f), 1, 1.0f);
-                kb.Box(c + new Vector3(-0.87f, 0.5f, -1.15f), c + new Vector3(0.87f, 0.57f, 0.4f), 2, 1.0f);
-                kb.Box(c + new Vector3(-0.4f, 0.5f, 0.8f), c + new Vector3(0.4f, 0.62f, 1.18f), 1, 0.6f);
-                MeshObject(props, "Letto", kb.Build(KitName("Letto")), kb.matNames, true);
-            }
-            // tavolo, sedie, lume a petrolio
-            var tavolo = Model("TavoloLegno01", props, new Vector3(1.6f, 0f, 0.9f), 0f, 1.2f, true, "Tavolo");
-            Model("SediaDipinta", props, new Vector3(1.15f, 0f, 0.15f), 15f, 1.0f, true, "Sedia");
-            Model("SediaDipinta", props, new Vector3(2.05f, 0f, 1.65f), 195f, 1.0f, true, "Sedia");
-            var lampTable = Model("LampadaPetrolio_A", props, new Vector3(1.55f, 0.66f, 0.95f), 0f, 1.2f, false, "LampadaTavolo");
-            var fiammaTavolo = Prim(PrimitiveType.Sphere, "FiammaLampada", props, new Vector3(1.55f, 0.84f, 0.95f), new Vector3(0.06f, 0.1f, 0.06f), "Glow", null, false);
-            var cestoTavolo = Model("CestaVimini", props, new Vector3(2.2f, 0.66f, 0.8f), 30f, 1.2f, false, "Cesto");
-            Cavaliere(lampTable, tavolo); Cavaliere(fiammaTavolo, tavolo); Cavaliere(cestoTavolo, tavolo);
-
-            // braciere
-            var br = Empty("Braciere", props, new Vector3(-0.1f, 0f, -0.5f)).transform;
-            Cyl("CiotolaBraciere", br, new Vector3(0f, 0.4f, 0f), 0.55f, 0.14f, "M_FerroRuggine02");
-            Cyl("PiedeBraciere", br, new Vector3(0f, 0.2f, 0f), 0.1f, 0.4f, "M_FerroRuggine02", null, false);
-            Cyl("BaseBraciere", br, new Vector3(0f, 0.03f, 0f), 0.4f, 0.06f, "M_FerroRuggine02", null, false);
-            Cyl("Brace", br, new Vector3(0f, 0.46f, 0f), 0.45f, 0.03f, "Glow", null, false);
-            Model("SecchioMetallo", props, new Vector3(0.45f, 0f, -0.75f), 10f, 1.1f, true, "SecchioCarbone");
-
-            // cassapanca (cassa grande) con vaso
-            // (la cassapanca lunga 1,2 m sta a ridosso del muro est, la scala va nell'angolo sud-est: ingombri reali, niente sovrapposizioni)
-            var cassapanca = Model("CassaLegno", props, new Vector3(2.62f, 0f, -0.35f), 90f, 1.45f, true, "Cassapanca");
-            var vaso = Model("VasoTerracotta", props, new Vector3(2.62f, 0.52f, -0.15f), 0f, 1.0f, false, "Vaso");
-            Impila(vaso, cassapanca, new Vector2(0f, 0.2f));
-
-            // angolo di deposito: botte e casse
-            Model("BotteVino", props, new Vector3(-2.55f, 0f, -1.95f), 0f, 1.2f, true, "Botte");
-            var cassaB = Model("CassaLegno", props, new Vector3(-2.55f, 0f, -0.85f), 90f, 1.2f, true, "Cassa");
-            var cassaT = Model("CassaLegno", props, new Vector3(-2.55f, 0.43f, -0.85f), 78f, 1.0f, true, "Cassa");
-            Impila(cassaT, cassaB, Vector2.zero);
-            Model("ScalaLegno", props, new Vector3(2.58f, 0f, -1.78f), 90f, 1.5f, false, "Scala");
-
-            // altarino con lumino (muro nord)
-            {
-                var fr = new WallFrame(new Vector3(0.2f, 0f, 2.5f), Vector3.right, Vector3.back);
-                var kb = new KitBuilder("M_ArenariaCrepe", "M_LegnoDipintoBlu", "M_LegnoVernicePelata");
-                fr.Box(kb, -0.5f, -0.38f, -0.08f, 0f, 1.1f, 2.2f, 0, TileStone, 0);
-                fr.Box(kb, 0.38f, 0.5f, -0.08f, 0f, 1.1f, 2.2f, 0, TileStone, 0);
-                fr.Box(kb, -0.56f, 0.56f, -0.1f, 0f, 2.2f, 2.32f, 0, TileStone, 0);
-                fr.Box(kb, -0.38f, 0.38f, -0.03f, -0.01f, 1.1f, 2.2f, 1, 1f, 0);
-                fr.Box(kb, -0.55f, 0.55f, -0.3f, 0f, 1.0f, 1.07f, 2, TileWood, 0);
-                fr.Box(kb, -0.4f, -0.34f, -0.26f, -0.04f, 0.4f, 1.0f, 2, TileWood, 0);
-                fr.Box(kb, 0.34f, 0.4f, -0.26f, -0.04f, 0.4f, 1.0f, 2, TileWood, 0);
-                MeshObject(props, "Altarino", kb.Build(KitName("Altarino")), kb.matNames, false);
-                Prim(PrimitiveType.Capsule, "StatuettaAltarino", props, fr.W(-0.05f, -0.1f, 1.38f), new Vector3(0.1f, 0.2f, 0.1f), "Cera", null, false);
-                Model("Candela", props, fr.W(0.22f, -0.15f, 1.07f), 0f, 1.0f, false, "CeroAltarino");
-                Prim(PrimitiveType.Sphere, "LuminoAltarino", props, fr.W(0.22f, -0.15f, 1.2f), new Vector3(0.05f, 0.08f, 0.05f), "Glow", null, false);
-            }
-
-            // tenda divisoria con bastone
-            Cyl("BastoneTenda", props, new Vector3(-0.95f, 2.45f, 1.65f), 0.04f, 1.6f, "M_FerroRuggine02", new Vector3(90f, 0f, 0f), false);
-            Box("Tenda", props, new Vector3(-0.95f, 1.25f, 1.65f), new Vector3(0.04f, 2.3f, 1.5f), "Tessuto2", null, false);
-
-            // panni appesi
-            Clothesline(props, r, 0.3f, 2.5f, 2.4f, -0.8f, 2.9f, 3);
-
-            // porta d'uscita nel varco del muro sud (z = -2.5)
-            var doorFr = new WallFrame(new Vector3(0f, 0f, -2.5f), Vector3.left, Vector3.forward);
-            var door = DoorLeaf(props, "PortaUscita", doorFr, 0f, 0.08f, 0.2f, 1.15f, 2.15f, 0.25f); // come prima: fronte del collider a z = -2.25
-            var d = door.AddComponent<Door>();
-            d.targetScene = "10_Hub_Vicolo";
-            d.targetSpawn = "da_basso_antonietta";
-
-            RisolviSpazio("20_Int_BassoAntonietta");
-
-            // le scarpe (due blocchi a forma di scarpa) vicino alla porta
-            var shoes = Empty("Scarpe", props, new Vector3(1.3f, 0f, -2.0f));
-            ShoeObject(shoes.transform, new Vector3(-0.1f, 0f, 0f), 8f, 1f);
-            ShoeObject(shoes.transform, new Vector3(0.12f, 0f, 0.03f), -14f, 1f);
-            var bc = shoes.AddComponent<BoxCollider>();
-            bc.center = new Vector3(0f, 0.08f, 0f);
-            bc.size = new Vector3(0.5f, 0.18f, 0.42f);
-            var shoeGlow = shoes.AddComponent<Glow>();
-            shoeGlow.intensity = 0.35f; // alone discreto: la forma della scarpa deve restare leggibile
-            var pick = shoes.AddComponent<ItemPickup>();
-            pick.oggettoId = "scarpe";
-
-            // luce calda sopra il tavolo (lume a petrolio): una sola Point Light
-            var lgo = new GameObject("Luce Calda");
-            lgo.transform.position = new Vector3(1.2f, 1.7f, 0.5f);
-            var pl = lgo.AddComponent<Light>();
-            pl.type = LightType.Point;
-            pl.color = new Color(1f, 0.70f, 0.40f);
-            pl.intensity = 4f;
-            pl.range = 9f;
-            pl.shadows = LightShadows.None;
-
-            Spawn("ingresso", new Vector3(0f, 0f, -1.7f), 0f, spawns);
-            Spawn("oggetto_scarpe", new Vector3(0.7f, 0f, -1.4f), 90f, spawns);
-
-            var cam = MakeCamera("Main Camera", Vector3.zero, Quaternion.identity, new Color(0.10f, 0.07f, 0.05f), true);
-            BuildPlayer(new Vector3(0f, 0.05f, -1.7f), 0f, cam, CamProfilo.InternoPiccoloAdulto, true); // il basso è nel presente: Amerigo adulto
-            SaveScene(scene, "20_Int_BassoAntonietta");
-        }
-
-        // ------------------------------------------------------------------ 30_FB_Scarpe
-
-        static void BuildFlashback()
-        {
-            var scene = NewScene();
-            kitScene = "Ricordo"; kitIndex = 0;
-            doorWallPoints.Clear();
-            ResetSpazio();
-            Color sepiaFog = new Color(0.62f, 0.50f, 0.34f);
-            Ambient(new Color(0.72f, 0.60f, 0.42f), new Color(0.52f, 0.42f, 0.30f), new Color(0.28f, 0.22f, 0.15f));
-            Sun(new Color(1f, 0.86f, 0.62f), 0.9f, new Vector3(55f, -40f, 0f));
-            RenderSettings.fog = true;
-            RenderSettings.fogMode = FogMode.Linear;
-            RenderSettings.fogColor = sepiaFog;
-            RenderSettings.fogStartDistance = 4f;
-            RenderSettings.fogEndDistance = 22f;
-
-            EnsureLightMaterials();
-            var env = new GameObject("Ambiente").transform;
-            var spawns = new GameObject("SpawnPoints").transform;
-
-            // stanza 10 x 10 m, pareti alte 4 m, spesse 30 cm verso l'esterno
-            Ground("Pavimento", env, new Vector3(-5.3f, -0.3f, -5.3f), new Vector3(5.3f, 0f, 5.3f), "M_AssiConsunte", 1.4f);
-            const float H = 4.0f, TH = 0.3f;
-            const string PL = "M_IntonacoMattoni", DADO = "M_AssiStagionate", TRIM = "M_ArenariaCrepe";
-            InteriorWall(env, "MuroNord", new WallFrame(new Vector3(-5f, 0f, 5f), Vector3.right, Vector3.back), 10f, H, TH,
-                new List<WallOpening>(), PL, DADO, 1.2f, TRIM);
-            InteriorWall(env, "MuroSud", new WallFrame(new Vector3(5f, 0f, -5f), Vector3.left, Vector3.forward), 10f, H, TH,
-                new List<WallOpening>(), PL, DADO, 1.2f, TRIM);
-            // ovest: grande finestra (il vetro e' un pannello luminoso con sporco e sfumatura, vedi BuildFlashbackLuci)
-            InteriorWall(env, "MuroOvest", new WallFrame(new Vector3(-5f, 0f, -5f), Vector3.forward, Vector3.right), 10f, H, TH,
-                new List<WallOpening> { new WallOpening(5f, 2.4f, 1.0f, 2.8f) }, PL, DADO, 1.2f, TRIM, false);
-            Box("VetroFinestra", env, new Vector3(-5.22f, 1.9f, 0f), new Vector3(0.03f, 1.8f, 2.4f), "M_LuceFinestra", null, false);
-            // est: porta dell'uscita
-            InteriorWall(env, "MuroEst", new WallFrame(new Vector3(5f, 0f, 5f), Vector3.back, Vector3.left), 10f, H, TH,
-                new List<WallOpening> { new WallOpening(5f, 1.4f, 0f, 2.4f, true) }, PL, DADO, 1.2f, TRIM);
-            // pilastri d'angolo (Muro*: la camera li rende trasparenti) e chiusure esterne
-            int pilIdx = 0;
-            foreach (var sx in new[] { -1f, 1f })
-                foreach (var sz in new[] { -1f, 1f })
-                {
-                    var pil = new KitBuilder("M_ArenariaCrepe", PL);
-                    pil.Box(new Vector3(sx * 4.5f, 0f, sz * 4.5f), new Vector3(sx * 5f, H, sz * 5f), 0, TileStone, 16);
-                    pil.Box(new Vector3(sx * 5f, 0f, sz * 5f), new Vector3(sx * 5.3f, H, sz * 5.3f), 1, TileWall, 16);
-                    MeshObject(env, "MuroPilastro_" + (++pilIdx), pil.Build(KitName("Pilastro")), new[] { "M_ArenariaCrepe", PL }, true);
-                }
-
-            FlashbackProps(env);
-            SetStatic(env.gameObject);
-
-            // uscita: bagliore nel vano della porta est
-            var exitRoot = new GameObject("Uscita").transform;
-            var exit = Box("EscapeExit", exitRoot, new Vector3(5.1f, 1.2f, 0f), new Vector3(0.12f, 2.4f, 1.4f), "M_LuceUscita");
-            exit.AddComponent<Glow>();
-            exit.AddComponent<EscapeExit>();
-
-            var ctrl = new GameObject("EscapeRoom");
-            ctrl.AddComponent<EscapeRoomController>().flashbackId = "flashback_scarpe";
-
-            Spawn("inizio", new Vector3(0f, 0f, 0f), 0f, spawns);
-
-            var cam = MakeCamera("Main Camera", Vector3.zero, Quaternion.identity, sepiaFog, true);
-            BuildPlayer(new Vector3(0f, 0.05f, 0f), 0f, cam, CamProfilo.InternoLargo);
-            SaveScene(scene, "30_FB_Scarpe");
-        }
     }
 }
