@@ -27,9 +27,17 @@ namespace TrenoBambini.EditorTools
 
         const string LutNeo = LutFolder + "/LUT_Neorealismo.png";
         const string LutFlash = LutFolder + "/LUT_Flashback.png";
-        const string ProfEpoca = VolumesFolder + "/VP_Epoca.asset";
+        const string LutPresente = LutFolder + "/LUT_Presente.png";   // R007: presente piu' freddo e desaturato
+        const string ProfEpoca = VolumesFolder + "/VP_Epoca.asset";   // hub e titolo (presente, pioggia)
+        const string ProfBasso = VolumesFolder + "/VP_Basso.asset";   // R007: interno del basso (presente)
         const string ProfFlash = VolumesFolder + "/VP_Flashback.asset";
+        const string MatFolder = "Assets/Art/Materials";
+        const string SkyHub = MatFolder + "/M_Sky_Hub.mat";           // R007: cielo coperto (HDRI CieloCoperto)
+        const string SkyRicordo = MatFolder + "/M_Sky_Ricordo.mat";   // R007: cielo procedurale col sole basso
+        const string HdriCoperto = "Assets/Art/HDRI/CieloCoperto/CieloCoperto_1k.hdr";
         const string LightingAsset = LightingFolder + "/LS_Treno.lighting";
+        /// <summary>R007: bake di bozza (campioni bassi) per tarare il look; l'unico bake finale usa i campioni alti. EditorPrefs Treno.LookBozza.</summary>
+        public static bool Bozza { get { return EditorPrefs.GetBool("Treno.LookBozza", false); } set { EditorPrefs.SetBool("Treno.LookBozza", value); } }
 
         const int LutSize = 32;
 
@@ -80,13 +88,11 @@ namespace TrenoBambini.EditorTools
         {
             if (AssetDatabase.LoadAssetAtPath<VolumeProfile>(ProfEpoca) == null
                 || AssetDatabase.LoadAssetAtPath<VolumeProfile>(ProfFlash) == null
+                || AssetDatabase.LoadAssetAtPath<VolumeProfile>(ProfBasso) == null
                 || AssetDatabase.LoadAssetAtPath<UniversalRenderPipelineAsset>(QualityFolder + "/URP_Alta.asset") == null)
                 CreatePresetsAndProfiles();
             EnsureLightingSettings();
 
-            var epoca = AssetDatabase.LoadAssetAtPath<VolumeProfile>(ProfEpoca);
-            var flash = AssetDatabase.LoadAssetAtPath<VolumeProfile>(ProfFlash);
-            var ls = AssetDatabase.LoadAssetAtPath<LightingSettings>(LightingAsset);
             try
             {
                 for (int i = 0; i < LookScenes.Length; i++)
@@ -96,7 +102,7 @@ namespace TrenoBambini.EditorTools
                     string path = ScenesFolder + "/" + n + ".unity";
                     if (!File.Exists(path)) { Debug.LogWarning("[LookBuilder] Scena mancante: " + path); continue; }
                     var scene = EditorSceneManager.OpenScene(path, OpenSceneMode.Single);
-                    ApplySceneLook(scene, n, n == "30_FB_Scarpe" ? flash : epoca, LightingFor(n));
+                    ApplySceneLook(scene, n, ProfileFor(n), LightingFor(n));
                     EditorSceneManager.SaveScene(scene);
                 }
             }
@@ -112,15 +118,13 @@ namespace TrenoBambini.EditorTools
         {
             if (AssetDatabase.LoadAssetAtPath<VolumeProfile>(ProfEpoca) == null
                 || AssetDatabase.LoadAssetAtPath<VolumeProfile>(ProfFlash) == null
+                || AssetDatabase.LoadAssetAtPath<VolumeProfile>(ProfBasso) == null
                 || AssetDatabase.LoadAssetAtPath<UniversalRenderPipelineAsset>(QualityFolder + "/URP_Alta.asset") == null)
                 CreatePresetsAndProfiles();
             EnsureLightingSettings();
-            var epoca = AssetDatabase.LoadAssetAtPath<VolumeProfile>(ProfEpoca);
-            var flash = AssetDatabase.LoadAssetAtPath<VolumeProfile>(ProfFlash);
-            var ls = AssetDatabase.LoadAssetAtPath<LightingSettings>(LightingAsset);
             string path = ScenesFolder + "/" + n + ".unity";
             var scene = EditorSceneManager.OpenScene(path, OpenSceneMode.Single);
-            ApplySceneLook(scene, n, n == "30_FB_Scarpe" ? flash : epoca, LightingFor(n));
+            ApplySceneLook(scene, n, ProfileFor(n), LightingFor(n));
             EditorSceneManager.SaveScene(scene);
             Debug.Log("[LookBuilder] Look applicato a " + n + ".");
         }
@@ -171,12 +175,79 @@ namespace TrenoBambini.EditorTools
             Debug.Log("[LookBuilder] Bake di tutte le scene completato in " + sw.Elapsed.TotalSeconds.ToString("0.0") + " s.");
         }
 
+        static VolumeProfile ProfileFor(string n)
+        {
+            string p = n == "30_FB_Scarpe" ? ProfFlash : n == "20_Int_BassoAntonietta" ? ProfBasso : ProfEpoca;
+            return AssetDatabase.LoadAssetAtPath<VolumeProfile>(p);
+        }
+
+        // ---- R007: bake asincrono a catena (non blocca le chiamate MCP); stato in LookBuilder.BakeStato
+        public static string BakeStato = "inattivo";
+        static System.Collections.Generic.Queue<string> _coda;
+        static System.Diagnostics.Stopwatch _swBake;
+        static string _corrente;
+
+        /// <summary>Bake di tutte le scene (o di quelle elencate) una dopo l'altra in modo asincrono. Stato: BakeStato.</summary>
+        public static void BakeAllAsync(string[] scene = null)
+        {
+            if (_coda != null && _coda.Count > 0 || Lightmapping.isRunning) { Debug.LogWarning("[LookBuilder] Bake gia' in corso."); return; }
+            _coda = new System.Collections.Generic.Queue<string>(scene ?? LookScenes);
+            _swBake = System.Diagnostics.Stopwatch.StartNew();
+            BakeStato = "avvio";
+            EditorApplication.update += BakeTick;
+        }
+
+        static void BakeTick()
+        {
+            if (Lightmapping.isRunning) return;
+            if (_corrente != null)
+            {
+                var sc = EditorSceneManager.GetActiveScene();
+                EditorSceneManager.SaveScene(sc);
+                Debug.Log("[LookBuilder] Bake " + _corrente + " finito (" + _swBake.Elapsed.TotalSeconds.ToString("0") + " s dall'inizio).");
+                _corrente = null;
+            }
+            if (_coda.Count == 0)
+            {
+                EditorApplication.update -= BakeTick;
+                AssetDatabase.SaveAssets();
+                BakeStato = "finito in " + _swBake.Elapsed.TotalSeconds.ToString("0") + " s";
+                Debug.Log("[LookBuilder] Bake di tutte le scene completato: " + BakeStato);
+                return;
+            }
+            _corrente = _coda.Dequeue();
+            BakeStato = "in corso: " + _corrente;
+            EditorSceneManager.OpenScene(ScenesFolder + "/" + _corrente + ".unity", OpenSceneMode.Single);
+            if (!Lightmapping.BakeAsync()) { Debug.LogError("[LookBuilder] BakeAsync fallito: " + _corrente); _corrente = null; }
+        }
+
         // ================================================================== LUT
 
         static void CreateLuts()
         {
             WriteLut(LutNeo, Neorealismo);
             WriteLut(LutFlash, Flashback);
+            WriteLut(LutPresente, Presente);
+        }
+
+        /// <summary>R007: presente a Napoli. Desaturato ~45%, ombre fredde blu-verde, medi neutri-freddi, alti appena caldi (le lampade restano calde), nero poco sollevato.</summary>
+        static Vector3 Presente(Vector3 c)
+        {
+            float l = Luma(c);
+            c = Lerp3(new Vector3(l, l, l), c, 0.68f);
+            c = new Vector3(Mathf.Lerp(c.x, Smooth(0, 1, c.x), 0.35f),
+                            Mathf.Lerp(c.y, Smooth(0, 1, c.y), 0.35f),
+                            Mathf.Lerp(c.z, Smooth(0, 1, c.z), 0.35f));
+            l = Luma(c);
+            float sh = 1f - Smooth(0.0f, 0.50f, l);
+            c += new Vector3(-0.016f, 0.006f, 0.026f) * sh;
+            float mid = Smooth(0.12f, 0.50f, l) * (1f - Smooth(0.62f, 0.92f, l));
+            c = new Vector3(c.x * Mathf.Lerp(1f, 0.965f, mid), c.y * Mathf.Lerp(1f, 1.00f, mid), c.z * Mathf.Lerp(1f, 1.045f, mid));
+            float hi = Smooth(0.65f, 1.0f, l);
+            c = new Vector3(c.x * Mathf.Lerp(1f, 1.035f, hi), c.y, c.z * Mathf.Lerp(1f, 0.955f, hi));
+            const float lift = 0.030f, top = 0.965f;
+            c = new Vector3(lift + c.x * (top - lift), lift + c.y * (top - lift), lift + c.z * (top - lift));
+            return new Vector3(Mathf.Clamp01(c.x), Mathf.Clamp01(c.y), Mathf.Clamp01(c.z));
         }
 
         static float Smooth(float a, float b, float x)
@@ -264,57 +335,67 @@ namespace TrenoBambini.EditorTools
 
         static void CreateProfiles()
         {
-            var lutN = AssetDatabase.LoadAssetAtPath<Texture2D>(LutNeo);
+            var lutP = AssetDatabase.LoadAssetAtPath<Texture2D>(LutPresente);
             var lutF = AssetDatabase.LoadAssetAtPath<Texture2D>(LutFlash);
 
-            var p = ResetProfile(ProfEpoca);
+            // Presente (hub, titolo): freddo, desaturato, ACES, grana sottile, bloom morbido
+            BuildProfile(ProfEpoca, lutP, 1f, exposure: 0.45f, contrast: 8f, sat: -6f, temp: -6f, tint: 2f,
+                         vigColor: Color.black, vigInt: 0.28f, vigSmooth: 0.45f,
+                         grain: FilmGrainLookup.Thin1, grainInt: 0.20f, bloomThr: 1.0f, bloomInt: 0.20f, bloomScatter: 0.65f,
+                         bloomTint: new Color(1f, 0.88f, 0.72f));
+            // Basso (presente, interno): lampade calde nel buio, luce grigia dalle aperture
+            BuildProfile(ProfBasso, lutP, 0.9f, exposure: 0.35f, contrast: 6f, sat: 0f, temp: 4f, tint: 0f,
+                         vigColor: Color.black, vigInt: 0.30f, vigSmooth: 0.45f,
+                         grain: FilmGrainLookup.Thin2, grainInt: 0.22f, bloomThr: 0.9f, bloomInt: 0.28f, bloomScatter: 0.7f,
+                         bloomTint: new Color(1f, 0.82f, 0.60f));
+            // Ricordo 1946: sole basso dorato, seppia marcato, bordi sfumati, alone morbido sulle luci
+            BuildProfile(ProfFlash, lutF, 1f, exposure: 0.85f, contrast: 6f, sat: 0f, temp: 6f, tint: 0f,
+                         vigColor: new Color(0.08f, 0.05f, 0.03f), vigInt: 0.38f, vigSmooth: 0.60f,
+                         grain: FilmGrainLookup.Medium1, grainInt: 0.35f, bloomThr: 0.85f, bloomInt: 0.40f, bloomScatter: 0.75f,
+                         bloomTint: new Color(1f, 0.86f, 0.62f));
+        }
+
+        /// <summary>R007: profilo con ACES, color grading (LUT d'epoca + regolazioni), vignetta, grana, bloom e profondita' di campo spenta (solo cutscene).</summary>
+        static void BuildProfile(string path, Texture2D lut, float lutContribution, float exposure, float contrast, float sat, float temp, float tint,
+                                 Color vigColor, float vigInt, float vigSmooth, FilmGrainLookup grain, float grainInt,
+                                 float bloomThr, float bloomInt, float bloomScatter, Color bloomTint)
+        {
+            var p = ResetProfile(path);
             var tm = p.Add<Tonemapping>(true);
-            tm.mode.Override(TonemappingMode.Neutral);
+            tm.mode.Override(TonemappingMode.ACES);
+            var ca = p.Add<ColorAdjustments>(true);
+            ca.postExposure.Override(exposure);
+            ca.contrast.Override(contrast);
+            ca.saturation.Override(sat);
             var cl = p.Add<ColorLookup>(true);
-            cl.texture.Override(lutN);
-            cl.contribution.Override(1f);
+            cl.texture.Override(lut);
+            cl.contribution.Override(lutContribution);
             var wb = p.Add<WhiteBalance>(true);
-            wb.temperature.Override(6f);
-            wb.tint.Override(0f);
+            wb.temperature.Override(temp);
+            wb.tint.Override(tint);
             var vg = p.Add<Vignette>(true);
-            vg.color.Override(Color.black);
-            vg.intensity.Override(0.25f);
-            vg.smoothness.Override(0.40f);
+            vg.color.Override(vigColor);
+            vg.intensity.Override(vigInt);
+            vg.smoothness.Override(vigSmooth);
             vg.rounded.Override(false);
             var fg = p.Add<FilmGrain>(true);
-            fg.type.Override(FilmGrainLookup.Thin1);
-            fg.intensity.Override(0.20f);
+            fg.type.Override(grain);
+            fg.intensity.Override(grainInt);
             fg.response.Override(0.8f);
             var bl = p.Add<Bloom>(true);
-            bl.threshold.Override(1.0f);
-            bl.intensity.Override(0.18f);
-            bl.scatter.Override(0.6f);
-            bl.tint.Override(new Color(1f, 0.85f, 0.65f));
+            bl.threshold.Override(bloomThr);
+            bl.intensity.Override(bloomInt);
+            bl.scatter.Override(bloomScatter);
+            bl.tint.Override(bloomTint);
             bl.highQualityFiltering.Override(false);
+            // profondita' di campo: predisposta ma spenta in gioco; la accende GraphicsPresets.CutsceneDepthOfField
+            var dof = p.Add<DepthOfField>(true);
+            dof.mode.Override(DepthOfFieldMode.Bokeh);
+            dof.focusDistance.Override(4f);
+            dof.focalLength.Override(50f);
+            dof.aperture.Override(5.6f);
+            dof.active = false;
             SaveProfile(p);
-
-            var f = ResetProfile(ProfFlash);
-            var tm2 = f.Add<Tonemapping>(true);
-            tm2.mode.Override(TonemappingMode.Neutral);
-            var cl2 = f.Add<ColorLookup>(true);
-            cl2.texture.Override(lutF);
-            cl2.contribution.Override(1f);
-            var vg2 = f.Add<Vignette>(true);
-            vg2.color.Override(new Color(0.08f, 0.05f, 0.03f));
-            vg2.intensity.Override(0.50f);
-            vg2.smoothness.Override(0.60f);
-            vg2.rounded.Override(false);
-            var fg2 = f.Add<FilmGrain>(true);
-            fg2.type.Override(FilmGrainLookup.Medium1);
-            fg2.intensity.Override(0.35f);
-            fg2.response.Override(0.8f);
-            var bl2 = f.Add<Bloom>(true);
-            bl2.threshold.Override(0.9f);
-            bl2.intensity.Override(0.30f);
-            bl2.scatter.Override(0.7f);
-            bl2.tint.Override(new Color(1f, 0.88f, 0.68f));
-            bl2.highQualityFiltering.Override(false);
-            SaveProfile(f);
         }
 
         static VolumeProfile ResetProfile(string path)
@@ -369,6 +450,7 @@ namespace TrenoBambini.EditorTools
 
             // renderer: leggero (senza SSAO) per Bassa/Media, con SSAO per Alta e Ultra (copie separate)
             var rdLite = CopyIfMissing<ScriptableRendererData>(mobRd, QualityFolder + "/URP_Renderer_Lite.asset");
+            var rdMedia = CopyIfMissing<ScriptableRendererData>(pcRd, QualityFolder + "/URP_Renderer_Media.asset"); // R007: Forward con SSAO leggera
             var rdAlta = CopyIfMissing<ScriptableRendererData>(pcRd, QualityFolder + "/URP_Renderer_Alta.asset");
             var rdUltra = CopyIfMissing<ScriptableRendererData>(pcRd, QualityFolder + "/URP_Renderer_Ultra.asset");
 
@@ -377,22 +459,25 @@ namespace TrenoBambini.EditorTools
             var alta = CopyIfMissing<UniversalRenderPipelineAsset>(pcRp, QualityFolder + "/URP_Alta.asset");
             var ultra = CopyIfMissing<UniversalRenderPipelineAsset>(pcRp, QualityFolder + "/URP_Ultra.asset");
 
+            // R007: ombre per preset (distanza, cascate, soft) negli asset URP.
             // ---- Bassa: render scale 0.8, LDR, niente MSAA/SSAO, ombre hard 1 cascata ~25 m
             ConfigRp(bassa, rdLite, hdr: false, msaa: 1, scale: 0.8f, shadowDist: 25f, cascades: 1, shadowRes: 1024,
-                     soft: false, softQ: 1, depth: false, opaque: false, forwardPlusNote: false);
-            // ---- Media: LDR, ombre soft 2 cascate ~40 m (FXAA sulla camera da GraphicsPresets)
-            ConfigRp(media, rdLite, hdr: false, msaa: 1, scale: 1f, shadowDist: 40f, cascades: 2, shadowRes: 1024,
-                     soft: true, softQ: 1, depth: false, opaque: false, forwardPlusNote: false);
-            // ---- Alta: HDR, MSAA 2x, ombre soft 2 cascate ~60 m, SSAO leggera
-            ConfigRp(alta, rdAlta, hdr: true, msaa: 2, scale: 1f, shadowDist: 60f, cascades: 2, shadowRes: 2048,
-                     soft: true, softQ: 2, depth: true, opaque: false, forwardPlusNote: true);
+                     soft: false, softQ: 1, depth: false, opaque: false, forwardPlusNote: false, split2: 0.3f, split3: new Vector2(0.1f, 0.3f), split4: new Vector3(0.07f, 0.2f, 0.45f), bias: 1.2f);
+            // ---- Media: LDR, ombre soft 2 cascate ~40 m, SSAO leggera (FXAA sulla camera da GraphicsPresets)
+            ConfigRp(media, rdMedia, hdr: false, msaa: 1, scale: 1f, shadowDist: 40f, cascades: 2, shadowRes: 1024,
+                     soft: true, softQ: 1, depth: true, opaque: false, forwardPlusNote: false, split2: 0.25f, split3: new Vector2(0.1f, 0.3f), split4: new Vector3(0.07f, 0.2f, 0.45f), bias: 1.1f);
+            // ---- Alta: HDR, MSAA 2x, ombre soft 3 cascate ~60 m, SSAO
+            ConfigRp(alta, rdAlta, hdr: true, msaa: 2, scale: 1f, shadowDist: 60f, cascades: 3, shadowRes: 2048,
+                     soft: true, softQ: 2, depth: true, opaque: false, forwardPlusNote: true, split2: 0.2f, split3: new Vector2(0.08f, 0.25f), split4: new Vector3(0.07f, 0.2f, 0.45f), bias: 1.0f);
             // ---- Ultra: HDR, MSAA 4x, ombre 4 cascate ~90 m a risoluzione piu' alta, SSAO alta qualita'
             ConfigRp(ultra, rdUltra, hdr: true, msaa: 4, scale: 1f, shadowDist: 90f, cascades: 4, shadowRes: 4096,
-                     soft: true, softQ: 3, depth: true, opaque: false, forwardPlusNote: true);
+                     soft: true, softQ: 3, depth: true, opaque: false, forwardPlusNote: true, split2: 0.2f, split3: new Vector2(0.08f, 0.25f), split4: new Vector3(0.05f, 0.15f, 0.40f), bias: 0.9f);
 
-            // SSAO: Alta leggera (meta' risoluzione, pochi campioni), Ultra piena
-            ConfigSsao(rdAlta, downsample: true, samples: 2, blur: 1, intensity: 0.40f, radius: 0.30f);
-            ConfigSsao(rdUltra, downsample: false, samples: 0, blur: 0, intensity: 0.50f, radius: 0.35f);
+            // SSAO: Media leggera (meta' risoluzione, campioni minimi), Alta media, Ultra piena. Mai su Bassa / Mobile_RPAsset.
+            SetRendererMode(rdMedia, 0); // Forward (la copia di PC_Renderer e' Forward+)
+            ConfigSsao(rdMedia, downsample: true, samples: 2, blur: 0, intensity: 0.45f, radius: 0.28f);
+            ConfigSsao(rdAlta, downsample: true, samples: 1, blur: 1, intensity: 0.50f, radius: 0.30f);
+            ConfigSsao(rdUltra, downsample: false, samples: 0, blur: 0, intensity: 0.60f, radius: 0.35f);
 
             // Renderer: Bassa/Media Forward, Alta/Ultra Forward+ (gia' cosi' nelle copie)
             var gs = AssetDatabase.LoadAssetAtPath<UniversalRenderPipelineAsset>(QualityFolder + "/URP_Alta.asset");
@@ -411,7 +496,7 @@ namespace TrenoBambini.EditorTools
 
         static void ConfigRp(UniversalRenderPipelineAsset rp, ScriptableRendererData rd, bool hdr, int msaa, float scale,
                              float shadowDist, int cascades, int shadowRes, bool soft, int softQ, bool depth, bool opaque,
-                             bool forwardPlusNote)
+                             bool forwardPlusNote, float split2, Vector2 split3, Vector3 split4, float bias)
         {
             var so = new SerializedObject(rp);
             SetBool(so, "m_SupportsHDR", hdr);
@@ -421,6 +506,11 @@ namespace TrenoBambini.EditorTools
             SetInt(so, "m_ShadowCascadeCount", cascades);
             SetInt(so, "m_MainLightShadowmapResolution", shadowRes);
             SetBool(so, "m_MainLightShadowsSupported", true);
+            SetFloat(so, "m_Cascade2Split", split2);
+            var sp3 = P(so, "m_Cascade3Split"); if (sp3 != null) sp3.vector2Value = split3;
+            var sp4 = P(so, "m_Cascade4Split"); if (sp4 != null) sp4.vector3Value = split4;
+            SetFloat(so, "m_ShadowDepthBias", bias);
+            SetFloat(so, "m_ShadowNormalBias", bias);
             SetBool(so, "m_AdditionalLightShadowsSupported", false);
             SetBool(so, "m_SoftShadowsSupported", soft);
             SetInt(so, "m_SoftShadowQuality", softQ);
@@ -445,6 +535,14 @@ namespace TrenoBambini.EditorTools
             SetInt(so, "m_DefaultRendererIndex", 0);
             so.ApplyModifiedPropertiesWithoutUndo();
             EditorUtility.SetDirty(rp);
+        }
+
+        static void SetRendererMode(ScriptableRendererData rd, int mode)
+        {
+            var so = new SerializedObject(rd);
+            SetInt(so, "m_RenderingMode", mode);
+            so.ApplyModifiedPropertiesWithoutUndo();
+            EditorUtility.SetDirty(rd);
         }
 
         static void ConfigSsao(ScriptableRendererData rd, bool downsample, int samples, int blur, float intensity, float radius)
@@ -503,7 +601,7 @@ namespace TrenoBambini.EditorTools
                 e.FindPropertyRelative("antiAliasing").intValue = 0; // l'MSAA lo decide l'asset URP
                 e.FindPropertyRelative("lodBias").floatValue = l.lodBias;
                 e.FindPropertyRelative("vSyncCount").intValue = 0;
-                e.FindPropertyRelative("realtimeReflectionProbes").intValue = 0;
+                e.FindPropertyRelative("realtimeReflectionProbes").boolValue = false;
                 // WebGL: solo Bassa e Media (Alta/Ultra esclusi; GraphicsPresets mappa i preset per nome)
                 var excl = e.FindPropertyRelative("excludedTargetPlatforms");
                 bool noWebGL = l.name == "Alta" || l.name == "Ultra";
@@ -597,17 +695,38 @@ namespace TrenoBambini.EditorTools
             ls.bakedGI = true;
             ls.realtimeGI = false;
             ls.mixedBakeMode = MixedLightingMode.IndirectOnly;
-            ls.lightmapResolution = 8f;        // texel per unita (ridotto da 12 per il peso LFS)
+            ls.lightmapResolution = 8f;
             ls.indirectResolution = 2f;
             ls.lightmapMaxSize = 1024;
             ls.lightmapPadding = 2;
-            ls.lightmapCompression = LightmapCompression.NormalQuality;
             ls.directionalityMode = LightmapsMode.NonDirectional;
-            ls.maxBounces = 2;
-            ls.directSampleCount = 32;
-            ls.indirectSampleCount = 128;
-            ls.environmentSampleCount = 64;
-            ls.ao = false;
+            ls.filteringMode = LightingSettings.FilterMode.Auto;
+            if (Bozza)
+            {
+                // bozza veloce per tarare luci e colori (stessa risoluzione, campioni bassi, niente AO)
+                ls.lightmapCompression = LightmapCompression.NormalQuality;
+                ls.maxBounces = 2;
+                ls.directSampleCount = 16;
+                ls.indirectSampleCount = 48;
+                ls.environmentSampleCount = 48;
+                ls.ao = false;
+            }
+            else
+            {
+                // R007: bake finale di qualita' alta (stesso peso: la risoluzione e' decisa da LightmapPerScena)
+                ls.lightmapCompression = LightmapCompression.HighQuality;
+                ls.maxBounces = 3;
+                ls.directSampleCount = 64;
+                ls.indirectSampleCount = 256;
+                ls.environmentSampleCount = 128;
+                ls.ao = true;
+                ls.aoMaxDistance = 1.6f;
+                ls.aoExponentIndirect = 1.0f;
+                ls.aoExponentDirect = 0.5f;
+                ls.denoiserTypeDirect = LightingSettings.DenoiserType.OpenImage;
+                ls.denoiserTypeIndirect = LightingSettings.DenoiserType.OpenImage;
+                ls.denoiserTypeAO = LightingSettings.DenoiserType.OpenImage;
+            }
         }
 
         // ================================================================== applicazione alle scene
@@ -619,6 +738,47 @@ namespace TrenoBambini.EditorTools
             return new Color(c.r / m, c.g / m, c.b / m, 1f);
         }
 
+        /// <summary>R007: materiali skybox. Hub = HDRI coperto Poly Haven (CC0); ricordo = cielo procedurale col sole basso.</summary>
+        static void EnsureSkyMaterials()
+        {
+            var cube = AssetDatabase.LoadAssetAtPath<Cubemap>(HdriCoperto);
+            var hub = AssetDatabase.LoadAssetAtPath<Material>(SkyHub);
+            if (hub == null) { hub = new Material(Shader.Find("Skybox/Cubemap")); AssetDatabase.CreateAsset(hub, SkyHub); }
+            if (cube != null) hub.SetTexture("_Tex", cube); else Debug.LogWarning("[LookBuilder] HDRI CieloCoperto non trovato: " + HdriCoperto);
+            hub.SetColor("_Tint", new Color(0.50f, 0.52f, 0.56f, 1f)); // freddo, appena bluastro
+            hub.SetFloat("_Exposure", 1.0f);
+            hub.SetFloat("_Rotation", 0f);
+            EditorUtility.SetDirty(hub);
+
+            var ric = AssetDatabase.LoadAssetAtPath<Material>(SkyRicordo);
+            if (ric == null) { ric = new Material(Shader.Find("Skybox/Procedural")); AssetDatabase.CreateAsset(ric, SkyRicordo); }
+            ric.SetFloat("_SunSize", 0.06f);
+            ric.SetFloat("_SunSizeConvergence", 4f);
+            ric.SetFloat("_AtmosphereThickness", 2.2f);   // piu' spessa: sole basso arancio-dorato
+            ric.SetColor("_SkyTint", new Color(0.80f, 0.55f, 0.35f, 1f));
+            ric.SetColor("_GroundColor", new Color(0.36f, 0.28f, 0.20f, 1f));
+            ric.SetFloat("_Exposure", 1.1f);
+            EditorUtility.SetDirty(ric);
+            AssetDatabase.SaveAssets();
+        }
+
+        /// <summary>R007: il pavimento battuto dei cortili leggeva grigio: tono terra calda.</summary>
+        static void TintPavimentoBattuto()
+        {
+            var m = AssetDatabase.LoadAssetAtPath<Material>(MatFolder + "/M_PavimentoBattuto.mat");
+            if (m == null) return;
+            var c = new Color(1.0f, 0.72f, 0.46f, 1f);
+            if (m.HasProperty("_BaseColor")) m.SetColor("_BaseColor", c);
+            if (m.HasProperty("_Color")) m.SetColor("_Color", c);
+            EditorUtility.SetDirty(m);
+        }
+
+        static void SetSkyAmbient(float intensity)
+        {
+            RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Skybox;
+            RenderSettings.ambientIntensity = intensity;
+        }
+
         static void ApplySceneLook(Scene scene, string name, VolumeProfile profile, LightingSettings ls)
         {
             // pulizia di un'applicazione precedente
@@ -627,6 +787,10 @@ namespace TrenoBambini.EditorTools
             foreach (var l in UnityEngine.Object.FindObjectsByType<Light>(FindObjectsInactive.Include))
                 if (l != null && l.gameObject.name == LookLightName) UnityEngine.Object.DestroyImmediate(l.gameObject);
 
+            EnsureSkyMaterials();
+            TintPavimentoBattuto();
+            Material sky = AssetDatabase.LoadAssetAtPath<Material>(SkyHub);
+            bool probesSky = true;
             var look = new GameObject(LookRoot);
             var vol = look.AddComponent<Volume>();
             vol.isGlobal = true;
@@ -649,58 +813,61 @@ namespace TrenoBambini.EditorTools
             {
                 case "10_Hub_Vicolo":
                     exterior = true;
-                    // luce naturale bassa e radente tra i palazzi, ombre lunghe
-                    SetSun(sun, new Color(1.00f, 0.82f, 0.58f), 3.0f, new Vector3(34f, -14f, 0f), 0.9f);
-                    SetAmbient(new Color(0.58f, 0.54f, 0.50f), new Color(0.40f, 0.36f, 0.31f), new Color(0.22f, 0.19f, 0.15f));
-                    bg = new Color(0.66f, 0.57f, 0.45f);
-                    SetFog(0.012f, bg);
-                    AddLampLights("LuceLampione", Cct(2500f), 3.0f, 7.5f);
-                    AddLampLights("EdicolaLumino", Cct(1900f), 0.9f, 2.5f);
-                    // R006: punti di riferimento luminosi del grande quartiere
-                    AddLampLights("LuceBottega", Cct(2200f), 4.0f, 9f);
-                    AddLampLights("LuceBasso", Cct(2300f), 2.2f, 5.5f);
-                    AddLampLights("LuceEdicolaGrande", Cct(1900f), 3.5f, 9f);
-                    AddLampLights("LuceCampanile", Cct(2000f), 3.0f, 14f);
+                    // R007: tardo pomeriggio d'autunno piovoso. Cielo coperto (HDRI), sole debole e diffuso, ambiente dal cielo,
+                    // nebbia fredda di distanza che dissolve i fondali dei vicoli, lampioni e botteghe caldi come unici accenti.
+                    SetSun(sun, new Color(0.80f, 0.86f, 0.97f), 0.9f, new Vector3(34f, -14f, 0f), 0.45f);
+                    SetSkyAmbient(1.5f);
+                    bg = new Color(0.50f, 0.54f, 0.58f);
+                    SetFog(0.024f, bg);
+                    AddLampLights("LuceLampione", Cct(2500f), 4.5f, 8.5f);
+                    AddLampLights("EdicolaLumino", Cct(1900f), 1.2f, 3f);
+                    AddLampLights("LuceBottega", Cct(2200f), 5.5f, 10f);
+                    AddLampLights("LuceBasso", Cct(2300f), 3.2f, 6.5f);
+                    AddLampLights("LuceEdicolaGrande", Cct(1900f), 4.5f, 10f);
+                    AddLampLights("LuceCampanile", Cct(2000f), 3.5f, 14f);
                     probeMin = new Vector3(-3.2f, 0.4f, -19f); probeMax = new Vector3(3.2f, 4.0f, 19f); probeStep = 3.2f;
                     break;
                 case "01_Titolo":
                     exterior = true;
-                    SetSun(sun, new Color(1.00f, 0.80f, 0.55f), 2.0f, new Vector3(35f, -35f, 0f), 0.9f);
-                    SetAmbient(new Color(0.42f, 0.38f, 0.34f), new Color(0.27f, 0.23f, 0.19f), new Color(0.12f, 0.10f, 0.08f));
-                    bg = new Color(0.52f, 0.43f, 0.32f);
-                    SetFog(0.020f, bg);
-                    AddLampLights("LuceLampione", Cct(2300f), 3.0f, 6f);
-                    probeMin = new Vector3(-1.2f, 0.4f, -6f); probeMax = new Vector3(1.2f, 3.0f, 6f); probeStep = 2.4f;
+                    // coerente con l'hub piovoso
+                    SetSun(sun, new Color(0.80f, 0.86f, 0.97f), 0.9f, new Vector3(34f, -30f, 0f), 0.45f);
+                    SetSkyAmbient(1.5f);
+                    bg = new Color(0.50f, 0.54f, 0.58f);
+                    SetFog(0.026f, bg);
+                    AddLampLights("LuceLampione", Cct(2300f), 4.5f, 7f);
+                    probeMin = new Vector3(-1.2f, 0.4f, -6f); probeMax = new Vector3(1.2f, 3.0f, 6f); probeStep = 1.6f;
                     break;
                 case "20_Int_BassoAntonietta":
-                    // interno buio: un filo di luce di giorno fredda, lampada a petrolio calda come fonte principale
-                    SetSun(sun, new Color(0.9f, 0.85f, 0.76f), 0.7f, new Vector3(58f, 200f, 0f), 0.8f);
-                    SetAmbient(new Color(0.22f, 0.20f, 0.18f), new Color(0.15f, 0.13f, 0.11f), new Color(0.07f, 0.06f, 0.05f));
-                    bg = new Color(0.05f, 0.035f, 0.025f);
-                    SetFog(0.008f, new Color(0.14f, 0.10f, 0.07f));
+                    // R007: interno buio nel presente. Fuori piove: luce fredda e grigia da finestre e porte (luci baked sulle aperture
+                    // + sole debole freddo), lampade a petrolio e candele calde come fonti principali. Il cortile e' a cielo aperto.
+                    SetSun(sun, new Color(0.74f, 0.82f, 0.96f), 1.5f, new Vector3(52f, 28f, 0f), 0.6f);
+                    SetSkyAmbient(1.3f);
+                    bg = new Color(0.07f, 0.06f, 0.055f);
+                    SetFog(0.006f, new Color(0.20f, 0.19f, 0.18f));
                     var main = GameObject.Find("Luce Calda");
                     if (main != null)
                     {
                         var ml = main.GetComponent<Light>();
-                        ml.color = Color.Lerp(Cct(2600f), Color.white, 0.40f);
-                        ml.intensity = 3.0f;
+                        ml.color = Color.Lerp(Cct(2600f), Color.white, 0.30f);
+                        ml.intensity = 3.6f;
                         ml.range = 8f;
                         ml.shadows = LightShadows.None;
                         ml.lightmapBakeType = LightmapBakeType.Mixed;
                     }
-                    AddLampLights("LuminoAltarino", Cct(2200f), 0.5f, 2.5f);
-                    AddLampLights("Brace", Cct(2000f), 0.5f, 3f);
-                    // R006: lampade a petrolio e candele del basso grande (luci baked puntiformi)
-                    AddLampLights("FiammaLampada", Cct(2300f), 1.6f, 5.5f);
-                    AddLampLights("FiammaCandela", Cct(1900f), 0.7f, 3.0f);
+                    AddLampLights("LuminoAltarino", Cct(2200f), 0.7f, 2.8f);
+                    AddLampLights("Brace", Cct(2000f), 0.7f, 3.2f);
+                    AddLampLights("FiammaLampada", Cct(2300f), 2.2f, 6f);
+                    AddLampLights("FiammaCandela", Cct(1900f), 1.0f, 3.4f);
                     probeMin = new Vector3(-4.4f, 0.3f, -2.3f); probeMax = new Vector3(6.2f, 2.4f, 14f); probeStep = 1.4f;
+                    probesSky = false;
                     break;
-                default: // 30_FB_Scarpe: ricordo, seppia coerente
-                    SetSun(sun, new Color(1.00f, 0.80f, 0.55f), 2.4f, new Vector3(48f, -35f, 0f), 0.8f); // R006: via stretta fra palazzi alti, piu' luce di prima per leggere le botteghe
-                    SetAmbient(new Color(0.46f, 0.37f, 0.26f), new Color(0.30f, 0.23f, 0.16f), new Color(0.14f, 0.11f, 0.07f));
-                    bg = new Color(0.30f, 0.23f, 0.15f);
-                    SetFog(0.014f, new Color(0.34f, 0.26f, 0.17f));
-                    // R006: via con botteghe, luci baked sulle lanterne e nei bassi aperti
+                default: // 30_FB_Scarpe: ricordo 1946, sole basso dorato, ombre lunghe, nessuna pioggia
+                    // R007: sole basso (altezza ~22 gradi) lungo l'asse della via, caldo e luminoso; cielo procedurale al tramonto
+                    sky = AssetDatabase.LoadAssetAtPath<Material>(SkyRicordo);
+                    SetSun(sun, new Color(1.00f, 0.74f, 0.42f), 5.5f, new Vector3(22f, -32f, 0f), 0.95f);
+                    SetSkyAmbient(2.3f);
+                    bg = new Color(0.62f, 0.47f, 0.30f);
+                    SetFog(0.011f, new Color(0.62f, 0.46f, 0.29f));
                     AddLampLights("LuceLampione", Cct(2400f), 2.6f, 7f);
                     AddLampLights("EdicolaLumino", Cct(1900f), 0.9f, 2.5f);
                     AddLampLights("LuceBottega", Cct(2200f), 3.2f, 8f);
@@ -709,9 +876,11 @@ namespace TrenoBambini.EditorTools
                     probeMin = new Vector3(-17f, 0.4f, -33f); probeMax = new Vector3(20f, 3.6f, 38f); probeStep = 3.2f;
                     break;
             }
-            RenderSettings.skybox = null;
-            RenderSettings.defaultReflectionMode = UnityEngine.Rendering.DefaultReflectionMode.Custom;
-            RenderSettings.reflectionIntensity = 0.5f;
+            RenderSettings.skybox = sky;
+            RenderSettings.defaultReflectionMode = UnityEngine.Rendering.DefaultReflectionMode.Skybox;
+            RenderSettings.defaultReflectionResolution = 128;
+            RenderSettings.reflectionIntensity = 1.0f;
+            DynamicGI.UpdateEnvironment();
 
             // camere: post-processing sempre attivo
             foreach (var cam in UnityEngine.Object.FindObjectsByType<Camera>(FindObjectsInactive.Include))
@@ -720,7 +889,7 @@ namespace TrenoBambini.EditorTools
                 data.renderPostProcessing = true;
                 data.antialiasing = AntialiasingMode.None; // gestito per preset da GraphicsPresets
                 cam.backgroundColor = bg;
-                cam.clearFlags = CameraClearFlags.SolidColor;
+                cam.clearFlags = CameraClearFlags.Skybox; // R007: cielo vero al posto del colore piatto
             }
 
             MarkStatic(scene);
@@ -728,8 +897,9 @@ namespace TrenoBambini.EditorTools
             else if (name == "20_Int_BassoAntonietta")
             {
                 AddFloorProbes(look.transform, probeMin, probeMax, probeStep, new[] { 0.6f, 1.5f, 2.4f }, "Pavimento");
-                AddReflectionBox(look.transform, "ReflectionProbe_Stanza", new Vector3(0f, 1.5f, 0.6f), new Vector3(10.5f, 3.4f, 7.5f), bg);
-                AddReflectionBox(look.transform, "ReflectionProbe_AlcovaCucina", new Vector3(0f, 1.5f, 5.8f), new Vector3(10.5f, 3.4f, 4.6f), bg);
+                AddReflectionBox(look.transform, "ReflectionProbe_Stanza", new Vector3(0f, 1.5f, 0.6f), new Vector3(10.5f, 3.4f, 7.5f), bg, false);
+                AddReflectionBox(look.transform, "ReflectionProbe_AlcovaCucina", new Vector3(0f, 1.5f, 5.8f), new Vector3(10.5f, 3.4f, 4.6f), bg, false);
+                AddWindowLights(look.transform);
                 AddReflectionBox(look.transform, "ReflectionProbe_Cortile", new Vector3(3.7f, 2.0f, 11.2f), new Vector3(6.4f, 5.0f, 6.8f), bg);
             }
             else if (name == "30_FB_Scarpe")
@@ -744,7 +914,7 @@ namespace TrenoBambini.EditorTools
             else
             {
                 AddProbes(look.transform, probeMin, probeMax, probeStep, exterior);
-                AddReflectionProbe(look.transform, probeMin, probeMax, bg);
+                AddReflectionProbe(look.transform, probeMin, probeMax, bg, probesSky);
             }
 
             Lightmapping.SetLightingSettingsForScene(scene, ls);
@@ -830,7 +1000,7 @@ namespace TrenoBambini.EditorTools
         }
 
         /// <summary>R006: light probe a griglia sul suolo reale del quartiere e reflection probe a riquadri (una per slargo / tratto di via).</summary>
-        static void AddHubProbes(Transform parent, Color bg)
+        static void AddHubProbes(Transform parent, Color bg, float step = 2.4f)
         {
             Physics.SyncTransforms();
             var go = new GameObject("LightProbes");
@@ -838,8 +1008,8 @@ namespace TrenoBambini.EditorTools
             var g = go.AddComponent<LightProbeGroup>();
             var pos = new List<Vector3>();
             float[] ys = { 0.7f, 1.8f, 3.6f };
-            for (float x = -32f; x <= 32f; x += 3.2f)
-                for (float z = -46f; z <= 58f; z += 3.2f)
+            for (float x = -32f; x <= 32f; x += step)
+                for (float z = -46f; z <= 58f; z += step)
                 {
                     RaycastHit hit;
                     if (!Physics.Raycast(new Vector3(x, 40f, z), Vector3.down, out hit, 80f, ~0, QueryTriggerInteraction.Ignore)) continue;
@@ -865,11 +1035,11 @@ namespace TrenoBambini.EditorTools
                 rg.transform.position = new Vector3(c.x, y + 1.6f, c.y);
                 var rp = rg.AddComponent<ReflectionProbe>();
                 rp.mode = UnityEngine.Rendering.ReflectionProbeMode.Baked;
-                rp.resolution = 64;
+                rp.resolution = Bozza ? 64 : 128;
                 rp.hdr = true;
                 rp.boxProjection = true;
                 rp.size = new Vector3(22f, 10f, 22f);
-                rp.clearFlags = UnityEngine.Rendering.ReflectionProbeClearFlags.SolidColor;
+                rp.clearFlags = UnityEngine.Rendering.ReflectionProbeClearFlags.Skybox;
                 rp.backgroundColor = bg;
                 rp.intensity = 0.8f;
                 rp.importance = 1;
@@ -896,24 +1066,53 @@ namespace TrenoBambini.EditorTools
             Debug.Log("[LookBuilder] " + parent.gameObject.scene.name + ": " + pos.Count + " light probe.");
         }
 
-        static void AddReflectionBox(Transform parent, string nome, Vector3 centro, Vector3 size, Color bg)
+        /// <summary>R007: luce fredda e grigia del cielo piovoso che entra dalle finestre del basso (spot baked davanti a ogni apertura).</summary>
+        static void AddWindowLights(Transform parent)
+        {
+            var aperture = new[]
+            {
+                new Vector4(-5.0f, 1.6f, 0.5f, 90f),    // stanza, parete ovest  (guarda verso +x)
+                new Vector4(5.0f, 1.6f, 1.0f, 270f),    // stanza, parete est    (guarda verso -x)
+                new Vector4(-5.0f, 1.6f, 5.8f, 90f),    // alcova, parete ovest
+                new Vector4(5.0f, 1.7f, 5.8f, 270f)     // cucina, parete est
+            };
+            int i = 0;
+            foreach (var a in aperture)
+            {
+                var go = new GameObject("LuceFinestra_" + (i++));
+                go.transform.SetParent(parent, false);
+                go.transform.position = new Vector3(a.x, a.y, a.z);
+                go.transform.rotation = Quaternion.Euler(18f, a.w, 0f);
+                var l = go.AddComponent<Light>();
+                l.type = LightType.Spot;
+                l.spotAngle = 120f;
+                l.innerSpotAngle = 60f;
+                l.color = new Color(0.62f, 0.74f, 0.95f);
+                l.intensity = 80f;
+                l.range = 9f;
+                l.shadows = LightShadows.None;
+                l.lightmapBakeType = LightmapBakeType.Baked;
+            }
+        }
+
+        static void AddReflectionBox(Transform parent, string nome, Vector3 centro, Vector3 size, Color bg, bool skybox = true)
         {
             var rg = new GameObject(nome);
             rg.transform.SetParent(parent, false);
             rg.transform.position = centro;
             var rp = rg.AddComponent<ReflectionProbe>();
             rp.mode = UnityEngine.Rendering.ReflectionProbeMode.Baked;
-            rp.resolution = 64;
+            rp.resolution = Bozza ? 64 : 128;
             rp.hdr = true;
             rp.boxProjection = true;
             rp.size = size;
-            rp.clearFlags = UnityEngine.Rendering.ReflectionProbeClearFlags.SolidColor;
+            rp.clearFlags = skybox ? UnityEngine.Rendering.ReflectionProbeClearFlags.Skybox : UnityEngine.Rendering.ReflectionProbeClearFlags.SolidColor;
             rp.backgroundColor = bg;
             rp.intensity = 0.8f;
             rp.importance = 1;
         }
 
-        static void AddReflectionProbe(Transform parent, Vector3 min, Vector3 max, Color bg)
+        static void AddReflectionProbe(Transform parent, Vector3 min, Vector3 max, Color bg, bool skybox = true)
         {
             var go = new GameObject("ReflectionProbe");
             go.transform.SetParent(parent, false);
@@ -922,11 +1121,11 @@ namespace TrenoBambini.EditorTools
             go.transform.position = c;
             var rp = go.AddComponent<ReflectionProbe>();
             rp.mode = UnityEngine.Rendering.ReflectionProbeMode.Baked;
-            rp.resolution = 128;
+            rp.resolution = Bozza ? 64 : 128;
             rp.hdr = true;
             rp.boxProjection = true;
             rp.size = new Vector3(Mathf.Max(8f, (max.x - min.x) + 8f), 8f, Mathf.Max(8f, (max.z - min.z) + 4f));
-            rp.clearFlags = UnityEngine.Rendering.ReflectionProbeClearFlags.SolidColor;
+            rp.clearFlags = skybox ? UnityEngine.Rendering.ReflectionProbeClearFlags.Skybox : UnityEngine.Rendering.ReflectionProbeClearFlags.SolidColor;
             rp.backgroundColor = bg;
             rp.intensity = 0.8f;
             rp.importance = 1;

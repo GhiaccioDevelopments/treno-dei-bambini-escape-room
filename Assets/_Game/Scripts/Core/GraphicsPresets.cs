@@ -46,6 +46,15 @@ namespace TrenoBambini.Core
             set { PlayerPrefs.SetInt(BloomKey, value ? 1 : 0); PlayerPrefs.Save(); ApplyPostSwitches(); }
         }
 
+        static bool _cutsceneDof;
+
+        /// <summary>R007: profondita' di campo accesa solo durante le cutscene (da Media in su). In gioco resta spenta.</summary>
+        public static bool CutsceneDepthOfField
+        {
+            get { return _cutsceneDof; }
+            set { _cutsceneDof = value; ApplyPostSwitches(); }
+        }
+
         /// <summary>Preset di default per la piattaforma: WebGL = Bassa, altrove = Alta.</summary>
         public static int DefaultLevel()
         {
@@ -58,6 +67,7 @@ namespace TrenoBambini.Core
             // domain reload disattivato: azzera lo stato statico a ogni avvio del play mode
             Changed = null;
             Current = -1;
+            _cutsceneDof = false;
         }
 
         /// <summary>Indice in QualitySettings.names del preset (cercato per NOME); se manca (es. Alta/Ultra su WebGL)
@@ -141,12 +151,18 @@ namespace TrenoBambini.Core
             }
         }
 
-        /// <summary>Grana e bloom: spenti a Bassa (post-processing leggero) o se l'utente li ha disattivati.</summary>
+        /// <summary>
+        /// Post-processing per preset (R007). Bassa: solo tonemapping/LUT/vignetta (nessuna grana ne' bloom, nessuna SSAO: renderer leggero);
+        /// Media: + grana e bloom standard; Alta/Ultra: bloom ad alta qualita' di filtro. Grana e bloom restano interruttori dell'utente.
+        /// La profondita' di campo e' predisposta nei profili ma accesa solo con <see cref="CutsceneDepthOfField"/>.
+        /// </summary>
         static void ApplyPostSwitches()
         {
             bool lite = Current == (int)GraphicsPreset.Bassa;
             bool grain = !lite && FilmGrainEnabled;
             bool bloom = !lite && BloomEnabled;
+            bool hq = Current >= (int)GraphicsPreset.Alta;
+            bool dof = !lite && _cutsceneDof;
             foreach (var vol in Object.FindObjectsByType<Volume>(FindObjectsInactive.Exclude))
             {
                 var profile = vol.profile; // istanza: non modifica l'asset
@@ -154,7 +170,9 @@ namespace TrenoBambini.Core
                 FilmGrain fg;
                 if (profile.TryGet(out fg)) fg.active = grain;
                 Bloom bl;
-                if (profile.TryGet(out bl)) bl.active = bloom;
+                if (profile.TryGet(out bl)) { bl.active = bloom; bl.highQualityFiltering.Override(hq); }
+                DepthOfField df;
+                if (profile.TryGet(out df)) df.active = dof;
             }
         }
 

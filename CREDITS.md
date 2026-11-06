@@ -155,3 +155,11 @@ I manifesti e le insegne sono **texture originali** disegnate dal generatore con
 (`Assets/_Game/Generated/Tex/T_Man_*.png`, `T_Ins_*.png`): testi inventati, senza marchi, partiti o nomi reali. Gli unici modelli esterni
 usati restano quelli già annotati sopra (carretto, botti, casse, ceste, secchi, scala, vaso di terracotta, lampioni, candele, macerie)
 e i materiali PBR Poly Haven già in uso, ricolorati (`M_Intonaco_*`, `M_Foglia`, `M_Paglia`) con tinte derivate dalle stesse texture.
+
+## Look, cielo e post-processing (R007, tappa 1)
+
+Nessun asset esterno nuovo scaricato: il cielo coperto dell'hub e del titolo riusa l'HDRI **CieloCoperto** (Poly Haven `overcast_soil_puresky`,
+Jarod Guest e Sergej Majboroda, CC0, 1K, già annotato nella sezione HDRI) tramite il nuovo materiale skybox `Assets/Art/Materials/M_Sky_Hub.mat`
+(tinta fredda, esposizione 1). Il cielo del ricordo è **procedurale** (`M_Sky_Ricordo.mat`, shader Skybox/Procedural di Unity, nessun file).
+LUT d'epoca `LUT_Presente.png` (presente freddo e desaturato) **originale**, generata da `LookBuilder` come `LUT_Neorealismo` e `LUT_Flashback`.
+Tutto è prodotto da **Treno ▸ Look ▸ Crea preset grafici e profili** e **Applica look alle scene**.
