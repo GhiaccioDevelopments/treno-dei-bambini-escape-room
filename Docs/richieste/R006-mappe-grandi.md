@@ -59,5 +59,16 @@ Obiettivo: ambienti **molto più grandi** e credibili da esplorare, senza oggett
 - [ ] FPS e peso build per preset nel Rapporto; WebGL Bassa ≥ 30 FPS.
 - [ ] Screenshot prima/dopo di ogni scena in `Docs/richieste/media/R006/`.
 
+## 7. Decisioni dell'utente (2026-11-06, prima dello sviluppo)
+- **Hub = grande quartiere** (6–8 volte l'attuale, non 3–4): più strade e piazzette, "con dentro molti easter egg,
+  oggetti vari, cose da esplorare e cose nascoste nella storia". I segreti veri e propri sono di R011, ma la mappa va
+  progettata **già con angoli, nicchie, cortili e punti nascosti** pensati per ospitarli, e piena di oggetti di scena.
+- **Basso** = stanza principale + alcova col letto dietro una tenda + angolo cucina + piccolo cortile sul retro.
+- **Flashback "Le scarpe"** = via con botteghe e calzolaio; "sempre tutto più grande, con cose nascoste, easter egg e
+  oggetti, per non far annoiare".
+- **Asset**: autonomia su CC0/CC-BY (Poly Haven, Sketchfab…), annotati in `CREDITS.md`; confronti all'utente solo per i pezzi importanti.
+- Versione online: per reggere il quartiere grande usare occlusion culling, LOD aggressivi a Bassa, densità dei dettagli
+  ridotta su WebGL; se non basta, dirlo all'utente invece di rimpicciolire la mappa di nascosto.
+
 ## Rapporto
 _(da compilare a fine lavoro: fatto, scostamenti, come testare, domande aperte)_
