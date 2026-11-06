@@ -104,8 +104,9 @@ Regolazioni nel pannello di Mixamo (se servono): **Character Arm-Space** per non
 - Passi audio: `FootstepAudio` calcola ora il passo in corsa dalla clip (`clipRunSpeed x runStepTime`, 0,367 s = mezzo ciclo)
   invece di 1,5 m fissi: adulto 1,25 m a passo, bambino 0,62 m.
 - Scene rigenerate con **Treno > Personaggi > Aggiorna animazioni** e **Treno > Costruisci tutte le scene**; console a zero errori.
-  Le luci baked non sono state ricalcolate (il builder lo segnala: **Treno > Look > Bake luci di tutte le scene**, lasciato al PC
-  che ha il tempo per farlo; i lightmap esistenti restano collegati).
+  La rigenerazione delle scene **scollega i lightmap** (`m_LightingDataAsset` vuoto): dopo il builder va rieseguito
+  **Treno > Look > Bake luci di tutte le scene** (fatto il 6/11 dopo l'integrazione in `feature/upgrade-realistico`, ~2 minuti;
+  i file LightingData e lightmap mantengono gli stessi nomi, nessun file orfano).
 - `CREDITS.md` aggiornato (Slow Run, 2026-11-06).
 
 ### Scostamenti dalla specifica (e perché)
