@@ -61,7 +61,13 @@ namespace TrenoBambini.Player
         float nextAnimSearch;
         bool hasSpeed, hasMotion, hasGrounded, animChecked;
 
-        void Awake() { cc = GetComponent<CharacterController>(); }
+        void Awake()
+        {
+            cc = GetComponent<CharacterController>();
+            // con FPS alti (monitor a 144-165 Hz) il primo passo di accelerazione è sotto il millimetro: con la soglia di default
+            // (0,001) il CharacterController lo scarterebbe e la velocità ripartirebbe da zero a ogni frame
+            if (cc != null) cc.minMoveDistance = 0f;
+        }
 
         /// <summary>Azzera la velocità (dopo un teletrasporto/cambio scena).</summary>
         public void ResetMotion() { velocity = Vector3.zero; Speed01 = 0f; }
@@ -86,12 +92,12 @@ namespace TrenoBambini.Player
                     shift = kb.leftShiftKey.isPressed || kb.rightShiftKey.isPressed;
                 }
                 bool analog = false;
-                Vector2 a = VirtualJoystick.Value;
-                var gp = Gamepad.current;
+                Vector2 a = UIRoot.JoystickVisible ? InputHelper.SafeStick(VirtualJoystick.Value) : Vector2.zero;
+                var gp = InputHelper.ActiveGamepad; // solo un gamepad usato davvero (no gamepad "fantasma" del browser)
                 if (gp != null)
                 {
-                    // zona morta: un gamepad "fantasma" o con deriva (frequente nei browser) non deve annullare WASD
-                    Vector2 g = gp.leftStick.ReadValue();
+                    // zona morta: un gamepad con deriva non deve annullare WASD
+                    Vector2 g = InputHelper.SafeStick(gp.leftStick.ReadValue());
                     if (g.magnitude > 0.25f) a += g;
                 }
                 if (a.sqrMagnitude > 0.0001f) { input += a; analog = true; }
@@ -100,6 +106,7 @@ namespace TrenoBambini.Player
                 if (analog && input.magnitude >= analogRunThreshold) shift = true;
             }
 
+            if (float.IsNaN(velocity.x) || float.IsNaN(velocity.y) || float.IsNaN(velocity.z)) velocity = Vector3.zero;
             DebugInput = input; DebugBlocked = blocked;
 
             if (cam == null)
