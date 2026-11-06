@@ -80,7 +80,7 @@ R006 completata in 4 tappe (compenetrazioni, hub, basso + flashback, chiusura). 
   per sola iterazione sull'hub: Treno > Sviluppo > Costruisci solo l'hub, poi bake).
 - Punti per i segreti di R011: `Docs/richieste/media/R006/punti_segreti_hub.md` (generato insieme alla scena).
 - Verifica: Treno > Verifica > Compenetrazioni = 0 segnalazioni su tutte le scene (la verifica ora usa uno sweep e legge le facce dai triangoli).
-- Screenshot: `Docs/richieste/media/R006/hub_*.png`.
+- Screenshot: `Docs/richieste/media/R006/hub_*.jpg`.
 
 ### Tappa 3 – basso di Antonietta, flashback "Le scarpe", peso delle lightmap (2026-11-06)
 - `20_Int_BassoAntonietta`: da 6 x 5 m (30 m2) a ~108 m2 di pianta (circa 3,6x): stanza principale 9 x 6 m, alcova col letto di ferro dietro una tenda a meta' aperta,
@@ -98,15 +98,15 @@ R006 completata in 4 tappe (compenetrazioni, hub, basso + flashback, chiusura). 
   ~18,4 MB con probe e dati; basso ~2,3 MB; flashback ~6,1 MB.
 - Verifiche: `Treno > Verifica > Compenetrazioni` e nuova `Treno > Verifica > Raggiungibilita'` (flood-fill a 25 cm con capsula di Amerigo: porte, scarpe, uscita, postazioni degli enigmi,
   oggetti nascosti, passanti). `InteriorWall` ora ha collider a pezzi attorno ai varchi.
-- Screenshot: `Docs/richieste/media/R006/basso_*.png`, `fb_via_*.png`, `basso_alto.png`, `fb_alto.png`, `hub_lightmap_ridotte.png`.
+- Screenshot: `Docs/richieste/media/R006/basso_*.jpg`, `fb_via_*.jpg`, `basso_alto.jpg`, `fb_alto.jpg`, `hub_lightmap_ridotte.jpg`.
 
 ### Tappa 4 – soffitto, determinismo, play-test, build WebGL e FPS (2026-11-06)
 **Soffitto del basso.** Causa: errore, non scelta. Il generatore non creava nessun soffitto (le stanze erano scatole senza copertura, ereditato dal basso a una stanza
 pensato per la camera dall'alto). Soluzione in `SceneBuilderBasso.cs`: lastra `MuroSoffittoStanza` (9,6 x 10,9 m, quota 3,0-3,15 m) sopra stanza, alcova, blocco e cucina
 (il cortile resta a cielo aperto) e travi a vista (`AppesoTrave*`, 10 travi) sotto la lastra. Il nome `Muro*` la mette sul layer `VistaLibera`, quindi `WallFader` la nasconde
 (solo ombra) quando sta fra camera e Amerigo, cioe' con la camera sopra il soffitto. `WallFader` ora **non** la nasconde con la camera sotto la volta, anche a meno di 60 cm
-(prima il controllo di sovrapposizione a 0,6 m l'avrebbe fatta sparire sempre, perche' la camera sta a ~2,45 m). Screenshot: `media/R006/basso_soffitto.png` (vista dall'editor),
-`media/R006/basso_gioco_soffitto.png` (camera di gioco: il soffitto e' sopra l'inquadratura).
+(prima il controllo di sovrapposizione a 0,6 m l'avrebbe fatta sparire sempre, perche' la camera sta a ~2,45 m). Screenshot: `media/R006/basso_soffitto.jpg` (vista dall'editor),
+`media/R006/basso_gioco_soffitto.jpg` (camera di gioco: il soffitto e' sopra l'inquadratura).
 
 **Determinismo.** Causa: `FindObjectsByType` non ha ordine garantito e `Array.Sort` e' instabile sui pari merito; il resolver processava le coppie in ordine diverso a ogni build.
 Ora `VerificaCompenetrazioni.Raccogli()` ordina i renderer per percorso di indici di fratellanza e lo sweep spareggia per indice. Prova: due rigenerazioni consecutive danno lo stesso hash

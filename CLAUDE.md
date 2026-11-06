@@ -72,6 +72,7 @@ Protagonista: Amerigo Speranza, Napoli 1946.
   importante, dirlo invece di ripiegare su soluzioni scadenti.
 - Texture PBR complete (albedo, normal, roughness/metallic, AO), materiali uniformati.
 - Peso del repo: Git LFS gratuito ha 1 GB di spazio e 1 GB/mese di traffico, tenerlo d'occhio.
+- Screenshot di documentazione: max 1280x720 JPG, fuori da LFS; un solo bake delle luci a fine tappa (ogni bake intermedio pesa su LFS). Quando LFS si avvicina a 1 GB, avvisare l'utente: ha deciso di comprare un data pack GitHub.
 
 ## Doppiaggio
 - Ogni battuta di cutscene ha un **ID univoco** `cs_<oggetto>_NNN` e un campo `audio` opzionale.
