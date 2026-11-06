@@ -1,73 +1,12 @@
-Verifica compenetrazioni - 2026-11-06 19:52
+Verifica compenetrazioni - 2026-11-06 20:07
 Tolleranza penetrazione 2 cm, appoggio 5 cm, sotto il pavimento 3 cm.
 
-== 01_Titolo: 18 segnalazioni ==
-  [01_Titolo] COMPENETRAZIONE 80,0 cm: Diorama/Casa_E100/LOD0 <-> Diorama/Macerie  @(1,45, 0,38, 4,61)
-  [01_Titolo] COMPENETRAZIONE 52,2 cm: Diorama/Casa_E100/LOD0 <-> Diorama/Macerie  @(1,16, 0,42, 4,90)
-  [01_Titolo] COMPENETRAZIONE 85,6 cm: Diorama/Casa_E100/LOD0 <-> Diorama/Macerie  @(1,45, 0,39, 4,66)
-  [01_Titolo] COMPENETRAZIONE 42,7 cm: Diorama/Casa_E100/LOD0 <-> Diorama/Macerie  @(1,48, 0,33, 4,51)
-  [01_Titolo] COMPENETRAZIONE 7,7 cm: Diorama/Casa_E100/LOD0 <-> Diorama/Macerie  @(1,07, 0,53, 4,57)
-  [01_Titolo] COMPENETRAZIONE 69,6 cm: Diorama/Lampione <-> Diorama/Casa_E93/LOD0  @(1,21, 3,95, -2,31)
-  [01_Titolo] COMPENETRAZIONE 3,0 cm: Diorama/Panno_Lenzuolo <-> Diorama/Panno_Camicia  @(-0,40, 6,33, 5,50)
-  [01_Titolo] COMPENETRAZIONE 71,8 cm: Diorama/Filo <-> Diorama/Casa_E93/LOD0  @(0,61, 5,65, -3,81)
-  [01_Titolo] COMPENETRAZIONE 33,0 cm: Diorama/Carretto <-> Diorama/Macerie  @(-0,27, 0,50, 4,79)
-  [01_Titolo] COMPENETRAZIONE 54,9 cm: Diorama/Carretto <-> Diorama/Macerie  @(-0,36, 0,49, 4,79)
-  [01_Titolo] COMPENETRAZIONE 11,8 cm: Diorama/Casa_O99/LOD0 <-> Diorama/Filo  @(-0,78, 6,23, 0,13)
-  [01_Titolo] COMPENETRAZIONE 71,8 cm: Diorama/Filo <-> Diorama/Casa_E93/LOD0  @(0,61, 6,25, -1,81)
-  [01_Titolo] COMPENETRAZIONE 43,9 cm: Diorama/Casa_E93/LOD0 <-> Diorama/Panno_Lenzuolo  @(1,09, 4,42, -4,89)
-  [01_Titolo] COMPENETRAZIONE 16,4 cm: Diorama/Casa_E93/LOD0 <-> Diorama/Panno_Pantaloni  @(0,99, 6,05, -1,80)
-  [01_Titolo] SOTTO IL PAVIMENTO 31,1 cm: Diorama/Macerie  @(1,10, 0,31, 5,47)
-  [01_Titolo] SOTTO IL PAVIMENTO 26,3 cm: Diorama/Macerie  @(0,53, 0,39, 6,05)
-  [01_Titolo] SOTTO IL PAVIMENTO 33,0 cm: Diorama/Macerie  @(1,10, 0,33, 5,57)
-  [01_Titolo] SOTTO IL PAVIMENTO 3,3 cm: Diorama/Macerie  @(1,16, 0,21, 5,27)
+== 01_Titolo: 0 segnalazioni ==
 
-== 10_Hub_Vicolo: 27 segnalazioni ==
-  [10_Hub_Vicolo] COMPENETRAZIONE 13,8 cm: Ambiente/Casa_E114/LOD0 <-> Ambiente/Cassa  @(3,37, 0,58, 17,73)
-  [10_Hub_Vicolo] COMPENETRAZIONE 24,8 cm: Ambiente/Casa_E114/LOD0 <-> Ambiente/Cassa  @(3,35, 0,36, 17,75)
-  [10_Hub_Vicolo] COMPENETRAZIONE 4,2 cm: Ambiente/Panno_Lenzuolo <-> Ambiente/Panno_Camicia  @(-1,78, 6,09, 12,50)
-  [10_Hub_Vicolo] COMPENETRAZIONE 69,6 cm: Ambiente/Filo <-> Ambiente/Casa_E94/LOD0  @(1,64, 6,56, 3,17)
-  [10_Hub_Vicolo] COMPENETRAZIONE 72,6 cm: Ambiente/Filo <-> Ambiente/Casa_O102/LOD0  @(-1,56, 5,17, 5,63)
-  [10_Hub_Vicolo] COMPENETRAZIONE 2,3 cm: Ambiente/Cassa <-> Ambiente/Cassa  @(3,03, 0,49, 16,48)
-  [10_Hub_Vicolo] COMPENETRAZIONE 28,6 cm: Ambiente/Lampione <-> Ambiente/Casa_E94/LOD0  @(2,91, 3,83, -3,01)
-  [10_Hub_Vicolo] COMPENETRAZIONE 70,9 cm: Ambiente/Casa_E94/LOD0 <-> Ambiente/Filo  @(1,18, 6,07, -2,01)
-  [10_Hub_Vicolo] COMPENETRAZIONE 70,9 cm: Ambiente/Casa_E94/LOD0 <-> Ambiente/Filo  @(1,18, 5,17, 0,24)
-  [10_Hub_Vicolo] COMPENETRAZIONE 13,4 cm: Ambiente/Casa_E94/LOD0 <-> Ambiente/Panno_Camicia  @(2,76, 5,78, -1,99)
-  [10_Hub_Vicolo] COMPENETRAZIONE 13,2 cm: Ambiente/Casa_E94/LOD0 <-> Ambiente/Panno_Camicia  @(2,87, 6,34, 3,15)
-  [10_Hub_Vicolo] COMPENETRAZIONE 84,4 cm: Ambiente/Botte <-> Ambiente/Casa_O102/LOD0  @(-3,11, 2,58, 4,78)
-  [10_Hub_Vicolo] COMPENETRAZIONE 30,6 cm: Ambiente/Casa_O102/LOD0 <-> Ambiente/Secchio  @(-3,21, 2,39, 5,63)
-  [10_Hub_Vicolo] COMPENETRAZIONE 18,9 cm: Ambiente/Cesto <-> Ambiente/PanchinaTufo  @(-3,10, 0,17, 12,25)
-  [10_Hub_Vicolo] COMPENETRAZIONE 12,2 cm: Ambiente/Macerie <-> Ambiente/Casa_E76/LOD0  @(2,42, 2,40, -16,36)
-  [10_Hub_Vicolo] COMPENETRAZIONE 36,9 cm: Ambiente/Botte <-> Ambiente/Casa_O76/LOD0  @(-3,42, 0,50, -15,00)
-  [10_Hub_Vicolo] COMPENETRAZIONE 68,0 cm: Ambiente/Scala <-> Ambiente/Casa_E76/LOD0  @(3,17, 2,60, -14,31)
-  [10_Hub_Vicolo] COMPENETRAZIONE 12,4 cm: Ambiente/Casa_E108/LOD0 <-> Ambiente/Filo  @(2,86, 6,10, 11,75)
-  [10_Hub_Vicolo] COMPENETRAZIONE 6,0 cm: Ambiente/PanchinaTufo <-> Ambiente/Casa_O110/LOD0  @(-3,45, 0,35, 13,25)
-  [10_Hub_Vicolo] COMPENETRAZIONE 70,9 cm: Ambiente/Filo <-> Ambiente/Casa_E76/LOD0  @(1,56, 4,88, -14,06)
-  [10_Hub_Vicolo] COMPENETRAZIONE 71,4 cm: Ambiente/Filo <-> Ambiente/Casa_E76/LOD0  @(1,56, 4,46, -16,56)
-  [10_Hub_Vicolo] SOTTO IL PAVIMENTO 24,3 cm: Ambiente/Macerie  @(1,28, 0,24, -16,51)
-  [10_Hub_Vicolo] SOTTO IL PAVIMENTO 3,1 cm: Ambiente/Macerie  @(1,83, 0,59, -16,17)
-  [10_Hub_Vicolo] SOTTO IL PAVIMENTO 20,4 cm: Ambiente/Macerie  @(1,60, 0,30, -15,87)
-  [10_Hub_Vicolo] SOTTO IL PAVIMENTO 16,5 cm: Ambiente/Macerie  @(1,59, 0,22, -16,52)
-  [10_Hub_Vicolo] SOTTO IL PAVIMENTO 15,8 cm: Ambiente/Macerie  @(1,90, 0,25, -16,23)
-  [10_Hub_Vicolo] SOTTO IL PAVIMENTO 16,4 cm: Ambiente/Macerie  @(1,83, 0,26, -16,39)
+== 10_Hub_Vicolo: 0 segnalazioni ==
 
-== 20_Int_BassoAntonietta: 5 segnalazioni ==
-  [20_Int_BassoAntonietta] COMPENETRAZIONE 32,0 cm: Arredo/Scala <-> Ambiente/MuroEst  @(2,94, 1,01, -0,88)
-  [20_Int_BassoAntonietta] COMPENETRAZIONE 16,5 cm: Arredo/Scala <-> Arredo/Cassapanca  @(2,78, 0,63, -1,18)
-  [20_Int_BassoAntonietta] COMPENETRAZIONE 2,7 cm: Arredo/Panno_Camicia <-> Arredo/Panno_Lenzuolo  @(0,66, 1,96, 0,27)
-  [20_Int_BassoAntonietta] COMPENETRAZIONE 4,5 cm: Arredo/Letto <-> Ambiente/MuroNord  @(-0,98, 0,82, 2,47)
-  [20_Int_BassoAntonietta] COMPENETRAZIONE 4,0 cm: Ambiente/MuroOvest <-> Arredo/Botte  @(-2,77, 0,77, -0,98)
+== 20_Int_BassoAntonietta: 0 segnalazioni ==
 
-== 30_FB_Scarpe: 11 segnalazioni ==
-  [30_FB_Scarpe] COMPENETRAZIONE 6,9 cm: Ambiente/BancoCalzolaio <-> Ambiente/Scarpa  @(2,69, 0,93, -4,68)
-  [30_FB_Scarpe] COMPENETRAZIONE 6,8 cm: Ambiente/MuroPilastro_4 <-> Ambiente/Botte  @(4,53, 1,27, 4,42)
-  [30_FB_Scarpe] COMPENETRAZIONE 2,8 cm: Ambiente/Panno_Straccio <-> Ambiente/ScaffaleScarpe  @(-2,87, 1,93, 4,56)
-  [30_FB_Scarpe] COMPENETRAZIONE 11,3 cm: Ambiente/MuroEst <-> Ambiente/Cassetta  @(4,77, 0,41, -3,74)
-  [30_FB_Scarpe] COMPENETRAZIONE 6,1 cm: Ambiente/Panno_Pantaloni <-> Ambiente/Panno_Camicia  @(4,77, 1,50, 2,52)
-  [30_FB_Scarpe] COMPENETRAZIONE 14,5 cm: Ambiente/MuroOvest <-> Ambiente/Cassetta  @(-4,77, 0,41, -0,55)
-  [30_FB_Scarpe] COMPENETRAZIONE 2,3 cm: Ambiente/Cassa <-> Ambiente/Cassa  @(-4,30, 0,48, -4,20)
-  [30_FB_Scarpe] COMPENETRAZIONE 35,3 cm: Ambiente/Cassetta <-> Ambiente/MuroPilastro_3  @(4,65, 1,11, -4,67)
-  [30_FB_Scarpe] COMPENETRAZIONE 16,9 cm: Ambiente/Cassetta <-> Ambiente/Stracci  @(4,49, 0,17, -4,58)
-  [30_FB_Scarpe] COMPENETRAZIONE 10,0 cm: Ambiente/MuroPilastro_3 <-> Ambiente/Stracci  @(4,60, 1,03, -4,65)
-  [30_FB_Scarpe] COMPENETRAZIONE 21,6 cm: Ambiente/Cassa <-> Ambiente/Cassa  @(-3,85, 0,23, -4,30)
+== 30_FB_Scarpe: 0 segnalazioni ==
 
-TOTALE: 61
+TOTALE: 0
