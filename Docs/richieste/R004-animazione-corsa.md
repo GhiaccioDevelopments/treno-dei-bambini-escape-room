@@ -37,22 +37,22 @@ sembri naturale alla velocità di gioco, senza piedi che scivolano e senza l'eff
 
 ## 4. Specifica
 
-### 4.1 Scelta della clip (su mixamo.com, cercare "run")
-Provare le clip **nel visualizzatore di Mixamo** con In Place, e confrontarle a velocità 1×. Candidate in ordine:
-1. **"Running"** – corsa normale, passo pieno, braccia naturali. Prima scelta per entrambi.
-2. **"Standard Run"** – alternativa se "Running" ha il busto troppo inclinato.
-3. **"Slow Run"** – solo se le prime due risultano troppo veloci per il bambino.
+### 4.1 Scelta della clip: **"Slow Run"** (decisione dell'utente, 2026-11-06)
+> aggiungi alla pr di mettere l'animazione di corsa: "Slow Run" da Mixamo
 
-Da evitare: "Fast Run"/"Sprint" (troppo atletiche), "Jogging" (è quella attuale), "Running" con varianti
-"Injured", "Zombie", "Goofy", "Drunk", con armi o all'indietro.
-Se i nomi su Mixamo sono diversi, scegliere la clip più vicina a "corsa naturale" e scriverlo nel Rapporto.
+- Clip da usare: **"Slow Run"** di Mixamo, con **In Place** spuntato, per **adulto e bambino**.
+- Salvarla come `Assets/Art/Animations/Amerigo/Amerigo_Run.fbx` (sostituisce "Jogging (In Place)").
+- Se su Mixamo ci sono più clip con lo stesso nome, scegliere quella di corsa normale in avanti, senza varianti
+  (niente feriti, zombie, armi o corsa all'indietro), e scrivere nel Rapporto quale si è presa.
+- Non cambiare clip senza chiedere all'utente. Se dopo la taratura (4.3) resta brutta, proporre "Running" o
+  "Standard Run" come alternative con il pannello di scelta.
 
 Regolazioni nel pannello di Mixamo (se servono): **Character Arm-Space** per non far toccare le braccia al corpo
 (utile soprattutto per il bambino), **Overdrive** lasciato a 50 (velocità originale; la velocità la gestisce il gioco).
 
 ### 4.2 Una clip o due?
 - Partire con **una sola clip** per entrambi i personaggi (il retarget Humanoid la adatta).
-- Se sul bambino resta brutta anche dopo la taratura (4.3), scaricarne una seconda più adatta (es. "Slow Run"),
+- Se sul bambino resta brutta anche dopo la taratura (4.3), chiedere all'utente se scaricarne una seconda,
   salvarla come `Amerigo_RunBambino.fbx` e far scegliere al builder la clip per personaggio. In quel caso
   aggiornare `PersonaggiBuilder` (stesso controller con una clip diversa oppure un `AnimatorOverrideController` per il bambino).
 
@@ -73,7 +73,7 @@ Regolazioni nel pannello di Mixamo (se servono): **Character Arm-Space** per non
   (l'utente ha autorizzato a ripubblicare senza chiedere, voce del diario del 6/11).
 
 ## 5. Ordine di lavoro consigliato
-1. Mixamo: provare le candidate, scaricare la scelta, sostituire `Amerigo_Run.fbx`.
+1. Mixamo: scaricare "Slow Run" (In Place), sostituire `Amerigo_Run.fbx`.
 2. `Treno ▸ Personaggi ▸ Aggiorna animazioni`, `read_console`.
 3. Taratura `clipRunSpeed` (4.3), prova in editor con adulto (vicolo) e bambino (flashback scarpe).
 4. Passi audio.
@@ -81,7 +81,7 @@ Regolazioni nel pannello di Mixamo (se servono): **Character Arm-Space** per non
    `Docs/richieste/media/R004/`, Rapporto, build WebGL.
 
 ## 6. Criteri di accettazione
-- [ ] `Amerigo_Run.fbx` è una corsa vera da Mixamo (non più "Jogging"); `CREDITS.md` aggiornato.
+- [ ] `Amerigo_Run.fbx` è "Slow Run" di Mixamo (non più "Jogging"); `CREDITS.md` aggiornato.
 - [ ] Adulto e bambino corrono con `MotionSpeed` tra 0,85× e 1,3× (valore letto in gioco o nella finestra F3).
 - [ ] Nessun pattinamento evidente dei piedi in corsa e nel passaggio cammina ↔ corri.
 - [ ] Passi audio a tempo con i piedi.
