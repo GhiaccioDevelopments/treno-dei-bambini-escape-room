@@ -141,7 +141,7 @@ Formato FBX for Unity, senza skin, 30 fps, nessuna riduzione dei keyframe; retar
 | Assets/Art/Animations/Amerigo/Amerigo_Idle.fbx | Breathing Idle | nessuna |
 | Assets/Art/Animations/Amerigo/Amerigo_Idle2.fbx | Weight Shift | nessuna |
 | Assets/Art/Animations/Amerigo/Amerigo_Walk.fbx | Walking (In Place) | nessuna |
-| Assets/Art/Animations/Amerigo/Amerigo_Run.fbx | Jogging (In Place) | nessuna |
+| Assets/Art/Animations/Amerigo/Amerigo_Run.fbx | Slow Run (In Place), scaricata il 2026-11-06 (R004; sostituisce "Jogging") | Applicata allo scheletro di Amerigo adulto caricato su Mixamo; ciclo di 22 fotogrammi (0,73 s) impostato a mano nell'import |
 | Assets/Art/Animations/Amerigo/Amerigo_TurnL.fbx | Left Turn 90 | nessuna |
 | Assets/Art/Animations/Amerigo/Amerigo_TurnR.fbx | Right Turn 90 | nessuna |
 | Assets/Art/Animations/Amerigo/Amerigo_PickUp.fbx | Picking Up | nessuna |
