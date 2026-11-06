@@ -96,7 +96,7 @@ namespace TrenoBambini.EditorTools
                     string path = ScenesFolder + "/" + n + ".unity";
                     if (!File.Exists(path)) { Debug.LogWarning("[LookBuilder] Scena mancante: " + path); continue; }
                     var scene = EditorSceneManager.OpenScene(path, OpenSceneMode.Single);
-                    ApplySceneLook(scene, n, n == "30_FB_Scarpe" ? flash : epoca, ls);
+                    ApplySceneLook(scene, n, n == "30_FB_Scarpe" ? flash : epoca, LightingFor(n));
                     EditorSceneManager.SaveScene(scene);
                 }
             }
@@ -120,7 +120,7 @@ namespace TrenoBambini.EditorTools
             var ls = AssetDatabase.LoadAssetAtPath<LightingSettings>(LightingAsset);
             string path = ScenesFolder + "/" + n + ".unity";
             var scene = EditorSceneManager.OpenScene(path, OpenSceneMode.Single);
-            ApplySceneLook(scene, n, n == "30_FB_Scarpe" ? flash : epoca, ls);
+            ApplySceneLook(scene, n, n == "30_FB_Scarpe" ? flash : epoca, LightingFor(n));
             EditorSceneManager.SaveScene(scene);
             Debug.Log("[LookBuilder] Look applicato a " + n + ".");
         }
@@ -537,7 +537,40 @@ namespace TrenoBambini.EditorTools
 
         // ================================================================== LightingSettings
 
-        static void EnsureLightingSettings()
+        /// <summary>R006 tappa 3: risoluzione della lightmap (texel per unita') e lato massimo degli atlas per scena, per contenere il peso (obiettivo hub 15-20 MB, basso e flashback <= 10 MB).</summary>
+        static void LightmapPerScena(string n, out float res, out int maxSize)
+        {
+            switch (n)
+            {
+                case "10_Hub_Vicolo": res = HubLightmapRes; maxSize = 1024; break;
+                case "20_Int_BassoAntonietta": res = 12f; maxSize = 1024; break;
+                case "30_FB_Scarpe": res = 4f; maxSize = 1024; break;
+                default: res = 8f; maxSize = 1024; break;
+            }
+        }
+        const float HubLightmapRes = 4.5f;
+
+        static LightingSettings LightingFor(string n)
+        {
+            float res; int max;
+            LightmapPerScena(n, out res, out max);
+            EnsureFolder(LightingFolder);
+            string path = LightingFolder + "/LS_Treno_" + n + ".lighting";
+            var ls = AssetDatabase.LoadAssetAtPath<LightingSettings>(path);
+            if (ls == null)
+            {
+                ls = new LightingSettings { name = "LS_Treno_" + n };
+                AssetDatabase.CreateAsset(ls, path);
+            }
+            ConfiguraLighting(ls);
+            ls.lightmapResolution = res;
+            ls.lightmapMaxSize = max;
+            EditorUtility.SetDirty(ls);
+            AssetDatabase.SaveAssetIfDirty(ls);
+            return ls;
+        }
+
+        static LightingSettings EnsureLightingSettings()
         {
             EnsureFolder(LightingFolder);
             var ls = AssetDatabase.LoadAssetAtPath<LightingSettings>(LightingAsset);
@@ -546,6 +579,14 @@ namespace TrenoBambini.EditorTools
                 ls = new LightingSettings { name = "LS_Treno" };
                 AssetDatabase.CreateAsset(ls, LightingAsset);
             }
+            ConfiguraLighting(ls);
+            EditorUtility.SetDirty(ls);
+            AssetDatabase.SaveAssetIfDirty(ls);
+            return ls;
+        }
+
+        static void ConfiguraLighting(LightingSettings ls)
+        {
             // Ramo GPU (Unity Compute) DISATTIVATO di proposito (gpu = false): il backend Radeon Rays manda in crash
             // l'editor nel bake delle light probe su questo PC (2026-11-05). Si usa sempre il Progressive CPU,
             // più lento ma stabile; il ramo GPU resta per un eventuale riuso su altre schede.
@@ -567,8 +608,6 @@ namespace TrenoBambini.EditorTools
             ls.indirectSampleCount = 128;
             ls.environmentSampleCount = 64;
             ls.ao = false;
-            EditorUtility.SetDirty(ls);
-            AssetDatabase.SaveAssetIfDirty(ls);
         }
 
         // ================================================================== applicazione alle scene
@@ -635,7 +674,7 @@ namespace TrenoBambini.EditorTools
                     break;
                 case "20_Int_BassoAntonietta":
                     // interno buio: un filo di luce di giorno fredda, lampada a petrolio calda come fonte principale
-                    SetSun(sun, new Color(0.78f, 0.82f, 0.90f), 0.7f, new Vector3(58f, 200f, 0f), 0.8f);
+                    SetSun(sun, new Color(0.9f, 0.85f, 0.76f), 0.7f, new Vector3(58f, 200f, 0f), 0.8f);
                     SetAmbient(new Color(0.22f, 0.20f, 0.18f), new Color(0.15f, 0.13f, 0.11f), new Color(0.07f, 0.06f, 0.05f));
                     bg = new Color(0.05f, 0.035f, 0.025f);
                     SetFog(0.008f, new Color(0.14f, 0.10f, 0.07f));
@@ -651,14 +690,23 @@ namespace TrenoBambini.EditorTools
                     }
                     AddLampLights("LuminoAltarino", Cct(2200f), 0.5f, 2.5f);
                     AddLampLights("Brace", Cct(2000f), 0.5f, 3f);
-                    probeMin = new Vector3(-2.6f, 0.3f, -2.1f); probeMax = new Vector3(2.6f, 2.4f, 2.1f); probeStep = 1.3f;
+                    // R006: lampade a petrolio e candele del basso grande (luci baked puntiformi)
+                    AddLampLights("FiammaLampada", Cct(2300f), 1.6f, 5.5f);
+                    AddLampLights("FiammaCandela", Cct(1900f), 0.7f, 3.0f);
+                    probeMin = new Vector3(-4.4f, 0.3f, -2.3f); probeMax = new Vector3(6.2f, 2.4f, 14f); probeStep = 1.4f;
                     break;
                 default: // 30_FB_Scarpe: ricordo, seppia coerente
-                    SetSun(sun, new Color(1.00f, 0.78f, 0.52f), 1.2f, new Vector3(50f, -50f, 0f), 0.75f);
-                    SetAmbient(new Color(0.34f, 0.27f, 0.19f), new Color(0.22f, 0.17f, 0.12f), new Color(0.10f, 0.08f, 0.05f));
+                    SetSun(sun, new Color(1.00f, 0.80f, 0.55f), 2.4f, new Vector3(48f, -35f, 0f), 0.8f); // R006: via stretta fra palazzi alti, piu' luce di prima per leggere le botteghe
+                    SetAmbient(new Color(0.46f, 0.37f, 0.26f), new Color(0.30f, 0.23f, 0.16f), new Color(0.14f, 0.11f, 0.07f));
                     bg = new Color(0.30f, 0.23f, 0.15f);
-                    SetFog(0.020f, new Color(0.34f, 0.26f, 0.17f));
-                    probeMin = new Vector3(-4.2f, 0.4f, -4.2f); probeMax = new Vector3(4.2f, 2.8f, 4.2f); probeStep = 2.1f;
+                    SetFog(0.014f, new Color(0.34f, 0.26f, 0.17f));
+                    // R006: via con botteghe, luci baked sulle lanterne e nei bassi aperti
+                    AddLampLights("LuceLampione", Cct(2400f), 2.6f, 7f);
+                    AddLampLights("EdicolaLumino", Cct(1900f), 0.9f, 2.5f);
+                    AddLampLights("LuceBottega", Cct(2200f), 3.2f, 8f);
+                    AddLampLights("LuceBasso", Cct(2300f), 2.0f, 5.5f);
+                    exterior = true;
+                    probeMin = new Vector3(-17f, 0.4f, -33f); probeMax = new Vector3(20f, 3.6f, 38f); probeStep = 3.2f;
                     break;
             }
             RenderSettings.skybox = null;
@@ -677,6 +725,22 @@ namespace TrenoBambini.EditorTools
 
             MarkStatic(scene);
             if (name == "10_Hub_Vicolo") AddHubProbes(look.transform, bg);
+            else if (name == "20_Int_BassoAntonietta")
+            {
+                AddFloorProbes(look.transform, probeMin, probeMax, probeStep, new[] { 0.6f, 1.5f, 2.4f }, "Pavimento");
+                AddReflectionBox(look.transform, "ReflectionProbe_Stanza", new Vector3(0f, 1.5f, 0.6f), new Vector3(10.5f, 3.4f, 7.5f), bg);
+                AddReflectionBox(look.transform, "ReflectionProbe_AlcovaCucina", new Vector3(0f, 1.5f, 5.8f), new Vector3(10.5f, 3.4f, 4.6f), bg);
+                AddReflectionBox(look.transform, "ReflectionProbe_Cortile", new Vector3(3.7f, 2.0f, 11.2f), new Vector3(6.4f, 5.0f, 6.8f), bg);
+            }
+            else if (name == "30_FB_Scarpe")
+            {
+                AddFloorProbes(look.transform, probeMin, probeMax, probeStep, new[] { 0.7f, 1.8f, 3.6f }, "Selciato_");
+                var cs = new[] { new Vector3(0f, 0f, -27f), new Vector3(0f, 0f, -12f), new Vector3(0f, 0f, 3f), new Vector3(0f, 0f, 17f), new Vector3(-6f, 0f, -3f),
+                                 new Vector3(-9f, 0f, 14f), new Vector3(9f, 0f, 8f), new Vector3(14f, 0f, -14f), new Vector3(0f, 0.9f, 31f) };
+                int k = 0;
+                foreach (var c in cs)
+                    AddReflectionBox(look.transform, "ReflectionProbe_" + (k++), new Vector3(c.x, c.y + 1.6f, c.z), new Vector3(c.x == 0f && c.z < 20f ? 14f : 16f, 9f, 16f), bg);
+            }
             else
             {
                 AddProbes(look.transform, probeMin, probeMax, probeStep, exterior);
@@ -810,6 +874,43 @@ namespace TrenoBambini.EditorTools
                 rp.intensity = 0.8f;
                 rp.importance = 1;
             }
+        }
+
+        /// <summary>R006: light probe su una griglia che segue il pavimento reale (raycast su collider il cui nome inizia con 'prefisso').</summary>
+        static void AddFloorProbes(Transform parent, Vector3 min, Vector3 max, float step, float[] ys, string prefisso)
+        {
+            Physics.SyncTransforms();
+            var go = new GameObject("LightProbes");
+            go.transform.SetParent(parent, false);
+            var g = go.AddComponent<LightProbeGroup>();
+            var pos = new List<Vector3>();
+            for (float x = min.x; x <= max.x + 0.01f; x += step)
+                for (float z = min.z; z <= max.z + 0.01f; z += step)
+                {
+                    RaycastHit hit;
+                    if (!Physics.Raycast(new Vector3(x, 40f, z), Vector3.down, out hit, 80f, ~0, QueryTriggerInteraction.Ignore)) continue;
+                    if (!hit.collider.gameObject.name.StartsWith(prefisso)) continue;
+                    foreach (var y in ys) pos.Add(new Vector3(x, hit.point.y + y, z));
+                }
+            g.probePositions = pos.ToArray();
+            Debug.Log("[LookBuilder] " + parent.gameObject.scene.name + ": " + pos.Count + " light probe.");
+        }
+
+        static void AddReflectionBox(Transform parent, string nome, Vector3 centro, Vector3 size, Color bg)
+        {
+            var rg = new GameObject(nome);
+            rg.transform.SetParent(parent, false);
+            rg.transform.position = centro;
+            var rp = rg.AddComponent<ReflectionProbe>();
+            rp.mode = UnityEngine.Rendering.ReflectionProbeMode.Baked;
+            rp.resolution = 64;
+            rp.hdr = true;
+            rp.boxProjection = true;
+            rp.size = size;
+            rp.clearFlags = UnityEngine.Rendering.ReflectionProbeClearFlags.SolidColor;
+            rp.backgroundColor = bg;
+            rp.intensity = 0.8f;
+            rp.importance = 1;
         }
 
         static void AddReflectionProbe(Transform parent, Vector3 min, Vector3 max, Color bg)

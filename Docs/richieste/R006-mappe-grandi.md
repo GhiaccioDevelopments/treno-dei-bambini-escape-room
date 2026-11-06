@@ -81,3 +81,21 @@ _(da compilare a fine lavoro: fatto, scostamenti, come testare, domande aperte)_
 - Punti per i segreti di R011: `Docs/richieste/media/R006/punti_segreti_hub.md` (generato insieme alla scena).
 - Verifica: Treno > Verifica > Compenetrazioni = 0 segnalazioni su tutte le scene (la verifica ora usa uno sweep e legge le facce dai triangoli).
 - Screenshot: `Docs/richieste/media/R006/hub_*.png`.
+
+### Tappa 3 – basso di Antonietta, flashback "Le scarpe", peso delle lightmap (2026-11-06)
+- `20_Int_BassoAntonietta`: da 6 x 5 m (30 m2) a ~108 m2 di pianta (circa 3,6x): stanza principale 9 x 6 m, alcova col letto di ferro dietro una tenda a meta' aperta,
+  angolo cucina (fornello a carbone, pentole appese, tavolo, credenza), cortiletto sul retro 5 x 6 m con pozzo, lavatoio, galline, panni, bici e una porta chiusa
+  (PortaRetro). Fra alcova e cucina un blocco pieno di 2,4 x 4,3 m e' il ripostiglio nascosto per R011. Sovraffollato: letto, materassi arrotolati, cassapanca, credenza con radio,
+  santini, calendario 1946, crocifisso, sedie impagliate, braciere, bacinelle, secchi. Generato da `SceneBuilderBasso.cs`. Resta tutto il resto: porta d'uscita verso l'hub
+  (`da_basso_antonietta`), spawn `ingresso` e `oggetto_scarpe`, scarpe raccoglibili (`ItemPickup scarpe`). Punti segreti: `punti_segreti_basso.md`.
+- `30_FB_Scarpe`: da stanza 10 x 10 m (100 m2) a tratto di via dei Quartieri Spagnoli con 8 botteghe aperte (calzolaio con banco, forme di legno e scarpe appese; sarto, salumiere, barbiere,
+  trattoria, fruttivendolo, latteria, ferramenta), 880 m2 di suolo (9 zone: slargo d'ingresso, via con scalinata, slargo del calzolaio, traversa est, vicolo cieco ovest,
+  passaggio, cortile est, piazzetta con fontanella). Riusa il sistema a zone dell'hub (prefisso mesh "Ric"); 14 punti di posizionamento nominati `Passante_NN_*` sotto `PassantiRicordo`
+  per R010; easter egg (campana col gesso, scarpe sul filo, trottola, pallone di stracci, radio, graffito). Generato da `SceneBuilderRicordo.cs`. Look seppia del flashback invariato
+  (sole piu' alto, ambiente un po' piu' chiaro per leggere la via). Punti segreti e passanti: `punti_segreti_flashback.md`.
+- `flashback_scarpe.json`: solo coordinate x,y,z cambiate (vedi `punti_segreti_flashback.md`). I testi (consegne) parlano ancora di "stanza" e di "cassetta": da riscrivere in R010.
+- Lightmap: risoluzione per scena in `LookBuilder.LightmapPerScena` (hub 4,5 texel/m, basso 12, flashback 4). Hub da ~48 MB di lightmap (7 EXR) a ~16,8 MB (4 EXR),
+  ~18,4 MB con probe e dati; basso ~2,3 MB; flashback ~6,1 MB.
+- Verifiche: `Treno > Verifica > Compenetrazioni` e nuova `Treno > Verifica > Raggiungibilita'` (flood-fill a 25 cm con capsula di Amerigo: porte, scarpe, uscita, postazioni degli enigmi,
+  oggetti nascosti, passanti). `InteriorWall` ora ha collider a pezzi attorno ai varchi.
+- Screenshot: `Docs/richieste/media/R006/basso_*.png`, `fb_via_*.png`, `basso_alto.png`, `fb_alto.png`, `hub_lightmap_ridotte.png`.
