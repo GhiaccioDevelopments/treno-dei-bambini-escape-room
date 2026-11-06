@@ -12,9 +12,9 @@ La sintesi resta anche come ripiego se un file manca. Il violino resta sintetico
 
 | Contenuto | Origine | Autore | Licenza |
 |---|---|---|---|
-| Tema di Amerigo (varianti solo, ricordo, scoperta, vicolo) e stinger "enigma risolto" | `MusicSynth.cs` (file `.ogg` pre-generati in `Assets/Audio/Musica`), melodia originale (`Docs/audio/tema_amerigo.abc`) | Ghiaccio Developments / Claude | Originale del progetto |
-| Effetti (passi, porte, raccolta, treno, campane, gabbiani, ecc.) e ambienti (vicolo, interno, ricordo, stazione) | `SfxSynth.cs` e `Synth.cs` | Ghiaccio Developments / Claude | Originale del progetto |
-| Suoni dell'interfaccia (clic, timbro, valigia, macchina da scrivere) | `UISfx.cs` (R001) | Ghiaccio Developments / Claude | Originale del progetto |
+| Tema di Amerigo (varianti solo, ricordo, scoperta, vicolo) e stinger "enigma risolto" | `MusicSynth.cs` (file `.ogg` pre-generati in `Assets/Audio/Musica`), melodia originale (`Docs/audio/tema_amerigo.abc`) | Thomas Rosania, Luca Arduini / Claude | Originale del progetto |
+| Effetti (passi, porte, raccolta, treno, campane, gabbiani, ecc.) e ambienti (vicolo, interno, ricordo, stazione) | `SfxSynth.cs` e `Synth.cs` | Thomas Rosania, Luca Arduini / Claude | Originale del progetto |
+| Suoni dell'interfaccia (clic, timbro, valigia, macchina da scrivere) | `UISfx.cs` (R001) | Thomas Rosania, Luca Arduini / Claude | Originale del progetto |
 
 Nessun brano, tema o registrazione del film o della sua colonna sonora è usato, né imitato.
 

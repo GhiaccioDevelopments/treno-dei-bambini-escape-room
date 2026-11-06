@@ -34,4 +34,6 @@ della battuta (es. `cs_scarpe_001.ogg`).
   **Cristina Comencini** (2024). Il gioco non usa immagini, musiche né dialoghi dell'opera originale:
   testi, grafica e personaggi sono una rielaborazione originale a scopo didattico.
 - Contesto storico: i "treni della felicità" organizzati dal PCI e dall'UDI (1945–1952).
-- Sviluppo: GhiaccioDevelopments, con il supporto di Claude Code.
+- Sviluppo principale: **Thomas Rosania** e **Luca Arduini**.
+- Collaboratori: **Zaim Halili** e **Renis Caushi**.
+- Con il supporto di Claude Code.
