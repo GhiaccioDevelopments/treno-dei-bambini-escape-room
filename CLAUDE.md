@@ -20,12 +20,15 @@ Protagonista: Amerigo Speranza, Napoli 1946.
   Animazioni **Mixamo** (Git LFS) in `Assets/Art/Animations/`. Screenshot di ogni personaggio all'utente
   prima di considerarlo finito. Personaggi ORIGINALI ispirati alla descrizione del romanzo:
   non copiare foto/sembianze degli attori del film.
-- **Amerigo (obbligatorio)**: capelli divisi verticalmente, lato sinistro castano scuro, lato destro
-  rosso ramato naturale (non fluo). Vale anche per Amerigo adulto. Bambino magro (~7 anni), vestiti
-  logori e rattoppati, scarpe rotte all'inizio.
+- **Amerigo (obbligatorio)**: capelli **castani** (decisione dell'utente 2026-11-06: sostituisce i capelli
+  divisi castano/ramato). Vale anche per Amerigo adulto (castano scuro). Bambino (~7 anni) **poverissimo**
+  (decisione 2026-11-06): molto magro, **scalzo** con piedi e gambe sporchi, salopette lisa, sporca,
+  rattoppata e strappata.
 - **Due personaggi Amerigo** (decisione 2026-11-05): nel presente a Napoli (hub) il giocatore è **Amerigo adulto**,
   tornato a Napoli per la morte della madre; nei **flashback** è **Amerigo bambino** (~7 anni, 1946).
-  Sono due modelli distinti, entrambi con i capelli divisi castano/ramato.
+  Sono due modelli distinti, entrambi con i capelli castani.
+- Generatore MakeHuman dei due Amerigo: `ArtSource/Characters/makehuman/` (prima `prepara_materiali_amerigo.py`
+  con il Python di MakeHuman, poi `genera_amerigo_makehuman.py` in Utilities ▸ Scripting).
 - Lavoro nell'editor **solo tramite MCP for Unity** (server HTTP `127.0.0.1:8080`).
   Se la connessione cade: fermarsi e chiedere all'utente di riavviare il server
   (Window ▸ MCP for Unity ▸ Start Server, poi `/mcp` ▸ Reconnect).

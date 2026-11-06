@@ -3,8 +3,8 @@
   "oggetto": "scarpe",
   "titolo": "Il gioco delle scarpe",
   "scena": "30_FB_Scarpe",
-  "introduzione": "Chiudi gli occhi e senti il rumore dei passi sui sampietrini. Sei di nuovo nel vicolo, bambino, seduto sul gradino. Come ogni pomeriggio guardi in basso e indovini il mestiere di chi passa dalle scarpe: ognuna racconta una vita. Prova a mettere insieme i pezzi del ricordo.",
-  "conclusione": "Il ricordo si dissolve piano. Indovinare il lavoro dalle scarpe era un gioco, ma dietro c'era una domanda seria: chi ha diritto a un paio di scarpe, a un pasto, a un futuro? La Repubblica ha scritto la sua risposta nella Costituzione, e tocca a ciascuno di noi darle vita.",
+  "introduzione": "Chiudi gli occhi e senti il freddo della pietra sotto i piedi nudi. Sei di nuovo nel vicolo, bambino, seduto sul gradino. Scarpe non ne hai, e forse per questo le conosci tutte: come ogni pomeriggio guardi in basso e indovini il mestiere di chi passa dalle scarpe che porta. Ognuna racconta una vita, e tu ne vorresti una tua. Prova a mettere insieme i pezzi del ricordo.",
+  "conclusione": "Il ricordo si dissolve piano. Indovinare il lavoro dalle scarpe degli altri era un gioco, ma sotto c'era una domanda seria: chi ha diritto a un paio di scarpe, a un pasto, a una scuola, a un futuro? Allora un bambino scalzo poteva solo desiderarlo. La Repubblica ha poi scritto la sua risposta nella Costituzione, e tocca a ciascuno di noi darle vita.",
   "enigmi": [
     {
       "id": "enigma_quiz",
@@ -17,7 +17,7 @@
         "L'articolo 3 parla di uguaglianza; l'articolo 31 parla di famiglia, maternità e infanzia.",
         "La Convenzione ONU sui diritti dell'infanzia è stata adottata alla fine degli anni Ottanta."
       ],
-      "spiegazione": "Amerigo non conosceva i suoi diritti, ma li viveva negati ogni giorno: niente scarpe, poco cibo, poca scuola. La Costituzione del 1948 e la Convenzione ONU del 1989 hanno trasformato quei bisogni in diritti riconosciuti.",
+      "spiegazione": "Amerigo non conosceva i suoi diritti, ma li viveva negati ogni giorno: piedi scalzi anche d'inverno, poco cibo, poca scuola. La Costituzione del 1948 e la Convenzione ONU del 1989 hanno trasformato quei bisogni in diritti riconosciuti: non più un desiderio da bambino, ma un dovere della comunità.",
       "erroreMsg": "Non è questa, ma sei sulla strada giusta. Leggi di nuovo con calma e riprova.",
       "x": -3.0,
       "y": 0.0,
@@ -60,14 +60,14 @@
       "id": "enigma_nascosto",
       "tipo": "nascosto",
       "titolo": "Il baule delle scarpe",
-      "consegna": "Nel vicolo ogni scarpa racconta una storia. Cerca nella stanza le cinque calzature nascoste e leggi che cosa dicono di chi le porta.",
+      "consegna": "Amerigo, scalzo, conosce a memoria le scarpe del vicolo: ognuna racconta una storia. Cerca nella stanza le cinque cose che i passanti portano ai piedi e leggi che cosa dicono di chi le porta.",
       "temaCivico": "Disuguaglianze sociali e dignità della persona",
       "indizi": [
         "Guarda in basso, vicino ai muri e negli angoli: le scarpe stanno per terra.",
         "Non sono tutte contro le pareti: una è nascosta non lontano dal centro della stanza.",
         "Avvicinati a ogni oggetto sospetto e premi E per esaminarlo."
       ],
-      "spiegazione": "Le cinque calzature mostrano un Paese diviso: c'è chi ha scarpe buone, chi le ripara con il cartone, chi porta gli zoccoli e chi cammina scalzo. Per la Costituzione nessuno deve restare indietro per la condizione in cui nasce: la dignità spetta a tutti.",
+      "spiegazione": "Le cinque calzature mostrano un Paese diviso: c'è chi ha scarpe buone, chi le ripara con il cartone, chi porta gli zoccoli, chi si lega pezze ai piedi e chi, come Amerigo, cammina scalzo. Per la Costituzione nessuno deve restare indietro per la condizione in cui nasce: la dignità spetta a tutti, anche a chi non ha niente ai piedi.",
       "erroreMsg": "Per ora non le hai trovate tutte. Continua a cercare con calma, sono sparse per la stanza.",
       "x": 3.0,
       "y": 0.0,
@@ -115,7 +115,7 @@
         {
           "id": "pezze_piedi",
           "nome": "Pezze per i piedi",
-          "descrizione": "Strisce di stoffa legate attorno ai piedi al posto delle scarpe. Per chi non ha niente, anche una pezza è un riparo. Nel gioco di Amerigo da questi piedi non si indovina nessun mestiere: ma dietro c'è sempre una persona.",
+          "descrizione": "Strisce di stoffa legate attorno ai piedi al posto delle scarpe. Per chi non ha niente, anche una pezza è un riparo dal freddo; Amerigo spesso non ha nemmeno quella. Da questi piedi, nel suo gioco, non si indovina nessun mestiere: ma dietro c'è sempre una persona.",
           "x": 1.2,
           "y": 0.0,
           "z": 1.9,
@@ -166,7 +166,7 @@
         "Non è l'anno della Dichiarazione universale dei diritti umani (1948), ma uno degli anni Ottanta.",
         "È l'anno in cui cadde il Muro di Berlino, e finisce per 9."
       ],
-      "spiegazione": "Nel 1989 l'ONU ha riconosciuto per la prima volta, in un trattato vincolante, che i bambini sono titolari di diritti: salute, istruzione, gioco, protezione. L'Italia l'ha ratificata nel 1991. Quello che Amerigo sognava è oggi scritto nero su bianco.",
+      "spiegazione": "Nel 1989 l'ONU ha riconosciuto per la prima volta, in un trattato vincolante, che i bambini sono titolari di diritti: salute, istruzione, gioco, protezione. L'Italia l'ha ratificata nel 1991. Quello che Amerigo, scalzo sul gradino, poteva solo sognare è oggi scritto nero su bianco.",
       "erroreMsg": "Il lucchetto non si apre. Ricorda la data della Convenzione ONU: se serve, usa l'indizio.",
       "x": -3.0,
       "y": 0.0,

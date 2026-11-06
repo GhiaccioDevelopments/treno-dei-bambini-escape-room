@@ -1,0 +1,38 @@
+# Written by MakeHuman 1.2.1 alpha
+version v1.2.1
+camera 349.3409472913313 1.9529097709376335 2.702875864063069e-06 0.8230749480539147 0.27683324940543036 8.7
+modifier neck/neck-scale-horiz-decr|incr -0.250000
+modifier eyes/r-eye-scale-decr|incr 0.150000
+modifier eyes/l-eye-scale-decr|incr 0.150000
+modifier cheek/l-cheek-volume-decr|incr -0.450000
+modifier cheek/l-cheek-bones-decr|incr 0.200000
+modifier cheek/r-cheek-volume-decr|incr -0.450000
+modifier cheek/r-cheek-bones-decr|incr 0.200000
+modifier breast/BreastSize 0.500000
+modifier breast/BreastFirmness 0.500000
+modifier macrodetails/Gender 1.000000
+modifier macrodetails/Age 0.121875
+modifier macrodetails/African 0.100000
+modifier macrodetails/Asian 0.100000
+modifier macrodetails/Caucasian 0.800000
+modifier macrodetails-universal/Muscle 0.280000
+modifier macrodetails-universal/Weight 0.100000
+modifier macrodetails-height/Height 0.340000
+modifier macrodetails-proportions/BodyProportions 0.500000
+teeth Teeth_Base 0a5ec82a-0d5f-43ce-a765-8f076f95692d
+hair short02 c104cd4a-1edc-43f9-8b94-f63345a44638
+eyelashes Eyelashes01 d533836f-13ad-4836-8b65-051108253cd2
+skeleton game_engine.mhskel
+eyebrows eyebrow001 9c81ec3a-faa5-4c94-9cdb-992300ba3084
+eyes HighPolyEyes 2c12f43b-1303-432c-b7ce-d78346baf2e6
+clothes male_worksuit01 6afd98fa-381b-456f-aa46-3dd15b27b2f0
+clothesHideFaces True
+expression fear01.mhpose
+skinMaterial amerigo/amerigo_bambino_pelle.mhmat
+material male_worksuit01 6afd98fa-381b-456f-aa46-3dd15b27b2f0 amerigo/amerigo_bambino_salopette.mhmat
+material short02 c104cd4a-1edc-43f9-8b94-f63345a44638 amerigo/amerigo_bambino_capelli.mhmat
+material HighPolyEyes 2c12f43b-1303-432c-b7ce-d78346baf2e6 eyes/materials/brown.mhmat
+material eyebrow001 9c81ec3a-faa5-4c94-9cdb-992300ba3084 eyebrow001.mhmat
+material Eyelashes01 d533836f-13ad-4836-8b65-051108253cd2 eyelashes01.mhmat
+material Teeth_Base 0a5ec82a-0d5f-43ce-a765-8f076f95692d teeth/materials/teeth.mhmat
+subdivide False

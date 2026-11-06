@@ -59,7 +59,8 @@ namespace TrenoBambini.EditorTools
             throw new System.InvalidOperationException("Build interrotto: nessun layer libero (8-31) per '" + name + "' in TagManager.");
         }
 
-        static void BuildCameraRig(Camera cam, Transform player, Transform punto, float yaw, CamProfilo profilo)
+        /// <param name="scalaOrbita">Moltiplicatore di altezze e raggi dell'orbita: 0,85 per il bambino MakeHuman (1,0 m invece di 1,2 m) mantiene la stessa proporzione nell'inquadratura.</param>
+        static void BuildCameraRig(Camera cam, Transform player, Transform punto, float yaw, CamProfilo profilo, float scalaOrbita = 1f)
         {
             int layerVista = EnsureLayer(WallFader.LayerName);
             int layerPorte = EnsureLayer(WallFader.LayerPorte);
@@ -112,6 +113,14 @@ namespace TrenoBambini.EditorTools
                     break;
             }
             orbit.Orbits.SplineCurvature = 0.5f;
+            if (Mathf.Abs(scalaOrbita - 1f) > 0.001f)
+            {
+                var ob = orbit.Orbits;
+                ob.Top = new Cinemachine3OrbitRig.Orbit { Height = ob.Top.Height * scalaOrbita, Radius = ob.Top.Radius * scalaOrbita };
+                ob.Center = new Cinemachine3OrbitRig.Orbit { Height = ob.Center.Height * scalaOrbita, Radius = ob.Center.Radius * scalaOrbita };
+                ob.Bottom = new Cinemachine3OrbitRig.Orbit { Height = ob.Bottom.Height * scalaOrbita, Radius = ob.Bottom.Radius * scalaOrbita };
+                orbit.Orbits = ob;
+            }
 
             float off = (profilo == CamProfilo.InternoPiccolo || profilo == CamProfilo.InternoPiccoloAdulto) ? -135f : 0f;
             orbit.HorizontalAxis = new InputAxis
