@@ -5,6 +5,44 @@ Regole d'uso: vedi la sezione "Diario e lavoro su più PC" in `CLAUDE.md`.
 
 ---
 
+## 2026-11-06 – PC casa – PR #7, #6, #5 (R005) e #4 (R004) integrate, gioco online aggiornato
+**Branch:** feature/upgrade-realistico · **Ultimo commit:** 194ca23 (+ questa voce) · **gh-pages:** d03141e
+
+### Fatto
+- **PR #7** `feature/amerigo-makehuman` mergiata in `feature/upgrade-realistico` (Amerigo MakeHuman in gioco, flashback "Le scarpe" con Amerigo scalzo).
+- **PR #6 Crediti autori:** finestra Crediti controllata a 1280×720 e 1024×576, nessun taglio. Mergiata.
+- **PR #5 / R005 tastiera e cursore:** I/Tab inventario, Esc/P pausa, comandi a inizio partita e in pausa, cursore bloccato con
+  visuale col mouse (`CursorManager.cs`, `Assets/Plugins/WebGL/TrenoInput.jslib`), pointer lock richiesto nel `mousedown` del
+  canvas, pausa alla perdita del blocco, opzione "Visuale: col tasto destro" salvata, dopo 2 rifiuti del browser il cartellino lo
+  suggerisce. Clic sinistro con cursore bloccato: nessuna azione (decisione dell'utente). Joystick a schermo solo in touch o col
+  tasto destro. Gamepad ignorato finché non viene usato (ipotesi sul bug "Amerigo fermo").
+- **PR #4 / R004 corsa:** clip Mixamo "Slow Run" (In Place) al posto di "Jogging", stesso file e GUID. Moltiplicatore adulto 0,94×
+  (3,2 m/s), bambino 1,29× con corsa a 2,2 m/s (decisione dell'utente). Passi audio dal passo della clip. `CREDITS.md` aggiornato.
+- Review prima del merge: trovato che la rigenerazione delle scene di R004 scollegava i LightingData → bake rifatto delle 4 scene
+  (01, 10, 20, 30), stessi file, ~11 MB LFS.
+- Build WebGL (40,4 MB) pubblicata su gh-pages.
+
+### Decisioni
+- Merge dei branch richiesta con merge (non rebase/force push).
+- Clic sinistro col cursore bloccato non interagisce; joystick nascosto su PC; corsa del bambino 2,2 m/s.
+
+### Problemi aperti
+- **Pointer lock vero non verificato**: nel Chrome automatizzato il browser lo rifiuta sempre (WrongDocumentError). Da provare
+  dall'utente in un browser normale (anche Firefox).
+- **Amerigo fermo online**: non riprodotto su questo PC; se capita ancora: F3 + W premuto, screenshot (righe Gamepad).
+- LIM che fa da mouse: col cursore bloccato si esce solo con Esc da tastiera; su LIM usare "Visuale: col tasto destro".
+- Il testo lungo del cartellino "Clicca per giocare" (dopo i rifiuti) esce un po' dal bordo.
+- La corsa del bambino non è stata guardata a occhio in Play.
+- MCP for Unity cade durante refresh/compilazioni lunghe: riavviare il server e fare Reconnect; tenere Unity in primo piano.
+- R003 (NPC di Napoli) ancora aperta in bozza.
+- Restano i punti aperti della voce precedente (peso modelli MH, copione doppiaggio da rigenerare, chi dà le scarpe ad Amerigo).
+
+### Prossimi passi
+- Prova dell'utente sul gioco online: blocco del cursore, comandi, corsa di adulto e bambino.
+- Ritocco del cartellino; poi sotto-fase 2.6 (cutscene) o R003 su ok dell'utente.
+
+---
+
 ## 2026-11-06 – PC casa – Amerigo MakeHuman in gioco, flashback "Le scarpe" con Amerigo scalzo
 **Branch:** feature/amerigo-makehuman · **Ultimo commit:** vedi `git log` (voce scritta prima del commit finale)
 
