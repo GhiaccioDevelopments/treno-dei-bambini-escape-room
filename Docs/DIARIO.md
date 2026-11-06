@@ -5,6 +5,84 @@ Regole d'uso: vedi la sezione "Diario e lavoro su più PC" in `CLAUDE.md`.
 
 ---
 
+## 2026-11-06 – PC casa – Amerigo MakeHuman in gioco, flashback "Le scarpe" con Amerigo scalzo
+**Branch:** feature/amerigo-makehuman · **Ultimo commit:** vedi `git log` (voce scritta prima del commit finale)
+
+### Fatto
+- **Generatore MakeHuman portabile:** trova MakeHuman 1.3 (Program Files) o 1.2 (AppData) e la cartella del repo sui vari PC.
+  Lanciatore `ArtSource/Characters/makehuman/1_prepara_materiali.bat`. Dopo l'export FBX, `pulisci_percorsi_fbx.py` toglie dai
+  file i percorsi con il nome utente del PC. L'utente ha rigenerato i due Amerigo sul PC di casa.
+- **Import in Unity:** menu **Treno ▸ Personaggi ▸ Importa Amerigo MakeHuman** (`PersonaggiMakeHumanBuilder.cs`): Humanoid con
+  mappa esplicita delle ossa `game_engine` (52 ossa), materiali URP, occhi con cornea ritagliata, LOD, prefab
+  `AmerigoMH_Bambino` e `AmerigoMH_Adulto` in `Assets/Art/Characters/AmerigoMH_*`.
+- **Sostituzione in gioco (scelta dell'utente):** bambino MH (1,0 m, scalzo) nei flashback, adulto MH (1,75 m, così com'è) nel
+  vicolo e nel basso. Flag `UsaAmerigoMakeHuman` in `PersonaggiBuilder.cs`: v5/v6 restano come riserva. Capsula del bambino
+  1,0 m, punto camera 0,85 m, orbita ridotta; velocità delle clip misurate sui nuovi avatar; suole a terra. Scene ricostruite e
+  luci ricalcolate. Screenshot: `ArtSource/Characters/screenshots/mh_confronto_*` e `mh_ingioco_*`.
+- **Flashback "Le scarpe" riscritto (approvato dall'utente):** Amerigo è scalzo, il ricordo è il desiderio di avere scarpe.
+  Aggiornati `TRAMA.md` (decisione 12: scostamento voluto dal libro, dove le scarpe sono rotte/strette), `oggetti.json`,
+  `flashback_scarpe.json` (stessi 4 enigmi, testi ritoccati), `cutscene_scarpe.json` (13 battute su 19 riscritte, ID invariati).
+- **Privacy:** tolto il nome utente del PC dai file attuali (FBX dei quattro Amerigo, metadati di 12 screenshot v5/v6).
+  Scelta dell'utente: pulire d'ora in poi, senza riscrivere la storia (il nome resta nelle versioni vecchie già su GitHub).
+  I due `.blend` v5/v6 sono compressi (zstd): non verificati, da controllare decomprimendoli.
+
+### Decisioni
+- Il bambino MH sostituisce v5, l'adulto MH sostituisce v6 (anche se dimostra meno dei 55 anni della trama).
+- Amerigo bambino scalzo anche nel flashback "Le scarpe": trama riscritta.
+- Nome utente nei file: pulizia solo dei file attuali.
+
+### Problemi aperti
+- La corsa del bambino gira a ~2,8× la velocità della clip: controllare a occhio in Play che non sembri frenetica.
+- Modelli MH pesanti (~41-45k poligoni) e senza LOD veri (LOD1 toglie solo i denti): alleggerire in 2.8 per WebGL/PC scuola.
+- Da decidere chi dà ad Amerigo il primo paio di scarpe (partenza o famiglia del Nord), prima della cutscene "Cappotto".
+- Copione del doppiaggio da rigenerare (Treno ▸ Doppiaggio ▸ Esporta copione CSV).
+- Ancora aperto dal mattino: **Amerigo fermo nel gioco online** (vedi voce del 6/11 notte), gioco online non ancora ripubblicato
+  con i nuovi Amerigo.
+- Merge di `feature/amerigo-makehuman` in `feature/upgrade-realistico` da fare con l'ok dell'utente.
+
+### Prossimi passi
+- Prova in Play del bambino (camminata e corsa) e dell'adulto; poi merge nel branch della Fase 2 e nuova build WebGL.
+- Bug del movimento online (F3 + W premuto, screenshot).
+- Richieste in bozza R004 (animazione di corsa) e R005 (tastiera e cursore), poi sotto-fase 2.6 (cutscene).
+
+---
+
+## 2026-11-06 – PC scuola – Nuovi Amerigo bambino e adulto da MakeHuman
+**Branch:** feature/amerigo-makehuman (da `feature/upgrade-realistico`) · **Ultimo commit:** vedi `git log`
+
+### Fatto
+- Installato MakeHuman 1.2 sul PC della scuola. Scritti due script in `ArtSource/Characters/makehuman/`:
+  `prepara_materiali_amerigo.py` (si lancia col Python di MakeHuman: ricolora capelli, tuta e pelle) e
+  `genera_amerigo_makehuman.py` (Utilities ▸ Scripting ▸ Load ▸ Execute: crea i due Amerigo completi).
+- Generati e salvati in git: `Amerigo_bambino/` e `Amerigo_adulto/` con `.mhm`, `.fbx` (scheletro `game_engine`),
+  `textures/` e 7 espressioni (`espressioni/*.mhm`: felice, triste, sorpresa, decisa, pensierosa, arrabbiata, paura).
+  - Bambino: ~1,0 m, molto magro, **scalzo**, pelle sporca su piedi/gambe/mani, salopette lisa con toppe e strappi, capelli castani (short02).
+  - Adulto: ~55 anni, abito scuro con cravatta, scarpe nere, capelli castano scuro (short04, scelto dall'utente).
+- Asset annotati in `CREDITS.md` (tutti CC0 di MakeHuman).
+
+### Decisioni
+- **Capelli di Amerigo solo castani** (niente più castano/ramato): aggiornati `CLAUDE.md`, `Docs/TRAMA.md`, `Docs/BACKLOG.md`.
+- **Amerigo bambino poverissimo e scalzo** (aggiornato `CLAUDE.md`).
+
+### Problemi aperti
+- ⚠️ **Scalzo vs flashback "Le scarpe"**: TRAMA e cutscene parlano delle scarpe rotte/strette di Amerigo. Da decidere con
+  l'utente: variante con scarpe rotte solo per quel flashback, oppure riscrivere cutscene e trama.
+- Gli screenshot di MakeHuman erano sbagliati (cattura senza profondità: capelli sopra il viso). Corretto lo script
+  (`canvas.grabFramebuffer()`), ma non ancora rieseguito: gli screenshot non sono nel commit. I modelli sono a posto
+  (la miniatura salvata da MakeHuman mostra il viso corretto).
+- Nel viewport di MakeHuman l'abito dell'adulto ha una macchia nera a quadretti sui fianchi: verificare in Unity.
+- I modelli in gioco v5/v6 hanno ancora i capelli castano/ramato (vedi BACKLOG).
+
+### Prossimi passi (PC casa, con Unity aperto e MCP attivo)
+1. `git pull` e `git switch feature/amerigo-makehuman`.
+2. Importare `ArtSource/Characters/makehuman/Amerigo_bambino/Amerigo_bambino.fbx` e `Amerigo_adulto/Amerigo_adulto.fbx`
+   con le texture in `Assets/Art/Characters/AmerigoMH_Bambino/` e `AmerigoMH_Adulto/`: avatar Humanoid, materiali URP
+   (capelli con alpha clipping), scala e LOD come i modelli v5/v6.
+3. Provarli con le 8 animazioni Mixamo esistenti, screenshot con la luce del gioco accanto a v5/v6 e mandarli all'utente.
+   Sostituire v5/v6 solo con il suo ok (e dopo la decisione sul flashback "Le scarpe").
+
+---
+
 ## 2026-11-06 – PC scuola – Richiesta R004 (animazione di corsa)
 **Branch:** `richiesta/R004-animazione-corsa` (da `feature/upgrade-realistico` @ 9426a9d)
 

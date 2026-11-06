@@ -11,7 +11,7 @@ namespace TrenoBambini.EditorTools
     /// delle clip Mixamo (Assets/Art/Animations/Amerigo/). Senza clip usa segnaposto in Assets/Art/Animations/Amerigo/Segnaposto.
     /// Menu: Treno/Personaggi/...
     /// </summary>
-    public static class PersonaggiBuilder
+    public static partial class PersonaggiBuilder
     {
         public const string AmerigoFolder = "Assets/Art/Characters/Amerigo";
         public const string AmerigoFbx = AmerigoFolder + "/Amerigo.fbx";
@@ -520,16 +520,35 @@ namespace TrenoBambini.EditorTools
             return res;
         }
 
-        /// <summary>Prefab del corpo di Amerigo se presente (usato da SceneBuilder.BuildPlayer), altrimenti null.</summary>
+        /// <summary>
+        /// Decisione 2026-11-06: in gioco i personaggi sono i due Amerigo MakeHuman (AmerigoMH_Bambino 1,0 m, AmerigoMH_Adulto 1,75 m).
+        /// Gli asset v5 (Amerigo) e v6 (AmerigoAdulto) restano nel progetto come riserva: con false il costruttore di scena li usa di nuovo.
+        /// </summary>
+        public const bool UsaAmerigoMakeHuman = true;
+
+        /// <summary>Altezza del bambino in gioco (m): capsula, punto camera e velocità si regolano su questa.</summary>
+        public static float AltezzaBambino { get { return UsaAmerigoMakeHuman ? 1.0f : 1.2f; } }
+
+        /// <summary>Prefab del corpo di Amerigo bambino (MakeHuman, o v5 di riserva) se presente, altrimenti null.</summary>
         public static GameObject LoadAmerigoPrefab()
         {
-            return AssetDatabase.LoadAssetAtPath<GameObject>(Bambino.Prefab);
+            var mh = UsaAmerigoMakeHuman ? AssetDatabase.LoadAssetAtPath<GameObject>(MhBambino.Prefab) : null;
+            return mh != null ? mh : AssetDatabase.LoadAssetAtPath<GameObject>(Bambino.Prefab);
         }
 
-        /// <summary>Prefab di Amerigo adulto (presente a Napoli, hub) se presente, altrimenti null.</summary>
+        /// <summary>Prefab di Amerigo adulto (presente a Napoli, hub; MakeHuman, o v6 di riserva) se presente, altrimenti null.</summary>
         public static GameObject LoadAmerigoAdultoPrefab()
         {
-            return AssetDatabase.LoadAssetAtPath<GameObject>(Adulto.Prefab);
+            var mh = UsaAmerigoMakeHuman ? AssetDatabase.LoadAssetAtPath<GameObject>(MhAdulto.Prefab) : null;
+            return mh != null ? mh : AssetDatabase.LoadAssetAtPath<GameObject>(Adulto.Prefab);
+        }
+
+        /// <summary>True se il prefab restituito da LoadAmerigoPrefab/LoadAmerigoAdultoPrefab è quello MakeHuman.</summary>
+        public static bool PrefabEMakeHuman(GameObject prefab)
+        {
+            if (prefab == null) return false;
+            string path = AssetDatabase.GetAssetPath(prefab);
+            return path == MhBambino.Prefab || path == MhAdulto.Prefab;
         }
     }
 }
