@@ -396,6 +396,7 @@ namespace TrenoBambini.EditorTools
             var set = new Dictionary<GameObject, int>();
             for (int i = 0; i < mobili.Count; i++) if (mobili[i] != null) set[mobili[i]] = i;
             int spostamenti = 0;
+            bool converge = false;
             for (int it = 0; it < maxIter; it++)
             {
                 idItem.Clear();
@@ -428,8 +429,9 @@ namespace TrenoBambini.EditorTools
                     mossi.Add(mover.item);
                     spostamenti++;
                 }
-                if (mossi.Count == 0) break;
+                if (mossi.Count == 0) { converge = true; break; }
             }
+            if (!converge) Debug.LogWarning("[Compenetrazioni] Il resolver non converge in " + maxIter + " giri: restano compenetrazioni, controlla con Treno > Verifica > Compenetrazioni.");
             return spostamenti;
         }
 

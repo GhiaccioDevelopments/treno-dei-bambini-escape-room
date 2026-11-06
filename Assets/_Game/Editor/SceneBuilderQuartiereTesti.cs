@@ -105,6 +105,12 @@ namespace TrenoBambini.EditorTools
                 int px = Mathf.Max(1, Mathf.Min((w - 2 * margin) / LarghezzaTesto(righe[0]), (h - 2 * margin) / 7));
                 Stampa(mask, w, h, righe[0], w / 2, (h - 7 * px) / 2, px);
             }
+            return MaterialeDaMaschera(key, w, h, mask, carta, inchiostro, manifesto, seed, true, manifesto);
+        }
+
+        /// <summary>Carta invecchiata con macchie e bordi scuri, inchiostro dove la maschera vale 1. Usata da testi e disegni.</summary>
+        static Material MaterialeDaMaschera(string key, int w, int h, float[] mask, Color carta, Color inchiostro, bool manifesto, int seed, bool cornice, bool piega)
+        {
             int sd = seed;
             var tex = SaveGeneratedTexture((manifesto ? "T_Man_" : "T_Ins_") + key, w, h, (u, v) =>
             {
@@ -115,13 +121,14 @@ namespace TrenoBambini.EditorTools
                 // macchie e piega
                 float stain = Mathf.Clamp01(ValueNoise(u * 3f + 7f * sd, v * 3f) - 0.62f) * 1.8f;
                 bg *= 1f - stain * 0.35f;
-                if (manifesto && Mathf.Abs(v - 0.5f) < 0.004f) bg *= 0.82f;
+                if (piega && Mathf.Abs(v - 0.5f) < 0.004f) bg *= 0.82f;
                 // cornice
-                bool cornice = (Mathf.Min(Mathf.Min(u, 1f - u) * w, Mathf.Min(v, 1f - v) * h) < (manifesto ? 7f : 5f)) && (Mathf.Min(Mathf.Min(u, 1f - u) * w, Mathf.Min(v, 1f - v) * h) > (manifesto ? 3f : 2f));
+                float dBordo = Mathf.Min(Mathf.Min(u, 1f - u) * w, Mathf.Min(v, 1f - v) * h);
+                bool incorniciato = cornice && dBordo < (manifesto ? 7f : 5f) && dBordo > (manifesto ? 3f : 2f);
                 float ink = mask[yy * w + x];
                 // l'inchiostro si consuma a macchie
                 ink *= 0.75f + 0.25f * ValueNoise(u * 60f, v * 60f);
-                if (cornice) ink = Mathf.Max(ink, 0.9f);
+                if (incorniciato) ink = Mathf.Max(ink, 0.9f);
                 Color c = Color.Lerp(bg, inchiostro * (0.8f + 0.2f * n), ink);
                 c.a = 1f;
                 return c;
@@ -142,6 +149,106 @@ namespace TrenoBambini.EditorTools
             return m;
         }
 
+        // ------------------------------------------------------------------ disegno di bambino (nessuna scritta)
+
+        /// <summary>Segno a carboncino: dischi sovrapposti lungo il segmento, con un lieve tremito della mano.</summary>
+        static void Tratto(float[] m, int w, int h, float x0, float y0, float x1, float y1, float spessore, int seed)
+        {
+            float len = Mathf.Max(1f, Mathf.Sqrt((x1 - x0) * (x1 - x0) + (y1 - y0) * (y1 - y0)));
+            int passi = Mathf.CeilToInt(len * 1.5f);
+            for (int i = 0; i <= passi; i++)
+            {
+                float t = i / (float)passi;
+                float cx = Mathf.Lerp(x0, x1, t) + (ValueNoise(t * 7f + seed, seed * 0.37f) - 0.5f) * 1.6f;
+                float cy = Mathf.Lerp(y0, y1, t) + (ValueNoise(t * 7f + seed + 50f, seed * 0.71f) - 0.5f) * 1.6f;
+                float r = spessore * (0.8f + 0.4f * ValueNoise(t * 13f + seed, 3f));
+                int ix0 = Mathf.Max(0, Mathf.FloorToInt(cx - r)), ix1 = Mathf.Min(w - 1, Mathf.CeilToInt(cx + r));
+                int iy0 = Mathf.Max(0, Mathf.FloorToInt(cy - r)), iy1 = Mathf.Min(h - 1, Mathf.CeilToInt(cy + r));
+                for (int yy = iy0; yy <= iy1; yy++)
+                    for (int xx = ix0; xx <= ix1; xx++)
+                    {
+                        float d = Mathf.Sqrt((xx - cx) * (xx - cx) + (yy - cy) * (yy - cy));
+                        if (d <= r) m[yy * w + xx] = Mathf.Max(m[yy * w + xx], 1f - 0.4f * d / r);
+                    }
+            }
+        }
+
+        static void CerchioTratto(float[] m, int w, int h, float cx, float cy, float r, float spessore, int seed)
+        {
+            int n = 20;
+            for (int i = 0; i < n; i++)
+            {
+                float a0 = i * Mathf.PI * 2f / n, a1 = (i + 1) * Mathf.PI * 2f / n;
+                Tratto(m, w, h, cx + Mathf.Cos(a0) * r, cy + Mathf.Sin(a0) * r, cx + Mathf.Cos(a1) * r, cy + Mathf.Sin(a1) * r, spessore, seed + i);
+            }
+        }
+
+        /// <summary>Il biglietto "Ricordo" del basso: un disegno di bambino a carboncino su carta povera (casetta, sole, treno col fumo), senza scritte.</summary>
+        static Material MaterialeDisegnoBambino(string key, int w, int h, int seed)
+        {
+            var m = new float[w * h];
+            float t = 1.6f;
+            // sole in alto a destra, con i raggi
+            CerchioTratto(m, w, h, 128, 24, 9, t, seed);
+            for (int i = 0; i < 8; i++)
+            {
+                float a = i * Mathf.PI / 4f;
+                Tratto(m, w, h, 128 + Mathf.Cos(a) * 13, 24 + Mathf.Sin(a) * 13, 128 + Mathf.Cos(a) * 19, 24 + Mathf.Sin(a) * 19, t, seed + 40 + i);
+            }
+            // casetta a sinistra: muri, tetto, porta, finestra
+            Tratto(m, w, h, 14, 90, 14, 55, t, seed + 1); Tratto(m, w, h, 14, 55, 52, 55, t, seed + 2);
+            Tratto(m, w, h, 52, 55, 52, 90, t, seed + 3); Tratto(m, w, h, 10, 55, 33, 32, t, seed + 4);
+            Tratto(m, w, h, 33, 32, 56, 55, t, seed + 5); Tratto(m, w, h, 14, 90, 52, 90, t, seed + 6);
+            Tratto(m, w, h, 28, 90, 28, 70, t, seed + 7); Tratto(m, w, h, 28, 70, 38, 70, t, seed + 8); Tratto(m, w, h, 38, 70, 38, 90, t, seed + 9);
+            Tratto(m, w, h, 42, 62, 48, 62, t, seed + 10); Tratto(m, w, h, 42, 62, 42, 68, t, seed + 11);
+            // terra
+            Tratto(m, w, h, 4, 96, 156, 98, t, seed + 12);
+            // treno a destra: locomotiva, ciminiera, ruote, fumo
+            Tratto(m, w, h, 78, 92, 78, 68, t, seed + 13); Tratto(m, w, h, 78, 68, 140, 68, t, seed + 14);
+            Tratto(m, w, h, 140, 68, 140, 92, t, seed + 15); Tratto(m, w, h, 78, 82, 140, 82, t, seed + 16);
+            Tratto(m, w, h, 92, 68, 92, 56, t, seed + 17); Tratto(m, w, h, 88, 56, 97, 56, t, seed + 18);
+            CerchioTratto(m, w, h, 90, 94, 5, t, seed + 19); CerchioTratto(m, w, h, 130, 94, 5, t, seed + 20);
+            CerchioTratto(m, w, h, 96, 46, 4, t * 0.8f, seed + 21); CerchioTratto(m, w, h, 104, 38, 6, t * 0.8f, seed + 22);
+            Tratto(m, w, h, 140, 75, 152, 75, t, seed + 23);
+            // il carboncino e' grigio scuro, la carta povera e' grigiastra
+            return MaterialeDaMaschera(key, w, h, m, new Color(0.8f, 0.74f, 0.6f), new Color(0.13f, 0.12f, 0.11f), true, seed, false, false);
+        }
+
+        // ------------------------------------------------------------------ testi d'ambiente da JSON
+
+        [Serializable]
+        sealed class TestoAmbiente
+        {
+            public string chiave, gruppo, tipo; // tipo: manifesto | insegna
+            public int w, h, seed;
+            public string[] righe;
+            public float[] carta, inchiostro;
+        }
+
+        [Serializable]
+        sealed class TestiAmbienteFile { public TestoAmbiente[] testi; }
+
+        const string PercorsoTestiAmbiente = "Assets/_Game/Resources/Data/testi_ambiente.json";
+
+        /// <summary>
+        /// Crea (o aggiorna) texture e materiali dei testi d'ambiente (manifesti, avvisi, graffiti, santini, calendario, insegne) di un gruppo
+        /// di <c>testi_ambiente.json</c>: i testi narrativi stanno nel JSON, non nel codice. Le chiavi diventano materiali "MP_&lt;chiave&gt;".
+        /// </summary>
+        static void PreparaTestiAmbiente(string gruppo)
+        {
+            var file = JsonUtility.FromJson<TestiAmbienteFile>(System.IO.File.ReadAllText(PercorsoTestiAmbiente));
+            int n = 0;
+            foreach (var t in file.testi)
+            {
+                if (t.gruppo != gruppo) continue;
+                var carta = new Color(t.carta[0], t.carta[1], t.carta[2]);
+                var ink = new Color(t.inchiostro[0], t.inchiostro[1], t.inchiostro[2]);
+                MaterialeTesto(t.chiave, t.w, t.h, t.righe, carta, ink, t.tipo == "manifesto", t.seed);
+                n++;
+            }
+            if (n == 0) Debug.LogWarning("[SceneBuilder] Nessun testo d'ambiente per il gruppo '" + gruppo + "' in " + PercorsoTestiAmbiente);
+        }
+
         static GameObject Manifesto(Transform env, string key, Vector3 pos, Vector3 n, float larg, float alt, string nome)
         {
             var go = Box(nome, env, pos + n * (0.0075f + 0.004f), new Vector3(larg, alt, 0.015f), "MP_" + key,
@@ -149,45 +256,10 @@ namespace TrenoBambini.EditorTools
             return go;
         }
 
-        /// <summary>Crea (o aggiorna) texture e materiali di manifesti e insegne: da chiamare prima di costruire le facciate (le insegne delle porte li usano).</summary>
+        /// <summary>Materiali di manifesti e insegne del quartiere (testi in testi_ambiente.json, gruppo "quartiere"): da chiamare prima di costruire le facciate (le insegne delle porte li usano).</summary>
         static void PreparaMaterialiTesti()
         {
-            // manifesti (carta ingiallita, inchiostro nero o rosso scuro): testi originali
-            var man = new Dictionary<string, string[]>
-            {
-                { "Ricostruiamo", new[] { "RICOSTRUIAMO", "INSIEME", "LA NOSTRA CITTA", "", "ASSEMBLEA IN PIAZZA", "SABATO ORE 16" } },
-                { "Acqua", new[] { "AVVISO", "ACQUA ALLA", "FONTANELLA", "", "DALLE 6 ALLE 10", "PORTARE I SECCHI" } },
-                { "Viveri", new[] { "AVVISO", "DISTRIBUZIONE", "DEI VIVERI", "", "OGNI MARTEDI", "PORTARE LA TESSERA" } },
-                { "Affitto", new[] { "SI AFFITTA", "BASSO", "", "RIVOLGERSI", "AL PORTIERE", "DI SERA" } },
-                { "Scuola", new[] { "PER LA SCUOLA", "PER I BAMBINI", "", "OFFERTE AL", "COMITATO DI VIA", "GRAZIE" } },
-                { "Lavoro", new[] { "CERCASI", "MANOVALI", "", "PER LA", "RICOSTRUZIONE", "PAGA A GIORNATA" } },
-                { "Festa", new[] { "FESTA DI", "QUARTIERE", "", "SABATO SERA", "MUSICA E BALLI", "PER TUTTI" } },
-                { "Crollo", new[] { "PERICOLO", "CROLLO", "", "NON ENTRARE", "VIA LIBERA", "SOLO AI TECNICI" } },
-            };
-            int s = 3;
-            foreach (var kv in man)
-            {
-                bool rosso = kv.Key == "Crollo" || kv.Key == "Lavoro";
-                MaterialeTesto(kv.Key, 256, 384, kv.Value, new Color(0.88f, 0.8f, 0.62f), rosso ? new Color(0.45f, 0.08f, 0.05f) : new Color(0.1f, 0.08f, 0.06f), true, s++);
-            }
-            // insegne delle botteghe (tavole dipinte, lettere color crema)
-            var ins = new Dictionary<string, string>
-            {
-                { "Salumeria", "SALUMERIA" }, { "Barbiere", "BARBIERE" }, { "Calzolaio", "CALZOLAIO" },
-                { "Latteria", "LATTERIA" }, { "Ferramenta", "FERRAMENTA" }, { "Trattoria", "TRATTORIA" }, { "Sarto", "SARTO" }, { "Fruttivendolo", "FRUTTA E VERDURA" }
-            };
-            var colIns = new Dictionary<string, Color>
-            {
-                { "Salumeria", new Color(0.38f, 0.1f, 0.08f) }, { "Barbiere", new Color(0.12f, 0.22f, 0.3f) }, { "Calzolaio", new Color(0.22f, 0.15f, 0.08f) },
-                { "Latteria", new Color(0.18f, 0.3f, 0.24f) }, { "Ferramenta", new Color(0.16f, 0.16f, 0.17f) }, { "Trattoria", new Color(0.4f, 0.22f, 0.08f) }, { "Sarto", new Color(0.2f, 0.2f, 0.3f) }, { "Fruttivendolo", new Color(0.22f, 0.3f, 0.14f) }
-            };
-            foreach (var kv in ins)
-                MaterialeTesto(kv.Key, 512, 96, new[] { kv.Value }, colIns[kv.Key] * 1.0f, new Color(0.9f, 0.82f, 0.6f), false, s++);
-            // insegne dei luoghi di luoghi.json
-            MaterialeTesto("Stazione", 512, 96, new[] { "STAZIONE" }, new Color(0.16f, 0.2f, 0.17f), new Color(0.92f, 0.86f, 0.68f), false, s++);
-            MaterialeTesto("Comitato", 512, 96, new[] { "SEDE DEL COMITATO" }, new Color(0.38f, 0.1f, 0.08f), new Color(0.92f, 0.86f, 0.68f), false, s++);
-            MaterialeTesto("CapaFierro", 512, 96, new[] { "CAPA E FIERRO" }, new Color(0.12f, 0.22f, 0.3f), new Color(0.92f, 0.86f, 0.68f), false, s++);
-            MaterialeTesto("Stracci", 512, 96, new[] { "VICOLO DEGLI STRACCI" }, new Color(0.22f, 0.15f, 0.08f), new Color(0.92f, 0.86f, 0.68f), false, s++);
+            PreparaTestiAmbiente("quartiere");
         }
 
         static void TestiEManifesti(Transform env, System.Random r)
@@ -206,17 +278,20 @@ namespace TrenoBambini.EditorTools
             }
 
             Vector3 up = Vector3.up;
+            int muriManifesti = 0; // i manifesti stanno su muri ciechi a coordinate fisse: se il muro non c'e' lo si segnala
             foreach (var f in feats)
             {
                 if (f.tipo != "cieco") continue;
                 Vector3 n = f.n, al = Vector3.Cross(n, up);
                 if (Mathf.Abs(f.wp.x + 7f) < 0.1f && Mathf.Abs(f.wp.z + 28f) < 0.1f)
                 {   // muro della bancarella, piazzetta della fontanella
+                    muriManifesti |= 1;
                     Manifesto(env, "Ricostruiamo", f.wp + al * -1.9f + up * 1.7f, n, 0.62f, 0.93f, "Manifesto_Ricostruiamo");
                     Manifesto(env, "Acqua", f.wp + al * 1.9f + up * 1.7f, n, 0.62f, 0.93f, "Manifesto_Acqua");
                 }
                 else if (Mathf.Abs(f.wp.x - 14f) < 0.1f && Mathf.Abs(f.wp.z + 10f) < 0.1f)
                 {   // bacheca con quattro manifesti
+                    muriManifesti |= 2;
                     var tavola = Box("Cartello_Bacheca", env, f.wp + n * 0.03f + up * 1.75f, new Vector3(2.3f, 1.3f, 0.05f), "M_LegnoVernicePelata", Quaternion.LookRotation(n, up).eulerAngles, false);
                     string[] k4 = { "Viveri", "Lavoro", "Festa", "Scuola" };
                     for (int i = 0; i < 4; i++)
@@ -224,6 +299,7 @@ namespace TrenoBambini.EditorTools
                 }
                 else if (Mathf.Abs(f.wp.x + 29f) < 0.1f && Mathf.Abs(f.wp.z + 30f) < 0.1f)
                 {
+                    muriManifesti |= 4;
                     Manifesto(env, "Affitto", f.wp + al * 0.0f + up * 1.9f, n, 0.55f, 0.82f, "Manifesto_Affitto");
                 }
                 else if (Mathf.Abs(f.wp.x + 14f) < 0.1f && Mathf.Abs(f.wp.z - 8f) < 0.1f || Mathf.Abs(f.wp.x - 12f) < 0.1f && Mathf.Abs(f.wp.z - 14f) < 0.1f)
@@ -231,6 +307,9 @@ namespace TrenoBambini.EditorTools
                     Shrine(env, f.wp, f.n);
                 }
             }
+            if ((muriManifesti & 1) == 0) Debug.LogWarning("[Quartiere] Muro cieco (-7, -28) non trovato: niente manifesti Ricostruiamo/Acqua.");
+            if ((muriManifesti & 2) == 0) Debug.LogWarning("[Quartiere] Muro cieco (14, -10) non trovato: niente bacheca dei manifesti.");
+            if ((muriManifesti & 4) == 0) Debug.LogWarning("[Quartiere] Muro cieco (-29, -30) non trovato: niente manifesto Affitto.");
             // cartello di pericolo nel lotto bombardato
             var palo = Box("Cartello_Palo", env, PT(15.6f, -14.9f, 0.8f), new Vector3(0.08f, 1.6f, 0.08f), "M_LegnoVernicePelata", new Vector3(0f, 0f, 0f), true);
             Mob(palo);

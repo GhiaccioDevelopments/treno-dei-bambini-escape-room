@@ -10,7 +10,7 @@ Non toccare a mano: rigenerare la scena da **Treno > Costruisci tutte le scene**
 | 3 | Cesta di scarpe da riparare | -8,1 | 0,3 | -0,1 | Fra le scarpe da riparare ce n'e' una dal numero piccolo, con un biglietto. |
 | 4 | Manichino del sarto | -2,0 | 1,2 | -16,3 | Nella tasca del cappotto sul manichino: uno spillo d'oro e un bottone. |
 | 5 | Salumi appesi | 2,7 | 1,8 | -6,0 | Fra i salami ce n'e' uno di carta: dentro un messaggio (gioco di mestieri). |
-| 6 | Palo del barbiere | 2,6 | 0,0 | 1,4 | Il palo a strisce: una moneta da dieci lire incastrata alla base. |
+| 6 | Soglia del barbiere | 2,6 | 0,0 | 1,4 | Fra le assi della soglia, sotto la tendina: una moneta da dieci lire incastrata. |
 | 7 | Radio del barbiere | 2,3 | 0,9 | -1,7 | Radio accesa sul tavolino del barbiere: potrebbe trasmettere un giornale radio dell'epoca (audio futuro). |
 | 8 | Cassa di frutta del fruttivendolo | 2,4 | 0,2 | 18,4 | Sotto la verdura di una cassa: un biglietto della spesa con una lista di scarpe. |
 | 9 | Campana disegnata col gesso | -3,2 | 0,0 | -26,2 | Gioco da bambini sull'acciottolato dello slargo d'ingresso: sulla casella 'cielo' un sassolino segnato con una A. |

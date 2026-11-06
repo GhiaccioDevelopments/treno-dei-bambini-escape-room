@@ -70,14 +70,15 @@ namespace TrenoBambini.EditorTools
         static void PosaSuCumulo(GameObject pezzo, List<GameObject> posati, bool impila)
         {
             Bounds b = BoundsDi(pezzo);
-            float base_ = 0f;
+            float suolo = GroundY(b.center.x, b.center.z); // quota del suolo reale (zone rialzate e rampe), non y=0
+            float base_ = suolo;
             if (impila)
             {
                 float migliore = 0f;
                 foreach (var q in posati)
                 {
                     var bq = BoundsDi(q);
-                    if (bq.min.y > 0.05f) continue; // porta solo chi sta a terra
+                    if (bq.min.y > suolo + 0.05f) continue; // porta solo chi sta a terra
                     float ox = Mathf.Min(b.max.x, bq.max.x) - Mathf.Max(b.min.x, bq.min.x);
                     float oz = Mathf.Min(b.max.z, bq.max.z) - Mathf.Max(b.min.z, bq.min.z);
                     if (ox > 0.3f * Mathf.Min(b.size.x, bq.size.x) && oz > 0.3f * Mathf.Min(b.size.z, bq.size.z) && ox * oz > migliore)

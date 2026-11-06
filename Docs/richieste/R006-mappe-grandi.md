@@ -56,7 +56,8 @@ Obiettivo: ambienti **molto più grandi** e credibili da esplorare, senza oggett
 - [x] **Treno ▸ Verifica ▸ Compenetrazioni** → zero segnalazioni in tutte le scene.
 - [x] Hub, basso e flashback almeno 3 volte più grandi, percorribili senza incastrarsi e senza muri invisibili "a vista".
 - [x] Scene rigenerabili da menu; console pulita; enigmi e oggetti ancora raggiungibili (coordinate JSON aggiornate).
-- [x] FPS e peso build per preset nel Rapporto; WebGL Bassa ≥ 30 FPS (vedi tabella: misura parziale, basso e flashback WebGL non misurati a mano).
+- [x] FPS e peso build per preset nel Rapporto.
+- [ ] WebGL Bassa ≥ 30 FPS: **parziale**. Misurato solo l'hub, su una GPU potente (limite alto, non indicativo); basso e flashback non misurati in WebGL. Serve una prova su un PC della scuola.
 - [x] Screenshot prima/dopo di ogni scena in `Docs/richieste/media/R006/`.
 
 ## 7. Decisioni dell'utente (2026-11-06, prima dello sviluppo)
@@ -85,7 +86,7 @@ R006 completata in 4 tappe (compenetrazioni, hub, basso + flashback, chiusura). 
 ### Tappa 3 – basso di Antonietta, flashback "Le scarpe", peso delle lightmap (2026-11-06)
 - `20_Int_BassoAntonietta`: da 6 x 5 m (30 m2) a ~108 m2 di pianta (circa 3,6x): stanza principale 9 x 6 m, alcova col letto di ferro dietro una tenda a meta' aperta,
   angolo cucina (fornello a carbone, pentole appese, tavolo, credenza), cortiletto sul retro 5 x 6 m con pozzo, lavatoio, galline, panni, bici e una porta chiusa
-  (PortaRetro). Fra alcova e cucina un blocco pieno di 2,4 x 4,3 m e' il ripostiglio nascosto per R011. Sovraffollato: letto, materassi arrotolati, cassapanca, credenza con radio,
+  (PortaRetro). Fra alcova e cucina un blocco pieno di 2,4 x 4,3 m e' il ripostiglio nascosto per R011. Sovraffollato: letto, materassi arrotolati, cassapanca, credenza con sveglia rotta,
   santini, calendario 1946, crocifisso, sedie impagliate, braciere, bacinelle, secchi. Generato da `SceneBuilderBasso.cs`. Resta tutto il resto: porta d'uscita verso l'hub
   (`da_basso_antonietta`), spawn `ingresso` e `oggetto_scarpe`, scarpe raccoglibili (`ItemPickup scarpe`). Punti segreti: `punti_segreti_basso.md`.
 - `30_FB_Scarpe`: da stanza 10 x 10 m (100 m2) a tratto di via dei Quartieri Spagnoli con 8 botteghe aperte (calzolaio con banco, forme di legno e scarpe appese; sarto, salumiere, barbiere,
@@ -146,3 +147,21 @@ Hub: la mappa grande non e' un problema di resa grazie ad occlusion culling e lu
 - Testi del flashback (consegne) ancora a "stanza"/"cassetta" (R010).
 
 **Domande aperte.** Nessuna bloccante. Opzionale: vuoi un comando di debug per teletrasportarsi (solo build di sviluppo) per misurare gli FPS in ogni zona?
+
+### Correzioni dopo la review (2026-11-06)
+Il reviewer ha approvato con riserve; applicate le correzioni, comprese le decisioni dell'utente.
+- **Screenshot leggeri.** Tutte le immagini di `media/R006/` convertite da PNG (fino a 4K, in LFS) a JPG max 1280x720 qualita' 85 (44 file, 3,4 MB in tutto). `.gitattributes` esclude `Docs/**/*.jpg` da LFS
+  (`git check-attr filter` = unset); regola in `CLAUDE.md`: screenshot max 1280x720 JPG fuori da LFS, un solo bake a fine tappa, avviso all'utente quando LFS si avvicina a 1 GB (data pack GitHub).
+- **Correzioni d'epoca (decise dall'utente).** Il biglietto "PER MAMMA / DA AMERIGO" e' ora un disegno di bambino senza scritte (texture generata da codice: casetta, treno col fumo e sole a carboncino su carta povera).
+  La radio sulla credenza del basso e' sostituita da una sveglia rotta (`SvegliaRotta`). Nel flashback il palo a strisce del barbiere e' rimosso: resta l'insegna dipinta "BARBIERE" sulla facciata e
+  c'e' una tendina all'ingresso (bastone, mantellina e un lembo raccolto); il punto segreto della moneta diventa "Soglia del barbiere".
+- **Testi narrativi fuori dal codice.** Manifesti, avvisi, graffiti, santini, calendario e insegne sono in `Assets/_Game/Resources/Data/testi_ambiente.json` (schema in `CLAUDE.md`), letto dai generatori editor
+  (`PreparaTestiAmbiente(gruppo)`); a parita' di seed le texture restano identiche a prima.
+- **JSON.** `luoghi.json`: descrizione di `basso_antonietta` aggiornata (stanza, alcova, cucina, cortile); `sede_partito` ha nome "La sede del Comitato" (id invariato) e insegna "SEDE DEL COMITATO" (nessun nome di partito);
+  `casa_capa_e_fierro` e' una bottega di robivecchi ("La bottega di Capa 'e fierro", insegna "STRACCI E FERRI VECCHI" al posto del soprannome).
+- **Robustezza.** `WallFader`: niente `Collider.name` per frame (cache `Dictionary<Collider,bool>` del controllo "Soffitto"). `PosaSuCumulo`: la base e' la quota del suolo reale (`GroundY`), non y=0.
+  `GroundY` avvisa con `Debug.LogWarning` fuori zona (ha subito trovato un punto segreto della bottega della piazzetta a quota sbagliata: corretto). I manifesti a coordinate fisse (hub e flashback) avvisano se il muro cieco non c'e'.
+  Il resolver di `VerificaCompenetrazioni.Risolvi` avvisa se non converge in 120 giri.
+- **Rapporto onesto sulle superfici.** Le superfici calpestabili reali (senza ingombri) sono: basso **54 m2**, flashback **722 m2**, hub **1875 m2**. Il "3,6x" del basso vale sulla **pianta** (108 m2 contro 30),
+  non sulla superficie libera; i 2460 / 880 m2 dei log sono l'area delle zone nel raster, ingombri compresi.
+- **Rigenerazione.** Scene rigenerate da menu, Compenetrazioni 0, Raggiungibilita' 0, console pulita, un solo bake finale di tutte le scene.

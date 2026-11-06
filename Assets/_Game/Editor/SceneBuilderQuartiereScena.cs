@@ -349,7 +349,7 @@ namespace TrenoBambini.EditorTools
             Segreto("Sotto il grande arco", PT(-2.4f, 20.5f), "Alla base del pilastro ovest del grande arco, dietro un cesto.");
             Segreto("Dietro le macerie del lotto", PT(25f, -22.2f), "Fra il muretto sbrecciato e la parete est del lotto: pochi passi fuori dalla vista.");
             Segreto("Cavita' sotto la trave caduta", PT(15f, -19.2f), "Fra due cumuli di macerie, accanto alla trave spezzata.");
-            Segreto("Bottega dalla luce calda", PT(7f, -26.6f), "Davanti al basso aperto sulla piazzetta: ripiano con bottiglie e scatole, luce calda visibile da lontano.");
+            Segreto("Bottega dalla luce calda", new Vector3(7f, GroundY(7f, -28.5f), -26.6f), "Davanti al basso aperto sulla piazzetta: ripiano con bottiglie e scatole, luce calda visibile da lontano.");
             Segreto("Edicola piccola (traversa T3)", PT(-14f, 6.8f), "Edicola votiva piccola con lumino: ex-voto e un biglietto fra i fiori.");
             Segreto("Edicola piccola (traversa T5)", PT(12f, 15.2f), "Edicola votiva piccola nella traversa alta, quasi sempre in ombra.");
             Segreto("Bacheca dei manifesti (traversa T2)", PT(14f, -11.2f), "Bacheca con manifesti originali: dietro quello piu' vecchio c'e' un foglio.");

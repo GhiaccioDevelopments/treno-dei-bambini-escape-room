@@ -215,11 +215,16 @@ namespace TrenoBambini.EditorTools
         }
 
         /// <summary>Quota del suolo in (x,z); fuori dalla mappa 0.</summary>
-        static float GroundY(float x, float z)
+        static float GroundY(float x, float z) { return GroundY(x, z, true); }
+        static float GroundY(float x, float z, bool avvisa)
         {
             if (ras == null) return 0f;
             int ix = Mathf.FloorToInt((x - rasX0) / Ras), iz = Mathf.FloorToInt((z - rasZ0) / Ras);
-            if (!Walk(ix, iz)) return 0f;
+            if (!Walk(ix, iz))
+            {
+                if (avvisa) Debug.LogWarning("[SceneBuilder] GroundY fuori zona calpestabile in (" + x.ToString("0.0") + ", " + z.ToString("0.0") + "): quota 0.");
+                return 0f;
+            }
             return YZona(ZonaDi(ix, iz), z);
         }
 

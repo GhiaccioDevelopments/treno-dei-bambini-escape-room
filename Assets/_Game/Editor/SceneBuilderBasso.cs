@@ -198,15 +198,6 @@ namespace TrenoBambini.EditorTools
                 }
         }
 
-        static void PaloBarbiere(KitBuilder kb)
-        {
-            // sub 0 ferro, 1 rosso, 2 bianco, 3 blu
-            kb.Tube(new Vector3(0f, 0f, 0f), new Vector3(0f, 0.05f, 0f), 0.09f, 8, 0, 0.3f);
-            for (int i = 0; i < 12; i++)
-                kb.Tube(new Vector3(0f, 0.05f + i * 0.1f, 0f), new Vector3(0f, 0.15f + i * 0.1f, 0f), 0.05f, 8, 1 + (i % 3), 0.3f);
-            kb.Tube(new Vector3(0f, 1.25f, 0f), new Vector3(0f, 1.3f, 0f), 0.07f, 8, 0, 0.3f);
-        }
-
         static void PoltronaBarbiere(KitBuilder kb)
         {
             // fronte a +z; sub 0 ferro, 1 cuoio
@@ -230,18 +221,24 @@ namespace TrenoBambini.EditorTools
             kb.Box(new Vector3(0.12f, 0.05f, 0.1f), new Vector3(0.14f, 0.09f, 0.12f), 2, 0.3f);
         }
 
+        static void SvegliaRotta(KitBuilder kb)
+        {
+            // sveglia a campanelli ammaccata, ferma, con un piede rotto; sub 0 metallo, 1 quadrante chiaro
+            kb.Box(new Vector3(-0.07f, 0f, -0.035f), new Vector3(0.07f, 0.14f, 0.035f), 0, 0.5f);          // cassa
+            kb.Box(new Vector3(-0.055f, 0.03f, 0.035f), new Vector3(0.055f, 0.125f, 0.04f), 1, 0.3f);       // quadrante
+            kb.Box(new Vector3(-0.003f, 0.075f, 0.04f), new Vector3(0.003f, 0.115f, 0.043f), 0, 0.2f);      // lancetta fissa
+            kb.Box(new Vector3(-0.04f, 0.075f, 0.04f), new Vector3(-0.003f, 0.081f, 0.043f), 0, 0.2f);
+            kb.Box(new Vector3(-0.065f, 0.14f, -0.02f), new Vector3(-0.015f, 0.165f, 0.02f), 0, 0.3f);      // campanello sinistro
+            kb.Box(new Vector3(0.015f, 0.14f, -0.02f), new Vector3(0.065f, 0.158f, 0.02f), 0, 0.3f);        // campanello destro (ammaccato)
+            kb.Box(new Vector3(-0.055f, -0.01f, -0.025f), new Vector3(-0.035f, 0f, 0.025f), 0, 0.3f);       // piede sinistro
+        }
+
         // ------------------------------------------------------------------ santini e ricordi sul muro
 
         static void PreparaSantini()
         {
-            var carta = new Color(0.86f, 0.78f, 0.6f);
-            var rosso = new Color(0.42f, 0.08f, 0.06f);
-            var nero = new Color(0.1f, 0.08f, 0.06f);
-            MaterialeTesto("SantinoGennaro", 128, 192, new[] { "S. GENNARO", "", "PROTEGGI", "NAPOLI" }, carta, rosso, true, 21);
-            MaterialeTesto("SantinoMadonna", 128, 192, new[] { "MADONNA", "DEL CARMINE", "", "PREGA PER NOI" }, carta, nero, true, 22);
-            MaterialeTesto("SantinoCuore", 128, 192, new[] { "SACRO", "CUORE", "", "BENEDICI", "QUESTA CASA" }, carta, rosso, true, 23);
-            MaterialeTesto("Calendario", 128, 192, new[] { "ANNO", "1946", "", "NOVEMBRE" }, new Color(0.9f, 0.86f, 0.72f), rosso, true, 24);
-            MaterialeTesto("Ricordo", 160, 120, new[] { "PER MAMMA", "DA AMERIGO" }, carta, nero, true, 25);
+            PreparaTestiAmbiente("basso"); // santini e calendario: testi in testi_ambiente.json
+            MaterialeDisegnoBambino("Ricordo", 160, 120, 25); // il biglietto sul muro e' un disegno di bambino, senza scritte
         }
 
         static GameObject Appeso(Transform p, string nome, Vector3 pos, Vector3 size, string mat, float yaw = 0f)
@@ -377,9 +374,9 @@ namespace TrenoBambini.EditorTools
             Impila(lampCredenza, credenza, new Vector2(0f, -0.3f));
             var fiammaCredenza = Prim(PrimitiveType.Sphere, "FiammaLampada", props, lampCredenza.transform.position + Vector3.up * 0.2f, new Vector3(0.06f, 0.1f, 0.06f), "Glow", null, false);
             Cavaliere(fiammaCredenza, credenza);
-            var radio = Pz(props, "Radio", "B_Radio", new[] { "M_LegnoVernicePelata", "Tessuto3", "M_FerroRuggine02" }, Radio, new Vector3(0f, 0.96f, 0f), 90f, false);
-            Impila(radio, credenza, new Vector2(0f, 0.2f));
-            Cavaliere(radio, credenza);
+            var sveglia = Pz(props, "SvegliaRotta", "B_SvegliaRotta", new[] { "M_FerroRuggine02", "Cera" }, SvegliaRotta, new Vector3(0f, 0.96f, 0f), 90f, false);
+            Impila(sveglia, credenza, new Vector2(0f, 0.2f));
+            Cavaliere(sveglia, credenza);
             Sacco(props, new Vector3(3.9f, 0f, 2.9f), 20f);
 
             // altarino con lumino (muro nord)

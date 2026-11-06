@@ -111,8 +111,7 @@ namespace TrenoBambini.EditorTools
         static void PreparaMaterialiRicordo()
         {
             PreparaMaterialiTesti();
-            MaterialeTesto("Graffito", 256, 96, new[] { "C'ERO ANCH'IO" }, new Color(0.34f, 0.28f, 0.22f), new Color(0.9f, 0.88f, 0.8f), false, 31);
-            MaterialeTesto("Campana", 128, 96, new[] { "CIELO" }, new Color(0.3f, 0.26f, 0.2f), new Color(0.9f, 0.88f, 0.8f), false, 32);
+            PreparaTestiAmbiente("ricordo"); // graffito e campana: testi in testi_ambiente.json
         }
 
         // ------------------------------------------------------------------ scena
@@ -255,24 +254,33 @@ namespace TrenoBambini.EditorTools
             Edicole(env);
             ScarpeSulFilo(env, -1f);
             ScarpeSulFilo(env, 12.5f);
+            int muriManifesti = 0; // i manifesti stanno su muri ciechi a coordinate fisse: se il muro non c'e' lo si segnala
             foreach (var f in feats)
             {
                 if (f.tipo != "cieco") continue;
                 var al = Vector3.Cross(f.n, Vector3.up);
                 if (Mathf.Abs(f.wp.x - 19f) < 0.1f)
                 {
+                    muriManifesti |= 1;
                     Manifesto(env, "Graffito", f.wp + al * -0.8f + Vector3.up * 1.3f, f.n, 1.1f, 0.42f, "Manifesto_Graffito");
                     Manifesto(env, "Crollo", f.wp + al * 1.6f + Vector3.up * 1.7f, f.n, 0.5f, 0.75f, "Manifesto_Crollo");
                 }
                 else if (Mathf.Abs(f.wp.z + 32f) < 0.1f)
                 {
+                    muriManifesti |= 2;
                     Manifesto(env, "Acqua", f.wp + al * -1.2f + Vector3.up * 1.7f, f.n, 0.62f, 0.93f, "Manifesto_Acqua");
                     Manifesto(env, "Viveri", f.wp + al * 1.2f + Vector3.up * 1.7f, f.n, 0.62f, 0.93f, "Manifesto_Viveri");
                     Manifesto(env, "Scuola", f.wp + al * 0.0f + Vector3.up * 1.8f, f.n, 0.5f, 0.78f, "Manifesto_Scuola");
                 }
                 else if (Mathf.Abs(f.wp.x + 8f) < 0.1f && Mathf.Abs(f.wp.z - 33f) < 0.1f)
+                {
+                    muriManifesti |= 4;
                     Manifesto(env, "Festa", f.wp + al * 0.5f + Vector3.up * 1.8f, f.n, 0.62f, 0.93f, "Manifesto_Festa");
+                }
             }
+            if ((muriManifesti & 1) == 0) Debug.LogWarning("[Ricordo] Muro cieco x=19 non trovato: niente graffito e cartello di pericolo.");
+            if ((muriManifesti & 2) == 0) Debug.LogWarning("[Ricordo] Muro cieco z=-32 non trovato: niente manifesti Acqua/Viveri/Scuola.");
+            if ((muriManifesti & 4) == 0) Debug.LogWarning("[Ricordo] Muro cieco (-8, 33) non trovato: niente manifesto Festa.");
             // stendipanni sopra le vie
             var linee = new List<Vector3>();
             linee.Add(new Vector3(0, -18, 'x')); linee.Add(new Vector3(0, -9, 'x')); linee.Add(new Vector3(0, 4, 'x')); linee.Add(new Vector3(0, 12, 'x'));
@@ -373,9 +381,12 @@ namespace TrenoBambini.EditorTools
                     }
                 case "Barbiere":
                     {
-                        Segreto("Palo del barbiere", Fronte(f, 0.4f, -1.4f), "Il palo a strisce: una moneta da dieci lire incastrata alla base.");
+                        Segreto("Soglia del barbiere", Fronte(f, 0.4f, -1.4f), "Fra le assi della soglia, sotto la tendina: una moneta da dieci lire incastrata.");
                         Segreto("Radio del barbiere", Fronte(f, 0.7f, 1.7f) + Vector3.up * 0.9f, "Radio accesa sul tavolino del barbiere: potrebbe trasmettere un giornale radio dell'epoca (audio futuro).");
-                        Pz(env, "PaloBarbiere", "R_PaloBarbiere", new[] { "M_FerroRuggine02", "Tessuto1", "PannoBianco", "PannoBlu" }, PaloBarbiere, Fronte(f, 0.4f, -1.4f), 0f);
+                        // tendina all'ingresso: bastone, mantellina in alto e un lembo raccolto da un lato (l'insegna dipinta "BARBIERE" e' sulla facciata)
+                        BoxN("BastoneTenda", env, Fronte(f, 0.12f, 0f) + Vector3.up * 2.45f, f.n, new Vector3(1.5f, 0.04f, 0.04f), "M_FerroRuggine02");
+                        BoxN("Tenda_Mantellina", env, Fronte(f, 0.12f, 0f) + Vector3.up * 2.28f, f.n, new Vector3(1.4f, 0.32f, 0.03f), "Tessuto2");
+                        BoxN("Tenda_Lembo", env, Fronte(f, 0.16f, 0.45f) + Vector3.up * 1.2f, f.n, new Vector3(0.28f, 1.95f, 0.04f), "Tessuto2");
                         Pz(env, "PoltronaBarbiere", "R_Poltrona", new[] { "M_FerroRuggine02", "Cuoio" }, PoltronaBarbiere, Fronte(f, 1.2f, 0.3f), yS);
                         var t = Pz(env, "Tavolino", "Tavolino", new[] { "M_LegnoVernicePelata" }, kb =>
                         {

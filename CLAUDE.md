@@ -117,6 +117,10 @@ Namespace: `TrenoBambini.<Area>` (es. `TrenoBambini.Core`).
 - `cutscene_<id>.json`: `{ id, titolo, sfondo, battute: [ {id, personaggio, testo, emozione, audio, azione, sfondo} ] }`
   - azione: `entra_sx | entra_dx | esce | zoom | scuoti | dissolvenza | ""`
 - `personaggi.json`: `{ "personaggi": [ {id, nome, ritratto, colore} ] }`
+- `testi_ambiente.json`: `{ "testi": [ {chiave, gruppo, tipo, w, h, seed, righe[], carta[r,g,b], inchiostro[r,g,b]} ] }` (testi di manifesti, avvisi, graffiti,
+  santini, calendario, insegne, letti dai generatori editor; mai nel codice). `gruppo`: quartiere | basso | ricordo (quale scena li usa); `tipo`: manifesto (testo a righe su carta,
+  la prima e' il titolo) | insegna (una riga su tavola dipinta); `chiave` diventa il materiale `MP_<chiave>`; `w`,`h` dimensione texture in pixel; `seed` per macchie e consumo;
+  colori 0..1. Lettere ammesse: A-Z, 0-9 e . , ' - ! ? : /
 - `audio.json`: `{ scene: [ {scena, musica, ambiente[], sparsi[], intervallo[min,max], superficie: pietra|legno|ovattato} ],
   eventi: [ {id, stinger, sfx} ], volumi: {musica, ambiente, effetti, voci, duckingMusica, duckingAmbiente} }`
   - Gli id sono nomi di file in `Assets/Audio/{Musica,Ambienti,Effetti}` (menu **Treno > Audio > Aggiorna libreria**); se manca il file

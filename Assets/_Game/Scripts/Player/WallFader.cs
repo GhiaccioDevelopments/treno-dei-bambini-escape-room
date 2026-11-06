@@ -29,6 +29,15 @@ namespace TrenoBambini.Player
         readonly Dictionary<Renderer, ShadowCastingMode> original = new Dictionary<Renderer, ShadowCastingMode>();
         readonly List<Renderer> rendBuf = new List<Renderer>();
         readonly List<Renderer> release = new List<Renderer>();
+        // cache: Collider.name alloca una stringa a ogni accesso, quindi il nome si controlla una volta sola per collider
+        readonly Dictionary<Collider, bool> soffitti = new Dictionary<Collider, bool>();
+
+        bool EraSoffitto(Collider c)
+        {
+            if (c == null) return false;
+            if (!soffitti.TryGetValue(c, out bool s)) { s = c.name.Contains("Soffitto"); soffitti[c] = s; }
+            return s;
+        }
 
         void Awake() { mask = LayerMask.GetMask(LayerName); }
 
@@ -60,7 +69,7 @@ namespace TrenoBambini.Player
             {
                 // il soffitto degli interni si nasconde solo se la camera e' davvero sopra la sua faccia inferiore:
                 // con la camera sotto la volta (anche a meno di 60 cm) resta visibile
-                if (overlaps[i].name.Contains("Soffitto") && cam.y < overlaps[i].bounds.min.y) continue;
+                if (EraSoffitto(overlaps[i]) && cam.y < overlaps[i].bounds.min.y) continue;
                 Hide(overlaps[i]);
             }
 
@@ -93,7 +102,7 @@ namespace TrenoBambini.Player
             {
                 if (fromTarget && hits[i].distance <= 0.0001f) continue;
                 var col = hits[i].collider;
-                if (col != null && camT != null && col.name.Contains("Soffitto") && camT.position.y < col.bounds.min.y) continue; // camera sotto la volta
+                if (col != null && camT != null && EraSoffitto(col) && camT.position.y < col.bounds.min.y) continue; // camera sotto la volta
                 Hide(col);
             }
         }
@@ -118,6 +127,7 @@ namespace TrenoBambini.Player
                 if (kv.Key != null) kv.Key.shadowCastingMode = kv.Value;
             original.Clear();
             hidden.Clear();
+            soffitti.Clear();
         }
     }
 }
