@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 namespace TrenoBambini.Player
 {
     /// <summary>
-    /// Movimento in terza persona relativo alla camera per Amerigo (bambino 1.2 m o adulto 1.75 m: capsula e velocità
+    /// Movimento in terza persona relativo alla camera per Amerigo (bambino 1.0 m o adulto 1.75 m con i modelli MakeHuman; v5 1.2 m: capsula e velocità
     /// sono impostate dal costruttore di scena).
     /// Camminata di default, corsa leggera con Shift (tastiera) o stick/joystick premuto a fondo (oltre 0.9).
     /// Accelerazione e decelerazione morbide, rotazione verso la direzione di movimento, gravità, gradini e pendenze

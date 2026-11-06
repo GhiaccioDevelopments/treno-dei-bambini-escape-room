@@ -115,6 +115,21 @@ L'addon MPFB2 è GPL-3.0 e non è incluso nel progetto.
 | Scarpe shoes04 (adulto) | Mesh + texture | AmerigoAdulto_Shoes_albedo.png | makehuman_system | CC0 | Decimate, texture a 512 |
 | Abiti del bambino (camicia, calzoncini, scarpe, toppe, bretelle, cintura) | Mesh originali | Amerigo.fbx | Progetto Il Treno dei Bambini | Proprietà del progetto | Ricavati dalla superficie del basemesh; texture atlas generata proceduralmente (Amerigo_Clothes_*) |
 
+## Amerigo da MakeHuman (2026-11-06, in gioco: AmerigoMH_Bambino nei flashback e AmerigoMH_Adulto nel presente; i modelli v5/v6 qui sopra restano nel progetto come riserva)
+
+Generati con `ArtSource/Characters/makehuman/genera_amerigo_makehuman.py` (MakeHuman 1.2 community, asset di sistema CC0;
+il programma MakeHuman è AGPL-3.0 e non è incluso nel progetto). Materiali ricolorati da `prepara_materiali_amerigo.py`.
+
+| Asset | Tipo | Percorso nel progetto | Autore | Licenza | Modifiche |
+|-------|------|------------------------|--------|---------|-----------|
+| Basemesh, target macro, rig "game_engine", espressioni (.mhpose) | Modello, scheletro, pose del viso | ArtSource/Characters/makehuman/Amerigo_bambino/, Amerigo_adulto/ | MakeHuman Community | CC0 1.0 | Corpo regolato da script (bambino ~1,0 m molto magro, adulto ~55 anni) |
+| Pelle young_caucasian_male / middleage_caucasian_male | Texture | stesse cartelle, textures/ | makehuman_system | CC0 | Bambino: sporco su piedi, gambe e mani dipinto da script |
+| Capelli short02 (bambino), short04 (adulto) | Mesh + texture alpha | stesse cartelle | makehuman_system | CC0 | Texture ricolorata castano / castano scuro |
+| Tuta male_worksuit01 (bambino) | Mesh + texture | stesse cartelle | makehuman_system | CC0 | Ricolorata grigio-marrone, sporco, 8 toppe e 5 strappi dipinti; bambino scalzo |
+| Abito male_elegantsuit01, scarpe shoes03 (adulto) | Mesh + texture | stesse cartelle | makehuman_system | CC0 | Nessuna |
+| Occhi high-poly (brown), sopracciglia 001/002, ciglia 01, denti base | Mesh + texture | stesse cartelle | makehuman_system | CC0 | Nessuna; in Unity brown_eye_cut.png = brown_eye.png (letta da ArtSource, non copiata in Assets) con la cornea (cerchio azzurro) a alpha 0 |
+| Copie importate in Unity (FBX e texture) | Modello, texture | Assets/Art/Characters/AmerigoMH_Bambino/, AmerigoMH_Adulto/ | MakeHuman Community / makehuman_system | CC0 1.0 | Menu Treno > Personaggi > Importa Amerigo MakeHuman: scala, normali ricalcolate, mappa Humanoid esplicita, materiali URP, solo le texture usate; percorsi personali rimossi dagli FBX con pulisci_percorsi_fbx.py |
+
 ## Animazioni di Amerigo (Fase 2.5)
 
 Fonte: Adobe Mixamo (https://www.mixamo.com), scaricate il 2026-11-05 con l'account del progetto. Licenza: termini d'uso Adobe Mixamo,
