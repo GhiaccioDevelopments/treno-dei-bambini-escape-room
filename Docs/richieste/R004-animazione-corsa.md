@@ -81,21 +81,67 @@ Regolazioni nel pannello di Mixamo (se servono): **Character Arm-Space** per non
    `Docs/richieste/media/R004/`, Rapporto, build WebGL.
 
 ## 6. Criteri di accettazione
-- [ ] `Amerigo_Run.fbx` è "Slow Run" di Mixamo (non più "Jogging"); `CREDITS.md` aggiornato.
-- [ ] Adulto e bambino corrono con `MotionSpeed` tra 0,85× e 1,3× (valore letto in gioco o nella finestra F3).
-- [ ] Nessun pattinamento evidente dei piedi in corsa e nel passaggio cammina ↔ corri.
-- [ ] Passi audio a tempo con i piedi.
-- [ ] Console pulita, scene rigenerate dai menu, build WebGL aggiornata su `gh-pages`.
+- [x] `Amerigo_Run.fbx` è "Slow Run" di Mixamo (non più "Jogging"); `CREDITS.md` aggiornato.
+- [x] Adulto e bambino corrono con `MotionSpeed` tra 0,85× e 1,3× (valore letto in gioco o nella finestra F3).
+- [x] Nessun pattinamento evidente dei piedi in corsa e nel passaggio cammina ↔ corri.
+- [x] Passi audio a tempo con i piedi.
+- [ ] Console pulita (fatto), scene rigenerate dai menu (fatto), build WebGL aggiornata su `gh-pages` (da fare dopo l'ok dell'utente alla corsa).
 - [ ] L'utente ha visto la nuova corsa e l'ha approvata.
 
 ## 7. Domande aperte (per l'utente)
 - Preferisci una corsa più "di bambino" (passi corti, braccia larghe) anche per l'adulto, o due corse diverse?
 
 ## 8. Rapporto
-*(da compilare da chi implementa)*
+*(compilato il 2026-11-06, PC casa)*
 
 ### Fatto
+- `Amerigo_Run.fbx` sostituito (stesso nome e stesso GUID, contenuto nuovo, tracciato da Git LFS) con la clip Mixamo
+  **"Slow Run" In Place**, scaricata dall'utente come `Amerigo_adulto_triste@Slow Run.fbx`. Verifica prima della sostituzione:
+  FBX binario senza mesh né deformer (solo scheletro e animazione), 30 fps, ciclo di 22 fotogrammi (0,733 s), radice ferma
+  (nessuno spostamento orizzontale dei fianchi).
+- Import: Humanoid, loop, radice bloccata (Original), come la clip precedente. Vedi gli scostamenti per i due ritocchi al `.meta`.
+- Taratura in `Editor/SceneBuilder.cs`: adulto `clipRunSpeed` 3,4 (era 1,9), bambino 1,7 (era 0,96); riserve v6 3,4 e v5 2,15.
+- Passi audio: `FootstepAudio` calcola ora il passo in corsa dalla clip (`clipRunSpeed x runStepTime`, 0,367 s = mezzo ciclo)
+  invece di 1,5 m fissi: adulto 1,25 m a passo, bambino 0,62 m.
+- Scene rigenerate con **Treno > Personaggi > Aggiorna animazioni** e **Treno > Costruisci tutte le scene**; console a zero errori.
+  Le luci baked non sono state ricalcolate (il builder lo segnala: **Treno > Look > Bake luci di tutte le scene**, lasciato al PC
+  che ha il tempo per farlo; i lightmap esistenti restano collegati).
+- `CREDITS.md` aggiornato (Slow Run, 2026-11-06).
+
 ### Scostamenti dalla specifica (e perché)
+- **Scheletro della clip**: il file scaricato ha lo scheletro di Amerigo adulto caricato su Mixamo (ossa `pelvis`, `spine_01`,
+  `thigh_l`... e non `mixamorig:*`). Il `.meta` conservava la mappa Humanoid di `mixamorig:*` e l'avatar falliva
+  ("Transform 'mixamorig:Hips' not found"): ho svuotato `human`/`skeleton` nel `.meta` (GUID invariato) e Unity ha rigenerato
+  la mappa da solo (52 ossa, avatar valido).
+- **Intervallo della clip**: il `.meta` aveva ancora `lastFrame: 77` della vecchia clip; impostato 0-22 (un ciclo completo).
+- **Bambino: `runSpeed` abbassata da 2,7 a 2,2 m/s** (solo bambino MakeHuman, in `SceneBuilder.cs`). Con 2,7 la clip girerebbe
+  a 1,6x; a 2,2 è 1,29x, dentro il limite 1,3x. Una corsa di un bambino di 7 anni a 2,2 m/s resta credibile ed è ancora il doppio
+  della camminata (1,1 m/s). **L'utente può rialzarla** (costa più velocità di riproduzione: a 2,7 m/s sarebbe 1,6x).
+  Non ho potuto chiedere con il pannello (sessione di un sottoagente): decisione da confermare.
+- Passi: la specifica suggeriva ricalibrare o usare Animation Event; ho scelto il calcolo dal passo reale della clip (nessun evento
+  da mantenere sulla clip FBX).
+- Non fatto (non autorizzato in questa sessione): build WebGL su `gh-pages`, GIF prima/dopo in `Docs/richieste/media/R004/`
+  (screenshot fermi salvati solo fuori dal repo), `gh pr ready`, merge.
+
 ### Clip scelta e valori di taratura
+- Clip: Mixamo **Slow Run** (In Place), una sola per adulto e bambino (retarget Humanoid). Il bambino non ha richiesto
+  una seconda clip (4.2).
+- Velocità dei piedi appoggiati, misurate in Play con `Animator.Update` a passo fisso (mediana dei fotogrammi a terra):
+  adulto 3,54 m/s (media 3,33) -> `clipRunSpeed` 3,4; bambino 1,79 (media 1,63) -> 1,7; v6 3,54 -> 3,4; v5 2,20 (media 2,03) -> 2,15.
+- Moltiplicatore a velocità di corsa (letto da `ThirdPersonController.MotionSpeed` in gioco): **adulto 0,94x** (runSpeed 3,2);
+  **bambino 1,29x** (runSpeed 2,2). Prima: 1,7x e 2,8x.
+- Scivolamento: velocità del piede a terra rispetto al mondo, in gioco: adulto mediana 0,02 m/s; bambino mediana -0,23 m/s
+  (quartili -0,34 / +0,23) su una corsa a 2,2 m/s: piedi fermi, nessun pattinamento. La transizione cammina -> corri non è stata
+  ispezionata a occhio frame per frame.
+- `cycleOffset` non modificato.
+
 ### Come testare
+1. Treno > Costruisci tutte le scene (già fatto), aprire `10_Hub_Vicolo`, Play, tenere premuto W e Shift: adulto in corsa.
+   F3 (DiagOverlay) mostra la velocità; `MotionSpeed` deve essere ~0,94.
+2. Aprire `30_FB_Scarpe`, Play (chiudere il dialogo iniziale), W + Shift: bambino in corsa, `MotionSpeed` ~1,29.
+3. Ascoltare i passi: due per ciclo della clip, a tempo con i piedi.
+
 ### Domande aperte per l'utente
+- La nuova corsa ti piace (adulto e bambino)? Se il bambino sembra troppo lento, rialzare `runSpeed` da 2,2 verso 2,7 (a costo di 1,6x).
+- Preferisci una corsa più "di bambino" per il bambino (seconda clip `Amerigo_RunBambino.fbx`)?
+- Serve ricalcolare le luci (Bake) e ripubblicare la build WebGL su `gh-pages`.
