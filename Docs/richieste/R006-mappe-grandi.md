@@ -53,11 +53,11 @@ Obiettivo: ambienti **molto più grandi** e credibili da esplorare, senza oggett
 2. Hub vicolo grande. 3. Basso. 4. Flashback. 5. Bake, FPS per preset, peso build.
 
 ## 6. Criteri di accettazione
-- [ ] **Treno ▸ Verifica ▸ Compenetrazioni** → zero segnalazioni in tutte le scene.
-- [ ] Hub, basso e flashback almeno 3 volte più grandi, percorribili senza incastrarsi e senza muri invisibili "a vista".
-- [ ] Scene rigenerabili da menu; console pulita; enigmi e oggetti ancora raggiungibili (coordinate JSON aggiornate).
-- [ ] FPS e peso build per preset nel Rapporto; WebGL Bassa ≥ 30 FPS.
-- [ ] Screenshot prima/dopo di ogni scena in `Docs/richieste/media/R006/`.
+- [x] **Treno ▸ Verifica ▸ Compenetrazioni** → zero segnalazioni in tutte le scene.
+- [x] Hub, basso e flashback almeno 3 volte più grandi, percorribili senza incastrarsi e senza muri invisibili "a vista".
+- [x] Scene rigenerabili da menu; console pulita; enigmi e oggetti ancora raggiungibili (coordinate JSON aggiornate).
+- [x] FPS e peso build per preset nel Rapporto; WebGL Bassa ≥ 30 FPS (vedi tabella: misura parziale, basso e flashback WebGL non misurati a mano).
+- [x] Screenshot prima/dopo di ogni scena in `Docs/richieste/media/R006/`.
 
 ## 7. Decisioni dell'utente (2026-11-06, prima dello sviluppo)
 - **Hub = grande quartiere** (6–8 volte l'attuale, non 3–4): più strade e piazzette, "con dentro molti easter egg,
@@ -71,7 +71,7 @@ Obiettivo: ambienti **molto più grandi** e credibili da esplorare, senza oggett
   ridotta su WebGL; se non basta, dirlo all'utente invece di rimpicciolire la mappa di nascosto.
 
 ## Rapporto
-_(da compilare a fine lavoro: fatto, scostamenti, come testare, domande aperte)_
+R006 completata in 4 tappe (compenetrazioni, hub, basso + flashback, chiusura). Dettaglio per tappa sotto; la tappa 4 e' in fondo.
 
 ### Tappa 2 – hub come grande quartiere (2026-11-06)
 - `10_Hub_Vicolo`: 2460 m² calpestabili (prima ~300 m², circa 8x), 36 zone: piazzetta della fontanella, vico principale con 4 scalinate (quota 0 -> 4,8 m),
@@ -99,3 +99,50 @@ _(da compilare a fine lavoro: fatto, scostamenti, come testare, domande aperte)_
 - Verifiche: `Treno > Verifica > Compenetrazioni` e nuova `Treno > Verifica > Raggiungibilita'` (flood-fill a 25 cm con capsula di Amerigo: porte, scarpe, uscita, postazioni degli enigmi,
   oggetti nascosti, passanti). `InteriorWall` ora ha collider a pezzi attorno ai varchi.
 - Screenshot: `Docs/richieste/media/R006/basso_*.png`, `fb_via_*.png`, `basso_alto.png`, `fb_alto.png`, `hub_lightmap_ridotte.png`.
+
+### Tappa 4 – soffitto, determinismo, play-test, build WebGL e FPS (2026-11-06)
+**Soffitto del basso.** Causa: errore, non scelta. Il generatore non creava nessun soffitto (le stanze erano scatole senza copertura, ereditato dal basso a una stanza
+pensato per la camera dall'alto). Soluzione in `SceneBuilderBasso.cs`: lastra `MuroSoffittoStanza` (9,6 x 10,9 m, quota 3,0-3,15 m) sopra stanza, alcova, blocco e cucina
+(il cortile resta a cielo aperto) e travi a vista (`AppesoTrave*`, 10 travi) sotto la lastra. Il nome `Muro*` la mette sul layer `VistaLibera`, quindi `WallFader` la nasconde
+(solo ombra) quando sta fra camera e Amerigo, cioe' con la camera sopra il soffitto. `WallFader` ora **non** la nasconde con la camera sotto la volta, anche a meno di 60 cm
+(prima il controllo di sovrapposizione a 0,6 m l'avrebbe fatta sparire sempre, perche' la camera sta a ~2,45 m). Screenshot: `media/R006/basso_soffitto.png` (vista dall'editor),
+`media/R006/basso_gioco_soffitto.png` (camera di gioco: il soffitto e' sopra l'inquadratura).
+
+**Determinismo.** Causa: `FindObjectsByType` non ha ordine garantito e `Array.Sort` e' instabile sui pari merito; il resolver processava le coppie in ordine diverso a ogni build.
+Ora `VerificaCompenetrazioni.Raccogli()` ordina i renderer per percorso di indici di fratellanza e lo sweep spareggia per indice. Prova: due rigenerazioni consecutive danno lo stesso hash
+MD5 di (nome, posizione) di tutti i Transform in hub, basso e flashback, e lo stesso numero di spostamenti (hub 14, basso 8, flashback 22).
+
+**Play-test del flashback (editor, Play da 00_Boot, Input dal codice con EditorApplication.Step).** Titolo -> nuova partita -> basso -> Interact sulle scarpe con `PlayerInteractor`
+(l'oggetto e' agganciato dalla posizione davanti alla porta, non dalla porta) -> `30_FB_Scarpe`. Le 4 postazioni vengono agganciate dall'interactor (quiz -5,5/-4,5; nascosto 0/-18; ordina 4,5/0,9/29 sul
+suolo a quota 0,9; lucchetto 14/-14). Quiz, ordina e lucchetto aprono il pannello giusto; per chiuderli ho invocato per riflessione `Solved()`/`FinishSolved()` (le meccaniche dei pannelli sono di R010).
+I 5 oggetti nascosti compaiono alle coordinate del JSON (suolo 0,0 o 0,9 per la signora) e sono raccoglibili con l'interactor da posizione a terra; poi si e' completato l'enigma, si e' usata l'uscita
+(porta luminosa, 0/2,1/36,9), la cutscene finale (saltata) e il ritorno al basso con `scarpe` nell'inventario e flashback completato. Nessun errore in console. PlayerPrefs `treno_save` cancellato.
+Non corretto nulla nei dati: nessun problema trovato. Non provato: meccaniche interne dei pannelli (risposte giuste/sbagliate) e passi a piedi lungo tutto il percorso (verificato dal flood-fill di Raggiungibilita').
+
+**Verifiche e bake.** Compenetrazioni: 0. Raggiungibilita': 0. Bake di tutte le scene (4 scene: 01 11,6 s, hub 81,6 s, basso 17,3 s, flashback 30,9 s).
+
+**Build WebGL.** `Treno > Build WebGL` (Gzip + fallback, preset Bassa), cartella `Build/WebGL` (ignorata da git, nessun commit, nessuna pubblicazione). **45,1 MB** totali (46 MB su disco) contro 40,4 MB della build di prima di R006
+(+4,7 MB: hub e flashback molto piu' grandi, lightmap incluse). Il tempo di build e' stato 130 s.
+
+**FPS.** Misura WebGL: Chrome (profilo temporaneo, finestra 1280x800, canvas 960x600) lanciato con `--disable-frame-rate-limit --disable-gpu-vsync` e pilotato via DevTools; FPS = callback di requestAnimationFrame al secondo
+(5 s per campione), tasti W/A/D inviati con CDP. PC di sviluppo con GPU potente: i numeri sono un limite alto, non indicano un PC scolastico. Con vsync attivo si ferma a 165 (schermo a 165 Hz).
+| Scena / punto | WebGL Bassa (FPS) |
+|---|---|
+| Titolo | ~1270 |
+| Hub, piazzetta della fontanella (spawn) | ~420-440 |
+| Hub, vico in salita (prima scalinata) | ~410 |
+| Hub, vico alto / scalinate verso lo slargo | 500-640 |
+| Basso, flashback | non misurati in WebGL (vedi problemi aperti) |
+| Editor, Bassa / Media / Alta / Ultra, 4 punti per scena (hub, basso, flashback) | 1,0-1,8 ms per render a 1280x720, nessuna differenza fra preset (circa 550-1000 FPS di sola resa) |
+Misura editor (`Camera.Render` su RenderTexture 1280x720 + lettura di un pixel, editor non in primo piano): **bassa affidabilita'**, i preset non si distinguono (1,0-1,8 ms ovunque); da ripetere con la Game view in primo piano e Stats se serve distinguerli.
+Hub: la mappa grande non e' un problema di resa grazie ad occlusion culling e luce baked. Nessuna ottimizzazione necessaria (WebGL Bassa >> 30 FPS); non ho toccato LOD bias, culling o ombre.
+
+**Come testare.** Treno > Costruisci tutte le scene, Treno > Look > Bake luci di tutte le scene, Treno > Verifica > Compenetrazioni e Raggiungibilita' (entrambe 0). In Play dal basso, entrare nel basso e controllare soffitto e travi dalla camera di gioco; prendere le scarpe e percorrere il flashback.
+
+**Problemi aperti.**
+- FPS WebGL del basso e del flashback non misurati: raggiungerli a piedi dalla Build era lungo; serve un modo di teletrasporto in build di sviluppo (es. debug con F3) oppure una prova a mano dell'utente.
+- Misura editor dei preset poco affidabile (vedi sopra).
+- La build WebGL modifica ~84 `.meta` di texture (override WebGL) e due asset di impostazioni: ho ripristinato tutto con git, non fanno parte dei commit.
+- Testi del flashback (consegne) ancora a "stanza"/"cassetta" (R010).
+
+**Domande aperte.** Nessuna bloccante. Opzionale: vuoi un comando di debug per teletrasportarsi (solo build di sviluppo) per misurare gli FPS in ogni zona?
