@@ -130,6 +130,11 @@ ArtSource/Characters/*
 !ArtSource/Characters/AmerigoAdulto_v6.blend
 !ArtSource/Characters/build_scripts_v4/
 !ArtSource/Characters/textures_v4/
+!ArtSource/Characters/makehuman/
+ArtSource/Characters/makehuman/*
+!ArtSource/Characters/makehuman/*.py
+!ArtSource/Characters/makehuman/Amerigo_bambino/
+!ArtSource/Characters/makehuman/Amerigo_adulto/
 !ArtSource/Characters/screenshots/
 ArtSource/Characters/screenshots/*
 !ArtSource/Characters/screenshots/v5_*.png

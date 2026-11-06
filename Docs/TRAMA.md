@@ -88,9 +88,9 @@ Nota: la partenza a novembre nel romanzo anticipa di poco i primi convogli stori
 
 ## 4. Personaggi
 
-Le fonti non descrivono quasi mai l'aspetto fisico: dove manca è **[GIOCO: proposta]**. I capelli bipartiti di Amerigo (CLAUDE.md) non risultano dalle fonti e non le contraddicono.
+Le fonti non descrivono quasi mai l'aspetto fisico: dove manca è **[GIOCO: proposta]**. I capelli castani di Amerigo (CLAUDE.md, decisione 2026-11-06) sono una scelta del gioco compatibile con le fonti.
 
-- **Amerigo Speranza (poi Benvenuti).** [LIBRO/FILM] Narratore; 7 anni quasi 8 nel 1946 (libro), 8 nel film. Sveglio coi numeri, orgoglioso, sa arrangiarsi. Arco: da bambino che nessuno guarda a musicista che sceglie la sua strada, poi il ritorno tardivo alle origini. Adulto: violinista affermato, sui 55 anni nel 1994. Dove viva da adulto le fonti non lo dicono (al Nord). [GIOCO: proposta] adulto: giacca scura sobria anni '90, cappotto lungo, capelli bipartiti in parte grigi, custodia del violino.
+- **Amerigo Speranza (poi Benvenuti).** [LIBRO/FILM] Narratore; 7 anni quasi 8 nel 1946 (libro), 8 nel film. Sveglio coi numeri, orgoglioso, sa arrangiarsi. Arco: da bambino che nessuno guarda a musicista che sceglie la sua strada, poi il ritorno tardivo alle origini. Adulto: violinista affermato, sui 55 anni nel 1994. Dove viva da adulto le fonti non lo dicono (al Nord). [GIOCO: proposta] adulto: giacca scura sobria anni '90, cappotto lungo, capelli castano scuro, custodia del violino.
 - **Antonietta Speranza.** [LIBRO/FILM] Madre, analfabeta, ruvida, ama coi fatti. Nel libro ha poi un altro figlio, Agostino. [GIOCO: proposta] circa 30 anni nel 1946; vestito scuro logoro, scialle, grembiule.
 - **Derna.** [LIBRO] Donna sola, senza figli, militante comunista. [FILM] ex partigiana. [GIOCO: proposta] 30-40 anni; vestito scuro semplice, fazzoletto, cappotto di lana rammendato.
 - **Rosa Benvenuti.** [LIBRO] Cugina di Derna (insieme al marito Alcide), madre dei tre ragazzi, ha un forno. [FILM] presente nel cast, ruolo non descritto.

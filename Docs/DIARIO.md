@@ -5,6 +5,42 @@ Regole d'uso: vedi la sezione "Diario e lavoro su più PC" in `CLAUDE.md`.
 
 ---
 
+## 2026-11-06 – PC scuola – Nuovi Amerigo bambino e adulto da MakeHuman
+**Branch:** feature/amerigo-makehuman (da `feature/upgrade-realistico`) · **Ultimo commit:** vedi `git log`
+
+### Fatto
+- Installato MakeHuman 1.2 sul PC della scuola. Scritti due script in `ArtSource/Characters/makehuman/`:
+  `prepara_materiali_amerigo.py` (si lancia col Python di MakeHuman: ricolora capelli, tuta e pelle) e
+  `genera_amerigo_makehuman.py` (Utilities ▸ Scripting ▸ Load ▸ Execute: crea i due Amerigo completi).
+- Generati e salvati in git: `Amerigo_bambino/` e `Amerigo_adulto/` con `.mhm`, `.fbx` (scheletro `game_engine`),
+  `textures/` e 7 espressioni (`espressioni/*.mhm`: felice, triste, sorpresa, decisa, pensierosa, arrabbiata, paura).
+  - Bambino: ~1,0 m, molto magro, **scalzo**, pelle sporca su piedi/gambe/mani, salopette lisa con toppe e strappi, capelli castani (short02).
+  - Adulto: ~55 anni, abito scuro con cravatta, scarpe nere, capelli castano scuro (short04, scelto dall'utente).
+- Asset annotati in `CREDITS.md` (tutti CC0 di MakeHuman).
+
+### Decisioni
+- **Capelli di Amerigo solo castani** (niente più castano/ramato): aggiornati `CLAUDE.md`, `Docs/TRAMA.md`, `Docs/BACKLOG.md`.
+- **Amerigo bambino poverissimo e scalzo** (aggiornato `CLAUDE.md`).
+
+### Problemi aperti
+- ⚠️ **Scalzo vs flashback "Le scarpe"**: TRAMA e cutscene parlano delle scarpe rotte/strette di Amerigo. Da decidere con
+  l'utente: variante con scarpe rotte solo per quel flashback, oppure riscrivere cutscene e trama.
+- Gli screenshot di MakeHuman erano sbagliati (cattura senza profondità: capelli sopra il viso). Corretto lo script
+  (`canvas.grabFramebuffer()`), ma non ancora rieseguito: gli screenshot non sono nel commit. I modelli sono a posto
+  (la miniatura salvata da MakeHuman mostra il viso corretto).
+- Nel viewport di MakeHuman l'abito dell'adulto ha una macchia nera a quadretti sui fianchi: verificare in Unity.
+- I modelli in gioco v5/v6 hanno ancora i capelli castano/ramato (vedi BACKLOG).
+
+### Prossimi passi (PC casa, con Unity aperto e MCP attivo)
+1. `git pull` e `git switch feature/amerigo-makehuman`.
+2. Importare `ArtSource/Characters/makehuman/Amerigo_bambino/Amerigo_bambino.fbx` e `Amerigo_adulto/Amerigo_adulto.fbx`
+   con le texture in `Assets/Art/Characters/AmerigoMH_Bambino/` e `AmerigoMH_Adulto/`: avatar Humanoid, materiali URP
+   (capelli con alpha clipping), scala e LOD come i modelli v5/v6.
+3. Provarli con le 8 animazioni Mixamo esistenti, screenshot con la luce del gioco accanto a v5/v6 e mandarli all'utente.
+   Sostituire v5/v6 solo con il suo ok (e dopo la decisione sul flashback "Le scarpe").
+
+---
+
 ## 2026-11-06 – PC casa – Bug del movimento nel gioco online, pulsante Interagisci, diagnosi F3
 **Branch:** feature/upgrade-realistico · **Ultimo commit:** 8d46489 · **gh-pages:** 41101b7
 
