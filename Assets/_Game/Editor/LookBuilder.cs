@@ -107,6 +107,44 @@ namespace TrenoBambini.EditorTools
             Debug.Log("[LookBuilder] Look applicato a " + LookScenes.Length + " scene (bake non eseguito: Treno/Look/Bake luci di tutte le scene).");
         }
 
+        /// <summary>R006: applica il look a una sola scena (sviluppo dell'hub). Non fa il bake.</summary>
+        public static void ApplyLookToScene(string n)
+        {
+            if (AssetDatabase.LoadAssetAtPath<VolumeProfile>(ProfEpoca) == null
+                || AssetDatabase.LoadAssetAtPath<VolumeProfile>(ProfFlash) == null
+                || AssetDatabase.LoadAssetAtPath<UniversalRenderPipelineAsset>(QualityFolder + "/URP_Alta.asset") == null)
+                CreatePresetsAndProfiles();
+            EnsureLightingSettings();
+            var epoca = AssetDatabase.LoadAssetAtPath<VolumeProfile>(ProfEpoca);
+            var flash = AssetDatabase.LoadAssetAtPath<VolumeProfile>(ProfFlash);
+            var ls = AssetDatabase.LoadAssetAtPath<LightingSettings>(LightingAsset);
+            string path = ScenesFolder + "/" + n + ".unity";
+            var scene = EditorSceneManager.OpenScene(path, OpenSceneMode.Single);
+            ApplySceneLook(scene, n, n == "30_FB_Scarpe" ? flash : epoca, ls);
+            EditorSceneManager.SaveScene(scene);
+            Debug.Log("[LookBuilder] Look applicato a " + n + ".");
+        }
+
+        /// <summary>R006: bake delle luci di una sola scena.</summary>
+        public static void BakeScene(string n)
+        {
+            var scene = EditorSceneManager.OpenScene(ScenesFolder + "/" + n + ".unity", OpenSceneMode.Single);
+            var sw = System.Diagnostics.Stopwatch.StartNew();
+            bool ok = Lightmapping.Bake();
+            EditorSceneManager.SaveScene(scene);
+            Debug.Log("[LookBuilder] Bake " + n + ": " + (ok ? "ok" : "FALLITO") + " in " + sw.Elapsed.TotalSeconds.ToString("0.0") + " s");
+        }
+
+        /// <summary>R006: occlusion culling statico (Umbra) della scena aperta.</summary>
+        public static void CalcolaOcclusion(string n)
+        {
+            var scene = EditorSceneManager.OpenScene(ScenesFolder + "/" + n + ".unity", OpenSceneMode.Single);
+            var sw = System.Diagnostics.Stopwatch.StartNew();
+            bool ok = StaticOcclusionCulling.Compute();
+            EditorSceneManager.SaveScene(scene);
+            Debug.Log("[LookBuilder] Occlusion culling " + n + ": " + (ok ? "ok" : "FALLITO") + " in " + sw.Elapsed.TotalSeconds.ToString("0.0") + " s, dati " + (StaticOcclusionCulling.umbraDataSize / 1024) + " KB");
+        }
+
         [MenuItem("Treno/Look/Bake luci di tutte le scene")]
         public static void BakeAll()
         {
@@ -579,6 +617,11 @@ namespace TrenoBambini.EditorTools
                     SetFog(0.012f, bg);
                     AddLampLights("LuceLampione", Cct(2500f), 3.0f, 7.5f);
                     AddLampLights("EdicolaLumino", Cct(1900f), 0.9f, 2.5f);
+                    // R006: punti di riferimento luminosi del grande quartiere
+                    AddLampLights("LuceBottega", Cct(2200f), 4.0f, 9f);
+                    AddLampLights("LuceBasso", Cct(2300f), 2.2f, 5.5f);
+                    AddLampLights("LuceEdicolaGrande", Cct(1900f), 3.5f, 9f);
+                    AddLampLights("LuceCampanile", Cct(2000f), 3.0f, 14f);
                     probeMin = new Vector3(-3.2f, 0.4f, -19f); probeMax = new Vector3(3.2f, 4.0f, 19f); probeStep = 3.2f;
                     break;
                 case "01_Titolo":
@@ -633,8 +676,12 @@ namespace TrenoBambini.EditorTools
             }
 
             MarkStatic(scene);
-            AddProbes(look.transform, probeMin, probeMax, probeStep, exterior);
-            AddReflectionProbe(look.transform, probeMin, probeMax, bg);
+            if (name == "10_Hub_Vicolo") AddHubProbes(look.transform, bg);
+            else
+            {
+                AddProbes(look.transform, probeMin, probeMax, probeStep, exterior);
+                AddReflectionProbe(look.transform, probeMin, probeMax, bg);
+            }
 
             Lightmapping.SetLightingSettingsForScene(scene, ls);
             EditorSceneManager.MarkSceneDirty(scene);
@@ -716,6 +763,53 @@ namespace TrenoBambini.EditorTools
                     foreach (var y in ys)
                         if (y >= min.y - 0.01f && y <= max.y + 0.01f) pos.Add(new Vector3(x, y, z));
             g.probePositions = pos.ToArray();
+        }
+
+        /// <summary>R006: light probe a griglia sul suolo reale del quartiere e reflection probe a riquadri (una per slargo / tratto di via).</summary>
+        static void AddHubProbes(Transform parent, Color bg)
+        {
+            Physics.SyncTransforms();
+            var go = new GameObject("LightProbes");
+            go.transform.SetParent(parent, false);
+            var g = go.AddComponent<LightProbeGroup>();
+            var pos = new List<Vector3>();
+            float[] ys = { 0.7f, 1.8f, 3.6f };
+            for (float x = -32f; x <= 32f; x += 3.2f)
+                for (float z = -46f; z <= 58f; z += 3.2f)
+                {
+                    RaycastHit hit;
+                    if (!Physics.Raycast(new Vector3(x, 40f, z), Vector3.down, out hit, 80f, ~0, QueryTriggerInteraction.Ignore)) continue;
+                    if (!hit.collider.gameObject.name.StartsWith("Selciato_")) continue;
+                    foreach (var y in ys) pos.Add(new Vector3(x, hit.point.y + y, z));
+                }
+            g.probePositions = pos.ToArray();
+            Debug.Log("[LookBuilder] Hub: " + pos.Count + " light probe.");
+            var centri = new[]
+            {
+                new Vector2(0f, -36f), new Vector2(0f, -17f), new Vector2(0f, 3f), new Vector2(0f, 20f), new Vector2(0f, 38f), new Vector2(0f, 52f),
+                new Vector2(-14f, -18f), new Vector2(-15f, 6f), new Vector2(-14f, 16f), new Vector2(-23f, -30f), new Vector2(-19f, 27f),
+                new Vector2(16f, -17f), new Vector2(16f, 1f), new Vector2(16f, 16f), new Vector2(19f, 31f)
+            };
+            int i = 0;
+            foreach (var c in centri)
+            {
+                RaycastHit hit;
+                float y = 0f;
+                if (Physics.Raycast(new Vector3(c.x, 40f, c.y), Vector3.down, out hit, 80f, ~0, QueryTriggerInteraction.Ignore)) y = hit.point.y;
+                var rg = new GameObject("ReflectionProbe_" + (i++));
+                rg.transform.SetParent(parent, false);
+                rg.transform.position = new Vector3(c.x, y + 1.6f, c.y);
+                var rp = rg.AddComponent<ReflectionProbe>();
+                rp.mode = UnityEngine.Rendering.ReflectionProbeMode.Baked;
+                rp.resolution = 64;
+                rp.hdr = true;
+                rp.boxProjection = true;
+                rp.size = new Vector3(22f, 10f, 22f);
+                rp.clearFlags = UnityEngine.Rendering.ReflectionProbeClearFlags.SolidColor;
+                rp.backgroundColor = bg;
+                rp.intensity = 0.8f;
+                rp.importance = 1;
+            }
         }
 
         static void AddReflectionProbe(Transform parent, Vector3 min, Vector3 max, Color bg)

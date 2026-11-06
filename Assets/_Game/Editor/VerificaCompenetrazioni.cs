@@ -36,12 +36,12 @@ namespace TrenoBambini.EditorTools
         // strutture (pareti, facciate): si controlla il loro corpo, non le decorazioni
         static readonly Regex RxStruttura = new Regex(@"^(Casa_|Chiusura|Muro)");
         // contatti voluti con le pareti: battenti nei varchi, insegne, lampioni e pannelli fissati al muro
-        static readonly Regex RxFissatoAlMuro = new Regex(@"^(Porta|Insegna|LampioneMuro|Edicola|Altarino|Stenditoio)");
+        static readonly Regex RxFissatoAlMuro = new Regex(@"^(Porta|Insegna|LampioneMuro|Edicola|Altarino|Stenditoio|Manifesto|Cartello|Lanterna)");
         // oggetti appesi/fissati per costruzione: niente controllo di appoggio
-        static readonly Regex RxAppeso = new Regex(@"^(TraveSpezzata|Macerie|Panno|Filo|Tenda|BastoneTenda|Insegna|LampioneMuro|Stenditoio|Fiamma|Lumino|Brace|VetroFinestra|EscapeExit|Edicola|Altarino|Statuetta|Luce)");
+        static readonly Regex RxAppeso = new Regex(@"^(TraveSpezzata|Macerie|Panno|Filo|Tenda|BastoneTenda|Insegna|LampioneMuro|Stenditoio|Fiamma|Lumino|Brace|VetroFinestra|EscapeExit|Edicola|Altarino|Statuetta|Luce|Manifesto|Cartello|Lanterna|Bucato)");
         // cumuli d'insieme: i pezzi si sovrappongono per natura (macerie, trave caduta sulle macerie)
         // luci/bagliori emissivi e vetri luminosi
-        static readonly Regex RxLuce = new Regex(@"^(Fiamma|Lumino|EdicolaLumino|Brace|VetroFinestra|EscapeExit|Glow)");
+        static readonly Regex RxLuce = new Regex(@"^(Fiamma|Lumino|EdicolaLumino|Brace|VetroFinestra|EscapeExit|Glow|Curvo|Acqua)");
         static readonly Regex RxPannoAppeso = new Regex(@"^Panno_");
         static readonly Regex RxSostegno = new Regex(@"^(Filo|Stenditoio|BastoneTenda)");
         static readonly Regex RxCumulo = new Regex(@"^(Macerie|TraveSpezzata)");
@@ -112,10 +112,9 @@ namespace TrenoBambini.EditorTools
             var obbs = Raccogli();
             // 1) coppie che si intersecano (un'unica segnalazione per coppia di oggetti, con la penetrazione massima)
             var coppie = new Dictionary<long, Segnalazione>();
-            for (int i = 0; i < obbs.Count; i++)
-                for (int j = i + 1; j < obbs.Count; j++)
+            foreach (var pr in CoppieVicine(obbs))
                 {
-                    var a = obbs[i]; var b = obbs[j];
+                    var a = obbs[pr.Item1]; var b = obbs[pr.Item2];
                     if (a.item == b.item) continue;
                     if (a.pavimento || b.pavimento) continue;
                     if (a.struttura && b.struttura) continue;
@@ -131,7 +130,8 @@ namespace TrenoBambini.EditorTools
             foreach (var kv in coppie)
             {
                 var s = kv.Value;
-                out_.Add("[" + scena + "] COMPENETRAZIONE " + (s.depth * 100f).ToString("0.0") + " cm: " + s.a.nome + " <-> " + s.b.nome + "  @" + Fmt(s.pos));
+                out_.Add("[" + scena + "] COMPENETRAZIONE " + (s.depth * 100f).ToString("0.0") + " cm: " + s.a.nome + (s.a.quad ? "[faccia]" : "") + " <-> " + s.b.nome + (s.b.quad ? "[faccia]" : "") + "  @" + Fmt(s.pos)
+                         + "  (a: c" + Fmt(s.a.c) + " h" + Fmt(s.a.h) + "; b: c" + Fmt(s.b.c) + " h" + Fmt(s.b.h) + ")");
             }
             // 2) sospesi e 3) sotto il pavimento (a livello di oggetto di scena: contano le scatole piu' basse)
             var perItem = new Dictionary<GameObject, List<Obb>>();
@@ -173,6 +173,28 @@ namespace TrenoBambini.EditorTools
                 {
                     if (o.pavimento || o.quad) continue;
                     if (Dentro(o, p, 0.25f)) out_.Add("[" + scena + "] SPAWN '" + sp.id + "' dentro " + o.nome + "  @" + Fmt(sp.transform.position));
+                }
+            }
+        }
+
+        /// <summary>Coppie di ingombri con AABB sovrapposte (sweep lungo x: regge migliaia di ingombri). Ordine deterministico.</summary>
+        static IEnumerable<Tuple<int, int>> CoppieVicine(List<Obb> obbs)
+        {
+            var idx = new int[obbs.Count];
+            for (int i = 0; i < idx.Length; i++) idx[i] = i;
+            Array.Sort(idx, (p, q) => obbs[p].aabb.min.x.CompareTo(obbs[q].aabb.min.x));
+            for (int ii = 0; ii < idx.Length; ii++)
+            {
+                var a = obbs[idx[ii]];
+                float maxX = a.aabb.max.x;
+                for (int jj = ii + 1; jj < idx.Length; jj++)
+                {
+                    var b = obbs[idx[jj]];
+                    if (b.aabb.min.x > maxX) break;
+                    if (a.aabb.max.y < b.aabb.min.y || b.aabb.max.y < a.aabb.min.y) continue;
+                    if (a.aabb.max.z < b.aabb.min.z || b.aabb.max.z < a.aabb.min.z) continue;
+                    int p = idx[ii], q = idx[jj];
+                    yield return p < q ? Tuple.Create(p, q) : Tuple.Create(q, p);
                 }
             }
         }
@@ -243,7 +265,7 @@ namespace TrenoBambini.EditorTools
                         var h = new Vector3(Mathf.Abs(f.half.x * ls.x), Mathf.Abs(f.half.y * ls.y), Mathf.Abs(f.half.z * ls.z));
                         var ob = Crea(r, item, nome, t.TransformPoint(f.centro), ax, h, pav, str);
                         ob.quad = true; ob.nAxis = f.axis; ob.nSign = f.sign;
-                        if (bc != null && ob.aabb.min.y >= 3.3f) continue; // facciate: solo il piano terra e il primo piano
+                        if (bc != null && ob.aabb.min.y >= item.transform.position.y + 3.3f) continue; // facciate: solo il piano terra e il primo piano
                         list.Add(ob);
                     }
                 }
@@ -272,35 +294,63 @@ namespace TrenoBambini.EditorTools
         struct Faccia { public Vector3 centro, half; public int axis, sign; }
         static readonly Dictionary<Mesh, List<Faccia>> cacheFacce = new Dictionary<Mesh, List<Faccia>>();
 
-        // Facce piane di una mesh del kit (KitBuilder emette un quad per faccia, normali allineate agli assi). Se la mesh non ha
-        // la struttura attesa restituisce null (si ripiega sull'ingombro della mesh).
+        // Facce piane di una mesh del kit: si leggono dai triangoli (la coppia di triangoli consecutivi di un quad con lo stesso piano si fonde in
+        // un'unica faccia). Non si assume piu' l'ordine dei vertici: GenerateSecondaryUVSet puo' rimescolarli. Se una mesh ha normali non allineate
+        // agli assi (tubi, archi) restituisce null e si ripiega sull'ingombro della mesh.
         static List<Faccia> FacceKit(Mesh m)
         {
             List<Faccia> res;
             if (cacheFacce.TryGetValue(m, out res)) return res;
             res = null;
             var v = m.vertices; var nrm = m.normals;
-            int nq = v.Length / 4; // GenerateSecondaryUVSet puo' aggiungere vertici in coda: i quad originali stanno all'inizio
-            var tmp = new List<Faccia>(nq);
-            bool ok = nq > 0 && nrm.Length == v.Length;
-            for (int q = 0; q < nq && ok; q++)
+            var tmp = new List<Faccia>();
+            bool ok = nrm.Length == v.Length && v.Length > 0;
+            for (int sm = 0; sm < m.subMeshCount && ok; sm++)
             {
-                var nn = nrm[q * 4];
-                int axis, sign;
-                if (Mathf.Abs(nn.x) > 0.99f) { axis = 0; sign = nn.x < 0 ? -1 : 1; }
-                else if (Mathf.Abs(nn.y) > 0.99f) { axis = 1; sign = nn.y < 0 ? -1 : 1; }
-                else if (Mathf.Abs(nn.z) > 0.99f) { axis = 2; sign = nn.z < 0 ? -1 : 1; }
-                else { ok = false; break; }
-                var qb = new Bounds(v[q * 4], Vector3.zero);
-                for (int k = 1; k < 4; k++) qb.Encapsulate(v[q * 4 + k]);
-                var half = qb.extents;
-                if (axis == 0) half.x = 0.0005f; else if (axis == 1) half.y = 0.0005f; else half.z = 0.0005f;
-                tmp.Add(new Faccia { centro = qb.center, half = half, axis = axis, sign = sign });
+                var t = m.GetTriangles(sm);
+                int i = 0;
+                while (i + 2 < t.Length && ok)
+                {
+                    int axis, sign;
+                    if (!AssiNormale(nrm[t[i]], out axis, out sign)) { ok = false; break; }
+                    var b = new Bounds(v[t[i]], Vector3.zero); b.Encapsulate(v[t[i + 1]]); b.Encapsulate(v[t[i + 2]]);
+                    float area1 = AreaTri(v[t[i]], v[t[i + 1]], v[t[i + 2]]);
+                    bool unito = false;
+                    if (i + 5 < t.Length)
+                    {
+                        int ax2, sg2;
+                        if (AssiNormale(nrm[t[i + 3]], out ax2, out sg2) && ax2 == axis && sg2 == sign)
+                        {
+                            var b2 = b; b2.Encapsulate(v[t[i + 3]]); b2.Encapsulate(v[t[i + 4]]); b2.Encapsulate(v[t[i + 5]]);
+                            float area2 = AreaTri(v[t[i + 3]], v[t[i + 4]], v[t[i + 5]]);
+                            float piano1 = Mathf.Abs(Coord(v[t[i]], axis) - Coord(v[t[i + 3]], axis));
+                            var sz = b2.size; float rett = axis == 0 ? sz.y * sz.z : axis == 1 ? sz.x * sz.z : sz.x * sz.y;
+                            if (piano1 < 1e-3f && area1 + area2 > 1e-6f && Mathf.Abs(rett - (area1 + area2)) < 0.02f * (area1 + area2) + 1e-6f) { b = b2; unito = true; }
+                        }
+                    }
+                    i += unito ? 6 : 3;
+                    var half = b.extents;
+                    if (axis == 0) half.x = 0.0005f; else if (axis == 1) half.y = 0.0005f; else half.z = 0.0005f;
+                    if (half.x * half.y * half.z <= 0f) continue;
+                    tmp.Add(new Faccia { centro = b.center, half = half, axis = axis, sign = sign });
+                }
             }
-            if (ok) res = tmp;
+            if (ok && tmp.Count > 0) res = tmp;
             cacheFacce[m] = res;
             return res;
         }
+
+        static bool AssiNormale(Vector3 nn, out int axis, out int sign)
+        {
+            axis = 0; sign = 1;
+            if (Mathf.Abs(nn.x) > 0.99f) { axis = 0; sign = nn.x < 0 ? -1 : 1; return true; }
+            if (Mathf.Abs(nn.y) > 0.99f) { axis = 1; sign = nn.y < 0 ? -1 : 1; return true; }
+            if (Mathf.Abs(nn.z) > 0.99f) { axis = 2; sign = nn.z < 0 ? -1 : 1; return true; }
+            return false;
+        }
+
+        static float Coord(Vector3 p, int axis) { return axis == 0 ? p.x : axis == 1 ? p.y : p.z; }
+        static float AreaTri(Vector3 a, Vector3 b, Vector3 c) { return Vector3.Cross(b - a, c - a).magnitude * 0.5f; }
 
         // oggetto di scena = figlio diretto di un contenitore (Ambiente, Arredo, Porte...); un oggetto alla radice e' un oggetto a se'
         static readonly Regex RxContenitore = new Regex(@"^(Ambiente|Arredo|Porte|Diorama|Uscita|MuriInvisibili)$");
@@ -326,7 +376,7 @@ namespace TrenoBambini.EditorTools
         /// penetrazione minima, finche' non ci sono piu' intersezioni oltre la tolleranza. I "cavalieri" (oggetti appoggiati sopra un mobile)
         /// seguono il loro supporto. Restituisce il numero di spostamenti eseguiti. Usa gli stessi ingombri della verifica.
         /// </summary>
-        public static int Risolvi(IList<GameObject> mobili, IDictionary<GameObject, List<GameObject>> cavalieri, int maxIter = 60)
+        public static int Risolvi(IList<GameObject> mobili, IDictionary<GameObject, List<GameObject>> cavalieri, int maxIter = 120)
         {
             var set = new Dictionary<GameObject, int>();
             for (int i = 0; i < mobili.Count; i++) if (mobili[i] != null) set[mobili[i]] = i;
@@ -335,36 +385,35 @@ namespace TrenoBambini.EditorTools
             {
                 idItem.Clear();
                 var obbs = Raccogli();
-                bool mosso = false;
-                for (int i = 0; i < obbs.Count && !mosso; i++)
-                    for (int j = i + 1; j < obbs.Count && !mosso; j++)
-                    {
-                        var a = obbs[i]; var b = obbs[j];
-                        if (a.item == b.item) continue;
-                        if (a.pavimento || b.pavimento) continue;
-                        if (a.struttura && b.struttura) continue;
-                        if (!a.aabb.Intersects(b.aabb)) continue;
-                        if (Esclusa(a, b)) continue;
-                        if (Penetrazione(a, b) <= Tolleranza) continue;
-                        int ia, ib;
-                        bool ma = set.TryGetValue(a.item, out ia), mb = set.TryGetValue(b.item, out ib);
-                        if (!ma && !mb) continue;
-                        Obb mover = ma && mb ? (ia > ib ? a : b) : (ma ? a : b);
-                        Obb altro = mover == a ? b : a;
-                        // un mobile non si sposta per colpa di un proprio cavaliere
-                        List<GameObject> cav;
-                        if (cavalieri != null && cavalieri.TryGetValue(mover.item, out cav) && cav.Contains(altro.item)) continue;
-                        if (cavalieri != null && cavalieri.TryGetValue(altro.item, out cav) && cav.Contains(mover.item)) continue;
-                        Vector3 dir; float ov;
-                        if (!SeparazioneOrizzontale(mover, altro, out dir, out ov)) continue;
-                        if (ov <= Tolleranza) continue;
-                        var delta = dir * (ov + 0.01f);
-                        Muovi(mover.item, delta);
-                        if (cavalieri != null && cavalieri.TryGetValue(mover.item, out cav)) foreach (var c in cav) if (c != null) Muovi(c, delta);
-                        spostamenti++;
-                        mosso = true;
-                    }
-                if (!mosso) break;
+                var mossi = new HashSet<GameObject>();
+                foreach (var pr in CoppieVicine(obbs))
+                {
+                    var a = obbs[pr.Item1]; var b = obbs[pr.Item2];
+                    if (a.item == b.item) continue;
+                    if (a.pavimento || b.pavimento) continue;
+                    if (a.struttura && b.struttura) continue;
+                    if (Esclusa(a, b)) continue;
+                    int ia, ib;
+                    bool ma = set.TryGetValue(a.item, out ia), mb = set.TryGetValue(b.item, out ib);
+                    if (!ma && !mb) continue;
+                    if (Penetrazione(a, b) <= Tolleranza) continue;
+                    Obb mover = ma && mb ? (ia > ib ? a : b) : (ma ? a : b);
+                    Obb altro = mover == a ? b : a;
+                    if (mossi.Contains(mover.item)) continue; // un solo spostamento per oggetto e per giro: gli ingombri sono ricalcolati al giro dopo
+                    // un mobile non si sposta per colpa di un proprio cavaliere
+                    List<GameObject> cav;
+                    if (cavalieri != null && cavalieri.TryGetValue(mover.item, out cav) && cav.Contains(altro.item)) continue;
+                    if (cavalieri != null && cavalieri.TryGetValue(altro.item, out cav) && cav.Contains(mover.item)) continue;
+                    Vector3 dir; float ov;
+                    if (!SeparazioneOrizzontale(mover, altro, out dir, out ov)) continue;
+                    if (ov <= Tolleranza) continue;
+                    var delta = dir * (ov + 0.01f);
+                    Muovi(mover.item, delta);
+                    if (cavalieri != null && cavalieri.TryGetValue(mover.item, out cav)) foreach (var c in cav) if (c != null) Muovi(c, delta);
+                    mossi.Add(mover.item);
+                    spostamenti++;
+                }
+                if (mossi.Count == 0) break;
             }
             return spostamenti;
         }
