@@ -277,7 +277,7 @@ namespace TrenoBambini.EditorTools
             Pezzo(env, "Bancarella", "Bancarella1", m, Bancarella, PT(-7f, -29.0f), 180f, 0.03f);
             Pezzo(env, "Bancarella", "Bancarella2", m2, Bancarella, PT(5.5f, 30.3f), 0f, 0.03f);
             Pezzo(env, "Bancarella", "Bancarella3", m, Bancarella, PT(5.5f, 43.7f), 180f, 0.03f);
-            Pezzo(env, "Bancarella", "Bancarella4", m2, Bancarella, PT(-4.2f, 5.0f), 90f, 0.03f);
+            Pezzo(env, "Bancarella", "Bancarella4", m2, Bancarella, PT(1.95f, 6.5f), 270f, 0.03f);
         }
 
         // ------------------------------------------------------------------ panni stesi

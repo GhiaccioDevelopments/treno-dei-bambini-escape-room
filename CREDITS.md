@@ -146,3 +146,12 @@ Formato FBX for Unity, senza skin, 30 fps, nessuna riduzione dei keyframe; retar
 | Assets/Art/Animations/Amerigo/Amerigo_TurnR.fbx | Right Turn 90 | nessuna |
 | Assets/Art/Animations/Amerigo/Amerigo_PickUp.fbx | Picking Up | nessuna |
 | Assets/Art/Animations/Amerigo/Amerigo_Interact.fbx | Button Pushing | nessuna |
+
+## Quartiere dell'hub (R006, tappa 2)
+
+Nessun asset esterno nuovo. Il grande quartiere (facciate, scalinate, ponti-arco, campanile, fontanella, lavatoio, pozzo, bancarelle, gabbie,
+biciclette, sedie, valigie, sacchi) è **geometria generata da codice** (`Assets/_Game/Editor/SceneBuilderQuartiere*.cs`, mesh in `Assets/_Game/Generated/Kit/`).
+I manifesti e le insegne sono **texture originali** disegnate dal generatore con un carattere a matrice 5x7 scritto nel progetto
+(`Assets/_Game/Generated/Tex/T_Man_*.png`, `T_Ins_*.png`): testi inventati, senza marchi, partiti o nomi reali. Gli unici modelli esterni
+usati restano quelli già annotati sopra (carretto, botti, casse, ceste, secchi, scala, vaso di terracotta, lampioni, candele, macerie)
+e i materiali PBR Poly Haven già in uso, ricolorati (`M_Intonaco_*`, `M_Foglia`, `M_Paglia`) con tinte derivate dalle stesse texture.

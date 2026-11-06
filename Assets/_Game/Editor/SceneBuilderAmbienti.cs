@@ -264,8 +264,8 @@ namespace TrenoBambini.EditorTools
             var lg = root.AddComponent<LODGroup>();
             lg.SetLODs(new[]
             {
-                new LOD(0.30f, new Renderer[] { g0.GetComponent<Renderer>() }),
-                new LOD(0.012f, new Renderer[] { g1.GetComponent<Renderer>() })
+                new LOD(0.42f, new Renderer[] { g0.GetComponent<Renderer>() }),   // LOD aggressivi (R006): le facciate lontane passano subito al livello semplice
+                new LOD(0.02f, new Renderer[] { g1.GetComponent<Renderer>() })
             });
             lg.RecalculateBounds();
             var bc = root.AddComponent<BoxCollider>();

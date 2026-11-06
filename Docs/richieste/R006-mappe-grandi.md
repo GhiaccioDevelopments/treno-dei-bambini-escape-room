@@ -72,3 +72,12 @@ Obiettivo: ambienti **molto più grandi** e credibili da esplorare, senza oggett
 
 ## Rapporto
 _(da compilare a fine lavoro: fatto, scostamenti, come testare, domande aperte)_
+
+### Tappa 2 – hub come grande quartiere (2026-11-06)
+- `10_Hub_Vicolo`: 2460 m² calpestabili (prima ~300 m², circa 8x), 36 zone: piazzetta della fontanella, vico principale con 4 scalinate (quota 0 -> 4,8 m),
+  slargo dell'edicola votiva con campanile, largo della stazione, 6 traverse, 2 vicoli ciechi, 2 cortili (lavatoio; terrazzino con scala esterna),
+  lotto bombardato, 4 ponti-arco (grande arco, sottopasso). Generato da `SceneBuilderQuartiere*.cs` (menu Treno > Costruisci tutte le scene;
+  per sola iterazione sull'hub: Treno > Sviluppo > Costruisci solo l'hub, poi bake).
+- Punti per i segreti di R011: `Docs/richieste/media/R006/punti_segreti_hub.md` (generato insieme alla scena).
+- Verifica: Treno > Verifica > Compenetrazioni = 0 segnalazioni su tutte le scene (la verifica ora usa uno sweep e legge le facce dai triangoli).
+- Screenshot: `Docs/richieste/media/R006/hub_*.png`.
