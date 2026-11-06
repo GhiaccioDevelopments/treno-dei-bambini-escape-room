@@ -92,7 +92,7 @@ Obiettivo: su PC i comandi devono essere quelli di un gioco in terza persona nor
 - [ ] Console pulita, build WebGL aggiornata, l'utente ha provato e approvato. *(console pulita; build su gh-pages e prova dell'utente da fare)*
 
 ## 7. Domande aperte (per l'utente)
-- Il clic sinistro con il cursore bloccato deve interagire (come E) o restare inutilizzato?
+- Il clic sinistro con il cursore bloccato deve interagire (come E) o restare inutilizzato? **Deciso dall'utente: nessuna azione** (si usa E).
 
 ## 8. Rapporto
 *(PC casa, 2026-11-06, Claude con Unity 6000.6.7f1 + MCP for Unity)*
@@ -110,7 +110,7 @@ Obiettivo: su PC i comandi devono essere quelli di un gioco in terza persona nor
   e `InputHelper`).
 - **Camera** (`CameraRig`): gira col mouse senza tasti quando il cursore è bloccato; il tasto destro tenuto premuto resta come
   alternativa. La gestione del cursore è uscita da `CameraRig`.
-- **Clic sinistro con il cursore bloccato** = E sull'oggetto evidenziato (proposta del punto 4.3; vedi domande).
+- **Clic sinistro con il cursore bloccato** = **nessuna azione** (decisione dell'utente, sostituisce la proposta del punto 4.3): si interagisce con E.
 - **Tasti** (`UIRoot`): I **o Tab** = valigia, Esc **o P** = pausa. Il jslib fa `preventDefault` su Tab solo se il focus è sul canvas
   o sulla pagina; un clic sul canvas gli dà il focus. `WebGLInput.captureAllKeyboardInput = true` esplicito.
 - **Comandi**: telegramma una volta per sessione al primo ingresso in gioco ("Muovi il mouse per guardarti intorno · I inventario ·
@@ -157,6 +157,14 @@ Obiettivo: su PC i comandi devono essere quelli di un gioco in terza persona nor
    gira, cursore nascosto) ▸ WASD ▸ I/Tab ▸ Esc (si apre la pausa) ▸ Riprendi (se ricompare il cartellino, un clic). Se Amerigo resta
    fermo: F3 + W premuto + screenshot.
 
-### Domande aperte per l'utente
-- Con il cursore bloccato il clic sinistro interagisce come E con l'oggetto evidenziato: va bene o lo preferisci inutilizzato?
-- Su PC il joystick a schermo non c'è più (con la visuale col mouse): va bene? Con l'opzione "tasto destro" ricompare.
+### Domande aperte per l'utente (risolte)
+- Clic sinistro con il cursore bloccato: **nessuna azione**, deciso dall'utente. Testo dei comandi aggiornato ("E: interagire").
+- Joystick a schermo nascosto su PC con la visuale col mouse: **va bene**, deciso dall'utente.
+
+### Robustezza del pointer lock (revisione)
+- La richiesta del blocco parte ora **dentro il listener `mousedown` del canvas** (gesto utente, valido anche per Firefox e Safari): il C#
+  imposta solo `window.__trenoWantLock`. La richiesta da `Update` resta come ripiego (es. dopo "Riprendi").
+- Flag `exitRequested`: quando il C# chiede l'uscita dal blocco, il successivo `pointerlockchange` non viene scambiato per perdita
+  e non apre la pausa; una perdita non voluta (Esc, Alt+Tab) è segnalata una sola volta a `CursorManager`.
+- Se il browser rifiuta il blocco almeno 2 volte dopo un clic, il cartellino "Clicca per giocare" aggiunge di scegliere
+  "Visuale: col tasto destro" nella pausa.

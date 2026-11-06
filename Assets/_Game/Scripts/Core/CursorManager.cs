@@ -23,9 +23,12 @@ namespace TrenoBambini.Core
 
 #if UNITY_WEBGL && !UNITY_EDITOR
         [DllImport("__Internal")] static extern void TrenoInputInit();
+        [DllImport("__Internal")] static extern void TrenoSetWantLock(int want);
         [DllImport("__Internal")] static extern void TrenoRequestPointerLock();
         [DllImport("__Internal")] static extern void TrenoExitPointerLock();
         [DllImport("__Internal")] static extern int TrenoPointerLocked();
+        [DllImport("__Internal")] static extern int TrenoConsumeLockLost();
+        [DllImport("__Internal")] static extern int TrenoLockFailures();
 #endif
 
         /// <summary>True se il gioco vuole il cursore bloccato in questo momento.</summary>
@@ -43,6 +46,8 @@ namespace TrenoBambini.Core
         public static bool MouseLookActive { get { return I != null && I.Exploring && I.Locked && MouseLookMode; } }
         /// <summary>Cursore da "riprendere" con un clic (WebGL): il cartellino "Clicca per giocare" è visibile.</summary>
         public bool NeedsClick { get; private set; }
+        /// <summary>Il browser ha rifiutato il blocco più volte: il cartellino suggerisce la visuale col tasto destro.</summary>
+        public bool LockRefused { get; private set; }
 
         bool wasLocked;
         float lockedSince = -10f;
@@ -115,10 +120,20 @@ namespace TrenoBambini.Core
             if (want && !WantLock) wantSince = Time.unscaledTime;
             WantLock = want;
 
+#if UNITY_WEBGL && !UNITY_EDITOR
+            TrenoSetWantLock(want && mouseLook ? 1 : 0); // la richiesta vera parte dal mousedown del canvas (gesto utente)
+            LockRefused = TrenoLockFailures() >= 2;
+            bool lostByBrowser = TrenoConsumeLockLost() != 0; // un'uscita chiesta dal gioco non conta
+#else
+            bool lostByBrowser = false;
+#endif
             bool locked = ReadLocked();
+#if !(UNITY_WEBGL && !UNITY_EDITOR)
+            lostByBrowser = wasLocked && !locked; // editor: Esc toglie il blocco
+#endif
 
             // il browser (o l'editor con Esc) ha tolto il blocco mentre si esplorava: si apre la pausa
-            if (wasLocked && !locked && want && mouseLook && ui != null)
+            if (lostByBrowser && want && mouseLook && ui != null)
             {
                 ui.OpenPauseFromLockLoss();
                 want = false; WantLock = false; // niente nuovo blocco in questo frame: la pausa è aperta
@@ -158,11 +173,12 @@ namespace TrenoBambini.Core
                 return;
             }
             if (locked) return;
-            // il blocco si chiede subito dopo un clic sul gioco (attivazione utente), oppure appena diventa necessario
-            // (es. "Riprendi" in pausa è appena stato cliccato); niente raffiche di richieste
+            // il clic che prende il blocco lo gestisce il listener mousedown del canvas (TrenoInput.jslib); qui si segna solo
+            // che quel clic non deve attivare oggetti. Ripiego: richiesta appena il blocco diventa necessario
+            // (es. "Riprendi" in pausa), senza raffiche
             bool click = mouse != null && (mouse.leftButton.wasPressedThisFrame || mouse.rightButton.wasPressedThisFrame);
             if (click) swallowFrame = Time.frameCount;
-            if (click || (Time.unscaledTime - wantSince < 0.05f && Time.unscaledTime - lastRequest > 1f))
+            if (!click && Time.unscaledTime - wantSince < 0.05f && Time.unscaledTime - lastRequest > 1f)
             {
                 lastRequest = Time.unscaledTime;
                 TrenoRequestPointerLock();

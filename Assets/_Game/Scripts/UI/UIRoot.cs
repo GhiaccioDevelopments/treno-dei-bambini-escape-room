@@ -86,6 +86,8 @@ namespace TrenoBambini.UI
         // R005: cartellino "Clicca per giocare" (WebGL, finché il browser non concede il blocco del cursore)
         RectTransform clickCard;
         CanvasGroup clickCardGroup;
+        TextMeshProUGUI clickSub;
+        bool clickRefusedShown;
         float ignoreEscUntil;
         static bool comandiMostrati;
         RectTransform joystickRoot;
@@ -95,7 +97,7 @@ namespace TrenoBambini.UI
         {
             return (tastoDestro ? "Mouse con tasto destro premuto: guardarsi intorno\n" : "Muovi il mouse: guardarsi intorno\n")
                 + "W A S D o frecce: camminare (Maiusc: correre)\n"
-                + "E o clic: interagire con l'oggetto evidenziato\n"
+                + "E: interagire con l'oggetto evidenziato\n"
                 + "I o Tab: valigia (inventario)\n"
                 + "Esc o P: pausa\n"
                 + "F3: finestra di diagnosi";
@@ -237,8 +239,8 @@ namespace TrenoBambini.UI
             clickCardGroup = card.gameObject.AddComponent<CanvasGroup>();
             var t = UIFactory.MakeText(clickCard, "Clicca per giocare", 34, UITheme.Ceralacca, TextAlignmentOptions.Center, FontStyles.Bold);
             UIFactory.Stretch(t.rectTransform, 20f, 46f, 20f, 14f);
-            var s = UIFactory.MakeText(clickCard, "Il mouse girerà la visuale · Esc per la pausa", 20, UITheme.Inchiostro, TextAlignmentOptions.Center, FontStyles.Italic);
-            UIFactory.Stretch(s.rectTransform, 20f, 14f, 20f, 80f);
+            clickSub = UIFactory.MakeText(clickCard, "Il mouse girerà la visuale · Esc per la pausa", 20, UITheme.Inchiostro, TextAlignmentOptions.Center, FontStyles.Italic);
+            UIFactory.Stretch(clickSub.rectTransform, 20f, 14f, 20f, 80f);
             clickCard.gameObject.SetActive(false);
         }
 
@@ -247,6 +249,14 @@ namespace TrenoBambini.UI
             if (clickCard == null) return;
             var cm = CursorManager.I;
             bool want = cm != null && cm.NeedsClick && !menuScene;
+            bool refused = want && cm.LockRefused;
+            if (refused != clickRefusedShown && clickSub != null)
+            {
+                clickRefusedShown = refused;
+                clickSub.text = refused
+                    ? "Il browser non concede il blocco del mouse: oppure scegli Visuale: col tasto destro nella pausa"
+                    : "Il mouse girerà la visuale · Esc per la pausa";
+            }
             if (clickCard.gameObject.activeSelf == want) return;
             clickCard.gameObject.SetActive(want);
             if (want)
