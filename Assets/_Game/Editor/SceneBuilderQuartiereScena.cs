@@ -36,7 +36,7 @@ namespace TrenoBambini.EditorTools
         static void BuildHub()
         {
             var scene = NewScene();
-            kitScene = "Hub"; kitIndex = 0;
+            kitScene = "Hub"; kitIndex = 0; pre = "Hub"; riservati.Clear();
             var r = new System.Random(1946);
             doorWallPoints.Clear();
             ResetSpazio();
@@ -133,6 +133,8 @@ namespace TrenoBambini.EditorTools
             foreach (var f in feats)
                 if (f.tipo == "porta" || f.tipo == "portone" || f.tipo == "cancello" || f.tipo == "basso")
                     if (new Vector2(f.wp.x - p.x, f.wp.z - p.z).magnitude < dist) return true;
+            foreach (var q in riservati) if (new Vector2(q.x - p.x, q.y - p.z).magnitude < 1.6f) return true;
+            if (pre != "Hub") return false;
             var inizio = new Vector2(0f, -40f);
             if (new Vector2(p.x - inizio.x, p.z - inizio.y).magnitude < 3f) return true;
             if (new Vector2(p.x + 6.3f, p.z + 2f).magnitude < 2f) return true;
@@ -294,6 +296,11 @@ namespace TrenoBambini.EditorTools
             add(-27, 16, 'z'); add(-23, 16, 'z'); add(-8, 16, 'z');
             add(5, -12, 'z'); add(6, 1, 'z'); add(24, 1, 'z'); add(7, 16, 'z'); add(25, 16, 'z'); add(12, 35, 'z'); add(25, 35, 'z');
             add(-27, -30, 'z'); add(-19, -30, 'z'); add(-23, 27, 'z');
+            PanniDaLista(env, r, linee);
+        }
+
+        static void PanniDaLista(Transform env, System.Random r, List<Vector3> linee)
+        {
             int k = 0;
             foreach (var l in linee)
             {

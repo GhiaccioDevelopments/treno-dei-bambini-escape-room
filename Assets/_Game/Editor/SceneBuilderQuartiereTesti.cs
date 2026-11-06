@@ -174,12 +174,12 @@ namespace TrenoBambini.EditorTools
             var ins = new Dictionary<string, string>
             {
                 { "Salumeria", "SALUMERIA" }, { "Barbiere", "BARBIERE" }, { "Calzolaio", "CALZOLAIO" },
-                { "Latteria", "LATTERIA" }, { "Ferramenta", "FERRAMENTA" }, { "Trattoria", "TRATTORIA" }
+                { "Latteria", "LATTERIA" }, { "Ferramenta", "FERRAMENTA" }, { "Trattoria", "TRATTORIA" }, { "Sarto", "SARTO" }, { "Fruttivendolo", "FRUTTA E VERDURA" }
             };
             var colIns = new Dictionary<string, Color>
             {
                 { "Salumeria", new Color(0.38f, 0.1f, 0.08f) }, { "Barbiere", new Color(0.12f, 0.22f, 0.3f) }, { "Calzolaio", new Color(0.22f, 0.15f, 0.08f) },
-                { "Latteria", new Color(0.18f, 0.3f, 0.24f) }, { "Ferramenta", new Color(0.16f, 0.16f, 0.17f) }, { "Trattoria", new Color(0.4f, 0.22f, 0.08f) }
+                { "Latteria", new Color(0.18f, 0.3f, 0.24f) }, { "Ferramenta", new Color(0.16f, 0.16f, 0.17f) }, { "Trattoria", new Color(0.4f, 0.22f, 0.08f) }, { "Sarto", new Color(0.2f, 0.2f, 0.3f) }, { "Fruttivendolo", new Color(0.22f, 0.3f, 0.14f) }
             };
             foreach (var kv in ins)
                 MaterialeTesto(kv.Key, 512, 96, new[] { kv.Value }, colIns[kv.Key] * 1.0f, new Color(0.9f, 0.82f, 0.6f), false, s++);

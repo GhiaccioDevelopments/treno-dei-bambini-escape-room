@@ -64,6 +64,10 @@ namespace TrenoBambini.EditorTools
         static float rasX0, rasZ0;
         static readonly List<Modulo> moduli = new List<Modulo>();
         static int hubAvvisi;
+        /// <summary>R006: prefisso dei nomi delle mesh generate dal sistema a zone ("Hub" per il quartiere, "Ric" per la via del flashback).</summary>
+        static string pre = "Hub";
+        /// <summary>R006: punti (x,z) da tenere liberi dagli oggetti sparsi (postazioni degli enigmi, oggetti nascosti).</summary>
+        static readonly List<Vector2> riservati = new List<Vector2>();
 
         // ------------------------------------------------------------------ layout
 
@@ -292,7 +296,7 @@ namespace TrenoBambini.EditorTools
                 string mat = MatSuolo(kv.Value[0].suolo);
                 var kb = new KitBuilder(mat);
                 foreach (var rc in kv.Value) kb.Box(new Vector3(rc.x0, rc.y - 0.5f, rc.z0), new Vector3(rc.x1, rc.y, rc.z1), 0, 1.6f, KitBuilder.NY);
-                var go = MeshObject(env, "Selciato_" + kv.Key, kb.Build("Hub_Suolo_" + kv.Key), new[] { mat }, false);
+                var go = MeshObject(env, "Selciato_" + kv.Key, kb.Build(pre + "_Suolo_" + kv.Key), new[] { mat }, false);
                 foreach (var rc in kv.Value)
                 {
                     var bc = go.AddComponent<BoxCollider>();
@@ -309,7 +313,7 @@ namespace TrenoBambini.EditorTools
                 float r = (zn.y1 - zn.y) / zn.passi, t = (zn.z1 - zn.z0) / zn.passi;
                 for (int i = 0; i < zn.passi; i++)
                     kb.Box(new Vector3(zn.x0, zn.y - 0.5f, zn.z0 + i * t), new Vector3(zn.x1, zn.y + (i + 1) * r, zn.z0 + (i + 1) * t), 0, 1.5f, KitBuilder.NY | KitBuilder.PZ);
-                var go = MeshObject(env, "Selciato_Scalinata_" + zn.nome, kb.Build("Hub_Scala_" + zn.nome), new[] { "M_ArenariaBlocchi" }, false);
+                var go = MeshObject(env, "Selciato_Scalinata_" + zn.nome, kb.Build(pre + "_Scala_" + zn.nome), new[] { "M_ArenariaBlocchi" }, false);
                 for (int i = 0; i < zn.passi; i++)
                 {
                     var bc = go.AddComponent<BoxCollider>();
@@ -377,7 +381,7 @@ namespace TrenoBambini.EditorTools
                     kb.Box(new Vector3(q.x, y - 0.1f, q.z), new Vector3(q.y, y, q.w), 0, 1.5f, KitBuilder.NY | KitBuilder.NX | KitBuilder.PX | KitBuilder.NZ | KitBuilder.PZ);
                 }
                 string nome = "Casa_Tetto_" + kv.Key.Replace('-', 'm');
-                var go = MeshObject(env, nome, kb.Build("Hub_Tetti_" + kv.Key.Replace('-', 'm')), new[] { "M_CoppiArgilla", "M_IntonacoRustico05" }, false);
+                var go = MeshObject(env, nome, kb.Build(pre + "_Tetti_" + kv.Key.Replace('-', 'm')), new[] { "M_CoppiArgilla", "M_IntonacoRustico05" }, false);
                 // collider unico per riquadro: serve alla camera (non puo' entrare) e a nessun altro
                 foreach (var q in kv.Value)
                 {
@@ -511,7 +515,7 @@ namespace TrenoBambini.EditorTools
                 float f0 = kv.Key - kv.Value.len * 0.5f, f1 = f0 + kv.Value.len;
                 if (f0 < cur - 0.01f || f1 > L + 0.01f)
                 {
-                    Debug.LogWarning("[Quartiere] Feature " + kv.Value.tipo + " " + kv.Value.id + " non entra nel muro (" + f0 + ".." + f1 + " su " + L + ")");
+                    Debug.LogWarning("[Quartiere] Feature " + kv.Value.tipo + " " + kv.Value.id + kv.Value.sign + " @" + kv.Value.wp + " non entra nel muro (" + f0 + ".." + f1 + " su " + L + ")");
                     hubAvvisi++;
                     continue;
                 }
