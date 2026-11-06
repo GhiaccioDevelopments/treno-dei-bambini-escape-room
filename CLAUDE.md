@@ -171,4 +171,5 @@ Formato voce:
   Dopo ogni sotto-fase: console pulita + screenshot all'utente per approvazione prima di proseguire.
   Misurare FPS e peso build per preset. Merge su `main` e tag v0.2 solo dopo l'ok dell'utente.
   Richieste dell'utente in sospeso: `Docs/BACKLOG.md` (controllarlo all'inizio di ogni sotto-fase).
-- Oggetti futuri: stracci, volantino del treno, cappotto, violino, finale.
+- Oggetti futuri: stracci, volantino del treno, cappotto, violino, finale. **Ok dell'utente (2026-11-06)** a svilupparli tutti
+  tramite le richieste R012–R016 (schema degli enigmi di ogni capitolo da approvare prima dello sviluppo).

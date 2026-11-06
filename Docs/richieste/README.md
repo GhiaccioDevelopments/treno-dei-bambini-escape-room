@@ -43,3 +43,9 @@ MCP for Unity) le implementa. Le due sessioni non si parlano: comunicano **solo 
 | R008 | Impostazioni grafiche dettagliate (ombre, luci, effetti) | aperta, PR #10 (dopo R007) |
 | R009 | Enigmi dentro il mondo, niente più oggetti viola | aperta, PR #11 (dopo R006) |
 | R010 | Ridisegno degli enigmi di "Le scarpe" | aperta, PR #12 (dopo R009) |
+| R011 | Easter egg ed enigmi nascosti in ogni stanza | aperta, PR #13 (dopo R006 e R009) |
+| R012 | Nuovo ricordo "Stracci" (regole comuni dei capitoli) | aperta, PR #14 (dopo R006–R009) |
+| R013 | Nuovo ricordo "Il volantino del treno" | aperta, PR #15 (dopo R012) |
+| R014 | Nuovo ricordo "Il cappotto" | aperta, PR #16 (dopo R013) |
+| R015 | Nuovo ricordo "Il violino" | aperta, PR #17 (dopo R014) |
+| R016 | Il finale nel 1994 | aperta, PR #18 (dopo R015) |
