@@ -16,8 +16,21 @@ import os
 import sys
 import shutil
 
-LOCAL = os.environ.get("LOCALAPPDATA", os.path.expanduser("~/AppData/Local"))
-MH = os.path.join(LOCAL, "makehuman-community")
+def trova_makehuman():
+    """Cartella di installazione di MakeHuman: installer 1.3 (Program Files), 1.2 (AppData) o accanto al Python in uso."""
+    candidati = [
+        os.path.dirname(os.path.dirname(os.path.abspath(sys.executable))),   # ...\makehuman-community\Python\python.exe
+        os.path.join(os.environ.get("ProgramFiles", r"C:\Program Files"), "makehuman-community"),
+        os.path.join(os.environ.get("LOCALAPPDATA", os.path.expanduser("~/AppData/Local")), "makehuman-community"),
+    ]
+    for c in candidati:
+        if os.path.isdir(os.path.join(c, "makehuman", "data")):
+            return c
+    raise SystemExit("MakeHuman non trovato. Cercato in:\n  " + "\n  ".join(candidati))
+
+
+MH = trova_makehuman()
+print("MakeHuman: " + MH)
 sys.path.insert(0, os.path.join(MH, "pkgs"))
 
 import numpy as np

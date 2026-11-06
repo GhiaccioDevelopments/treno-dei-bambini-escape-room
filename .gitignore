@@ -133,10 +133,14 @@ ArtSource/Characters/*
 !ArtSource/Characters/makehuman/
 ArtSource/Characters/makehuman/*
 !ArtSource/Characters/makehuman/*.py
+!ArtSource/Characters/makehuman/*.bat
 !ArtSource/Characters/makehuman/Amerigo_bambino/
 !ArtSource/Characters/makehuman/Amerigo_adulto/
+ArtSource/Characters/makehuman/**/*.thumb
 !ArtSource/Characters/screenshots/
 ArtSource/Characters/screenshots/*
 !ArtSource/Characters/screenshots/v5_*.png
 !ArtSource/Characters/screenshots/adulto_v6_*.png
+!ArtSource/Characters/screenshots/mh_confronto_*.png
+!ArtSource/Characters/screenshots/mh_ingioco_*.png
 ArtSource/tmp/

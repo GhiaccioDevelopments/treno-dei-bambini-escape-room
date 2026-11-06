@@ -11,8 +11,8 @@ Crea i due Amerigo (vedi CLAUDE.md e Docs/TRAMA.md) con:
     SCALZO con piedi e gambe sporchi, salopette lisa, sporca, piena di toppe e strappata.
   - Amerigo adulto (1994): ~55 anni, violinista affermato, abito scuro sobrio, scarpe nere.
 
-PRIMA di usarlo, una volta sola, prepara i materiali d'epoca:
-  "%LOCALAPPDATA%\\makehuman-community\\Python\\python.exe" prepara_materiali_amerigo.py
+PRIMA di usarlo, una volta sola per PC, prepara i materiali d'epoca:
+  doppio clic su 1_prepara_materiali.bat (trova MakeHuman in Program Files o in AppData)
 (se mancano, lo script usa i materiali originali di MakeHuman e lo scrive nel log)
 
 USO: Utilities > Scripting > Load > questo file > (scegli VERSIONE) > Execute.
@@ -41,8 +41,23 @@ def _amerigo_main():
     SCREENSHOT = True
     SCHELETRO = "game_engine"  # "game_engine" per Unity, "default", oppure None (nessuno, es. per Mixamo)
 
-    CARTELLA_OUTPUT = os.path.expanduser(
-        "~/Documents/treno-dei-bambini-escape-room/ArtSource/Characters/makehuman")
+    # cartella del repository: la prima che esiste tra quelle dei vari PC (scuola, casa)
+    _SOTTO = os.path.join("ArtSource", "Characters", "makehuman")
+    _REPO = [
+        "~/Documents/treno-dei-bambini-escape-room",
+        "~/Il Treno dei Bambini",
+        "~/Documents/Il Treno dei Bambini",
+        "~/treno-dei-bambini-escape-room",
+    ]
+    CARTELLA_OUTPUT = None
+    for _r in _REPO:
+        _c = os.path.join(os.path.expanduser(_r), _SOTTO)
+        if os.path.isdir(_c):
+            CARTELLA_OUTPUT = _c
+            break
+    if CARTELLA_OUTPUT is None:   # repository non trovato: salva nella cartella utente di MakeHuman
+        CARTELLA_OUTPUT = os.path.expanduser("~/Documents/makehuman/v1py3/amerigo")
+    print("[Amerigo] cartella di output: " + CARTELLA_OUTPUT)
 
     # emozioni usate nei dialoghi del gioco (campo "emozione" dei cutscene_*.json)
     EMOZIONI = {
@@ -237,6 +252,19 @@ def _amerigo_main():
             exp = G.app.mhapi.exports.getFBXExporter()
             exp.export(human, lambda ext: percorso)
             log("FBX esportato: " + percorso)
+            # il repository e' pubblico: l'FBX contiene i percorsi assoluti delle texture (con il nome utente del PC)
+            try:
+                import importlib.util
+                _p = os.path.join(CARTELLA_OUTPUT, "pulisci_percorsi_fbx.py")
+                _sp = importlib.util.spec_from_file_location("pulisci_percorsi_fbx", _p)
+                _m = importlib.util.module_from_spec(_sp)
+                _sp.loader.exec_module(_m)
+                n = _m.pulisci(percorso)
+                log("FBX: %d percorsi personali sostituiti con un segnaposto" % n)
+                if _m.contiene_nome_utente(percorso):
+                    avviso("l'FBX contiene ancora il nome utente: esegui pulisci_percorsi_fbx.py a mano")
+            except Exception as e2:
+                avviso("pulizia dei percorsi personali nell'FBX non riuscita: %s (esegui pulisci_percorsi_fbx.py)" % e2)
         except Exception as e:
             avviso("export FBX non riuscito: %s (fallo a mano: Files > Export > Filmbox)" % e)
 
