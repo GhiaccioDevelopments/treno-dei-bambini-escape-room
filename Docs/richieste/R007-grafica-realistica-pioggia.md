@@ -62,5 +62,19 @@ credibili, umidità, profondità), non di contenuti: niente asset, scene o look 
 - [ ] Alta ≥ 60 FPS su PC normale; WebGL Bassa ≥ 30 FPS.
 - [ ] UI invariata; console pulita; ogni asset nuovo in `CREDITS.md`.
 
+## 7. Decisioni dell'utente (2026-11-06, prima dello sviluppo)
+- **Base**: le mappe grandi di R006 (già in `feature/upgrade-realistico`, merge 1af2cc3).
+- **Quartiere (presente)**: tardo pomeriggio d'autunno, cielo coperto, **pioggia costante**, lampioni e botteghe che si
+  accendono; tono malinconico (ritorno a casa per un lutto).
+- **Ricordo "Le scarpe" (1946)**: **sole basso**, luminoso e dorato, nessuna pioggia: contrasto netto con il presente.
+  Il campo `meteo` di `luoghi.json` va quindi `pioggia` per l'hub, `sereno` (sole basso) per il flashback; il basso sente la pioggia da dentro.
+- **Modelli 3D veri dentro R007**: sostituire gli oggetti fatti con primitive più visibili (letti, panni stesi a "T",
+  Madonna dell'edicola a capsula, sedie, tavoli, pentole, carretti, botti, casse, lampioni…) con modelli CC0/CC-BY
+  (Poly Haven, Sketchfab…) o rifatti in Blender; annotati in `CREDITS.md`.
+- **Qualità**: alta con LOD: texture 2K per gli oggetti vicini, LOD semplici da lontano; WebGL con texture ridotte.
+- **Peso**: screenshot di documentazione 1280x720 JPG fuori LFS, un solo bake a fine tappa. LFS è a ~620 MB su 1 GB:
+  quando si avvicina a 850 MB avvisare l'utente (comprerà un data pack GitHub) prima del push che lo sfonderebbe.
+- Dal review di R006: la radio sul tavolino del barbiere nel flashback è rimasta (plausibile); il cortile del basso e del flashback è troppo scuro e il pavimento battuto legge grigio: da sistemare qui.
+
 ## Rapporto
 _(da compilare a fine lavoro)_
