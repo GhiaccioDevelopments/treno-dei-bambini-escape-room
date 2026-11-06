@@ -175,6 +175,7 @@ namespace TrenoBambini.EditorTools
             lg.SetLODs(new[] { new LOD(0.02f, rs) });
             lg.RecalculateBounds();
             propCount++;
+            if (pos.y <= 0.05f) RegistraMobile(go); // appoggiato a terra: a fine costruzione si allontana da muri e altri oggetti
             return go;
         }
 
@@ -208,6 +209,17 @@ namespace TrenoBambini.EditorTools
                 case "Intonaco": return "M_IntonacoMattoni";
             }
             return string.IsNullOrEmpty(wallMat) ? "M_IntonacoRustico05" : wallMat;
+        }
+
+        // vero se un punto "da liberare" (lampione, edicola, ancoraggio di un filo) sta entro 1.9 m in pianta dal punto di parete dato
+        static bool BalconeBloccato(Vector3 puntoSuParete)
+        {
+            foreach (var b in noBalcone)
+            {
+                var d = new Vector2(b.x - puntoSuParete.x, b.z - puntoSuParete.z);
+                if (d.magnitude < 1.9f) return true;
+            }
+            return false;
         }
 
         static GameObject Facade(Transform parent, string name, WallFrame fr, float len, float depth, int floors, string plaster,
@@ -250,6 +262,7 @@ namespace TrenoBambini.EditorTools
                     }
                     if (c < 0.9f || c > len - 0.9f) continue;
                     bool bal = f >= 1 && r.NextDouble() < 0.22;
+                    if (bal && BalconeBloccato(fr.W(c, 0f, 0f))) bal = false; // il balcone (sporge 78 cm) andrebbe a incastrarsi con lampioni, edicole o fili
                     float y0 = f * 3f + (bal ? 0.28f : 1.1f);
                     var op = new WallOpening(c, 0.95f, y0, f * 3f + 2.55f);
                     ops.Add(op);
@@ -449,19 +462,50 @@ namespace TrenoBambini.EditorTools
 
         // ------------------------------------------------------------------ props esterni
 
-        static void Rubble(Transform parent, System.Random r, Vector3 center, int count, float radius)
+        // pezzi di ogni cumulo di macerie: si riposano sul pavimento o sui pezzi sotto (AssestaMacerie) dopo lo spostamento automatico
+        static readonly List<List<GameObject>> cumuli = new List<List<GameObject>>();
+        static readonly List<GameObject> travi = new List<GameObject>();
+
+        static void Rubble(Transform parent, System.Random r, Vector3 center, int count, float radius, float maxScale = 2.0f)
         {
             Ground("TerraMacerie", parent, center + new Vector3(-radius * 1.8f, 0.001f, -radius * 1.8f), center + new Vector3(radius * 1.8f, 0.014f, radius * 1.8f),
                 "M_TerraPolverosa", 1.5f, false);
+            var pezzi = new List<GameObject>();
             for (int i = 0; i < count; i++)
             {
-                float s = 1.0f + (float)r.NextDouble() * 1.0f;
+                float s = 1.0f + (float)r.NextDouble() * (maxScale - 1.0f);
                 var off = new Vector3((float)(r.NextDouble() * 2 - 1) * radius, 0f, (float)(r.NextDouble() * 2 - 1) * radius);
-                float stack = i > count / 2 ? 0.3f : 0f;
-                var go = Model("Macerie_Mattoni", parent, center + off + new Vector3(0f, stack, 0f), (float)r.NextDouble() * 360f, s, true, "Macerie");
+                var go = Model("Macerie_Mattoni", parent, center + off, (float)r.NextDouble() * 360f, s, true, "Macerie");
                 go.transform.localRotation = Quaternion.Euler((float)r.NextDouble() * 12f, go.transform.localEulerAngles.y, (float)r.NextDouble() * 12f);
+                pezzi.Add(go);
             }
-            Box("TraveSpezzata", parent, center + new Vector3(0.2f, 0.6f, 0.1f), new Vector3(0.14f, 0.14f, 1.8f), "M_AssiStagionate", new Vector3(18f, 35f, 8f));
+            cumuli.Add(pezzi);
+            var trave = Box("TraveSpezzata", parent, center + new Vector3(0.2f, 0.6f, 0.1f), new Vector3(0.14f, 0.14f, 1.8f), "M_AssiStagionate", new Vector3(18f, 35f, 8f));
+            travi.Add(trave);
+        }
+
+        // dopo lo spostamento automatico: ogni pezzo si posa sul pavimento o sul pezzo sotto (mai sotto terra, mai in aria); la trave si appoggia sul cumulo
+        static void AssestaMacerie()
+        {
+            for (int k = 0; k < cumuli.Count; k++)
+            {
+                var posati = new List<GameObject>();
+                int n = 0;
+                foreach (var g in cumuli[k])
+                {
+                    PosaSuCumulo(g, posati, n++ >= cumuli[k].Count / 2); // la seconda meta' dei pezzi si impila sui primi
+                    posati.Add(g);
+                }
+                if (k < travi.Count && travi[k] != null && posati.Count > 0)
+                {
+                    float top = 0f;
+                    foreach (var g in posati) top = Mathf.Max(top, BoundsDi(g).max.y);
+                    var b = BoundsDi(travi[k]);
+                    travi[k].transform.position += Vector3.up * (top - 0.3f - b.min.y); // la trave affonda nel cumulo
+                }
+            }
+            cumuli.Clear();
+            travi.Clear();
         }
 
         static void Cart(Transform parent, Vector3 pos)
@@ -476,6 +520,7 @@ namespace TrenoBambini.EditorTools
 
         static void Lamp(Transform parent, Vector3 pos)
         {
+            noBalcone.Add(pos);
             var go = Model("LampioneStrada_Pixie", parent, pos, 0f, 1.25f, true, "Lampione");
             var l = new GameObject("LuceLampione");
             l.transform.SetParent(go.transform, false);
@@ -496,6 +541,7 @@ namespace TrenoBambini.EditorTools
         // edicola votiva sul muro; normal = verso il vicolo
         static void Shrine(Transform parent, Vector3 wallPoint, Vector3 normal)
         {
+            noBalcone.Add(wallPoint);
             var fr = new WallFrame(wallPoint, Vector3.Cross(Vector3.up, normal), normal);
             var kb = new KitBuilder("M_ArenariaBlocchi", "M_LegnoDipintoBlu");
             fr.Box(kb, -0.58f, -0.4f, -0.14f, 0f, 1.2f, 2.7f, 0, TileStone, 0);
@@ -523,6 +569,7 @@ namespace TrenoBambini.EditorTools
             kitScene = "Hub"; kitIndex = 0;
             var r = new System.Random(1946);
             doorWallPoints.Clear();
+            ResetSpazio();
             Ambient(new Color(0.78f, 0.70f, 0.58f), new Color(0.55f, 0.47f, 0.38f), new Color(0.30f, 0.24f, 0.18f));
             Sun(new Color(1f, 0.90f, 0.72f), 1.0f, new Vector3(52f, -32f, 0f));
             RenderSettings.fog = true;
@@ -547,6 +594,14 @@ namespace TrenoBambini.EditorTools
             MakeDoor(porte, env, "stazione", new Vector3(0f, 0f, 20f), Vector3.back, "InsegnaCrema");
             MakeDoor(porte, env, "vicolo_stracci", new Vector3(0f, 0f, -20f), Vector3.forward, "InsegnaBlu");
 
+            // punti da tenere liberi da balconi (le facciate si costruiscono prima dei dettagli): lampioni, edicola, ancoraggi dei fili
+            float[] lz = { -17f, -12f, -3.5f, 1.0f, 5.5f, 12.5f, 16.5f };
+            foreach (var z in lz) { noBalcone.Add(new Vector3(-HubInnerLeft(z), 0f, z)); noBalcone.Add(new Vector3(HubInnerRight(z), 0f, z)); }
+            noBalcone.Add(new Vector3(2.7f, 0f, -5.5f));
+            noBalcone.Add(new Vector3(-2.7f, 0f, 14f));
+            noBalcone.Add(new Vector3(-3.5f, 0f, 6.5f));
+            noBalcone.Add(new Vector3(3.0f, 0f, -12.5f)); // scala appoggiata
+
             // case lato sinistro
             Building(env, -1, 3.5f, -24f, -6f, 6f, 3, "Tufo", r, 2.6f);
             Building(env, -1, 5.0f, -6f, 2f, 6f, 2, "Intonaco", r, 2.6f);
@@ -567,36 +622,40 @@ namespace TrenoBambini.EditorTools
             WallLamp(env, new Vector3(5f, 0f, 11f), Vector3.left, Vector3.forward, -1.25f);
             WallLamp(env, new Vector3(0f, 0f, 20f), Vector3.back, Vector3.right, 1.25f);
 
-            // panni stesi
-            float[] lz = { -17f, -12f, -3.5f, 1.0f, 5.5f, 12.5f, 16.5f };
+            // panni stesi: i fili stanno nella fascia libera tra i piani (y 6.1-6.55: sopra le finestre del primo piano, sotto quelle del secondo,
+            // sopra il cornicione delle case a due piani) e finiscono a ridosso della facciata senza entrarci
             for (int i = 0; i < lz.Length; i++)
             {
                 float z = lz[i];
-                float yL = 5.0f + (i % 3) * 0.9f;
-                float yR = yL - 0.35f - (float)r.NextDouble() * 0.4f;
-                Clothesline(env, r, z, yL, yR, -HubInnerLeft(z) + 0.05f, HubInnerRight(z) - 0.05f, 4 + (i % 3));
+                float yL = 6.2f + (i % 3) * 0.12f;
+                float yR = yL - 0.05f - (float)r.NextDouble() * 0.1f;
+                Clothesline(env, r, z, yL, yR, -HubInnerLeft(z), HubInnerRight(z), 4 + (i % 3));
             }
 
             // oggetti di scena
-            Rubble(env, r, new Vector3(2.0f, 0f, -16.5f), 9, 0.8f);
+            Rubble(env, r, new Vector3(1.6f, 0f, -16.5f), 9, 0.8f);
             Cart(env, new Vector3(3.9f, 0f, 9.5f));
             Bucket(env, new Vector3(3.0f, 0f, -8.0f));
             Bucket(env, new Vector3(-3.3f, 0f, 5.5f));
-            Model("SecchioLegno", env, new Vector3(-4.4f, 0f, -3.4f), 20f, 1.1f, true, "Secchio");
+            Model("SecchioLegno", env, new Vector3(-4.4f, 0f, -3.4f), 20f, 1.1f, true, "Secchio"); // nello slargo (muro a x = -5)
             Lamp(env, new Vector3(2.7f, 0f, -5.5f));
             Lamp(env, new Vector3(-2.7f, 0f, 14f));
             Shrine(env, new Vector3(-3.5f, 0f, 6.5f), Vector3.right);
             // panchina in tufo
             var kb = new KitBuilder("M_ArenariaBlocchi");
-            kb.Box(new Vector3(-3.5f, 0f, 11.7f), new Vector3(-2.9f, 0.5f, 13.3f), 0, TileStone);
+            kb.Box(new Vector3(-3.38f, 0f, 11.7f), new Vector3(-2.8f, 0.5f, 13.3f), 0, TileStone); // oltre lo zoccolo della facciata (sporge 10 cm)
             MeshObject(env, "PanchinaTufo", kb.Build(KitName("Panchina")), new[] { "M_ArenariaBlocchi" }, true);
             // botte, casse e cesto
-            Model("BotteVino", env, new Vector3(-3.1f, 0f, 3.8f), 0f, 1.25f, true, "Botte");
-            Model("BotteVino", env, new Vector3(-3.15f, 0f, -15.0f), 40f, 1.25f, true, "Botte");
-            Model("CassaLegno", env, new Vector3(3.0f, 0f, 16.5f), 25f, 1.5f, true, "Cassa");
-            Model("CassaLegno", env, new Vector3(3.05f, 0.5f, 16.45f), -10f, 1.2f, true, "Cassa");
-            Model("CestaVimini", env, new Vector3(-3.0f, 0f, 12.0f), 0f, 1.6f, false, "Cesto");
-            Model("ScalaLegno", env, new Vector3(3.22f, 0f, -12.5f), 90f, 1.6f, false, "Scala"); // appoggiata al muro est (x = 3.5)
+            // le posizioni sono calcolate dagli ingombri reali (botte raggio 0.46 m, cassa 1.2 x 0.6 m, scala 0.8 m di spessore): niente dentro i muri
+            Model("BotteVino", env, new Vector3(-2.85f, 0f, 3.8f), 0f, 1.25f, true, "Botte");
+            Model("BotteVino", env, new Vector3(-2.85f, 0f, -15.0f), 40f, 1.25f, true, "Botte");
+            var cassaBase = Model("CassaLegno", env, new Vector3(2.8f, 0f, 16.5f), 25f, 1.5f, true, "Cassa");
+            var cassaSopra = Model("CassaLegno", env, new Vector3(2.8f, 0.6f, 16.5f), -10f, 1.2f, true, "Cassa");
+            Impila(cassaSopra, cassaBase, new Vector2(0.05f, -0.05f));
+            var cesto = Model("CestaVimini", env, new Vector3(-3.1f, 0.5f, 12.5f), 0f, 1.6f, false, "Cesto"); // sulla panchina (alta 50 cm)
+            Model("ScalaLegno", env, new Vector3(2.98f, 0f, -12.5f), 90f, 1.6f, false, "Scala"); // appoggiata al muro est (x = 3.5, zoccolo a 3.39)
+            RisolviSpazio("10_Hub_Vicolo");
+            AssestaMacerie();
             SetStatic(env.gameObject);
 
             // muri invisibili ai bordi
@@ -675,6 +734,7 @@ namespace TrenoBambini.EditorTools
             kitScene = "Basso"; kitIndex = 0;
             var r = new System.Random(1947);
             doorWallPoints.Clear();
+            ResetSpazio();
             Ambient(new Color(0.62f, 0.52f, 0.40f), new Color(0.42f, 0.34f, 0.26f), new Color(0.24f, 0.19f, 0.14f));
             Sun(new Color(1f, 0.88f, 0.68f), 0.6f, new Vector3(55f, -25f, 0f));
 
@@ -710,7 +770,7 @@ namespace TrenoBambini.EditorTools
             // letto (testata al muro nord, lato ovest)
             {
                 var kb = new KitBuilder("M_LegnoVernicePelata", "M_TessutoLino", "Tessuto1");
-                Vector3 c = new Vector3(-1.95f, 0f, 1.2f);
+                Vector3 c = new Vector3(-1.95f, 0f, 1.15f); // testata a 5 cm dal muro: il cappello del dado (a 1 m) sporge 4,5 cm
                 kb.Box(c + new Vector3(-0.9f, 0.18f, -1.25f), c + new Vector3(0.9f, 0.3f, 1.25f), 0, TileWood);
                 foreach (var sx in new[] { -1f, 1f })
                     foreach (var sz in new[] { -1f, 1f })
@@ -723,12 +783,13 @@ namespace TrenoBambini.EditorTools
                 MeshObject(props, "Letto", kb.Build(KitName("Letto")), kb.matNames, true);
             }
             // tavolo, sedie, lume a petrolio
-            Model("TavoloLegno01", props, new Vector3(1.6f, 0f, 0.9f), 0f, 1.2f, true, "Tavolo");
+            var tavolo = Model("TavoloLegno01", props, new Vector3(1.6f, 0f, 0.9f), 0f, 1.2f, true, "Tavolo");
             Model("SediaDipinta", props, new Vector3(1.15f, 0f, 0.15f), 15f, 1.0f, true, "Sedia");
             Model("SediaDipinta", props, new Vector3(2.05f, 0f, 1.65f), 195f, 1.0f, true, "Sedia");
             var lampTable = Model("LampadaPetrolio_A", props, new Vector3(1.55f, 0.66f, 0.95f), 0f, 1.2f, false, "LampadaTavolo");
-            Prim(PrimitiveType.Sphere, "FiammaLampada", props, new Vector3(1.55f, 0.84f, 0.95f), new Vector3(0.06f, 0.1f, 0.06f), "Glow", null, false);
-            Model("CestaVimini", props, new Vector3(2.2f, 0.66f, 0.8f), 30f, 1.2f, false, "Cesto");
+            var fiammaTavolo = Prim(PrimitiveType.Sphere, "FiammaLampada", props, new Vector3(1.55f, 0.84f, 0.95f), new Vector3(0.06f, 0.1f, 0.06f), "Glow", null, false);
+            var cestoTavolo = Model("CestaVimini", props, new Vector3(2.2f, 0.66f, 0.8f), 30f, 1.2f, false, "Cesto");
+            Cavaliere(lampTable, tavolo); Cavaliere(fiammaTavolo, tavolo); Cavaliere(cestoTavolo, tavolo);
 
             // braciere
             var br = Empty("Braciere", props, new Vector3(-0.1f, 0f, -0.5f)).transform;
@@ -739,14 +800,17 @@ namespace TrenoBambini.EditorTools
             Model("SecchioMetallo", props, new Vector3(0.45f, 0f, -0.75f), 10f, 1.1f, true, "SecchioCarbone");
 
             // cassapanca (cassa grande) con vaso
-            Model("CassaLegno", props, new Vector3(2.65f, 0f, -0.6f), 90f, 1.45f, true, "Cassapanca");
-            Model("VasoTerracotta", props, new Vector3(2.65f, 0.52f, -0.35f), 0f, 1.0f, false, "Vaso");
+            // (la cassapanca lunga 1,2 m sta a ridosso del muro est, la scala va nell'angolo sud-est: ingombri reali, niente sovrapposizioni)
+            var cassapanca = Model("CassaLegno", props, new Vector3(2.62f, 0f, -0.35f), 90f, 1.45f, true, "Cassapanca");
+            var vaso = Model("VasoTerracotta", props, new Vector3(2.62f, 0.52f, -0.15f), 0f, 1.0f, false, "Vaso");
+            Impila(vaso, cassapanca, new Vector2(0f, 0.2f));
 
             // angolo di deposito: botte e casse
             Model("BotteVino", props, new Vector3(-2.55f, 0f, -1.95f), 0f, 1.2f, true, "Botte");
-            Model("CassaLegno", props, new Vector3(-2.55f, 0f, -0.85f), 90f, 1.2f, true, "Cassa");
-            Model("CassaLegno", props, new Vector3(-2.55f, 0.43f, -0.85f), 78f, 1.0f, true, "Cassa");
-            Model("ScalaLegno", props, new Vector3(2.9f, 0f, -1.75f), 90f, 1.5f, false, "Scala");
+            var cassaB = Model("CassaLegno", props, new Vector3(-2.55f, 0f, -0.85f), 90f, 1.2f, true, "Cassa");
+            var cassaT = Model("CassaLegno", props, new Vector3(-2.55f, 0.43f, -0.85f), 78f, 1.0f, true, "Cassa");
+            Impila(cassaT, cassaB, Vector2.zero);
+            Model("ScalaLegno", props, new Vector3(2.58f, 0f, -1.78f), 90f, 1.5f, false, "Scala");
 
             // altarino con lumino (muro nord)
             {
@@ -778,6 +842,8 @@ namespace TrenoBambini.EditorTools
             var d = door.AddComponent<Door>();
             d.targetScene = "10_Hub_Vicolo";
             d.targetSpawn = "da_basso_antonietta";
+
+            RisolviSpazio("20_Int_BassoAntonietta");
 
             // le scarpe (due blocchi a forma di scarpa) vicino alla porta
             var shoes = Empty("Scarpe", props, new Vector3(1.3f, 0f, -2.0f));
@@ -816,6 +882,7 @@ namespace TrenoBambini.EditorTools
             var scene = NewScene();
             kitScene = "Ricordo"; kitIndex = 0;
             doorWallPoints.Clear();
+            ResetSpazio();
             Color sepiaFog = new Color(0.62f, 0.50f, 0.34f);
             Ambient(new Color(0.72f, 0.60f, 0.42f), new Color(0.52f, 0.42f, 0.30f), new Color(0.28f, 0.22f, 0.15f));
             Sun(new Color(1f, 0.86f, 0.62f), 0.9f, new Vector3(55f, -40f, 0f));

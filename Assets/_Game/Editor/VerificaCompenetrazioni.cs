@@ -38,7 +38,7 @@ namespace TrenoBambini.EditorTools
         // contatti voluti con le pareti: battenti nei varchi, insegne, lampioni e pannelli fissati al muro
         static readonly Regex RxFissatoAlMuro = new Regex(@"^(Porta|Insegna|LampioneMuro|Edicola|Altarino|Stenditoio)");
         // oggetti appesi/fissati per costruzione: niente controllo di appoggio
-        static readonly Regex RxAppeso = new Regex(@"^(Panno|Filo|Tenda|BastoneTenda|Insegna|LampioneMuro|Stenditoio|Fiamma|Lumino|Brace|VetroFinestra|EscapeExit|Edicola|Altarino|Statuetta|Luce)");
+        static readonly Regex RxAppeso = new Regex(@"^(TraveSpezzata|Macerie|Panno|Filo|Tenda|BastoneTenda|Insegna|LampioneMuro|Stenditoio|Fiamma|Lumino|Brace|VetroFinestra|EscapeExit|Edicola|Altarino|Statuetta|Luce)");
         // cumuli d'insieme: i pezzi si sovrappongono per natura (macerie, trave caduta sulle macerie)
         // luci/bagliori emissivi e vetri luminosi
         static readonly Regex RxLuce = new Regex(@"^(Fiamma|Lumino|EdicolaLumino|Brace|VetroFinestra|EscapeExit|Glow)");
@@ -57,6 +57,8 @@ namespace TrenoBambini.EditorTools
             public Vector3[] ax;         // 3 assi mondo (unitari)
             public Vector3 h;            // semi-estensioni lungo gli assi
             public bool pavimento, struttura;
+            public bool quad;            // faccia piana di una mesh del kit (superficie sottile): il "solido" sta dietro la faccia
+            public int nAxis; public int nSign; // asse locale (0=x,1=y,2=z della mesh) e verso della normale uscente della faccia
             public Bounds aabb;
         }
 
@@ -169,7 +171,7 @@ namespace TrenoBambini.EditorTools
                 var p = sp.transform.position + Vector3.up * 0.5f;
                 foreach (var o in obbs)
                 {
-                    if (o.pavimento) continue;
+                    if (o.pavimento || o.quad) continue;
                     if (Dentro(o, p, 0.25f)) out_.Add("[" + scena + "] SPAWN '" + sp.id + "' dentro " + o.nome + "  @" + Fmt(sp.transform.position));
                 }
             }
@@ -221,34 +223,31 @@ namespace TrenoBambini.EditorTools
                 var ls = t.lossyScale;
                 // le facciate: corpo (collider della radice) + decorazioni del piano terra (zoccolo, cornici, soglie, grate); le pareti interne: scatole del kit
                 var bc = str && go.name == "LOD0" && item.GetComponent<BoxCollider>() != null ? item.GetComponent<BoxCollider>() : null;
+                var ax = new[] { t.right.normalized, t.up.normalized, t.forward.normalized };
+                var mesh = mf.sharedMesh;
+                string ap = AssetDatabase.GetAssetPath(mesh);
+                bool kit = !pav && ap.StartsWith(KitFolder);
                 if (bc != null)
                 {
                     var tc = bc.transform;
                     var s = bc.size; var lc = tc.lossyScale;
                     list.Add(Crea(r, item, nome, tc.TransformPoint(bc.center), new[] { tc.right.normalized, tc.up.normalized, tc.forward.normalized },
                         new Vector3(Mathf.Abs(s.x * lc.x), Mathf.Abs(s.y * lc.y), Mathf.Abs(s.z * lc.z)) * 0.5f, pav, str));
-                    var deco = ScatoleKit(mf.sharedMesh);
-                    if (deco != null)
-                        foreach (var b in deco)
-                        {
-                            var ob = Crea(r, item, nome, t.TransformPoint(b.center), new[] { t.right.normalized, t.up.normalized, t.forward.normalized },
-                                new Vector3(Mathf.Abs(b.extents.x * ls.x), Mathf.Abs(b.extents.y * ls.y), Mathf.Abs(b.extents.z * ls.z)), pav, str);
-                            if (ob.aabb.min.y < 3.3f) list.Add(ob);
-                        }
-                    continue;
                 }
-                var ax = new[] { t.right.normalized, t.up.normalized, t.forward.normalized };
-                var mesh = mf.sharedMesh;
-                string ap = AssetDatabase.GetAssetPath(mesh);
-                List<Bounds> scatole = !pav && ap.StartsWith(KitFolder) ? ScatoleKit(mesh) : null;
-                if (scatole != null)
+                var facce = kit ? FacceKit(mesh) : null;
+                if (facce != null)
                 {
-                    // mesh del kit: ogni scatola e' un ingombro a se' (scaffali, banchi, letti non sono un unico blocco pieno)
-                    foreach (var b in scatole)
-                        list.Add(Crea(r, item, nome, t.TransformPoint(b.center), ax,
-                            new Vector3(Mathf.Abs(b.extents.x * ls.x), Mathf.Abs(b.extents.y * ls.y), Mathf.Abs(b.extents.z * ls.z)), pav, str));
+                    // mesh del kit: ogni faccia e' una superficie (le facce di scatole che si toccano non si fondono in un blocco falso)
+                    foreach (var f in facce)
+                    {
+                        var h = new Vector3(Mathf.Abs(f.half.x * ls.x), Mathf.Abs(f.half.y * ls.y), Mathf.Abs(f.half.z * ls.z));
+                        var ob = Crea(r, item, nome, t.TransformPoint(f.centro), ax, h, pav, str);
+                        ob.quad = true; ob.nAxis = f.axis; ob.nSign = f.sign;
+                        if (bc != null && ob.aabb.min.y >= 3.3f) continue; // facciate: solo il piano terra e il primo piano
+                        list.Add(ob);
+                    }
                 }
-                else
+                else if (bc == null)
                 {
                     var mb = mesh.bounds;
                     list.Add(Crea(r, item, nome, t.TransformPoint(mb.center), ax,
@@ -270,43 +269,36 @@ namespace TrenoBambini.EditorTools
             return o;
         }
 
-        static readonly Dictionary<Mesh, List<Bounds>> cacheScatole = new Dictionary<Mesh, List<Bounds>>();
+        struct Faccia { public Vector3 centro, half; public int axis, sign; }
+        static readonly Dictionary<Mesh, List<Faccia>> cacheFacce = new Dictionary<Mesh, List<Faccia>>();
 
-        // Ricostruisce le scatole di una mesh del kit (KitBuilder.Box emette fino a 6 quad consecutivi nell'ordine -x,+x,-y,+y,-z,+z):
-        // un nuovo quad con ordine non crescente apre una nuova scatola. Se la mesh non ha la struttura attesa restituisce null.
-        static List<Bounds> ScatoleKit(Mesh m)
+        // Facce piane di una mesh del kit (KitBuilder emette un quad per faccia, normali allineate agli assi). Se la mesh non ha
+        // la struttura attesa restituisce null (si ripiega sull'ingombro della mesh).
+        static List<Faccia> FacceKit(Mesh m)
         {
-            List<Bounds> res;
-            if (cacheScatole.TryGetValue(m, out res)) return res;
+            List<Faccia> res;
+            if (cacheFacce.TryGetValue(m, out res)) return res;
             res = null;
             var v = m.vertices; var nrm = m.normals;
-            int nq = v.Length / 4;
-            // GenerateSecondaryUVSet puo' aggiungere vertici in coda: i quad originali stanno all'inizio
-            var tmp = new List<Bounds>();
+            int nq = v.Length / 4; // GenerateSecondaryUVSet puo' aggiungere vertici in coda: i quad originali stanno all'inizio
+            var tmp = new List<Faccia>(nq);
             bool ok = nq > 0 && nrm.Length == v.Length;
-            int prevOrd = 99;
-            Bounds cur = new Bounds();
-            bool open = false;
             for (int q = 0; q < nq && ok; q++)
             {
                 var nn = nrm[q * 4];
-                int ord;
-                if (Mathf.Abs(nn.x) > 0.99f) ord = nn.x < 0 ? 0 : 1;
-                else if (Mathf.Abs(nn.y) > 0.99f) ord = nn.y < 0 ? 2 : 3;
-                else if (Mathf.Abs(nn.z) > 0.99f) ord = nn.z < 0 ? 4 : 5;
+                int axis, sign;
+                if (Mathf.Abs(nn.x) > 0.99f) { axis = 0; sign = nn.x < 0 ? -1 : 1; }
+                else if (Mathf.Abs(nn.y) > 0.99f) { axis = 1; sign = nn.y < 0 ? -1 : 1; }
+                else if (Mathf.Abs(nn.z) > 0.99f) { axis = 2; sign = nn.z < 0 ? -1 : 1; }
                 else { ok = false; break; }
                 var qb = new Bounds(v[q * 4], Vector3.zero);
                 for (int k = 1; k < 4; k++) qb.Encapsulate(v[q * 4 + k]);
-                if (!open || ord <= prevOrd)
-                {
-                    if (open) tmp.Add(cur);
-                    cur = qb; open = true;
-                }
-                else cur.Encapsulate(qb);
-                prevOrd = ord;
+                var half = qb.extents;
+                if (axis == 0) half.x = 0.0005f; else if (axis == 1) half.y = 0.0005f; else half.z = 0.0005f;
+                tmp.Add(new Faccia { centro = qb.center, half = half, axis = axis, sign = sign });
             }
-            if (ok && open) { tmp.Add(cur); res = tmp; }
-            cacheScatole[m] = res;
+            if (ok) res = tmp;
+            cacheFacce[m] = res;
             return res;
         }
 
@@ -353,6 +345,7 @@ namespace TrenoBambini.EditorTools
                         if (a.struttura && b.struttura) continue;
                         if (!a.aabb.Intersects(b.aabb)) continue;
                         if (Esclusa(a, b)) continue;
+                        if (Penetrazione(a, b) <= Tolleranza) continue;
                         int ia, ib;
                         bool ma = set.TryGetValue(a.item, out ia), mb = set.TryGetValue(b.item, out ib);
                         if (!ma && !mb) continue;
@@ -414,8 +407,38 @@ namespace TrenoBambini.EditorTools
 
         // ------------------------------------------------------------------ geometria
 
-        // penetrazione minima (SAT su 15 assi) tra due OBB; 0 se separate
+        // profondita' (m) con cui 'o' entra dietro la faccia q (verso -normale), 0 se non la attraversa. E' limitata dalle sovrapposizioni
+        // lungo i due assi della faccia: un oggetto che tocca soltanto il bordo (appoggiato sopra una tavola sottile) non e' una compenetrazione.
+        static float ProfonditaDietroFaccia(Obb q, Obb o)
+        {
+            if (SAT(q, o) <= 0f) return 0f;
+            var n = q.ax[q.nAxis] * q.nSign;
+            float p = Vector3.Dot(q.c, n);
+            float dietro = p - (Vector3.Dot(o.c, n) - Raggio(o, n));
+            if (dietro <= 0f) return 0f;
+            float res = dietro;
+            var d = o.c - q.c;
+            for (int k = 0; k < 3; k++)
+            {
+                if (k == q.nAxis) continue;
+                var u = q.ax[k];
+                float ov = Raggio(q, u) + Raggio(o, u) - Mathf.Abs(Vector3.Dot(d, u));
+                if (ov < res) res = ov;
+            }
+            return Mathf.Max(0f, res);
+        }
+
+        // penetrazione tra due ingombri: per le facce del kit e' la profondita' dietro la faccia, per i solidi il SAT
         static float Penetrazione(Obb a, Obb b)
+        {
+            if (a.quad && b.quad) return Mathf.Max(ProfonditaDietroFaccia(a, b), ProfonditaDietroFaccia(b, a));
+            if (a.quad) return ProfonditaDietroFaccia(a, b);
+            if (b.quad) return ProfonditaDietroFaccia(b, a);
+            return SAT(a, b);
+        }
+
+        // penetrazione minima (SAT su 15 assi) tra due OBB; 0 se separate
+        static float SAT(Obb a, Obb b)
         {
             var axes = new List<Vector3>(15);
             axes.AddRange(a.ax); axes.AddRange(b.ax);
@@ -446,7 +469,7 @@ namespace TrenoBambini.EditorTools
                 && Mathf.Abs(Vector3.Dot(d, o.ax[2])) < o.h.z + margine;
         }
 
-        // appoggio: almeno un punto campione della base cade (con 5 cm di tolleranza) dentro l'ingombro di un altro oggetto
+        // appoggio: almeno un punto campione della base sta sopra la faccia superiore di un altro oggetto, entro 5 cm in quota
         static bool Appoggiato(Obb o, List<Obb> tutti)
         {
             float yb = o.aabb.min.y;
@@ -454,15 +477,16 @@ namespace TrenoBambini.EditorTools
             for (int sx = -1; sx <= 1; sx += 2)
                 for (int sz = -1; sz <= 1; sz += 2)
                     pts.Add(o.c + o.ax[0] * o.h.x * 0.6f * sx + o.ax[2] * o.h.z * 0.6f * sz);
-            foreach (var p0 in pts)
-            {
-                var p = new Vector3(p0.x, yb - SogliaAppoggio * 0.5f, p0.z);
+            foreach (var p in pts)
                 foreach (var q in tutti)
                 {
                     if (q.item == o.item) continue;
-                    if (Dentro(q, p, SogliaAppoggio * 0.5f)) return true;
+                    if (q.quad && !(q.nAxis == 1 && q.nSign > 0)) continue; // appoggia solo su facce orizzontali rivolte in alto
+                    var d = p - q.c;
+                    if (Mathf.Abs(Vector3.Dot(d, q.ax[0])) > q.h.x + 0.01f || Mathf.Abs(Vector3.Dot(d, q.ax[2])) > q.h.z + 0.01f) continue;
+                    float top = q.c.y + (q.quad ? 0f : q.h.y);
+                    if (Mathf.Abs(yb - top) <= SogliaAppoggio) return true;
                 }
-            }
             return false;
         }
     }
