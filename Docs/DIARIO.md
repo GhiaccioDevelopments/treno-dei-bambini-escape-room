@@ -5,6 +5,23 @@ Regole d'uso: vedi la sezione "Diario e lavoro su più PC" in `CLAUDE.md`.
 
 ---
 
+## 2026-11-06 – PC scuola – Richiesta R004 (animazione di corsa)
+**Branch:** `richiesta/R004-animazione-corsa` (da `feature/upgrade-realistico` @ 9426a9d)
+
+### Fatto
+- Scritta la richiesta **R004 – Animazione di corsa nuova (da Mixamo)** (PR in bozza verso `feature/upgrade-realistico`):
+  l'attuale `Amerigo_Run.fbx` è "Jogging (In Place)" riprodotta a ~1,7× (adulto) e ~2,35× (bambino), da qui l'effetto brutto.
+  Proposta: "Running" di Mixamo (In Place), taratura di `clipRunSpeed`, passi audio a tempo.
+- Aggiornato l'elenco in `Docs/richieste/README.md` (R001 e R002 risultano implementate nel branch della Fase 2).
+
+### Problemi aperti
+- Il bug del movimento nel gioco online (voce precedente) va ancora provato con F3 da un PC con il browser: questo PC non ha Unity.
+
+### Prossimi passi (PC casa)
+- Prima il bug del movimento, poi R004 seguendo `Docs/richieste/README.md`, poi la sotto-fase 2.6.
+
+---
+
 ## 2026-11-06 – PC casa – Bug del movimento nel gioco online, pulsante Interagisci, diagnosi F3
 **Branch:** feature/upgrade-realistico · **Ultimo commit:** 8d46489 · **gh-pages:** 41101b7
 
