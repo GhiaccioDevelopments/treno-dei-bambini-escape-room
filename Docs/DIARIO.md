@@ -5,6 +5,35 @@ Regole d'uso: vedi la sezione "Diario e lavoro su più PC" in `CLAUDE.md`.
 
 ---
 
+## 2026-11-06 – PC casa – Bug del movimento nel gioco online, pulsante Interagisci, diagnosi F3
+**Branch:** feature/upgrade-realistico · **Ultimo commit:** 8d46489 · **gh-pages:** 41101b7
+
+### Fatto
+- **Pulsante Interagisci:** su PC non c'è più (si usa E, con il cartellino "E …" vicino agli oggetti). Su touch compare solo
+  vicino a un interagibile, dopo il primo tocco reale (`UIRoot.TouchMode`); un tasto della tastiera torna alla modalità PC.
+- **Diagnosi del movimento:** finestra di diagnosi con **F3** (o F2) in basso a sinistra: scena, FPS, blocchi dell'input con il
+  motivo, tasti W/A/S/D/frecce letti, joystick, gamepad, input del controller, velocità, a terra (`Scripts/Core/DiagOverlay.cs`).
+- **Rete di sicurezza:** `GameManager` azzera un blocco dell'input rimasto attivo per oltre 1,5 s senza un proprietario
+  (caricamento, dialogo/puzzle, pausa, inventario, cutscene, dissolvenza) e lo scrive in console.
+- Zona morta 0,25 sul gamepad. Gioco online ripubblicato tre volte (ultima build 41101b7, dati 31,6 MB).
+
+### Problemi aperti
+- ⚠️ **Amerigo non si muove nel gioco online** sul PC di casa dell'utente (Chrome, Nuova partita, fermo del tutto anche col
+  joystick a schermo). Causa NON trovata: in editor e nel browser di prova si muove; escluse root motion, timeScale, blocchi dopo
+  Nuova partita, errori in console del browser. Il browser di prova andava a ~1 fps, quindi il test della tastiera tenuta premuta
+  non è conclusivo. Ipotesi rimaste: tastiera che non arriva al canvas (focus), gamepad "fantasma" a fondo scala, FPS bassissimi.
+- Il joystick a schermo compare anche su PC senza touch (in WebGL `Touchscreen.current` esiste sempre): valutare di mostrarlo
+  solo in modalità touch.
+
+### Prossimi passi (domani, PC scuola)
+1. `git pull`, poi aprire il gioco online con Ctrl+F5 → Nuova partita → clic nell'area di gioco → provare a muoversi.
+2. Se resta fermo: premere **F3**, tenere premuto W e fare uno screenshot. Leggere: W=1? blocchi con motivo? gamepad ≠ 0? FPS?
+3. Correggere la causa, ripubblicare su gh-pages (l'utente ha autorizzato a ripubblicare senza chiedere).
+4. Poi: prova d'ascolto dell'audio, controllo della camminata del bambino, sotto-fase 2.6 (cutscene).
+- Nota: l'editor sul PC di casa è rimasto sulla piattaforma WebGL.
+
+---
+
 ## 2026-11-05/06 – PC casa – Fase 2.5 personaggi chiusa, R001 e R002 integrate
 **Branch:** feature/upgrade-realistico · **Ultimo commit:** vedi `git log` (voce scritta prima del commit finale)
 
