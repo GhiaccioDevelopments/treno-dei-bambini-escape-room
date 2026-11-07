@@ -5,9 +5,11 @@ using UnityEngine.Rendering;
 namespace TrenoBambini.Player
 {
     /// <summary>
-    /// Nasconde i muri che stanno tra la camera e il player, così negli interni piccoli la scena resta leggibile.
-    /// Agisce solo sui collider del layer "VistaLibera" (assegnato dal builder solo a Muro*, tranne MuroInvisibile*; le porte non si nascondono mai):
-    /// la camera (CinemachineDeoccluder) li ignora e questo componente li rende invisibili.
+    /// R018 - REGOLA UNICA (vedi anche CameraGuard): la camera non attraversa mai niente di solido, muri e soffitti compresi
+    /// (CinemachineDeoccluder + CameraGuard; sono eccezione solo i trigger e i props piccoli o bassi).
+    /// WallFader e' quindi solo l'ULTIMA RETE: sbiadisce i muri "di facciata" (layer "VistaLibera", assegnato dal builder a Muro*,
+    /// tranne MuroInvisibile*) che, nonostante la collisione, stanno ancora tra la camera e il giocatore (per esempio con la camera
+    /// costretta alla distanza minima in un angolo). Le porte non si nascondono mai.
     /// I renderer passano a "solo ombra" (non a disattivati): la stanza resta coerente con la luce e l'ombra del muro.
     /// Un ritardo di rilascio (hysteresis) evita lampeggi ai bordi.
     /// </summary>

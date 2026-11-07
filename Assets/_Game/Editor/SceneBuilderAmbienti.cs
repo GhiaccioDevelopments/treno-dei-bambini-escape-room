@@ -797,6 +797,17 @@ namespace TrenoBambini.EditorTools
                 pezzo(cu, o.U0, 0f, h);
                 pezzo(o.U0, o.U1, 0f, o.y0);
                 pezzo(o.U0, o.U1, o.y1, h);
+                if (o.y0 > 0.01f)
+                {
+                    // R018: la finestra e' chiusa dal vetro (collider su un figlio dedicato): la camera non esce dalla stanza.
+                    // Al giocatore non cambia nulla, il davanzale e' a 1,1 m.
+                    Vector3 vc, vs;
+                    fr.Bounds(o.U0, o.U1, 0, thick, o.y0, o.y1, out vc, out vs);
+                    var vetro = new GameObject("VetroFinestraCamera");
+                    vetro.transform.SetParent(go.transform, false);
+                    var vb = vetro.AddComponent<BoxCollider>();
+                    vb.center = vc; vb.size = vs;
+                } // R018: la finestra e' chiusa dal vetro: la camera non esce dalla stanza (al giocatore non cambia nulla, il davanzale e' a 1,1 m)
                 cu = o.U1;
             }
             pezzo(cu, len, 0f, h);

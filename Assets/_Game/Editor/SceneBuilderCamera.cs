@@ -21,7 +21,9 @@ namespace TrenoBambini.EditorTools
 
     public static partial class SceneBuilder
     {
-        // Muro* (tranne MuroInvisibile*): la camera li ignora per la collisione, WallFader li nasconde. Le porte (layer PorteVista) restano solide per il player, visibili sempre, e la camera le attraversa.
+        // Muro* (tranne MuroInvisibile*) vanno sul layer VistaLibera ("facciata"): da R018 la camera collide anche con loro (vedi CameraGuard),
+        // WallFader resta solo come ultima rete per quelli che nonostante tutto stanno tra camera e giocatore.
+        // Le porte (layer PorteVista) restano solide anche per la camera (R018: attraversarle mostrava il vuoto fuori dalla stanza) e WallFader non le nasconde mai.
         static void AssegnaLayerVistaLibera(Scene scene)
         {
             int layer = EnsureLayer(WallFader.LayerName);
@@ -62,7 +64,7 @@ namespace TrenoBambini.EditorTools
         /// <param name="scalaOrbita">Moltiplicatore di altezze e raggi dell'orbita: 0,85 per il bambino MakeHuman (1,0 m invece di 1,2 m) mantiene la stessa proporzione nell'inquadratura.</param>
         static void BuildCameraRig(Camera cam, Transform player, Transform punto, float yaw, CamProfilo profilo, float scalaOrbita = 1f)
         {
-            int layerVista = EnsureLayer(WallFader.LayerName);
+            EnsureLayer(WallFader.LayerName);
             int layerPorte = EnsureLayer(WallFader.LayerPorte);
 
             // la Main Camera diventa solo "schermo": il Brain di Cinemachine la muove
@@ -74,7 +76,7 @@ namespace TrenoBambini.EditorTools
             var vcam = go.AddComponent<CinemachineCamera>();
             vcam.Target.TrackingTarget = punto;
             vcam.Target.LookAtTarget = punto;
-            vcam.Lens.NearClipPlane = 0.1f;
+            vcam.Lens.NearClipPlane = CameraRig.NearClip;
             vcam.Lens.FarClipPlane = 150f;
 
             // Orbita a 3 anelli: l'altezza della camera cambia con l'inclinazione (basso = guarda in su, alto = dall'alto),
@@ -91,14 +93,15 @@ namespace TrenoBambini.EditorTools
             switch (profilo)
             {
                 case CamProfilo.InternoPiccolo:
-                    vcam.Lens.FieldOfView = 50f;
-                    orbit.Orbits = Orbits(top: (3.7f, 1.4f), centro: (2.3f, 3.0f), basso: (1.1f, 2.4f));
+                    vcam.Lens.FieldOfView = 56f;
+                    orbit.Orbits = Orbits(top: (1.6f, 1.3f), centro: (1.2f, 2.4f), basso: (0.8f, 2.0f));
                     comp.Composition.ScreenPosition = new Vector2(0f, -0.04f);
                     break;
                 case CamProfilo.InternoPiccoloAdulto:
                     // altezze relative al punto camera (1,45 m): camera a ~1,7 / 2,5 / 3,2 m dal suolo, sotto o appena sopra i muri da 3 m
-                    vcam.Lens.FieldOfView = 55f;
-                    orbit.Orbits = Orbits(top: (1.75f, 1.2f), centro: (1.0f, 2.5f), basso: (0.2f, 2.0f));
+                    // R018: l'anello alto sta SOTTO il soffitto da 3 m (1,45 + 1,2 = 2,65 m): la camera non esce mai dalla stanza
+                    vcam.Lens.FieldOfView = 58f;
+                    orbit.Orbits = Orbits(top: (1.2f, 1.2f), centro: (0.9f, 2.4f), basso: (0.2f, 2.0f));
                     comp.Composition.ScreenPosition = new Vector2(0f, -0.04f);
                     break;
                 case CamProfilo.InternoLargo:
@@ -128,13 +131,16 @@ namespace TrenoBambini.EditorTools
                 Value = Mathf.DeltaAngle(0f, yaw + off), Center = Mathf.DeltaAngle(0f, yaw + off),
                 Range = new Vector2(-180f, 180f), Wrap = true
             };
-            orbit.VerticalAxis = new InputAxis { Value = 0f, Center = 0f, Range = new Vector2(-1f, 1f), Wrap = false };
+            // R018: negli interni l'inclinazione e' limitata (niente anello bassissimo che guarda il soffitto, niente anello troppo alto)
+            bool interno = profilo != CamProfilo.Esterno;
+            orbit.VerticalAxis = new InputAxis { Value = 0f, Center = 0f, Range = interno ? new Vector2(-0.7f, 1f) : new Vector2(-1f, 1f), Wrap = false };
             orbit.RadialAxis = new InputAxis { Value = 1f, Center = 1f, Range = new Vector2(1f, 1f), Wrap = false };
 
-            // Collisione/occlusione: la camera non attraversa muri e oggetti solidi, tranne Muro*/Porta* (layer VistaLibera,
-            // nascosti da WallFader). Il player è escluso via tag.
+            // Collisione/occlusione (R018, regola unica documentata in CameraGuard): la camera non attraversa niente di solido,
+            // muri, soffitti e porte compresi (layer VistaLibera e PorteVista inclusi); gli unici esclusi sono i trigger e i props piccoli.
+            // Il player è escluso via tag. CameraGuard, subito dopo, copre i casi che il Deoccluder non vede.
             var deo = go.AddComponent<CinemachineDeoccluder>();
-            deo.CollideAgainst = ~((1 << layerVista) | (1 << layerPorte));
+            deo.CollideAgainst = ~0;
             deo.IgnoreTag = "Player";
             deo.MinimumDistanceFromTarget = 0.5f;
             deo.AvoidObstacles.Enabled = true;
@@ -146,6 +152,10 @@ namespace TrenoBambini.EditorTools
             deo.AvoidObstacles.MaximumEffort = 4;
             deo.AvoidObstacles.SmoothingTime = 0.1f;
             deo.ShotQualityEvaluation.Enabled = false;
+
+            var guard = go.AddComponent<CameraGuard>();
+            guard.target = punto;
+            guard.collideAgainst = ~0;
 
             var rig = go.AddComponent<CameraRig>();
             rig.vcam = vcam;
