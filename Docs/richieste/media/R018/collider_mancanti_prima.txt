@@ -1,0 +1,8 @@
+Renderer senza collider (lato >= 0,6 m) - prima - 2026-11-07 21:49
+==== 10_Hub_Vicolo: 0 renderer senza collider ====
+==== 20_Int_BassoAntonietta: 2 renderer senza collider ====
+  Altarino x1   (es. (0.0, 0.0, 0.0) dimensioni (1.1, 1.9, 0.3))
+  MaterassoTerra x1   (es. (-2.0, 0.0, 6.8) dimensioni (0.8, 0.2, 1.8))
+==== 30_FB_Scarpe: 1 renderer senza collider ====
+  RotoliStoffa x1   (es. (-2.3, 0.8, -13.7) dimensioni (0.5, 0.3, 0.8))
+TOTALE: 3

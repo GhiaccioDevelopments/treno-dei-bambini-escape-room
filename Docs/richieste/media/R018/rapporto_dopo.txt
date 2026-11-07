@@ -1,0 +1,36 @@
+Prova automatica della camera (dopo) - 2026-11-07 22:05
+Per ogni punto calpestabile: 12 direzioni x 3 inclinazioni (anello alto, centrale, basso). Errori = dentro geometria + sul vuoto + sotto il suolo + ostacolo tra camera e giocatore.
+
+==================== 10_Hub_Vicolo ====================
+  Punti: 91, pose: 3276
+  dentro geometria: 0
+  sul vuoto: 0
+  sotto il suolo: 0
+  ostacolo tra camera e giocatore: 0
+  troppo vicina (<0,45 m): 0
+  dentro una porta (conta come muro): 0
+  ERRORI scena: 0 su 3276 pose, in 0 punti su 91
+
+==================== 20_Int_BassoAntonietta ====================
+  Punti: 93, pose: 3348
+  dentro geometria: 0
+  sul vuoto: 0
+  sotto il suolo: 0
+  ostacolo tra camera e giocatore: 0
+  troppo vicina (<0,45 m): 2
+      punto (3,2,0,0,8,2) yaw -60 anello -1 camera (3,3,1,5,8,1)
+      punto (3,2,0,0,8,2) yaw -30 anello -1 camera (3,3,1,5,7,9)
+  dentro una porta (conta come muro): 0
+  ERRORI scena: 0 su 3348 pose, in 0 punti su 93
+
+==================== 30_FB_Scarpe ====================
+  Punti: 91, pose: 3276
+  dentro geometria: 0
+  sul vuoto: 0
+  sotto il suolo: 0
+  ostacolo tra camera e giocatore: 0
+  troppo vicina (<0,45 m): 0
+  dentro una porta (conta come muro): 0
+  ERRORI scena: 0 su 3276 pose, in 0 punti su 91
+
+TOTALE pose 9900: dentro geometria 0, sul vuoto 0, sotto il suolo 0, ostacolo tra camera e giocatore 0, troppo vicina (<0,45 m) 2, dentro una porta (conta come muro) 0. ERRORI TOTALI: 0
