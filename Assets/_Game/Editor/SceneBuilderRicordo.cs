@@ -157,6 +157,7 @@ namespace TrenoBambini.EditorTools
             RisolviSpazio("30_FB_Scarpe");
             AssestaMacerie();
             SetStatic(env.gameObject);
+            PredisponiSicurezza(true); // R017
 
             // uscita: bagliore nel muro nord della piazzetta
             var exitRoot = new GameObject("Uscita").transform;

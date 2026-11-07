@@ -142,6 +142,7 @@ Temi trasversali: voto alle donne (amministrative di marzo 1946, poi 2 giugno 19
 ## 7. Proposta per il gioco [GIOCO: proposta]
 
 ### 7.1 Struttura
+- **Decisione dell'utente 2026-11-07: Napoli della memoria.** Hub e basso hanno l'aspetto del 1946 e si giocano con Amerigo adulto, che li attraversa nel presente. Il 1994 vero c'è solo nel finale (R016).
 - **Cornice (1994):** Amerigo adulto (≈55 anni) torna a Napoli per la morte di Antonietta ed entra nel basso svuotato. Ogni oggetto trovato apre un **ricordo**, cioè l'oggetto/flashback dell'escape room. Hub vicolo e basso restano nel **1946**, come già costruiti.
 - **Opzione A (consigliata):** presente 1994 solo in **brevi cutscene** (Timeline) e in una **stanza-cornice** (il basso nel 1994: spoglio, lampadina, calendario 1994, telefono). Serve un secondo set leggero e un look distinto per il presente (più freddo e neutro, meno grana), così il 1946 resta caldo e i flashback più seppia, come vuole CLAUDE.md.
 - **Opzione B:** vicolo 1994 giocabile. Costosa (insegne, auto, cavi), sconsigliata per la Fase 2.

@@ -1,0 +1,5 @@
+Renderer senza collider (lato >= 0,6 m) - dopo - 2026-11-07 21:56
+==== 10_Hub_Vicolo: 0 renderer senza collider ====
+==== 20_Int_BassoAntonietta: 0 renderer senza collider ====
+==== 30_FB_Scarpe: 0 renderer senza collider ====
+TOTALE: 0
