@@ -54,4 +54,5 @@ MCP for Unity) le implementa. Le due sessioni non si parlano: comunicano **solo 
 | R019 | Minimappa d'epoca con prossimo obiettivo e nomi dei vicoli | aperta, PR #21 (dopo R006) |
 | R020 | Enigmi d'autore in ogni stanza (quadri, codici, trama) | aperta, PR #22 (contenuto di R009, assorbe R010) |
 | R021 | Grafica realistica con identità unica (pellicola neorealista) | aperta, PR #23 (dopo/insieme a R007) |
-| R022 | Corsa corretta: personaggio dritto, gamba sinistra | aperta, PR #24 (indipendente) |
+| R022 | Corsa corretta: personaggio dritto, gamba sinistra | integrata in `feature/upgrade-realistico` (7/11), PR #24 |
+| R023 | Menu iniziale e inventario rifatti, al livello dei giochi più belli | aperta, PR #25 (dopo R008) |
