@@ -27,6 +27,7 @@ namespace TrenoBambini.EditorTools
         public static string Scatta(string prefabPath, string nome, float speed = 1f, int fotogrammi = 4)
         {
             var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
+            if (prefab == null) { Debug.LogError("[CorsaFoto] prefab non trovato: " + prefabPath); return null; }
             var pru = new PreviewRenderUtility();
             const int W = 320, H = 360;
             var sheet = new Texture2D(W * fotogrammi, H * 2, TextureFormat.RGB24, false);
@@ -94,6 +95,7 @@ namespace TrenoBambini.EditorTools
         public static string ScattaPosa(string prefabPath, string nome)
         {
             var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
+            if (prefab == null) { Debug.LogError("[CorsaFoto] prefab non trovato: " + prefabPath); return null; }
             var pru = new PreviewRenderUtility();
             const int W = 320, H = 360;
             var sheet = new Texture2D(W * 2, H, TextureFormat.RGB24, false);
@@ -126,6 +128,7 @@ namespace TrenoBambini.EditorTools
         public static string Misura(string prefabPath, float speed = 1f)
         {
             var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
+            if (prefab == null) { Debug.LogError("[CorsaFoto] prefab non trovato: " + prefabPath); return null; }
             var pru = new PreviewRenderUtility();
             var sb = new System.Text.StringBuilder();
             try

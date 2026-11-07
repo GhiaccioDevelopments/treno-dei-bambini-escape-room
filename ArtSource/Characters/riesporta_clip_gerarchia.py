@@ -38,6 +38,8 @@ arm = next(o for o in bpy.data.objects if o.type == 'ARMATURE')
 act = arm.animation_data.action
 pel = arm.pose.bones['pelvis']
 f0, f1 = int(act.frame_range[0]), int(act.frame_range[1])
+if f0 < 1:
+    raise SystemExit('ERRORE: la clip parte dal fotogramma %d; serve f0 >= 1 perche il fotogramma 0 e riservato alla T-pose di riposo' % f0)
 sc = bpy.context.scene
 
 # 1) matrice mondo del bacino a ogni fotogramma (nodo animato + posa dell'osso)

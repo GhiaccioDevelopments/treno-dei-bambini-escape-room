@@ -46,8 +46,9 @@
 ## 5. Criteri di accettazione
 - [x] Causa trovata e scritta nel Rapporto, con prova.
 - [x] Corsa simmetrica: la gamba sinistra si piega come la destra; personaggio dritto (vista frontale e laterale), adulto e bambino. (verificato con foto e curve; vedi Rapporto)
-- [x] Nessun pattinamento dei piedi; passi audio ancora a tempo. (misurato in Play, metodo approssimato; audio non ascoltato)
-- [ ] GIF prima/dopo in `Docs/richieste/media/R022/`; l'utente ha approvato la nuova corsa.
+- [ ] Nessun pattinamento dei piedi; passi audio ancora a tempo. (parziale: stima numerica ok, audio non ascoltato, da verificare dall'utente in gioco)
+- [ ] GIF prima/dopo in `Docs/richieste/media/R022/` (non fatta)
+- [x] L'utente ha approvato la nuova corsa (2026-11-07).
 - [x] Console pulita; scene non rigenerate (non serve), nessun bake.
 
 ## Rapporto
@@ -99,6 +100,12 @@ Compilato da Claude, PC casa, 2026-11-07. Stato: **corsa corretta e verificata i
 - Passi audio (`FootstepAudio`): dipendono da velocita' e `clipRunSpeed * 0,367 s` (mezzo ciclo); la durata della clip (22 fotogrammi, 0,733 s) e la fase (fotogramma 1 = ex fotogramma 0) sono invariate: a tempo come prima.
   Non ho potuto ascoltare l'audio.
 
+### Scelte motivate
+- **Mappa Humanoid rigenerata dall'automatico** a ogni lancio del menu (`humanDescription` vuota, Unity ricostruisce mappa e T-pose dal fotogramma 0): cosi' la posa non puo' restare quella sbagliata di R004.
+  Il `.meta` salvato e' quello corretto (mappa verificata: stesse ossa di prima, posa pelvis/calf identica al modello).
+- **Foot IK resta spento** (`Amerigo.controller`, `m_IKOnFeet: 0`): non e' stato attivato perche' non verificato in Play ne' misurato sulle foto, e la corsa e' gia' simmetrica senza pattinamento nuovo; attivarlo
+  senza prova potrebbe alterare la posa dei piedi/scarpe.
+
 ### Cosa resta aperto
-- Approvazione dell'utente (e riscontro a occhio di pattinamento/passi). GIF prima/dopo non fatta. Bonus (lean in curva, blend tree) non fatti.
+- Riscontro a occhio di pattinamento/passi da parte dell'utente (approvazione della corsa gia' data il 2026-11-07). GIF prima/dopo non fatta. Bonus (lean in curva, blend tree) non fatti.
 - Il lean (8 gradi tolti) si regola rilanciando lo script Blender con un altro `--pitch-fix`.

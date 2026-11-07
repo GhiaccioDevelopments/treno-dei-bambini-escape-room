@@ -13,7 +13,8 @@ namespace TrenoBambini.EditorTools
     /// </summary>
     public static class ClipAmerigoImporter
     {
-        // il nome della clip resta "mixamo.com" come in origine: il controller la referenzia per nome (fileID).
+        // il nome della clip resta "mixamo.com" come in origine (nome interno del take Mixamo); il controller la referenzia con GUID del file + ID interno,
+        // che cambia a ogni riesportazione: per questo dopo l'import viene ricollegata (RicollegaControllerCorsa).
         // percorso, nome clip, primo e ultimo fotogramma della corsa nel file riesportato
         static readonly (string path, string nome, int primo, int ultimo)[] Clip =
         {
@@ -56,7 +57,7 @@ namespace TrenoBambini.EditorTools
 
         const string Controller = "Assets/Art/Characters/Amerigo/Amerigo.controller";
 
-        /// <summary>Dopo la riesportazione l'ID interno della clip cambia: ricollega la clip di corsa (soglia 1) al blend tree Locomozione.</summary>
+        /// <summary>Dopo la riesportazione l'ID interno della clip cambia: ricollega al blend tree Locomozione solo la voce di corsa (soglia 1) che ha perso il riferimento o punta a questo file.</summary>
         static void RicollegaControllerCorsa(string path)
         {
             var clip = AssetDatabase.LoadAllAssetsAtPath(path).OfType<AnimationClip>().FirstOrDefault(a => !a.name.StartsWith("__"));
@@ -68,7 +69,12 @@ namespace TrenoBambini.EditorTools
                 if (bt == null) continue;
                 var ch = bt.children;
                 for (int i = 0; i < ch.Length; i++)
-                    if (ch[i].threshold >= 0.99f) ch[i].motion = clip;
+                {
+                    // solo la voce della corsa: soglia 1 e riferimento perso (null) oppure gia' verso un'altra clip di questo stesso file
+                    bool voceCorsa = ch[i].threshold >= 0.99f;
+                    bool daRicollegare = ch[i].motion == null || AssetDatabase.GetAssetPath(ch[i].motion) == path;
+                    if (voceCorsa && daRicollegare) ch[i].motion = clip;
+                }
                 bt.children = ch;
                 EditorUtility.SetDirty(bt);
             }
