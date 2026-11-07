@@ -8,18 +8,17 @@ namespace TrenoBambini.Player
     /// <summary>
     /// R018: rete di sicurezza della camera, dopo il CinemachineDeoccluder (stesso stadio Body, componente successivo).
     ///
-    /// REGOLA UNICA (vale per CinemachineDeoccluder, CameraGuard e WallFader):
-    ///  1. La camera NON attraversa mai niente di solido: edifici, muri, soffitti, balconi, props grandi (lato oltre 'MinLatoCollider').
-    ///     Le porte (layer PorteVista) contano come muri: attraversarle mostrava il vuoto fuori dalla stanza. Fanno eccezione solo i trigger e i
-    ///     props piccoli o bassi (la camera li scavalca, vedi ContaDimensioni).
-    ///     Il Deoccluder fa il lavoro normale (avvicina la camera con smorzamento); CameraGuard copre i casi che il Deoccluder non vede:
-    ///     giocatore addossato a un muro (lo spherecast parte gia' dentro il collider), orbita troppo bassa o troppo alta.
-    ///  2. CameraGuard tiene la camera sopra il suolo (quota minima dai piedi del giocatore e dal terreno sotto di lei), la tiene
-    ///     a distanza minima dal giocatore e, in vista stretta, alza l'inclinazione ("da sopra la spalla") invece di entrare nel muro.
-    ///     Il rilascio dopo un ostacolo e' morbido ('velocitaRilascio'), l'avvicinamento e' immediato (mai dentro il muro per un fotogramma).
-    ///  3. Se la camera e' troppo vicina il giocatore si nasconde (solo ombra), con isteresi, invece di riempire lo schermo.
-    ///  4. WallFader resta solo come ultima rete: sbiadisce i muri del layer VistaLibera ("di facciata") che, nonostante tutto, stanno
-    ///     tra la camera e il giocatore. Con la regola 1 non dovrebbe quasi mai intervenire.
+    /// REGOLA UNICA (vale per CinemachineDeoccluder, CameraGuard, WallFader e MuroDissolvibile):
+    ///  ESTERNI = LA CAMERA SI AVVICINA; INTERNI = I MURI TRA CAMERA E AMERIGO SI DISSOLVONO; SOFFITTI E PAVIMENTI SEMPRE SOLIDI.
+    ///  1. Esterni (hub, flashback, fuori dai volumi CameraProfileVolume con 'dissolviMuri'): la camera NON attraversa mai niente di solido
+    ///     (edifici, muri, balconi, porte, props con un lato oltre 'MinLatoCollider'); il Deoccluder la avvicina con smorzamento e
+    ///     CameraGuard copre i casi che il Deoccluder non vede (giocatore addossato a un muro: lo spherecast parte gia' dentro il collider).
+    ///  2. Interni (volumi con 'dissolviMuri', cioe' le stanze del basso): muri, pareti divisorie, stipiti e porte (layer VistaLibera e PorteVista)
+    ///     NON spingono la camera: WallFader li dissolve con un dithering di 0,25 s (LODGroup con cross-fade, vedi MuroDissolvibile).
+    ///     Soffitti e pavimenti restano solidi (collidono sempre, nessun dissolvimento). CameraRig sceglie la modalita' in base al volume.
+    ///  3. Sempre: la camera sta sopra il suolo (quota minima dai piedi e dal terreno sotto di lei), a distanza minima dal giocatore, e in vista
+    ///     stretta alza l'inclinazione ("da sopra la spalla") ma mai oltre ElevazioneMax (50 gradi). Il rilascio dopo un ostacolo e' morbido
+    ///     ('velocitaRilascio'), l'avvicinamento immediato. Se la camera e' troppo vicina il giocatore si nasconde (solo ombra, con isteresi).
     /// </summary>
     public class CameraGuard : CinemachineExtension
     {
@@ -42,7 +41,9 @@ namespace TrenoBambini.Player
         const float NascondiSotto = 0.6f;
         const float MostraOltre = 0.8f;
         /// <summary>Inclinazione massima (gradi) con cui la camera si alza in vista stretta, a passi di 12 gradi.</summary>
-        const int PassiAlzata = 7;
+        const int PassiAlzata = 4;
+        /// <summary>Elevazione massima (gradi) della direzione target-camera: la camera non va mai a picco.</summary>
+        public const float ElevazioneMax = 50f;
 
         class Extra : VcamExtraStateBase { public Vector3 correzione; public bool valida; }
 
@@ -113,7 +114,7 @@ namespace TrenoBambini.Player
         bool Dentro(Vector3 p)
         {
             var root = PlayerRoot();
-            int n = Physics.OverlapSphereNonAlloc(p, 0.1f, ovl, collideAgainst, QueryTriggerInteraction.Ignore);
+            int n = Physics.OverlapSphereNonAlloc(p, 0.14f, ovl, collideAgainst, QueryTriggerInteraction.Ignore);
             for (int i = 0; i < n; i++)
             {
                 var c = ovl[i];
@@ -143,6 +144,7 @@ namespace TrenoBambini.Player
                 for (int k = 1; k <= PassiAlzata; k++)
                 {
                     Vector3 d2 = Quaternion.AngleAxis(-12f * k, destra) * dir;
+                    if (Mathf.Asin(Mathf.Clamp(d2.y, -1f, 1f)) * Mathf.Rad2Deg > ElevazioneMax) break;
                     float a2 = Libera(T, d2, dist);
                     float punti = Mathf.Min(a2, dist) - 0.06f * k; // a parita' di spazio si preferisce l'inclinazione piu' bassa
                     if (punti > migliorPunti) { migliorPunti = punti; miglior = a2; migliorDir = d2; }

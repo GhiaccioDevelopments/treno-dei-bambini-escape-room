@@ -31,7 +31,7 @@ namespace TrenoBambini.Player
         [Serializable] public class ScenaLavoro { public string scena; public List<Vector3> punti = new List<Vector3>(); }
         [Serializable] public class Lavoro { public string etichetta; public bool foto; public bool emulaPrima; public List<ScenaLavoro> scene = new List<ScenaLavoro>(); }
 
-        static readonly string[] Cat = { "dentro geometria", "sul vuoto", "sotto il suolo", "ostacolo tra camera e giocatore", "troppo vicina (<0,45 m)", "dentro una porta (conta come muro)" };
+        static readonly string[] Cat = { "dentro geometria", "sul vuoto", "sotto il suolo", "ostacolo tra camera e giocatore", "troppo vicina (<0,45 m)", "dentro/oltre un muro dissolto (ammesso: interno)" };
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         static void Avvia()
@@ -74,6 +74,7 @@ namespace TrenoBambini.Player
                 if (lavoro.foto)
                 {
                     yield return Foto(lavoro, sl, player, rig, brain);
+                    if (!lavoro.emulaPrima && sl.scena.StartsWith("20_")) yield return Movimento(lavoro, player, rig, brain);
                     continue;
                 }
                 var cc = player.GetComponent<CharacterController>();
@@ -112,7 +113,8 @@ namespace TrenoBambini.Player
                             Vector3 c = cam.transform.position;
                             Vector3 tgt = punto.position;
                             string desc = "punto " + F(p) + " yaw " + yaw.ToString("0") + " anello " + pitchV[vi].ToString("0") + " camera " + F(c);
-                            Controlla(c, tgt, p, player, desc, cnt, esempi, casiPunto, pi);
+                            rig.AggiornaModalita();
+                            Controlla(c, tgt, p, player, desc + (CameraRig.Interno ? " [interno]" : ""), cnt, esempi, casiPunto, pi);
                         }
                 }
                 totPose += pose;
@@ -214,6 +216,7 @@ namespace TrenoBambini.Player
                 player.transform.position = p + Vector3.up * 0.05f;
                 if (cc != null) cc.enabled = true;
                 Physics.SyncTransforms();
+                if (rig.enabled) rig.AggiornaModalita();
                 var sheet = new Texture2D(W * 3, H * 2, TextureFormat.RGB24, false);
                 for (int k = 0; k < N; k++)
                 {
@@ -224,7 +227,9 @@ namespace TrenoBambini.Player
                     brain.ManualUpdate(frame++, -1f);
                     brain.ManualUpdate(frame++, 2f);
                     brain.ManualUpdate(frame++, 2f);
-                    yield return null; // LateUpdate: WallFader agisce sulla posa
+                    yield return new WaitForSecondsRealtime(0.45f); // WallFader dissolve i muri tra camera e giocatore (fade di 0,25 s)
+                    // il cross-fade dei LOD avanza con i fotogrammi renderizzati: se ne renderizzano alcuni prima dello scatto finale
+                    for (int w = 0; w < 14; w++) { cam.targetTexture = rt; cam.Render(); cam.targetTexture = null; yield return null; }
                     brain.ManualUpdate(frame++, 0.001f);
                     cam.targetTexture = rt;
                     cam.Render();
@@ -243,6 +248,87 @@ namespace TrenoBambini.Player
             rt.Release(); Destroy(rt); Destroy(tex);
         }
 
+        static bool InImpronta(Vector3 p)
+        {
+            foreach (var v in CameraProfileVolume.Tutti)
+            {
+                if (v == null || !v.dissolviMuri) continue;
+                var b = v.GetComponent<BoxCollider>().bounds;
+                if (p.x >= b.min.x && p.x <= b.max.x && p.z >= b.min.z && p.z <= b.max.z) return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Sequenza in movimento nel basso (Amerigo attraversa la stanza e passa in cucina, aggiornamento normale di Cinemachine, WallFader attivo):
+        /// 8 fotogrammi in una tavola e il rapporto sugli scatti (spostamento massimo della camera in un fotogramma e rapporto con la velocita' di Amerigo).
+        /// </summary>
+        IEnumerator Movimento(Lavoro lavoro, GameObject player, CameraRig rig, CinemachineBrain brain)
+        {
+            brain.UpdateMethod = CinemachineBrain.UpdateMethods.SmartUpdate;
+            var cam = brain.GetComponent<Camera>();
+            var cc = player.GetComponent<CharacterController>();
+            var rotta = new[] { new Vector3(0f, 0f, -1.7f), new Vector3(3f, 0f, 0.6f), new Vector3(3f, 0f, 5.6f) };
+            if (cc != null) cc.enabled = false;
+            player.transform.position = rotta[0] + Vector3.up * 0.05f;
+            if (cc != null) cc.enabled = true;
+            Physics.SyncTransforms();
+            rig.Snap();
+            for (int i = 0; i < 20; i++) yield return null;
+            const int W = 320, H = 180, N = 8;
+            var rt = new RenderTexture(W, H, 24, RenderTextureFormat.ARGB32);
+            var tex = new Texture2D(W, H, TextureFormat.RGB24, false);
+            var sheet = new Texture2D(W * 4, H * 2, TextureFormat.RGB24, false);
+            float lung = 0f; for (int i = 1; i < rotta.Length; i++) lung += Vector3.Distance(rotta[i - 1], rotta[i]);
+            const float vel = 2.0f;
+            float totTempo = lung / vel, passoFoto = totTempo / N;
+            float t = 0f, prossima = 0f; int foto = 0, tratto = 1;
+            Vector3 prevCam = cam.transform.position; float maxSalto = 0f, maxVelCam = 0f; int frames = 0, veloci = 0; var sbm = new StringBuilder();
+            while (tratto < rotta.Length && foto < N)
+            {
+                Vector3 pos = player.transform.position; pos.y = 0f;
+                Vector3 meta = rotta[tratto];
+                Vector3 d = meta - pos; d.y = 0f;
+                float passo = vel * Time.deltaTime;
+                if (d.magnitude <= passo) { tratto++; }
+                var mov = d.normalized * Mathf.Min(passo, d.magnitude);
+                if (cc != null) cc.Move(mov + Vector3.down * 0.5f * Time.deltaTime); else player.transform.position += mov;
+                t += Time.deltaTime;
+                yield return null; // LateUpdate di Cinemachine e WallFader
+                Vector3 cp = cam.transform.position;
+                float salto = Vector3.Distance(cp, prevCam);
+                float velCam = salto / Mathf.Max(Time.deltaTime, 1e-4f);
+                if (frames > 2)
+                {
+                    maxSalto = Mathf.Max(maxSalto, salto); maxVelCam = Mathf.Max(maxVelCam, velCam);
+                    if (velCam > 5f) { veloci++; if (sbm.Length < 400) sbm.Append("[t=" + t.ToString("0.00") + " s, " + (velCam).ToString("0.0") + " m/s, camera " + F(cp) + "] "); }
+                }
+                prevCam = cp; frames++;
+                cam.targetTexture = rt; cam.Render(); cam.targetTexture = null; // fa avanzare la dissolvenza dei muri
+                if (t >= prossima && foto < N)
+                {
+                    prossima += passoFoto;
+                    cam.targetTexture = rt; cam.Render(); cam.targetTexture = null;
+                    RenderTexture.active = rt;
+                    tex.ReadPixels(new Rect(0, 0, W, H), 0, 0); tex.Apply();
+                    RenderTexture.active = null;
+                    int col = foto % 4, row = 1 - foto / 4;
+                    sheet.SetPixels(col * W, row * H, W, H, tex.GetPixels());
+                    foto++;
+                }
+            }
+            sheet.Apply();
+            string dir = Path.GetFullPath(Cartella + "/" + lavoro.etichetta);
+            Directory.CreateDirectory(dir);
+            File.WriteAllBytes(dir + "/20_Int_BassoAntonietta_movimento.jpg", sheet.EncodeToJPG(80));
+            string rapporto = "Sequenza in movimento nel basso (" + lavoro.etichetta + "): " + frames + " fotogrammi, Amerigo a " + vel.ToString("0.0") + " m/s. "
+                + "Spostamento massimo della camera in un fotogramma: " + (maxSalto * 100f).ToString("0.0") + " cm; velocita' massima della camera: " + maxVelCam.ToString("0.0") + " m/s (Amerigo " + vel.ToString("0.0") + " m/s). "
+                + "Fotogrammi con la camera sopra 5 m/s: " + veloci + " " + sbm + ". " + "Muri dissolti a fine corsa: " + FindObjectsByType<MuroDissolvibile>(FindObjectsInactive.Exclude).Length + " dissolvibili in scena.";
+            File.WriteAllText(dir + "/movimento.txt", rapporto, new UTF8Encoding(false));
+            Debug.Log("[Verifica camera] " + rapporto);
+            rt.Release(); Destroy(rt); Destroy(tex); Destroy(sheet);
+        }
+
         static string F(Vector3 v) { return "(" + v.x.ToString("0.0") + "," + v.y.ToString("0.0") + "," + v.z.ToString("0.0") + ")"; }
 
         static void Segna(int cat, string desc, int[] cnt, List<string>[] esempi, HashSet<int> casiPunto, int pi, bool errore)
@@ -254,13 +340,16 @@ namespace TrenoBambini.Player
 
         static void Controlla(Vector3 c, Vector3 tgt, Vector3 suoloGiocatore, GameObject player, string desc, int[] cnt, List<string>[] esempi, HashSet<int> casiPunto, int pi)
         {
-            int vista = LayerMask.NameToLayer(WallFader.LayerName);
+            int vista = LayerMask.NameToLayer(WallFader.LayerName), porte = LayerMask.NameToLayer(WallFader.LayerPorte);
+            bool interno = CameraRig.Interno;
             // a) dentro un collider
             var ov = Physics.OverlapSphere(c, 0.12f, ~0, QueryTriggerInteraction.Ignore);
             bool solido = false, muro = false;
             foreach (var col in ov)
             {
                 if (col.transform.IsChildOf(player.transform) || !CameraGuard.Conta(col)) continue; // i props piccoli la camera li scavalca
+                // negli interni muri e porte dissolvibili non contano: WallFader li rende invisibili (overlap sphere 0,6 m attorno alla camera)
+                if (interno && (col.gameObject.layer == vista || col.gameObject.layer == porte) && col.GetComponentInParent<MuroDissolvibile>() != null) { muro = true; continue; }
                 solido = true; if (desc.Length < 400) desc += " [" + col.name + (col.gameObject.layer == vista ? ", muro" : "") + "]";
             }
             if (solido) Segna(0, desc, cnt, esempi, casiPunto, pi, true);
@@ -268,13 +357,18 @@ namespace TrenoBambini.Player
             // b) suolo sotto la camera e sotto il suolo del giocatore
             Physics.queriesHitBackfaces = false;
             if (!Physics.Raycast(c + Vector3.up * 0.05f, Vector3.down, out var hit, 80f, ~0, QueryTriggerInteraction.Ignore))
-                Segna(1, desc, cnt, esempi, casiPunto, pi, true);
+            {
+                // negli interni la camera puo' stare oltre un muro dissolto, fuori dall'impronta delle stanze: il muro e' invisibile, il vuoto non si vede
+                if (interno && !InImpronta(c)) Segna(5, desc, cnt, esempi, casiPunto, pi, false);
+                else Segna(1, desc, cnt, esempi, casiPunto, pi, true);
+            }
             if (c.y < suoloGiocatore.y + 0.3f) Segna(2, desc, cnt, esempi, casiPunto, pi, true);
             // c) ostacolo solido tra camera e giocatore (escluso il giocatore)
             Vector3 dir = tgt - c; float d = dir.magnitude;
             if (d > 0.05f)
             {
-                var hits = Physics.RaycastAll(c, dir / d, d - 0.05f, ~0, QueryTriggerInteraction.Ignore);
+                int maschera = interno ? ~((1 << vista) | (1 << porte)) : ~0; // negli interni i muri tra camera e giocatore si dissolvono
+                var hits = Physics.RaycastAll(c, dir / d, d - 0.05f, maschera, QueryTriggerInteraction.Ignore);
                 foreach (var h in hits)
                 {
                     if (h.collider.transform.IsChildOf(player.transform) || !CameraGuard.Conta(h.collider)) continue;

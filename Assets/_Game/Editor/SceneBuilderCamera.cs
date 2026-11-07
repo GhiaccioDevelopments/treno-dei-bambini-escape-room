@@ -1,4 +1,5 @@
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Unity.Cinemachine;
@@ -32,11 +33,58 @@ namespace TrenoBambini.EditorTools
                 foreach (var t in root.GetComponentsInChildren<Transform>(true))
                 {
                     string n = t.name;
-                    bool muro = n.StartsWith("Muro") && !n.StartsWith("MuroInvisibile");
+                    bool muro = n.StartsWith("Muro") && !n.StartsWith("MuroInvisibile") && !n.Contains("Soffitto"); // R018: i soffitti restano solidi (layer Default)
                     bool porta = n.StartsWith("Porta") && t.GetComponent<Collider>() != null;
                     if (porta) t.gameObject.layer = layerPorte; // la camera le attraversa, WallFader non le nasconde mai
                     if (muro && t.GetComponent<Collider>() != null) t.gameObject.layer = layer;
                 }
+        }
+
+        /// <summary>
+        /// R018: negli interni (scene con CameraProfileVolume 'dissolviMuri') muri, pareti e porte diventano dissolvibili (MuroDissolvibile = LODGroup
+        /// con cross-fade) e i soffitti tornano sul layer Default (sempre solidi). Idempotente: usato sia dai generatori (BuildBasso) sia dal menu
+        /// "Treno/Camera/Applica dissolvenza interni" che aggiorna le scene gia' costruite senza rigenerarle (le lightmap restano collegate).
+        /// </summary>
+        static int PreparaInterniDissolvibili(Scene scene)
+        {
+            int layerVista = EnsureLayer(WallFader.LayerName), layerPorte = EnsureLayer(WallFader.LayerPorte);
+            bool interno = false;
+            foreach (var root in scene.GetRootGameObjects())
+                foreach (var v in root.GetComponentsInChildren<CameraProfileVolume>(true)) if (v.dissolviMuri) interno = true;
+            if (!interno) return 0;
+            int tot = 0;
+            foreach (var root in scene.GetRootGameObjects())
+                foreach (var t in root.GetComponentsInChildren<Transform>(true))
+                {
+                    string n = t.name;
+                    if (n.StartsWith("Muro") && n.Contains("Soffitto")) { t.gameObject.layer = 0; continue; }
+                    bool muro = n.StartsWith("Muro") && !n.StartsWith("MuroInvisibile");
+                    bool porta = n.StartsWith("Porta") && t.GetComponent<Collider>() != null;
+                    if (!(muro || porta)) continue;
+                    if (t.GetComponentInChildren<Renderer>(true) == null) continue;
+                    if (muro) t.gameObject.layer = layerVista;
+                    MuroDissolvibile.Prepara(t.gameObject);
+                    tot++;
+                }
+            return tot;
+        }
+
+        [MenuItem("Treno/Camera/Applica dissolvenza interni")]
+        public static void ApplicaDissolvenzaInterni()
+        {
+            if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) return;
+            string path = ScenesFolder + "/20_Int_BassoAntonietta.unity";
+            var sc = EditorSceneManager.OpenScene(path, OpenSceneMode.Single);
+            foreach (var root in sc.GetRootGameObjects())
+                foreach (var v in root.GetComponentsInChildren<CameraProfileVolume>(true))
+                {
+                    v.dissolviMuri = true;
+                    if (v.name == "CamVol_Cortile") { v.transform.position = new Vector3(3.75f, 2.1f, 11.1f); v.GetComponent<BoxCollider>().size = new Vector3(5.1f, 4.2f, 6f); }
+                }
+            int n = PreparaInterniDissolvibili(sc);
+            EditorSceneManager.MarkSceneDirty(sc);
+            EditorSceneManager.SaveScene(sc);
+            Debug.Log("[Camera] Dissolvenza interni applicata a " + n + " muri/porte del basso (scena salvata, lightmap invariate).");
         }
 
         static int EnsureLayer(string name)

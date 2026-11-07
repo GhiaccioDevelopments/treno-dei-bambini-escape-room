@@ -7,7 +7,7 @@ namespace TrenoBambini.Player
     /// R018: volume (BoxCollider trigger, allineato agli assi) che attiva un profilo camera per una stanza: scala dell'orbita
     /// (altezze e raggi degli anelli rispetto al punto mirato), campo visivo e limiti dell'inclinazione. CameraRig cerca ogni
     /// fotogramma il volume piu' piccolo che contiene il giocatore e passa al suo profilo con una transizione morbida; fuori da
-    /// tutti i volumi torna al profilo della scena. Creato dai generatori delle scene (SceneBuilderBasso).
+    /// tutti i volumi torna al profilo della scena. Con 'dissolviMuri' il volume e' un interno: vedi la regola in CameraGuard. Creato dai generatori delle scene (SceneBuilderBasso).
     /// </summary>
     [RequireComponent(typeof(BoxCollider))]
     public class CameraProfileVolume : MonoBehaviour
@@ -21,6 +21,9 @@ namespace TrenoBambini.Player
         [Tooltip("Limiti dell'asse verticale (-1 anello basso, +1 anello alto).")]
         public float pitchMin = -1f;
         public float pitchMax = 1f;
+
+        [Tooltip("Interno: i muri, le pareti e le porte tra camera e giocatore si dissolvono (MuroDissolvibile) invece di spingere la camera. Soffitto e pavimento restano solidi.")]
+        public bool dissolviMuri;
 
         BoxCollider box;
 

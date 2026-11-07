@@ -59,10 +59,18 @@ namespace TrenoBambini.Player
         float scalaCorr = 1f, scalaVel, fovCorr, fovVel, pMinCorr, pMinVel, pMaxCorr, pMaxVel;
         bool profiloInit;
 
+        /// <summary>True se il giocatore e' in un volume interno (CameraProfileVolume.dissolviMuri): i muri si dissolvono invece di spingere la camera.</summary>
+        public static bool Interno { get; private set; }
+        Unity.Cinemachine.CinemachineDeoccluder deoccluder;
+        CameraGuard guard;
+        bool modalitaInit;
+
         void Awake()
         {
             if (vcam == null) vcam = GetComponent<CinemachineCamera>();
             if (orbit == null) orbit = GetComponent<CinemachineOrbitalFollow>();
+            deoccluder = GetComponent<Unity.Cinemachine.CinemachineDeoccluder>();
+            guard = GetComponent<CameraGuard>();
         }
 
         void Start()
@@ -74,7 +82,7 @@ namespace TrenoBambini.Player
 #endif
         }
 
-        void OnDisable() { MoveYaw = float.NaN; }
+        void OnDisable() { MoveYaw = float.NaN; Interno = false; }
 
         /// <summary>
         /// Near fisso a 0,12 m. Far = distanza a cui la nebbia esponenziale copre ormai il 95% (3 / densita'), tra 40 e 150 m:
@@ -92,9 +100,38 @@ namespace TrenoBambini.Player
             vcam.Lens = l;
         }
 
+        /// <summary>
+        /// Sceglie la modalita' in base al volume che contiene il giocatore: interno = i muri (VistaLibera, PorteVista) non collidono con la camera e
+        /// si dissolvono; esterno = la camera collide con tutto. Si chiama ogni fotogramma da Update (e dalla prova automatica).
+        /// </summary>
+        public void AggiornaModalita()
+        {
+            var tr = target != null ? target : transform;
+            var vol = CameraProfileVolume.Trova(tr.position);
+            bool interno = vol != null && vol.dissolviMuri;
+            if (modalitaInit && interno == Interno) return;
+            modalitaInit = true;
+            Interno = interno;
+            int vista = LayerMask.NameToLayer(WallFader.LayerName), porte = LayerMask.NameToLayer(WallFader.LayerPorte);
+            int maschera = interno ? ~((1 << vista) | (1 << porte)) : ~0;
+            if (deoccluder != null) deoccluder.CollideAgainst = maschera;
+            if (guard != null) guard.collideAgainst = maschera;
+        }
+
+        /// <summary>Limita l'angolo dell'anello (altezza / raggio) a CameraGuard.ElevazioneMax gradi.</summary>
+        static Unity.Cinemachine.Cinemachine3OrbitRig.Orbit Limita(Unity.Cinemachine.Cinemachine3OrbitRig.Orbit o)
+        {
+            float max = o.Radius * Mathf.Tan(CameraGuard.ElevazioneMax * Mathf.Deg2Rad);
+            if (o.Height > max) o.Height = max;
+            return o;
+        }
+
         void CatturaProfiloBase()
         {
             orbiteBase = orbit.Orbits;
+            orbiteBase.Top = Limita(orbiteBase.Top);
+            orbiteBase.Center = Limita(orbiteBase.Center);
+            orbit.Orbits = orbiteBase;
             fovBase = vcam != null ? vcam.Lens.FieldOfView : 52f;
             rangeBase = orbit.VerticalAxis.Range;
             fovCorr = fovBase; scalaCorr = 1f; pMinCorr = rangeBase.x; pMaxCorr = rangeBase.y;
@@ -105,6 +142,7 @@ namespace TrenoBambini.Player
         void AggiornaProfilo()
         {
             if (!profiloInit) CatturaProfiloBase();
+            AggiornaModalita();
             var tr = target != null ? target : transform;
             var vol = CameraProfileVolume.Trova(tr.position);
             float scalaT = vol != null ? vol.scalaOrbita : 1f;

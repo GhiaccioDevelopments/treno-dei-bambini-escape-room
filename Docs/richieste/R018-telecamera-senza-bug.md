@@ -43,8 +43,8 @@
 4. Profili interni. 5. Prova automatica (dopo) + GIF nei vicoli stretti e nel basso.
 
 ## 5. Criteri di accettazione
-- [x] La prova automatica non trova la camera dentro geometria né sul vuoto in hub, basso e flashback (9.900 pose, 0 errori; prima 9.972 pose, 3.769 errori).
-- [ ] Nei vicoli stretti e nelle stanze del basso la camera non attraversa muri né soffitti, senza scatti (GIF). Verificato: non attraversa (prova + sequenze di screenshot prima/dopo). NON verificato: assenza di scatti in movimento (la prova misura la posa a regime, non i transitori) e nessuna GIF.
+- [x] La prova automatica non trova la camera dentro geometria né sul vuoto in hub, basso e flashback (9.900 pose, 0 errori; prima 9.972 pose, 3.769 errori; negli interni un muro dissolvibile tra camera e giocatore non e' errore, soffitto e pavimento si').
+- [x] Nei vicoli stretti e nelle stanze del basso la camera non attraversa muri né soffitti (esterni: pull forward; interni: i muri si dissolvono, soffitti solidi) e senza scatti vistosi: sequenza in movimento nel basso (8 fotogrammi, `dopo/20_Int_BassoAntonietta_movimento.jpg`), spostamento massimo della camera 4,1 cm in un fotogramma. Nessuna GIF: solo tavole di screenshot. Gli scatti sono misurati solo in quel percorso (editor, frame time irregolare).
 - [x] Mouse, gamepad e touch invariati (R005), sensibilità e inversione Y rispettate (verificato dal diff: il codice di input di CameraRig non è stato toccato; non provato con periferiche reali).
 - [ ] Console pulita (verificata: nessun errore né avviso), nessun calo di FPS misurabile (preset Alta e Bassa, anche WebGL). FPS NON misurati: serve l'editor in primo piano per un confronto affidabile; costo atteso trascurabile (alcuni raycast e spherecast per fotogramma).
 
@@ -83,13 +83,23 @@ Cause trovate:
 
 Renderer senza collider (esclusi decorazioni sottili o basse): 3 prima (Altarino, MaterassoTerra, RotoliStoffa: gli ultimi due sono bassi e non contano), 0 dopo. Raggiungibilità (R006): 0 problemi. Superfici e buchi (R017): 0 buchi, 0 bordi aperti, complanari visibili 8 (come prima).
 
+### Decisione dell'utente: "muro che si dissolve" (seconda passata)
+In 4 viste su 6 la camera nel basso andava quasi a picco (fino a 84 gradi): non piaceva. Nuova regola, scritta in testa a `CameraGuard.cs`, `WallFader.cs` e `MuroDissolvibile.cs`: **esterni = la camera si avvicina; interni = i muri tra camera e Amerigo si dissolvono; soffitti e pavimenti sempre solidi.**
+- Inclinazione massima circa 50 gradi ovunque (`CameraGuard.ElevazioneMax`): la salita in vista stretta e' limitata (4 passi da 12 gradi, mai oltre 50), e gli anelli dell'orbita sono limitati a 50 gradi (`CameraRig`, a runtime).
+- Interni = volumi `CameraProfileVolume` con `dissolviMuri` (le 4 stanze del basso). `CameraRig.AggiornaModalita()` li riconosce e toglie i layer VistaLibera e PorteVista dalla maschera di Deoccluder e CameraGuard: muri, pareti, stipiti e porte non spingono piu' la camera. Soffitto (prima `MuroSoffittoStanza` su VistaLibera) passato al layer Default: sempre solido, come i pavimenti. Hub e flashback invariati (facciate solide, pull forward).
+- Dissolvenza: `MuroDissolvibile` = un LODGroup per muro con cross-fade animato di 0,25 s. Lo shader URP Lit ha gia' il dithering (LOD_FADE_CROSSFADE) in tutti i passi: niente shader nuovo, niente materiali duplicati, funziona in WebGL, lightmap invariate. Per nascondere si porta la `size` del LODGroup quasi a zero (le soglie sopra 1 non funzionano con la camera vicina; provato). `WallFader` (riscritto) dissolve i dissolvibili tra camera e giocatore e attorno alla camera, con rilascio dopo 0,25 s; vale solo negli interni.
+- Nessuna rigenerazione e **nessun nuovo bake**: le scene non sono state rigenerate, il basso e' stato aggiornato sul posto dal menu `Treno ▸ Camera ▸ Applica dissolvenza interni` (stessa funzione `PreparaInterniDissolvibili` che usa il generatore di `BuildBasso`), LightingData e lightmap invariati (0 MB in piu' in LFS in questa passata).
+- Prova automatica aggiornata: negli interni un muro/porta dissolvibile tra camera e giocatore, o attorno alla camera, non e' errore (conteggio a parte: 897 pose); la camera oltre un muro, fuori dall'impronta delle stanze, non conta come "sul vuoto"; soffitti e pavimenti contano sempre. Risultato finale: 9.900 pose, 0 errori. Camera a meno di 0,45 m dal giocatore (solo conteggio, giocatore nascosto): 377 pose (hub 55, basso 75, flashback 247) negli angoli piu' stretti, effetto del limite a 50 gradi.
+- Sequenze rifatte: `dopo/` (3 punti piu' stretti di hub e basso, 6 direzioni, con le dissolvenze a regime) e `dopo/20_Int_BassoAntonietta_movimento.jpg` + `movimento.txt` (Amerigo attraversa la stanza e va in cucina, aggiornamento normale, 8 fotogrammi).
+
 ### Foto
-`Docs/richieste/media/R018/prima/` e `dopo/`: per i 3 punti piu' stretti di hub e basso, 6 direzioni a 60 gradi (1278x480 JPG). "Prima" e' ricostruito dalle scene nuove disattivando CameraGuard, profili per stanza, vetri delle finestre e le collisioni di muri e porte (orbita e FOV del basso di allora). Rapporti: `rapporto_prima.txt`, `rapporto_dopo.txt`, `collider_mancanti_prima.txt`, `collider_mancanti_dopo.txt`.
+`Docs/richieste/media/R018/prima/` e `dopo/`: per i 3 punti piu' stretti di hub e basso, 6 direzioni a 60 gradi (1278x480 JPG). "Prima" e' ricostruito dalle scene con la configurazione di prima di R018 (nessun CameraGuard, profili o vetri, camera che attraversa muri e porte, orbita e FOV del basso di allora). Rapporti: `rapporto_prima.txt`, `rapporto_dopo.txt`, `collider_mancanti_prima.txt`, `collider_mancanti_dopo.txt`.
 
 ### Bake e LFS
-Scene rigenerate (3 volte durante il lavoro, i dati luce si scollegano) e **un solo bake** a fine lavoro (`Treno ▸ Look ▸ Bake luci di tutte le scene`, 146 s): circa 20 MB di EXR e LightingData nuovi in LFS (totale stimato ~665 MB su 1 GB).
+Prima passata: scene rigenerate (3 volte durante il lavoro, i dati luce si scollegano) e **un solo bake** a fine lavoro (`Treno ▸ Look ▸ Bake luci di tutte le scene`, 146 s): circa 20 MB di EXR e LightingData nuovi in LFS (totale stimato ~665 MB su 1 GB).
 
 ### Limiti noti / da guardare
 - Il basso e' buio (lampade a petrolio): con la camera sotto il soffitto le foto sono scure come il gioco vero.
-- In un angolo la camera puo' andare quasi a picco sul giocatore: e' la vista "sopra la spalla" richiesta, ma e' un'inquadratura insolita.
-- Scatti in movimento non misurati (la prova guarda la posa a regime). FPS non misurati.
+- Con il limite di 50 gradi, negli angoli piu' stretti degli esterni la camera si avvicina molto al giocatore (che si nasconde sotto 0,6 m): e' la regola "gli esterni si avvicinano".
+- Scatti misurati solo su un percorso nel basso; il pull-in di CameraGuard e' immediato (mai dentro un muro per un fotogramma).
+- Il dithering dei muri e' quello del cross-fade dei LOD: visto in editor e nelle foto, non provato in una build WebGL. FPS non misurati.

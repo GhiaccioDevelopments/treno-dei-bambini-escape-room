@@ -627,8 +627,6 @@ MonoBehaviour:
   distanzaMinima: 0.12
   quotaMinima: 0.45
   velocitaRilascio: 5
-  nascondiSotto: 0.9
-  mostraOltre: 1.15
 --- !u!114 &48653545
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1288,6 +1286,8 @@ GameObject:
   - component: {fileID: 141513387}
   - component: {fileID: 141513386}
   - component: {fileID: 141513385}
+  - component: {fileID: 141513389}
+  - component: {fileID: 141513388}
   m_Layer: 8
   m_Name: MuroAngolo_SE
   m_TagString: Untagged
@@ -1388,6 +1388,38 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 141513383}
   m_Mesh: {fileID: 4300000, guid: 32eb8311904a63740b58f75be2549aab, type: 2}
+--- !u!205 &141513388
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 141513383}
+  serializedVersion: 3
+  m_LocalReferencePoint: {x: 4.65, y: 1.5, z: -2.65}
+  m_Size: 3
+  m_FadeMode: 1
+  m_AnimateCrossFading: 1
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.01
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 141513386}
+  m_Enabled: 1
+  m_GlobalIlluminationLOD: 0
+--- !u!114 &141513389
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 141513383}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c49147f036e5a64a8d8f88ba218bb14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrenoBambini.Player.MuroDissolvibile
 --- !u!1 &146234942
 GameObject:
   m_ObjectHideFlags: 0
@@ -2101,6 +2133,8 @@ GameObject:
   - component: {fileID: 235057340}
   - component: {fileID: 235057339}
   - component: {fileID: 235057338}
+  - component: {fileID: 235057342}
+  - component: {fileID: 235057341}
   m_Layer: 8
   m_Name: MuroAngolo_EMezzo
   m_TagString: Untagged
@@ -2201,6 +2235,38 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 235057336}
   m_Mesh: {fileID: 4300000, guid: 3b4a193dcd7cb154cad273a6ac29eb1e, type: 2}
+--- !u!205 &235057341
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 235057336}
+  serializedVersion: 3
+  m_LocalReferencePoint: {x: 4.65, y: 1.5, z: 3.65}
+  m_Size: 3
+  m_FadeMode: 1
+  m_AnimateCrossFading: 1
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.01
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 235057339}
+  m_Enabled: 1
+  m_GlobalIlluminationLOD: 0
+--- !u!114 &235057342
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 235057336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c49147f036e5a64a8d8f88ba218bb14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrenoBambini.Player.MuroDissolvibile
 --- !u!1 &259261700
 GameObject:
   m_ObjectHideFlags: 0
@@ -2216,6 +2282,8 @@ GameObject:
   - component: {fileID: 259261704}
   - component: {fileID: 259261703}
   - component: {fileID: 259261702}
+  - component: {fileID: 259261709}
+  - component: {fileID: 259261708}
   m_Layer: 8
   m_Name: MuroEstCucina
   m_TagString: Untagged
@@ -2385,6 +2453,38 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 259261700}
   m_Mesh: {fileID: 4300000, guid: b629ed88b3b6e7a4a8705cc5356d152b, type: 2}
+--- !u!205 &259261708
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 259261700}
+  serializedVersion: 3
+  m_LocalReferencePoint: {x: 4.61, y: 1.55, z: 5.8}
+  m_Size: 4.0600004
+  m_FadeMode: 1
+  m_AnimateCrossFading: 1
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.01
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 259261706}
+  m_Enabled: 1
+  m_GlobalIlluminationLOD: 0
+--- !u!114 &259261709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 259261700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c49147f036e5a64a8d8f88ba218bb14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrenoBambini.Player.MuroDissolvibile
 --- !u!1 &260721633
 GameObject:
   m_ObjectHideFlags: 0
@@ -3525,6 +3625,8 @@ GameObject:
   - component: {fileID: 359659748}
   - component: {fileID: 359659747}
   - component: {fileID: 359659746}
+  - component: {fileID: 359659750}
+  - component: {fileID: 359659749}
   m_Layer: 8
   m_Name: MuroAngolo_NECortile
   m_TagString: Untagged
@@ -3625,6 +3727,38 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 359659744}
   m_Mesh: {fileID: 4300000, guid: 31210282b21c80c49abebe2de230184b, type: 2}
+--- !u!205 &359659749
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 359659744}
+  serializedVersion: 3
+  m_LocalReferencePoint: {x: 6.45, y: 2.1, z: 14.25}
+  m_Size: 4.2
+  m_FadeMode: 1
+  m_AnimateCrossFading: 1
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.01
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 359659747}
+  m_Enabled: 1
+  m_GlobalIlluminationLOD: 0
+--- !u!114 &359659750
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 359659744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c49147f036e5a64a8d8f88ba218bb14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrenoBambini.Player.MuroDissolvibile
 --- !u!1 &366611931
 GameObject:
   m_ObjectHideFlags: 0
@@ -4132,6 +4266,8 @@ GameObject:
   - component: {fileID: 395162210}
   - component: {fileID: 395162209}
   - component: {fileID: 395162208}
+  - component: {fileID: 395162212}
+  - component: {fileID: 395162211}
   m_Layer: 8
   m_Name: MuroEstAlcova
   m_TagString: Untagged
@@ -4237,6 +4373,38 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 395162206}
   m_Mesh: {fileID: 4300000, guid: fcfae13bf5642654b99a26a765e0db6f, type: 2}
+--- !u!205 &395162211
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 395162206}
+  serializedVersion: 3
+  m_LocalReferencePoint: {x: -1.3625, y: 1.55, z: 5.8}
+  m_Size: 4.0600004
+  m_FadeMode: 1
+  m_AnimateCrossFading: 1
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.01
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 395162209}
+  m_Enabled: 1
+  m_GlobalIlluminationLOD: 0
+--- !u!114 &395162212
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 395162206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c49147f036e5a64a8d8f88ba218bb14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrenoBambini.Player.MuroDissolvibile
 --- !u!1 &396933672
 GameObject:
   m_ObjectHideFlags: 0
@@ -4455,6 +4623,8 @@ GameObject:
   - component: {fileID: 422327260}
   - component: {fileID: 422327259}
   - component: {fileID: 422327258}
+  - component: {fileID: 422327264}
+  - component: {fileID: 422327263}
   m_Layer: 8
   m_Name: MuroSud
   m_TagString: Untagged
@@ -4602,6 +4772,38 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 422327256}
   m_Mesh: {fileID: 4300000, guid: 87c3ad2b69736844d88c39cbbf075a0c, type: 2}
+--- !u!205 &422327263
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 422327256}
+  serializedVersion: 3
+  m_LocalReferencePoint: {x: 0, y: 1.55, z: -2.6339998}
+  m_Size: 9.059999
+  m_FadeMode: 1
+  m_AnimateCrossFading: 1
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.01
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 422327261}
+  m_Enabled: 1
+  m_GlobalIlluminationLOD: 0
+--- !u!114 &422327264
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 422327256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c49147f036e5a64a8d8f88ba218bb14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrenoBambini.Player.MuroDissolvibile
 --- !u!1 &426081461
 GameObject:
   m_ObjectHideFlags: 0
@@ -4618,6 +4820,8 @@ GameObject:
   - component: {fileID: 426081465}
   - component: {fileID: 426081464}
   - component: {fileID: 426081463}
+  - component: {fileID: 426081471}
+  - component: {fileID: 426081470}
   m_Layer: 8
   m_Name: MuroNord
   m_TagString: Untagged
@@ -4807,6 +5011,38 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 426081461}
   m_Mesh: {fileID: 4300000, guid: 882aef56f2cab2c439834eca02d39690, type: 2}
+--- !u!205 &426081470
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 426081461}
+  serializedVersion: 3
+  m_LocalReferencePoint: {x: 0, y: 1.55, z: 3.6339998}
+  m_Size: 9.059999
+  m_FadeMode: 1
+  m_AnimateCrossFading: 1
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.01
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 426081468}
+  m_Enabled: 1
+  m_GlobalIlluminationLOD: 0
+--- !u!114 &426081471
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 426081461}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c49147f036e5a64a8d8f88ba218bb14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrenoBambini.Player.MuroDissolvibile
 --- !u!1 &438889281
 GameObject:
   m_ObjectHideFlags: 0
@@ -5586,6 +5822,8 @@ GameObject:
   - component: {fileID: 498354006}
   - component: {fileID: 498354005}
   - component: {fileID: 498354004}
+  - component: {fileID: 498354008}
+  - component: {fileID: 498354007}
   m_Layer: 8
   m_Name: MuroAngolo_NEAlcova
   m_TagString: Untagged
@@ -5686,6 +5924,38 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 498354002}
   m_Mesh: {fileID: 4300000, guid: 521dc541b28ed3f4db8c211837fc795e, type: 2}
+--- !u!205 &498354007
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 498354002}
+  serializedVersion: 3
+  m_LocalReferencePoint: {x: -1.35, y: 1.5, z: 7.9500003}
+  m_Size: 3
+  m_FadeMode: 1
+  m_AnimateCrossFading: 1
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.01
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 498354005}
+  m_Enabled: 1
+  m_GlobalIlluminationLOD: 0
+--- !u!114 &498354008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 498354002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c49147f036e5a64a8d8f88ba218bb14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrenoBambini.Player.MuroDissolvibile
 --- !u!1001 &512592544
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7045,6 +7315,8 @@ GameObject:
   - component: {fileID: 706015302}
   - component: {fileID: 706015301}
   - component: {fileID: 706015300}
+  - component: {fileID: 706015304}
+  - component: {fileID: 706015303}
   m_Layer: 8
   m_Name: MuroNordAlcova
   m_TagString: Untagged
@@ -7150,6 +7422,38 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 706015298}
   m_Mesh: {fileID: 4300000, guid: 8346a5427b0d4aa4785b6271b54a3bbd, type: 2}
+--- !u!205 &706015303
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 706015298}
+  serializedVersion: 3
+  m_LocalReferencePoint: {x: -3, y: 1.55, z: 7.9375}
+  m_Size: 3.1
+  m_FadeMode: 1
+  m_AnimateCrossFading: 1
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.01
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 706015301}
+  m_Enabled: 1
+  m_GlobalIlluminationLOD: 0
+--- !u!114 &706015304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 706015298}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c49147f036e5a64a8d8f88ba218bb14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrenoBambini.Player.MuroDissolvibile
 --- !u!1 &714084424
 GameObject:
   m_ObjectHideFlags: 0
@@ -7537,6 +7841,7 @@ MonoBehaviour:
   fov: 62
   pitchMin: -0.5
   pitchMax: 0.8
+  dissolviMuri: 1
 --- !u!65 &745786985
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7645,6 +7950,8 @@ GameObject:
   - component: {fileID: 767629589}
   - component: {fileID: 767629588}
   - component: {fileID: 767629587}
+  - component: {fileID: 767629594}
+  - component: {fileID: 767629593}
   m_Layer: 8
   m_Name: MuroEst
   m_TagString: Untagged
@@ -7814,6 +8121,38 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 767629585}
   m_Mesh: {fileID: 4300000, guid: b2dc7503758cea34198e73da8b0df011, type: 2}
+--- !u!205 &767629593
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 767629585}
+  serializedVersion: 3
+  m_LocalReferencePoint: {x: 4.61, y: 1.55, z: 0.5}
+  m_Size: 6.0600004
+  m_FadeMode: 1
+  m_AnimateCrossFading: 1
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.01
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 767629591}
+  m_Enabled: 1
+  m_GlobalIlluminationLOD: 0
+--- !u!114 &767629594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 767629585}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c49147f036e5a64a8d8f88ba218bb14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrenoBambini.Player.MuroDissolvibile
 --- !u!1 &797085291
 GameObject:
   m_ObjectHideFlags: 0
@@ -8804,6 +9143,8 @@ GameObject:
   - component: {fileID: 928910797}
   - component: {fileID: 928910796}
   - component: {fileID: 928910795}
+  - component: {fileID: 928910799}
+  - component: {fileID: 928910798}
   m_Layer: 8
   m_Name: MuroAngolo_OMezzo
   m_TagString: Untagged
@@ -8904,6 +9245,38 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 928910793}
   m_Mesh: {fileID: 4300000, guid: 8ff589a41191d6b4f9a4f692f005bd3c, type: 2}
+--- !u!205 &928910798
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 928910793}
+  serializedVersion: 3
+  m_LocalReferencePoint: {x: -4.65, y: 1.5, z: 3.65}
+  m_Size: 3
+  m_FadeMode: 1
+  m_AnimateCrossFading: 1
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.01
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 928910796}
+  m_Enabled: 1
+  m_GlobalIlluminationLOD: 0
+--- !u!114 &928910799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 928910793}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c49147f036e5a64a8d8f88ba218bb14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrenoBambini.Player.MuroDissolvibile
 --- !u!1 &935747337
 GameObject:
   m_ObjectHideFlags: 0
@@ -8916,6 +9289,8 @@ GameObject:
   - component: {fileID: 935747341}
   - component: {fileID: 935747340}
   - component: {fileID: 935747339}
+  - component: {fileID: 935747343}
+  - component: {fileID: 935747342}
   m_Layer: 8
   m_Name: MuroEstCortile
   m_TagString: Untagged
@@ -9021,6 +9396,38 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 935747337}
   m_Mesh: {fileID: 4300000, guid: 85cd7b2c7b8354c4b88d361c3865bbda, type: 2}
+--- !u!205 &935747342
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 935747337}
+  serializedVersion: 3
+  m_LocalReferencePoint: {x: 6.4375, y: 2.1499999, z: 11.1}
+  m_Size: 6.0600014
+  m_FadeMode: 1
+  m_AnimateCrossFading: 1
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.01
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 935747340}
+  m_Enabled: 1
+  m_GlobalIlluminationLOD: 0
+--- !u!114 &935747343
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 935747337}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c49147f036e5a64a8d8f88ba218bb14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrenoBambini.Player.MuroDissolvibile
 --- !u!1 &940468842
 GameObject:
   m_ObjectHideFlags: 0
@@ -9293,6 +9700,7 @@ MonoBehaviour:
   fov: 0
   pitchMin: -0.7
   pitchMax: 1
+  dissolviMuri: 1
 --- !u!65 &967138640
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9453,6 +9861,8 @@ GameObject:
   - component: {fileID: 971370970}
   - component: {fileID: 971370969}
   - component: {fileID: 971370968}
+  - component: {fileID: 971370972}
+  - component: {fileID: 971370971}
   m_Layer: 9
   m_Name: PortaRetro
   m_TagString: Untagged
@@ -9554,6 +9964,38 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 971370966}
   m_Mesh: {fileID: 4300000, guid: f18cf3198d0abe24d91bb5db2b44a861, type: 2}
+--- !u!205 &971370971
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 971370966}
+  serializedVersion: 3
+  m_LocalReferencePoint: {x: 3.6999998, y: 1.075, z: 14.190001}
+  m_Size: 2.15
+  m_FadeMode: 1
+  m_AnimateCrossFading: 1
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.01
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 971370969}
+  m_Enabled: 1
+  m_GlobalIlluminationLOD: 0
+--- !u!114 &971370972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 971370966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c49147f036e5a64a8d8f88ba218bb14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrenoBambini.Player.MuroDissolvibile
 --- !u!1 &972751528
 GameObject:
   m_ObjectHideFlags: 0
@@ -9568,6 +10010,8 @@ GameObject:
   - component: {fileID: 972751532}
   - component: {fileID: 972751531}
   - component: {fileID: 972751530}
+  - component: {fileID: 972751536}
+  - component: {fileID: 972751535}
   m_Layer: 8
   m_Name: MuroSudCortile
   m_TagString: Untagged
@@ -9715,6 +10159,38 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 972751528}
   m_Mesh: {fileID: 4300000, guid: 70eaebd3824e3d047a9dba4a7e01e37f, type: 2}
+--- !u!205 &972751535
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 972751528}
+  serializedVersion: 3
+  m_LocalReferencePoint: {x: 3.7500002, y: 2.1499999, z: 7.9660006}
+  m_Size: 5.1600003
+  m_FadeMode: 1
+  m_AnimateCrossFading: 1
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.01
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 972751533}
+  m_Enabled: 1
+  m_GlobalIlluminationLOD: 0
+--- !u!114 &972751536
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 972751528}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c49147f036e5a64a8d8f88ba218bb14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrenoBambini.Player.MuroDissolvibile
 --- !u!1 &986150507
 GameObject:
   m_ObjectHideFlags: 0
@@ -10342,6 +10818,8 @@ GameObject:
   - component: {fileID: 1075262233}
   - component: {fileID: 1075262232}
   - component: {fileID: 1075262231}
+  - component: {fileID: 1075262235}
+  - component: {fileID: 1075262234}
   m_Layer: 8
   m_Name: MuroOvestCortile
   m_TagString: Untagged
@@ -10447,6 +10925,38 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1075262229}
   m_Mesh: {fileID: 4300000, guid: 16a8336ada658d9468a7ec48899da490, type: 2}
+--- !u!205 &1075262234
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1075262229}
+  serializedVersion: 3
+  m_LocalReferencePoint: {x: 1.0625, y: 2.1499999, z: 11.1}
+  m_Size: 6.0600014
+  m_FadeMode: 1
+  m_AnimateCrossFading: 1
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.01
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 1075262232}
+  m_Enabled: 1
+  m_GlobalIlluminationLOD: 0
+--- !u!114 &1075262235
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1075262229}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c49147f036e5a64a8d8f88ba218bb14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrenoBambini.Player.MuroDissolvibile
 --- !u!1 &1087442268
 GameObject:
   m_ObjectHideFlags: 0
@@ -11068,6 +11578,8 @@ GameObject:
   - component: {fileID: 1171183936}
   - component: {fileID: 1171183935}
   - component: {fileID: 1171183934}
+  - component: {fileID: 1171183940}
+  - component: {fileID: 1171183939}
   m_Layer: 8
   m_Name: MuroNordCortile
   m_TagString: Untagged
@@ -11215,6 +11727,38 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1171183932}
   m_Mesh: {fileID: 4300000, guid: a679b3b7e5b7fca49b8774b63c4fc0ae, type: 2}
+--- !u!205 &1171183939
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1171183932}
+  serializedVersion: 3
+  m_LocalReferencePoint: {x: 3.75, y: 2.1499999, z: 14.234}
+  m_Size: 5.16
+  m_FadeMode: 1
+  m_AnimateCrossFading: 1
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.01
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 1171183937}
+  m_Enabled: 1
+  m_GlobalIlluminationLOD: 0
+--- !u!114 &1171183940
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1171183932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c49147f036e5a64a8d8f88ba218bb14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrenoBambini.Player.MuroDissolvibile
 --- !u!1 &1181752469
 GameObject:
   m_ObjectHideFlags: 0
@@ -11228,6 +11772,8 @@ GameObject:
   - component: {fileID: 1181752473}
   - component: {fileID: 1181752472}
   - component: {fileID: 1181752471}
+  - component: {fileID: 1181752476}
+  - component: {fileID: 1181752475}
   m_Layer: 9
   m_Name: PortaUscita
   m_TagString: Untagged
@@ -11345,6 +11891,38 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1181752469}
   m_Mesh: {fileID: 4300000, guid: f4016a65b7c0f1b4ebde37a6abc647ed, type: 2}
+--- !u!205 &1181752475
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1181752469}
+  serializedVersion: 3
+  m_LocalReferencePoint: {x: 0, y: 1.075, z: -2.5900002}
+  m_Size: 2.15
+  m_FadeMode: 1
+  m_AnimateCrossFading: 1
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.01
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 1181752473}
+  m_Enabled: 1
+  m_GlobalIlluminationLOD: 0
+--- !u!114 &1181752476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1181752469}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c49147f036e5a64a8d8f88ba218bb14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrenoBambini.Player.MuroDissolvibile
 --- !u!1001 &1202258369
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11807,7 +12385,7 @@ GameObject:
   - component: {fileID: 1233595686}
   - component: {fileID: 1233595685}
   - component: {fileID: 1233595684}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: MuroSoffittoStanza
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15219,6 +15797,8 @@ GameObject:
   - component: {fileID: 1660956109}
   - component: {fileID: 1660956108}
   - component: {fileID: 1660956107}
+  - component: {fileID: 1660956114}
+  - component: {fileID: 1660956113}
   m_Layer: 8
   m_Name: MuroOvestAlcova
   m_TagString: Untagged
@@ -15388,6 +15968,38 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1660956105}
   m_Mesh: {fileID: 4300000, guid: 9db1127a63a50a644ba0828e4e0ed214, type: 2}
+--- !u!205 &1660956113
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1660956105}
+  serializedVersion: 3
+  m_LocalReferencePoint: {x: -4.61, y: 1.55, z: 5.8}
+  m_Size: 4.0599995
+  m_FadeMode: 1
+  m_AnimateCrossFading: 1
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.01
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 1660956111}
+  m_Enabled: 1
+  m_GlobalIlluminationLOD: 0
+--- !u!114 &1660956114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1660956105}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c49147f036e5a64a8d8f88ba218bb14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrenoBambini.Player.MuroDissolvibile
 --- !u!1 &1670912878
 GameObject:
   m_ObjectHideFlags: 0
@@ -15514,6 +16126,8 @@ GameObject:
   - component: {fileID: 1681976364}
   - component: {fileID: 1681976363}
   - component: {fileID: 1681976362}
+  - component: {fileID: 1681976366}
+  - component: {fileID: 1681976365}
   m_Layer: 8
   m_Name: MuroAngolo_NOAlcova
   m_TagString: Untagged
@@ -15614,6 +16228,38 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1681976360}
   m_Mesh: {fileID: 4300000, guid: 00728b11ce33da74e8b1139b2b85cd5b, type: 2}
+--- !u!205 &1681976365
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1681976360}
+  serializedVersion: 3
+  m_LocalReferencePoint: {x: -4.65, y: 1.5, z: 7.9500003}
+  m_Size: 3
+  m_FadeMode: 1
+  m_AnimateCrossFading: 1
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.01
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 1681976363}
+  m_Enabled: 1
+  m_GlobalIlluminationLOD: 0
+--- !u!114 &1681976366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1681976360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c49147f036e5a64a8d8f88ba218bb14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrenoBambini.Player.MuroDissolvibile
 --- !u!1001 &1687628392
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16044,6 +16690,7 @@ MonoBehaviour:
   fov: 62
   pitchMin: -0.5
   pitchMax: 0.8
+  dissolviMuri: 1
 --- !u!65 &1728031834
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -16212,6 +16859,8 @@ GameObject:
   - component: {fileID: 1793224173}
   - component: {fileID: 1793224172}
   - component: {fileID: 1793224171}
+  - component: {fileID: 1793224175}
+  - component: {fileID: 1793224174}
   m_Layer: 8
   m_Name: MuroAngolo_SECortile
   m_TagString: Untagged
@@ -16312,6 +16961,38 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1793224169}
   m_Mesh: {fileID: 4300000, guid: e56c712a81bc26d4a8419ba1f74c4135, type: 2}
+--- !u!205 &1793224174
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1793224169}
+  serializedVersion: 3
+  m_LocalReferencePoint: {x: 6.45, y: 2.1, z: 7.9500003}
+  m_Size: 4.2
+  m_FadeMode: 1
+  m_AnimateCrossFading: 1
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.01
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 1793224172}
+  m_Enabled: 1
+  m_GlobalIlluminationLOD: 0
+--- !u!114 &1793224175
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1793224169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c49147f036e5a64a8d8f88ba218bb14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrenoBambini.Player.MuroDissolvibile
 --- !u!1 &1796670383
 GameObject:
   m_ObjectHideFlags: 0
@@ -16414,6 +17095,8 @@ GameObject:
   - component: {fileID: 1798164018}
   - component: {fileID: 1798164017}
   - component: {fileID: 1798164016}
+  - component: {fileID: 1798164020}
+  - component: {fileID: 1798164019}
   m_Layer: 8
   m_Name: MuroAngolo_SO
   m_TagString: Untagged
@@ -16514,6 +17197,38 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1798164014}
   m_Mesh: {fileID: 4300000, guid: 0ec626973155e784b93d3cb1af56ac1d, type: 2}
+--- !u!205 &1798164019
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1798164014}
+  serializedVersion: 3
+  m_LocalReferencePoint: {x: -4.65, y: 1.5, z: -2.65}
+  m_Size: 3
+  m_FadeMode: 1
+  m_AnimateCrossFading: 1
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.01
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 1798164017}
+  m_Enabled: 1
+  m_GlobalIlluminationLOD: 0
+--- !u!114 &1798164020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1798164014}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c49147f036e5a64a8d8f88ba218bb14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrenoBambini.Player.MuroDissolvibile
 --- !u!1001 &1799330247
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17095,6 +17810,8 @@ GameObject:
   - component: {fileID: 1839892988}
   - component: {fileID: 1839892987}
   - component: {fileID: 1839892986}
+  - component: {fileID: 1839892990}
+  - component: {fileID: 1839892989}
   m_Layer: 8
   m_Name: MuroAngolo_NOCortile
   m_TagString: Untagged
@@ -17195,6 +17912,38 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1839892984}
   m_Mesh: {fileID: 4300000, guid: 1aaa0b9a143fc5a43a0b563830360759, type: 2}
+--- !u!205 &1839892989
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1839892984}
+  serializedVersion: 3
+  m_LocalReferencePoint: {x: 1.05, y: 2.1, z: 14.25}
+  m_Size: 4.2
+  m_FadeMode: 1
+  m_AnimateCrossFading: 1
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.01
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 1839892987}
+  m_Enabled: 1
+  m_GlobalIlluminationLOD: 0
+--- !u!114 &1839892990
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1839892984}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c49147f036e5a64a8d8f88ba218bb14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrenoBambini.Player.MuroDissolvibile
 --- !u!1 &1840982603
 GameObject:
   m_ObjectHideFlags: 0
@@ -17579,6 +18328,7 @@ MonoBehaviour:
   fov: 58
   pitchMin: -0.6
   pitchMax: 1
+  dissolviMuri: 1
 --- !u!65 &1875543629
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -17612,6 +18362,8 @@ GameObject:
   - component: {fileID: 1882268807}
   - component: {fileID: 1882268806}
   - component: {fileID: 1882268805}
+  - component: {fileID: 1882268809}
+  - component: {fileID: 1882268808}
   m_Layer: 8
   m_Name: MuroBloccoRipostiglio
   m_TagString: Untagged
@@ -17712,6 +18464,38 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1882268803}
   m_Mesh: {fileID: 4300000, guid: 04c21751fadff004da8711da97cbc262, type: 2}
+--- !u!205 &1882268808
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1882268803}
+  serializedVersion: 3
+  m_LocalReferencePoint: {x: 0, y: 1.5, z: 5.9500003}
+  m_Size: 4.3
+  m_FadeMode: 1
+  m_AnimateCrossFading: 1
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.01
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 1882268806}
+  m_Enabled: 1
+  m_GlobalIlluminationLOD: 0
+--- !u!114 &1882268809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1882268803}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c49147f036e5a64a8d8f88ba218bb14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrenoBambini.Player.MuroDissolvibile
 --- !u!1001 &1886485568
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18543,6 +19327,8 @@ GameObject:
   - component: {fileID: 1988231272}
   - component: {fileID: 1988231271}
   - component: {fileID: 1988231270}
+  - component: {fileID: 1988231274}
+  - component: {fileID: 1988231273}
   m_Layer: 8
   m_Name: MuroOvestCucina
   m_TagString: Untagged
@@ -18648,6 +19434,38 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1988231268}
   m_Mesh: {fileID: 4300000, guid: 797a9998e46dc2e4a8135885fc4f7296, type: 2}
+--- !u!205 &1988231273
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1988231268}
+  serializedVersion: 3
+  m_LocalReferencePoint: {x: 1.3625, y: 1.55, z: 5.8}
+  m_Size: 4.0599995
+  m_FadeMode: 1
+  m_AnimateCrossFading: 1
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.01
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 1988231271}
+  m_Enabled: 1
+  m_GlobalIlluminationLOD: 0
+--- !u!114 &1988231274
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1988231268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c49147f036e5a64a8d8f88ba218bb14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrenoBambini.Player.MuroDissolvibile
 --- !u!1 &1997601343
 GameObject:
   m_ObjectHideFlags: 0
@@ -19148,6 +19966,8 @@ GameObject:
   - component: {fileID: 2105494177}
   - component: {fileID: 2105494176}
   - component: {fileID: 2105494175}
+  - component: {fileID: 2105494182}
+  - component: {fileID: 2105494181}
   m_Layer: 8
   m_Name: MuroOvest
   m_TagString: Untagged
@@ -19317,6 +20137,38 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2105494173}
   m_Mesh: {fileID: 4300000, guid: 241aa4e45414f0e4982dcd39a340a5e3, type: 2}
+--- !u!205 &2105494181
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2105494173}
+  serializedVersion: 3
+  m_LocalReferencePoint: {x: -4.61, y: 1.55, z: 0.5}
+  m_Size: 6.0600004
+  m_FadeMode: 1
+  m_AnimateCrossFading: 1
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.01
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 2105494179}
+  m_Enabled: 1
+  m_GlobalIlluminationLOD: 0
+--- !u!114 &2105494182
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2105494173}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c49147f036e5a64a8d8f88ba218bb14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrenoBambini.Player.MuroDissolvibile
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

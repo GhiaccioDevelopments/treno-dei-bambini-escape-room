@@ -530,6 +530,7 @@ namespace TrenoBambini.EditorTools
             var cam = MakeCamera("Main Camera", Vector3.zero, Quaternion.identity, new Color(0.10f, 0.07f, 0.05f), true);
             BuildPlayer(new Vector3(0f, 0.05f, -1.7f), 0f, cam, CamProfilo.InternoPiccoloAdulto, true); // il basso e' nel presente: Amerigo adulto
             CreaVolumiCamera();
+            PreparaInterniDissolvibili(scene); // R018
             SaveScene(scene, "20_Int_BassoAntonietta");
         }
 
@@ -556,6 +557,7 @@ namespace TrenoBambini.EditorTools
             bc.size = dim; bc.isTrigger = true;
             var v = go.AddComponent<CameraProfileVolume>();
             v.scalaOrbita = scala; v.fov = fov; v.pitchMin = pMin; v.pitchMax = pMax;
+            v.dissolviMuri = true; // R018: nel basso muri, pareti e porte si dissolvono; soffitto e pavimento restano solidi
         }
 
         static void SegretiBasso()
