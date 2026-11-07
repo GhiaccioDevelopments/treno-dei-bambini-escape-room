@@ -27,5 +27,14 @@
 ## 3. Criteri di accettazione
 Come R012 (schema approvato prima, capitolo completo, meccanismo nuovo, coerenza TRAMA, media in `Docs/richieste/media/R014/`).
 
+## Schema approvato (2026-11-07)
+
+- Schema: [`Docs/richieste/schemi/R014_schema.md`](schemi/R014_schema.md), approvato con le correzioni del lead.
+- Decisioni che riguardano questa richiesta:
+  - D1 stazione generica, ispirata alla vecchia stazione di Napoli, senza ricostruzione fedele.
+  - D2 stazione e vagone entrambi giocabili.
+
+Schema approvato dall'utente: sviluppo autorizzato.
+
 ## Rapporto
 _(da compilare a fine lavoro)_
