@@ -40,5 +40,15 @@ principale senza ok (i collezionabili non sono "oggetti" dell'escape room).
 - [ ] Pagina "Segreti" nel quaderno con progressi salvati.
 - [ ] Nessun segreto blocca la storia; console pulita; screenshot in `Docs/richieste/media/R011/`.
 
+## Schema approvato (2026-11-07)
+
+- Schema: [`Docs/richieste/schemi/R011_schema.md`](schemi/R011_schema.md), approvato con le correzioni del lead.
+- Decisioni che riguardano questa richiesta:
+  - D1 premio per chi trova tutti i segreti: una scena in più nel finale (Amerigo consegna a Carmine la "scatola dei ragazzi del vicolo").
+  - D2 ritagli di giornale: testi nostri su fatti verificati, nessuna riproduzione d'archivio.
+  - Via Medina (11/6/1946) esclusa dallo schema. Il ritaglio "partono i bambini" va al punto 12, perché il punto 17 è di R020-H3.
+
+Schema approvato dall'utente: sviluppo autorizzato.
+
 ## Rapporto
 _(da compilare a fine lavoro)_
