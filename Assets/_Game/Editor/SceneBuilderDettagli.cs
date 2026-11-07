@@ -91,7 +91,7 @@ namespace TrenoBambini.EditorTools
                 case "Pantaloni":
                     AddSheet(v, uv, t, new Vector3(-0.21f, 0, 0), new Vector3(0.2f, 0, 0), new Vector3(0, -0.9f, 0), 3, 8, 0.03f, 1.5f, ph);
                     AddSheet(v, uv, t, new Vector3(0.01f, 0, 0), new Vector3(0.2f, 0, 0), new Vector3(0, -0.9f, 0), 3, 8, 0.03f, 1.5f, ph + 2f);
-                    AddSheet(v, uv, t, new Vector3(-0.21f, 0, 0.004f), new Vector3(0.42f, 0, 0), new Vector3(0, -0.14f, 0), 4, 2, 0.01f, 1f, ph);
+                    AddSheet(v, uv, t, new Vector3(-0.21f, 0, 0.02f), new Vector3(0.42f, 0, 0), new Vector3(0, -0.14f, 0), 4, 2, 0.01f, 1f, ph); // cintura: 2 cm davanti ai due panni (R017: niente facce complanari)
                     break;
                 default: // straccio
                     AddSheet(v, uv, t, new Vector3(-0.2f, 0, 0), new Vector3(0.4f, 0, 0), new Vector3(0.03f, -0.5f, 0), 5, 5, 0.05f, 2f + variant, ph);
