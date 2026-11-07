@@ -5,6 +5,35 @@ Regole d'uso: vedi la sezione "Diario e lavoro su più PC" in `CLAUDE.md`.
 
 ---
 
+## 2026-11-07 – PC casa – Schemi di enigmi e capitoli approvati
+**Branch:** feature/upgrade-realistico · **Ultimo commit:** 00bc800 (questa voce è nel commit successivo)
+### Fatto
+- Approvati gli schemi R020 (+R010 assorbita), R011, R012, R013, R014, R015, R016. Ogni schema è in `Docs/richieste/schemi/` sul proprio branch, con le correzioni del lead e le decisioni dell'utente applicate: non restano alternative aperte.
+- Ogni spec ha la sezione "Schema approvato (2026-11-07)": sviluppo autorizzato.
+- R010: nota che rimanda a R020 (la correzione sul quiz 1948/1989 vale anche lì).
+- TRAMA §7.1: nota sulla decisione "Napoli della memoria".
+### Decisioni
+- D1: Napoli della memoria. Hub e basso hanno l'aspetto del 1946 e si giocano con Amerigo adulto; il 1994 vero solo in R016.
+- D2: passanti del ricordo come figure intere MakeHuman, ferme e velate.
+- D3: R011, premio per chi trova tutti i segreti = una scena in più nel finale.
+- D4: R011, ritagli di giornale = testi nostri su fatti verificati.
+- D5: R012, una sola scena (vicolo degli stracci + bottega di Capa 'e fierro).
+- D6: R012, la bilancia è starata per caso; Capa 'e fierro resta "in fondo buono".
+- D7: R013, vicolo delle voci = variante sera/pioggia del set "Le scarpe".
+- D8: R013, frasi del volantino giudicate per chiarezza e verificabilità, mai per la parte politica.
+- D9: R014, stazione generica ispirata alla vecchia stazione di Napoli.
+- D10: R014, stazione e vagone entrambi giocabili.
+- D11: R015, una sola scena a Modena.
+- D12: R015, oggetto del capitolo = lo spartito di Alcide; il violino si ritrova solo in R016.
+- D13: R016, segno di Antonietta nella custodia = ritaglio di un concerto di Amerigo.
+- D14: R016, Carmine = breve presenza con modello semplice.
+- D15: LFS: si va avanti; fermarsi e avvisare l'utente prima del push che porterebbe LFS oltre 850 MB.
+### Problemi aperti
+- R022 è ferma: Unity non risponde a MCP.
+- Fatti storici da verificare prima dei testi definitivi: simboli sulla scheda del referendum, tagli di monete 1946, linea ferroviaria Napoli–Modena nel 1946, filiera degli stracci.
+### Prossimi passi
+- In ordine: R022 → R017 → R018 → R007 tappe 2-5 con R021 → R008 → R009 + R020 (+R010) → R019 → R011 → R012…R016.
+
 ## 2026-11-07 – PC casa – Nuove richieste R017–R022
 **Branch:** feature/upgrade-realistico · **Ultimo commit:** 1af2cc3
 ### Fatto
