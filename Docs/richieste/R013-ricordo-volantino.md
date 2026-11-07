@@ -27,5 +27,14 @@
 ## 3. Criteri di accettazione
 Come R012 (schema approvato prima, capitolo completo, meccanismo nuovo, coerenza TRAMA, media in `Docs/richieste/media/R013/`).
 
+## Schema approvato (2026-11-07)
+
+- Schema: [`Docs/richieste/schemi/R013_schema.md`](schemi/R013_schema.md), approvato con le correzioni del lead.
+- Decisioni che riguardano questa richiesta:
+  - D1 il vicolo delle voci è una variante sera/pioggia del set del ricordo "Le scarpe".
+  - D2 le frasi del volantino si giudicano per chiarezza e verificabilità, mai per la parte politica.
+
+Schema approvato dall'utente: sviluppo autorizzato.
+
 ## Rapporto
 _(da compilare a fine lavoro)_
