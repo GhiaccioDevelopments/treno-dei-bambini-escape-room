@@ -29,5 +29,14 @@
 Come R012 (schema approvato prima, capitolo completo, meccanismo nuovo, accessibilità dell'enigma musicale, coerenza TRAMA,
 media in `Docs/richieste/media/R015/`).
 
+## Schema approvato (2026-11-07)
+
+- Schema: [`Docs/richieste/schemi/R015_schema.md`](schemi/R015_schema.md), approvato con le correzioni del lead.
+- Decisioni che riguardano questa richiesta:
+  - D1 una sola scena a Modena: corte con casa di Derna, casa Benvenuti e scuola.
+  - D2 l'oggetto del capitolo è lo spartito di Alcide. Il violino si ritrova solo nel finale (R016).
+
+Schema approvato dall'utente: sviluppo autorizzato.
+
 ## Rapporto
 _(da compilare a fine lavoro)_
