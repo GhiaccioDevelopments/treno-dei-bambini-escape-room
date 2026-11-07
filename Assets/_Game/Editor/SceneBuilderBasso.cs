@@ -459,7 +459,7 @@ namespace TrenoBambini.EditorTools
             Model("SecchioLegno", props, new Vector3(4.2f, 0f, 5.2f), 20f, 1.1f, true, "SecchioAcqua");
             Model("SecchioMetallo", props, new Vector3(4.15f, 0f, 6.0f), 0f, 1.1f, true, "SecchioAcqua");
             Model("CestaVimini", props, new Vector3(1.9f, 0f, 4.5f), 0f, 1.3f, true, "CestaPanni");
-            Appeso(props, "Cartello_Strofinaccio", new Vector3(4.47f, 1.1f, 4.2f), new Vector3(0.03f, 0.4f, 0.28f), "PannoBianco");
+            Appeso(props, "Cartello_Strofinaccio", new Vector3(4.478f, 1.1f, 4.2f), new Vector3(0.03f, 0.4f, 0.28f), "PannoBianco");
 
             // ---------------------------------------------------------------- cortile sul retro
             Pezzo(props, "Lavatoio", "Lavatoio", new[] { "M_ArenariaBlocchi", "Acqua", "M_FerroRuggine02" }, Lavatoio, new Vector3(1.7f, 0f, 11.5f), 90f, 0.02f);
@@ -524,6 +524,7 @@ namespace TrenoBambini.EditorTools
 
             SegretiBasso();
             SetStatic(env.gameObject);
+            PredisponiSicurezza(true); // R017
 
             var cam = MakeCamera("Main Camera", Vector3.zero, Quaternion.identity, new Color(0.10f, 0.07f, 0.05f), true);
             BuildPlayer(new Vector3(0f, 0.05f, -1.7f), 0f, cam, CamProfilo.InternoPiccoloAdulto, true); // il basso e' nel presente: Amerigo adulto

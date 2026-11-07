@@ -199,6 +199,9 @@ namespace TrenoBambini.EditorTools
 
         // ------------------------------------------------------------------ pareti con aperture
 
+        /// <summary>R017: aggancio (m) delle cornici nelle aperture. Le facce delle cornici che guardano nel vano non devono essere complanari a quelle del muro (sfarfallio): rientrano di 4 mm.</summary>
+        const float Riporto = 0.004f;
+
         static void ShellPieces(KitBuilder kb, WallFrame fr, float len, float y0, float y1, float thick, List<WallOpening> ops,
                                 int sub, float tile, bool skipBottom, bool skipTop, bool skipBack = true)
         {
@@ -281,6 +284,8 @@ namespace TrenoBambini.EditorTools
             if (opt != null && facadeCache.TryGetValue(opt.key, out cached)) return FacadeInstance(parent, name, subs, plaster, cached);
             if (opt != null) r = new System.Random(opt.seed);
             var kb = new KitBuilder(subs);
+            kb.SubFisso = 0;
+            kb.ProteggiTestate(fr.AxisU, fr.AxisU == 0 ? fr.W(0, 0, 0).x : fr.W(0, 0, 0).z, fr.AxisU == 0 ? fr.W(len, 0, 0).x : fr.W(len, 0, 0).z);
             var lod = new KitBuilder(plaster, "Finestra");
             float h = floors * 3f;
             const float T = 0.45f;
@@ -307,8 +312,9 @@ namespace TrenoBambini.EditorTools
             fr.Box(kb, 0, len, 0.35f, depth, h, h + 0.06f, SRoof, 1.5f, 16);
             fr.Box(kb, 0, len, 0f, 0.35f, h, h + 0.6f, SWall, TileWall, 16);
             fr.Box(kb, -0.02f, len + 0.02f, -0.06f, 0.41f, h + 0.6f, h + 0.68f, SStone, TileStone, 16);
-            fr.Box(kb, 0, len, -0.3f, 0.1f, h - 0.28f, h, SStone, TileStone, 0);
-            fr.Box(kb, 0, len, -0.18f, 0.1f, h - 0.42f, h - 0.28f, SStone, TileStone, 0);
+            // i profili in pietra rientrano di 4 mm alle testate del modulo: le loro facce non sono complanari a quelle del guscio
+            fr.Box(kb, Riporto, len - Riporto, -0.3f, 0.1f, h - 0.28f, h, SStone, TileStone, 0);
+            fr.Box(kb, Riporto, len - Riporto, -0.18f, 0.1f, h - 0.42f, h - 0.28f, SStone, TileStone, 0);
             // LOD1: guscio unico + parapetto
             fr.Box(lod, 0, len, 0, depth, 0, h, 0, TileWall, 16 | 32);
             fr.Box(lod, 0, len, 0f, 0.35f, h, h + 0.6f, 0, TileWall, 16);
@@ -349,7 +355,7 @@ namespace TrenoBambini.EditorTools
             {
                 float y0 = f * 3f, y1 = y0 + 3f;
                 var ops = perFloor[f];
-                ShellPieces(kb, fr, len, y0, y1, T, new List<WallOpening>(ops), SWall, TileWall, true, f < floors - 1);
+                ShellPieces(kb, fr, len, y0, y1, T, new List<WallOpening>(ops), SWall, TileWall, true, true); // la faccia superiore dell'ultimo piano e' sempre coperta da parapetto e tetto
 
                 foreach (var o in ops)
                 {
@@ -357,14 +363,14 @@ namespace TrenoBambini.EditorTools
                     if (o.door)
                     {
                         // cornice in pietra + stipite in legno + soglia
-                        fr.Box(kb, o.U0 - 0.16f, o.U0, -0.06f, 0.3f, 0f, o.y1 + 0.02f, SStone, TileStone, 16);
-                        fr.Box(kb, o.U1, o.U1 + 0.16f, -0.06f, 0.3f, 0f, o.y1 + 0.02f, SStone, TileStone, 16);
-                        fr.Box(kb, o.U0 - 0.16f, o.U1 + 0.16f, -0.09f, 0.3f, o.y1, o.y1 + 0.2f, SStone, TileStone, 0);
+                        fr.Box(kb, o.U0 - 0.16f, o.U0 + Riporto, -0.06f, 0.3f, 0f, o.y1 + 0.02f, SStone, TileStone, 16);
+                        fr.Box(kb, o.U1 - Riporto, o.U1 + 0.16f, -0.06f, 0.3f, 0f, o.y1 + 0.02f, SStone, TileStone, 16);
+                        fr.Box(kb, o.U0 - 0.16f, o.U1 + 0.16f, -0.09f, 0.3f, o.y1 - Riporto, o.y1 + 0.2f, SStone, TileStone, 0);
                         fr.Box(kb, o.U0 - 0.1f, o.U1 + 0.1f, -0.3f, 0f, 0f, 0.12f, SStone, TileStone, 16);
                         fr.Box(kb, o.U0, o.U0 + 0.1f, 0.08f, 0.3f, 0f, o.y1, SWood, TileWood, 16);
                         fr.Box(kb, o.U1 - 0.1f, o.U1, 0.08f, 0.3f, 0f, o.y1, SWood, TileWood, 16);
                         fr.Box(kb, o.U0, o.U1, 0.08f, 0.3f, o.y1 - 0.1f, o.y1, SWood, TileWood, 0);
-                        if (dk == 0) fr.Box(kb, o.U0, o.U1, 0.2f, 0.24f, 0f, o.y1, SGlass, 2f, 0);
+                        if (dk == 0) fr.Box(kb, o.U0, o.U1, 0.245f, 0.28f, 0f, o.y1, SGlass, 2f, 0); // dietro il battente (che occupa 0,14-0,24): niente facce complanari
                         else if (dk == 1) DoorLeafBoxes(kb, fr, o.U0, o.U1, o.y1, false);
                         else if (dk == 3) DoorLeafBoxes(kb, fr, o.U0, o.U1, o.y1, true);
                         else if (dk == 4) GateBars(kb, fr, o.U0, o.U1, o.y1);
@@ -381,12 +387,12 @@ namespace TrenoBambini.EditorTools
                     fr.Box(kb, o.U1 - 0.05f, o.U1, 0.14f, 0.3f, o.y0, o.y1, SWood, TileWood, 0);
                     fr.Box(lod, o.U0, o.U1, -0.01f, 0.0f, o.y0, o.y1, 1, 2f, 0);
                     // cornice in pietra
-                    fr.Box(kb, o.U0 - 0.13f, o.U1 + 0.13f, -0.06f, 0.2f, o.y1, o.y1 + 0.15f, SStone, TileStone, 0);
-                    fr.Box(kb, o.U0 - 0.1f, o.U0, -0.04f, 0.2f, o.y0, o.y1, SStone, TileStone, 0);
-                    fr.Box(kb, o.U1, o.U1 + 0.1f, -0.04f, 0.2f, o.y0, o.y1, SStone, TileStone, 0);
+                    fr.Box(kb, o.U0 - 0.13f, o.U1 + 0.13f, -0.06f, 0.2f, o.y1 - Riporto, o.y1 + 0.15f, SStone, TileStone, 0);
+                    fr.Box(kb, o.U0 - 0.1f, o.U0 + Riporto, -0.04f, 0.2f, o.y0, o.y1, SStone, TileStone, 0);
+                    fr.Box(kb, o.U1 - Riporto, o.U1 + 0.1f, -0.04f, 0.2f, o.y0, o.y1, SStone, TileStone, 0);
                     if (!bal)
                     {
-                        fr.Box(kb, o.U0 - 0.1f, o.U1 + 0.1f, -0.15f, 0.2f, o.y0 - 0.08f, o.y0, SStone, TileStone, 0);
+                        fr.Box(kb, o.U0 - 0.1f, o.U1 + 0.1f, -0.15f, 0.2f, o.y0 - 0.08f, o.y0 + Riporto, SStone, TileStone, 0);
                     }
                     else
                     {
@@ -435,11 +441,12 @@ namespace TrenoBambini.EditorTools
             if (len > cursor) gaps.Add(new Vector2(cursor, len));
             foreach (var g in gaps)
             {
-                fr.Box(kb, g.x, g.y, -0.06f, T, 0f, 0.9f, SStone, TileStone, 8 | 16);
-                fr.Box(kb, g.x, g.y, -0.1f, T, 0.9f, 0.96f, SStone, TileStone, 8 | 16);
+                float gx = g.x <= 0.001f ? Riporto : g.x, gy = g.y >= len - 0.001f ? len - Riporto : g.y;
+                fr.Box(kb, gx, gy, -0.06f, T, 0f, 0.9f, SStone, TileStone, 8 | 16);
+                fr.Box(kb, gx, gy, -0.1f, T, 0.9f, 0.96f, SStone, TileStone, 8 | 16);
             }
             for (int f = 1; f < floors; f++)
-                fr.Box(kb, 0, len, -0.05f, 0.1f, f * 3f - 0.08f, f * 3f + 0.08f, SStone, TileStone, 0);
+                fr.Box(kb, Riporto, len - Riporto, -0.05f, 0.1f, f * 3f - 0.08f, f * 3f + 0.08f, SStone, TileStone, 0);
 
             // comignoli
             if (depth > 2.4f)
@@ -711,6 +718,8 @@ namespace TrenoBambini.EditorTools
         {
             string[] subs = { plaster, dado, "M_LegnoVernicePelata", "Finestra", "M_FerroRuggine02", trim };
             var kb = new KitBuilder(subs);
+            kb.SubFisso = 0;
+            kb.ProteggiTestate(fr.AxisU, fr.AxisU == 0 ? fr.W(0, 0, 0).x : fr.W(0, 0, 0).z, fr.AxisU == 0 ? fr.W(len, 0, 0).x : fr.W(len, 0, 0).z);
             ShellPieces(kb, fr, len, 0f, h, thick, new List<WallOpening>(ops), 0, TileWall, true, false, false);
             // zoccolo (interrotto dalle porte)
             float cursor = 0f;
@@ -726,8 +735,9 @@ namespace TrenoBambini.EditorTools
             if (len > cursor) gaps.Add(new Vector2(cursor, len));
             foreach (var g in gaps)
             {
-                fr.Box(kb, g.x, g.y, -0.03f, 0.02f, 0f, dadoH, 1, TileWall, 8 | 16);
-                fr.Box(kb, g.x, g.y, -0.045f, 0.02f, dadoH, dadoH + 0.05f, 5, TileStone, 8);
+                float gx = g.x <= 0.001f ? Riporto : g.x, gy = g.y >= len - 0.001f ? len - Riporto : g.y; // rientra di 4 mm alle testate: niente facce complanari con il guscio
+                fr.Box(kb, gx, gy, -0.03f, 0.02f, 0f, dadoH, 1, TileWall, 8 | 16);
+                fr.Box(kb, gx, gy, -0.045f, 0.02f, dadoH, dadoH + 0.05f, 5, TileStone, 8);
             }
             fr.Box(kb, -0.02f, len + 0.02f, -0.02f, thick + 0.02f, h, h + 0.1f, 5, TileStone, 16);
 
@@ -735,12 +745,12 @@ namespace TrenoBambini.EditorTools
             {
                 bool isDoor = o.y0 < 0.01f;
                 // stipiti e architrave in legno
-                fr.Box(kb, o.U0 - 0.08f, o.U0, -0.04f, 0.28f, o.y0, o.y1, 2, TileWood, isDoor ? 16 : 0);
-                fr.Box(kb, o.U1, o.U1 + 0.08f, -0.04f, 0.28f, o.y0, o.y1, 2, TileWood, isDoor ? 16 : 0);
-                fr.Box(kb, o.U0 - 0.08f, o.U1 + 0.08f, -0.04f, 0.28f, o.y1, o.y1 + 0.1f, 2, TileWood, 0);
+                fr.Box(kb, o.U0 - 0.08f, o.U0 + Riporto, -0.04f, 0.28f, o.y0, o.y1, 2, TileWood, isDoor ? 16 : 0);
+                fr.Box(kb, o.U1 - Riporto, o.U1 + 0.08f, -0.04f, 0.28f, o.y0, o.y1, 2, TileWood, isDoor ? 16 : 0);
+                fr.Box(kb, o.U0 - 0.08f, o.U1 + 0.08f, -0.04f, 0.28f, o.y1 - Riporto, o.y1 + 0.1f, 2, TileWood, 0);
                 if (!isDoor)
                 {
-                    fr.Box(kb, o.U0 - 0.1f, o.U1 + 0.1f, -0.1f, 0.28f, o.y0 - 0.06f, o.y0, 2, TileWood, 0);
+                    fr.Box(kb, o.U0 - 0.1f, o.U1 + 0.1f, -0.1f, 0.28f, o.y0 - 0.06f, o.y0 + Riporto, 2, TileWood, 0);
                     // vetro e traversi
                     if (glassPane) fr.Box(kb, o.U0, o.U1, 0.2f, 0.23f, o.y0, o.y1, 3, 2f, 0);
                     float midU = (o.U0 + o.U1) * 0.5f, midY = (o.y0 + o.y1) * 0.5f;

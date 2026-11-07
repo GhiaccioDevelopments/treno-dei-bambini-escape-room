@@ -92,6 +92,13 @@ namespace TrenoBambini.EditorTools
             }
             else sb.AppendLine("-- Nessuno SpawnPoint: scena senza area calpestabile (solo controllo complanari) --");
 
+            camPunti.Clear();
+            if (area != null)
+            {
+                int passo = Mathf.Max(1, area.celle.Count / 500);
+                for (int i = 0; i < area.celle.Count; i += passo) camPunti.Add(area.celle[i] + Vector3.up * 2f);
+            }
+            else { var mc = Camera.main; if (mc != null) camPunti.Add(mc.transform.position); }
             var temp = AggiungiCollisoriVisivi();
             Physics.SyncTransforms();
             try
@@ -107,26 +114,24 @@ namespace TrenoBambini.EditorTools
             {
                 if (mostrate++ >= 400) { sb.AppendLine("  ... (altre " + (coppie.Count - 400) + ")"); break; }
                 sb.AppendLine("  " + (c.visibile ? "[VISIBILE] " : c.matDiversi ? "[coperta] " : "[stesso mat] ") + c.nomeA + " (" + c.matA + ")  <>  " + c.nomeB + " (" + c.matB + ")  tri=" + c.triangoli
-                              + "  pos=" + Fmt(c.pos) + "  n=" + Fmt(c.normale));
+                              + "  pos=" + Fmt(c.pos) + "  n=" + Fmt(c.normale) + "  area sovrapposta=" + Fmt(c.ext.min) + ".." + Fmt(c.ext.max));
             }
 
                 if (sp == null) { sb.AppendLine(); return res; }
                 var buchi = new List<Vector3>(); var invertiti = new List<Vector3>();
-                var rng = new System.Random(17);
-                foreach (var c in area.celle)
+                var tuttiPunti = new List<Vector3>(area.celle);
+                tuttiPunti.AddRange(area.extra);
+                foreach (var c in tuttiPunti)
                 {
-                    // centro cella + un punto casuale nella cella (fessure tra pezzi non allineati alla griglia)
-                    for (int k = 0; k < 2; k++)
+                    var p = c;
                     {
-                        float ox = k == 0 ? 0f : (float)(rng.NextDouble() - 0.5) * Passo, oz = k == 0 ? 0f : (float)(rng.NextDouble() - 0.5) * Passo;
-                        var p = new Vector3(c.x + ox, c.y, c.z + oz);
                         var o = p + Vector3.up * 0.4f;
                         Physics.queriesHitBackfaces = false;
                         RaycastHit hit;
                         bool ok = Physics.Raycast(o, Vector3.down, out hit, 1.0f, ~0, QueryTriggerInteraction.Ignore) && Mathf.Abs(hit.point.y - c.y) <= TolleranzaSuolo + 0.25f && hit.normal.y > 0.3f;
                         if (ok) continue;
-                        // l'ultimo caso: la superficie visibile e' sopra il suolo (oggetto che copre) -> non e' un buco
-                        if (Physics.Raycast(o + Vector3.up * 0.2f, Vector3.down, out hit, 1.2f, ~0, QueryTriggerInteraction.Ignore) && Mathf.Abs(hit.point.y - c.y) <= 0.3f) continue;
+                        // un oggetto (scala, mobile) copre il suolo: la superficie visibile e' sopra, non e' un buco
+                        if (Physics.Raycast(new Vector3(p.x, c.y + 2.3f, p.z), Vector3.down, out hit, 2.6f, ~0, QueryTriggerInteraction.Ignore) && hit.point.y >= c.y - 0.3f) continue;
                         Physics.queriesHitBackfaces = true;
                         bool back = Physics.Raycast(o, Vector3.down, out hit, 1.0f, ~0, QueryTriggerInteraction.Ignore) && Mathf.Abs(hit.point.y - c.y) <= 0.3f;
                         Physics.queriesHitBackfaces = false;
@@ -183,6 +188,32 @@ namespace TrenoBambini.EditorTools
             return res;
         }
 
+        /// <summary>Solo il controllo dei complanari sulla scena aperta (rapido, per iterare sui generatori); restituisce le righe VISIBILI.</summary>
+        public static string SoloComplanari(int max)
+        {
+            var sb = new StringBuilder();
+            var sp = UnityEngine.Object.FindObjectsByType<SpawnPoint>(FindObjectsInactive.Include);
+            foreach (var pl in GameObject.FindGameObjectsWithTag("Player")) pl.SetActive(false);
+            var temp = AggiungiCollisoriVisivi();
+            Physics.SyncTransforms();
+            try
+            {
+                var coppie = Complanari();
+                int v = 0; foreach (var c in coppie) if (c.visibile) v++;
+                sb.AppendLine("coppie " + coppie.Count + ", visibili " + v);
+                int k = 0;
+                foreach (var c in coppie)
+                {
+                    if (!c.visibile) continue;
+                    if (k++ >= max) break;
+                    sb.AppendLine(c.nomeA + "(" + c.matA + ") <> " + c.nomeB + "(" + c.matB + ") tri=" + c.triangoli + " n=" + Fmt(c.normale) + " ext=" + Fmt(c.ext.min) + ".." + Fmt(c.ext.max));
+                }
+            }
+            finally { foreach (var t in temp) if (t != null) UnityEngine.Object.DestroyImmediate(t); }
+            return sb.ToString();
+        }
+
+        static string F4(Vector3 v) { return "(" + v.x.ToString("F5", System.Globalization.CultureInfo.InvariantCulture) + "," + v.y.ToString("F3", System.Globalization.CultureInfo.InvariantCulture) + "," + v.z.ToString("F5", System.Globalization.CultureInfo.InvariantCulture) + ")"; }
         static string Fmt(Vector3 v) { return "(" + v.x.ToString("0.00") + ", " + v.y.ToString("0.00") + ", " + v.z.ToString("0.00") + ")"; }
 
         static void Cluster(StringBuilder sb, string tipo, List<Vector3> punti, float lato)
@@ -208,7 +239,7 @@ namespace TrenoBambini.EditorTools
 
         // ------------------------------------------------------------------ area calpestabile
 
-        sealed class Area { public List<Vector3> celle = new List<Vector3>(); }
+        sealed class Area { public List<Vector3> celle = new List<Vector3>(); public List<Vector3> extra = new List<Vector3>(); }
 
         static Area AreaCalpestabile(Vector3 start, float r, float h)
         {
@@ -247,6 +278,15 @@ namespace TrenoBambini.EditorTools
                     coda.Enqueue(nz * w + nx);
                 }
             }
+            // punti casuali dentro ogni cella (fessure fra pezzi non allineati alla griglia): solo dove il suolo di gioco c'e' davvero, per non segnalare i bordi delle pedane
+            var rng = new System.Random(17);
+            foreach (var c in area.celle)
+            {
+                var p = new Vector3(c.x + (float)(rng.NextDouble() - 0.5) * Passo, c.y, c.z + (float)(rng.NextDouble() - 0.5) * Passo);
+                RaycastHit hit;
+                if (Physics.Raycast(new Vector3(p.x, c.y + 0.45f, p.z), Vector3.down, out hit, 0.75f, ~0, QueryTriggerInteraction.Ignore) && Mathf.Abs(hit.point.y - c.y) <= 0.1f)
+                    area.extra.Add(new Vector3(p.x, hit.point.y, p.z));
+            }
             return area;
         }
 
@@ -272,13 +312,32 @@ namespace TrenoBambini.EditorTools
         // ------------------------------------------------------------------ complanari
 
         sealed class Tri { public Vector3 a, b, c, n; public float d; public int ren; public Bounds bb; public Material mat; }
-        sealed class Coppia { public string nomeA, nomeB, matA, matB; public bool matDiversi, visibile; public int triangoli; public Vector3 pos, normale; }
+        sealed class Coppia { public string nomeA, nomeB, matA, matB; public bool matDiversi, visibile; public int triangoli; public Vector3 pos, normale; public Bounds ext; }
 
         static string Percorso(Transform t)
         {
             var s = t.name;
             for (int i = 0; i < 2 && t.parent != null; i++) { t = t.parent; s = t.name + "/" + s; }
             return s;
+        }
+
+        static bool MatOk(Material a, Material b)
+        {
+            if (dbgMat == "") return true;
+            var p = dbgMat.Split('|');
+            string na = a != null ? a.name : "", nb = b != null ? b.name : "";
+            if (p.Length == 1) return na.Contains(p[0]) || nb.Contains(p[0]);
+            return (na.Contains(p[0]) && nb.Contains(p[1])) || (na.Contains(p[1]) && nb.Contains(p[0]));
+        }
+        static string dbgA, dbgB, dbgMat = ""; static readonly StringBuilder dbg = new StringBuilder();
+        /// <summary>Dettaglio (vertici) dei triangoli complanari fra due oggetti, per cercare la causa di una segnalazione.</summary>
+        public static string Dettaglio(string a, string b, string mat = "")
+        {
+            dbgA = a; dbgB = b; dbgMat = mat; dbg.Clear();
+            var temp = AggiungiCollisoriVisivi();
+            Physics.SyncTransforms();
+            try { Complanari(); } finally { foreach (var t in temp) if (t != null) UnityEngine.Object.DestroyImmediate(t); dbgA = null; }
+            return dbg.ToString();
         }
 
         static List<Coppia> Complanari()
@@ -343,6 +402,12 @@ namespace TrenoBambini.EditorTools
                 if (lgA != null && A.ren != B.ren && lgA == rend[B.ren].GetComponentInParent<LODGroup>()) return;
                 if (Mathf.Abs(A.d - Vector3.Dot(A.n, B.a)) > DistComplanare || Mathf.Abs(A.d - Vector3.Dot(A.n, B.b)) > DistComplanare || Mathf.Abs(A.d - Vector3.Dot(A.n, B.c)) > DistComplanare) return;
                 if (!Sovrapposti(A, B)) return;
+                if (dbgA != null && dbg.Length < 6000)
+                {
+                    string na = Percorso(rend[A.ren].transform), nb = Percorso(rend[B.ren].transform);
+                    if (((na.Contains(dbgA) && nb.Contains(dbgB)) || (na.Contains(dbgB) && nb.Contains(dbgA))) && MatOk(A.mat, B.mat))
+                        dbg.AppendLine(na + " [" + F4(A.a) + F4(A.b) + F4(A.c) + "] vs " + nb + " [" + F4(B.a) + F4(B.b) + F4(B.c) + "] mat " + (A.mat != null ? A.mat.name : "?") + "/" + (B.mat != null ? B.mat.name : "?"));
+                }
                 int ra = Mathf.Min(A.ren, B.ren), rb = Mathf.Max(A.ren, B.ren);
                 long ck = (long)ra * 1000003L + rb;
                 Coppia cp;
@@ -360,6 +425,8 @@ namespace TrenoBambini.EditorTools
                         cp.matDiversi = true;
                         cp.matA = A.mat != null ? A.mat.name : "?"; cp.matB = B.mat != null ? B.mat.name : "?";
                         cp.pos = (A.a + A.b + A.c) / 3f; cp.normale = A.n;
+                        var lo = Vector3.Max(A.bb.min, B.bb.min); var hi = Vector3.Min(A.bb.max, B.bb.max);
+                        cp.ext = new Bounds((lo + hi) * 0.5f, hi - lo);
                     }
                     if (vis) cp.visibile = true;
                 }
@@ -386,15 +453,27 @@ namespace TrenoBambini.EditorTools
 
         /// <summary>Vero se il baricentro del triangolo e' raggiungibile dall'esterno: un raggio uscente dalla faccia che incontra per prima
         /// una faccia posteriore parte dall'interno di un volume chiuso (faccia coperta, tipicamente nello spigolo fra due pareti).</summary>
+        /// <summary>Posizioni di camera di prova (area calpestabile a 2 m d'altezza): una faccia e' visibile se almeno una vede il punto senza ostacoli.</summary>
+        static readonly List<Vector3> camPunti = new List<Vector3>();
+
         static bool Visibile(Tri t)
         {
-            var p = (t.a + t.b + t.c) / 3f + t.n * 0.003f;
+            // faccia visibile se da una camera di prova nel semispazio davanti alla faccia il segmento fino al suo baricentro e' libero (qualunque faccia, anche posteriore, lo ostruisce)
+            var p = (t.a + t.b + t.c) / 3f + t.n * 0.004f;
             bool prima = Physics.queriesHitBackfaces;
             Physics.queriesHitBackfaces = true;
-            RaycastHit hit;
-            bool dentro = Physics.Raycast(p, t.n, out hit, 8f, ~0, QueryTriggerInteraction.Ignore) && Vector3.Dot(hit.normal, t.n) > 0.1f;
+            bool vista = false;
+            int provate = 0;
+            foreach (var c in camPunti)
+            {
+                var dir = c - p;
+                float dist = dir.magnitude;
+                if (dist < 0.05f || dist > 45f || Vector3.Dot(dir, t.n) <= 0.01f * dist) continue;
+                if (++provate > 80) break;
+                if (!Physics.Linecast(p, c, ~0, QueryTriggerInteraction.Ignore)) { vista = true; break; }
+            }
             Physics.queriesHitBackfaces = prima;
-            return !dentro;
+            return vista;
         }
 
         static Bounds Espandi(Bounds b) { b.Expand(0.004f); return b; }

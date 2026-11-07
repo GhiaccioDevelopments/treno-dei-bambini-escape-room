@@ -280,7 +280,7 @@ namespace TrenoBambini.EditorTools
             fr.Box(kb, -0.25f, 0.25f, -0.22f, 0f, 3.6f, 3.75f, 0, TileStone, 0);
             fr.Box(kb, -1.3f, 1.3f, -0.62f, 0f, 0.8f, 0.9f, 0, TileStone, 0);       // ripiano
             fr.Box(kb, -1.2f, 1.2f, -0.55f, 0f, 0.55f, 0.8f, 0, TileStone, 0);
-            fr.Box(kb, -0.85f, 0.85f, -0.05f, -0.01f, 0.9f, 3.1f, 1, 1f, 0);        // fondo azzurro del nicchione
+            fr.Box(kb, -0.85f, 0.85f, -0.07f, -0.01f, 0.9f, 3.1f, 1, 1f, 0);        // fondo azzurro del nicchione (sporge 7 cm: la fascia marcapiano della facciata sporge 5 cm, niente facce complanari)
             // grata di ferro bassa davanti al ripiano
             for (int i = 0; i <= 12; i++) { float pu = -1.15f + i * (2.3f / 12f); fr.Box(kb, pu - 0.01f, pu + 0.01f, -0.6f, -0.58f, 0.9f, 1.25f, 2, 1f, 0); }
             fr.Box(kb, -1.17f, 1.17f, -0.62f, -0.56f, 1.25f, 1.28f, 2, 1f, 0);
