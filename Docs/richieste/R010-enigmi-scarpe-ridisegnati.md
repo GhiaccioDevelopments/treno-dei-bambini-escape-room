@@ -1,5 +1,10 @@
 # R010 – Ridisegno degli enigmi di "Le scarpe" con il nuovo sistema
 
+> **Nota (2026-11-07): R010 è assorbita da R020.** Lo schema approvato di R020 include il ridisegno degli enigmi di "Le scarpe" e sostituisce la specifica qui sotto. Schema: `richiesta/R020-enigmi-d-autore-trama`, file `Docs/richieste/schemi/R020_schema.md`.
+>
+> La correzione sul quiz (§4) vale anche qui: le domande sulla Costituzione del 1948 e sulla Convenzione ONU del 1989 non possono avere risposta in documenti che stanno dentro il ricordo del 1946. Diventano spiegazioni o riflessioni nel presente, dette da Amerigo adulto o scritte nel quaderno.
+
+
 | | |
 |---|---|
 | **Scritta da** | Claude, PC casa, 2026-11-06 |
