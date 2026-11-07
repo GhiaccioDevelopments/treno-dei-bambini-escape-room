@@ -10,20 +10,16 @@ STAGING = r'C:\Users\rosan\treno-asset-staging'
 
 # nome: dict(src, asse, valore (m), tri (obiettivo LOD0 o None), prefisso (solo oggetti col nome che inizia cosi'))
 CAT = {
-    'SediaPaglia':    dict(src='SediaPaglia/scene.gltf', asse='z', valore=0.95),
     'LettoFerro':     dict(src='LettoFerro_alt_KuuttiMetalBed/scene.gltf', asse='y', valore=2.0),
     'Credenza':       dict(src='Credenza_alt_painted_wooden_cabinet/painted_wooden_cabinet_2k.gltf', asse='z', valore=1.15),
-    'Bancarella':     dict(src='Bancarella/scene.gltf', asse='z', valore=2.3),
-    'Bicicletta':     dict(src='Bicicletta/scene.gltf', asse='y', valore=1.75, tri=4500),
     'Pozzo':          dict(src='Pozzo/scene.gltf', asse='z', valore=2.2),
     'Fontana':        dict(src='Fontana_alt_Diccbudd/scene.gltf', asse='x', valore=3.6),
-    'PanchinaTufo':   dict(src='Panchina/scene.gltf', asse='x', valore=1.8),
     'Valigia':        dict(src='Valigia/vintage_suitcase_2k.gltf', asse='x', valore=0.62, tri=4000, prefisso='vintage_suitcase_01'),
     'Valigia2':       dict(src='Valigia/vintage_suitcase_2k.gltf', asse='x', valore=0.62, tri=4000, prefisso='vintage_suitcase_02'),
     'Sacco':          dict(src='Sacco/scene.gltf', asse='x', valore=0.85),
     'Tavolino':       dict(src='Tavolino/round_wooden_table_01_2k.gltf', asse='z', valore=0.74, tri=3000),
-    'PentolaOttone':  dict(src='Pentole_brass_pot_02/brass_pot_02_2k.gltf', asse='max', valore=0.37),
-    'PadellaOttone':  dict(src='Pentole_brass_pan_01/brass_pan_01_2k.gltf', asse='max', valore=0.45),
+    'PentolaRame':    dict(src='Pentole_brass_pot_02/brass_pot_02_2k.gltf', asse='max', valore=0.37),
+    'PadellaRame':    dict(src='Pentole_brass_pan_01/brass_pan_01_2k.gltf', asse='max', valore=0.45),
     'MadonnaStatuetta': dict(src='Madonna/scene.gltf', asse='z', valore=0.9, tri=5000),
 }
 

@@ -31,7 +31,7 @@
  "texture": {
   "SmaltoBianco": {
    "albedo": "SmaltoBianco_albedo.jpg",
-   "normal": "SmaltoBianco_normal.png",
+   "normal": "SmaltoBianco_normal.jpg",
    "mask": "SmaltoBianco_mask.png",
    "albedo_azzurro": "SmaltoBianco_albedo_azzurro.jpg",
    "levigatezza": 0.3

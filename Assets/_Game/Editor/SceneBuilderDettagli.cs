@@ -114,14 +114,16 @@ namespace TrenoBambini.EditorTools
 
         static GameObject ClothObject(Transform parent, string kind, int variant, string mat, Vector3 topPos, float yaw, Vector3 scale)
         {
-            var go = new GameObject("Panno_" + kind);
-            go.transform.SetParent(parent, false);
-            go.transform.localPosition = topPos;
-            go.transform.localRotation = Quaternion.Euler(0f, yaw, 0f);
-            go.transform.localScale = scale;
-            go.AddComponent<MeshFilter>().sharedMesh = ClothMesh(kind, variant);
-            var mr = go.AddComponent<MeshRenderer>();
-            mr.sharedMaterial = Mat(mat);
+            // R007 t2: panni veri (modelli Panno_* con LOD, alpha clip e bordi sfilacciati). Capo e variante di colore (3 materiali) dipendono dalla
+            // posizione, quindi sono diversi da un'istanza all'altra e riproducibili. L'argomento mat (colori delle primitive) non si usa piu'.
+            int h = Mathf.Abs((int)(topPos.x * 13.7f) + (int)(topPos.z * 7.3f) * 31 + (int)(topPos.y * 5f) + variant * 17);
+            string capo = kind == "Camicia" ? "Camicia" : kind == "Pantaloni" ? "Mutandoni" : kind == "Straccio" ? "Straccio" : ((h & 3) == 1 ? "LenzuoloRammendato" : (h & 3) == 3 ? "Tovaglia" : "Lenzuolo");
+            if ((h >> 3) % 3 == 0) yaw += 180f; // specchia il verso del vento
+            var go = ModelloIst("Panni/Panno_" + capo + ".fbx", parent, topPos, yaw, scale, false, "Panno_" + kind, 0.04f);
+            string[] mm = { "M_Panni", "M_Panni_B", "M_Panni_C" };
+            var m = AssetDatabase.LoadAssetAtPath<Material>("Assets/Art/Materials/" + mm[(h >> 1) % 3] + ".mat");
+            if (m != null)
+                foreach (var r in go.GetComponentsInChildren<Renderer>()) r.sharedMaterial = m;
             return go;
         }
 
@@ -143,7 +145,7 @@ namespace TrenoBambini.EditorTools
                 double roll = r.NextDouble();
                 string kind = roll < 0.22 ? "Lenzuolo" : roll < 0.58 ? "Camicia" : roll < 0.84 ? "Pantaloni" : "Straccio";
                 int variant = r.Next(0, 2);
-                float baseW = kind == "Lenzuolo" ? 1.1f : kind == "Camicia" ? 0.9f : kind == "Pantaloni" ? 0.42f : 0.4f;
+                float baseW = kind == "Lenzuolo" ? 1.25f : kind == "Camicia" ? 0.81f : kind == "Pantaloni" ? 0.64f : 0.54f; // larghezze dei modelli Panno_* (R007 t2)
                 float s = 0.8f + (float)r.NextDouble() * 0.35f;
                 float sx = Mathf.Min(s, maxW / baseW);
                 float yTop = Mathf.Lerp(yL, yR, tt) - 0.03f;

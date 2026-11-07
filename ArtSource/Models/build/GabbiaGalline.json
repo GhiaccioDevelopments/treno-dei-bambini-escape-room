@@ -31,7 +31,7 @@
  "texture": {
   "LegnoGabbia": {
    "albedo": "LegnoGabbia_albedo.jpg",
-   "normal": "LegnoGabbia_normal.png",
+   "normal": "LegnoGabbia_normal.jpg",
    "mask": "LegnoGabbia_mask.png",
    "levigatezza": 0.3
   }

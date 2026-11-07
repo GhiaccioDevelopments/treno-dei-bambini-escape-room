@@ -6,13 +6,13 @@
   "PanniTessuto"
  ],
  "tri": [
-  384,
-  96,
+  442,
+  108,
   24
  ],
  "dim": [
-  1.26,
-  0.102,
+  1.28,
+  0.144,
   0.912
  ],
  "doppia_faccia": [
@@ -26,7 +26,9 @@
   "PanniTessuto": {
    "albedo": "PanniTessuto_albedo.png",
    "normal": "PanniTessuto_normal.jpg",
-   "levigatezza": 0.12
+   "levigatezza": 0.12,
+   "albedo_B": "PanniTessuto_albedo_B.png",
+   "albedo_C": "PanniTessuto_albedo_C.png"
   }
  }
 }

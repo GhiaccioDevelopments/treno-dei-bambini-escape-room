@@ -677,12 +677,12 @@ namespace TrenoBambini.EditorTools
             switch (n)
             {
                 case "10_Hub_Vicolo": res = HubLightmapRes; maxSize = 1024; break;
-                case "20_Int_BassoAntonietta": res = 12f; maxSize = 1024; break;
-                case "30_FB_Scarpe": res = 4f; maxSize = 1024; break;
-                default: res = 8f; maxSize = 1024; break;
+                case "20_Int_BassoAntonietta": res = 8f; maxSize = 1024; break;
+                case "30_FB_Scarpe": res = 3f; maxSize = 1024; break;
+                default: res = 4f; maxSize = 1024; break;
             }
         }
-        const float HubLightmapRes = 4.5f;
+        const float HubLightmapRes = 3.0f; // R007 t2 parte B: ridotta da 4,5 per il peso in LFS (sceso a meno della meta; qualita' da verificare nelle foto)
 
         static LightingSettings LightingFor(string n)
         {

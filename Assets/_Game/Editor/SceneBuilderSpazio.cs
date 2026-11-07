@@ -62,7 +62,7 @@ namespace TrenoBambini.EditorTools
         /// <summary>Alloggia i mobili dopo la costruzione: li sposta fuori da muri e oggetti (vedi VerificaCompenetrazioni.Risolvi).</summary>
         static void RisolviSpazio(string scena)
         {
-            int n = VerificaCompenetrazioni.Risolvi(mobili, cavalieri);
+            int n = VerificaCompenetrazioni.Risolvi(mobili, cavalieri, 400); // R007 t2: modelli piu' grandi delle primitive, servono piu' giri
             Debug.Log("[SceneBuilder] " + scena + ": " + n + " spostamenti automatici per liberare lo spazio (" + mobili.Count + " mobili).");
         }
 

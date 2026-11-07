@@ -19,7 +19,7 @@
  "texture": {
   "vintage_suitcase_02": {
    "albedo": "vintage_suitcase_02_albedo.jpg",
-   "normal": "vintage_suitcase_02_normal.png",
+   "normal": "vintage_suitcase_02_normal.jpg",
    "mask": "vintage_suitcase_02_mask.png",
    "levigatezza": 0.3
   }

@@ -363,7 +363,7 @@ namespace TrenoBambini.EditorTools
                     }
                 case "Salumeria":
                     {
-                        Pezzo(env, "Bancarella", "Bancarella1", new[] { "M_LegnoVernicePelata", "Tessuto1", "M_CassaLegno", "PannoOcra" }, Bancarella, Fronte(f, 1.2f, 0f), YawMuro(f) + 90f, 0.03f);
+                        Pezzo(env, "Bancarella", "Bancarella1", new[] { "M_LegnoVernicePelata", "Tessuto1", "M_CassaLegno", "PannoOcra" }, Bancarella, Fronte(f, 1.2f, 0f), YawStrada(f), 0.03f); // R007 t2: banco parallelo alla facciata, fronte verso la strada (2,3 m non sta di punta)
                         Pz(env, "Appeso_Salumi", "R_Salumi", new[] { "M_FerroRuggine02", "Tessuto1", "PannoOcra" }, kb =>
                         {
                             kb.Box(new Vector3(-1.1f, 2.1f, -0.03f), new Vector3(1.1f, 2.14f, 0.03f), 0, 0.3f);
@@ -402,7 +402,7 @@ namespace TrenoBambini.EditorTools
                     }
                 case "Fruttivendolo":
                     {
-                        Pezzo(env, "Bancarella", "Bancarella2", new[] { "M_LegnoVernicePelata", "Tessuto2", "M_CassaLegno", "PannoBeige" }, Bancarella, Fronte(f, 1.2f, 0f), YawMuro(f) + 90f, 0.03f);
+                        Pezzo(env, "Bancarella", "Bancarella2", new[] { "M_LegnoVernicePelata", "Tessuto2", "M_CassaLegno", "PannoBeige" }, Bancarella, Fronte(f, 1.2f, 0f), YawStrada(f), 0.03f); // R007 t2: banco parallelo alla facciata, fronte verso la strada (2,3 m non sta di punta)
                         for (int i = 0; i < 4; i++)
                         {
                             int tipo = i % 3;

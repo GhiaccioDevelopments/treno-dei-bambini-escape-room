@@ -7,8 +7,18 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: initialShadingGroup
-    second: {fileID: 2100000, guid: 170683b12f24cbf47a624d40e5786c1a, type: 2}
+      name: BiciNero
+    second: {fileID: 2100000, guid: f3bdd3756d92b1e4a9685dd66e633a6e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Cuoio
+    second: {fileID: 2100000, guid: 55f520398c2017d4ebe566c32a01efa3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Fanale
+    second: {fileID: 2100000, guid: baf2eada942ac644aa2d3217f7d1cd65, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0

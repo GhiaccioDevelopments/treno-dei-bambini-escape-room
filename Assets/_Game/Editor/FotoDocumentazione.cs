@@ -29,7 +29,7 @@ namespace TrenoBambini.EditorTools
         };
 
         /// <summary>Scatta tutte le inquadrature di riferimento con un preset; suffisso "alta"/"bassa"/... nel nome file (t1_nome_suffisso).</summary>
-        public static void Serie(int preset, string suffisso, string solo = null)
+        public static void Serie(int preset, string suffisso, string solo = null, string prefisso = "t1_")
         {
             foreach (var q in Inquadrature)
             {
@@ -48,7 +48,7 @@ namespace TrenoBambini.EditorTools
                 var dir = (Vector3)q[3] - pos;
                 var e = Quaternion.LookRotation(dir).eulerAngles;
                 float pitch = e.x > 180f ? e.x - 360f : e.x;
-                Scatta((string)q[0], pos, e.y, pitch, preset, "t1_" + nome + "_" + suffisso);
+                Scatta((string)q[0], pos, e.y, pitch, preset, prefisso + nome + (suffisso == "" ? "" : "_" + suffisso));
             }
         }
 

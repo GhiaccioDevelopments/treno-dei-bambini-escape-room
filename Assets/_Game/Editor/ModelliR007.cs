@@ -143,6 +143,7 @@ namespace TrenoBambini.EditorTools
             // varianti: prefab con i materiali scambiati (es. pentole di rame)
             foreach (var v in varianti)
             {
+                if (cart == "Panni") continue; // le varianti di colore dei panni sono solo materiali (M_Panni_B, M_Panni_C)
                 var src = AssetDatabase.LoadAssetAtPath<GameObject>(fbx);
                 var inst = (GameObject)PrefabUtility.InstantiatePrefab(src);
                 foreach (var r in inst.GetComponentsInChildren<Renderer>())
@@ -236,12 +237,12 @@ namespace TrenoBambini.EditorTools
                 new Voce { id = "bicicletta", scena = "10_Hub_Vicolo", primitive = new[] { "Bicicletta" }, nuovi = new[] { P("Bicicletta", "Bicicletta.fbx") }, spazio = 1.3f, primoPiano = true },
                 new Voce { id = "pozzo", scena = "10_Hub_Vicolo", primitive = new[] { "Pozzo" }, nuovi = new[] { P("Pozzo", "Pozzo.fbx") }, spazio = 1.8f },
                 new Voce { id = "fontana", scena = "10_Hub_Vicolo", primitive = new[] { "Fontanella" }, nuovi = new[] { P("Fontana", "Fontana.fbx") }, spazio = 3.0f },
-                new Voce { id = "panchina", scena = "30_FB_Scarpe", primitive = new[] { "PanchinaTufo" }, nuovi = new[] { P("PanchinaTufo", "PanchinaTufo.fbx") }, spazio = 1.5f },
+                new Voce { id = "panchina", scena = "30_FB_Scarpe", primitive = new[] { "PanchinaTufo" }, nuovi = new[] { P("PanchinaPopolare", "PanchinaPopolare.fbx") }, spazio = 1.5f },
                 new Voce { id = "valigia", scena = "10_Hub_Vicolo", primitive = new[] { "Valigia" }, nuovi = new[] { P("Valigia", "Valigia.fbx"), P("Valigia2", "Valigia2.fbx") }, spazio = 0.7f },
                 new Voce { id = "sacco", scena = "10_Hub_Vicolo", primitive = new[] { "Sacco" }, nuovi = new[] { P("Sacco", "Sacco.fbx") }, spazio = 0.8f },
                 new Voce { id = "tavolino", scena = "30_FB_Scarpe", primitive = new[] { "Tavolino" }, nuovi = new[] { P("Tavolino", "Tavolino.fbx") }, spazio = 1.0f },
                 new Voce { id = "pentole", scena = "20_Int_BassoAntonietta", primitive = new[] { "Appeso_Pentola0", "Appeso_Pentola1" },
-                    nuovi = new[] { P("PentolaOttone", "PentolaOttone.fbx"), P("PentolaOttone", "PentolaOttone_rame.prefab"), P("PadellaOttone", "PadellaOttone.fbx"), P("PadellaOttone", "PadellaOttone_rame.prefab") },
+                    nuovi = new[] { P("PentolaRame", "PentolaRame.fbx"), P("PadellaRame", "PadellaRame.fbx") },
                     spazio = 0.35f, primoPiano = true },
                 new Voce { id = "madonna", scena = "10_Hub_Vicolo", primitive = new[] { "EdicolaStatuetta", "EdicolaStatuettaTesta" }, nuovi = new[] { P("MadonnaStatuetta", "MadonnaStatuetta.fbx") }, spazio = 0.3f, primoPiano = true },
                 new Voce { id = "radio", scena = "30_FB_Scarpe", primitive = new[] { "Radio" }, nuovi = new[] { P("Radio", "Radio.fbx") }, spazio = 0.35f },
@@ -389,7 +390,7 @@ namespace TrenoBambini.EditorTools
                 }
                 var nuovi = Nuovo("Nuovi", cella.transform);
                 x = 0.7f;
-                foreach (var k in new[] { "Lenzuolo", "LenzuoloRammendato", "Camicia", "Mutandoni", "Tovaglia", "Straccio" })
+                foreach (var k in new[] { "Lenzuolo", "LenzuoloRammendato", "Camicia", "Mutandoni", "Tovaglia", "Straccio", "Camicia", "Lenzuolo", "Mutandoni", "Straccio" })
                 {
                     var a = AssetDatabase.LoadAssetAtPath<GameObject>(P("Panni", "Panno_" + k + ".fbx"));
                     if (a == null) continue;
@@ -440,6 +441,89 @@ namespace TrenoBambini.EditorTools
             return null;
         }
 
+
+        // ================================================================== parte B: confronto dei modelli rifatti
+
+        const string ScenaRifatti = "Assets/_Game/Scenes/Prove/R007_Rifatti.unity";
+
+        /// <summary>Scena con i 4 modelli rifatti (bancarella, panchina, sedia, bicicletta), la gabbia, il lavatoio scurito e i panni nelle 3 varianti di colore.</summary>
+        [MenuItem("Treno/R007/Scena e foto dei modelli rifatti")]
+        public static void ScenaERifatti()
+        {
+            if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) return;
+            var scena = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+            new GameObject("Sole").AddComponent<Light>().type = LightType.Directional;
+            var camGo = new GameObject("Camera");
+            camGo.tag = "MainCamera";
+            camGo.AddComponent<Camera>();
+            Directory.CreateDirectory(Path.GetFullPath(Path.Combine(Application.dataPath, "_Game", "Scenes", "Prove")));
+            var suolo = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            suolo.name = "Suolo";
+            suolo.transform.position = new Vector3(0f, -0.5f, 60f);
+            suolo.transform.localScale = new Vector3(60f, 1f, 160f);
+            suolo.GetComponent<Renderer>().sharedMaterial = MatProva("M_ProvaSuolo", MatRoot + "/M_BasoliLavica.mat", new Vector2(30f, 80f));
+            var matMuro = MatProva("M_ProvaMuro", MatRoot + "/M_Intonaco_Ocra.mat", new Vector2(20f, 2.5f));
+            var root = Nuovo("Confronti", null);
+            // cella 1: i modelli rifatti
+            var c1 = Nuovo("Cella_rifatti", root.transform);
+            var n1 = Nuovo("Nuovi", c1.transform);
+            string[] liste = { P("Bancarella", "Bancarella.fbx"), P("PanchinaPopolare", "PanchinaPopolare.fbx"), P("SediaPaglia", "SediaPaglia.fbx"), P("SediaPaglia", "SediaPaglia.fbx"),
+                               P("Bicicletta", "Bicicletta.fbx"), P("GabbiaGalline", "GabbiaGalline.fbx"), P("Lavatoio", "Lavatoio.fbx") };
+            float[] xs = { -4.6f, -1.9f, -0.2f, 0.5f, 1.8f, 3.2f, 5.6f };
+            float[] yw = { 180f, 180f, 200f, 160f, 180f, 180f, 180f };
+            for (int i = 0; i < liste.Length; i++)
+            {
+                var a = AssetDatabase.LoadAssetAtPath<GameObject>(liste[i]);
+                if (a == null) continue;
+                var gr = Nuovo("N" + i, n1.transform);
+                var inst = (GameObject)PrefabUtility.InstantiatePrefab(a);
+                inst.transform.SetParent(gr.transform, false);
+                Posa(gr, xs[i], 0f, yw[i]);
+            }
+            var muro1 = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            muro1.name = "Fondale_rifatti"; muro1.transform.position = new Vector3(0f, 2.5f, 4f); muro1.transform.localScale = new Vector3(40f, 5f, 0.3f);
+            muro1.GetComponent<Renderer>().sharedMaterial = matMuro; muro1.transform.SetParent(root.transform, true);
+            // cella 2: i panni, tre varianti di colore, su due fili
+            float z2 = 30f;
+            var c2 = Nuovo("Cella_panni2", root.transform);
+            var n2 = Nuovo("Nuovi", c2.transform);
+            string[] capi = { "Lenzuolo", "Camicia", "Mutandoni", "LenzuoloRammendato", "Straccio", "Tovaglia", "Camicia", "Lenzuolo", "Mutandoni", "Straccio" };
+            string[] mm = { "M_Panni", "M_Panni_B", "M_Panni_C" };
+            for (int fila = 0; fila < 2; fila++)
+            {
+                var corda = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+                corda.name = "Corda";
+                corda.transform.SetParent(n2.transform, false);
+                corda.transform.position = new Vector3(0f, 2.4f - fila * 0.0f, z2 - fila * 1.6f);
+                corda.transform.rotation = Quaternion.Euler(0f, 0f, 90f);
+                corda.transform.localScale = new Vector3(0.015f, 5.2f, 0.015f);
+                float x = -4.6f;
+                for (int k = 0; k < capi.Length; k++)
+                {
+                    var a = AssetDatabase.LoadAssetAtPath<GameObject>(P("Panni", "Panno_" + capi[k] + ".fbx"));
+                    if (a == null) continue;
+                    var inst = (GameObject)PrefabUtility.InstantiatePrefab(a);
+                    inst.transform.SetParent(n2.transform, false);
+                    inst.transform.position = new Vector3(x, 2.4f, z2 - fila * 1.6f);
+                    if (k % 3 == 1) inst.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
+                    var mat = AssetDatabase.LoadAssetAtPath<Material>(MatRoot + "/" + mm[(k + fila) % 3] + ".mat");
+                    foreach (var r in inst.GetComponentsInChildren<Renderer>()) r.sharedMaterial = mat;
+                    x += capi[k].StartsWith("Lenzuolo") || capi[k] == "Tovaglia" ? 1.15f : 0.8f;
+                }
+            }
+            var muro2 = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            muro2.name = "Fondale_panni2"; muro2.transform.position = new Vector3(0f, 2.5f, z2 + 3f); muro2.transform.localScale = new Vector3(40f, 5f, 0.3f);
+            muro2.GetComponent<Renderer>().sharedMaterial = matMuro; muro2.transform.SetParent(root.transform, true);
+            foreach (var lg in UnityEngine.Object.FindObjectsByType<LODGroup>(FindObjectsInactive.Include)) lg.ForceLOD(0);
+            LookBuilder.ApplyLookProva(scena);
+            EditorSceneManager.SaveScene(scena, ScenaRifatti);
+            scenaFoto = "Prove/R007_Rifatti";
+            Foto("rifatti", false, "t2b_rifatti");
+            Foto("panni2", false, "t2b_panni");
+            scenaFoto = "Prove/R007_Modelli";
+            Debug.Log("[ModelliR007] Scena " + ScenaRifatti + " e foto t2b_rifatti / t2b_panni.");
+        }
+
         // ================================================================== foto
 
         [MenuItem("Treno/R007/Scatta confronti modelli")]
@@ -465,6 +549,8 @@ namespace TrenoBambini.EditorTools
             if (conPrimoPiano) ScattaCella(cella, true, nomeFile + "_primopiano", fov, 22f);
         }
 
+        static string scenaFoto = "Prove/R007_Modelli";
+
         static void ScattaCella(GameObject cella, bool soloNuovi, string nomeFile, float fov, float yaw)
         {
             Bounds b = new Bounds();
@@ -486,7 +572,7 @@ namespace TrenoBambini.EditorTools
             var e = look.eulerAngles;
             float pitch = e.x > 180f ? e.x - 360f : e.x;
             Debug.Log("[ModelliR007] " + nomeFile + " pos " + pos + " yaw " + e.y + " pitch " + pitch + " bounds " + b);
-            FotoDocumentazione.Scatta("Prove/R007_Modelli", pos, e.y, pitch, 2, nomeFile, fov);
+            FotoDocumentazione.Scatta(scenaFoto, pos, e.y, pitch, 2, nomeFile, fov);
         }
 
         static bool EDiscendente(Transform t, string nomeAvo)

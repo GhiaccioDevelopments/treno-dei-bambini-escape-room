@@ -1,12 +1,16 @@
-Verifica compenetrazioni - 2026-11-06 23:05
+Verifica compenetrazioni - 2026-11-08 00:42
 Tolleranza penetrazione 2 cm, appoggio 5 cm, sotto il pavimento 3 cm.
 
-== 01_Titolo: 0 segnalazioni ==
+== 01_Titolo: 1 segnalazioni ==
+  [01_Titolo] SOTTO IL PAVIMENTO 320,0 cm: Sicurezza/PianoSicurezza  @(0,00, -3,10, 0,43)
 
-== 10_Hub_Vicolo: 0 segnalazioni ==
+== 10_Hub_Vicolo: 1 segnalazioni ==
+  [10_Hub_Vicolo] SOTTO IL PAVIMENTO 400,0 cm: Sicurezza/PianoSicurezza  @(0,17, -3,90, 6,25)
 
-== 20_Int_BassoAntonietta: 0 segnalazioni ==
+== 20_Int_BassoAntonietta: 1 segnalazioni ==
+  [20_Int_BassoAntonietta] SOTTO IL PAVIMENTO 300,0 cm: Sicurezza/PianoSicurezza  @(0,90, -2,90, 5,80)
 
-== 30_FB_Scarpe: 0 segnalazioni ==
+== 30_FB_Scarpe: 1 segnalazioni ==
+  [30_FB_Scarpe] SOTTO IL PAVIMENTO 400,0 cm: Sicurezza/PianoSicurezza  @(1,75, -3,90, 2,69)
 
-TOTALE: 0
+TOTALE: 4

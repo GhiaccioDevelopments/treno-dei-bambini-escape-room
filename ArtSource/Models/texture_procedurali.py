@@ -57,8 +57,8 @@ def da_tile(asset, base, tinta=None, levig_extra=0.0):
         alb = lum * np.array(tinta, dtype=np.float32)
     salva_rgb(alb, base + '_albedo.jpg')
     out['albedo'] = os.path.basename(base) + '_albedo.jpg'
-    Image.open(ph(asset, 'nor_gl')).convert('RGB').save(base + '_normal.png', optimize=True)
-    out['normal'] = os.path.basename(base) + '_normal.png'
+    Image.open(ph(asset, 'nor_gl')).convert('RGB').save(base + '_normal.jpg', quality=93, subsampling=0)
+    out['normal'] = os.path.basename(base) + '_normal.jpg'
     ro = np.asarray(Image.open(ph(asset, 'rough')).convert('L'), dtype=np.float32)
     sm = np.clip(255 - ro + levig_extra * 255, 0, 255)
     mask_png(base + '_mask.png', np.zeros_like(ro), np.full_like(ro, 255), sm)
@@ -98,8 +98,8 @@ def smalto(base, nome):
         out['albedo' + ('_' + var if var else '')] = os.path.basename(base) + suf + '.jpg'
         if not var:
             h = 1.0 - chipb * 0.8 + rumore(S, S, 1.2, 0.01, 5)
-            Image.fromarray(normal_da_altezza(h, 6.0), 'RGB').save(base + '_normal.png', optimize=True)
-            out['normal'] = os.path.basename(base) + '_normal.png'
+            Image.fromarray(normal_da_altezza(h, 6.0), 'RGB').save(base + '_normal.jpg', quality=93, subsampling=0)
+            out['normal'] = os.path.basename(base) + '_normal.jpg'
             mask_png(base + '_mask.png', (chipb * 200), np.full((S, S), 255), np.clip(200 - chipb * 150, 0, 255))
             out['mask'] = os.path.basename(base) + '_mask.png'
     return out
@@ -121,10 +121,10 @@ def frutta(base, tipo):
         alb *= (1.0 - 0.1 * np.clip(rumore(S, S, 20, 1, 24), 0, 2))[..., None]
     salva_rgb(alb, base + '_albedo.jpg')
     h = rumore(S, S, 1.0, 0.02, 25) + (rumore(S, S, 5, 0.03, 26) if tipo == 'Verdura' else 0)
-    Image.fromarray(normal_da_altezza(h, forza), 'RGB').save(base + '_normal.png', optimize=True)
+    Image.fromarray(normal_da_altezza(h, forza), 'RGB').save(base + '_normal.jpg', quality=93, subsampling=0)
     mask_png(base + '_mask.png', np.zeros((S, S)), np.full((S, S), 255), np.full((S, S), int(sm * 255)))
     nome = os.path.basename(base)
-    return {'albedo': nome + '_albedo.jpg', 'normal': nome + '_normal.png', 'mask': nome + '_mask.png'}
+    return {'albedo': nome + '_albedo.jpg', 'normal': nome + '_normal.jpg', 'mask': nome + '_mask.png'}
 
 
 # ------------------------------------------------------------------ scala parlante della radio
@@ -158,7 +158,7 @@ def scala(base):
 
 # ------------------------------------------------------------------ atlante dei panni
 
-def panni(base):
+def panni(base, var=''):
     AW, AH = PD.ATLANTE
     lin = Image.open(ph('rough_linen', 'diff')).convert('L')
     lin_a = np.asarray(lin.resize((256, 256), Image.LANCZOS), np.float32)
@@ -172,12 +172,14 @@ def panni(base):
         r = np.random.default_rng(sum(ord(c) for c in nome))
         reps = (ch // 256 + 1, cw // 256 + 1)
         tex = np.tile(lin_a, reps)[:ch, :cw]
-        colore = np.array(col, np.float32)
+        if var:
+            col = PD.VARIANTI[var][nome]
+        colore = np.array(col, np.float32) * 0.80   # colori spenti: nella luce coperta dell'hub il bianco pieno brucia
         c = colore[None, None, :] * (0.72 + 0.28 * tex[..., None])
         c *= (1.0 + rumore(cw, ch, 25, 0.035, int(r.integers(1000))))[..., None]
         yy, xx = np.mgrid[0:ch, 0:cw]
         if stile == 'quadri':
-            rosso = np.array([158, 66, 56], np.float32)
+            rosso = np.array(PD.VARIANTI[var]['quadri'] if var else [140, 80, 72], np.float32)
             for dirz in (xx, yy):
                 banda = ((dirz // 48) % 2 == 0).astype(np.float32) * 0.38
                 c = c * (1 - banda[..., None]) + (c * 0.55 + rosso * 0.45) * banda[..., None]
@@ -185,11 +187,12 @@ def panni(base):
             for y in (10, ch - 18):
                 c[y:y + 2] *= 0.9
             c[:, 10:12] *= 0.94
-        if stile == 'rammendato':
-            for k in range(4):
-                pw, ph_ = int(r.integers(55, 100)), int(r.integers(55, 100))
+        ntoppe = {'rammendato': 5, 'lenzuolo': 2, 'camicia': 2, 'mutandoni': 2, 'quadri': 1, 'straccio': 3}[stile]
+        if ntoppe:
+            for k in range(ntoppe):
+                pw, ph_ = int(r.integers(40, 80)) if stile in ('camicia', 'mutandoni', 'straccio') else int(r.integers(55, 100)), int(r.integers(40, 80)) if stile in ('camicia', 'mutandoni', 'straccio') else int(r.integers(55, 100))
                 px, py = int(r.integers(20, cw - pw - 20)), int(r.integers(40, ch - ph_ - 40))
-                tinta = colore * r.uniform(0.82, 1.1) + r.uniform(-3, 3, 3)
+                tinta = colore * r.uniform(0.78, 1.12) + r.uniform(-6, 6, 3)
                 c[py:py + ph_, px:px + pw] = tinta * (0.8 + 0.2 * tex[py:py + ph_, px:px + pw, None])
                 for t in range(0, pw, 9):
                     c[py:py + 2, px + t:px + t + 5] *= 0.55
@@ -244,16 +247,41 @@ def panni(base):
     # riempi le zone vuote dell'atlante col colore medio per evitare aloni nei mip
     vuoto = alb[..., 3] == 0
     alb[vuoto, :3] = 200
-    Image.fromarray(np.clip(alb, 0, 255).astype(np.uint8), 'RGBA').save(base + '_albedo.png', optimize=True)
-    Image.fromarray(nrm, 'RGB').save(base + '_normal.jpg', quality=93, subsampling=0)
+    suf = '_albedo_' + var if var else '_albedo'
+    Image.fromarray(np.clip(alb, 0, 255).astype(np.uint8), 'RGBA').save(base + suf + '.png', optimize=True)
     nome = os.path.basename(base)
-    return {'albedo': nome + '_albedo.png', 'normal': nome + '_normal.jpg', 'levigatezza': 0.12}
+    if var:
+        return {'albedo_' + var: nome + suf + '.png'}
+    Image.fromarray(nrm, 'RGB').save(base + '_normal.jpg', quality=93, subsampling=0)
+    return {'albedo': nome + suf + '.png', 'normal': nome + '_normal.jpg', 'levigatezza': 0.12}
+
+
+def paglia(base):
+    S = 256
+    yy, xx = np.mgrid[0:S, 0:S].astype(np.float32)
+    a = np.sin((xx + yy) * 0.35) * 0.5 + 0.5
+    b = np.sin((xx - yy) * 0.35) * 0.5 + 0.5
+    trama = np.maximum(a, b) ** 1.5
+    fibra = rumore(S, S, 0.8, 0.06, 41)
+    alb = np.array([196, 156, 84], np.float32) * (0.55 + 0.45 * trama[..., None]) * (1.0 + fibra[..., None])
+    alb *= (1.0 + rumore(S, S, 12, 0.08, 42))[..., None]
+    salva_rgb(alb, base + '_albedo.jpg')
+    Image.fromarray(normal_da_altezza(trama + fibra * 0.3, 3.0), 'RGB').save(base + '_normal.jpg', quality=93, subsampling=0)
+    mask_png(base + '_mask.png', np.zeros((S, S)), np.full((S, S), 255), np.full((S, S), 80))
+    nome = os.path.basename(base)
+    return {'albedo': nome + '_albedo.jpg', 'normal': nome + '_normal.jpg', 'mask': nome + '_mask.png'}
 
 
 RICETTE = {
+    'LegnoBanco': lambda b: da_tile('weathered_planks', b),
+    'TeloBanco': lambda b: da_tile('rough_linen', b, (138, 122, 94)),
+    'LegnoPanchina': lambda b: da_tile('weathered_planks', b),
+    'PietraPanchina': lambda b: da_tile('sandstone_cracks', b, (104, 94, 80)),
+    'LegnoSedia': lambda b: da_tile('dark_wood', b, (104, 76, 54)),
+    'Paglia': lambda b: paglia(b),
     'LegnoGabbia': lambda b: da_tile('weathered_planks', b),
     'LegnoCassa': lambda b: da_tile('weathered_planks', b),
-    'PietraLavatoio': lambda b: da_tile('sandstone_cracks', b),
+    'PietraLavatoio': lambda b: da_tile('sandstone_cracks', b, (112, 102, 90)),
     'LegnoRadio': lambda b: da_tile('dark_wood', b, None, 0.2),
     'TelaRadio': lambda b: da_tile('rough_linen', b, (150, 120, 82)),
     'SmaltoBianco': lambda b: smalto(b, 'SmaltoBianco'),
@@ -261,7 +289,7 @@ RICETTE = {
     'Frutta_Pomodori': lambda b: frutta(b, 'Pomodori'),
     'Frutta_Verdura': lambda b: frutta(b, 'Verdura'),
     'ScalaRadio': lambda b: scala(b),
-    'PanniTessuto': lambda b: panni(b),
+    'PanniTessuto': lambda b: {**panni(b), **panni(b, 'B'), **panni(b, 'C')},
 }
 DONE = {}
 
@@ -288,7 +316,7 @@ def lavora(nome):
 
 
 if __name__ == '__main__':
-    nomi = sys.argv[1:] or ['GabbiaGalline', 'Lavatoio', 'Bacinella', 'CassaFrutta_Arance', 'CassaFrutta_Pomodori', 'CassaFrutta_Verdura',
+    nomi = sys.argv[1:] or ['Bancarella', 'PanchinaPopolare', 'SediaPaglia', 'GabbiaGalline', 'Lavatoio', 'Bacinella', 'CassaFrutta_Arance', 'CassaFrutta_Pomodori', 'CassaFrutta_Verdura',
                             'Radio', 'Panni'] + ['Panno_' + n for n in PD.PANNI]
     for n in nomi:
         lavora(n)

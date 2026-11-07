@@ -1,26 +1,36 @@
 {
  "nome": "Bancarella",
  "cartella": "Bancarella",
- "sorgente": "C:\\Users\\rosan\\treno-asset-staging\\Bancarella",
+ "sorgente": "",
  "materiali": [
-  "Material"
+  "LegnoBanco",
+  "TeloBanco"
  ],
  "tri": [
-  2272,
-  1135,
-  568
+  1220,
+  610,
+  304
  ],
- "tri_originali": 2272,
+ "tri_originali": 1220,
  "dim": [
-  0.995,
-  0.806,
-  2.3
+  2.3,
+  1.18,
+  2.32
+ ],
+ "doppia_faccia": [
+  "TeloBanco"
  ],
  "texture": {
-  "Material": {
-   "albedo": "Material_albedo.jpg",
-   "normal": "Material_normal.jpg",
-   "mask": "Material_mask.png",
+  "LegnoBanco": {
+   "albedo": "LegnoBanco_albedo.jpg",
+   "normal": "LegnoBanco_normal.jpg",
+   "mask": "LegnoBanco_mask.png",
+   "levigatezza": 0.3
+  },
+  "TeloBanco": {
+   "albedo": "TeloBanco_albedo.jpg",
+   "normal": "TeloBanco_normal.jpg",
+   "mask": "TeloBanco_mask.png",
    "levigatezza": 0.3
   }
  }

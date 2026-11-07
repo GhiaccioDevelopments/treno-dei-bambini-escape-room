@@ -245,7 +245,8 @@ namespace TrenoBambini.EditorTools
             {
                 if (!r.enabled) continue;
                 var go = r.gameObject;
-                if (go.name == "LOD1") continue;                    // livello a distanza della stessa facciata
+                if (go.name == "LOD1" || go.name.EndsWith("_LOD1") || go.name.EndsWith("_LOD2")) continue; // R007 t2: livelli LOD dei modelli veri
+                //                   // livello a distanza della stessa facciata
                 if (go.GetComponentInParent<TrenoBambini.Player.ThirdPersonController>() != null) continue; // il giocatore
                 if (go.GetComponentInParent<Canvas>() != null) continue;
                 var mf = go.GetComponent<MeshFilter>();

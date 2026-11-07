@@ -31,7 +31,7 @@
  "texture": {
   "PietraLavatoio": {
    "albedo": "PietraLavatoio_albedo.jpg",
-   "normal": "PietraLavatoio_normal.png",
+   "normal": "PietraLavatoio_normal.jpg",
    "mask": "PietraLavatoio_mask.png",
    "levigatezza": 0.3
   }

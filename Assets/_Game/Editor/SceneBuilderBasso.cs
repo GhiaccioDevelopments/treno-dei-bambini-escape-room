@@ -377,6 +377,7 @@ namespace TrenoBambini.EditorTools
             Cavaliere(fiammaCredenza, credenza);
             var sveglia = Pz(props, "SvegliaRotta", "B_SvegliaRotta", new[] { "M_FerroRuggine02", "Cera" }, SvegliaRotta, new Vector3(0f, 0.96f, 0f), 90f, false);
             Impila(sveglia, credenza, new Vector2(0f, 0.2f));
+            sveglia.transform.position += Vector3.up * 0.02f; // R007 t2: il modello della credenza e' un solido: la sveglia sta 2 cm sopra, senza compenetrazione
             Cavaliere(sveglia, credenza);
             Sacco(props, new Vector3(3.9f, 0f, 2.9f), 20f);
 
@@ -447,7 +448,12 @@ namespace TrenoBambini.EditorTools
             // pentole appese a un'asse sulla parete est
             Appeso(props, "Appeso_AsseePentole", new Vector3(4.46f, 1.75f, 5.7f), new Vector3(0.05f, 0.05f, 1.8f), "M_LegnoVernicePelata");
             for (int i = 0; i < 5; i++)
-                Cyl("Appeso_Pentola" + i, props, new Vector3(4.34f, 1.6f - (i % 2) * 0.08f, 4.95f + i * 0.35f), 0.2f + (i % 3) * 0.03f, 0.14f, "M_FerroRuggineGrossa", new Vector3(0f, 0f, 90f), false);
+            {
+                // R007 t2: pentole e padelle di rame (modelli veri) con l'apertura verso la stanza: ruotate di 90 gradi attorno a z
+                string mod = i % 3 == 2 ? "PadellaRame/PadellaRame.fbx" : "PentolaRame/PentolaRame.fbx";
+                var pg = ModelloIst(mod, props, new Vector3(4.40f, 1.6f - (i % 2) * 0.08f, 4.85f + i * 0.40f), 0f, Vector3.one, false, "Appeso_Pentola" + i, 0.03f);
+                pg.transform.localRotation = Quaternion.Euler(0f, 0f, 90f);
+            }
             Pz(props, "BacinellaCucina", "B_BacinellaTreppiede", new[] { "M_FerroRuggine02", "M_SecchioMetallo" }, kb =>
             {
                 foreach (var a in new[] { 0f, 120f, 240f })

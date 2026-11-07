@@ -20,13 +20,13 @@
  "texture": {
   "LegnoCassa": {
    "albedo": "LegnoCassa_albedo.jpg",
-   "normal": "LegnoCassa_normal.png",
+   "normal": "LegnoCassa_normal.jpg",
    "mask": "LegnoCassa_mask.png",
    "levigatezza": 0.3
   },
   "Frutta_Pomodori": {
    "albedo": "Frutta_Pomodori_albedo.jpg",
-   "normal": "Frutta_Pomodori_normal.png",
+   "normal": "Frutta_Pomodori_normal.jpg",
    "mask": "Frutta_Pomodori_mask.png",
    "levigatezza": 0.3
   }

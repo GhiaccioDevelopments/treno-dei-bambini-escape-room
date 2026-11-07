@@ -43,13 +43,13 @@
  "texture": {
   "LegnoRadio": {
    "albedo": "LegnoRadio_albedo.jpg",
-   "normal": "LegnoRadio_normal.png",
+   "normal": "LegnoRadio_normal.jpg",
    "mask": "LegnoRadio_mask.png",
    "levigatezza": 0.3
   },
   "TelaRadio": {
    "albedo": "TelaRadio_albedo.jpg",
-   "normal": "TelaRadio_normal.png",
+   "normal": "TelaRadio_normal.jpg",
    "mask": "TelaRadio_mask.png",
    "levigatezza": 0.3
   },

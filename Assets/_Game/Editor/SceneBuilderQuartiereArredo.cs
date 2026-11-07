@@ -21,9 +21,42 @@ namespace TrenoBambini.EditorTools
 
         // ------------------------------------------------------------------ pezzi generati
 
+        /// <summary>R007 t2: chiave del pezzo di primitive -> modello 3D vero (Assets/Art/Models). Le funzioni fill/mats restano come riserva ma non si usano.</summary>
+        static string ModelloPerChiave(string key, Vector3 pos)
+        {
+            switch (key)
+            {
+                case "SediaPaglia": return "SediaPaglia";
+                case "B_Credenza": return "Credenza";
+                case "B_LettoFerro": return "LettoFerro";
+                case "Bancarella1": case "Bancarella2": case "Bancarella3": case "Bancarella4": return "Bancarella";
+                case "Bicicletta": return "Bicicletta";
+                case "Pozzo": return "Pozzo";
+                case "Fontana": return "Fontana";
+                case "Panchina": return "PanchinaPopolare";
+                case "Valigia": return (((int)(pos.x * 10f) + (int)(pos.z * 7f)) & 1) == 0 ? "Valigia" : "Valigia2";
+                case "Sacco": return "Sacco";
+                case "Tavolino": return "Tavolino";
+                case "Gabbia": return "GabbiaGalline";
+                case "Lavatoio": return "Lavatoio";
+                case "B_Radio": return "Radio";
+                case "R_Frutta0": return "CassaFrutta/CassaFrutta_Verdura.fbx";
+                case "R_Frutta1": return "CassaFrutta/CassaFrutta_Arance.fbx";
+                case "R_Frutta2": return "CassaFrutta/CassaFrutta_Pomodori.fbx";
+            }
+            return null;
+        }
+
         static GameObject Pezzo(Transform parent, string name, string key, string[] mats, Action<KitBuilder> fill, Vector3 pos, float yaw,
                                 float cull = 0.03f, bool collider = true)
         {
+            string modello = ModelloPerChiave(key, pos);
+            if (modello != null)
+            {
+                var g = ModelloIst(modello, parent, pos, yaw, key == "Tavolino" ? new Vector3(0.7f, 1f, 0.7f) : Vector3.one, collider, name, cull); // tavolino piu' stretto: 0,72 m
+                g.transform.SetPositionAndRotation(pos, Quaternion.Euler(0f, yaw, 0f));
+                return g;
+            }
             Mesh m;
             if (!propMesh.TryGetValue(key, out m) || m == null)
             {
@@ -285,11 +318,11 @@ namespace TrenoBambini.EditorTools
             for (int i = 0; i <= 12; i++) { float pu = -1.15f + i * (2.3f / 12f); fr.Box(kb, pu - 0.01f, pu + 0.01f, -0.6f, -0.58f, 0.9f, 1.25f, 2, 1f, 0); }
             fr.Box(kb, -1.17f, 1.17f, -0.62f, -0.56f, 1.25f, 1.28f, 2, 1f, 0);
             MeshObject(env, "EdicolaGrande", kb.Build("Hub_EdicolaGrande_" + (int)(wallPoint.x * 10) + "_" + (int)(wallPoint.z * 10)), new[] { "M_ArenariaBlocchi", "M_LegnoDipintoBlu", "M_FerroRuggine02" }, true);
-            Prim(PrimitiveType.Capsule, "EdicolaStatuetta", env, fr.W(0f, -0.27f, 1.75f), new Vector3(0.42f, 0.5f, 0.3f), "Cera", null, false);
-            Prim(PrimitiveType.Sphere, "EdicolaStatuettaTesta", env, fr.W(0f, -0.27f, 2.38f), new Vector3(0.2f, 0.23f, 0.2f), "Cera", null, false);
+            // R007 t2: la Madonna e' il modello vero (0,9 m), in piedi sul ripiano della nicchia (quota 1,25 m)
+            Model("MadonnaStatuetta", env, fr.W(0f, -0.30f, 1.25f), Mathf.Atan2(fr.n.x, fr.n.z) * Mathf.Rad2Deg, 1.0f, false, "EdicolaStatuetta");
             for (int i = -1; i <= 1; i++)
             {
-                Model("Candela", env, fr.W(i * 0.7f, -0.3f, 0.9f), 0f, 1.1f, false, "EdicolaCandela");
+                Model("Candela", env, fr.W(i * 0.7f, -0.3f, 0.97f), 0f, 1.1f, false, "EdicolaCandela"); // R007 t2: sul ripiano (quota 0,97), non dentro
                 Prim(PrimitiveType.Sphere, "EdicolaLumino", env, fr.W(i * 0.7f, -0.3f, 1.06f), new Vector3(0.06f, 0.09f, 0.06f), "Glow", null, false);
             }
             var luce = new GameObject("LuceEdicolaGrande");
@@ -367,7 +400,7 @@ namespace TrenoBambini.EditorTools
                 double roll = r.NextDouble();
                 string kind = roll < 0.22 ? "Lenzuolo" : roll < 0.58 ? "Camicia" : roll < 0.84 ? "Pantaloni" : "Straccio";
                 int variant = r.Next(0, 2);
-                float baseW = kind == "Lenzuolo" ? 1.1f : kind == "Camicia" ? 0.9f : kind == "Pantaloni" ? 0.42f : 0.4f;
+                float baseW = kind == "Lenzuolo" ? 1.25f : kind == "Camicia" ? 0.81f : kind == "Pantaloni" ? 0.64f : 0.54f; // larghezze dei modelli Panno_* (R007 t2)
                 float s = 0.8f + (float)r.NextDouble() * 0.35f;
                 float sx = Mathf.Min(s, maxW / baseW);
                 Vector3 pt = Vector3.Lerp(a, b, tt);

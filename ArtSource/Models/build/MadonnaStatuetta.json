@@ -19,7 +19,7 @@
  "texture": {
   "material0": {
    "albedo": "material0_albedo.jpg",
-   "normal": "material0_normal.png",
+   "normal": "material0_normal.jpg",
    "levigatezza": 0.25
   }
  }

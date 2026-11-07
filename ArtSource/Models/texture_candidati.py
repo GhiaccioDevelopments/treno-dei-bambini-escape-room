@@ -12,11 +12,13 @@ META = os.path.join(QUI, 'build')
 MODELLI = os.path.join(RADICE, 'Assets', 'Art', 'Models')
 
 # lato massimo delle texture (px); standard 1024, solo gli oggetti grandi a 2048
-LATO = {'LettoFerro': 2048, 'Credenza': 2048, 'Bancarella': 2048, 'Bicicletta': 2048}
+LATO = {'LettoFerro': 2048, 'Credenza': 2048, 'Sacco': 512, 'Valigia': 512, 'Valigia2': 512, 'PentolaRame': 512, 'PadellaRame': 512}
 # oggetti senza texture sorgente (colori piatti): materiale gestito da Unity
 SENZA = set()
 # varianti ricolorate dell'albedo (nome variante -> colore RGB 0..255 medio finale)
-VARIANTI = {'PentolaOttone': {'rame': (176, 98, 66)}, 'PadellaOttone': {'rame': (176, 98, 66)}}
+VARIANTI = {}
+# parte B: pentole e padelle solo di rame (l'ottone e' scartato): albedo ricolorato verso questo colore medio
+RICOLORA = {'PentolaRame': (176, 98, 66), 'PadellaRame': (176, 98, 66)}
 # oggetti per cui la normal si ricava dalla luminanza dell'albedo (forza)
 NORMAL_DA_ALBEDO = {'MadonnaStatuetta': 3.0}
 # levigatezza costante quando manca la mask
@@ -53,12 +55,8 @@ def normal_da_altezza(rgb, forza):
 
 
 def salva_normal(im, base, lato):
-    if lato >= 2048:
-        p = base + '_normal.jpg'
-        im.save(p, quality=93, subsampling=0)
-    else:
-        p = base + '_normal.png'
-        im.save(p, optimize=True)
+    p = base + '_normal.jpg'   # parte B (LFS): normal sempre in JPG q93
+    im.save(p, quality=93, subsampling=0)
     return p
 
 
@@ -102,6 +100,10 @@ def lavora(nome):
             alb = ridimensiona(Image.open(pa).convert('RGB'), lato)
             if nome in TINTA:
                 alb = Image.fromarray(np.clip(np.asarray(alb, np.float32) * np.array(TINTA[nome], np.float32), 0, 255).astype(np.uint8), 'RGB')
+            if nome in RICOLORA:
+                a = np.asarray(alb, dtype=np.float32)
+                k = np.array(RICOLORA[nome], dtype=np.float32) / np.maximum(a.reshape(-1, 3).mean(axis=0), 1.0)
+                alb = Image.fromarray(np.clip(a * k, 0, 255).astype(np.uint8), 'RGB')
             alb.save(base + '_albedo.jpg', quality=88, subsampling=0)
             r['albedo'] = safe + '_albedo.jpg'
             for var, col in VARIANTI.get(nome, {}).items():

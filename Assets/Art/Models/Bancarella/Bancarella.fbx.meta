@@ -7,8 +7,13 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Material
-    second: {fileID: 2100000, guid: d4e0fc3255db568489ffec82c49900bd, type: 2}
+      name: LegnoBanco
+    second: {fileID: 2100000, guid: 1b373ba6a6f5df94489fe21f26a0b6a2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: TeloBanco
+    second: {fileID: 2100000, guid: e1f29d1c63ed3ed4d9109e7ce66081b1, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0

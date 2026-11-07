@@ -3,9 +3,11 @@
 # Uso: blender -b --factory-startup --python crea_oggetti.py -- [Nome ...]   (senza nomi: tutti)
 # Le texture le prepara texture_procedurali.py (PIL), poi Treno > R007 > Importa modelli in Unity.
 import bpy, bmesh, sys, os, math, random
+from mathutils import Matrix
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import lib_modelli as L
 import panni_def as PD
+import crea_oggetti_b as B
 from lib_modelli import box, cilindro, trasla, uv_box, smussa, nuovo_oggetto
 
 FERRO = {'colore': [0.10, 0.10, 0.11], 'metallico': 0.85, 'levig': 0.35}
@@ -90,6 +92,7 @@ def gabbia():
     v, _ = cilindro(bm, -W / 2 + 0.05, W / 2 - 0.05, 0.012, 8, 0, asse='x')
     trasla(bm, v, (0, 0, H0 + 0.2))
     o = oggetto_da_bm('Gabbia', bm, mats)
+    o.data.transform(Matrix.Rotation(math.pi, 4, 'Z'))   # fronte (porticina) a -Y Blender = +Z Unity, come tutti gli altri modelli
     uv_box(o.data, 0.8)
     return o, {'piatti': {'FerroGabbia': FERRO}}
 
@@ -322,6 +325,9 @@ def crea_panni():
 
 
 COSTRUTTORI = {
+    'Bancarella': (B.bancarella, dict()),
+    'PanchinaPopolare': (B.panchina, dict()),
+    'SediaPaglia': (B.sedia, dict()),
     'GabbiaGalline': (gabbia, dict()),
     'Lavatoio': (lavatoio, dict()),
     'Bacinella': (bacinella, dict()),

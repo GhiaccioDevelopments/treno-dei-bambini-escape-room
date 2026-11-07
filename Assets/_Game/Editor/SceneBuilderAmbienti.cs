@@ -153,17 +153,28 @@ namespace TrenoBambini.EditorTools
 
         static GameObject Model(string model, Transform parent, Vector3 pos, float yaw, float scale = 1f, bool collider = true, string objName = null, float cull = 0.02f)
         {
-            var asset = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Art/Models/" + model + "/" + model + ".fbx");
+            return ModelloIst(model, parent, pos, yaw, Vector3.one * scale, collider, objName, cull);
+        }
+
+        /// <summary>
+        /// Istanzia un modello FBX. "Nome" = Assets/Art/Models/Nome/Nome.fbx; "Cartella/File.ext" = percorso esplicito sotto Assets/Art/Models.
+        /// R007 t2: i modelli con LOD0/1/2 (nomi *_LOD0..2) mantengono i tre livelli (soglie 0,40 / 0,15 / culling); gli altri hanno un solo livello.
+        /// Collider: un unico BoxCollider sul volume del modello (R018: niente oggetti senza collider dove prima c'era).
+        /// </summary>
+        static GameObject ModelloIst(string model, Transform parent, Vector3 pos, float yaw, Vector3 scale, bool collider, string objName, float cull)
+        {
+            string path = model.Contains("/") ? "Assets/Art/Models/" + model : "Assets/Art/Models/" + model + "/" + model + ".fbx";
+            var asset = AssetDatabase.LoadAssetAtPath<GameObject>(path);
             if (asset == null)
             {
-                Debug.LogError("[SceneBuilder] Modello mancante: " + model);
+                Debug.LogError("[SceneBuilder] Modello mancante: " + path);
                 return new GameObject(objName ?? model);
             }
             var go = (GameObject)PrefabUtility.InstantiatePrefab(asset, parent);
-            go.name = objName ?? model;
+            go.name = objName ?? System.IO.Path.GetFileNameWithoutExtension(model);
             go.transform.localPosition = pos;
             go.transform.localRotation = Quaternion.Euler(0f, yaw, 0f);
-            go.transform.localScale = Vector3.one * scale;
+            go.transform.localScale = scale;
 
             var rs = go.GetComponentsInChildren<Renderer>();
             if (collider)
@@ -188,9 +199,24 @@ namespace TrenoBambini.EditorTools
                     bc.size = b.size;
                 }
             }
-            // LOD: i modelli sono a un solo livello, quindi LOD0 completo e culling sotto il 2% dello schermo
-            var lg = go.AddComponent<LODGroup>();
-            lg.SetLODs(new[] { new LOD(cull, rs) });
+            var lg = go.GetComponent<LODGroup>();
+            if (lg == null) lg = go.AddComponent<LODGroup>();
+            var liv = new System.Collections.Generic.List<Renderer>[3];
+            for (int i = 0; i < 3; i++) liv[i] = new System.Collections.Generic.List<Renderer>();
+            bool conLod = false;
+            foreach (var r in rs)
+            {
+                int k = r.name.EndsWith("_LOD1") ? 1 : r.name.EndsWith("_LOD2") ? 2 : 0;
+                if (k > 0) conLod = true;
+                liv[k].Add(r);
+            }
+            if (conLod && liv[1].Count > 0)
+            {
+                var lods = new System.Collections.Generic.List<LOD> { new LOD(0.40f, liv[0].ToArray()), new LOD(liv[2].Count > 0 ? 0.15f : cull, liv[1].ToArray()) };
+                if (liv[2].Count > 0) lods.Add(new LOD(cull, liv[2].ToArray()));
+                lg.SetLODs(lods.ToArray());
+            }
+            else lg.SetLODs(new[] { new LOD(cull, rs) });
             lg.RecalculateBounds();
             propCount++;
             if (ATerra(pos)) RegistraMobile(go); // appoggiato a terra: a fine costruzione si allontana da muri e altri oggetti
@@ -679,7 +705,7 @@ namespace TrenoBambini.EditorTools
 
         static void Cart(Transform parent, Vector3 pos)
         {
-            Model("Carretto_Filip", parent, pos, 90f, 1.15f, true, "Carretto");
+            Model("Carretto_Filip", parent, pos, 90f, 1.05f, true, "Carretto"); // R007 t2: 1,05 (era 1,15) per non incastrarsi tra facciata e tavolini
         }
 
         static void Bucket(Transform parent, Vector3 pos)
@@ -722,7 +748,8 @@ namespace TrenoBambini.EditorTools
             fr.Box(kb, -0.4f, 0.4f, -0.04f, -0.01f, 1.2f, 2.7f, 1, 1f, 0);
             var mesh = kb.Build(KitName("Edicola"));
             MeshObject(parent, "Edicola", mesh, new[] { "M_ArenariaBlocchi", "M_LegnoDipintoBlu" }, true);
-            Prim(PrimitiveType.Capsule, "EdicolaStatuetta", parent, fr.W(-0.05f, -0.12f, 1.6f), new Vector3(0.12f, 0.22f, 0.12f), "Cera", null, false);
+            // R007 t2: statuetta della Madonna (modello vero, 0,9 m) scalata a 0,45 m per le edicole piccole; la base appoggia sul ripiano a 1,38 m
+            Model("MadonnaStatuetta", parent, fr.W(-0.05f, -0.17f, 1.38f), Mathf.Atan2(fr.n.x, fr.n.z) * Mathf.Rad2Deg, 0.5f, false, "EdicolaStatuetta");
             Model("Candela", parent, fr.W(0.32f, -0.2f, 1.2f), 0f, 1.0f, false, "EdicolaCandela");
             Prim(PrimitiveType.Sphere, "EdicolaLumino", parent, fr.W(0.32f, -0.2f, 1.33f), new Vector3(0.05f, 0.08f, 0.05f), "Glow", null, false);
         }

@@ -24,37 +24,37 @@
  "texture": {
   "lambert2SG": {
    "albedo": "lambert2SG_albedo.jpg",
-   "normal": "lambert2SG_normal.png",
+   "normal": "lambert2SG_normal.jpg",
    "mask": "lambert2SG_mask.png",
    "levigatezza": 0.3
   },
   "lambert3SG": {
    "albedo": "lambert3SG_albedo.jpg",
-   "normal": "lambert3SG_normal.png",
+   "normal": "lambert3SG_normal.jpg",
    "mask": "lambert3SG_mask.png",
    "levigatezza": 0.3
   },
   "lambert6SG": {
    "albedo": "lambert6SG_albedo.jpg",
-   "normal": "lambert6SG_normal.png",
+   "normal": "lambert6SG_normal.jpg",
    "mask": "lambert6SG_mask.png",
    "levigatezza": 0.3
   },
   "lambert4SG": {
    "albedo": "lambert4SG_albedo.jpg",
-   "normal": "lambert4SG_normal.png",
+   "normal": "lambert4SG_normal.jpg",
    "mask": "lambert4SG_mask.png",
    "levigatezza": 0.3
   },
   "lambert5SG": {
    "albedo": "lambert5SG_albedo.jpg",
-   "normal": "lambert5SG_normal.png",
+   "normal": "lambert5SG_normal.jpg",
    "mask": "lambert5SG_mask.png",
    "levigatezza": 0.3
   },
   "lambert7SG": {
    "albedo": "lambert7SG_albedo.jpg",
-   "normal": "lambert7SG_normal.png",
+   "normal": "lambert7SG_normal.jpg",
    "mask": "lambert7SG_mask.png",
    "levigatezza": 0.3
   }

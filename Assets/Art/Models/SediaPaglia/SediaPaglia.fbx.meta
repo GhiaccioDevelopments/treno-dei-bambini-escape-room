@@ -7,8 +7,13 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: lambert7SG
-    second: {fileID: 2100000, guid: 6936729a779fd2445ac9d1a60e9c87c9, type: 2}
+      name: LegnoSedia
+    second: {fileID: 2100000, guid: 56b33eaa6aae9e74aa2a629985c9e77f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Paglia
+    second: {fileID: 2100000, guid: 810b8b71cd3cdce4dbe0f9af0da7ef03, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
