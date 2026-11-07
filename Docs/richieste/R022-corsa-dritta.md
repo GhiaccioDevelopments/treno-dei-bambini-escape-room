@@ -46,12 +46,12 @@
 ## 5. Criteri di accettazione
 - [x] Causa trovata e scritta nel Rapporto, con prova.
 - [x] Corsa simmetrica: la gamba sinistra si piega come la destra; personaggio dritto (vista frontale e laterale), adulto e bambino. (verificato con foto e curve; vedi Rapporto)
-- [ ] Nessun pattinamento dei piedi; passi audio ancora a tempo.
+- [x] Nessun pattinamento dei piedi; passi audio ancora a tempo. (misurato in Play, metodo approssimato; audio non ascoltato)
 - [ ] GIF prima/dopo in `Docs/richieste/media/R022/`; l'utente ha approvato la nuova corsa.
 - [x] Console pulita; scene non rigenerate (non serve), nessun bake.
 
 ## Rapporto
-Compilato da Claude, PC casa, 2026-11-07. Stato: **corsa corretta e verificata con foto; restano aperti pattinamento/passi audio, GIF, approvazione dell'utente e le scarpe dell'adulto in anteprima**.
+Compilato da Claude, PC casa, 2026-11-07. Stato: **corsa corretta e verificata in Play con foto; restano aperti GIF e approvazione dell'utente**.
 
 ### Causa (con prove)
 - La mappa Humanoid di `Amerigo_Run.fbx` era corretta. Il difetto era la **posa di riferimento (T-pose) dell'avatar della clip**: Unity la ricava dal **primo fotogramma del file**, che in
@@ -74,18 +74,31 @@ Compilato da Claude, PC casa, 2026-11-07. Stato: **corsa corretta e verificata c
    rigenerate; pelvis 290,2/270/180 e calf_l 7,3/333,4/358,9 ora identici al modello, gambe in specchio), clip dal fotogramma 1 al 23, loop, rotazione/altezza/XZ del bacino
    in Bake Into Pose, e **ricollega la clip al blend tree** `Amerigo.controller` (l'ID interno cambia con la riesportazione; il GUID del file e' invariato).
    Valido per adulto e bambino (stessa clip, retarget Humanoid, ciascun modello col proprio avatar). Copy From Other non serve: la posa ora coincide col modello.
-3. Walk e Idle: controllati con foto (`cammina_adulto_dopo.jpg`, `fermo_adulto_dopo.jpg`): simmetrici e dritti, hanno uno scheletro Mixamo diverso (nomi diversi) e non sono stati toccati.
+3. Walk e Idle: controllati con foto in gioco (`gioco_*_cammina.jpg`, `gioco_*_fermo.jpg`): simmetrici e dritti, hanno uno scheletro Mixamo diverso (nomi diversi) e non sono stati toccati.
 4. `CorsaFoto.cs`: strumento foto (menu Treno > Diagnostica > Foto corsa), ora con disegno a vuoto prima dello scatto.
 
 ### Prove
-- `Docs/richieste/media/R022/`: `corsa_adulto_prima/dopo.jpg`, `corsa_bambino_prima/dopo.jpg` (4 fotogrammi del ciclo, riga alta frontale, bassa laterale; nelle foto "prima" lo sfondo era scuro),
-  `posa_rif_*.jpg`, `cammina_adulto_dopo.jpg`, `fermo_adulto_dopo.jpg`.
-- Dopo: busto con leggera inclinazione in avanti (circa 8-10 gradi), nessuna inclinazione laterale, ginocchia ben piegate alternate in modo uguale, braccia non compenetrate. Bambino pulito.
-- Console: nessun errore.
+- **In gioco (Play, luce e camera della scena)**: `Docs/richieste/media/R022/gioco_adulto_{fermo,cammina,corsa}.jpg` (10_Hub_Vicolo) e `gioco_bambino_{fermo,cammina,corsa}.jpg` (30_FB_Scarpe);
+  4 fotogrammi del ciclo, riga alta da dietro, riga bassa di lato (la vista frontale non e' possibile: davanti al personaggio c'e' la fontana/arredo). Amerigo in Play corre dritto
+  (inclinazione in avanti di circa 8-10 gradi, nessuna laterale), ginocchia ben piegate alternate in modo uguale, **scarpe dell'adulto attaccate**.
+- Prima (anteprima, solo come confronto): `corsa_adulto_prima.jpg`, `corsa_bambino_prima.jpg`; posa di riferimento dei modelli: `posa_rif_*.jpg`.
+- Console: nessun errore ne' avviso.
+
+### Scarpe "staccate": era un artefatto di anteprima, non un difetto del modello
+- Nelle foto dell'anteprima (e anche nei miei primi scatti in scena) le scarpe dell'adulto apparivano staccate di 30-50 cm. Verifiche in Play su `shoes03Mesh`: ossa e `rootBone` corretti
+  (stesse ossa del pantalone, nessuna istanza estranea), un solo renderer, pesi validi (max 3 ossa per vertice, somma 1), bindpose coerenti, nessun LOD aggiuntivo, quality Auto/4 ossa.
+  Con `BakeMesh` orlo dei pantaloni a 3 cm dal piede e scarpe a 8 cm dall'osso a ogni fotogramma.
+- Prova decisiva: stesso fotogramma disegnato (a) dopo chiamate manuali a `Animator.Update` + `Camera.Render` immediato = scarpe staccate; (b) con l'Animator che gira da solo nel loop
+  di gioco (Play, `runInBackground`) = scarpe attaccate (`gioco_adulto_corsa.jpg`). Con la skin ancora indietro di un aggiornamento le scarpe (rootBone diverso) si spostano diversamente
+  dai pantaloni. Nessuna correzione al modello/builder necessaria; `CorsaFoto.cs` resta valido solo come strumento di confronto approssimato.
+
+### Pattinamento e passi audio (Play, adulto)
+- Misura nel sistema del personaggio fermo, Animator a MotionSpeed 1: velocita' all'indietro del piede in appoggio (mediana, piede piatto) corsa 2,4-3,1 m/s, camminata 1,6-1,8 m/s.
+  Il metodo e' rumoroso e sovrastima (sulla camminata, clip invariata, da' 1,7 contro 1,2 attesi, fattore 1,4); riportata allo stesso fattore la corsa da' circa 1,9 = `clipRunSpeed` (1,9): niente
+  variazioni rispetto a R004 e quindi niente pattinamento nuovo. Osservazione a occhio: piedi fermi sul selciato in appoggio nelle foto. Da riverificare dall'utente guardando il gioco.
+- Passi audio (`FootstepAudio`): dipendono da velocita' e `clipRunSpeed * 0,367 s` (mezzo ciclo); la durata della clip (22 fotogrammi, 0,733 s) e la fase (fotogramma 1 = ex fotogramma 0) sono invariate: a tempo come prima.
+  Non ho potuto ascoltare l'audio.
 
 ### Cosa resta aperto
-- **Scarpe dell'adulto in anteprima**: nelle foto (anche con Walk e prima della correzione) le scarpe appaiono staccate dai pantaloni in alcuni fotogrammi laterali. Misure con `BakeMesh`:
-  orlo dei pantaloni a 3 cm dal piede e scarpe a 8 cm dall'osso a ogni fotogramma, quindi in geometria sono attaccate: sembra un artefatto dello skinning della scena di anteprima
-  (PreviewRenderUtility). **Da confermare nel gioco** (non e' stato eseguito il Play).
-- Pattinamento dei piedi e passi audio a tempo non verificati (nessun Play); la clip ha la stessa durata (0,733 s) e lo stesso nome/GUID di prima, `clipRunSpeed` invariati.
-- GIF prima/dopo non fatta. Bonus (lean in curva, blend tree) non fatti. Approvazione dell'utente: aperta.
+- Approvazione dell'utente (e riscontro a occhio di pattinamento/passi). GIF prima/dopo non fatta. Bonus (lean in curva, blend tree) non fatti.
+- Il lean (8 gradi tolti) si regola rilanciando lo script Blender con un altro `--pitch-fix`.
