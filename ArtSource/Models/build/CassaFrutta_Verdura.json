@@ -1,0 +1,34 @@
+{
+ "nome": "CassaFrutta_Verdura",
+ "cartella": "CassaFrutta",
+ "sorgente": "",
+ "materiali": [
+  "LegnoCassa",
+  "Frutta_Verdura"
+ ],
+ "tri": [
+  820,
+  410,
+  204
+ ],
+ "tri_originali": 820,
+ "dim": [
+  0.52,
+  0.36,
+  0.22
+ ],
+ "texture": {
+  "LegnoCassa": {
+   "albedo": "LegnoCassa_albedo.jpg",
+   "normal": "LegnoCassa_normal.png",
+   "mask": "LegnoCassa_mask.png",
+   "levigatezza": 0.3
+  },
+  "Frutta_Verdura": {
+   "albedo": "Frutta_Verdura_albedo.jpg",
+   "normal": "Frutta_Verdura_normal.png",
+   "mask": "Frutta_Verdura_mask.png",
+   "levigatezza": 0.3
+  }
+ }
+}

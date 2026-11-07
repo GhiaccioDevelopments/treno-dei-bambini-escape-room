@@ -1,0 +1,32 @@
+{
+ "nome": "Panno_Tovaglia",
+ "cartella": "Panni",
+ "sorgente": "",
+ "materiali": [
+  "PanniTessuto"
+ ],
+ "tri": [
+  384,
+  96,
+  24
+ ],
+ "dim": [
+  1.26,
+  0.102,
+  0.912
+ ],
+ "doppia_faccia": [
+  "PanniTessuto"
+ ],
+ "alpha_clip": [
+  "PanniTessuto"
+ ],
+ "pivot": "bordo superiore",
+ "texture": {
+  "PanniTessuto": {
+   "albedo": "PanniTessuto_albedo.png",
+   "normal": "PanniTessuto_normal.jpg",
+   "levigatezza": 0.12
+  }
+ }
+}

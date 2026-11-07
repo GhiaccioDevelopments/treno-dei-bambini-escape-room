@@ -1,0 +1,32 @@
+{
+ "nome": "Panno_Camicia",
+ "cartella": "Panni",
+ "sorgente": "",
+ "materiali": [
+  "PanniTessuto"
+ ],
+ "tri": [
+  248,
+  72,
+  18
+ ],
+ "dim": [
+  0.809,
+  0.079,
+  0.762
+ ],
+ "doppia_faccia": [
+  "PanniTessuto"
+ ],
+ "alpha_clip": [
+  "PanniTessuto"
+ ],
+ "pivot": "bordo superiore",
+ "texture": {
+  "PanniTessuto": {
+   "albedo": "PanniTessuto_albedo.png",
+   "normal": "PanniTessuto_normal.jpg",
+   "levigatezza": 0.12
+  }
+ }
+}

@@ -1,0 +1,27 @@
+{
+ "nome": "SediaPaglia",
+ "cartella": "SediaPaglia",
+ "sorgente": "C:\\Users\\rosan\\treno-asset-staging\\SediaPaglia",
+ "materiali": [
+  "lambert7SG"
+ ],
+ "tri": [
+  2140,
+  1069,
+  535
+ ],
+ "tri_originali": 2140,
+ "dim": [
+  0.544,
+  0.526,
+  0.95
+ ],
+ "texture": {
+  "lambert7SG": {
+   "albedo": "lambert7SG_albedo.jpg",
+   "normal": "lambert7SG_normal.png",
+   "mask": "lambert7SG_mask.png",
+   "levigatezza": 0.3
+  }
+ }
+}

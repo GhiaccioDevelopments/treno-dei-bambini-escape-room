@@ -1,0 +1,32 @@
+{
+ "nome": "Panno_Mutandoni",
+ "cartella": "Panni",
+ "sorgente": "",
+ "materiali": [
+  "PanniTessuto"
+ ],
+ "tri": [
+  240,
+  60,
+  12
+ ],
+ "dim": [
+  0.64,
+  0.072,
+  0.712
+ ],
+ "doppia_faccia": [
+  "PanniTessuto"
+ ],
+ "alpha_clip": [
+  "PanniTessuto"
+ ],
+ "pivot": "bordo superiore",
+ "texture": {
+  "PanniTessuto": {
+   "albedo": "PanniTessuto_albedo.png",
+   "normal": "PanniTessuto_normal.jpg",
+   "levigatezza": 0.12
+  }
+ }
+}

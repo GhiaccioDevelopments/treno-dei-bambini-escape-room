@@ -1,0 +1,27 @@
+{
+ "nome": "PanchinaTufo",
+ "cartella": "PanchinaTufo",
+ "sorgente": "C:\\Users\\rosan\\treno-asset-staging\\Panchina",
+ "materiali": [
+  "Material"
+ ],
+ "tri": [
+  1171,
+  585,
+  292
+ ],
+ "tri_originali": 1171,
+ "dim": [
+  1.8,
+  0.526,
+  0.999
+ ],
+ "texture": {
+  "Material": {
+   "albedo": "Material_albedo.jpg",
+   "normal": "Material_normal.png",
+   "mask": "Material_mask.png",
+   "levigatezza": 0.3
+  }
+ }
+}

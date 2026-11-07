@@ -1,0 +1,61 @@
+{
+ "nome": "Radio",
+ "cartella": "Radio",
+ "sorgente": "",
+ "materiali": [
+  "LegnoRadio",
+  "TelaRadio",
+  "Bachelite",
+  "ScalaRadio",
+  "OttoneRadio"
+ ],
+ "tri": [
+  648,
+  324,
+  162
+ ],
+ "tri_originali": 648,
+ "dim": [
+  0.42,
+  0.261,
+  0.27
+ ],
+ "piatti": {
+  "Bachelite": {
+   "colore": [
+    0.07,
+    0.04,
+    0.03
+   ],
+   "metallico": 0.0,
+   "levig": 0.7
+  },
+  "OttoneRadio": {
+   "colore": [
+    0.62,
+    0.46,
+    0.2
+   ],
+   "metallico": 0.9,
+   "levig": 0.6
+  }
+ },
+ "texture": {
+  "LegnoRadio": {
+   "albedo": "LegnoRadio_albedo.jpg",
+   "normal": "LegnoRadio_normal.png",
+   "mask": "LegnoRadio_mask.png",
+   "levigatezza": 0.3
+  },
+  "TelaRadio": {
+   "albedo": "TelaRadio_albedo.jpg",
+   "normal": "TelaRadio_normal.png",
+   "mask": "TelaRadio_mask.png",
+   "levigatezza": 0.3
+  },
+  "ScalaRadio": {
+   "albedo": "ScalaRadio_albedo.jpg",
+   "levigatezza": 0.5
+  }
+ }
+}

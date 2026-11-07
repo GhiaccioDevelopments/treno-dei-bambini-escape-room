@@ -129,6 +129,42 @@ namespace TrenoBambini.EditorTools
             Debug.Log("[LookBuilder] Look applicato a " + n + ".");
         }
 
+        /// <summary>R007 t2: scena di prova dei modelli con la luce e il post-processing dell'hub (cielo coperto, sole debole, nebbia, volume Epoca),
+        /// senza le probe dell'hub. Ambiente dal cielo, nessun bake: serve per i confronti "primitiva contro modello".</summary>
+        public static void ApplyLookProva(Scene scene)
+        {
+            if (AssetDatabase.LoadAssetAtPath<VolumeProfile>(ProfEpoca) == null) CreatePresetsAndProfiles();
+            EnsureLightingSettings();
+            EnsureSkyMaterials();
+            foreach (var root in scene.GetRootGameObjects())
+                if (root.name == LookRoot) UnityEngine.Object.DestroyImmediate(root);
+            var look = new GameObject(LookRoot);
+            var vol = look.AddComponent<Volume>();
+            vol.isGlobal = true; vol.priority = 0f; vol.weight = 1f;
+            vol.sharedProfile = AssetDatabase.LoadAssetAtPath<VolumeProfile>(ProfEpoca);
+            Light sun = null;
+            foreach (var l in UnityEngine.Object.FindObjectsByType<Light>(FindObjectsInactive.Include))
+                if (l.type == LightType.Directional) { sun = l; break; }
+            SetSun(sun, new Color(0.80f, 0.86f, 0.97f), 0.9f, new Vector3(34f, -14f, 0f), 0.45f);
+            sun.lightmapBakeType = LightmapBakeType.Realtime;
+            SetSkyAmbient(1.5f);
+            var bg = new Color(0.50f, 0.54f, 0.58f);
+            SetFog(0.024f, bg);
+            RenderSettings.skybox = AssetDatabase.LoadAssetAtPath<Material>(SkyHub);
+            RenderSettings.defaultReflectionMode = UnityEngine.Rendering.DefaultReflectionMode.Skybox;
+            RenderSettings.defaultReflectionResolution = 128;
+            DynamicGI.UpdateEnvironment();
+            foreach (var cam in UnityEngine.Object.FindObjectsByType<Camera>(FindObjectsInactive.Include))
+            {
+                var data = cam.GetUniversalAdditionalCameraData();
+                data.renderPostProcessing = true;
+                data.antialiasing = AntialiasingMode.None;
+                cam.backgroundColor = bg;
+                cam.clearFlags = CameraClearFlags.Skybox;
+            }
+            EditorSceneManager.MarkSceneDirty(scene);
+        }
+
         /// <summary>R006: bake delle luci di una sola scena.</summary>
         public static void BakeScene(string n)
         {

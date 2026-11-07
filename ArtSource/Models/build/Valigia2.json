@@ -1,0 +1,27 @@
+{
+ "nome": "Valigia2",
+ "cartella": "Valigia2",
+ "sorgente": "C:\\Users\\rosan\\treno-asset-staging\\Valigia",
+ "materiali": [
+  "vintage_suitcase_02"
+ ],
+ "tri": [
+  4000,
+  2000,
+  1000
+ ],
+ "tri_originali": 8237,
+ "dim": [
+  0.62,
+  0.214,
+  0.508
+ ],
+ "texture": {
+  "vintage_suitcase_02": {
+   "albedo": "vintage_suitcase_02_albedo.jpg",
+   "normal": "vintage_suitcase_02_normal.png",
+   "mask": "vintage_suitcase_02_mask.png",
+   "levigatezza": 0.3
+  }
+ }
+}

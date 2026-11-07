@@ -1,0 +1,32 @@
+{
+ "nome": "Panno_Straccio",
+ "cartella": "Panni",
+ "sorgente": "",
+ "materiali": [
+  "PanniTessuto"
+ ],
+ "tri": [
+  174,
+  40,
+  12
+ ],
+ "dim": [
+  0.543,
+  0.083,
+  0.662
+ ],
+ "doppia_faccia": [
+  "PanniTessuto"
+ ],
+ "alpha_clip": [
+  "PanniTessuto"
+ ],
+ "pivot": "bordo superiore",
+ "texture": {
+  "PanniTessuto": {
+   "albedo": "PanniTessuto_albedo.png",
+   "normal": "PanniTessuto_normal.jpg",
+   "levigatezza": 0.12
+  }
+ }
+}

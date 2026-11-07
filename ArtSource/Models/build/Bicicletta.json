@@ -1,0 +1,27 @@
+{
+ "nome": "Bicicletta",
+ "cartella": "Bicicletta",
+ "sorgente": "C:\\Users\\rosan\\treno-asset-staging\\Bicicletta",
+ "materiali": [
+  "initialShadingGroup"
+ ],
+ "tri": [
+  4499,
+  2249,
+  1124
+ ],
+ "tri_originali": 4970,
+ "dim": [
+  0.483,
+  1.75,
+  0.906
+ ],
+ "texture": {
+  "initialShadingGroup": {
+   "albedo": "initialShadingGroup_albedo.jpg",
+   "normal": "initialShadingGroup_normal.jpg",
+   "mask": "initialShadingGroup_mask.png",
+   "levigatezza": 0.3
+  }
+ }
+}

@@ -1,0 +1,32 @@
+{
+ "nome": "Panno_Lenzuolo",
+ "cartella": "Panni",
+ "sorgente": "",
+ "materiali": [
+  "PanniTessuto"
+ ],
+ "tri": [
+  570,
+  126,
+  40
+ ],
+ "dim": [
+  1.2,
+  0.126,
+  1.412
+ ],
+ "doppia_faccia": [
+  "PanniTessuto"
+ ],
+ "alpha_clip": [
+  "PanniTessuto"
+ ],
+ "pivot": "bordo superiore",
+ "texture": {
+  "PanniTessuto": {
+   "albedo": "PanniTessuto_albedo.png",
+   "normal": "PanniTessuto_normal.jpg",
+   "levigatezza": 0.12
+  }
+ }
+}

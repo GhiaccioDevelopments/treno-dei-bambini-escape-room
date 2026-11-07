@@ -1,0 +1,34 @@
+{
+ "nome": "Fontana",
+ "cartella": "Fontana",
+ "sorgente": "C:\\Users\\rosan\\treno-asset-staging\\Fontana_alt_Diccbudd",
+ "materiali": [
+  "Material",
+  "Material.002",
+  "Water"
+ ],
+ "tri": [
+  4660,
+  2329,
+  1165
+ ],
+ "tri_originali": 4660,
+ "dim": [
+  3.6,
+  3.6,
+  2.189
+ ],
+ "texture": {
+  "Material": {
+   "albedo": "Material_albedo.jpg",
+   "levigatezza": 0.3
+  },
+  "Material.002": {
+   "albedo": "Material_002_albedo.jpg",
+   "levigatezza": 0.3
+  },
+  "Water": {
+   "levigatezza": 0.3
+  }
+ }
+}

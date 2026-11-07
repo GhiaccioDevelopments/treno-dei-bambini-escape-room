@@ -1,0 +1,27 @@
+{
+ "nome": "Bancarella",
+ "cartella": "Bancarella",
+ "sorgente": "C:\\Users\\rosan\\treno-asset-staging\\Bancarella",
+ "materiali": [
+  "Material"
+ ],
+ "tri": [
+  2272,
+  1135,
+  568
+ ],
+ "tri_originali": 2272,
+ "dim": [
+  0.995,
+  0.806,
+  2.3
+ ],
+ "texture": {
+  "Material": {
+   "albedo": "Material_albedo.jpg",
+   "normal": "Material_normal.jpg",
+   "mask": "Material_mask.png",
+   "levigatezza": 0.3
+  }
+ }
+}

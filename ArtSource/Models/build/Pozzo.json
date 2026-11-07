@@ -1,0 +1,62 @@
+{
+ "nome": "Pozzo",
+ "cartella": "Pozzo",
+ "sorgente": "C:\\Users\\rosan\\treno-asset-staging\\Pozzo",
+ "materiali": [
+  "lambert2SG",
+  "lambert3SG",
+  "lambert6SG",
+  "lambert4SG",
+  "lambert5SG",
+  "lambert7SG"
+ ],
+ "tri": [
+  4134,
+  2066,
+  1033
+ ],
+ "tri_originali": 4134,
+ "dim": [
+  1.61,
+  1.526,
+  2.2
+ ],
+ "texture": {
+  "lambert2SG": {
+   "albedo": "lambert2SG_albedo.jpg",
+   "normal": "lambert2SG_normal.png",
+   "mask": "lambert2SG_mask.png",
+   "levigatezza": 0.3
+  },
+  "lambert3SG": {
+   "albedo": "lambert3SG_albedo.jpg",
+   "normal": "lambert3SG_normal.png",
+   "mask": "lambert3SG_mask.png",
+   "levigatezza": 0.3
+  },
+  "lambert6SG": {
+   "albedo": "lambert6SG_albedo.jpg",
+   "normal": "lambert6SG_normal.png",
+   "mask": "lambert6SG_mask.png",
+   "levigatezza": 0.3
+  },
+  "lambert4SG": {
+   "albedo": "lambert4SG_albedo.jpg",
+   "normal": "lambert4SG_normal.png",
+   "mask": "lambert4SG_mask.png",
+   "levigatezza": 0.3
+  },
+  "lambert5SG": {
+   "albedo": "lambert5SG_albedo.jpg",
+   "normal": "lambert5SG_normal.png",
+   "mask": "lambert5SG_mask.png",
+   "levigatezza": 0.3
+  },
+  "lambert7SG": {
+   "albedo": "lambert7SG_albedo.jpg",
+   "normal": "lambert7SG_normal.png",
+   "mask": "lambert7SG_mask.png",
+   "levigatezza": 0.3
+  }
+ }
+}

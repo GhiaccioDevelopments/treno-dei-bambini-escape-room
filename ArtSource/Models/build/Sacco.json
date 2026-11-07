@@ -1,0 +1,27 @@
+{
+ "nome": "Sacco",
+ "cartella": "Sacco",
+ "sorgente": "C:\\Users\\rosan\\treno-asset-staging\\Sacco",
+ "materiali": [
+  "Material"
+ ],
+ "tri": [
+  3312,
+  1655,
+  828
+ ],
+ "tri_originali": 3312,
+ "dim": [
+  0.85,
+  0.494,
+  0.432
+ ],
+ "texture": {
+  "Material": {
+   "albedo": "Material_albedo.jpg",
+   "normal": "Material_normal.png",
+   "mask": "Material_mask.png",
+   "levigatezza": 0.3
+  }
+ }
+}

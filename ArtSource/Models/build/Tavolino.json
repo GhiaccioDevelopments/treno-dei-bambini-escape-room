@@ -1,0 +1,27 @@
+{
+ "nome": "Tavolino",
+ "cartella": "Tavolino",
+ "sorgente": "C:\\Users\\rosan\\treno-asset-staging\\Tavolino",
+ "materiali": [
+  "round_wooden_table_01"
+ ],
+ "tri": [
+  3000,
+  1500,
+  750
+ ],
+ "tri_originali": 8640,
+ "dim": [
+  1.03,
+  1.03,
+  0.74
+ ],
+ "texture": {
+  "round_wooden_table_01": {
+   "albedo": "round_wooden_table_01_albedo.jpg",
+   "normal": "round_wooden_table_01_normal.png",
+   "mask": "round_wooden_table_01_mask.png",
+   "levigatezza": 0.3
+  }
+ }
+}

@@ -1,0 +1,39 @@
+{
+ "nome": "Lavatoio",
+ "cartella": "Lavatoio",
+ "sorgente": "",
+ "materiali": [
+  "PietraLavatoio",
+  "FerroTubo"
+ ],
+ "tri": [
+  744,
+  372,
+  186
+ ],
+ "tri_originali": 744,
+ "dim": [
+  2.66,
+  0.917,
+  0.9
+ ],
+ "piatti": {
+  "FerroTubo": {
+   "colore": [
+    0.1,
+    0.1,
+    0.11
+   ],
+   "metallico": 0.85,
+   "levig": 0.35
+  }
+ },
+ "texture": {
+  "PietraLavatoio": {
+   "albedo": "PietraLavatoio_albedo.jpg",
+   "normal": "PietraLavatoio_normal.png",
+   "mask": "PietraLavatoio_mask.png",
+   "levigatezza": 0.3
+  }
+ }
+}
