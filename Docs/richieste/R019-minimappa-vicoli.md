@@ -55,5 +55,12 @@
 - [ ] Tasto M (e pulsante touch) per la mappa grande; modalità di aiuto e interruttore nelle Impostazioni.
 - [ ] Testi solo in JSON; schema aggiornato in CLAUDE.md; console pulita; nessun calo di FPS (anche WebGL).
 
+## Decisioni dell'utente (2026-11-07)
+- **Nomi misti:** veri per le strade principali, inventati verosimili per i vicoletti.
+- **Via Toledo nel 1946** si chiamava "Via Roma (già Toledo)": nel gioco usare questa dicitura per la strada.
+- **Proposta dei nomi** in `Docs/richieste/schemi/R019_nomi_vicoli.md`.
+- **Nomi inventati:** vanno verificati su OpenStreetMap prima di fissarli nel JSON.
+- **Modalità di aiuto di default:** Normale.
+
 ## Rapporto
 _(da compilare a fine lavoro)_
