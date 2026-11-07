@@ -68,5 +68,15 @@ La richiesta è stata ripetuta (vedi R009): i blocchi viola sono ancora in gioco
 - [ ] Catena completa e giocabile hub → basso → flashback, con indizi a 3 livelli e schede civiche.
 - [ ] Mouse, tastiera, touch; fallback 2D; ID doppiaggio invariati; console pulita; GIF in `Docs/richieste/media/R020/`.
 
+## Schema approvato (2026-11-07)
+
+- Schema: [`Docs/richieste/schemi/R020_schema.md`](schemi/R020_schema.md), approvato con le correzioni del lead.
+- Decisioni che riguardano questa richiesta:
+  - D1 "Napoli della memoria": hub e basso hanno l'aspetto del 1946 e si giocano con Amerigo adulto. Il 1994 vero c'è solo in R016.
+  - D2 passanti del ricordo: figure intere MakeHuman, ferme e velate.
+  - Correzioni: nessuna combinazione dal "conto dei punti" (Decisione 8 di TRAMA); la ricevuta del pegno del violino passa a R016; R010 §4 assorbita (quiz sul 1948 e sul 1989 senza documenti impossibili nel 1946).
+
+Schema approvato dall'utente: sviluppo autorizzato.
+
 ## Rapporto
 _(da compilare a fine lavoro)_
