@@ -5,6 +5,7 @@ using System.Text;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using TrenoBambini.Player;
 using TrenoBambini.World;
 
 namespace TrenoBambini.EditorTools
@@ -390,7 +391,7 @@ namespace TrenoBambini.EditorTools
                 fr.Box(kb, -0.55f, 0.55f, -0.3f, 0f, 1.0f, 1.07f, 2, TileWood, 0);
                 fr.Box(kb, -0.4f, -0.34f, -0.26f, -0.04f, 0.4f, 1.0f, 2, TileWood, 0);
                 fr.Box(kb, 0.34f, 0.4f, -0.26f, -0.04f, 0.4f, 1.0f, 2, TileWood, 0);
-                MeshObject(props, "Altarino", kb.Build(KitName("Altarino")), kb.matNames, false);
+                MeshObject(props, "Altarino", kb.Build(KitName("Altarino")), kb.matNames, true); // R018: collider (era l'unico mobile alto senza)
                 Prim(PrimitiveType.Capsule, "StatuettaAltarino", props, fr.W(-0.05f, -0.1f, 1.38f), new Vector3(0.1f, 0.2f, 0.1f), "Cera", null, false);
                 Model("Candela", props, fr.W(0.22f, -0.15f, 1.07f), 0f, 1.0f, false, "CeroAltarino");
                 Prim(PrimitiveType.Sphere, "LuminoAltarino", props, fr.W(0.22f, -0.15f, 1.2f), new Vector3(0.05f, 0.08f, 0.05f), "Glow", null, false);
@@ -528,7 +529,35 @@ namespace TrenoBambini.EditorTools
 
             var cam = MakeCamera("Main Camera", Vector3.zero, Quaternion.identity, new Color(0.10f, 0.07f, 0.05f), true);
             BuildPlayer(new Vector3(0f, 0.05f, -1.7f), 0f, cam, CamProfilo.InternoPiccoloAdulto, true); // il basso e' nel presente: Amerigo adulto
+            CreaVolumiCamera();
+            PreparaInterniDissolvibili(scene); // R018
             SaveScene(scene, "20_Int_BassoAntonietta");
+        }
+
+        /// <summary>
+        /// R018: profili camera per stanza (CameraProfileVolume). Il volume piu' piccolo che contiene il giocatore vince.
+        /// Stanza principale = profilo della scena; alcova e cucina (3 m di larghezza): orbita ridotta e campo visivo piu' ampio;
+        /// cortile (aperto, pareti da 4,2 m): orbita leggermente ridotta.
+        /// </summary>
+        static void CreaVolumiCamera()
+        {
+            var root = new GameObject("VolumiCamera").transform;
+            VolumeCamera(root, "CamVol_Stanza", new Vector3(0f, 1.5f, 0.5f), new Vector3(9f, 3f, 6f), 1f, 0f, -0.7f, 1f);
+            VolumeCamera(root, "CamVol_Alcova", new Vector3(-3f, 1.5f, 5.55f), new Vector3(3f, 3f, 4.5f), 0.8f, 62f, -0.5f, 0.8f);
+            VolumeCamera(root, "CamVol_Cucina", new Vector3(3f, 1.5f, 5.8f), new Vector3(3f, 3f, 5f), 0.8f, 62f, -0.5f, 0.8f);
+            VolumeCamera(root, "CamVol_Cortile", new Vector3(3.75f, 2.1f, 11.1f), new Vector3(5.1f, 4.2f, 6f), 0.9f, 58f, -0.6f, 1f);
+        }
+
+        static void VolumeCamera(Transform parent, string nome, Vector3 centro, Vector3 dim, float scala, float fov, float pMin, float pMax)
+        {
+            var go = new GameObject(nome);
+            go.transform.SetParent(parent, false);
+            go.transform.position = centro;
+            var bc = go.AddComponent<BoxCollider>();
+            bc.size = dim; bc.isTrigger = true;
+            var v = go.AddComponent<CameraProfileVolume>();
+            v.scalaOrbita = scala; v.fov = fov; v.pitchMin = pMin; v.pitchMax = pMax;
+            v.dissolviMuri = true; // R018: nel basso muri, pareti e porte si dissolvono; soffitto e pavimento restano solidi
         }
 
         static void SegretiBasso()

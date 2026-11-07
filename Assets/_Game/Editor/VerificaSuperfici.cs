@@ -239,9 +239,9 @@ namespace TrenoBambini.EditorTools
 
         // ------------------------------------------------------------------ area calpestabile
 
-        sealed class Area { public List<Vector3> celle = new List<Vector3>(); public List<Vector3> extra = new List<Vector3>(); }
+        internal sealed class Area { public List<Vector3> celle = new List<Vector3>(); public List<Vector3> extra = new List<Vector3>(); }
 
-        static Area AreaCalpestabile(Vector3 start, float r, float h)
+        internal static Area AreaCalpestabile(Vector3 start, float r, float h)
         {
             var area = new Area();
             Bounds all = new Bounds(start, Vector3.zero);
