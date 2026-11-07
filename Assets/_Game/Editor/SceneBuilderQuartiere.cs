@@ -55,6 +55,7 @@ namespace TrenoBambini.EditorTools
             public Vector3 b0, b1;        // ingombro in pianta (x,z) e quota
             public GameObject go;
             public string nome;
+            public int col;               // R017: fascia di quota (0..n): sfalsa di pochi mm i profili in pietra dei moduli vicini (niente superfici complanari)
         }
 
         static readonly List<Zona> zone = new List<Zona>();
@@ -317,7 +318,7 @@ namespace TrenoBambini.EditorTools
                 var kb = new KitBuilder("M_ArenariaBlocchi");
                 float r = (zn.y1 - zn.y) / zn.passi, t = (zn.z1 - zn.z0) / zn.passi;
                 for (int i = 0; i < zn.passi; i++)
-                    kb.Box(new Vector3(zn.x0, zn.y - 0.5f, zn.z0 + i * t), new Vector3(zn.x1, zn.y + (i + 1) * r, zn.z0 + (i + 1) * t), 0, 1.5f, KitBuilder.NY | KitBuilder.PZ);
+                    kb.Box(new Vector3(zn.x0, zn.y - 0.5f, zn.z0 + i * t - (i == 0 ? KitBuilder.Sporgenza : 0f)), new Vector3(zn.x1, zn.y + (i + 1) * r, zn.z0 + (i + 1) * t), 0, 1.5f, KitBuilder.NY | KitBuilder.PZ); // R017: il primo alzata sporge di 3,5 mm dalle testate dei moduli (niente facce complanari)
                 var go = MeshObject(env, "Selciato_Scalinata_" + zn.nome, kb.Build(pre + "_Scala_" + zn.nome), new[] { "M_ArenariaBlocchi" }, false);
                 for (int i = 0; i < zn.passi; i++)
                 {
@@ -503,7 +504,7 @@ namespace TrenoBambini.EditorTools
         static void AggiungiModuli(Muro m, System.Random r)
         {
             float L = m.c1 - m.c0;
-            if (L < 0.99f) return;
+            if (L < 0.05f) return;
             int sa = (m.ew ? Vector3.Cross(m.n, Vector3.up).z : Vector3.Cross(m.n, Vector3.up).x) > 0f ? 1 : -1;
             // feature ordinate lungo il muro
             var fl = new List<KeyValuePair<float, Feat>>();
@@ -534,9 +535,13 @@ namespace TrenoBambini.EditorTools
         static void Gap(Muro m, float s0, float s1, int sa, System.Random r)
         {
             float g = s1 - s0;
-            if (g < 0.99f) return;
+            if (g < 0.05f) return;
             float s = s0;
-            int gi = Mathf.RoundToInt(g);
+            // R017: il tratto si copre per intero (prima gli arrotondamenti lasciavano varchi di 0,5-1 m nei muri: si vedeva il vuoto).
+            // Il resto frazionario va all'ultimo modulo.
+            int gi = Mathf.FloorToInt(g + 0.01f);
+            float frac = g - gi;
+            if (gi == 0) { AddMod(m, s, g, sa, null); return; }
             while (gi > 0)
             {
                 int len;
@@ -547,8 +552,10 @@ namespace TrenoBambini.EditorTools
                     for (int c = 4; c <= 8; c++) if (gi - c == 0 || gi - c >= 4) opz.Add(c);
                     len = opz[r.Next(opz.Count)];
                 }
-                AddMod(m, s, len, sa, null);
-                s += len; gi -= len;
+                gi -= len;
+                float L = len + (gi == 0 ? frac : 0f);
+                AddMod(m, s, L, sa, null);
+                s += L;
             }
         }
 
@@ -611,8 +618,37 @@ namespace TrenoBambini.EditorTools
                         Debug.LogWarning("[Quartiere] Corpi sovrapposti (" + ox.ToString("0.0") + " x " + oz.ToString("0.0") + ") @" + a.b0 + " / " + b.b0);
                     }
                 }
+            AssegnaFasceQuota();
             int idx = 0;
             foreach (var md in moduli) Istanzia(env, porte, md, r, idx++);
+        }
+
+        /// <summary>R017: passo (m) dello sfalsamento verticale tra moduli vicini. Maggiore della tolleranza di VerificaSuperfici (2 mm).</summary>
+        const float PassoQuotaModulo = 0.004f;
+
+        /// <summary>
+        /// R017: i profili in pietra (zoccolo, fasce, cornicioni) di moduli adiacenti, in linea o a spigolo, si sovrappongono per pochi centimetri
+        /// e le loro facce superiori sono alla stessa quota (sfarfallio). Ogni modulo prende una fascia di quota diversa da quella di tutti i
+        /// moduli vicini (colorazione a grafo): l'istanza e' alzata di fascia * 4 mm (lo scarto alla base e' coperto dal suolo che prosegue sotto i muri).
+        /// </summary>
+        static void AssegnaFasceQuota()
+        {
+            for (int i = 0; i < moduli.Count; i++)
+            {
+                var a = moduli[i];
+                var usati = new HashSet<int>();
+                for (int j = 0; j < i; j++)
+                {
+                    var b = moduli[j];
+                    if (Mathf.Abs(a.m.baseY - b.m.baseY) > 12f) continue;
+                    const float m = 0.7f; // i profili sporgono fino a 30 cm; margine abbondante
+                    if (a.b1.x + m <= b.b0.x || b.b1.x + m <= a.b0.x || a.b1.z + m <= b.b0.z || b.b1.z + m <= a.b0.z) continue;
+                    usati.Add(b.col);
+                }
+                int k = 0;
+                while (usati.Contains(k)) k++;
+                a.col = k;
+            }
         }
 
         static Vector3 PuntoModulo(Modulo md)
@@ -636,7 +672,8 @@ namespace TrenoBambini.EditorTools
 
         static void Istanzia(Transform env, Transform porte, Modulo md, System.Random r, int idx)
         {
-            int len = Mathf.RoundToInt(md.len), depth = Mathf.RoundToInt(md.depth);
+            float len = md.len; int depth = Mathf.RoundToInt(md.depth);
+            string lenKey = len.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture);
             var f = md.f;
             int floors = f != null ? f.piani : (r.NextDouble() < 0.5 ? 3 : 4);
             string plaster = f != null && f.intonaco != null ? f.intonaco : Intonaci[r.Next(Intonaci.Length)];
@@ -654,12 +691,13 @@ namespace TrenoBambini.EditorTools
             else if (roll < 0.62 && !VicinoAPonte(md)) { v = "B"; opt.balconyMask = 2; }
             else v = "A";
             if (f != null && f.tipo == "porta") { opt.balconyMask = 0; }
-            opt.key = "Fac_L" + len + "_F" + floors + "_D" + depth + "_" + v;
+            opt.key = "Fac_L" + lenKey + "_F" + floors + "_D" + depth + "_" + v;
             opt.seed = HashStab(opt.key);
             string nome = "Casa_" + (md.m.ew ? (md.m.n.x > 0 ? "E" : "O") : (md.m.n.z > 0 ? "N" : "S")) + "_" + idx;
             var fr = new WallFrame(Vector3.zero, Vector3.right, Vector3.back);
             var go = Facade(env, nome, fr, len, depth, floors, plaster, null, 2.6f, doorU, opt);
             var origin = PuntoModulo(md);
+            origin.y += md.col * PassoQuotaModulo;
             go.transform.SetPositionAndRotation(origin, Quaternion.LookRotation(-md.m.n, Vector3.up));
             md.go = go; md.nome = nome;
             if (f != null)
@@ -668,7 +706,7 @@ namespace TrenoBambini.EditorTools
                 if (f.tipo == "porta")
                 {
                     var wp = origin + (md.m.ew ? new Vector3(0f, 0f, 1f) : new Vector3(1f, 0f, 0f)) * 0f;
-                    wp = f.wp; wp.y = origin.y;
+                    wp = f.wp; wp.y = origin.y - md.col * PassoQuotaModulo;
                     var d = MakeDoor(porte, env, f.id, wp, f.n, f.sign);
                     if (f.id == "basso_antonietta") { d.targetScene = "20_Int_BassoAntonietta"; d.targetSpawn = "ingresso"; }
                 }

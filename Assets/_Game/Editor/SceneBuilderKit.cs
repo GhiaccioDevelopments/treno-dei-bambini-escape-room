@@ -31,11 +31,73 @@ namespace TrenoBambini.EditorTools
 
         public int VertexCount { get { return v.Count; } }
 
+        // R017: facce delle scatole gia' emesse, per evitare che due facce con la stessa normale, sullo stesso piano e con materiali diversi
+        // si sovrappongano (z-fighting). La scatola nuova, a stare sopra, viene allargata di pochi mm verso l'esterno sulla faccia in conflitto.
+        struct FaceRec { public int axis, sign, sub; public float plane, a0, a1, b0, b1; }
+        readonly List<FaceRec> faceRecs = new List<FaceRec>();
+                int noGrowAxis = -1; float endLo, endHi;
+        /// <summary>Sottomesh dei corpi massicci (intonaco del guscio): le sue scatole non si spostano mai, sono gli altri pezzi (pietra, legno, ferro) a staccarsi.</summary>
+        public int SubFisso = -1;
+        /// <summary>Le facce perpendicolari a 'axis' poste alle estremita' [lo, hi] (testate della parete) non si spostano mai: allungherebbero il modulo e lo farebbero sovrapporre ai vicini.</summary>
+        public void ProteggiTestate(int axis, float lo, float hi) { noGrowAxis = axis; endLo = Mathf.Min(lo, hi); endHi = Mathf.Max(lo, hi); }
+        /// <summary>Distanza (m) sotto la quale due facce parallele e uguali nel verso si considerano complanari.</summary>
+        public const float Complanare = 0.002f;
+        /// <summary>Sporgenza (m) con cui la faccia nuova si stacca da quella sottostante: maggiore della tolleranza di VerificaSuperfici.</summary>
+        public const float Sporgenza = 0.0035f;
+
+        static float Ax(Vector3 p, int axis) { return axis == 0 ? p.x : axis == 1 ? p.y : p.z; }
+        static void SetAx(ref Vector3 p, int axis, float val) { if (axis == 0) p.x = val; else if (axis == 1) p.y = val; else p.z = val; }
+        static void Rect(Vector3 mn, Vector3 mx, int axis, out float a0, out float a1, out float b0, out float b1)
+        {
+            if (axis == 0) { a0 = mn.y; a1 = mx.y; b0 = mn.z; b1 = mx.z; }
+            else if (axis == 1) { a0 = mn.x; a1 = mx.x; b0 = mn.z; b1 = mx.z; }
+            else { a0 = mn.x; a1 = mx.x; b0 = mn.y; b1 = mx.y; }
+        }
+
+        bool InConflitto(int axis, int sign, float plane, Vector3 mn, Vector3 mx, int sub)
+        {
+            float a0, a1, b0, b1;
+            Rect(mn, mx, axis, out a0, out a1, out b0, out b1);
+            string mat = matNames[sub];
+            foreach (var f in faceRecs)
+            {
+                if (f.axis != axis || f.sign != sign || Mathf.Abs(f.plane - plane) >= Complanare) continue;
+                if (matNames[f.sub] == mat) continue;
+                if (Mathf.Min(a1, f.a1) - Mathf.Max(a0, f.a0) < 0.003f || Mathf.Min(b1, f.b1) - Mathf.Max(b0, f.b0) < 0.003f) continue;
+                return true;
+            }
+            return false;
+        }
+
         /// <summary>Scatola allineata agli assi. tile = lato in metri della texture; skip = bit delle facce da omettere.</summary>
         public void Box(Vector3 a, Vector3 b, int sub, float tile, int skip = 0)
         {
             Vector3 mn = Vector3.Min(a, b), mx = Vector3.Max(a, b);
             if (mx.x - mn.x < 1e-4f && mx.y - mn.y < 1e-4f) return;
+            // risolve le facce complanari con scatole precedenti (vedi sopra); i corpi massicci (SubFisso) non si muovono
+            bool sottile = sub != SubFisso;
+            for (int axis = 0; axis < 3 && sottile; axis++)
+                for (int sg = -1; sg <= 1; sg += 2)
+                {
+                    int bit = axis == 0 ? (sg < 0 ? NX : PX) : axis == 1 ? (sg < 0 ? NY : PY) : (sg < 0 ? NZ : PZ);
+                    if ((skip & bit) != 0) continue;
+                    for (int guard = 0; guard < 4; guard++)
+                    {
+                        float plane = sg > 0 ? Ax(mx, axis) : Ax(mn, axis);
+                        if (axis == noGrowAxis && (Mathf.Abs(plane - endLo) < 0.01f || Mathf.Abs(plane - endHi) < 0.01f)) break;
+                        if (!InConflitto(axis, sg, plane, mn, mx, sub)) break;
+                        if (sg > 0) SetAx(ref mx, axis, plane + Sporgenza); else SetAx(ref mn, axis, plane - Sporgenza);
+                    }
+                }
+            for (int axis = 0; axis < 3; axis++)
+                for (int sg = -1; sg <= 1; sg += 2)
+                {
+                    int bit = axis == 0 ? (sg < 0 ? NX : PX) : axis == 1 ? (sg < 0 ? NY : PY) : (sg < 0 ? NZ : PZ);
+                    if ((skip & bit) != 0) continue;
+                    var fr = new FaceRec { axis = axis, sign = sg, sub = sub, plane = sg > 0 ? Ax(mx, axis) : Ax(mn, axis) };
+                    Rect(mn, mx, axis, out fr.a0, out fr.a1, out fr.b0, out fr.b1);
+                    faceRecs.Add(fr);
+                }
             if ((skip & NX) == 0) Face(0, -1, mn, mx, sub, tile);
             if ((skip & PX) == 0) Face(0, 1, mn, mx, sub, tile);
             if ((skip & NY) == 0) Face(1, -1, mn, mx, sub, tile);
@@ -192,6 +254,8 @@ namespace TrenoBambini.EditorTools
         }
         public Vector3 W(float u, float d, float y) { return o + a * u - n * d + Vector3.up * y; }
         public float U(Vector3 world) { return Vector3.Dot(world - o, a); }
+        /// <summary>Asse mondo (0=x, 2=z) lungo il quale corre la parete.</summary>
+        public int AxisU { get { return Mathf.Abs(a.x) >= Mathf.Abs(a.z) ? 0 : 2; } }
 
         static int Bit(Vector3 dir)
         {

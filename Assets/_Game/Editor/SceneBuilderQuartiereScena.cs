@@ -67,6 +67,7 @@ namespace TrenoBambini.EditorTools
             RisolviSpazio("10_Hub_Vicolo");
             AssestaMacerie();
             SetStatic(env.gameObject);
+            PredisponiSicurezza(true); // R017
 
             Spawn("inizio", PT(0f, -40f), 0f, spawns);
             Spawn("da_basso_antonietta", PT(-6.3f, -2f), -90f, spawns); // nello slargo, di fronte alla porta (x = -9)

@@ -335,6 +335,7 @@ namespace TrenoBambini.EditorTools
             RisolviSpazio("01_Titolo");
             AssestaMacerie();
             SetStatic(env.gameObject);
+            PredisponiSicurezza(false); // R017
 
             // Amerigo di spalle nel diorama (solo scenografia)
             var am = new GameObject("AmerigoDiorama").transform;
