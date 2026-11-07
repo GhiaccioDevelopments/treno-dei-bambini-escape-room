@@ -51,4 +51,47 @@
 - [ ] Console pulita; scene rigenerate e (se necessario) bake finale.
 
 ## Rapporto
-_(da compilare a fine lavoro)_
+**Stato: diagnosi fatta, correzione NON completata** (nessun criterio spuntato). Compilato da Claude, PC casa, 2026-11-07.
+
+### Diagnosi (con prove)
+- **Mappa Humanoid di `Amerigo_Run.fbx`: corretta** (thigh_l, calf_l, foot_l, ecc. tutte al posto giusto). Sospetto 1 escluso.
+- **Causa principale trovata: posa di riferimento (T-pose) dell'avatar della clip sbagliata.** Il `.meta` salvato in R004 contiene la posa che Unity ha
+  ricavato da sola (Enforce T-Pose automatico) partendo dal primo fotogramma della corsa, che e' una posa di corsa (nel file il ginocchio sinistro e'
+  piegato di circa 96 gradi). Risultato nel `.meta`: bacino inclinato di 30,7 gradi rispetto al modello (`pelvis` 320,8/272,9/179,2 contro 290,2/270/180),
+  `calf_l` e `calf_r` a circa 30 gradi dal modello, `foot_r` a 53 gradi (rotazione 300,7/173,4/186,3: ribaltato di 180 gradi sul proprio asse rispetto a `foot_l`).
+  Il file originale (nodi grezzi) ha invece il bacino identico al modello (0,0 gradi).
+- **Prova numerica** (curve muscolari della clip, `Amerigo_Run.fbx` com'e' ora): piede sinistro `Foot Up-Down` -1,00..0,15 contro destro 0,23..1,31
+  (offset di circa 1,2 su un range di +-1); `RootQ.x` 0,23..0,27 (busto inclinato in avanti di circa 30 gradi); `Spine Left-Right` -0,16..0,22 e
+  `RootQ.y` +-0,11 (oscillazione laterale/rotazione del bacino). Le curve del ginocchio sono quasi in fase simmetrica ma sfalsate (sx 0,08..1,13, dx 0,15..1,22).
+  Sulla clip Walk lo stesso scarto (piede sx -0,57..0,07, dx -0,10..0,79) ma piu' piccolo: probabilmente stesso difetto, meno visibile.
+- **Prova visiva**: `Docs/richieste/media/R022/corsa_adulto_prima.jpg` e `corsa_bambino_prima.jpg` (4 fotogrammi del ciclo, riga alta frontale, riga bassa laterale):
+  busto inclinato, gambe aperte in modo irregolare, e **nell'adulto le scarpe (mesh separata `shoes03Mesh`) si staccano dalle gambe** nei fotogrammi 2-4.
+  Nel bambino (scalzo) niente scarpe da staccare, ma stessa inclinazione. Posa di riferimento dei modelli: `posa_rif_adulto.jpg`/`posa_rif_bambino.jpg`
+  (A-pose, gambe dritte e simmetriche: il modello e' a posto).
+- Escluso: rotazioni spurie nel prefab (figlio `Game_engine/Root` con rotazione standard 0/270/270 uguale per adulto e bambino, Animator con `applyRootMotion` spento);
+  `ThirdPersonController` (Slerp solo sull'asse Y, nessuna inclinazione).
+- Misura della geometria del file (clip importata come Generic): ginocchio fino a 105 gradi, inclinazione busto 23-27 gradi, nessuna asimmetria di fase:
+  la clip Mixamo in se' e' simmetrica; il difetto e' nel retarget sull'avatar.
+- `IsPoseValid` (AvatarSetupTool, via reflection) e' false per tutti: adulto 421, bambino 446, Run 1422, Walk 1393 (errore di posa); piu' alto = piu' lontano da una T-pose.
+
+### Tentativi (scartati, tutti annullati)
+1. `avatarSetup = CopyFromOther` con l'avatar di Amerigo adulto: **non possibile**, Unity: "Copied Avatar Rig Configuration mis-match. Transform hierarchy does not match"
+   (il modello ha il nodo `Game_engine` sopra `Root`, la clip no).
+2. Copia nel `.meta` della clip delle rotazioni locali dell'avatar adulto (posa di riferimento = quella del modello): gambe simmetriche, busto dritto, `RootQ.x` 0,04..0,09,
+   foot Up-Down sx -0,89..0,29 / dx -0,83..0,28, ma la corsa diventa una **camminata** (ginocchia poco piegate, falcata corta) e le scarpe dell'adulto restano staccate.
+   Scartato: non e' una corsa corretta. Probabile causa: gli assi locali della clip non coincidono col modello (il ginocchio finisce in estensione negativa, `Lower Leg Stretch` -0,30..0,78).
+3. `MakePoseValid` di Unity via reflection: restituisce la stessa posa gia' salvata in R004 (e' proprio quella generata in automatico), quindi non cambia nulla.
+
+### Cosa e' stato modificato
+- Nessuna modifica a importer, controller, prefab, scene o gameplay (`Amerigo_Run.fbx.meta` e' identico a prima).
+- Aggiunto `Assets/_Game/Editor/CorsaFoto.cs` (menu **Treno > Diagnostica > Foto corsa (adulto e bambino)**): foto frontale/laterale a 4 fotogrammi con l'AnimatorController del gioco
+  (suffisso del file in EditorPrefs `CorsaFoto.Suffisso`, default `dopo`), `ScattaPosa` (posa di riferimento) e `Misura` (ginocchia e busto; **attenzione**: `Misura` legge le trasformazioni
+  subito dopo `Animator.Update` e ha dato valori non affidabili, usare le foto).
+- Media in `Docs/richieste/media/R022/` (JPG, fuori LFS): `corsa_adulto_prima`, `corsa_bambino_prima`, `posa_rif_adulto`, `posa_rif_bambino`.
+
+### Cosa resta (prossimi passi consigliati)
+1. Scegliere la strada per la posa di riferimento della clip: (a) far scaricare a Mixamo la clip **dal modello T-pose di Amerigo** (FBX con scheletro e pelle, poi estrarre la clip con "Copy from other avatar"
+   dall'avatar del modello: stesso scheletro, nessun `Game_engine` di troppo) oppure (b) ricostruire la T-pose a mano dell'avatar della clip con lo strumento Configure Avatar (ginocchia dritte, piedi piatti, bacino dritto) e salvarla nel `.meta`.
+2. Dopo il fix: rifare le foto `corsa_*_dopo.jpg` con lo stesso strumento, verificare scarpe attaccate (adulto), gamba sinistra uguale alla destra, busto dritto (inclinazione in avanti 10-15 gradi), poi GIF prima/dopo.
+3. Estendere lo stesso controllo a Walk/Idle (stesso difetto in scala minore).
+4. Criteri di accettazione: tutti ancora aperti.
