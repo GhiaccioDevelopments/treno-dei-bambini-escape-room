@@ -76,5 +76,12 @@ credibili, umidità, profondità), non di contenuti: niente asset, scene o look 
   quando si avvicina a 850 MB avvisare l'utente (comprerà un data pack GitHub) prima del push che lo sfonderebbe.
 - Dal review di R006: la radio sul tavolino del barbiere nel flashback è rimasta (plausibile); il cortile del basso e del flashback è troppo scuro e il pavimento battuto legge grigio: da sistemare qui.
 
+## 8. Decisioni dell'utente (2026-11-07)
+- **Tappa 1 approvata** (foto `media/R007/t1_*`): si prosegue con le tappe 2-5.
+- **R021 fusa in R007**: l'identità "pellicola neorealista" (spec `R021-grafica-realistica-unica.md`, PR #23) si realizza
+  dentro le tappe 2-5: tappa 2 modelli veri + set dressing narrativo; tappa 3 materiali fotogrammetrici, decal, cortili +
+  post "pellicola" con i look per presente / ricordi / 1994 (3 frame di riferimento da approvare con il pannello);
+  tappa 4 pioggia; tappa 5 FPS, peso, confronto prima/dopo, reviewer. Alla chiusura di R007 si chiude anche la PR #23.
+
 ## Rapporto
 _(da compilare a fine lavoro)_
