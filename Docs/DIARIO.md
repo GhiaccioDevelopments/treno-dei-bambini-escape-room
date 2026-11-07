@@ -5,6 +5,22 @@ Regole d'uso: vedi la sezione "Diario e lavoro su più PC" in `CLAUDE.md`.
 
 ---
 
+## 2026-11-07 – PC casa – Nuove richieste R017–R022
+**Branch:** feature/upgrade-realistico · **Ultimo commit:** 1af2cc3
+### Fatto
+- Aperte 6 richieste in bozza verso `feature/upgrade-realistico`: R017 mappe senza sfarfallii né buchi sul vuoto (#19),
+  R018 telecamera che non attraversa gli edifici (#20), R019 minimappa d'epoca con obiettivo e nomi dei vicoli (#21),
+  R020 enigmi d'autore legati alla trama, via i blocchi viola (#22), R021 grafica realistica con identità "pellicola neorealista" (#23),
+  R022 corsa storta, gamba sinistra tesa (#24).
+### Decisioni
+- R020 è il contenuto del sistema di R009 e assorbe R010; R021 alza l'asticella di R007 (dopo o dentro le sue tappe 2-5).
+- Ordine consigliato dopo R007 tappa 1: R022 (veloce) → R017 → R018 → R020 (con R009) → R019 → R021.
+### Problemi aperti
+- R019: nomi dei vicoli veri o inventati, da chiedere all'utente. R020 e R021: schema enigmi e identità visiva da approvare prima dello sviluppo.
+- R007 in corso su `richiesta/R007-grafica-realistica-pioggia` (tappa 1 fatta).
+### Prossimi passi
+- Chiudere R007 o la sua tappa in corso, poi le nuove richieste nell'ordine sopra.
+
 ## 2026-11-06 – PC casa – Nuove richieste R006–R010, chiusa R003
 **Branch:** feature/upgrade-realistico · **Ultimo commit:** fdeaedc
 ### Fatto
