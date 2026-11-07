@@ -35,7 +35,7 @@ namespace TrenoBambini.EditorTools
                 pru.camera.fieldOfView = 25f;
                 pru.camera.nearClipPlane = 0.1f; pru.camera.farClipPlane = 50f;
                 pru.camera.clearFlags = CameraClearFlags.SolidColor;
-                pru.camera.backgroundColor = new Color(0.2f, 0.2f, 0.19f);
+                pru.camera.backgroundColor = new Color(0.75f, 0.75f, 0.72f);
                 pru.lights[0].intensity = 1.1f; pru.lights[0].transform.rotation = Quaternion.Euler(35f, 25f, 0f);
                 pru.lights[1].intensity = 0.6f;
                 pru.ambientColor = new Color(0.45f, 0.45f, 0.45f);
@@ -54,6 +54,9 @@ namespace TrenoBambini.EditorTools
                 for (int f = 0; f < fotogrammi; f++)
                 {
                     if (f > 0) anim.Update(ciclo / fotogrammi);
+                    anim.Update(0f);
+                    // la pelle (skinning) in anteprima resta indietro di un disegno: si disegna a vuoto una volta prima dello scatto
+                    pru.BeginPreview(new Rect(0, 0, 8, 8), GUIStyle.none); pru.camera.Render(); pru.EndPreview();
                     Bounds b = Bounds3D(go);
                     Vector3 c = b.center; float dist = b.size.y * 2.6f;
                     for (int v = 0; v < 2; v++)
@@ -97,7 +100,7 @@ namespace TrenoBambini.EditorTools
             try
             {
                 pru.camera.fieldOfView = 25f; pru.camera.nearClipPlane = 0.1f; pru.camera.farClipPlane = 50f;
-                pru.camera.clearFlags = CameraClearFlags.SolidColor; pru.camera.backgroundColor = new Color(0.2f, 0.2f, 0.19f);
+                pru.camera.clearFlags = CameraClearFlags.SolidColor; pru.camera.backgroundColor = new Color(0.75f, 0.75f, 0.72f);
                 pru.lights[0].intensity = 1.1f; pru.lights[0].transform.rotation = Quaternion.Euler(35f, 25f, 0f);
                 var go = Object.Instantiate(prefab); pru.AddSingleGO(go);
                 var anim = go.GetComponentInChildren<Animator>(); anim.runtimeAnimatorController = null; anim.Rebind(); anim.Update(0f);
