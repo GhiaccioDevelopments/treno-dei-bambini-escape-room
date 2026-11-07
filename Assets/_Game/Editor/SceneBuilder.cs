@@ -307,7 +307,7 @@ namespace TrenoBambini.EditorTools
             Sun(new Color(1f, 0.90f, 0.72f), 1.1f, new Vector3(48f, -28f, 0f));
 
             var env = new GameObject("Diorama").transform;
-            Street("Selciato", env, -4.5f, 4.5f, -7f, 7f, 0.15f);
+            Street("Selciato", env, -4.5f, 4.5f, -7.05f, 7f, 0.15f); // R017: il fronte sporge di 5 cm dai moduli (niente facce complanari)
 
             // punti da tenere liberi da balconi: ancoraggi dei fili e lampione
             foreach (var z in new[] { -4.5f, -0.5f, 3.5f, 5.5f }) { noBalcone.Add(new Vector3(-1.6f, 0f, z)); noBalcone.Add(new Vector3(1.6f, 0f, z)); }
@@ -335,6 +335,7 @@ namespace TrenoBambini.EditorTools
             RisolviSpazio("01_Titolo");
             AssestaMacerie();
             SetStatic(env.gameObject);
+            PredisponiSicurezza(false); // R017
 
             // Amerigo di spalle nel diorama (solo scenografia)
             var am = new GameObject("AmerigoDiorama").transform;

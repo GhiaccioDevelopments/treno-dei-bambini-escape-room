@@ -49,3 +49,10 @@ MCP for Unity) le implementa. Le due sessioni non si parlano: comunicano **solo 
 | R014 | Nuovo ricordo "Il cappotto" | aperta, PR #16 (dopo R013) |
 | R015 | Nuovo ricordo "Il violino" | aperta, PR #17 (dopo R014) |
 | R016 | Il finale nel 1994 | aperta, PR #18 (dopo R015) |
+| R017 | Mappe pulite: niente sfarfallii né buchi sul vuoto | aperta, PR #19 (dopo R006, prima di R018) |
+| R018 | Telecamera robusta: mai dentro gli edifici né sul vuoto | aperta, PR #20 (dopo R017) |
+| R019 | Minimappa d'epoca con prossimo obiettivo e nomi dei vicoli | aperta, PR #21 (dopo R006) |
+| R020 | Enigmi d'autore in ogni stanza (quadri, codici, trama) | aperta, PR #22 (contenuto di R009, assorbe R010) |
+| R021 | Grafica realistica con identità unica (pellicola neorealista) | aperta, PR #23 (dopo/insieme a R007) |
+| R022 | Corsa corretta: personaggio dritto, gamba sinistra | integrata in `feature/upgrade-realistico` (7/11), PR #24 |
+| R023 | Menu iniziale e inventario rifatti, al livello dei giochi più belli | aperta, PR #25 (dopo R008) |
