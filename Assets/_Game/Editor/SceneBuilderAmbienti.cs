@@ -199,8 +199,22 @@ namespace TrenoBambini.EditorTools
 
         // ------------------------------------------------------------------ pareti con aperture
 
-        /// <summary>R017: aggancio (m) delle cornici nelle aperture. Le facce delle cornici che guardano nel vano non devono essere complanari a quelle del muro (sfarfallio): rientrano di 4 mm.</summary>
-        const float Riporto = 0.004f;
+        /// <summary>R017: aggancio (m) delle cornici nelle aperture e rientro dei profili alle testate dei moduli. 1,2 cm: con depth a 24 bit e senza Z invertito (WebGL) 4 mm tremolano a distanza.</summary>
+        const float Riporto = 0.012f;
+
+        /// <summary>
+        /// R017: profilo in pietra lungo la parete. Alle testate del modulo il corpo principale rientra di Riporto e una linguetta piu' bassa
+        /// (rientrata di 3 cm sul fronte, 5 cm in fondo al modulo, e di 4 mm sopra e sotto: le linguette dei due moduli non sono complanari) lo prolunga dentro il profilo del modulo vicino: il giunto non resta aperto
+        /// e le facce visibili dei due moduli non si sovrappongono.
+        /// </summary>
+        static void Trim(KitBuilder kb, WallFrame fr, float len, float u0, float u1, float d0, float d1, float y0, float y1, int sub, float tile, int skip)
+        {
+            bool ini = u0 <= 0.001f, fine = u1 >= len - 0.001f;
+            float a = ini ? Riporto : u0, b = fine ? len - Riporto : u1;
+            fr.Box(kb, a, b, d0, d1, y0, y1, sub, tile, skip);
+            if (ini) fr.Box(kb, -0.03f, Riporto + 0.01f, d0 + 0.0213f, d1, y0 + 0.004f, y1 - 0.004f, sub, tile, 8 | 16 | 32);
+            if (fine) fr.Box(kb, len - Riporto - 0.01f, len + 0.03f, d0 + 0.0455f, d1, y0 + 0.004f, y1 - 0.004f, sub, tile, 8 | 16 | 32);
+        }
 
         static void ShellPieces(KitBuilder kb, WallFrame fr, float len, float y0, float y1, float thick, List<WallOpening> ops,
                                 int sub, float tile, bool skipBottom, bool skipTop, bool skipBack = true)
@@ -253,7 +267,11 @@ namespace TrenoBambini.EditorTools
             public int doorKind;        // 0 = nessuna porta generica, 1 = porta chiusa, 2 = basso aperto, 3 = portone sbarrato, 4 = cancello
             public int interior;        // variante dell'interno del basso aperto
             public bool cieco;          // nessuna finestra al piano terra
+            public int col;             // R017: fascia di quota (0..n): i profili orizzontali si alzano di col * PassoFascia rispetto ai moduli vicini
         }
+
+        /// <summary>R017: passo (m) tra le quote dei profili orizzontali di moduli vicini (12 mm: regge il depth a 24 bit di WebGL).</summary>
+        internal const float PassoFascia = 0.012f;
 
         sealed class FacadeCache { public Mesh m0, m1; public Vector3 bcc, bcs; }
         static readonly Dictionary<string, FacadeCache> facadeCache = new Dictionary<string, FacadeCache>();
@@ -285,6 +303,7 @@ namespace TrenoBambini.EditorTools
             if (opt != null) r = new System.Random(opt.seed);
             var kb = new KitBuilder(subs);
             kb.SubFisso = 0;
+            float ofs = opt != null ? opt.col * PassoFascia : 0f;
             kb.ProteggiTestate(fr.AxisU, fr.AxisU == 0 ? fr.W(0, 0, 0).x : fr.W(0, 0, 0).z, fr.AxisU == 0 ? fr.W(len, 0, 0).x : fr.W(len, 0, 0).z);
             var lod = new KitBuilder(plaster, "Finestra");
             float h = floors * 3f;
@@ -311,10 +330,10 @@ namespace TrenoBambini.EditorTools
             }
             fr.Box(kb, 0, len, 0.35f, depth, h, h + 0.06f, SRoof, 1.5f, 16);
             fr.Box(kb, 0, len, 0f, 0.35f, h, h + 0.6f, SWall, TileWall, 16);
-            fr.Box(kb, -0.02f, len + 0.02f, -0.06f, 0.41f, h + 0.6f, h + 0.68f, SStone, TileStone, 16);
+            Trim(kb, fr, len, 0f, len, -0.06f, 0.41f, h + 0.6f + ofs, h + 0.68f + ofs, SStone, TileStone, 16);
             // i profili in pietra rientrano di 4 mm alle testate del modulo: le loro facce non sono complanari a quelle del guscio
-            fr.Box(kb, Riporto, len - Riporto, -0.3f, 0.1f, h - 0.28f, h, SStone, TileStone, 0);
-            fr.Box(kb, Riporto, len - Riporto, -0.18f, 0.1f, h - 0.42f, h - 0.28f, SStone, TileStone, 0);
+            Trim(kb, fr, len, 0f, len, -0.3f, 0.1f, h - 0.28f + ofs, h + ofs, SStone, TileStone, 0);
+            Trim(kb, fr, len, 0f, len, -0.18f, 0.1f, h - 0.42f + ofs, h - 0.28f + ofs, SStone, TileStone, 0);
             // LOD1: guscio unico + parapetto
             fr.Box(lod, 0, len, 0, depth, 0, h, 0, TileWall, 16 | 32);
             fr.Box(lod, 0, len, 0f, 0.35f, h, h + 0.6f, 0, TileWall, 16);
@@ -366,7 +385,7 @@ namespace TrenoBambini.EditorTools
                         fr.Box(kb, o.U0 - 0.16f, o.U0 + Riporto, -0.06f, 0.3f, 0f, o.y1 + 0.02f, SStone, TileStone, 16);
                         fr.Box(kb, o.U1 - Riporto, o.U1 + 0.16f, -0.06f, 0.3f, 0f, o.y1 + 0.02f, SStone, TileStone, 16);
                         fr.Box(kb, o.U0 - 0.16f, o.U1 + 0.16f, -0.09f, 0.3f, o.y1 - Riporto, o.y1 + 0.2f, SStone, TileStone, 0);
-                        fr.Box(kb, o.U0 - 0.1f, o.U1 + 0.1f, -0.3f, 0f, 0f, 0.12f, SStone, TileStone, 16);
+                        fr.Box(kb, o.U0 - 0.1f, o.U1 + 0.1f, -0.3f, 0f, -0.1f, 0.12f, SStone, TileStone, 16);
                         fr.Box(kb, o.U0, o.U0 + 0.1f, 0.08f, 0.3f, 0f, o.y1, SWood, TileWood, 16);
                         fr.Box(kb, o.U1 - 0.1f, o.U1, 0.08f, 0.3f, 0f, o.y1, SWood, TileWood, 16);
                         fr.Box(kb, o.U0, o.U1, 0.08f, 0.3f, o.y1 - 0.1f, o.y1, SWood, TileWood, 0);
@@ -441,12 +460,12 @@ namespace TrenoBambini.EditorTools
             if (len > cursor) gaps.Add(new Vector2(cursor, len));
             foreach (var g in gaps)
             {
-                float gx = g.x <= 0.001f ? Riporto : g.x, gy = g.y >= len - 0.001f ? len - Riporto : g.y;
-                fr.Box(kb, gx, gy, -0.06f, T, 0f, 0.9f, SStone, TileStone, 8 | 16);
-                fr.Box(kb, gx, gy, -0.1f, T, 0.9f, 0.96f, SStone, TileStone, 8 | 16);
+                // lo zoccolo scende sotto il suolo (-30 cm): la fascia di quota dei moduli non lascia fessure alla base
+                Trim(kb, fr, len, g.x, g.y, -0.06f, T, -0.3f, 0.93f + ofs, SStone, TileStone, 8 | 16); // 0,93: non coincide con la sommita' dei gradini (multipli di 15 cm)
+                Trim(kb, fr, len, g.x, g.y, -0.1f, T, 0.93f + ofs, 0.99f + ofs, SStone, TileStone, 8 | 16);
             }
             for (int f = 1; f < floors; f++)
-                fr.Box(kb, Riporto, len - Riporto, -0.05f, 0.1f, f * 3f - 0.08f, f * 3f + 0.08f, SStone, TileStone, 0);
+                Trim(kb, fr, len, 0f, len, -0.05f, 0.1f, f * 3f - 0.08f + ofs, f * 3f + 0.08f + ofs, SStone, TileStone, 0);
 
             // comignoli
             if (depth > 2.4f)
@@ -719,6 +738,8 @@ namespace TrenoBambini.EditorTools
             string[] subs = { plaster, dado, "M_LegnoVernicePelata", "Finestra", "M_FerroRuggine02", trim };
             var kb = new KitBuilder(subs);
             kb.SubFisso = 0;
+            int hn = 0; foreach (char ch in name) hn += ch;
+            float dofs = ((fr.AxisU == 0 ? 0 : 1) + (hn % 2) * 2) * PassoFascia; // pareti che si incontrano a spigolo (assi diversi) o in linea (nome diverso): dado a quote diverse (niente facce superiori complanari)
             kb.ProteggiTestate(fr.AxisU, fr.AxisU == 0 ? fr.W(0, 0, 0).x : fr.W(0, 0, 0).z, fr.AxisU == 0 ? fr.W(len, 0, 0).x : fr.W(len, 0, 0).z);
             ShellPieces(kb, fr, len, 0f, h, thick, new List<WallOpening>(ops), 0, TileWall, true, false, false);
             // zoccolo (interrotto dalle porte)
@@ -735,9 +756,8 @@ namespace TrenoBambini.EditorTools
             if (len > cursor) gaps.Add(new Vector2(cursor, len));
             foreach (var g in gaps)
             {
-                float gx = g.x <= 0.001f ? Riporto : g.x, gy = g.y >= len - 0.001f ? len - Riporto : g.y; // rientra di 4 mm alle testate: niente facce complanari con il guscio
-                fr.Box(kb, gx, gy, -0.03f, 0.02f, 0f, dadoH, 1, TileWall, 8 | 16);
-                fr.Box(kb, gx, gy, -0.045f, 0.02f, dadoH, dadoH + 0.05f, 5, TileStone, 8);
+                Trim(kb, fr, len, g.x, g.y, -0.03f, 0.02f, 0f, dadoH + dofs, 1, TileWall, 8 | 16);
+                Trim(kb, fr, len, g.x, g.y, -0.045f, 0.02f, dadoH + dofs, dadoH + 0.05f + dofs, 5, TileStone, 8);
             }
             fr.Box(kb, -0.02f, len + 0.02f, -0.02f, thick + 0.02f, h, h + 0.1f, 5, TileStone, 16);
 

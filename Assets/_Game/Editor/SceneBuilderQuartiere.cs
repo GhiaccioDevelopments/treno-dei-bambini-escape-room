@@ -623,13 +623,13 @@ namespace TrenoBambini.EditorTools
             foreach (var md in moduli) Istanzia(env, porte, md, r, idx++);
         }
 
-        /// <summary>R017: passo (m) dello sfalsamento verticale tra moduli vicini. Maggiore della tolleranza di VerificaSuperfici (2 mm).</summary>
-        const float PassoQuotaModulo = 0.004f;
+        /// <summary>R017: passo (m) dello sfalsamento verticale tra moduli vicini (12 mm: regge il depth a 24 bit di WebGL).</summary>
+        const float PassoQuotaModulo = PassoFascia;
 
         /// <summary>
         /// R017: i profili in pietra (zoccolo, fasce, cornicioni) di moduli adiacenti, in linea o a spigolo, si sovrappongono per pochi centimetri
         /// e le loro facce superiori sono alla stessa quota (sfarfallio). Ogni modulo prende una fascia di quota diversa da quella di tutti i
-        /// moduli vicini (colorazione a grafo): l'istanza e' alzata di fascia * 4 mm (lo scarto alla base e' coperto dal suolo che prosegue sotto i muri).
+        /// moduli vicini (colorazione a grafo): i profili orizzontali del modulo si alzano di fascia * 12 mm (mesh distinta per fascia).
         /// </summary>
         static void AssegnaFasceQuota()
         {
@@ -673,7 +673,7 @@ namespace TrenoBambini.EditorTools
         static void Istanzia(Transform env, Transform porte, Modulo md, System.Random r, int idx)
         {
             float len = md.len; int depth = Mathf.RoundToInt(md.depth);
-            string lenKey = len.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture);
+            string lenKey = len.ToString("0.###", System.Globalization.CultureInfo.InvariantCulture);
             var f = md.f;
             int floors = f != null ? f.piani : (r.NextDouble() < 0.5 ? 3 : 4);
             string plaster = f != null && f.intonaco != null ? f.intonaco : Intonaci[r.Next(Intonaci.Length)];
@@ -691,13 +691,13 @@ namespace TrenoBambini.EditorTools
             else if (roll < 0.62 && !VicinoAPonte(md)) { v = "B"; opt.balconyMask = 2; }
             else v = "A";
             if (f != null && f.tipo == "porta") { opt.balconyMask = 0; }
-            opt.key = "Fac_L" + lenKey + "_F" + floors + "_D" + depth + "_" + v;
+            opt.col = md.col;
+            opt.key = "Fac_L" + lenKey + "_F" + floors + "_D" + depth + "_" + v + (md.col > 0 ? "_c" + md.col : "");
             opt.seed = HashStab(opt.key);
             string nome = "Casa_" + (md.m.ew ? (md.m.n.x > 0 ? "E" : "O") : (md.m.n.z > 0 ? "N" : "S")) + "_" + idx;
             var fr = new WallFrame(Vector3.zero, Vector3.right, Vector3.back);
             var go = Facade(env, nome, fr, len, depth, floors, plaster, null, 2.6f, doorU, opt);
             var origin = PuntoModulo(md);
-            origin.y += md.col * PassoQuotaModulo;
             go.transform.SetPositionAndRotation(origin, Quaternion.LookRotation(-md.m.n, Vector3.up));
             md.go = go; md.nome = nome;
             if (f != null)
@@ -706,7 +706,7 @@ namespace TrenoBambini.EditorTools
                 if (f.tipo == "porta")
                 {
                     var wp = origin + (md.m.ew ? new Vector3(0f, 0f, 1f) : new Vector3(1f, 0f, 0f)) * 0f;
-                    wp = f.wp; wp.y = origin.y - md.col * PassoQuotaModulo;
+                    wp = f.wp; wp.y = origin.y;
                     var d = MakeDoor(porte, env, f.id, wp, f.n, f.sign);
                     if (f.id == "basso_antonietta") { d.targetScene = "20_Int_BassoAntonietta"; d.targetSpawn = "ingresso"; }
                 }

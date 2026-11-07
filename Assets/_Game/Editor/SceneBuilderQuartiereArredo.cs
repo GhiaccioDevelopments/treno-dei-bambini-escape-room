@@ -278,7 +278,7 @@ namespace TrenoBambini.EditorTools
             fr.Box(kb, -1.0f, 1.0f, -0.3f, 0f, 3.3f, 3.45f, 0, TileStone, 0);
             fr.Box(kb, -0.6f, 0.6f, -0.26f, 0f, 3.45f, 3.6f, 0, TileStone, 0);
             fr.Box(kb, -0.25f, 0.25f, -0.22f, 0f, 3.6f, 3.75f, 0, TileStone, 0);
-            fr.Box(kb, -1.3f, 1.3f, -0.62f, 0f, 0.8f, 0.9f, 0, TileStone, 0);       // ripiano
+            fr.Box(kb, -1.3f, 1.3f, -0.62f, 0f, 0.8f, 0.97f, 0, TileStone, 0);      // ripiano (sopra la quota 0,93 dello zoccolo)
             fr.Box(kb, -1.2f, 1.2f, -0.55f, 0f, 0.55f, 0.8f, 0, TileStone, 0);
             fr.Box(kb, -0.85f, 0.85f, -0.07f, -0.01f, 0.9f, 3.1f, 1, 1f, 0);        // fondo azzurro del nicchione (sporge 7 cm: la fascia marcapiano della facciata sporge 5 cm, niente facce complanari)
             // grata di ferro bassa davanti al ripiano

@@ -31,7 +31,7 @@ namespace TrenoBambini.EditorTools
 
         public int VertexCount { get { return v.Count; } }
 
-        // R017: facce delle scatole gia' emesse, per evitare che due facce con la stessa normale, sullo stesso piano e con materiali diversi
+        // R017: facce delle scatole gia' emesse, per evitare che due facce con la stessa normale e sullo stesso piano (anche dello stesso materiale: UV e lightmap differiscono)
         // si sovrappongano (z-fighting). La scatola nuova, a stare sopra, viene allargata di pochi mm verso l'esterno sulla faccia in conflitto.
         struct FaceRec { public int axis, sign, sub; public float plane, a0, a1, b0, b1; }
         readonly List<FaceRec> faceRecs = new List<FaceRec>();
@@ -42,8 +42,8 @@ namespace TrenoBambini.EditorTools
         public void ProteggiTestate(int axis, float lo, float hi) { noGrowAxis = axis; endLo = Mathf.Min(lo, hi); endHi = Mathf.Max(lo, hi); }
         /// <summary>Distanza (m) sotto la quale due facce parallele e uguali nel verso si considerano complanari.</summary>
         public const float Complanare = 0.002f;
-        /// <summary>Sporgenza (m) con cui la faccia nuova si stacca da quella sottostante: maggiore della tolleranza di VerificaSuperfici.</summary>
-        public const float Sporgenza = 0.0035f;
+        /// <summary>Sporgenza (m) con cui la faccia nuova si stacca da quella sottostante: 1,2 cm, per reggere il depth a 24 bit senza Z invertito di WebGL.</summary>
+        public const float Sporgenza = 0.012f;
 
         static float Ax(Vector3 p, int axis) { return axis == 0 ? p.x : axis == 1 ? p.y : p.z; }
         static void SetAx(ref Vector3 p, int axis, float val) { if (axis == 0) p.x = val; else if (axis == 1) p.y = val; else p.z = val; }
@@ -58,11 +58,9 @@ namespace TrenoBambini.EditorTools
         {
             float a0, a1, b0, b1;
             Rect(mn, mx, axis, out a0, out a1, out b0, out b1);
-            string mat = matNames[sub];
             foreach (var f in faceRecs)
             {
                 if (f.axis != axis || f.sign != sign || Mathf.Abs(f.plane - plane) >= Complanare) continue;
-                if (matNames[f.sub] == mat) continue;
                 if (Mathf.Min(a1, f.a1) - Mathf.Max(a0, f.a0) < 0.003f || Mathf.Min(b1, f.b1) - Mathf.Max(b0, f.b0) < 0.003f) continue;
                 return true;
             }
@@ -179,8 +177,10 @@ namespace TrenoBambini.EditorTools
         }
 
         /// <summary>R006: tubo a sezione poligonale tra due punti (telai di biciclette, aste, cerchi).</summary>
-        public void Tube(Vector3 p0, Vector3 p1, float radius, int sides, int sub, float tile)
+        int tubi;
+        public void Tube(Vector3 p0, Vector3 p1, float radius, int sides, int sub, float tile, bool sfalsa = true)
         {
+            if (sfalsa) radius += (tubi++ % 3) * 0.0022f; // R017: tubi dello stesso raggio che si incrociano nello stesso piano avrebbero facce complanari
             Vector3 dir = (p1 - p0);
             if (dir.sqrMagnitude < 1e-8f) return;
             dir.Normalize();
@@ -205,7 +205,7 @@ namespace TrenoBambini.EditorTools
             {
                 float a0 = i * Mathf.PI * 2f / segs, a1 = (i + 1) * Mathf.PI * 2f / segs;
                 Vector3 c0 = center + (u * Mathf.Cos(a0) + w * Mathf.Sin(a0)) * R, c1 = center + (u * Mathf.Cos(a1) + w * Mathf.Sin(a1)) * R;
-                Tube(c0, c1, r, 4, sub, tile);
+                Tube(c0, c1, r + (i % 3) * 0.0022f, 5, sub, tile, false); // 5 lati: le facce di segmenti e tubi che si incrociano non sono mai complanari (R017)
             }
         }
 

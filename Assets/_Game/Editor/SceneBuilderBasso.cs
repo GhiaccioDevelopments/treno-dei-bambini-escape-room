@@ -459,7 +459,7 @@ namespace TrenoBambini.EditorTools
             Model("SecchioLegno", props, new Vector3(4.2f, 0f, 5.2f), 20f, 1.1f, true, "SecchioAcqua");
             Model("SecchioMetallo", props, new Vector3(4.15f, 0f, 6.0f), 0f, 1.1f, true, "SecchioAcqua");
             Model("CestaVimini", props, new Vector3(1.9f, 0f, 4.5f), 0f, 1.3f, true, "CestaPanni");
-            Appeso(props, "Cartello_Strofinaccio", new Vector3(4.478f, 1.1f, 4.2f), new Vector3(0.03f, 0.4f, 0.28f), "PannoBianco");
+            Appeso(props, "Cartello_Strofinaccio", new Vector3(4.455f, 1.1f, 4.2f), new Vector3(0.03f, 0.4f, 0.28f), "PannoBianco");
 
             // ---------------------------------------------------------------- cortile sul retro
             Pezzo(props, "Lavatoio", "Lavatoio", new[] { "M_ArenariaBlocchi", "Acqua", "M_FerroRuggine02" }, Lavatoio, new Vector3(1.7f, 0f, 11.5f), 90f, 0.02f);
@@ -477,7 +477,7 @@ namespace TrenoBambini.EditorTools
             Bacinella(props, new Vector3(2.4f, 0f, 9.3f));
             Sedia(props, new Vector3(5.5f, 0f, 10.9f), 200f);
             Pezzo(props, "Bicicletta", "Bicicletta", new[] { "M_FerroRuggine02", "Cuoio", "SuolaScarpa" }, Bicicletta, new Vector3(4.4f, 0f, 11.3f), 0f, 0.03f);
-            Model("ScalaLegno", props, new Vector3(1.62f, 0f, 9.4f), -90f, 1.5f, false, "ScalaLegno");
+            Model("ScalaLegno", props, new Vector3(1.62f, 0f, 9.4f), -90f, 1.5f, true, "ScalaLegno"); // R017: scala appoggiata al muro, e' un ostacolo (prima senza collider: Amerigo l'attraversava)
             Model("SecchioMetallo", props, new Vector3(4.0f, 0f, 10.0f), 0f, 1.1f, true, "Secchio");
             // porta chiusa sul retro del cortile (segreto)
             DoorLeaf(props, "PortaRetro", new WallFrame(new Vector3(1.2f, 0f, 14.1f), Vector3.right, Vector3.back), 2.5f, 0.08f, 0.2f, 1.0f, 2.15f, 0.25f);
@@ -486,7 +486,7 @@ namespace TrenoBambini.EditorTools
             // soffitto del basso (R006 tappa 4): lastra sopra stanza, alcova, blocco e cucina (il cortile resta a cielo aperto) con travi a vista.
             // Il nome "MuroSoffitto" lo mette sul layer VistaLibera: WallFader lo nasconde solo quando sta fra la camera e Amerigo
             // (camera sopra il soffitto); con la camera sotto la volta il soffitto si vede.
-            Box("MuroSoffittoStanza", env, new Vector3(0f, H + 0.075f, 2.65f), new Vector3(9.6f, 0.15f, 10.9f), PL, null, true);
+            Box("MuroSoffittoStanza", env, new Vector3(0f, H + 0.075f, 2.63f), new Vector3(9.6f, 0.15f, 10.86f), PL, null, true);
             foreach (float zt in new[] { -2.0f, -0.5f, 1.0f, 2.5f })
                 Box("AppesoTraveStanza", props, new Vector3(0f, H - 0.1f, zt), new Vector3(8.95f, 0.2f, 0.2f), "M_LegnoVernicePelata", null, false);
             foreach (float zt in new[] { 5.0f, 6.8f })

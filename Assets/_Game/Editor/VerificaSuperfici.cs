@@ -95,7 +95,7 @@ namespace TrenoBambini.EditorTools
             camPunti.Clear();
             if (area != null)
             {
-                int passo = Mathf.Max(1, area.celle.Count / 500);
+                int passo = Mathf.Max(1, area.celle.Count / 800);
                 for (int i = 0; i < area.celle.Count; i += passo) camPunti.Add(area.celle[i] + Vector3.up * 2f);
             }
             else { var mc = Camera.main; if (mc != null) camPunti.Add(mc.transform.position); }
@@ -107,7 +107,7 @@ namespace TrenoBambini.EditorTools
             var coppie = Complanari();
             res[0] = coppie.Count;
             foreach (var c in coppie) if (c.visibile) res[1]++;
-            sb.AppendLine("-- Sfarfallii (superfici complanari): " + coppie.Count + " coppie di oggetti, di cui " + res[1] + " VISIBILI (materiali diversi e faccia non coperta). Le altre hanno lo stesso materiale o sono coperte da un volume (nessun tremolio visibile) --");
+            sb.AppendLine("-- Sfarfallii (superfici complanari): " + coppie.Count + " coppie di oggetti, di cui " + res[1] + " VISIBILI (qualunque materiale; almeno un punto della zona sovrapposta visto da una camera di prova). Le altre sono coperte da un volume --");
             coppie.Sort((a, b) => b.visibile.CompareTo(a.visibile) != 0 ? b.visibile.CompareTo(a.visibile) : b.triangoli.CompareTo(a.triangoli));
             int mostrate = 0;
             foreach (var c in coppie)
@@ -312,7 +312,7 @@ namespace TrenoBambini.EditorTools
         // ------------------------------------------------------------------ complanari
 
         sealed class Tri { public Vector3 a, b, c, n; public float d; public int ren; public Bounds bb; public Material mat; }
-        sealed class Coppia { public string nomeA, nomeB, matA, matB; public bool matDiversi, visibile; public int triangoli; public Vector3 pos, normale; public Bounds ext; }
+        sealed class Coppia { public string nomeA, nomeB, matA, matB; public bool matDiversi, visibile; public int triangoli, valutate; public Vector3 pos, normale; public Bounds ext; }
 
         static string Percorso(Transform t)
         {
@@ -328,6 +328,12 @@ namespace TrenoBambini.EditorTools
             string na = a != null ? a.name : "", nb = b != null ? b.name : "";
             if (p.Length == 1) return na.Contains(p[0]) || nb.Contains(p[0]);
             return (na.Contains(p[0]) && nb.Contains(p[1])) || (na.Contains(p[1]) && nb.Contains(p[0]));
+        }
+        static bool MeshDelGeneratore(MeshRenderer r)
+        {
+            var mf = r.GetComponent<MeshFilter>();
+            string path = mf != null && mf.sharedMesh != null ? AssetDatabase.GetAssetPath(mf.sharedMesh) : "";
+            return path.StartsWith("Assets/_Game/Generated") || string.IsNullOrEmpty(path);
         }
         static string dbgA, dbgB, dbgMat = ""; static readonly StringBuilder dbg = new StringBuilder();
         /// <summary>Dettaglio (vertici) dei triangoli complanari fra due oggetti, per cercare la causa di una segnalazione.</summary>
@@ -393,7 +399,7 @@ namespace TrenoBambini.EditorTools
             Action<int, int> prova = (i, j) =>
             {
                 var A = tris[i]; var B = tris[j];
-                if (A.ren == B.ren && Mathf.Abs(i - j) < 2) { }
+                if (A.ren == B.ren && !MeshDelGeneratore(rend[A.ren])) return; // mesh importati (FBX): non dipendono dai generatori
                 long pk = (long)Mathf.Min(i, j) * 100000007L + Mathf.Max(i, j);
                 if (!provate.Add(pk)) return;
                 if (Vector3.Dot(A.n, B.n) < 0.9995f) return;
@@ -417,18 +423,19 @@ namespace TrenoBambini.EditorTools
                     cp = new Coppia { nomeA = Percorso(rA.transform), nomeB = Percorso(rB.transform), matA = "", matB = "", pos = (A.a + A.b + A.c) / 3f, normale = A.n };
                     coppie[ck] = cp;
                 }
-                if (A.mat != B.mat)
+                // il materiale non conta: due facce complanari dello stesso materiale tremolano comunque (UV e lightmap diverse)
+                if (A.mat != B.mat) cp.matDiversi = true;
+                if (cp.valutate < 40 && !cp.visibile)
                 {
-                    bool vis = Visibile(A) || Visibile(B);
-                    if ((!cp.matDiversi) || (vis && !cp.visibile))
+                    cp.valutate++;
+                    if (Visibile(A, B))
                     {
-                        cp.matDiversi = true;
+                        cp.visibile = true;
                         cp.matA = A.mat != null ? A.mat.name : "?"; cp.matB = B.mat != null ? B.mat.name : "?";
                         cp.pos = (A.a + A.b + A.c) / 3f; cp.normale = A.n;
                         var lo = Vector3.Max(A.bb.min, B.bb.min); var hi = Vector3.Min(A.bb.max, B.bb.max);
                         cp.ext = new Bounds((lo + hi) * 0.5f, hi - lo);
                     }
-                    if (vis) cp.visibile = true;
                 }
                 cp.triangoli++;
             };
@@ -456,21 +463,47 @@ namespace TrenoBambini.EditorTools
         /// <summary>Posizioni di camera di prova (area calpestabile a 2 m d'altezza): una faccia e' visibile se almeno una vede il punto senza ostacoli.</summary>
         static readonly List<Vector3> camPunti = new List<Vector3>();
 
-        static bool Visibile(Tri t)
+        static readonly float[][] Bari = { new[] { 1f/3, 1f/3, 1f/3 }, new[] { .6f, .2f, .2f }, new[] { .2f, .6f, .2f }, new[] { .2f, .2f, .6f }, new[] { .45f, .45f, .1f }, new[] { .1f, .45f, .45f }, new[] { .45f, .1f, .45f } };
+
+        static bool DentroTri(Vector3 p, Tri t)
         {
-            // faccia visibile se da una camera di prova nel semispazio davanti alla faccia il segmento fino al suo baricentro e' libero (qualunque faccia, anche posteriore, lo ostruisce)
-            var p = (t.a + t.b + t.c) / 3f + t.n * 0.004f;
+            var v0 = t.b - t.a; var v1 = t.c - t.a; var v2 = p - t.a;
+            float d00 = Vector3.Dot(v0, v0), d01 = Vector3.Dot(v0, v1), d11 = Vector3.Dot(v1, v1), d20 = Vector3.Dot(v2, v0), d21 = Vector3.Dot(v2, v1);
+            float den = d00 * d11 - d01 * d01; if (Mathf.Abs(den) < 1e-12f) return false;
+            float u = (d11 * d20 - d01 * d21) / den, w = (d00 * d21 - d01 * d20) / den;
+            return u >= -0.001f && w >= -0.001f && u + w <= 1.001f;
+        }
+
+        /// <summary>Raggio massimo (m) delle camere di prova: l'hub e' lungo oltre 100 m.</summary>
+        const float RaggioCamere = 120f;
+
+        /// <summary>Visibile se, in almeno uno dei punti campionati nella zona sovrapposta (non solo il baricentro), una camera di prova nel semispazio davanti vede il punto con segmento libero.</summary>
+        static bool Visibile(Tri A, Tri B)
+        {
+            var punti = new List<Vector3>();
+            foreach (var b in Bari)
+            {
+                var q = A.a * b[0] + A.b * b[1] + A.c * b[2];
+                if (DentroTri(q, B)) punti.Add(q);
+            }
+            var cb = (B.a + B.b + B.c) / 3f; if (DentroTri(cb, A)) punti.Add(cb);
+            if (punti.Count == 0) punti.Add((A.a + A.b + A.c) / 3f);
             bool prima = Physics.queriesHitBackfaces;
             Physics.queriesHitBackfaces = true;
             bool vista = false;
-            int provate = 0;
-            foreach (var c in camPunti)
+            foreach (var q in punti)
             {
-                var dir = c - p;
-                float dist = dir.magnitude;
-                if (dist < 0.05f || dist > 45f || Vector3.Dot(dir, t.n) <= 0.01f * dist) continue;
-                if (++provate > 80) break;
-                if (!Physics.Linecast(p, c, ~0, QueryTriggerInteraction.Ignore)) { vista = true; break; }
+                var p = q + A.n * 0.004f;
+                int provate = 0;
+                foreach (var c in camPunti)
+                {
+                    var dir = c - p;
+                    float dist = dir.magnitude;
+                    if (dist < 0.05f || dist > RaggioCamere || Vector3.Dot(dir, A.n) <= 0.01f * dist) continue;
+                    if (++provate > 120) break;
+                    if (!Physics.Linecast(p, c, ~0, QueryTriggerInteraction.Ignore)) { vista = true; break; }
+                }
+                if (vista) break;
             }
             Physics.queriesHitBackfaces = prima;
             return vista;

@@ -13,11 +13,11 @@ namespace TrenoBambini.World
     public class KillPlane : MonoBehaviour
     {
         public float sogliaY = -6f;
-        bool inCorso;
+        bool inCorso, disattivato;
 
         void Update()
         {
-            if (inCorso) return;
+            if (inCorso || disattivato) return;
             var player = GameObject.FindGameObjectWithTag("Player");
             if (player != null && player.transform.position.y < sogliaY) StartCoroutine(Recupera(player));
         }
@@ -37,7 +37,16 @@ namespace TrenoBambini.World
                 float d = new Vector2(sp.transform.position.x - pos.x, sp.transform.position.z - pos.z).sqrMagnitude;
                 if (d < best) { best = d; scelto = sp; }
             }
-            if (scelto != null)
+            if (scelto == null)
+            {
+                // nessun punto di ritorno: niente teletrasporto, e il piano si disattiva (altrimenti ripartirebbe a ogni frame)
+                Debug.LogWarning("[KillPlane] Nessuno SpawnPoint nella scena: recupero impossibile, piano disattivato.");
+                disattivato = true;
+                if (fader != null) yield return fader.In(TransitionStyle.Fade);
+                if (GameManager.I != null) GameManager.I.PopBlock("kill-plane");
+                inCorso = false;
+                yield break;
+            }
             {
                 var cc = player.GetComponent<CharacterController>();
                 if (cc != null) cc.enabled = false;
