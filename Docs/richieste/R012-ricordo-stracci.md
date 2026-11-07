@@ -48,5 +48,14 @@ nell'ordine della storia. **Regole comuni a tutte e cinque** (scritte qui e rich
 - [ ] Coerenza con TRAMA.md, testi originali, ID battute, console pulita, FPS per preset.
 - [ ] Video/GIF in `Docs/richieste/media/R012/`.
 
+## Schema approvato (2026-11-07)
+
+- Schema: [`Docs/richieste/schemi/R012_schema.md`](schemi/R012_schema.md), approvato con le correzioni del lead.
+- Decisioni che riguardano questa richiesta:
+  - D1 una sola scena: vicolo degli stracci e bottega di Capa 'e fierro.
+  - D2 la bilancia è starata per caso (un chiodo sotto il piatto). Capa 'e fierro resta "in fondo buono".
+
+Schema approvato dall'utente: sviluppo autorizzato.
+
 ## Rapporto
 _(da compilare a fine lavoro)_
