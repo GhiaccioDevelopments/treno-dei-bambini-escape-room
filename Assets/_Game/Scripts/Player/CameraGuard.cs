@@ -209,8 +209,11 @@ namespace TrenoBambini.Player
             if (root == null) return;
             if (camT == null) { var c = Camera.main; if (c != null) camT = c.transform; }
             if (camT == null || target == null) return;
+            // il giocatore si nasconde solo se la camera in uso e' questa (non durante le cutscene o con altre camere del Brain)
+            var brain = camT.GetComponent<CinemachineBrain>();
+            bool attiva = brain != null && ReferenceEquals(brain.ActiveVirtualCamera, ComponentOwner);
             float d = Vector3.Distance(camT.position, target.position);
-            bool vuoleNascosto = nascosto ? d < MostraOltre : d < NascondiSotto;
+            bool vuoleNascosto = attiva && (nascosto ? d < MostraOltre : d < NascondiSotto);
             if (vuoleNascosto == nascosto) return;
             nascosto = vuoleNascosto;
             if (nascosto && Time.unscaledTime >= prossimaScansione)
@@ -225,6 +228,19 @@ namespace TrenoBambini.Player
                 else if (originale.TryGetValue(r, out var m)) r.shadowCastingMode = m;
             }
             if (!nascosto) originale.Clear();
+        }
+
+        /// <summary>
+        /// ORDINE DELLE ESTENSIONI: CameraGuard deve stare DOPO CinemachineDeoccluder sulla stessa vcam (le estensioni girano nell'ordine dei
+        /// componenti), altrimenti il Deoccluder rimetterebbe la camera dentro i muri. Lo mette cosi' SceneBuilderCamera; qui si controlla.
+        /// </summary>
+        void Start()
+        {
+            var ext = GetComponents<CinemachineExtension>();
+            int iDeo = -1, iGuard = -1;
+            for (int i = 0; i < ext.Length; i++) { if (ext[i] is CinemachineDeoccluder) iDeo = i; if (ext[i] == this) iGuard = i; }
+            if (iDeo >= 0 && iGuard < iDeo)
+                Debug.LogWarning("[CameraGuard] Ordine sbagliato: CameraGuard deve stare dopo CinemachineDeoccluder sulla stessa camera (vedi SceneBuilderCamera).", this);
         }
 
         void OnDisable()

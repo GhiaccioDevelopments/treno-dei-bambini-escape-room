@@ -17,6 +17,9 @@ namespace TrenoBambini.Player
         const float SizeNascosto = 0.0001f;
         LODGroup lod;
         float sizeNormale;
+        // LODGroup.crossFadeAnimationDuration e' globale: si imposta al primo muro attivo e si ripristina quando non ne resta nessuno
+        static int usi;
+        static float durataOriginale;
         public bool Nascosto { get; private set; }
 
         /// <summary>Configura il LODGroup (usato dal generatore, in editor).</summary>
@@ -38,7 +41,12 @@ namespace TrenoBambini.Player
         {
             lod = GetComponent<LODGroup>();
             if (lod != null) sizeNormale = lod.size;
-            LODGroup.crossFadeAnimationDuration = DurataFade;
+            if (usi++ == 0) { durataOriginale = LODGroup.crossFadeAnimationDuration; LODGroup.crossFadeAnimationDuration = DurataFade; }
+        }
+
+        void OnDestroy()
+        {
+            if (--usi <= 0) { usi = 0; LODGroup.crossFadeAnimationDuration = durataOriginale; }
         }
 
         public void Dissolvi(bool nascondi)

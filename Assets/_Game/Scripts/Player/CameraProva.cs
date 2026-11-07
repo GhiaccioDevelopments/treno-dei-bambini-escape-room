@@ -283,7 +283,7 @@ namespace TrenoBambini.Player
             const float vel = 2.0f;
             float totTempo = lung / vel, passoFoto = totTempo / N;
             float t = 0f, prossima = 0f; int foto = 0, tratto = 1;
-            Vector3 prevCam = cam.transform.position; float maxSalto = 0f, maxVelCam = 0f; int frames = 0, veloci = 0; var sbm = new StringBuilder();
+            Vector3 prevCam = cam.transform.position, finestraPos = prevCam; float accT = 0f; float maxSalto = 0f, maxVelCam = 0f; int frames = 0, veloci = 0; var sbm = new StringBuilder();
             while (tratto < rotta.Length && foto < N)
             {
                 Vector3 pos = player.transform.position; pos.y = 0f;
@@ -297,7 +297,10 @@ namespace TrenoBambini.Player
                 yield return null; // LateUpdate di Cinemachine e WallFader
                 Vector3 cp = cam.transform.position;
                 float salto = Vector3.Distance(cp, prevCam);
-                float velCam = salto / Mathf.Max(Time.deltaTime, 1e-4f);
+                // velocita' su una finestra di almeno 50 ms (i fotogrammi dell'editor hanno durate irregolari: la velocita' del singolo fotogramma e' rumorosa)
+                accT += Time.deltaTime;
+                float velCam = 0f;
+                if (accT >= 0.05f) { velCam = Vector3.Distance(cp, finestraPos) / accT; finestraPos = cp; accT = 0f; }
                 if (frames > 2)
                 {
                     maxSalto = Mathf.Max(maxSalto, salto); maxVelCam = Mathf.Max(maxVelCam, velCam);
@@ -322,8 +325,8 @@ namespace TrenoBambini.Player
             Directory.CreateDirectory(dir);
             File.WriteAllBytes(dir + "/20_Int_BassoAntonietta_movimento.jpg", sheet.EncodeToJPG(80));
             string rapporto = "Sequenza in movimento nel basso (" + lavoro.etichetta + "): " + frames + " fotogrammi, Amerigo a " + vel.ToString("0.0") + " m/s. "
-                + "Spostamento massimo della camera in un fotogramma: " + (maxSalto * 100f).ToString("0.0") + " cm; velocita' massima della camera: " + maxVelCam.ToString("0.0") + " m/s (Amerigo " + vel.ToString("0.0") + " m/s). "
-                + "Fotogrammi con la camera sopra 5 m/s: " + veloci + " " + sbm + ". " + "Muri dissolti a fine corsa: " + FindObjectsByType<MuroDissolvibile>(FindObjectsInactive.Exclude).Length + " dissolvibili in scena.";
+                + "Spostamento massimo della camera in un fotogramma: " + (maxSalto * 100f).ToString("0.0") + " cm; velocita' massima della camera (su 50 ms): " + maxVelCam.ToString("0.0") + " m/s (Amerigo " + vel.ToString("0.0") + " m/s). "
+                + "Finestre da 50 ms con la camera sopra 5 m/s: " + veloci + " " + sbm + ". " + "Muri dissolti a fine corsa: " + FindObjectsByType<MuroDissolvibile>(FindObjectsInactive.Exclude).Length + " dissolvibili in scena.";
             File.WriteAllText(dir + "/movimento.txt", rapporto, new UTF8Encoding(false));
             Debug.Log("[Verifica camera] " + rapporto);
             rt.Release(); Destroy(rt); Destroy(tex); Destroy(sheet);

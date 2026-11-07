@@ -35,7 +35,7 @@ namespace TrenoBambini.EditorTools
                     string n = t.name;
                     bool muro = n.StartsWith("Muro") && !n.StartsWith("MuroInvisibile") && !n.Contains("Soffitto"); // R018: i soffitti restano solidi (layer Default)
                     bool porta = n.StartsWith("Porta") && t.GetComponent<Collider>() != null;
-                    if (porta) t.gameObject.layer = layerPorte; // la camera le attraversa, WallFader non le nasconde mai
+                    if (porta) t.gameObject.layer = layerPorte; // esterni: solide anche per la camera; interni: si dissolvono (MuroDissolvibile) come i muri
                     if (muro && t.GetComponent<Collider>() != null) t.gameObject.layer = layer;
                 }
         }
@@ -62,7 +62,12 @@ namespace TrenoBambini.EditorTools
                     bool porta = n.StartsWith("Porta") && t.GetComponent<Collider>() != null;
                     if (!(muro || porta)) continue;
                     if (t.GetComponentInChildren<Renderer>(true) == null) continue;
-                    if (muro) t.gameObject.layer = layerVista;
+                    if (muro)
+                    {
+                        t.gameObject.layer = layerVista;
+                        // il vetro delle finestre (collider solo per la camera) sta sullo stesso layer del muro: negli interni non spinge la camera e si dissolve con lui
+                        foreach (var f in t.GetComponentsInChildren<Transform>(true)) if (f.name == "VetroFinestraCamera") f.gameObject.layer = layerVista;
+                    }
                     MuroDissolvibile.Prepara(t.gameObject);
                     tot++;
                 }
@@ -79,6 +84,7 @@ namespace TrenoBambini.EditorTools
                 foreach (var v in root.GetComponentsInChildren<CameraProfileVolume>(true))
                 {
                     v.dissolviMuri = true;
+                    if (v.name == "CamVol_Cucina") { v.transform.position = new Vector3(3f, 1.5f, 5.8f); v.GetComponent<BoxCollider>().size = new Vector3(3f, 3f, 5f); }
                     if (v.name == "CamVol_Cortile") { v.transform.position = new Vector3(3.75f, 2.1f, 11.1f); v.GetComponent<BoxCollider>().size = new Vector3(5.1f, 4.2f, 6f); }
                 }
             int n = PreparaInterniDissolvibili(sc);

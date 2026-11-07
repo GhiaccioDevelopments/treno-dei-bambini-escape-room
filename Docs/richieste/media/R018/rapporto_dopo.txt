@@ -1,4 +1,4 @@
-Prova automatica della camera (dopo) - 2026-11-07 22:14
+Prova automatica della camera (dopo) - 2026-11-07 22:25
 Per ogni punto calpestabile: 12 direzioni x 3 inclinazioni (anello alto, centrale, basso). Errori = dentro geometria + sul vuoto + sotto il suolo + ostacolo tra camera e giocatore.
 
 ==================== 10_Hub_Vicolo ====================
@@ -29,7 +29,7 @@ Per ogni punto calpestabile: 12 direzioni x 3 inclinazioni (anello alto, central
   sul vuoto: 0
   sotto il suolo: 0
   ostacolo tra camera e giocatore: 0
-  troppo vicina (<0,45 m): 75
+  troppo vicina (<0,45 m): 51
       punto (-3,6,0,0,0,4) yaw 150 anello -1 camera (-3,7,1,5,0,7) [interno]
       punto (-3,6,0,0,0,4) yaw 150 anello 0 camera (-3,7,1,6,0,7) [interno]
       punto (-3,6,0,0,0,4) yaw 150 anello 1 camera (-3,7,1,8,0,7) [interno]
@@ -42,7 +42,7 @@ Per ogni punto calpestabile: 12 direzioni x 3 inclinazioni (anello alto, central
       punto (-3,3,0,0,1,2) yaw 60 anello -1 camera (-3,6,1,5,1,0) [interno]
       punto (-3,3,0,0,1,2) yaw 90 anello -1 camera (-3,6,1,5,1,2) [interno]
       punto (-3,3,0,0,1,2) yaw 120 anello -1 camera (-3,6,1,5,1,4) [interno]
-  dentro/oltre un muro dissolto (ammesso: interno): 897
+  dentro/oltre un muro dissolto (ammesso: interno): 979
       punto (0,0,0,0,-1,7) yaw -60 anello -1 camera (1,7,1,7,-2,7) [interno]
       punto (0,0,0,0,-1,7) yaw -30 anello -1 camera (1,0,1,7,-3,4) [interno]
       punto (0,0,0,0,-1,7) yaw 0 anello -1 camera (0,0,1,7,-3,7) [interno]
@@ -79,4 +79,4 @@ Per ogni punto calpestabile: 12 direzioni x 3 inclinazioni (anello alto, central
   dentro/oltre un muro dissolto (ammesso: interno): 0
   ERRORI scena: 0 su 3276 pose, in 0 punti su 91
 
-TOTALE pose 9900: dentro geometria 0, sul vuoto 0, sotto il suolo 0, ostacolo tra camera e giocatore 0, troppo vicina (<0,45 m) 377, dentro/oltre un muro dissolto (ammesso: interno) 897. ERRORI TOTALI: 0
+TOTALE pose 9900: dentro geometria 0, sul vuoto 0, sotto il suolo 0, ostacolo tra camera e giocatore 0, troppo vicina (<0,45 m) 353, dentro/oltre un muro dissolto (ammesso: interno) 979. ERRORI TOTALI: 0

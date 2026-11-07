@@ -544,7 +544,7 @@ namespace TrenoBambini.EditorTools
             var root = new GameObject("VolumiCamera").transform;
             VolumeCamera(root, "CamVol_Stanza", new Vector3(0f, 1.5f, 0.5f), new Vector3(9f, 3f, 6f), 1f, 0f, -0.7f, 1f);
             VolumeCamera(root, "CamVol_Alcova", new Vector3(-3f, 1.5f, 5.55f), new Vector3(3f, 3f, 4.5f), 0.8f, 62f, -0.5f, 0.8f);
-            VolumeCamera(root, "CamVol_Cucina", new Vector3(3f, 1.5f, 5.55f), new Vector3(3f, 3f, 4.5f), 0.8f, 62f, -0.5f, 0.8f);
+            VolumeCamera(root, "CamVol_Cucina", new Vector3(3f, 1.5f, 5.8f), new Vector3(3f, 3f, 5f), 0.8f, 62f, -0.5f, 0.8f);
             VolumeCamera(root, "CamVol_Cortile", new Vector3(3.75f, 2.1f, 11.1f), new Vector3(5.1f, 4.2f, 6f), 0.9f, 58f, -0.6f, 1f);
         }
 
