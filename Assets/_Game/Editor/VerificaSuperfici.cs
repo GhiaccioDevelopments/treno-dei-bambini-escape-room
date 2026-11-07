@@ -338,6 +338,9 @@ namespace TrenoBambini.EditorTools
                 long pk = (long)Mathf.Min(i, j) * 100000007L + Mathf.Max(i, j);
                 if (!provate.Add(pk)) return;
                 if (Vector3.Dot(A.n, B.n) < 0.9995f) return;
+                // livelli diversi dello stesso LODGroup non sono mai visibili insieme
+                var lgA = rend[A.ren].GetComponentInParent<LODGroup>();
+                if (lgA != null && A.ren != B.ren && lgA == rend[B.ren].GetComponentInParent<LODGroup>()) return;
                 if (Mathf.Abs(A.d - Vector3.Dot(A.n, B.a)) > DistComplanare || Mathf.Abs(A.d - Vector3.Dot(A.n, B.b)) > DistComplanare || Mathf.Abs(A.d - Vector3.Dot(A.n, B.c)) > DistComplanare) return;
                 if (!Sovrapposti(A, B)) return;
                 int ra = Mathf.Min(A.ren, B.ren), rb = Mathf.Max(A.ren, B.ren);
