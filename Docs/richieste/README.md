@@ -55,4 +55,4 @@ MCP for Unity) le implementa. Le due sessioni non si parlano: comunicano **solo 
 | R020 | Enigmi d'autore in ogni stanza (quadri, codici, trama) | aperta, PR #22 (contenuto di R009, assorbe R010) |
 | R021 | Grafica realistica con identità unica (pellicola neorealista) | fusa in R007 e integrata (8/11), PR #23 chiusa |
 | R022 | Corsa corretta: personaggio dritto, gamba sinistra | integrata in `feature/upgrade-realistico` (7/11), PR #24 |
-| R023 | Menu iniziale e inventario rifatti, al livello dei giochi più belli | in corso (latta + quaderno, sfondo vicolo), PR #25 |
+| R023 | Menu iniziale e inventario rifatti, al livello dei giochi più belli | integrata (2026-11-08): menu col vicolo vivo, latta + quaderno, PR #25 |
