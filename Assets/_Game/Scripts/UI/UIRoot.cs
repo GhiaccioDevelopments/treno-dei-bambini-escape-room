@@ -35,6 +35,7 @@ namespace TrenoBambini.UI
         public CutscenePlayer Cutscene { get; private set; }
         public InventoryPanel Inventory { get; private set; }
         public PausePanel Pause { get; private set; }
+        public SettingsPanel Settings { get; private set; }
 
         EventSystem eventSystem;
         bool menuScene = true;
@@ -156,6 +157,8 @@ namespace TrenoBambini.UI
             Inventory = igo.gameObject.AddComponent<InventoryPanel>();
             var pgo = UIFactory.NewRect("PausePanel", ModalLayer);
             Pause = pgo.gameObject.AddComponent<PausePanel>();
+            var sgo = UIFactory.NewRect("SettingsPanel", ModalLayer);
+            Settings = sgo.gameObject.AddComponent<SettingsPanel>();
 
             // particelle sopra tutto tranne il fader
             var partLayer = NewLayer("Particelle", false);
@@ -469,8 +472,14 @@ namespace TrenoBambini.UI
             if (save && GameManager.I != null)
             {
                 GameManager.I.Save.effettiRidotti = value;
-                GameManager.I.SaveGame();
+                SalvaSeInCorso();
             }
+        }
+
+        /// <summary>Salva la partita solo se ce n'e' una (salvataggio esistente o scena di gioco): dal Titolo senza partita non crea un salvataggio vuoto (comparirebbe "Continua").</summary>
+        public void SalvaSeInCorso()
+        {
+            if (GameManager.I != null && (GameManager.I.HasSave || !menuScene)) GameManager.I.SaveGame();
         }
 
         void SyncReduceEffects()
@@ -546,6 +555,7 @@ namespace TrenoBambini.UI
 
         public void TogglePause()
         {
+            if (Settings != null && Settings.IsOpen) { Settings.Hide(); return; }
             if (Inventory.IsOpen) { Inventory.Hide(); return; }
             if (Pause.IsOpen) { Pause.Hide(); return; }
             if (CanOpenMenus) Pause.Show();

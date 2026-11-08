@@ -249,6 +249,20 @@ namespace TrenoBambini.EditorTools
             if (n == 0) Debug.LogWarning("[SceneBuilder] Nessun testo d'ambiente per il gruppo '" + gruppo + "' in " + PercorsoTestiAmbiente);
         }
 
+        /// <summary>R007 t3B: puntellatura di guerra: tre travi oblique appoggiate al muro, con tavola di base e traversa.</summary>
+        static void Puntellatura(Transform env, Vector3 wp, Vector3 n, Vector3 al)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                Vector3 p0 = wp + al * (i - 1) * 0.9f + n * 1.35f + Vector3.up * 0.09f;
+                Vector3 p1 = wp + al * (i - 1) * 0.9f + n * 0.06f + Vector3.up * 2.7f;
+                Vector3 d = p1 - p0;
+                var b = Box("Puntello", env, (p0 + p1) * 0.5f, new Vector3(0.14f, d.magnitude, 0.14f), "M_AssiConsunte", Quaternion.FromToRotation(Vector3.up, d.normalized).eulerAngles, false);
+                Box("PuntelloBase", env, p0 + Vector3.up * 0.03f, new Vector3(0.2f, 0.06f, 0.5f), "M_AssiConsunte", Quaternion.LookRotation(n, Vector3.up).eulerAngles, false);
+            }
+            Box("PuntelloTraversa", env, wp + n * 0.7f + Vector3.up * 1.4f, new Vector3(2.4f, 0.1f, 0.1f), "M_AssiConsunte", Quaternion.LookRotation(n, Vector3.up).eulerAngles + new Vector3(0f, 0f, 0f), false);
+        }
+
         static GameObject Manifesto(Transform env, string key, Vector3 pos, Vector3 n, float larg, float alt, string nome)
         {
             var go = Box(nome, env, pos + n * (0.0075f + 0.004f), new Vector3(larg, alt, 0.015f), "MP_" + key,
@@ -274,6 +288,13 @@ namespace TrenoBambini.EditorTools
                 string key = f.interno == 2 && bi == 0 ? "Salumeria" : nomi[bi % nomi.Length];
                 var go = Box("Insegna_Bottega_" + key, env, f.wp + n * 0.05f + Vector3.up * 2.77f, new Vector3(1.7f, 0.25f, 0.04f), "MP_" + key,
                     Quaternion.LookRotation(n, Vector3.up).eulerAngles, false);
+                // R007 t3B: sedia fuori dal basso e gabbietta con l'uccellino appesa accanto alla porta
+                if (bi < 5)
+                {
+                    var alb = Vector3.Cross(n, Vector3.up);
+                    Pezzo(env, "SediaPaglia", "SediaPaglia", new[] { "M_LegnoVernicePelata", "Paglia" }, SediaPaglia, f.wp + n * 0.55f + alb * 1.15f, Mathf.Atan2(n.x, n.z) * Mathf.Rad2Deg + 20f - bi * 9f, 0.03f);
+                    ModelloIst("GabbiaUccellino", env, f.wp + n * 0.22f - alb * 1.0f + Vector3.up * 2.05f, bi * 37f, Vector3.one, false, "GabbiaUccellino", 0.03f);
+                }
                 bi++;
             }
 
@@ -288,6 +309,8 @@ namespace TrenoBambini.EditorTools
                     muriManifesti |= 1;
                     Manifesto(env, "Ricostruiamo", f.wp + al * -1.9f + up * 1.7f, n, 0.62f, 0.93f, "Manifesto_Ricostruiamo");
                     Manifesto(env, "Acqua", f.wp + al * 1.9f + up * 1.7f, n, 0.62f, 0.93f, "Manifesto_Acqua");
+                    Manifesto(env, "Referendum", f.wp + al * 0.0f + up * 1.55f, n, 0.62f, 0.93f, "Manifesto_Referendum"); // R007 t3B: 2 giugno 1946
+                    Puntellatura(env, f.wp + al * 4.2f, n, al);
                 }
                 else if (Mathf.Abs(f.wp.x - 14f) < 0.1f && Mathf.Abs(f.wp.z + 10f) < 0.1f)
                 {   // bacheca con quattro manifesti
@@ -301,6 +324,8 @@ namespace TrenoBambini.EditorTools
                 {
                     muriManifesti |= 4;
                     Manifesto(env, "Affitto", f.wp + al * 0.0f + up * 1.9f, n, 0.55f, 0.82f, "Manifesto_Affitto");
+                    Manifesto(env, "VotoDonne", f.wp + al * 0.75f + up * 1.7f, n, 0.55f, 0.82f, "Manifesto_VotoDonne");
+                    Manifesto(env, "Seggio", f.wp + al * -0.75f + up * 1.6f, n, 0.5f, 0.64f, "Manifesto_Seggio");
                 }
                 else if (Mathf.Abs(f.wp.x + 14f) < 0.1f && Mathf.Abs(f.wp.z - 8f) < 0.1f || Mathf.Abs(f.wp.x - 12f) < 0.1f && Mathf.Abs(f.wp.z - 14f) < 0.1f)
                 {   // edicole votive piccole

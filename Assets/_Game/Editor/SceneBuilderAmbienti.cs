@@ -65,7 +65,7 @@ namespace TrenoBambini.EditorTools
             switch (name)
             {
                 case "Tessuto1": return TintedMat("M_TessutoLino", "M_Panno_Terracotta", new Color(0.78f, 0.46f, 0.36f));
-                case "Tessuto2": return TintedMat("M_TessutoLino", "M_Panno_Azzurro", new Color(0.52f, 0.63f, 0.72f));
+                case "Tessuto2": return AssetDatabase.LoadAssetAtPath<Material>("Assets/Art/Materials/M_TendaLino.mat"); // R007 t3B: tela di lino grezza (texture della radio), non piu' blu piatto
                 case "Tessuto3": return AssetDatabase.LoadAssetAtPath<Material>("Assets/Art/Materials/M_TessutoLino.mat");
                 case "Cuoio": return TintedMat("M_TessutoIuta", "M_Cuoio_Scarpe", new Color(0.34f, 0.22f, 0.14f));
                 case "PannoBianco": return TintedMat("M_TessutoLino", "M_Panno_Bianco", new Color(0.85f, 0.82f, 0.74f));
@@ -153,17 +153,28 @@ namespace TrenoBambini.EditorTools
 
         static GameObject Model(string model, Transform parent, Vector3 pos, float yaw, float scale = 1f, bool collider = true, string objName = null, float cull = 0.02f)
         {
-            var asset = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Art/Models/" + model + "/" + model + ".fbx");
+            return ModelloIst(model, parent, pos, yaw, Vector3.one * scale, collider, objName, cull);
+        }
+
+        /// <summary>
+        /// Istanzia un modello FBX. "Nome" = Assets/Art/Models/Nome/Nome.fbx; "Cartella/File.ext" = percorso esplicito sotto Assets/Art/Models.
+        /// R007 t2: i modelli con LOD0/1/2 (nomi *_LOD0..2) mantengono i tre livelli (soglie 0,40 / 0,15 / culling); gli altri hanno un solo livello.
+        /// Collider: un unico BoxCollider sul volume del modello (R018: niente oggetti senza collider dove prima c'era).
+        /// </summary>
+        static GameObject ModelloIst(string model, Transform parent, Vector3 pos, float yaw, Vector3 scale, bool collider, string objName, float cull)
+        {
+            string path = model.Contains("/") ? "Assets/Art/Models/" + model : "Assets/Art/Models/" + model + "/" + model + ".fbx";
+            var asset = AssetDatabase.LoadAssetAtPath<GameObject>(path);
             if (asset == null)
             {
-                Debug.LogError("[SceneBuilder] Modello mancante: " + model);
+                Debug.LogError("[SceneBuilder] Modello mancante: " + path);
                 return new GameObject(objName ?? model);
             }
             var go = (GameObject)PrefabUtility.InstantiatePrefab(asset, parent);
-            go.name = objName ?? model;
+            go.name = objName ?? System.IO.Path.GetFileNameWithoutExtension(model);
             go.transform.localPosition = pos;
             go.transform.localRotation = Quaternion.Euler(0f, yaw, 0f);
-            go.transform.localScale = Vector3.one * scale;
+            go.transform.localScale = scale;
 
             var rs = go.GetComponentsInChildren<Renderer>();
             if (collider)
@@ -188,9 +199,24 @@ namespace TrenoBambini.EditorTools
                     bc.size = b.size;
                 }
             }
-            // LOD: i modelli sono a un solo livello, quindi LOD0 completo e culling sotto il 2% dello schermo
-            var lg = go.AddComponent<LODGroup>();
-            lg.SetLODs(new[] { new LOD(cull, rs) });
+            var lg = go.GetComponent<LODGroup>();
+            if (lg == null) lg = go.AddComponent<LODGroup>();
+            var liv = new System.Collections.Generic.List<Renderer>[3];
+            for (int i = 0; i < 3; i++) liv[i] = new System.Collections.Generic.List<Renderer>();
+            bool conLod = false;
+            foreach (var r in rs)
+            {
+                int k = r.name.EndsWith("_LOD1") ? 1 : r.name.EndsWith("_LOD2") ? 2 : 0;
+                if (k > 0) conLod = true;
+                liv[k].Add(r);
+            }
+            if (conLod && liv[1].Count > 0)
+            {
+                var lods = new System.Collections.Generic.List<LOD> { new LOD(0.40f, liv[0].ToArray()), new LOD(liv[2].Count > 0 ? 0.15f : cull, liv[1].ToArray()) };
+                if (liv[2].Count > 0) lods.Add(new LOD(cull, liv[2].ToArray()));
+                lg.SetLODs(lods.ToArray());
+            }
+            else lg.SetLODs(new[] { new LOD(cull, rs) });
             lg.RecalculateBounds();
             propCount++;
             if (ATerra(pos)) RegistraMobile(go); // appoggiato a terra: a fine costruzione si allontana da muri e altri oggetti
@@ -198,6 +224,23 @@ namespace TrenoBambini.EditorTools
         }
 
         // ------------------------------------------------------------------ pareti con aperture
+
+        /// <summary>R017: aggancio (m) delle cornici nelle aperture e rientro dei profili alle testate dei moduli. 1,2 cm: con depth a 24 bit e senza Z invertito (WebGL) 4 mm tremolano a distanza.</summary>
+        const float Riporto = 0.012f;
+
+        /// <summary>
+        /// R017: profilo in pietra lungo la parete. Alle testate del modulo il corpo principale rientra di Riporto e una linguetta piu' bassa
+        /// (rientrata di 3 cm sul fronte, 5 cm in fondo al modulo, e di 4 mm sopra e sotto: le linguette dei due moduli non sono complanari) lo prolunga dentro il profilo del modulo vicino: il giunto non resta aperto
+        /// e le facce visibili dei due moduli non si sovrappongono.
+        /// </summary>
+        static void Trim(KitBuilder kb, WallFrame fr, float len, float u0, float u1, float d0, float d1, float y0, float y1, int sub, float tile, int skip)
+        {
+            bool ini = u0 <= 0.001f, fine = u1 >= len - 0.001f;
+            float a = ini ? Riporto : u0, b = fine ? len - Riporto : u1;
+            fr.Box(kb, a, b, d0, d1, y0, y1, sub, tile, skip);
+            if (ini) fr.Box(kb, -0.03f, Riporto + 0.01f, d0 + 0.0213f, d1, y0 + 0.004f, y1 - 0.004f, sub, tile, 8 | 16 | 32);
+            if (fine) fr.Box(kb, len - Riporto - 0.01f, len + 0.03f, d0 + 0.0455f, d1, y0 + 0.004f, y1 - 0.004f, sub, tile, 8 | 16 | 32);
+        }
 
         static void ShellPieces(KitBuilder kb, WallFrame fr, float len, float y0, float y1, float thick, List<WallOpening> ops,
                                 int sub, float tile, bool skipBottom, bool skipTop, bool skipBack = true)
@@ -250,7 +293,11 @@ namespace TrenoBambini.EditorTools
             public int doorKind;        // 0 = nessuna porta generica, 1 = porta chiusa, 2 = basso aperto, 3 = portone sbarrato, 4 = cancello
             public int interior;        // variante dell'interno del basso aperto
             public bool cieco;          // nessuna finestra al piano terra
+            public int col;             // R017: fascia di quota (0..n): i profili orizzontali si alzano di col * PassoFascia rispetto ai moduli vicini
         }
+
+        /// <summary>R017: passo (m) tra le quote dei profili orizzontali di moduli vicini (12 mm: regge il depth a 24 bit di WebGL).</summary>
+        internal const float PassoFascia = 0.012f;
 
         sealed class FacadeCache { public Mesh m0, m1; public Vector3 bcc, bcs; }
         static readonly Dictionary<string, FacadeCache> facadeCache = new Dictionary<string, FacadeCache>();
@@ -281,6 +328,9 @@ namespace TrenoBambini.EditorTools
             if (opt != null && facadeCache.TryGetValue(opt.key, out cached)) return FacadeInstance(parent, name, subs, plaster, cached);
             if (opt != null) r = new System.Random(opt.seed);
             var kb = new KitBuilder(subs);
+            kb.SubFisso = 0;
+            float ofs = opt != null ? opt.col * PassoFascia : 0f;
+            kb.ProteggiTestate(fr.AxisU, fr.AxisU == 0 ? fr.W(0, 0, 0).x : fr.W(0, 0, 0).z, fr.AxisU == 0 ? fr.W(len, 0, 0).x : fr.W(len, 0, 0).z);
             var lod = new KitBuilder(plaster, "Finestra");
             float h = floors * 3f;
             const float T = 0.45f;
@@ -306,9 +356,10 @@ namespace TrenoBambini.EditorTools
             }
             fr.Box(kb, 0, len, 0.35f, depth, h, h + 0.06f, SRoof, 1.5f, 16);
             fr.Box(kb, 0, len, 0f, 0.35f, h, h + 0.6f, SWall, TileWall, 16);
-            fr.Box(kb, -0.02f, len + 0.02f, -0.06f, 0.41f, h + 0.6f, h + 0.68f, SStone, TileStone, 16);
-            fr.Box(kb, 0, len, -0.3f, 0.1f, h - 0.28f, h, SStone, TileStone, 0);
-            fr.Box(kb, 0, len, -0.18f, 0.1f, h - 0.42f, h - 0.28f, SStone, TileStone, 0);
+            Trim(kb, fr, len, 0f, len, -0.06f, 0.41f, h + 0.6f + ofs, h + 0.68f + ofs, SStone, TileStone, 16);
+            // i profili in pietra rientrano di 4 mm alle testate del modulo: le loro facce non sono complanari a quelle del guscio
+            Trim(kb, fr, len, 0f, len, -0.3f, 0.1f, h - 0.28f + ofs, h + ofs, SStone, TileStone, 0);
+            Trim(kb, fr, len, 0f, len, -0.18f, 0.1f, h - 0.42f + ofs, h - 0.28f + ofs, SStone, TileStone, 0);
             // LOD1: guscio unico + parapetto
             fr.Box(lod, 0, len, 0, depth, 0, h, 0, TileWall, 16 | 32);
             fr.Box(lod, 0, len, 0f, 0.35f, h, h + 0.6f, 0, TileWall, 16);
@@ -349,7 +400,7 @@ namespace TrenoBambini.EditorTools
             {
                 float y0 = f * 3f, y1 = y0 + 3f;
                 var ops = perFloor[f];
-                ShellPieces(kb, fr, len, y0, y1, T, new List<WallOpening>(ops), SWall, TileWall, true, f < floors - 1);
+                ShellPieces(kb, fr, len, y0, y1, T, new List<WallOpening>(ops), SWall, TileWall, true, true); // la faccia superiore dell'ultimo piano e' sempre coperta da parapetto e tetto
 
                 foreach (var o in ops)
                 {
@@ -357,14 +408,14 @@ namespace TrenoBambini.EditorTools
                     if (o.door)
                     {
                         // cornice in pietra + stipite in legno + soglia
-                        fr.Box(kb, o.U0 - 0.16f, o.U0, -0.06f, 0.3f, 0f, o.y1 + 0.02f, SStone, TileStone, 16);
-                        fr.Box(kb, o.U1, o.U1 + 0.16f, -0.06f, 0.3f, 0f, o.y1 + 0.02f, SStone, TileStone, 16);
-                        fr.Box(kb, o.U0 - 0.16f, o.U1 + 0.16f, -0.09f, 0.3f, o.y1, o.y1 + 0.2f, SStone, TileStone, 0);
-                        fr.Box(kb, o.U0 - 0.1f, o.U1 + 0.1f, -0.3f, 0f, 0f, 0.12f, SStone, TileStone, 16);
+                        fr.Box(kb, o.U0 - 0.16f, o.U0 + Riporto, -0.06f, 0.3f, 0f, o.y1 + 0.02f, SStone, TileStone, 16);
+                        fr.Box(kb, o.U1 - Riporto, o.U1 + 0.16f, -0.06f, 0.3f, 0f, o.y1 + 0.02f, SStone, TileStone, 16);
+                        fr.Box(kb, o.U0 - 0.16f, o.U1 + 0.16f, -0.09f, 0.3f, o.y1 - Riporto, o.y1 + 0.2f, SStone, TileStone, 0);
+                        fr.Box(kb, o.U0 - 0.1f, o.U1 + 0.1f, -0.3f, 0f, -0.1f, 0.12f, SStone, TileStone, 16);
                         fr.Box(kb, o.U0, o.U0 + 0.1f, 0.08f, 0.3f, 0f, o.y1, SWood, TileWood, 16);
                         fr.Box(kb, o.U1 - 0.1f, o.U1, 0.08f, 0.3f, 0f, o.y1, SWood, TileWood, 16);
                         fr.Box(kb, o.U0, o.U1, 0.08f, 0.3f, o.y1 - 0.1f, o.y1, SWood, TileWood, 0);
-                        if (dk == 0) fr.Box(kb, o.U0, o.U1, 0.2f, 0.24f, 0f, o.y1, SGlass, 2f, 0);
+                        if (dk == 0) fr.Box(kb, o.U0, o.U1, 0.245f, 0.28f, 0f, o.y1, SGlass, 2f, 0); // dietro il battente (che occupa 0,14-0,24): niente facce complanari
                         else if (dk == 1) DoorLeafBoxes(kb, fr, o.U0, o.U1, o.y1, false);
                         else if (dk == 3) DoorLeafBoxes(kb, fr, o.U0, o.U1, o.y1, true);
                         else if (dk == 4) GateBars(kb, fr, o.U0, o.U1, o.y1);
@@ -381,12 +432,12 @@ namespace TrenoBambini.EditorTools
                     fr.Box(kb, o.U1 - 0.05f, o.U1, 0.14f, 0.3f, o.y0, o.y1, SWood, TileWood, 0);
                     fr.Box(lod, o.U0, o.U1, -0.01f, 0.0f, o.y0, o.y1, 1, 2f, 0);
                     // cornice in pietra
-                    fr.Box(kb, o.U0 - 0.13f, o.U1 + 0.13f, -0.06f, 0.2f, o.y1, o.y1 + 0.15f, SStone, TileStone, 0);
-                    fr.Box(kb, o.U0 - 0.1f, o.U0, -0.04f, 0.2f, o.y0, o.y1, SStone, TileStone, 0);
-                    fr.Box(kb, o.U1, o.U1 + 0.1f, -0.04f, 0.2f, o.y0, o.y1, SStone, TileStone, 0);
+                    fr.Box(kb, o.U0 - 0.13f, o.U1 + 0.13f, -0.06f, 0.2f, o.y1 - Riporto, o.y1 + 0.15f, SStone, TileStone, 0);
+                    fr.Box(kb, o.U0 - 0.1f, o.U0 + Riporto, -0.04f, 0.2f, o.y0, o.y1, SStone, TileStone, 0);
+                    fr.Box(kb, o.U1 - Riporto, o.U1 + 0.1f, -0.04f, 0.2f, o.y0, o.y1, SStone, TileStone, 0);
                     if (!bal)
                     {
-                        fr.Box(kb, o.U0 - 0.1f, o.U1 + 0.1f, -0.15f, 0.2f, o.y0 - 0.08f, o.y0, SStone, TileStone, 0);
+                        fr.Box(kb, o.U0 - 0.1f, o.U1 + 0.1f, -0.15f, 0.2f, o.y0 - 0.08f, o.y0 + Riporto, SStone, TileStone, 0);
                     }
                     else
                     {
@@ -435,11 +486,12 @@ namespace TrenoBambini.EditorTools
             if (len > cursor) gaps.Add(new Vector2(cursor, len));
             foreach (var g in gaps)
             {
-                fr.Box(kb, g.x, g.y, -0.06f, T, 0f, 0.9f, SStone, TileStone, 8 | 16);
-                fr.Box(kb, g.x, g.y, -0.1f, T, 0.9f, 0.96f, SStone, TileStone, 8 | 16);
+                // lo zoccolo scende sotto il suolo (-30 cm): la fascia di quota dei moduli non lascia fessure alla base
+                Trim(kb, fr, len, g.x, g.y, -0.06f, T, -0.3f, 0.93f + ofs, SStone, TileStone, 8 | 16); // 0,93: non coincide con la sommita' dei gradini (multipli di 15 cm)
+                Trim(kb, fr, len, g.x, g.y, -0.1f, T, 0.93f + ofs, 0.99f + ofs, SStone, TileStone, 8 | 16);
             }
             for (int f = 1; f < floors; f++)
-                fr.Box(kb, 0, len, -0.05f, 0.1f, f * 3f - 0.08f, f * 3f + 0.08f, SStone, TileStone, 0);
+                Trim(kb, fr, len, 0f, len, -0.05f, 0.1f, f * 3f - 0.08f + ofs, f * 3f + 0.08f + ofs, SStone, TileStone, 0);
 
             // comignoli
             if (depth > 2.4f)
@@ -653,7 +705,7 @@ namespace TrenoBambini.EditorTools
 
         static void Cart(Transform parent, Vector3 pos)
         {
-            Model("Carretto_Filip", parent, pos, 90f, 1.15f, true, "Carretto");
+            Model("Carretto_Filip", parent, pos, 90f, 1.05f, true, "Carretto"); // R007 t2: 1,05 (era 1,15) per non incastrarsi tra facciata e tavolini
         }
 
         static void Bucket(Transform parent, Vector3 pos)
@@ -696,7 +748,8 @@ namespace TrenoBambini.EditorTools
             fr.Box(kb, -0.4f, 0.4f, -0.04f, -0.01f, 1.2f, 2.7f, 1, 1f, 0);
             var mesh = kb.Build(KitName("Edicola"));
             MeshObject(parent, "Edicola", mesh, new[] { "M_ArenariaBlocchi", "M_LegnoDipintoBlu" }, true);
-            Prim(PrimitiveType.Capsule, "EdicolaStatuetta", parent, fr.W(-0.05f, -0.12f, 1.6f), new Vector3(0.12f, 0.22f, 0.12f), "Cera", null, false);
+            // R007 t2: statuetta della Madonna (modello vero, 0,9 m) scalata a 0,45 m per le edicole piccole; la base appoggia sul ripiano a 1,38 m
+            Model("MadonnaStatuetta", parent, fr.W(-0.05f, -0.17f, 1.38f), Mathf.Atan2(fr.n.x, fr.n.z) * Mathf.Rad2Deg, 0.5f, false, "EdicolaStatuetta");
             Model("Candela", parent, fr.W(0.32f, -0.2f, 1.2f), 0f, 1.0f, false, "EdicolaCandela");
             Prim(PrimitiveType.Sphere, "EdicolaLumino", parent, fr.W(0.32f, -0.2f, 1.33f), new Vector3(0.05f, 0.08f, 0.05f), "Glow", null, false);
         }
@@ -711,6 +764,10 @@ namespace TrenoBambini.EditorTools
         {
             string[] subs = { plaster, dado, "M_LegnoVernicePelata", "Finestra", "M_FerroRuggine02", trim };
             var kb = new KitBuilder(subs);
+            kb.SubFisso = 0;
+            int hn = 0; foreach (char ch in name) hn += ch;
+            float dofs = ((fr.AxisU == 0 ? 0 : 1) + (hn % 2) * 2) * PassoFascia; // pareti che si incontrano a spigolo (assi diversi) o in linea (nome diverso): dado a quote diverse (niente facce superiori complanari)
+            kb.ProteggiTestate(fr.AxisU, fr.AxisU == 0 ? fr.W(0, 0, 0).x : fr.W(0, 0, 0).z, fr.AxisU == 0 ? fr.W(len, 0, 0).x : fr.W(len, 0, 0).z);
             ShellPieces(kb, fr, len, 0f, h, thick, new List<WallOpening>(ops), 0, TileWall, true, false, false);
             // zoccolo (interrotto dalle porte)
             float cursor = 0f;
@@ -726,8 +783,8 @@ namespace TrenoBambini.EditorTools
             if (len > cursor) gaps.Add(new Vector2(cursor, len));
             foreach (var g in gaps)
             {
-                fr.Box(kb, g.x, g.y, -0.03f, 0.02f, 0f, dadoH, 1, TileWall, 8 | 16);
-                fr.Box(kb, g.x, g.y, -0.045f, 0.02f, dadoH, dadoH + 0.05f, 5, TileStone, 8);
+                Trim(kb, fr, len, g.x, g.y, -0.03f, 0.02f, 0f, dadoH + dofs, 1, TileWall, 8 | 16);
+                Trim(kb, fr, len, g.x, g.y, -0.045f, 0.02f, dadoH + dofs, dadoH + 0.05f + dofs, 5, TileStone, 8);
             }
             fr.Box(kb, -0.02f, len + 0.02f, -0.02f, thick + 0.02f, h, h + 0.1f, 5, TileStone, 16);
 
@@ -735,12 +792,12 @@ namespace TrenoBambini.EditorTools
             {
                 bool isDoor = o.y0 < 0.01f;
                 // stipiti e architrave in legno
-                fr.Box(kb, o.U0 - 0.08f, o.U0, -0.04f, 0.28f, o.y0, o.y1, 2, TileWood, isDoor ? 16 : 0);
-                fr.Box(kb, o.U1, o.U1 + 0.08f, -0.04f, 0.28f, o.y0, o.y1, 2, TileWood, isDoor ? 16 : 0);
-                fr.Box(kb, o.U0 - 0.08f, o.U1 + 0.08f, -0.04f, 0.28f, o.y1, o.y1 + 0.1f, 2, TileWood, 0);
+                fr.Box(kb, o.U0 - 0.08f, o.U0 + Riporto, -0.04f, 0.28f, o.y0, o.y1, 2, TileWood, isDoor ? 16 : 0);
+                fr.Box(kb, o.U1 - Riporto, o.U1 + 0.08f, -0.04f, 0.28f, o.y0, o.y1, 2, TileWood, isDoor ? 16 : 0);
+                fr.Box(kb, o.U0 - 0.08f, o.U1 + 0.08f, -0.04f, 0.28f, o.y1 - Riporto, o.y1 + 0.1f, 2, TileWood, 0);
                 if (!isDoor)
                 {
-                    fr.Box(kb, o.U0 - 0.1f, o.U1 + 0.1f, -0.1f, 0.28f, o.y0 - 0.06f, o.y0, 2, TileWood, 0);
+                    fr.Box(kb, o.U0 - 0.1f, o.U1 + 0.1f, -0.1f, 0.28f, o.y0 - 0.06f, o.y0 + Riporto, 2, TileWood, 0);
                     // vetro e traversi
                     if (glassPane) fr.Box(kb, o.U0, o.U1, 0.2f, 0.23f, o.y0, o.y1, 3, 2f, 0);
                     float midU = (o.U0 + o.U1) * 0.5f, midY = (o.y0 + o.y1) * 0.5f;
@@ -767,6 +824,17 @@ namespace TrenoBambini.EditorTools
                 pezzo(cu, o.U0, 0f, h);
                 pezzo(o.U0, o.U1, 0f, o.y0);
                 pezzo(o.U0, o.U1, o.y1, h);
+                if (o.y0 > 0.01f)
+                {
+                    // R018: la finestra e' chiusa dal vetro (collider su un figlio dedicato): la camera non esce dalla stanza.
+                    // Al giocatore non cambia nulla, il davanzale e' a 1,1 m.
+                    Vector3 vc, vs;
+                    fr.Bounds(o.U0, o.U1, 0, thick, o.y0, o.y1, out vc, out vs);
+                    var vetro = new GameObject("VetroFinestraCamera");
+                    vetro.transform.SetParent(go.transform, false);
+                    var vb = vetro.AddComponent<BoxCollider>();
+                    vb.center = vc; vb.size = vs;
+                } // R018: la finestra e' chiusa dal vetro: la camera non esce dalla stanza (al giocatore non cambia nulla, il davanzale e' a 1,1 m)
                 cu = o.U1;
             }
             pezzo(cu, len, 0f, h);

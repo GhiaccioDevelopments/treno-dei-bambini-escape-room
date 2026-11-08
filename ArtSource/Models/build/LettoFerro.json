@@ -1,0 +1,27 @@
+{
+ "nome": "LettoFerro",
+ "cartella": "LettoFerro",
+ "sorgente": "LettoFerro_alt_KuuttiMetalBed",
+ "materiali": [
+  "Material.001"
+ ],
+ "tri": [
+  3422,
+  1710,
+  855
+ ],
+ "tri_originali": 3422,
+ "dim": [
+  0.825,
+  2.0,
+  0.667
+ ],
+ "texture": {
+  "Material.001": {
+   "albedo": "Material_001_albedo.jpg",
+   "normal": "Material_001_normal.jpg",
+   "mask": "Material_001_mask.png",
+   "levigatezza": 0.3
+  }
+ }
+}

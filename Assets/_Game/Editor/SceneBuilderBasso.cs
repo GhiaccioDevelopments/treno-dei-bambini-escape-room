@@ -5,6 +5,7 @@ using System.Text;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using TrenoBambini.Player;
 using TrenoBambini.World;
 
 namespace TrenoBambini.EditorTools
@@ -368,7 +369,7 @@ namespace TrenoBambini.EditorTools
             var cassaB = Model("CassaLegno", props, new Vector3(-4.1f, 0f, -0.6f), 90f, 1.2f, true, "Cassa");
             var cassaT = Model("CassaLegno", props, new Vector3(-4.1f, 0.43f, -0.6f), 78f, 1.0f, true, "Cassa");
             Impila(cassaT, cassaB, Vector2.zero);
-            Pz(props, "PilaMaterassi", "B_PilaMaterassi", new[] { "M_TessutoLino", "PannoBeige", "PannoTerra" }, PilaMaterassi, new Vector3(-4.2f, 0f, -1.9f), 90f);
+            Pz(props, "PilaMaterassi", "B_PilaMaterassi", new[] { "PannoBeige", "PannoGrigio", "PannoTerra" }, PilaMaterassi, new Vector3(-4.2f, 0f, -1.9f), 90f);
             var credenza = Pz(props, "Credenza", "B_Credenza", new[] { "M_LegnoVernicePelata", "M_FerroRuggine02", "Cera" }, Credenza, new Vector3(-4.2f, 0f, 1.5f), 90f);
             var lampCredenza = Model("LampadaPetrolio_B", props, new Vector3(-4.2f, 0.96f, 1.2f), 0f, 1.3f, false, "LampadaCredenza");
             Impila(lampCredenza, credenza, new Vector2(0f, -0.3f));
@@ -376,6 +377,7 @@ namespace TrenoBambini.EditorTools
             Cavaliere(fiammaCredenza, credenza);
             var sveglia = Pz(props, "SvegliaRotta", "B_SvegliaRotta", new[] { "M_FerroRuggine02", "Cera" }, SvegliaRotta, new Vector3(0f, 0.96f, 0f), 90f, false);
             Impila(sveglia, credenza, new Vector2(0f, 0.2f));
+            sveglia.transform.position += Vector3.up * 0.02f; // R007 t2: il modello della credenza e' un solido: la sveglia sta 2 cm sopra, senza compenetrazione
             Cavaliere(sveglia, credenza);
             Sacco(props, new Vector3(3.9f, 0f, 2.9f), 20f);
 
@@ -390,7 +392,7 @@ namespace TrenoBambini.EditorTools
                 fr.Box(kb, -0.55f, 0.55f, -0.3f, 0f, 1.0f, 1.07f, 2, TileWood, 0);
                 fr.Box(kb, -0.4f, -0.34f, -0.26f, -0.04f, 0.4f, 1.0f, 2, TileWood, 0);
                 fr.Box(kb, 0.34f, 0.4f, -0.26f, -0.04f, 0.4f, 1.0f, 2, TileWood, 0);
-                MeshObject(props, "Altarino", kb.Build(KitName("Altarino")), kb.matNames, false);
+                MeshObject(props, "Altarino", kb.Build(KitName("Altarino")), kb.matNames, true); // R018: collider (era l'unico mobile alto senza)
                 Prim(PrimitiveType.Capsule, "StatuettaAltarino", props, fr.W(-0.05f, -0.1f, 1.38f), new Vector3(0.1f, 0.2f, 0.1f), "Cera", null, false);
                 Model("Candela", props, fr.W(0.22f, -0.15f, 1.07f), 0f, 1.0f, false, "CeroAltarino");
                 Prim(PrimitiveType.Sphere, "LuminoAltarino", props, fr.W(0.22f, -0.15f, 1.2f), new Vector3(0.05f, 0.08f, 0.05f), "Glow", null, false);
@@ -429,7 +431,7 @@ namespace TrenoBambini.EditorTools
             // ---------------------------------------------------------------- alcova
             var letto = Pz(props, "LettoFerro", "B_LettoFerro", new[] { "M_FerroRuggine02", "M_TessutoLino", "Tessuto1" }, LettoFerro, new Vector3(-3.85f, 0f, 6.8f), 0f);
             letto.transform.localScale = new Vector3(0.86f, 1f, 1f); // letto da una piazza e mezza: lascia un corridoio di 90 cm
-            Pz(props, "MaterassoTerra", "B_MaterassoTerra", new[] { "M_TessutoLino", "PannoBeige", "PannoTerra" }, MaterassoTerra, new Vector3(-1.95f, 0f, 6.8f), 0f, false);
+            Pz(props, "MaterassoTerra", "B_MaterassoTerra", new[] { "PannoGrigio", "PannoBeige", "PannoTerra" }, MaterassoTerra, new Vector3(-1.95f, 0f, 6.8f), 0f, false);
             var baule = Model("CassaLegno", props, new Vector3(-3.95f, 0f, 4.5f), 0f, 1.3f, true, "BauleAlcova");
             Candela(props, "Alcova", new Vector3(-3.95f, 0.45f, 4.5f), baule);
             Model("SecchioLegno", props, new Vector3(-1.8f, 0f, 4.4f), 0f, 1.1f, true, "SecchioNotte");
@@ -446,7 +448,12 @@ namespace TrenoBambini.EditorTools
             // pentole appese a un'asse sulla parete est
             Appeso(props, "Appeso_AsseePentole", new Vector3(4.46f, 1.75f, 5.7f), new Vector3(0.05f, 0.05f, 1.8f), "M_LegnoVernicePelata");
             for (int i = 0; i < 5; i++)
-                Cyl("Appeso_Pentola" + i, props, new Vector3(4.34f, 1.6f - (i % 2) * 0.08f, 4.95f + i * 0.35f), 0.2f + (i % 3) * 0.03f, 0.14f, "M_FerroRuggineGrossa", new Vector3(0f, 0f, 90f), false);
+            {
+                // R007 t2: pentole e padelle di rame (modelli veri) con l'apertura verso la stanza: ruotate di 90 gradi attorno a z
+                string mod = i % 3 == 2 ? "PadellaRame/PadellaRame.fbx" : "PentolaRame/PentolaRame.fbx";
+                var pg = ModelloIst(mod, props, new Vector3(4.40f, 1.6f - (i % 2) * 0.08f, 4.85f + i * 0.40f), 0f, Vector3.one, false, "Appeso_Pentola" + i, 0.03f);
+                pg.transform.localRotation = Quaternion.Euler(0f, 0f, 90f);
+            }
             Pz(props, "BacinellaCucina", "B_BacinellaTreppiede", new[] { "M_FerroRuggine02", "M_SecchioMetallo" }, kb =>
             {
                 foreach (var a in new[] { 0f, 120f, 240f })
@@ -459,7 +466,7 @@ namespace TrenoBambini.EditorTools
             Model("SecchioLegno", props, new Vector3(4.2f, 0f, 5.2f), 20f, 1.1f, true, "SecchioAcqua");
             Model("SecchioMetallo", props, new Vector3(4.15f, 0f, 6.0f), 0f, 1.1f, true, "SecchioAcqua");
             Model("CestaVimini", props, new Vector3(1.9f, 0f, 4.5f), 0f, 1.3f, true, "CestaPanni");
-            Appeso(props, "Cartello_Strofinaccio", new Vector3(4.47f, 1.1f, 4.2f), new Vector3(0.03f, 0.4f, 0.28f), "PannoBianco");
+            Appeso(props, "Cartello_Strofinaccio", new Vector3(4.455f, 1.1f, 4.2f), new Vector3(0.03f, 0.4f, 0.28f), "PannoBianco");
 
             // ---------------------------------------------------------------- cortile sul retro
             Pezzo(props, "Lavatoio", "Lavatoio", new[] { "M_ArenariaBlocchi", "Acqua", "M_FerroRuggine02" }, Lavatoio, new Vector3(1.7f, 0f, 11.5f), 90f, 0.02f);
@@ -477,7 +484,7 @@ namespace TrenoBambini.EditorTools
             Bacinella(props, new Vector3(2.4f, 0f, 9.3f));
             Sedia(props, new Vector3(5.5f, 0f, 10.9f), 200f);
             Pezzo(props, "Bicicletta", "Bicicletta", new[] { "M_FerroRuggine02", "Cuoio", "SuolaScarpa" }, Bicicletta, new Vector3(4.4f, 0f, 11.3f), 0f, 0.03f);
-            Model("ScalaLegno", props, new Vector3(1.62f, 0f, 9.4f), -90f, 1.5f, false, "ScalaLegno");
+            Model("ScalaLegno", props, new Vector3(1.62f, 0f, 9.4f), -90f, 1.5f, true, "ScalaLegno"); // R017: scala appoggiata al muro, e' un ostacolo (prima senza collider: Amerigo l'attraversava)
             Model("SecchioMetallo", props, new Vector3(4.0f, 0f, 10.0f), 0f, 1.1f, true, "Secchio");
             // porta chiusa sul retro del cortile (segreto)
             DoorLeaf(props, "PortaRetro", new WallFrame(new Vector3(1.2f, 0f, 14.1f), Vector3.right, Vector3.back), 2.5f, 0.08f, 0.2f, 1.0f, 2.15f, 0.25f);
@@ -486,7 +493,7 @@ namespace TrenoBambini.EditorTools
             // soffitto del basso (R006 tappa 4): lastra sopra stanza, alcova, blocco e cucina (il cortile resta a cielo aperto) con travi a vista.
             // Il nome "MuroSoffitto" lo mette sul layer VistaLibera: WallFader lo nasconde solo quando sta fra la camera e Amerigo
             // (camera sopra il soffitto); con la camera sotto la volta il soffitto si vede.
-            Box("MuroSoffittoStanza", env, new Vector3(0f, H + 0.075f, 2.65f), new Vector3(9.6f, 0.15f, 10.9f), PL, null, true);
+            Box("MuroSoffittoStanza", env, new Vector3(0f, H + 0.075f, 2.63f), new Vector3(9.6f, 0.15f, 10.86f), PL, null, true);
             foreach (float zt in new[] { -2.0f, -0.5f, 1.0f, 2.5f })
                 Box("AppesoTraveStanza", props, new Vector3(0f, H - 0.1f, zt), new Vector3(8.95f, 0.2f, 0.2f), "M_LegnoVernicePelata", null, false);
             foreach (float zt in new[] { 5.0f, 6.8f })
@@ -524,10 +531,39 @@ namespace TrenoBambini.EditorTools
 
             SegretiBasso();
             SetStatic(env.gameObject);
+            PredisponiSicurezza(true); // R017
 
             var cam = MakeCamera("Main Camera", Vector3.zero, Quaternion.identity, new Color(0.10f, 0.07f, 0.05f), true);
             BuildPlayer(new Vector3(0f, 0.05f, -1.7f), 0f, cam, CamProfilo.InternoPiccoloAdulto, true); // il basso e' nel presente: Amerigo adulto
+            CreaVolumiCamera();
+            PreparaInterniDissolvibili(scene); // R018
             SaveScene(scene, "20_Int_BassoAntonietta");
+        }
+
+        /// <summary>
+        /// R018: profili camera per stanza (CameraProfileVolume). Il volume piu' piccolo che contiene il giocatore vince.
+        /// Stanza principale = profilo della scena; alcova e cucina (3 m di larghezza): orbita ridotta e campo visivo piu' ampio;
+        /// cortile (aperto, pareti da 4,2 m): orbita leggermente ridotta.
+        /// </summary>
+        static void CreaVolumiCamera()
+        {
+            var root = new GameObject("VolumiCamera").transform;
+            VolumeCamera(root, "CamVol_Stanza", new Vector3(0f, 1.5f, 0.5f), new Vector3(9f, 3f, 6f), 1f, 0f, -0.7f, 1f);
+            VolumeCamera(root, "CamVol_Alcova", new Vector3(-3f, 1.5f, 5.55f), new Vector3(3f, 3f, 4.5f), 0.8f, 62f, -0.5f, 0.8f);
+            VolumeCamera(root, "CamVol_Cucina", new Vector3(3f, 1.5f, 5.8f), new Vector3(3f, 3f, 5f), 0.8f, 62f, -0.5f, 0.8f);
+            VolumeCamera(root, "CamVol_Cortile", new Vector3(3.75f, 2.1f, 11.1f), new Vector3(5.1f, 4.2f, 6f), 0.9f, 58f, -0.6f, 1f);
+        }
+
+        static void VolumeCamera(Transform parent, string nome, Vector3 centro, Vector3 dim, float scala, float fov, float pMin, float pMax)
+        {
+            var go = new GameObject(nome);
+            go.transform.SetParent(parent, false);
+            go.transform.position = centro;
+            var bc = go.AddComponent<BoxCollider>();
+            bc.size = dim; bc.isTrigger = true;
+            var v = go.AddComponent<CameraProfileVolume>();
+            v.scalaOrbita = scala; v.fov = fov; v.pitchMin = pMin; v.pitchMax = pMax;
+            v.dissolviMuri = true; // R018: nel basso muri, pareti e porte si dissolvono; soffitto e pavimento restano solidi
         }
 
         static void SegretiBasso()

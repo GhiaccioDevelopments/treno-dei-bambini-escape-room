@@ -1,0 +1,34 @@
+{
+ "nome": "PanchinaPopolare",
+ "cartella": "PanchinaPopolare",
+ "sorgente": "",
+ "materiali": [
+  "PietraPanchina",
+  "LegnoPanchina"
+ ],
+ "tri": [
+  520,
+  260,
+  130
+ ],
+ "tri_originali": 520,
+ "dim": [
+  1.8,
+  0.408,
+  0.46
+ ],
+ "texture": {
+  "PietraPanchina": {
+   "albedo": "PietraPanchina_albedo.jpg",
+   "normal": "PietraPanchina_normal.jpg",
+   "mask": "PietraPanchina_mask.png",
+   "levigatezza": 0.3
+  },
+  "LegnoPanchina": {
+   "albedo": "LegnoPanchina_albedo.jpg",
+   "normal": "LegnoPanchina_normal.jpg",
+   "mask": "LegnoPanchina_mask.png",
+   "levigatezza": 0.3
+  }
+ }
+}

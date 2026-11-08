@@ -239,3 +239,5 @@ Storia:
 - Referendum e via Medina (da risultati di ricerca): https://www.avvenire.it/agora/cultura/e-litalia-grido-repubblica_24232 , https://www.panorama.it/news/70-anni-della-repubblica-e-litalia-del-1946 , https://www.agi.it/cultura/news/2026-06-10/addio-italia-umberto-ii-37466039/ , https://www.startmag.it/?p=109908
 - G7 Napoli 1994: https://g7.utoronto.ca/summit/1994naples/index.html ; https://www.iai.it/it/node/5116
 - Legge 184/1983: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:1983-05-04;184 (riferimento noto, pagina non aperta)
+
+- Verifiche storiche per i testi dei capitoli: Docs/VERIFICHE_STORICHE.md (2026-11-07)

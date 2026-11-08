@@ -5,6 +5,26 @@ Regole d'uso: vedi la sezione "Diario e lavoro su più PC" in `CLAUDE.md`.
 
 ---
 
+## 2026-11-08 – PC casa – R022, R017, R018, R007 (con R021) integrate, gioco online aggiornato
+**Branch:** feature/upgrade-realistico · **Ultimo commit:** 38a2796 (+ questa voce) · **gh-pages:** e88ad1b
+### Fatto
+- **R022 corsa** (PR #24): causa = posa di riferimento della clip presa dal fotogramma 0 (busto inclinato di 30°, piede destro ribaltato). Clip riesportata con Blender headless (`ArtSource/Characters/riesporta_clip_gerarchia.py`) e menu **Treno ▸ Personaggi ▸ Applica importer clip Amerigo**. Corsa simmetrica e dritta per adulto e bambino, approvata dall'utente.
+- **R017 mappe pulite** (PR #19): strumento **Treno ▸ Verifica ▸ Superfici e buchi**, profili a 12 mm (tengono anche su WebGL), giunti chiusi, piano di sicurezza e kill-plane con ritorno allo spawn. Superfici sovrapposte visibili: da 244 a 1 (preesistente, nel Titolo). Buchi: 0.
+- **R018 telecamera** (PR #20): `CameraGuard`, profili camera per stanza, prova **Treno ▸ Verifica ▸ Camera** (10.044 pose, 0 errori). Regola: esterni = la camera si avvicina; interni del basso = i muri tra camera e Amerigo si dissolvono; soffitti e pavimenti sempre solidi; inclinazione massima 50°.
+- **R007 + R021 grafica** (PR #9, #23 chiusa): look "pellicola neorealista" (grana, alone, curva da stampa; ricordi in seppia con tremolio, polvere e graffi rari; profilo 1994 pronto), 20 modelli 3D veri (CC0/CC-BY in CREDITS.md o fatti in Blender), panni stesi vissuti, decal di umidità, manifesti del referendum, puntelli. Pioggia nell'hub e nel cortile del basso (`meteo` in luoghi.json), basoli bagnati e pozzanghere, audio ovattato negli interni. Benchmark (`-benchmark`): Alta da 620 a 950 FPS su RTX 4060 Ti.
+- Nuova richiesta **R023** (PR #25): menu iniziale e inventario rifatti (dopo R008).
+- Schemi di R020, R011 e R012–R016 approvati dall'utente (15 decisioni); verifiche storiche in `Docs/VERIFICHE_STORICHE.md`; nomi dei vicoli di R019 proposti (Via Roma già Toledo, Vico Lungo Gelso, Speranzella…).
+- Build WebGL (58 MB) pubblicata su gh-pages: si carica fino al titolo.
+### Decisioni
+- Interni con muri che si dissolvono; pentole di rame; R021 fusa in R007; peso LFS da ridurre (texture 1K, lightmap ridotte, un bake per tappa).
+### Problemi aperti
+- **LFS ~816 MB su 1 GB**: avvisare l'utente prima di superare 850 MB.
+- WebGL misurato a 24 FPS solo sul titolo in Chrome automatizzato: da rimisurare su un PC vero (obiettivo 30).
+- Non fatti in R007: piperno e basoli fotogrammetrici, scrostature a più strati, tuoni, gocce da soffitto e grondaie; decal assenti su Bassa/WebGL; uccellini molto semplici.
+- Da provare dall'utente: pioggia in movimento, piedi e passi della corsa, scatti della camera, crash intermittente dei decal di URP cambiando preset (corretto con l'instancing, da tenere d'occhio).
+- Merge di `feature/upgrade-realistico` su `main` e tag v0.2: dopo la prova dell'utente.
+### Prossimi passi
+- Prova dell'utente, poi R008 → R023 → R009+R020 (con R010) → R019 → R011 → R012…R016.
 ## 2026-11-07 – PC casa – Schemi di enigmi e capitoli approvati
 **Branch:** feature/upgrade-realistico · **Ultimo commit:** 00bc800 (questa voce è nel commit successivo)
 ### Fatto
