@@ -177,16 +177,16 @@ namespace TrenoBambini.UI
         {
             righe.Insert(1, new Riga
             {
-                nome = "Enigmi semplificati",
-                spiega = "Gli enigmi si risolvono con pannelli piatti invece della vista ravvicinata in 3D. Utile alla LIM e a chi preferisce comandi più semplici.",
-                testo = () => TrenoBambini.Core.GameManager.I != null && TrenoBambini.Core.GameManager.I.Save.enigmiSemplificati ? "Sì" : "No",
+                nome = GameData.UiMenu.enigmiImp.semplificatiNome,
+                spiega = GameData.UiMenu.enigmiImp.semplificatiSpiega,
+                testo = () => TrenoBambini.Core.GameManager.I != null && TrenoBambini.Core.GameManager.I.Save.enigmiSemplificati ? GameData.UiMenu.enigmiImp.si : GameData.UiMenu.enigmiImp.no,
                 passo = dir => { var g = TrenoBambini.Core.GameManager.I; if (g != null) { g.Save.enigmiSemplificati = !g.Save.enigmiSemplificati; g.SaveGame(); } }
             });
             righe.Insert(2, new Riga
             {
-                nome = "Evidenzia oggetti interattivi",
-                spiega = "Un brillio leggero sugli oggetti da esaminare negli enigmi. Spento di default: di norma si riconoscono dalla luce e dal messaggio «Esamina».",
-                testo = () => TrenoBambini.Core.GameManager.I != null && TrenoBambini.Core.GameManager.I.Save.evidenziaInterattivi ? "Sì" : "No",
+                nome = GameData.UiMenu.enigmiImp.evidenziaNome,
+                spiega = GameData.UiMenu.enigmiImp.evidenziaSpiega,
+                testo = () => TrenoBambini.Core.GameManager.I != null && TrenoBambini.Core.GameManager.I.Save.evidenziaInterattivi ? GameData.UiMenu.enigmiImp.si : GameData.UiMenu.enigmiImp.no,
                 passo = dir => { var g = TrenoBambini.Core.GameManager.I; if (g != null) { g.Save.evidenziaInterattivi = !g.Save.evidenziaInterattivi; g.SaveGame(); } }
             });
         }

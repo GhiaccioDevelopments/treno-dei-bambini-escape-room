@@ -70,8 +70,8 @@ namespace TrenoBambini.Puzzles
         public void Aggiorna()
         {
             string t = !string.IsNullOrEmpty(def.prompt) ? def.prompt : def.titolo;
-            if (Risolto) prompt = "Già esaminato: " + t;
-            else prompt = "Esamina: " + t;
+            if (Risolto) prompt = string.Format(GameData.TestiEnigmi.esaminato, t);
+            else prompt = string.Format(GameData.TestiEnigmi.esamina, t);
         }
 
         public override string GetPrompt() { Aggiorna(); return prompt; }
@@ -86,7 +86,7 @@ namespace TrenoBambini.Puzzles
             }
             if (!MondoStato.HaTutti(def.richiede))
             {
-                UIRoot.I.Toast(!string.IsNullOrEmpty(def.bloccatoMsg) ? def.bloccatoMsg : "Non è ancora il momento: guardati attorno, ti manca qualcosa.", 4f);
+                UIRoot.I.Toast(!string.IsNullOrEmpty(def.bloccatoMsg) ? def.bloccatoMsg : GameData.TestiEnigmi.bloccato, 4f);
                 return;
             }
 
@@ -115,7 +115,7 @@ namespace TrenoBambini.Puzzles
                 var d2 = Semplificato(mec);
                 if (d2 != null && PuzzlePanel.Open(d2, OnSolved) != null) return;
             }
-            if (EsaminaView.Apri(def, OnSolved) == null) UIRoot.I.Toast("Questo enigma non è ancora disponibile.");
+            if (EsaminaView.Apri(def, OnSolved) == null) UIRoot.I.Toast(GameData.TestiEnigmi.nonDisponibile);
         }
 
         /// <summary>Versione 2D: stessa soluzione con un pannello classico (lucchetto, ordina, quiz).</summary>
@@ -135,8 +135,9 @@ namespace TrenoBambini.Puzzles
         {
             UltimoProgresso = Time.time;
             MondoStato.Completa(def, chiave);
-            if (def.produce != null) foreach (var p in def.produce) MondoStato.Annuncia(p);
-            if (!string.IsNullOrEmpty(def.appunto) && UIRoot.I != null) UIRoot.I.Toast("Nel quaderno: " + def.appunto, 5f);
+            // un solo annuncio: l'appunto se c'e', altrimenti il primo oggetto prodotto
+            if (!string.IsNullOrEmpty(def.appunto)) { if (UIRoot.I != null) UIRoot.I.Toast(string.Format(GameData.TestiEnigmi.quadernoFmt, def.appunto), 5f); }
+            else if (def.produce != null && def.produce.Count > 0) MondoStato.Annuncia(def.produce[0]);
             Aggiorna();
             if (glow != null) glow.on = false;
             var cb = alRisolto;
@@ -185,7 +186,7 @@ namespace TrenoBambini.Puzzles
                 EnigmaMondo.Crea(e, "mondo/" + e.id, radice.transform);
                 Sostituisci(sc, e.sostituisce);
             }
-            if (sc.name == "20_Int_BassoAntonietta") NascondiScarpeBasso(sc);
+            NascondiRicordi(sc);
         }
 
         /// <summary>Nasconde gli oggetti di scena che l'enigma rimpiazza (stesso posto, stesso ruolo, ora esaminabili).</summary>
@@ -199,13 +200,18 @@ namespace TrenoBambini.Puzzles
                     if (cerca.Contains(t.name) && t.GetComponentInParent<EnigmaMondo>() == null) t.gameObject.SetActive(false);
         }
 
-        /// <summary>Le scarpe appaiono (e si possono toccare) solo dopo che il baule e' stato aperto: fino ad allora il ricordo non si avvia da qui.</summary>
-        static void NascondiScarpeBasso(Scene sc)
+        /// <summary>L'oggetto-ricordo di un enigma con `finale` resta nascosto finche' l'enigma non e' risolto (o l'oggetto e' gia' nell'inventario).</summary>
+        static void NascondiRicordi(Scene sc)
         {
             var gm = GameManager.I;
-            if (gm == null || gm.Save.inventario.Contains("scarpe") || MondoStato.Risolto("mondo/enigma_baule")) return;
-            foreach (var p in UnityEngine.Object.FindObjectsByType<ItemPickup>(FindObjectsInactive.Include))
-                if (p.oggettoId == "scarpe") p.gameObject.SetActive(false);
+            if (gm == null) return;
+            foreach (var e in GameData.EnigmiMondo)
+            {
+                if (e.scena != sc.name || string.IsNullOrEmpty(e.finale)) continue;
+                if (gm.Save.inventario.Contains(e.finale) || MondoStato.Risolto("mondo/" + e.id)) continue;
+                foreach (var p in UnityEngine.Object.FindObjectsByType<ItemPickup>(FindObjectsInactive.Include))
+                    if (p.oggettoId == e.finale) p.gameObject.SetActive(false);
+            }
         }
     }
 }

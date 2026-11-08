@@ -1,4 +1,46 @@
 {
+ "testi": {
+  "guida": "Trascina: gira · Rotella: avvicina · Clic: usa · Tab e Invio: tastiera · Esc: esci",
+  "guidaTouch": "Trascina per girare l'oggetto · tocca le parti per usarle",
+  "btnIndizio": "Indizio",
+  "btnChiudi": "Chiudi",
+  "btnConsegna": "Consegna",
+  "btnAvanti": "Avanti",
+  "btnConferma": "Conferma",
+  "mestieri": "Mestieri:",
+  "gruppoFmt": "gruppo {0}: {1} giuste su {2}",
+  "deduzioneErrore": "Non tutte, ma ci sei vicino ({0}). Guarda meglio suole, chiodi, fango: le scarpe raccontano. Riprova!",
+  "domandaFmt": "Domanda {0} di {1}: {2}  (tocca la riga giusta in uno dei fogli)",
+  "esatto": "Esatto!",
+  "prossima": "Prossima:",
+  "inMano": "In mano: {0}. Tocca la parte dove usarlo.",
+  "manoLabel": "In mano",
+  "serveQualcosa": "Ti serve qualcosa per questo: cerca ancora.",
+  "nonCalzaNome": "Non calza: {0} non è per questo. Guarda meglio la forma e riprova.",
+  "nonCalza": "Non calza: riprova con un altro oggetto.",
+  "prendiPrimaGiusto": "Prendi prima in mano l'oggetto giusto (in alto a destra).",
+  "prendiPrima": "Prendi prima in mano un oggetto (in alto a destra).",
+  "dritta": "Ecco, ora sta dritta.",
+  "quasiDritta": "Si raddrizza piano piano... ancora un po'.",
+  "calza": "Ci sta a pennello.",
+  "lucchettoApre": "Clic! Si apre.",
+  "lucchettoNo": "Il lucchetto non cede. Rileggi gli indizi e riprova.",
+  "erroreGenerico": "Non è ancora quello giusto, ma non preoccuparti: guarda meglio e riprova.",
+  "erroreOrdine": "Non è l'ordine giusto: le assi tornano su. Guarda di nuovo il cartoncino e riprova.",
+  "nessunIndizio": "Per questo enigma non ci sono indizi: guarda con calma l'oggetto.",
+  "indizioFmt": "Indizio {0}/{1}: {2}",
+  "educazione": "Educazione civica:",
+  "completo": "Enigma risolto!",
+  "esaminato": "Già esaminato: {0}",
+  "esamina": "Esamina: {0}",
+  "bloccato": "Non è ancora il momento: guardati attorno, ti manca qualcosa.",
+  "nonDisponibile": "Questo enigma non è ancora disponibile.",
+  "quadernoFmt": "Nel quaderno: {0}",
+  "quadernoOggettoFmt": "Nel quaderno: {0}",
+  "porta": "Apri la porta",
+  "portaChiusa": "Questa porta è chiusa a chiave.",
+  "entraFmt": "Entra: {0}"
+ },
  "enigmi": [
   {
    "id": "enigma_bucato",
@@ -395,7 +437,7 @@
    "yaw": -90,
    "scala": 0.62,
    "prompt": "gli ex-voto d'argento",
-   "scheda": "Gli ex-voto sono doni offerti in segno di gratitudine per una grazia: se ne vedono ancora in tanti santuari. Quello a forma di piede ricorda quanto contasse camminare, e curarsi, per chi non poteva pagare un medico. Oggi la Repubblica tutela la salute come diritto di tutti e garantisce cure gratuite agli indigenti (art. 32).",
+   "scheda": "Un ex-voto è un oggetto offerto a Dio, alla Madonna o a un santo in segno di gratitudine per una grazia ricevuta: se ne vedono ancora in tanti santuari, a volte a forma della parte del corpo guarita. Nel gioco sono d'argento, e quello a forma di piede ricorda quanto contasse camminare, e curarsi, per chi non poteva pagare un medico. Oggi la Repubblica tutela la salute come diritto di tutti e garantisce cure gratuite agli indigenti (art. 32).",
    "appunto": "La chiave di casa era dietro l'ex-voto a forma di piede.",
    "soluzione": [
     "gira_piede",
@@ -675,7 +717,7 @@
    "yaw": 0,
    "sostituisce": "Cartello_Bacheca",
    "prompt": "la bacheca dei manifesti",
-   "scheda": "I treni della felicità: tra il 1945 e il 1952 circa 70.000 bambini del Sud e del Centro furono ospitati da famiglie dell'Emilia-Romagna, della Toscana e di altre regioni del Nord. Il primo convoglio partì da Milano il 16 dicembre 1945. Fu una grande prova di solidarietà tra italiani.",
+   "scheda": "I treni della felicità: tra il 1945 e il 1952 circa 70.000 bambini del Sud e del Centro furono ospitati da famiglie del Centro-Nord. Il primo convoglio partì da Milano il 16 dicembre 1945. Fu una grande prova di solidarietà tra italiani.",
    "appunto": "Sulla bacheca, sotto due manifesti: l'avviso del Comitato per i treni dei bambini.",
    "soluzione": [
     "strappa_1",
@@ -1734,14 +1776,14 @@
    "id": "enigma_baule",
    "tipo": "oggetto",
    "titolo": "Il baule dell'alcova",
-   "consegna": "Il baule ai piedi del letto è chiuso a chiave. La chiavetta lo apre: la coperta buona, e sotto, forse qualcosa di più.",
+   "consegna": "Il baule ai piedi del letto è chiuso a chiave. La chiavetta lo apre: la coperta buona, e sotto, forse qualcosa che Antonietta non ha mai voluto lasciare.",
    "temaCivico": "Famiglia e doveri verso i figli (Costituzione, art. 30)",
    "indizi": [
     "Il baule è più basso dentro che fuori.",
     "Le assi del fondo hanno gli stessi disegni del cartoncino.",
     "Premi le assi nell'ordine del cartoncino: scarpa, croce, treno."
    ],
-   "spiegazione": "Sotto la coperta buona c'era un doppio fondo: premute nell'ordine giusto le assi si sollevano e rivelano una scatolina con un paio di scarpe. Antonietta le teneva da parte per Amerigo.",
+   "spiegazione": "Sotto la coperta buona c'era un doppio fondo: premute nell'ordine giusto le assi si sollevano e rivelano una scatolina. Dentro, le scarpe del viaggio: il primo paio che Amerigo ebbe, partendo col treno, e che Antonietta ha conservato per tutta la vita. Ritrovarle, tanti anni dopo, è come ritrovare lei.",
    "erroreMsg": "Non è questo, ma non preoccuparti: guarda meglio e riprova.",
    "scena": "20_Int_BassoAntonietta",
    "meccanismo": "oggetto",
@@ -1758,7 +1800,7 @@
    ],
    "bloccatoMsg": "Il baule è chiuso a chiave. La chiave deve essere nascosta da qualche parte, in casa.",
    "scheda": "I legami tra una madre e un figlio non hanno bisogno di parole scritte. La Costituzione riconosce ai genitori il dovere e il diritto di mantenere, istruire ed educare i figli (art. 30).",
-   "appunto": "Il baule aveva un doppio fondo: dentro, un paio di scarpe consumate tenuto da parte per Amerigo.",
+   "appunto": "Il baule aveva un doppio fondo: dentro, le scarpe del viaggio, il primo paio di Amerigo, che Antonietta ha conservato tutta la vita.",
    "soluzione": [
     "asse_scarpa",
     "asse_croce",
@@ -2064,7 +2106,7 @@
      "azione": "rivela",
      "evento": "apri_scatolina",
      "dopo": "-scatolina,g:scarpe",
-     "msg": "Una scatolina avvolta in un panno: dentro, un paio di scarpe."
+     "msg": "Una scatolina avvolta in un panno: dentro, un paio di scarpe vecchie e curate."
     },
     {
      "id": "scarpe_prendi",
@@ -2080,7 +2122,7 @@
      "azione": "prendi",
      "produce": "scarpe_trovate",
      "evento": "prendi_scarpe",
-     "msg": "Le scarpe di Amerigo, consumate ma tenute da parte con cura."
+     "msg": "Le scarpe del viaggio: il primo paio di Amerigo, avuto col treno. Antonietta le ha tenute con sé tutta la vita."
     },
     {
      "id": "scarpe_s",
@@ -2179,8 +2221,8 @@
   },
   {
    "id": "scarpe_trovate",
-   "nome": "Le scarpe di Amerigo",
-   "descrizione": "Un paio di scarpe consumate, tenute da parte con cura."
+   "nome": "Le scarpe del viaggio",
+   "descrizione": "Il primo paio di scarpe di Amerigo, avuto col treno: Antonietta le ha conservate tutta la vita."
   }
  ]
 }

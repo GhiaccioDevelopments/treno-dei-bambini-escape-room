@@ -52,6 +52,7 @@ namespace TrenoBambini.Core
             if (d.spawn == null) d.spawn = "";
             if (d.ritornoScena == null) d.ritornoScena = "";
             if (d.ritornoSpawn == null) d.ritornoSpawn = "";
+            TrenoBambini.Puzzles.MondoStato.Migra(d); // R020: gettoni mancanti dei salvataggi vecchi
             return d;
         }
 

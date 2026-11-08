@@ -619,7 +619,8 @@
      "nascosta": true
     }
    ],
-   "scala": 1
+   "scala": 1,
+   "completoMsg": "Portale ora alle forme del calzolaio: vediamo a chi calzano."
   },
   {
    "id": "enigma_quiz",
@@ -823,10 +824,10 @@
    "temaCivico": "Dalla guerra alla Repubblica: la nascita della Costituzione",
    "indizi": [
     "Parti dalla guerra: l'armistizio e la liberazione vengono prima del voto.",
-    "Il voto del 2 giugno 1946 precede la Costituzione, che è entrata in vigore nel 1948.",
-    "I treni dei bambini partono in un inverno dopo il referendum, ma prima della Costituzione."
+    "Il voto è il 2 e 3 giugno 1946; poi si riunisce l'Assemblea Costituente.",
+    "Dopo la prima seduta della Costituente (25 giugno) viene eletto il capo provvisorio dello Stato (28 giugno)."
    ],
-   "spiegazione": "Dalla caduta del fascismo alla Repubblica passano pochi anni di fame e ricostruzione. Il 2 giugno 1946 per la prima volta le donne votano a livello nazionale (alle amministrative di marzo avevano già votato), e il 1° gennaio 1948 entra in vigore la Costituzione. In mezzo ci sono i bambini del Sud ospitati dalle famiglie del Nord.",
+   "spiegazione": "Dalla guerra alla Repubblica: l'armistizio e le Quattro giornate di Napoli, la Liberazione, il voto del 2 e 3 giugno 1946, la prima seduta dell'Assemblea Costituente e, pochi giorni dopo, De Nicola capo provvisorio dello Stato. Sono i fatti che i giornali raccontavano nell'autunno del 1946.",
    "erroreMsg": "Non è ancora l'ordine giusto. Il pulsante Verifica ti dice quante carte sono al posto giusto: riprova.",
    "x": 3.1,
    "y": 1.6,
@@ -849,16 +850,16 @@
      "data": "25 aprile 1945"
     },
     {
-     "testo": "Referendum Monarchia-Repubblica e prima volta delle donne al voto nazionale",
-     "data": "2 giugno 1946"
+     "testo": "Referendum Monarchia-Repubblica e Assemblea Costituente: per la prima volta votano anche le donne a livello nazionale",
+     "data": "2-3 giugno 1946"
     },
     {
-     "testo": "Partono da Napoli i treni dei bambini verso il Nord",
-     "data": "inverno 1946-47"
+     "testo": "Prima seduta dell'Assemblea Costituente",
+     "data": "25 giugno 1946"
     },
     {
-     "testo": "Entra in vigore la Costituzione della Repubblica",
-     "data": "1° gennaio 1948"
+     "testo": "Enrico De Nicola eletto capo provvisorio dello Stato",
+     "data": "28 giugno 1946"
     }
    ],
    "coppie": [],
@@ -1031,7 +1032,7 @@
    ],
    "inclina": 0,
    "soluzione": [],
-   "scheda": "Dalla caduta del fascismo alla Repubblica passano pochi anni di fame e ricostruzione. Mettere in fila gli eventi aiuta a capire come si è arrivati alla Costituzione.",
+   "scheda": "Dalla caduta del fascismo alla Repubblica passano pochi anni di fame e ricostruzione. Mettere in fila gli eventi aiuta a capire come si è arrivati alla Costituzione, entrata in vigore il 1° gennaio 1948.",
    "scala": 1
   },
   {
@@ -1144,7 +1145,8 @@
      "msg": "Clic! Il lucchetto si apre."
     }
    ],
-   "scala": 1
+   "scala": 1,
+   "scheda": "Nel 1989 l'ONU adottò la Convenzione sui diritti dell'infanzia e dell'adolescenza (20 novembre), ratificata dall'Italia nel 1991: ciò che Amerigo, scalzo sul gradino, poteva solo sognare è oggi un diritto scritto."
   }
  ]
 }

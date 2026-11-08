@@ -96,7 +96,10 @@ namespace TrenoBambini.Puzzles
             if (lit == null) lit = Shader.Find("Universal Render Pipeline/Lit");
             var p = Preset(materiale);
             var c = Hex(colore, p.col);
-            m = new Material(lit) { name = "MP_" + key };
+            // il materiale di riferimento in Resources porta nella build le varianti URP Lit con _EMISSION (altrimenti l'evidenziazione sparirebbe nel player)
+            var rif = Resources.Load<Material>("Materiali/MP_Rif");
+            m = rif != null ? new Material(rif) : new Material(lit);
+            m.name = "MP_" + key;
             m.SetColor("_BaseColor", c);
             m.SetFloat("_Smoothness", p.smooth);
             m.SetFloat("_Metallic", p.metal);

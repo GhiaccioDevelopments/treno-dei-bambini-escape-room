@@ -57,6 +57,9 @@ namespace TrenoBambini.Puzzles
         // documenti
         int qDoc;
 
+        /// <summary>Preset Bassa e WebGL: la vista ravvicinata spegne SMAA e ombre morbide della sua luce.</summary>
+        static bool QualitaBassa { get { return Application.platform == RuntimePlatform.WebGLPlayer || GraphicsPresets.Current == 0; } }
+        static EnigmiTesti T { get { return GameData.TestiEnigmi; } }
         public EnigmaDef Def { get { return def; } }
         public bool Risolto { get { return solved; } }
         public bool Chiusa { get { return closed; } }
@@ -123,7 +126,7 @@ namespace TrenoBambini.Puzzles
             lk.transform.localPosition = new Vector3(-1.2f, 1.6f, -1.8f);
             lk.transform.localRotation = Quaternion.Euler(38f, 32f, 0f);
             var l = lk.AddComponent<Light>();
-            l.type = LightType.Directional; l.color = new Color(1f, 0.86f, 0.64f); l.intensity = 1.0f; l.shadows = LightShadows.Soft;
+            l.type = LightType.Directional; l.color = new Color(1f, 0.86f, 0.64f); l.intensity = 1.0f; l.shadows = QualitaBassa ? LightShadows.None : LightShadows.Soft;
             var lf = new GameObject("Riempimento");
             lf.transform.SetParent(stage, false);
             lf.transform.localPosition = new Vector3(1.0f, 0.4f, -1.6f);
@@ -156,7 +159,7 @@ namespace TrenoBambini.Puzzles
             cam.depth = (mainCam != null ? mainCam.depth : 0f) + 5f;
             var ad = cam.GetUniversalAdditionalCameraData();
             ad.renderPostProcessing = true;
-            ad.antialiasing = AntialiasingMode.SubpixelMorphologicalAntiAliasing;
+            ad.antialiasing = QualitaBassa ? AntialiasingMode.None : AntialiasingMode.SubpixelMorphologicalAntiAliasing;
         }
 
         Vector3 centro;
@@ -217,20 +220,20 @@ namespace TrenoBambini.Puzzles
             feedback.enableAutoSizing = true; feedback.fontSizeMin = 13; feedback.fontSizeMax = 23;
 
             bool hasHints = def.indizi != null && def.indizi.Count > 0;
-            hintBtn = UIFactory.MakeButton(ui, "Indizio", () => Indizio(), new Vector2(200f, 64f), ButtonStyle.Tag, 26f, hasHints);
+            hintBtn = UIFactory.MakeButton(ui, T.btnIndizio, () => Indizio(), new Vector2(200f, 64f), ButtonStyle.Tag, 26f, hasHints);
             UIFactory.Place((RectTransform)hintBtn.transform, new Vector2(0f, 0f), new Vector2(0f, 0f), new Vector2(28f, 24f), new Vector2(200f, 64f));
             var lens = UIFactory.MakeImage(hintBtn.transform, "Lente", UIArt.IconLens(), Color.white);
             UIFactory.Place(lens.rectTransform, new Vector2(0f, 0.5f), new Vector2(0f, 0.5f), new Vector2(10f, 0f), new Vector2(38f, 38f));
             UIFactory.Stretch(hintBtn.GetComponentInChildren<TextMeshProUGUI>().rectTransform, 50f, 6f, 10f, 6f);
-            closeBtn = UIFactory.MakeButton(ui, "Chiudi", () => Chiudi(), new Vector2(200f, 64f), ButtonStyle.Tag, 26f);
+            closeBtn = UIFactory.MakeButton(ui, T.btnChiudi, () => Chiudi(), new Vector2(200f, 64f), ButtonStyle.Tag, 26f);
             UIFactory.Place((RectTransform)closeBtn.transform, new Vector2(0f, 0f), new Vector2(0f, 0f), new Vector2(244f, 24f), new Vector2(200f, 64f));
-            consegnaBtn = UIFactory.MakeButton(ui, "Consegna", () => { if (!solved) Info(def.consegna ?? ""); }, new Vector2(220f, 64f), ButtonStyle.Tag, 26f);
+            consegnaBtn = UIFactory.MakeButton(ui, T.btnConsegna, () => { if (!solved) Info(def.consegna ?? ""); }, new Vector2(220f, 64f), ButtonStyle.Tag, 26f);
             UIFactory.Place((RectTransform)consegnaBtn.transform, new Vector2(0f, 0f), new Vector2(0f, 0f), new Vector2(460f, 24f), new Vector2(220f, 64f));
-            actionBtn = UIFactory.MakeButton(ui, "Avanti", () => { var cb = actionCb; if (cb != null) cb(); }, new Vector2(280f, 64f), ButtonStyle.Seal, 28f, true);
+            actionBtn = UIFactory.MakeButton(ui, T.btnAvanti, () => { var cb = actionCb; if (cb != null) cb(); }, new Vector2(280f, 64f), ButtonStyle.Seal, 28f, true);
             UIFactory.Place((RectTransform)actionBtn.transform, new Vector2(1f, 0f), new Vector2(1f, 0f), new Vector2(-28f, 24f), new Vector2(280f, 64f));
             actionBtn.gameObject.SetActive(false);
 
-            var guida = UIFactory.MakeText(ui, UIRoot.TouchMode ? "Trascina per girare l'oggetto · tocca le parti per usarle" : "Trascina: gira · Rotella: avvicina · Clic: usa · Tab e Invio: tastiera · Esc: esci", 17,
+            var guida = UIFactory.MakeText(ui, UIRoot.TouchMode ? T.guidaTouch : T.guida, 17,
                 new Color(UITheme.CartaChiara.r, UITheme.CartaChiara.g, UITheme.CartaChiara.b, 0.7f), TextAlignmentOptions.Center);
             UIFactory.Place(guida.rectTransform, new Vector2(0.5f, 0f), new Vector2(0.5f, 0f), new Vector2(0f, 6f), new Vector2(1100f, 28f));
 
@@ -373,10 +376,10 @@ namespace TrenoBambini.Puzzles
             // elenco dei mestieri in una riga sotto il titolo (non copre le scarpe)
             var lista = UIFactory.MakePanel(ui, "Mestieri", new Color(0.07f, 0.05f, 0.035f, 0.78f), false);
             UIFactory.Place(lista.rectTransform, new Vector2(0f, 1f), new Vector2(0f, 1f), new Vector2(28f, -190f), new Vector2(1224f, 48f));
-            var t = UIFactory.MakeText(lista.rectTransform, "<b>Mestieri:</b>  " + string.Join("  ·  ", def.mestieri), 22, UITheme.CartaChiara, TextAlignmentOptions.Left);
+            var t = UIFactory.MakeText(lista.rectTransform, "<b>" + T.mestieri + "</b>  " + string.Join("  ·  ", def.mestieri), 22, UITheme.CartaChiara, TextAlignmentOptions.Left);
             UIFactory.Stretch(t.rectTransform, 18f, 4f, 14f, 4f);
             t.enableAutoSizing = true; t.fontSizeMin = 14; t.fontSizeMax = 22;
-            var ok = UIFactory.MakeButton(ui, "Conferma", () => Conferma(), new Vector2(240f, 64f), ButtonStyle.Brass, 26f, true);
+            var ok = UIFactory.MakeButton(ui, T.btnConferma, () => Conferma(), new Vector2(240f, 64f), ButtonStyle.Brass, 26f, true);
             UIFactory.Place((RectTransform)ok.transform, new Vector2(1f, 0f), new Vector2(1f, 0f), new Vector2(-28f, 24f), new Vector2(240f, 64f));
             ok.gameObject.name = "ConfermaDeduzione";
         }
@@ -407,15 +410,17 @@ namespace TrenoBambini.Puzzles
                     int idx = assegnati[i] - 1;
                     if (idx >= 0 && def.mestieri[idx] == def.passanti[i].mestiere) { ok++; giuste++; }
                 }
-                gruppi.Add("gruppo " + (g + 1) + ": " + ok + " giuste su " + tot);
+                gruppi.Add(string.Format(T.gruppoFmt, g + 1, ok, tot));
             }
             if (giuste == n) { Registra("deduzione"); return true; }
-            Wrong("Non tutte, ma ci sei vicino (" + string.Join("; ", gruppi) + "). Guarda meglio suole, chiodi, fango: le scarpe raccontano. Riprova!");
+            Wrong(string.Format(T.deduzioneErrore, string.Join("; ", gruppi)));
             return false;
         }
 
         // ------------------------------------------------------------------ documenti
         RectTransform docArea;
+        readonly List<Button> righeDoc = new List<Button>();
+        int rigaSel = -1;
 
         void BuildDocumentiUi()
         {
@@ -437,6 +442,7 @@ namespace TrenoBambini.Puzzles
                     int dd = d, rr = r;
                     var b = UIFactory.MakeButton(card.rectTransform, doc.righe[r], () => RispondiDoc(def.documenti[dd].id, rr), new Vector2(100f, 56f), new Color(0.82f, 0.72f, 0.5f, 0.35f), UITheme.Inchiostro, 17);
                     b.gameObject.name = "Riga_" + doc.id + "_" + r;
+                    righeDoc.Add(b);
                     var le = b.gameObject.AddComponent<LayoutElement>(); le.minHeight = 40f; le.preferredHeight = 56f;
                     var lt = b.GetComponentInChildren<TextMeshProUGUI>(); lt.enableAutoSizing = true; lt.fontSizeMin = 11; lt.fontSizeMax = 17; lt.alignment = TextAlignmentOptions.Left;
                 }
@@ -444,10 +450,27 @@ namespace TrenoBambini.Puzzles
             MostraDomandaDoc();
         }
 
+        void SpostaRiga(int dir)
+        {
+            if (righeDoc.Count == 0) return;
+            rigaSel = rigaSel < 0 ? (dir > 0 ? 0 : righeDoc.Count - 1) : ((rigaSel + dir) % righeDoc.Count + righeDoc.Count) % righeDoc.Count;
+            if (EventSystem.current != null) EventSystem.current.SetSelectedGameObject(righeDoc[rigaSel].gameObject);
+            UISfx.Play(Sfx.Tick, 0.4f);
+        }
+
+        void PremiRiga()
+        {
+            if (rigaSel >= 0 && rigaSel < righeDoc.Count) righeDoc[rigaSel].onClick.Invoke();
+        }
+
+        public int RigaSelezionata { get { return rigaSel; } }
+        public void SpostaRigaProva(int dir) { SpostaRiga(dir); }
+        public void PremiRigaProva() { PremiRiga(); }
+
         void MostraDomandaDoc()
         {
             var q = def.domande[qDoc];
-            Info("Domanda " + (qDoc + 1) + " di " + def.domande.Count + ": " + q.testo + "  (tocca la riga giusta in uno dei fogli)");
+            Info(string.Format(T.domandaFmt, qDoc + 1, def.domande.Count, q.testo));
         }
 
         public bool RispondiDoc(string docId, int riga)
@@ -457,10 +480,10 @@ namespace TrenoBambini.Puzzles
             if (q.documento == docId && q.riga == riga)
             {
                 UISfx.Play(Sfx.Chime, 0.5f);
-                string ok = "Esatto! " + (q.spiegazione ?? "");
+                string ok = T.esatto + " " + (q.spiegazione ?? "");
                 if (qDoc >= def.domande.Count - 1) { Registra("documenti"); return true; }
                 qDoc++;
-                SetFeedback(ok + "\n" + "Prossima: " + def.domande[qDoc].testo, UITheme.CartaChiara);
+                SetFeedback(ok + "\n" + T.prossima + " " + def.domande[qDoc].testo, UITheme.CartaChiara);
                 return true;
             }
             Wrong(!string.IsNullOrEmpty(q.erroreMsg) ? q.erroreMsg : null);
@@ -475,12 +498,51 @@ namespace TrenoBambini.Puzzles
             if (kb != null)
             {
                 if (kb.escapeKey.wasPressedThisFrame) { if (solved) Finito(); else Chiudi(); return; }
-                if (kb.leftArrowKey.isPressed) yaw -= 70f * Time.unscaledDeltaTime;
-                if (kb.rightArrowKey.isPressed) yaw += 70f * Time.unscaledDeltaTime;
-                if (kb.upArrowKey.isPressed) pitch = Mathf.Clamp(pitch + 50f * Time.unscaledDeltaTime, -35f, 45f);
-                if (kb.downArrowKey.isPressed) pitch = Mathf.Clamp(pitch - 50f * Time.unscaledDeltaTime, -35f, 45f);
-                if (kb.tabKey.wasPressedThisFrame) CiclaFocus(kb.shiftKey.isPressed ? -1 : 1);
-                if (kb.enterKey.wasPressedThisFrame || kb.spaceKey.wasPressedThisFrame) UsaFocus();
+                bool docs = Meccanismo(def) == "documenti";
+                if (!docs && kb.leftArrowKey.isPressed) yaw -= 70f * Time.unscaledDeltaTime;
+                if (!docs && kb.rightArrowKey.isPressed) yaw += 70f * Time.unscaledDeltaTime;
+                if (!docs && kb.upArrowKey.isPressed) pitch = Mathf.Clamp(pitch + 50f * Time.unscaledDeltaTime, -35f, 45f);
+                if (!docs && kb.downArrowKey.isPressed) pitch = Mathf.Clamp(pitch - 50f * Time.unscaledDeltaTime, -35f, 45f);
+                if (!docs && kb.tabKey.wasPressedThisFrame) CiclaFocus(kb.shiftKey.isPressed ? -1 : 1);
+                bool invio = kb.enterKey.wasPressedThisFrame || kb.numpadEnterKey.wasPressedThisFrame || kb.spaceKey.wasPressedThisFrame;
+                if (solved) { if (invio && actionBtn.gameObject.activeSelf) { Finito(); return; } }
+                else if (Meccanismo(def) == "documenti")
+                {
+                    // frecce, Tab e Invio scorrono le righe dei fogli
+                    if (kb.tabKey.wasPressedThisFrame || kb.downArrowKey.wasPressedThisFrame || kb.rightArrowKey.wasPressedThisFrame) SpostaRiga(kb.shiftKey.isPressed ? -1 : 1);
+                    if (kb.upArrowKey.wasPressedThisFrame || kb.leftArrowKey.wasPressedThisFrame) SpostaRiga(-1);
+                    if (invio) PremiRiga();
+                }
+                else
+                {
+                    if (kb.cKey.wasPressedThisFrame && assegnati != null) Conferma();
+                    if (invio) { if (hover == null && assegnati != null) Conferma(); else UsaFocus(); }
+                }
+            }
+            var gp = Gamepad.current;
+            if (gp != null)
+            {
+                if (gp.buttonEast.wasPressedThisFrame) { if (solved) Finito(); else Chiudi(); return; }
+                if (solved) { if (gp.buttonSouth.wasPressedThisFrame && actionBtn.gameObject.activeSelf) { Finito(); return; } }
+                else
+                {
+                    Vector2 st = gp.rightStick.ReadValue();
+                    yaw += st.x * 90f * Time.unscaledDeltaTime;
+                    pitch = Mathf.Clamp(pitch + st.y * 60f * Time.unscaledDeltaTime, -35f, 45f);
+                    if (Meccanismo(def) == "documenti")
+                    {
+                        if (gp.dpad.down.wasPressedThisFrame || gp.dpad.right.wasPressedThisFrame) SpostaRiga(1);
+                        if (gp.dpad.up.wasPressedThisFrame || gp.dpad.left.wasPressedThisFrame) SpostaRiga(-1);
+                        if (gp.buttonSouth.wasPressedThisFrame) PremiRiga();
+                    }
+                    else
+                    {
+                        if (gp.dpad.right.wasPressedThisFrame || gp.rightShoulder.wasPressedThisFrame) CiclaFocus(1);
+                        if (gp.dpad.left.wasPressedThisFrame || gp.leftShoulder.wasPressedThisFrame) CiclaFocus(-1);
+                        if (gp.buttonSouth.wasPressedThisFrame) UsaFocus();
+                        if (gp.buttonNorth.wasPressedThisFrame && assegnati != null) Conferma();
+                    }
+                }
             }
             yaw = Mathf.Clamp(yaw, -110f, 110f);
             var m = Mouse.current;
@@ -639,7 +701,7 @@ namespace TrenoBambini.Puzzles
             if (!MondoStato.Ha(token)) return;
             inMano = token;
             AggiornaMano();
-            Info("In mano: " + MondoStato.Nome(token) + ". Tocca la parte dove usarlo.");
+            Info(string.Format(T.inMano, MondoStato.Nome(token)));
         }
 
         // ------------------------------------------------------------------ azioni sui pezzi
@@ -671,18 +733,18 @@ namespace TrenoBambini.Puzzles
                 // inventario attivo: serve l'oggetto giusto in mano
                 if (!MondoStato.Ha(d.richiede))
                 {
-                    Info(!string.IsNullOrEmpty(d.msg) ? d.msg : "Ti serve qualcosa per questo: cerca ancora.");
+                    Info(!string.IsNullOrEmpty(d.msg) ? d.msg : T.serveQualcosa);
                     return;
                 }
                 if (inMano != d.richiede)
                 {
-                    if (!string.IsNullOrEmpty(inMano) && d.azione == "usa") { Wrong("Non calza: " + MondoStato.Nome(inMano) + " non e' per questo. Guarda meglio la forma e riprova."); return; }
-                    if (string.IsNullOrEmpty(inMano) && d.azione == "usa") { Info("Prendi prima in mano l'oggetto giusto (in alto a destra)."); return; }
+                    if (!string.IsNullOrEmpty(inMano) && d.azione == "usa") { Wrong(string.Format(T.nonCalzaNome, MondoStato.Nome(inMano))); return; }
+                    if (string.IsNullOrEmpty(inMano) && d.azione == "usa") { Info(T.prendiPrimaGiusto); return; }
                 }
             }
             else if (d.azione == "usa" && string.IsNullOrEmpty(inMano))
             {
-                Info("Prendi prima in mano un oggetto (in alto a destra).");
+                Info(T.prendiPrima);
                 return;
             }
 
@@ -711,11 +773,11 @@ namespace TrenoBambini.Puzzles
                     StartCoroutine(Ruota(t.go.transform, Quaternion.Euler(t.go.transform.localEulerAngles.x, t.go.transform.localEulerAngles.y, next), 0.25f));
                     if (Mathf.Abs(next) < 0.6f)
                     {
-                        Info(string.IsNullOrEmpty(d.msg) ? "Ecco, ora sta dritta." : d.msg);
+                        Info(string.IsNullOrEmpty(d.msg) ? T.dritta : d.msg);
                         Rivela(d.dopo, true);
                         Registra(Ev(d));
                     }
-                    else Info("Si raddrizza piano piano... ancora un po'.");
+                    else Info(T.quasiDritta);
                     break;
                 }
                 case "rivela":
@@ -758,29 +820,29 @@ namespace TrenoBambini.Puzzles
                     break;
                 case "prendi":
                     StartCoroutine(Sparisci(r));
-                    if (!string.IsNullOrEmpty(d.produce)) { MondoStato.Dai(d.produce); AggiornaMano(); inventarioMsg = " (Nel quaderno: " + MondoStato.Nome(d.produce) + ")"; }
+                    if (!string.IsNullOrEmpty(d.produce)) { MondoStato.Dai(d.produce); AggiornaMano(); inventarioMsg = " (" + string.Format(T.quadernoOggettoFmt, MondoStato.Nome(d.produce)) + ")"; }
                     if (!string.IsNullOrEmpty(d.msg)) Info(d.msg + inventarioMsg);
                     inventarioMsg = "";
                     Rivela(d.dopo, true);
                     Registra(Ev(d));
                     break;
                 case "usa":
-                    if (!string.IsNullOrEmpty(d.richiede) && inMano != d.richiede) { Wrong("Non calza: riprova con un altro oggetto."); break; }
+                    if (!string.IsNullOrEmpty(d.richiede) && inMano != d.richiede) { Wrong(T.nonCalza); break; }
                     UISfx.Play(Sfx.Chime, 0.4f);
                     if (!string.IsNullOrEmpty(d.richiede) && d.richiede == inMano) { fatti.Add("usato_" + d.richiede); }
                     inMano = null;
                     AggiornaMano();
-                    Info(string.IsNullOrEmpty(d.msg) ? "Ci sta a pennello." : d.msg);
+                    Info(string.IsNullOrEmpty(d.msg) ? T.calza : d.msg);
                     Rivela(d.dopo, true);
                     r.stato = true;
                     Registra(Ev(d));
                     break;
                 case "verifica":
-                    if (Codice() == (def.codice ?? "")) { Info(string.IsNullOrEmpty(d.msg) ? "Clic! Si apre." : d.msg); Rivela(d.dopo, true); Registra(Ev(d)); }
-                    else Wrong(string.IsNullOrEmpty(def.erroreMsg) ? "Il lucchetto non cede. Rileggi gli indizi e riprova." : def.erroreMsg);
+                    if (Codice() == (def.codice ?? "")) { Info(string.IsNullOrEmpty(d.msg) ? T.lucchettoApre : d.msg); Rivela(d.dopo, true); Registra(Ev(d)); }
+                    else Wrong(string.IsNullOrEmpty(def.erroreMsg) ? T.lucchettoNo : def.erroreMsg);
                     break;
                 case "errore":
-                    Wrong(string.IsNullOrEmpty(d.msg) ? "Non e' questo, ma non preoccuparti: guarda meglio e riprova." : d.msg);
+                    Wrong(string.IsNullOrEmpty(d.msg) ? T.erroreGenerico : d.msg);
                     break;
                 default:
                     if (!string.IsNullOrEmpty(d.msg)) Info(d.msg);
@@ -880,7 +942,7 @@ namespace TrenoBambini.Puzzles
                 {
                     prog = 0;
                     ResetPremute();
-                    Wrong("Non e' l'ordine giusto: le assi tornano su. Guarda di nuovo il cartoncino e riprova.");
+                    Wrong(T.erroreOrdine);
                 }
                 return;
             }
@@ -913,7 +975,7 @@ namespace TrenoBambini.Puzzles
 
         void Wrong(string specific)
         {
-            string m = !string.IsNullOrEmpty(specific) ? specific : (!string.IsNullOrEmpty(def.erroreMsg) ? def.erroreMsg : "Non e' ancora quello giusto, ma non preoccuparti: riprova!");
+            string m = !string.IsNullOrEmpty(specific) ? specific : (!string.IsNullOrEmpty(def.erroreMsg) ? def.erroreMsg : T.erroreGenerico);
             SetFeedback(m, new Color(0.95f, 0.72f, 0.6f));
             UISfx.Play(Sfx.SoftError, 0.5f);
             if (ui != null) UIFx.Wobble((RectTransform)feedback.transform.parent, 0.8f, 0.5f);
@@ -925,10 +987,10 @@ namespace TrenoBambini.Puzzles
         public void Indizio()
         {
             if (solved) return;
-            if (def.indizi == null || def.indizi.Count == 0) { Info("Per questo enigma non ci sono indizi: guarda con calma l'oggetto."); return; }
+            if (def.indizi == null || def.indizi.Count == 0) { Info(T.nessunIndizio); return; }
             hintLevel = Mathf.Min(hintLevel + 1, def.indizi.Count);
             UISfx.Play(Sfx.Sparkle, 0.4f);
-            Info("Indizio " + hintLevel + "/" + def.indizi.Count + ": " + def.indizi[hintLevel - 1]);
+            Info(string.Format(T.indizioFmt, hintLevel, def.indizi.Count, def.indizi[hintLevel - 1]));
         }
 
         void AggiornaMano()
@@ -943,7 +1005,7 @@ namespace TrenoBambini.Puzzles
                 if (!string.IsNullOrEmpty(rq) && MondoStato.Ha(rq) && !candidati.Contains(rq) && !fatti.Contains("usato_" + rq)) candidati.Add(rq);
             }
             candidati.Sort();
-            manoLabel.text = candidati.Count > 0 ? "In mano" : "";
+            manoLabel.text = candidati.Count > 0 ? T.manoLabel : "";
             foreach (var tok in candidati)
             {
                 string t2 = tok;
@@ -966,8 +1028,8 @@ namespace TrenoBambini.Puzzles
             Evidenzia(hover, false);
             string t = def.spiegazione ?? "";
             if (!string.IsNullOrEmpty(def.scheda)) t += (t.Length > 0 ? "\n" : "") + def.scheda;
-            if (!string.IsNullOrEmpty(def.temaCivico)) t += (t.Length > 0 ? "\n" : "") + "Educazione civica: " + def.temaCivico;
-            if (t.Length == 0) t = "Enigma risolto!";
+            if (!string.IsNullOrEmpty(def.temaCivico)) t += (t.Length > 0 ? "\n" : "") + T.educazione + " " + def.temaCivico;
+            if (t.Length == 0) t = T.completo;
             string text = t;
             PuzzlePanel.SlamStamp(ui, "RISOLTO", UITheme.Oro, new Vector2(330f, 110f), new Vector2(0f, 200f), -9f, 54f, () =>
             {
@@ -975,7 +1037,7 @@ namespace TrenoBambini.Puzzles
                 feedbackPlate.sizeDelta = new Vector2(1180f, 250f);
                 SetFeedback(text, new Color(0.78f, 0.95f, 0.72f));
                 actionCb = Finito;
-                UIFactory.SetLabel(actionBtn, "Avanti");
+                UIFactory.SetLabel(actionBtn, T.btnAvanti);
                 actionBtn.gameObject.SetActive(true);
             });
         }

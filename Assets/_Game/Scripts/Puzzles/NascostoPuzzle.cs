@@ -121,7 +121,7 @@ namespace TrenoBambini.Puzzles
             string t = def.spiegazione ?? "";
             if (!string.IsNullOrEmpty(def.temaCivico)) t += (t.Length > 0 ? "\n\n" : "") + "Educazione civica: " + def.temaCivico;
             if (t.Length == 0) t = "Hai trovato tutto!";
-            t += "\n\nPortale ora alle forme del calzolaio: vediamo a chi calzano.";
+            if (!string.IsNullOrEmpty(def.completoMsg)) t += "\n\n" + def.completoMsg;
             var cb = onSolved;
             if (UIRoot.I != null) UIRoot.I.ShowMessage(def.titolo, t, () => { if (cb != null) cb(); });
             else if (cb != null) cb();

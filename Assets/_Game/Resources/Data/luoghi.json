@@ -15,7 +15,9 @@
       "richiedeMsg": [
         "Quale sarà la tua porta? In questo vicolo le porte si assomigliano tutte. Guarda i panni stesi: ti ricorderanno la strada.",
         "La porta è chiusa a chiave. La chiave di casa: dove la lasciava Antonietta? Cerca dove le cose care si affidano a qualcuno."
-      ]
+      ],
+      "bypassOggetto": "scarpe",
+      "aperturaMsg": "Giri la chiave nella toppa: la porta cede con uno scatto."
     },
     {
       "id": "casa_capa_e_fierro",

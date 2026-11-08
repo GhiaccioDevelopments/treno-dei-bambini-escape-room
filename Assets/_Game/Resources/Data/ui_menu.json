@@ -5,12 +5,30 @@
   "premiUnTasto": "Premi un tasto",
   "aiutoMenu": "Frecce o W/S: scegli   Invio: conferma   Esc: indietro",
   "voci": [
-    { "id": "continua", "etichetta": "Continua" },
-    { "id": "nuova", "etichetta": "Nuova partita" },
-    { "id": "ricordi", "etichetta": "Ricordi" },
-    { "id": "impostazioni", "etichetta": "Impostazioni" },
-    { "id": "crediti", "etichetta": "Crediti" },
-    { "id": "esci", "etichetta": "Esci" }
+    {
+      "id": "continua",
+      "etichetta": "Continua"
+    },
+    {
+      "id": "nuova",
+      "etichetta": "Nuova partita"
+    },
+    {
+      "id": "ricordi",
+      "etichetta": "Ricordi"
+    },
+    {
+      "id": "impostazioni",
+      "etichetta": "Impostazioni"
+    },
+    {
+      "id": "crediti",
+      "etichetta": "Crediti"
+    },
+    {
+      "id": "esci",
+      "etichetta": "Esci"
+    }
   ],
   "anteprima": {
     "intestazione": "Ultima partita",
@@ -53,10 +71,22 @@
   "inventario": {
     "titoloLatta": "La latta",
     "sezioni": [
-      { "id": "oggetti", "etichetta": "Oggetti" },
-      { "id": "ricordi", "etichetta": "Ricordi" },
-      { "id": "quaderno", "etichetta": "Quaderno" },
-      { "id": "mappa", "etichetta": "Mappa" }
+      {
+        "id": "oggetti",
+        "etichetta": "Oggetti"
+      },
+      {
+        "id": "ricordi",
+        "etichetta": "Ricordi"
+      },
+      {
+        "id": "quaderno",
+        "etichetta": "Quaderno"
+      },
+      {
+        "id": "mappa",
+        "etichetta": "Mappa"
+      }
     ],
     "aiuto": "Trascina per girare l'oggetto   Q/E: cambia pagina   Frecce: oggetti   Esc: chiudi",
     "aiutoTouch": "Trascina per girare l'oggetto   Tocca le linguette per cambiare pagina",
@@ -84,5 +114,13 @@
       "titolo": "Mappa",
       "testo": "La mappa del quartiere non è ancora disponibile: arriverà con un prossimo aggiornamento."
     }
+  },
+  "enigmiImp": {
+    "semplificatiNome": "Enigmi semplificati",
+    "semplificatiSpiega": "Gli enigmi si risolvono con pannelli piatti invece della vista ravvicinata in 3D. Utile alla LIM e a chi preferisce comandi più semplici.",
+    "evidenziaNome": "Evidenzia oggetti interattivi",
+    "evidenziaSpiega": "Un brillio leggero sugli oggetti da esaminare negli enigmi. Spento di default: di norma si riconoscono dalla luce e dal messaggio «Esamina».",
+    "si": "Sì",
+    "no": "No"
   }
 }

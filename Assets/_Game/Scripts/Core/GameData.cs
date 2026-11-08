@@ -16,13 +16,14 @@ namespace TrenoBambini.Core
         static CreditiFile crediti;
         static List<EnigmaDef> enigmiMondo;
         static List<NascostoDef> oggettiEnigma;
+        static EnigmiTesti testiEnigmi;
         static readonly Dictionary<string, FlashbackDef> flashbacks = new Dictionary<string, FlashbackDef>();
         static readonly Dictionary<string, CutsceneDef> cutscenes = new Dictionary<string, CutsceneDef>();
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         static void ResetStatics()
         {
-            luoghi = null; oggetti = null; personaggi = null; audio = null; uiMenu = null; crediti = null; enigmiMondo = null; oggettiEnigma = null;
+            luoghi = null; oggetti = null; personaggi = null; audio = null; uiMenu = null; crediti = null; enigmiMondo = null; oggettiEnigma = null; testiEnigmi = null;
             flashbacks.Clear(); cutscenes.Clear();
         }
 
@@ -43,6 +44,20 @@ namespace TrenoBambini.Core
                     enigmiMondo = (f != null && f.enigmi != null) ? f.enigmi : new List<EnigmaDef>();
                 }
                 return enigmiMondo;
+            }
+        }
+
+        /// <summary>Testi dell'interfaccia degli enigmi (enigmi_mondo.json, blocco testi); mai null.</summary>
+        public static EnigmiTesti TestiEnigmi
+        {
+            get
+            {
+                if (testiEnigmi == null)
+                {
+                    var f = LoadJson<EnigmiMondoFile>("enigmi_mondo");
+                    testiEnigmi = (f != null && f.testi != null) ? f.testi : new EnigmiTesti();
+                }
+                return testiEnigmi;
             }
         }
 

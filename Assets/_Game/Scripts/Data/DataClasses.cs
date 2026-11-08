@@ -13,6 +13,8 @@ namespace TrenoBambini.Data
         public string meteo; // R007 t4: pioggia | pioggia_fuori | sereno (vuoto = sereno)
         public List<string> richiede = new List<string>();     // R020: gettoni necessari per entrare (porta chiusa a chiave)
         public List<string> richiedeMsg = new List<string>();   // messaggio gentile per ciascun gettone mancante (stesso ordine)
+        public string aperturaMsg;      // R020: messaggio la prima volta che la porta si apre con i gettoni
+        public string bypassOggetto;    // R020: se questo oggetto e' gia' nell'inventario la porta non chiede i gettoni (salvataggi avanzati)
         public bool aperto;
     }
 
@@ -33,7 +35,20 @@ namespace TrenoBambini.Data
         public string colore; // "#RRGGBB"
     }
 
-    [Serializable] public class EnigmiMondoFile { public List<EnigmaDef> enigmi = new List<EnigmaDef>(); public List<NascostoDef> oggetti = new List<NascostoDef>(); }
+    [Serializable] public class EnigmiMondoFile { public List<EnigmaDef> enigmi = new List<EnigmaDef>(); public List<NascostoDef> oggetti = new List<NascostoDef>(); public EnigmiTesti testi = new EnigmiTesti(); }
+
+    /// <summary>R020: testi dell'interfaccia degli enigmi nel mondo (enigmi_mondo.json, blocco "testi"). I valori di ripiego sono volutamente neutri: i testi veri stanno nel JSON.</summary>
+    [Serializable]
+    public class EnigmiTesti
+    {
+        public string guida = "", guidaTouch = "";
+        public string btnIndizio = "Indizio", btnChiudi = "Chiudi", btnConsegna = "Consegna", btnAvanti = "Avanti", btnConferma = "Conferma", mestieri = "";
+        public string gruppoFmt = "{0}: {1}/{2}", deduzioneErrore = "{0}", domandaFmt = "{0}/{1}: {2}", esatto = "", prossima = "";
+        public string inMano = "{0}", manoLabel = "", serveQualcosa = "", nonCalzaNome = "{0}", nonCalza = "", prendiPrimaGiusto = "", prendiPrima = "";
+        public string dritta = "", quasiDritta = "", calza = "", lucchettoApre = "", lucchettoNo = "", erroreGenerico = "", erroreOrdine = "", nessunIndizio = "";
+        public string indizioFmt = "{0}/{1}: {2}", educazione = "", completo = "", esaminato = "{0}", esamina = "{0}", bloccato = "", nonDisponibile = "";
+        public string quadernoFmt = "{0}", quadernoOggettoFmt = "{0}", porta = "", portaChiusa = "", entraFmt = "{0}";
+    }
 
     [Serializable]
     public class FlashbackDef
@@ -77,7 +92,8 @@ namespace TrenoBambini.Data
         public List<DocumentoDef> documenti = new List<DocumentoDef>();
         public string sostituisce;           // nomi (separati da virgola) di oggetti gia' presenti nella scena da nascondere perche' l'enigma li rimpiazza
         public float inclina = 8f;           // inclinazione iniziale della camera nella vista ravvicinata (gradi)
-        public string finale;                // se valorizzato, alla soluzione parte il ricordo di questo oggetto (es. "scarpe")
+        public string completoMsg;           // nascosto: testo aggiunto quando tutti gli oggetti sono trovati
+        public string finale;                // se valorizzato (nella scena l'oggetto-ricordo con questo id resta nascosto finche' l'enigma non e' risolto), alla soluzione parte il ricordo di questo oggetto (es. "scarpe")
     }
 
     /// <summary>Un pezzo dell'oggetto esaminabile: una primitiva (o un testo) con materiale, posizione locale e comportamento al clic.</summary>
@@ -237,6 +253,8 @@ namespace TrenoBambini.Data
     /// <summary>Etichette dell'HUD e della pausa legate alla latta (M7).</summary>
     [Serializable] public class UiHud { public string latta = "Latta"; }
     [Serializable]
+    public class UiEnigmiImp { public string semplificatiNome = "", semplificatiSpiega = "", evidenziaNome = "", evidenziaSpiega = "", si = "Si", no = "No"; }
+    [Serializable]
     public class UiMenuFile
     {
         public string titolo1 = "Il treno", titolo2 = "dei bambini", sottotitolo = "Napoli, 1946", premiUnTasto = "", aiutoMenu = "";
@@ -252,6 +270,7 @@ namespace TrenoBambini.Data
         public UiCrediti crediti = new UiCrediti();
         public UiInventario inventario = new UiInventario();
         public UiHud hud = new UiHud();
+        public UiEnigmiImp enigmiImp = new UiEnigmiImp();
 
         /// <summary>Dopo il caricamento: rimette i valori di ripiego dove il JSON ha messo null (un blocco o una lista mancanti non devono far crollare la UI).</summary>
         public UiMenuFile Normalizza()
@@ -264,6 +283,7 @@ namespace TrenoBambini.Data
             if (crediti == null) crediti = d.crediti;
             if (crediti.squadra == null) crediti.squadra = new List<string>();
             if (hud == null) hud = d.hud;
+            if (enigmiImp == null) enigmiImp = d.enigmiImp;
             if (inventario == null) inventario = d.inventario;
             if (inventario.sezioni == null || inventario.sezioni.Count != 4) inventario.sezioni = d.inventario.sezioni;
             if (inventario.quaderno == null) inventario.quaderno = d.inventario.quaderno;

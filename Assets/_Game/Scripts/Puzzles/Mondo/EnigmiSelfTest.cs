@@ -1,4 +1,4 @@
-#if UNITY_EDITOR || DEBUG
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
 // R020: prova automatica degli enigmi nel mondo, solo negli editor e nelle build di sviluppo (mai nella build normale).
 using System;
 using System.Collections;
@@ -7,6 +7,7 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 using TMPro;
+using TrenoBambini.Data;
 using TrenoBambini.UI;
 using TrenoBambini.World;
 using UnityEngine;
@@ -316,6 +317,10 @@ namespace TrenoBambini.Core
             GameManager.I.Save.enigmiSemplificati = false;
             GameManager.I.Save.enigmiRisolti.Add("flashback_scarpe/enigma_lucchetto");
 
+            // ---------------- corsa completa in modalita' semplificata e salvataggio vecchio a meta' ricordo
+            yield return FlussoSemplificato();
+            yield return FlussoSaveVecchio();
+
             // ---------------- tabella finale
             Log("--- Enigmi risolti nel salvataggio: " + string.Join(", ", GameManager.I.Save.enigmiRisolti));
         }
@@ -407,6 +412,119 @@ namespace TrenoBambini.Core
 #else
             return false;
 #endif
+        }
+
+
+        // ------------------------------------------------------------------ pannelli 2D (modalita' semplificata)
+        IEnumerator Pannello(string id, string chiave)
+        {
+            var e = Trova(id);
+            Check(id + ": presente (semplificato)", e != null);
+            if (e == null) yield break;
+            e.Interact();
+            yield return Attendi(1.0f);
+            var pan = FindAnyObjectByType<PuzzlePanel>();
+            Check(id + ": si apre un pannello 2D e non la vista 3D", pan != null && V == null);
+            if (pan == null) yield break;
+            var flags = BindingFlags.NonPublic | BindingFlags.Instance;
+            var t = pan.GetType();
+            if (pan is QuizPanel)
+            {
+                var def = (EnigmaDef)typeof(PuzzlePanel).GetField("def", flags).GetValue(pan);
+                // una risposta sbagliata (se c'e') = messaggio gentile, poi tutte giuste
+                for (int q = 0; q < def.domande.Count; q++)
+                {
+                    int giusta = def.domande[q].corretta, sbagliata = (giusta + 1) % Mathf.Max(2, def.domande[q].opzioni.Count);
+                    if (q == 0) { t.GetMethod("OnOption", flags).Invoke(pan, new object[] { sbagliata }); yield return Attendi(0.5f); }
+                    t.GetMethod("OnOption", flags).Invoke(pan, new object[] { giusta });
+                    yield return Attendi(0.4f);
+                    if (q < def.domande.Count - 1) { typeof(PuzzlePanel).GetMethod("OnActionClicked", flags).Invoke(pan, null); yield return Attendi(0.4f); }
+                }
+            }
+            else if (pan is LucchettoPanel)
+            {
+                var def = (EnigmaDef)typeof(PuzzlePanel).GetField("def", flags).GetValue(pan);
+                var dig = (int[])t.GetField("digits", flags).GetValue(pan);
+                for (int i = 0; i < dig.Length; i++) dig[i] = (i + 5) % 10;
+                t.GetMethod("TryOpen", flags).Invoke(pan, null);   // sbagliato
+                yield return Attendi(0.6f);
+                for (int i = 0; i < dig.Length; i++) dig[i] = def.codice[i] - '0';
+                t.GetMethod("TryOpen", flags).Invoke(pan, null);
+                yield return Attendi(1.0f);
+            }
+            else if (pan is OrdinaPanel)
+            {
+                t.GetMethod("Verify", flags).Invoke(pan, null);
+                yield return Attendi(0.5f);
+                var order = (List<int>)t.GetField("order", flags).GetValue(pan);
+                for (int i = 0; i < order.Count; i++) order[i] = i;
+                t.GetMethod("Verify", flags).Invoke(pan, null);
+                yield return Attendi(1.5f);
+            }
+            yield return Attendi(1.2f);
+            typeof(PuzzlePanel).GetMethod("FinishSolved", flags).Invoke(pan, null);
+            yield return Attendi(0.8f);
+            yield return ChiudiMessaggi();
+            Check(id + ": risolto in modalita' semplificata e salvato", MondoStato.Risolto(chiave));
+        }
+
+        IEnumerator FlussoSemplificato()
+        {
+            Log("=== Corsa completa in modalita' semplificata ===");
+            PlayerPrefs.DeleteKey("treno_save");
+            GameManager.I.NewGame();
+            yield return ScenaPronta(GameManager.SceneHub);
+            GameManager.I.Save.enigmiSemplificati = true;
+            GameManager.I.SaveGame();
+            foreach (var id in new[] { "enigma_bucato", "enigma_exvoto" }) yield return Pannello(id, "mondo/" + id);
+            Check("semplificato: i gettoni delle parti (chiave) arrivano lo stesso", MondoStato.Ha("chiave_basso") && MondoStato.Ha("porta_trovata"));
+            Door porta = null;
+            foreach (var d in FindObjectsByType<Door>(FindObjectsInactive.Include)) if (d.luogoId == "basso_antonietta") porta = d;
+            if (porta != null) { porta.Interact(); yield return ScenaPronta("20_Int_BassoAntonietta"); }
+            Check("semplificato: la porta si apre e si entra nel basso", SceneManager.GetActiveScene().name == "20_Int_BassoAntonietta");
+            foreach (var id in new[] { "enigma_foto", "enigma_calendario", "enigma_cassetta" }) yield return Pannello(id, "mondo/" + id);
+            Check("semplificato: cartoncino e chiavetta ottenuti senza la vista 3D", MondoStato.Ha("cartoncino_segni") && MondoStato.Ha("chiavetta_baule"));
+            var bau = Trova("enigma_baule");
+            yield return Pannello("enigma_baule", "mondo/enigma_baule");
+            yield return ScenaPronta("30_FB_Scarpe");
+            yield return Attendi(1.5f);
+            yield return ChiudiMessaggi();
+            Check("semplificato: il baule avvia il ricordo", SceneManager.GetActiveScene().name == "30_FB_Scarpe");
+            yield return Pannello("enigma_passanti", "flashback_scarpe/enigma_passanti");
+            // le calzature si cercano nel mondo, poi forme in pannello 2D
+            var n = Trova("enigma_nascosto");
+            n.Interact(); yield return Attendi(0.8f); yield return ChiudiMessaggi();
+            foreach (var h in new List<HiddenItem>(FindObjectsByType<HiddenItem>(FindObjectsInactive.Exclude))) { if (h != null) h.Interact(); yield return Attendi(0.3f); }
+            yield return Attendi(0.5f); yield return ChiudiMessaggi();
+            yield return Pannello("enigma_nascosto", "flashback_scarpe/enigma_nascosto");
+            yield return Pannello("enigma_quiz", "flashback_scarpe/enigma_quiz");
+            yield return Pannello("enigma_ordina", "flashback_scarpe/enigma_ordina");
+            yield return Pannello("enigma_lucchetto", "flashback_scarpe/enigma_lucchetto");
+            var uscita = FindAnyObjectByType<EscapeExit>();
+            Check("semplificato: l'uscita si apre dopo i cinque enigmi", uscita != null && uscita.GetPrompt() == "Esci dal ricordo", uscita != null ? uscita.GetPrompt() : "");
+            GameManager.I.Save.enigmiSemplificati = false;
+        }
+
+        /// <summary>Un salvataggio della versione precedente (senza oggettiEnigma), a meta' ricordo, deve poter finire.</summary>
+        IEnumerator FlussoSaveVecchio()
+        {
+            Log("=== Salvataggio vecchio a meta' ricordo ===");
+            string vecchio = "{\"scena\":\"30_FB_Scarpe\",\"spawn\":\"inizio\",\"inventario\":[],\"flashbackCompletati\":[],"
+                + "\"enigmiRisolti\":[\"flashback_scarpe/enigma_quiz\",\"flashback_scarpe/enigma_nascosto\"],\"cutsceneViste\":[],"
+                + "\"ritornoScena\":\"20_Int_BassoAntonietta\",\"ritornoSpawn\":\"oggetto_scarpe\",\"volume\":1.0}";
+            PlayerPrefs.SetString("treno_save", vecchio);
+            PlayerPrefs.Save();
+            typeof(GameManager).GetField("save", BindingFlags.NonPublic | BindingFlags.Instance).SetValue(GameManager.I, null);
+            GameManager.I.Continue();
+            yield return ScenaPronta("30_FB_Scarpe");
+            yield return Attendi(1.5f);
+            yield return ChiudiMessaggi();
+            Check("save vecchio: migrato (cifre e oggetti dei due enigmi gia' risolti)", MondoStato.Ha("cifra_8") && MondoStato.Ha("cifra_9a") && MondoStato.Ha("enigma_quiz") && MondoStato.Ha("scarpone_soldato"));
+            yield return Passanti();
+            yield return Ordina();
+            yield return Lucchetto();
+            var uscita = FindAnyObjectByType<EscapeExit>();
+            Check("save vecchio: il ricordo si puo' finire (uscita aperta)", uscita != null && uscita.GetPrompt() == "Esci dal ricordo", uscita != null ? uscita.GetPrompt() : "");
         }
 
         bool ScarpeNascoste()
@@ -654,6 +772,8 @@ namespace TrenoBambini.Core
             yield return Foto(id + "_aperto");
             V.RispondiDoc("registro", 0);
             yield return Attendi(0.4f);
+            V.SpostaRigaProva(1);
+            Check(id + ": le righe dei fogli si scorrono da tastiera", V.RigaSelezionata == 0);
             Check(id + ": riga sbagliata = messaggio gentile", !V.Risolto && Messaggio().Length > 5, Messaggio());
             yield return Foto(id + "_errore");
             yield return Indizi(id);
