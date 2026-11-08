@@ -54,10 +54,15 @@ manipolare in 3D, come nei grandi giochi di enigmi.
 5. Impostazioni "Evidenzia oggetti interattivi" e "Enigmi semplificati".
 
 ## 6. Criteri di accettazione
-- [ ] Nessun oggetto viola né marcatore colorato in nessuna scena (screenshot).
-- [ ] Almeno un enigma esistente giocabile con vista ravvicinata e meccanismo 3D, con mouse, tastiera e touch.
-- [ ] Schema JSON esteso e documentato; vecchi tipi ancora funzionanti; console pulita.
-- [ ] GIF di un enigma in `Docs/richieste/media/R009/`.
+- [x] Nessun oggetto viola né marcatore colorato in nessuna scena (screenshot e controllo automatico dei materiali).
+- [x] Almeno un enigma esistente giocabile con vista ravvicinata e meccanismo 3D, con mouse e tastiera (touch non provato su schermo vero).
+- [x] Schema JSON esteso e documentato; vecchi tipi ancora funzionanti; console pulita.
+- [ ] GIF di un enigma: sostituita da schermate in `Docs/richieste/media/R020/`.
 
 ## Rapporto
-_(da compilare a fine lavoro)_
+Implementata insieme a R020 sul branch `richiesta/R020-enigmi-d-autore-trama`; il rapporto completo (piano, prove, FPS, non fatto) sta in `Docs/richieste/R020-enigmi-d-autore-trama.md`.
+
+**Fatto.** Nessun marcatore: gli enigmi sono oggetti d'epoca nel mondo (prompt "E - Esamina", vista ravvicinata con camera propria, rotazione, zoom, clic sulle parti, Tab/Invio, Esc). Meccanismi 3D: lucchetto a rotelle (cassetta, calendario, uscita), cassetti e doppio fondo (baule), fogli da girare, assi da premere. `richiede/produce` e inventario attivo (la chiave nella porta, le calzature sulle forme). Impostazioni "Enigmi semplificati" e "Evidenzia oggetti interattivi" (scheda Accessibilita'). Schema JSON esteso in `CLAUDE.md`.
+**Blocchi viola.** Causa probabile: materiale predefinito built-in dei primitivi di `PrimitiveFactory` (magenta in un player URP); non riproducibile nell'editor. Rimossi `PuzzleStation` e i marcatori; i materiali ora sono URP Lit da codice. La prova controlla l'assenza di materiali rotti in hub, basso e ricordo.
+**Scostamenti.** Nessuna GIF (schermate in `media/R020/`). Tocco provato solo via puntatore unico, non su schermo touch.
+

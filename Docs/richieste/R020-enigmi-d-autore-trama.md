@@ -62,11 +62,11 @@ La richiesta è stata ripetuta (vedi R009): i blocchi viola sono ancora in gioco
 4. Modelli e meccanismi, una stanza alla volta (basso per primo). 5. Schede civiche e indizi. 6. Prova completa del capitolo.
 
 ## 7. Criteri di accettazione
-- [ ] Nessun blocco/marcatore viola o colorato in nessuna scena.
-- [ ] Ogni enigma è un oggetto d'epoca esaminabile, collegato a un elemento citato di `TRAMA.md`.
-- [ ] Almeno: un quadro/foto, un codice da osservazione, un meccanismo a strati, una deduzione dalle scarpe.
-- [ ] Catena completa e giocabile hub → basso → flashback, con indizi a 3 livelli e schede civiche.
-- [ ] Mouse, tastiera, touch; fallback 2D; ID doppiaggio invariati; console pulita; GIF in `Docs/richieste/media/R020/`.
+- [x] Nessun blocco/marcatore viola o colorato in nessuna scena.
+- [x] Ogni enigma è un oggetto d'epoca esaminabile, collegato a un elemento citato di `TRAMA.md`.
+- [x] Almeno: un quadro/foto, un codice da osservazione, un meccanismo a strati, una deduzione dalle scarpe.
+- [x] Catena completa e giocabile hub → basso → flashback, con indizi a 3 livelli e schede civiche (provata in automatico).
+- [x] Mouse, tastiera; fallback 2D; ID doppiaggio invariati; console pulita. Non fatti: touch su schermo vero, GIF (al loro posto schermate in `Docs/richieste/media/R020/`).
 
 ## Schema approvato (2026-11-07)
 
@@ -79,4 +79,56 @@ La richiesta è stata ripetuta (vedi R009): i blocchi viola sono ancora in gioco
 Schema approvato dall'utente: sviluppo autorizzato.
 
 ## Rapporto
-_(da compilare a fine lavoro)_
+
+**Branch:** `richiesta/R020-enigmi-d-autore-trama` (contiene anche le specifiche di R009 e R010, assorbite) · **Base:** `feature/upgrade-realistico` @ 14880ac (R023 inclusa) · **Eseguito:** PC casa, 2026-11-08, Claude (Opus 5.5 come sottomente).
+
+### 1. Piano per stanza (fase 1, scritto prima dell'implementazione)
+
+Tutto nei JSON: `enigmi_mondo.json` (hub e basso, nuovo) e `flashback_scarpe.json` (ricordo). Gli oggetti sono pezzi di primitive con materiali d'epoca, costruiti da codice leggendo il JSON: nessun modello nuovo, nessun file in LFS.
+
+| Stanza | Enigma (`id`) | Dove nel mondo | Meccanismo | Produce |
+|---|---|---|---|---|
+| Hub vicolo | `enigma_bucato` "Il filo del bucato" | filo sopra lo slargo di Antonietta, davanti alla porta del basso (-6,05 / 3,95 / -2) | oggetto: tocca i tre panni con la toppa a quadri | `porta_trovata` |
+| Hub vicolo | `enigma_exvoto` "L'ex-voto del piede" | edicola votiva grande (punto 1 di R006), (-7,35 / 4,2 / 37) | oggetto: gira l'ex-voto a forma di piede, prendi la chiave | `chiave_basso` |
+| Hub vicolo (facoltativo) | `enigma_manifesti` "I manifesti incollati" | bacheca della traversa T2 (14 / 1,75 / -10,1), rimpiazza il cartello | strati: stacca due manifesti, leggi l'avviso | `pagina_treni` |
+| Basso | `enigma_foto` "La fotografia storta" | cornice sopra la credenza (-4,46 / 1,72 / 1,5) | quadro: raddrizza (3 clic), fermaglio, prendi il cartoncino | `cartoncino_segni` |
+| Basso | `enigma_calendario` "Il calendario del '46" | calendario della cucina, rimpiazza quello di scena | codice da osservazione: conta le scarpette per mese, 4-2-3-1 (rotelle) | (id risolto) |
+| Basso | `enigma_cassetta` "La cassetta di latta" | mensola dei lumini (0,62 / 1,06 / 3,25) | lucchetto a rotelle 3D, codice 4231 | `chiavetta_baule` |
+| Basso | `enigma_baule` "Il baule dell'alcova" | cassapanca ai piedi del letto, rimpiazza il modello di scena | strati: serratura (chiavetta in mano), coperta, tre assi in ordine (scarpa, croce, treno), scatolina, scarpe | le scarpe: avvia il ricordo |
+| Ricordo | `enigma_passanti` (nuovo) | gradino con i nomi dei mestieri, all'ingresso della via | deduzione dalle scarpe di 6 passanti, conferma a gruppi di 3 | `calzolaio_riconosciuto`, cifra 1 |
+| Ricordo | `enigma_nascosto` "Il baule delle scarpe" | le 5 calzature nella via + forme di legno sulla mensola del calzolaio | cerca, poi inventario attivo: ogni calzatura sulla sua forma | cifra 9 |
+| Ricordo | `enigma_quiz` "La cassetta dei diritti" | banco del calzolaio | documenti: tre fogli, si indica la riga che risponde | cifra 8 |
+| Ricordo | `enigma_ordina` "Il calendario della memoria" | ritagli di giornale dal barbiere | trascinare i sei ritagli in ordine | cifra 9 |
+| Ricordo | `enigma_lucchetto` "Il lucchetto dell'uscita" | porta luminosa in fondo alla piazzetta | lucchetto a rotelle 3D, 1989 dalle quattro cifre | apre l'uscita |
+
+Catene: hub (bucato + ex-voto) apre la porta del basso; basso foto → calendario → cassetta → baule → ricordo; ricordo passanti → forme → documenti, passanti → ritagli, tutti → lucchetto. Requisiti nei campi `richiede` / `produce` del JSON.
+
+### 2. Cosa c'è ora
+
+**Sistema (R009).** `EnigmaMondo` (oggetto d'epoca nel mondo, prompt "E - Esamina: ..."), `EsaminaView` (vista ravvicinata: camera propria lontana dal mondo, trascina per girare, rotella per avvicinare, clic sulle parti, Tab/Invio da tastiera, Esc per uscire, Indizio a 3 livelli, errore gentile con riprova, timbro RISOLTO, scheda civica), `MondoFab` (pezzi di primitive con materiali URP e texture procedurali), `MondoStato` (gettoni salvati in `SaveData.oggettiEnigma`), `EnigmiSelfTest`. Meccanismi: oggetto (azioni sui pezzi: leggi, gira, ruota, rivela, segna, muovi, premi, prendi, usa, verifica, errore), ruote a cifre 3D, deduzione, documenti; `ordina` riusa il pannello con trascinamento. Inventario attivo: l'oggetto in mano (in alto a destra) si usa su una parte; la chiave si usa sulla porta dell'hub. Impostazioni, scheda Accessibilita': "Enigmi semplificati" (pannelli 2D: lucchetto, ordina, quiz; ogni enigma ha le domande per questa versione) ed "Evidenzia oggetti interattivi" (brillio leggero, spento di default; si accende da solo dopo 150 s senza progressi). Il quaderno mostra appunti, indizi e oggetti ottenuti degli enigmi risolti.
+
+**Blocchi viola.** Rimossi: `PuzzleStation` e i marcatori colorati non esistono piu' (`EscapeRoomController` crea oggetti d'epoca). Causa piu' probabile (non riprodotta nell'editor, dove il materiale predefinito dei primitivi diventa URP Lit): `PrimitiveFactory` usava `GameObject.CreatePrimitive` con il materiale predefinito built-in, che in un player URP senza shader Standard compila in magenta; ora usa materiali URP Lit creati da codice. La prova cerca materiali rotti (shader mancante o `Hidden/`) in hub, basso e ricordo.
+
+**Dati e doppiaggio.** ID di `cutscene_scarpe` e delle battute invariati; ID degli enigmi del ricordo invariati (+ `enigma_passanti`). Schema esteso e documentato in `CLAUDE.md`.
+
+### 3. Prova (fase 3)
+
+`EnigmiSelfTest` (`-enigmitest [-enigmitestout cartella]`, solo editor e build di sviluppo). Gioca davvero: nuova partita, porta del basso chiusa, enigmi bloccati dai requisiti, per ogni enigma errore gentile + messaggio, i tre indizi, soluzione con **mouse virtuale** (raggi sulle parti, rotelle), salvataggio, "Continua", ricarica, versione semplificata (pannello del lucchetto), assenza di materiali rotti.
+
+- Editor (Play): 99 PASS, 0 FAIL (prima e seconda versione).
+- Build Windows di sviluppo (`C:/Users/rosan/treno-build/Win`, "4 URP assets included in build"): **99 PASS, 0 FAIL** sulla versione finale (log completo in `media/R020/prova_enigmi_build_windows.log`). Il controllo dei materiali rotti passa in hub, basso e ricordo anche nel player.
+- Console dell'editor pulita (0 errori, 0 avvisi) dopo ogni modifica.
+- Screenshot 1280x720 JPG in `Docs/richieste/media/R020/` (per ogni enigma: aperto, errore, indizio, risolto; `mondo_*.jpg` = oggetto nel mondo).
+- FPS (build Windows di sviluppo, 1280x720, vsync spento, 10 s per scena): hub Media 296 (1% peggiore 122) · Alta 256 (113); basso Media 389 (118) · Alta 262 (85, seconda misura da 15 s; la prima misura da 10 s ha avuto un singolo scatto di 143 ms subito dopo il caricamento, 1% peggiore 20: non si ripete); ricordo Media 240 (62) · Alta 207 (57); titolo Media 283 · Alta 244. GPU RTX 4060 Ti, 1280x720, tabella in `media/R020/fps_windows.csv`. Gli oggetti aggiunti sono poche decine di primitive per scena: nessun costo misurabile. Non misurato su PC scolastico ne' su WebGL.
+
+### 4. Non fatto, scostamenti, dubbi
+
+- **Passanti MakeHuman (D2): non fatto.** Servono sei figure intere, e il generatore MakeHuman va eseguito a mano dentro MakeHuman (Utilities > Scripting): da qui non si puo'. Al loro posto l'enigma usa il gradino con i mestieri scritti a gesso e, nella vista ravvicinata, le scarpe di sei passanti (stili: lucide, chiodate, zoccoli, scarponi, tacchi, suole nuove) con una descrizione per ciascuna. Quando ci saranno le figure basta metterle sui vuoti `PassantiRicordo`: l'enigma non cambia.
+- Nessun modello 3D scaricato (tutto da primitive): niente nuove voci in `CREDITS.md`, **nessun file in LFS** (LFS resta a circa 821 MB).
+- Le forme sono semplici (blocchi, capsule): leggibili ma non rifinite. Le posizioni degli oggetti del ricordo (passanti, forme, banco, ritagli, lucchetto) sono provate nella prova ma non rifinite nella scena: si ritoccano da `x,y,z,yaw` nel JSON, senza toccare codice.
+- La battuta facoltativa `cs_basso_001` non e' stata aggiunta.
+- Nessuna GIF: schermate in sequenza al posto delle GIF richieste da R009/R020/R010.
+- Touch: la vista usa il puntatore unico di Input System (mouse e tocco), ma il tocco e' provato solo in teoria (nessuno schermo touch qui). Il pannello "ordina" e' provato con lo stesso metodo del resto, non con un vero trascinamento.
+- Nessun bake delle luci rifatto (nessuna scena modificata a mano: gli oggetti nascono a runtime).
+- **Dubbi storici / decisioni per l'utente.** (1) Il ritaglio "ordina" elenca eventi del 1947 e 1948 dentro un ricordo del 1946: l'avevo trovato nello schema approvato ("gli stessi 6 eventi"); li ho lasciati, ma potrebbero diventare ritagli "dall'archivio del presente". (2) La scheda dell'ex-voto e' generica e va verificata con una fonte (come dice lo schema). (3) La scheda del calendario usa solo fatti confermati in `VERIFICHE_STORICHE.md` (contrassegni, matita copiativa, 2-3 giugno, voto alle donne) e non dice che i simboli servissero a chi non sapeva leggere. (4) L'avviso del Comitato sulla bacheca e nei documenti e' un testo nostro, plausibile ma non una copia di un documento reale.
+

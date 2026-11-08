@@ -1,0 +1,10 @@
+﻿scena;preset;frame;media_ms;fps_medi;fps_1pct_low;max_ms;gpu;risoluzione
+01_Titolo;Media;2832;3.53;283.2;112.9;12.1;NVIDIA GeForce RTX 4060 Ti;1280x720
+01_Titolo;Alta;2438;4.10;243.8;101.3;12.4;NVIDIA GeForce RTX 4060 Ti;1280x720
+10_Hub_Vicolo;Media;2664;3.38;295.9;121.9;15.4;NVIDIA GeForce RTX 4060 Ti;1280x720
+10_Hub_Vicolo;Alta;2303;3.91;255.9;113.3;10.5;NVIDIA GeForce RTX 4060 Ti;1280x720
+20_Int_BassoAntonietta;Media;3501;2.57;388.7;117.8;23.0;NVIDIA GeForce RTX 4060 Ti;1280x720
+20_Int_BassoAntonietta;Alta;1839;4.89;204.3;20.1;142.6;NVIDIA GeForce RTX 4060 Ti;1280x720
+30_FB_Scarpe;Media;2159;4.17;239.8;61.7;24.8;NVIDIA GeForce RTX 4060 Ti;1280x720
+30_FB_Scarpe;Alta;1867;4.82;207.3;57.1;35.6;NVIDIA GeForce RTX 4060 Ti;1280x720
+20_Int_BassoAntonietta;Alta (seconda misura, 15 s);3674;3.81;262.3;85.4;18.7;NVIDIA GeForce RTX 4060 Ti;1280x720

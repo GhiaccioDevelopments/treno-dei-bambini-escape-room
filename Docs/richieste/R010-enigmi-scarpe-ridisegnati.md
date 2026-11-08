@@ -44,10 +44,14 @@ Un'unica **catena** di 4–5 enigmi nel ricordo, dove ognuno produce qualcosa ch
   pannello domande. Poi aggiornare `flashback_scarpe.json` e, se serve, `oggetti.json` / `luoghi.json`.
 
 ## 5. Criteri di accettazione
-- [ ] Catena approvata dall'utente prima dello sviluppo.
-- [ ] Flashback giocabile dall'inizio alla fine solo con oggetti del mondo (niente stazioni o marcatori), mouse/tastiera/touch.
-- [ ] Coerenza con TRAMA.md; testi originali; indizi e spiegazioni presenti; salvataggio dei progressi funzionante.
-- [ ] Video o GIF del flashback completo in `Docs/richieste/media/R010/`; console pulita.
+- [x] Catena approvata dall'utente prima dello sviluppo (schema R020, 2026-11-07).
+- [x] Flashback giocabile dall'inizio alla fine solo con oggetti del mondo (provato in automatico, mouse/tastiera; touch non provato).
+- [x] Coerenza con TRAMA.md; testi originali; indizi e spiegazioni presenti; salvataggio dei progressi funzionante.
+- [ ] Video o GIF: sostituiti da schermate in `Docs/richieste/media/R020/`; console pulita.
 
 ## Rapporto
-_(da compilare a fine lavoro)_
+Assorbita da R020 e implementata sul branch `richiesta/R020-enigmi-d-autore-trama`; vedi il rapporto in `Docs/richieste/R020-enigmi-d-autore-trama.md`.
+
+**Fatto.** Catena di cinque enigmi nel ricordo, tutti oggetti del mondo e senza stazioni: `enigma_passanti` (deduzione dalle scarpe, nuovo), `enigma_nascosto` (calzature cercate nella via e provate sulle forme del calzolaio, inventario attivo), `enigma_quiz` (tre documenti del 1946 da leggere: le risposte sono righe dei fogli; la Costituzione e la Convenzione ONU stanno solo nelle schede civiche), `enigma_ordina` (ritagli da trascinare), `enigma_lucchetto` (rotelle 3D, 1989 dalle quattro cifre raccolte). ID delle battute e degli enigmi invariati.
+**Non fatto.** Le sei figure MakeHuman dei passanti (D2): servono a mano in MakeHuman; al loro posto gradino e scarpe nella vista ravvicinata. Nessuna GIF.
+
