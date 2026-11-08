@@ -58,6 +58,9 @@ namespace TrenoBambini.UI
         RectTransform pannelloAttivo, ricordiPanel, creditiPanel, confermaRoot;
         ScrollRect creditiScroll;
         bool reduced;
+        float sbloccoComandi;        // I1: fino a questo istante (tempo unscaled) le voci ignorano ogni comando
+        bool attesaRilascio;         // I1: il tasto che ha saltato l'intro deve essere rilasciato prima che una voce possa partire
+        bool impostazioniViste;      // M4: le Impostazioni erano aperte nel fotogramma precedente
 
         void Start()
         {
@@ -82,7 +85,12 @@ namespace TrenoBambini.UI
             veilNero.rectTransform.SetAsLastSibling();
             stato = Stato.Intro;
             introT = 0f;
-            if (reduced) introT = Mathf.Max(0f, introTotal - 0.6f);
+            if (reduced)
+            {
+                introT = Mathf.Max(0f, introTotal - 0.6f);
+                // I2: le beat gia' passate si considerano partite, senza suono (altrimenti partirebbero tutte insieme)
+                foreach (var b in beats) if (b.t0 < introT) b.started = true;
+            }
         }
 
         // ------------------------------------------------------------------ costruzione
@@ -248,6 +256,7 @@ namespace TrenoBambini.UI
             if (luogoNome != null) sb.AppendLine(luogoNome);
             int n = s.inventario.Count;
             sb.AppendLine(n == 0 ? T.anteprima.nessunOggetto : n == 1 ? T.anteprima.oggetto1 : string.Format(T.anteprima.oggetti, n));
+            if (s.tempoGioco < 1f) return sb.ToString().TrimEnd(); // M1: salvataggio senza tempo registrato, la riga non si mostra
             int min = Mathf.FloorToInt(s.tempoGioco / 60f);
             sb.Append(min < 1 ? T.anteprima.tempoPoco : min == 1 ? T.anteprima.tempo1 : string.Format(T.anteprima.tempo, min));
             return sb.ToString();
@@ -261,6 +270,7 @@ namespace TrenoBambini.UI
             // locandina che entra da sinistra
             var cg = poster.GetComponent<CanvasGroup>();
             cg.alpha = 0f;
+            cg.interactable = false; cg.blocksRaycasts = false; // I1: durante l'intro le voci non ricevono ne' clic ne' Invio
             beats.Add(new Beat
             {
                 t0 = 0.8f, dur = 0.9f,
@@ -357,13 +367,13 @@ namespace TrenoBambini.UI
             foreach (var b in beats)
             {
                 if (introT < b.t0) continue;
-                if (!b.started) { b.started = true; if (!skip && b.onStart != null) b.onStart(); }
+                if (!b.started) { b.started = true; if (!skip && b.onStart != null && introT - b.t0 < 0.3f) b.onStart(); }
                 float p = b.dur <= 0f ? 1f : Mathf.Clamp01((introT - b.t0) / b.dur);
                 b.apply(skip ? 1f : UITween.Evaluate(b.ease, p));
             }
             if (introT >= introTotal)
             {
-                if (skip) UISfx.Play(Sfx.ClickPaper, 0.4f);
+                if (skip) { UISfx.Play(Sfx.ClickPaper, 0.4f); attesaRilascio = true; }
                 FineIntro();
             }
         }
@@ -374,6 +384,9 @@ namespace TrenoBambini.UI
             foreach (var b in beats) b.apply(1f);
             beats.Clear();
             stato = Stato.Menu;
+            sbloccoComandi = Time.unscaledTime + 0.25f;
+            var pcg = poster.GetComponent<CanvasGroup>();
+            pcg.interactable = true; pcg.blocksRaycasts = true;
             if (veilNero != null) veilNero.gameObject.SetActive(false);
             var pt = premi.GetComponent<TextMeshProUGUI>(); if (pt != null) pt.text = "";
             if (hint != null) { var ht = hint.GetComponent<TextMeshProUGUI>(); if (ht != null) { var c = ht.color; c.a = 0.85f; ht.color = c; } }
@@ -393,6 +406,23 @@ namespace TrenoBambini.UI
                               || g.buttonWest.wasPressedThisFrame || g.buttonNorth.wasPressedThisFrame)) return true;
             return false;
         }
+
+        /// <summary>Vero se c'e' ancora un tasto, un pulsante del mouse, un dito o un pulsante del gamepad premuto.</summary>
+        static bool QualcosaPremuto()
+        {
+            var kb = Keyboard.current;
+            if (kb != null && kb.anyKey.isPressed) return true;
+            var m = Mouse.current;
+            if (m != null && (m.leftButton.isPressed || m.rightButton.isPressed)) return true;
+            var ts = Touchscreen.current;
+            if (ts != null && ts.primaryTouch.press.isPressed) return true;
+            var g = Gamepad.current;
+            if (g != null && (g.buttonSouth.isPressed || g.buttonEast.isPressed || g.startButton.isPressed || g.buttonWest.isPressed || g.buttonNorth.isPressed)) return true;
+            return false;
+        }
+
+        /// <summary>I1: dopo l'intro le voci ignorano i comandi per un attimo e finche' non si rilascia il tasto che l'ha saltata.</summary>
+        bool ComandiBloccati { get { return attesaRilascio || Time.unscaledTime < sbloccoComandi; } }
 
         // ------------------------------------------------------------------ fuoco e azioni
         static void Seleziona(GameObject go) { if (EventSystem.current != null && go != null) EventSystem.current.SetSelectedGameObject(go); }
@@ -424,7 +454,7 @@ namespace TrenoBambini.UI
 
         void Attiva(string id)
         {
-            if (stato != Stato.Menu) return;
+            if (stato != Stato.Menu || ComandiBloccati) return;
             switch (id)
             {
                 case "continua": Lancia(() => GameManager.I.Continue()); break;
@@ -700,7 +730,14 @@ namespace TrenoBambini.UI
                 RunIntro(skip);
                 return;
             }
-            if (UIRoot.I.Settings != null && UIRoot.I.Settings.IsOpen) return; // R008: le Impostazioni gestiscono i propri tasti
+            if (attesaRilascio && !QualcosaPremuto()) { attesaRilascio = false; sbloccoComandi = Mathf.Max(sbloccoComandi, Time.unscaledTime + 0.1f); }
+            if (UIRoot.I.Settings != null && UIRoot.I.Settings.IsOpen) { impostazioniViste = true; return; } // R008: le Impostazioni gestiscono i propri tasti
+            if (impostazioniViste)
+            {
+                // M4: chiuse le Impostazioni il fuoco torna sull'ultima voce scelta
+                impostazioniViste = false;
+                if (stato == Stato.Menu) Seleziona(ultimoFuoco);
+            }
             if (stato == Stato.Lancio) return;
 
             var kb = Keyboard.current;
@@ -709,7 +746,9 @@ namespace TrenoBambini.UI
             if (indietro && (stato == Stato.Sottomenu || stato == Stato.Conferma)) Indietro();
 
             // il fuoco non deve mai sparire (clic su un punto vuoto): torna sull'ultima voce
-            if (EventSystem.current != null && EventSystem.current.currentSelectedGameObject == null)
+            // (anche un oggetto selezionato ma non piu' attivo, per esempio un controllo delle Impostazioni appena chiuse, conta come perso)
+            var sel = EventSystem.current != null ? EventSystem.current.currentSelectedGameObject : null;
+            if (EventSystem.current != null && (sel == null || !sel.activeInHierarchy))
             {
                 if (stato == Stato.Menu) Seleziona(ultimoFuoco);
                 else if (stato == Stato.Sottomenu && pannelloAttivo != null)

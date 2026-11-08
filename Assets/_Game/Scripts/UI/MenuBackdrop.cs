@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TrenoBambini.Core;
+using TrenoBambini.World;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -35,6 +36,8 @@ namespace TrenoBambini.UI
         readonly List<Light> luci = new List<Light>();
         RectTransform still;
         bool fermo;
+        AudioListener titleListener;
+        Material fumoMat;
 
         /// <summary>Vero se la scena dell'hub e' troppo pesante: WebGL o preset Bassa.</summary>
         public static bool Leggero { get { return GraphicsPresets.Web || GraphicsPresets.Current == (int)GraphicsPreset.Bassa; } }
@@ -43,16 +46,15 @@ namespace TrenoBambini.UI
         {
             GameManager.MenuBackdrop = false;
             if (titleCam != null) titleCam.enabled = true;
+            if (titleListener != null) titleListener.enabled = true;
+            if (fumoMat != null) Destroy(fumoMat);
         }
 
         public IEnumerator Run(RectTransform stillParent)
         {
             fermo = GraphicsPresets.ReduceMotion || Fx.UITheme.ReduceEffects;
             titleCam = Camera.main;
-            // il profilo di post-processing della scena del titolo scurirebbe i bordi di grigio sopra al vicolo: si spegne (il look lo da' il Volume del vicolo)
-            // il vecchio diorama della scena del titolo (case, luce direzionale, probe, Volume) si spegne: la scena e' solo camera + schermata
-            foreach (var go in gameObject.scene.GetRootGameObjects())
-                if (go != gameObject && go.GetComponent<Camera>() == null) go.SetActive(false);
+            // la scena del titolo contiene solo la camera e la schermata (vedi Treno > Scene > Ricostruisci solo il Titolo): non c'e' nulla da spegnere
             if (!Leggero && Application.CanStreamedLevelBeLoaded(SceneHub))
             {
                 GameManager.MenuBackdrop = true;
@@ -87,11 +89,24 @@ namespace TrenoBambini.UI
             foreach (var t in FindObjectsByType<Transform>(FindObjectsInactive.Include))
                 if (t.gameObject.scene == hub && (t.name == "Pozzanghera" || t.name == "Pozzanghere")) t.gameObject.SetActive(false);
 
+            // I5: nel menu non piove (niente pioggia sulla camera, gocce o spruzzi) e il suolo e' asciutto
+            foreach (var m in FindObjectsByType<MeteoController>(FindObjectsInactive.Include))
+                if (m.gameObject.scene == hub) m.Sereno();
+
             foreach (var c in FindObjectsByType<Camera>(FindObjectsInactive.Include))
                 if (c.gameObject.scene == hub && c.CompareTag("MainCamera")) { hubCam = c; break; }
             if (hubCam == null) return;
+            // M8: un solo AudioListener attivo, quello della camera dell'hub (la camera del titolo e' spenta finche' dura lo sfondo vivo)
+            foreach (var l in FindObjectsByType<AudioListener>(FindObjectsInactive.Include))
+                if (l.gameObject.scene == hub && l.gameObject != hubCam.gameObject) l.enabled = false;
+            if (titleCam != null)
+            {
+                titleListener = titleCam.GetComponent<AudioListener>();
+                if (titleListener != null) titleListener.enabled = false;
+            }
             var al = hubCam.GetComponent<AudioListener>();
-            if (al != null) al.enabled = false;
+            if (al == null) al = hubCam.gameObject.AddComponent<AudioListener>();
+            al.enabled = true;
             if (titleCam != null) titleCam.enabled = false;
             var brain = hubCam.GetComponent<CinemachineBrain>();
             if (brain == null) brain = hubCam.gameObject.AddComponent<CinemachineBrain>();
@@ -139,7 +154,7 @@ namespace TrenoBambini.UI
                 sun.transform.rotation = Quaternion.Euler(7f, 62f, 0f);
             }
             RenderSettings.ambientIntensity = 0.4f;
-            RenderSettings.fog = true;
+            RenderSettings.fog = GraphicsPresets.Get(Voce.Nebbia) != 0; // M2: la preferenza Nebbia delle impostazioni grafiche vale anche qui
             RenderSettings.fogMode = FogMode.ExponentialSquared;
             RenderSettings.fogColor = new Color(0.30f, 0.20f, 0.15f);
             RenderSettings.fogDensity = 0.013f;
@@ -176,8 +191,9 @@ namespace TrenoBambini.UI
 
         void CostruisciFumo(Vector3 fwd)
         {
-            var mat = Resources.Load<Material>("Menu/M_FumoMenu");
-            if (mat == null) return;
+            var asset = Resources.Load<Material>("Menu/M_FumoMenu");
+            if (asset == null) return;
+            var mat = fumoMat = new Material(asset); // M3: istanza, l'asset non si modifica
             mat.SetTexture("_BaseMap", Fx.UIArt.Smoke().texture);
             var go = new GameObject("FumoLontano");
             go.transform.position = basePos + fwd * 70f + Vector3.up * 6f + Vector3.Cross(Vector3.up, fwd) * 12f;
