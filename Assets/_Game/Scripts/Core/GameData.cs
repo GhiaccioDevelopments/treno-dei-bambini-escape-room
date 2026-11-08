@@ -14,13 +14,15 @@ namespace TrenoBambini.Core
         static AudioFile audio;
         static UiMenuFile uiMenu;
         static CreditiFile crediti;
+        static List<EnigmaDef> enigmiMondo;
+        static List<NascostoDef> oggettiEnigma;
         static readonly Dictionary<string, FlashbackDef> flashbacks = new Dictionary<string, FlashbackDef>();
         static readonly Dictionary<string, CutsceneDef> cutscenes = new Dictionary<string, CutsceneDef>();
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         static void ResetStatics()
         {
-            luoghi = null; oggetti = null; personaggi = null; audio = null; uiMenu = null; crediti = null;
+            luoghi = null; oggetti = null; personaggi = null; audio = null; uiMenu = null; crediti = null; enigmiMondo = null; oggettiEnigma = null;
             flashbacks.Clear(); cutscenes.Clear();
         }
 
@@ -29,6 +31,42 @@ namespace TrenoBambini.Core
 
         /// <summary>R023: asset esterni e licenze, generati da CREDITS.md (Treno > Crediti > Genera crediti.json).</summary>
         public static CreditiFile Crediti { get { if (crediti == null) crediti = LoadJson<CreditiFile>("crediti") ?? new CreditiFile(); return crediti; } }
+
+        /// <summary>R009/R020: enigmi degli oggetti nel mondo di hub e basso (enigmi_mondo.json). Ognuno ha il campo scena.</summary>
+        public static List<EnigmaDef> EnigmiMondo
+        {
+            get
+            {
+                if (enigmiMondo == null)
+                {
+                    var f = LoadJson<EnigmiMondoFile>("enigmi_mondo");
+                    enigmiMondo = (f != null && f.enigmi != null) ? f.enigmi : new List<EnigmaDef>();
+                }
+                return enigmiMondo;
+            }
+        }
+
+        /// <summary>Oggetti/indizi che si ottengono negli enigmi (nome e descrizione), dal file del mondo e dagli oggetti nascosti dei ricordi.</summary>
+        public static List<NascostoDef> OggettiEnigma
+        {
+            get
+            {
+                if (oggettiEnigma == null)
+                {
+                    oggettiEnigma = new List<NascostoDef>();
+                    var f = LoadJson<EnigmiMondoFile>("enigmi_mondo");
+                    if (f != null && f.oggetti != null) oggettiEnigma.AddRange(f.oggetti);
+                    foreach (var o in Oggetti)
+                    {
+                        if (string.IsNullOrEmpty(o.flashback)) continue;
+                        var fb = Flashback(o.flashback);
+                        if (fb == null) continue;
+                        foreach (var e in fb.enigmi) if (e.oggetti != null) oggettiEnigma.AddRange(e.oggetti);
+                    }
+                }
+                return oggettiEnigma;
+            }
+        }
 
         public static List<LuogoDef> Luoghi
         {

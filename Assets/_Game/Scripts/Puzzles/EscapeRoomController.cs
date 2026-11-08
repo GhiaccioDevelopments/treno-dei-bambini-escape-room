@@ -9,15 +9,15 @@ using UnityEngine;
 namespace TrenoBambini.Puzzles
 {
     /// <summary>
-    /// Gestisce la stanza-ricordo: crea le postazioni degli enigmi, attiva la prima non risolta,
-    /// mostra l'HUD "Enigmi: n/N" e apre l'uscita alla fine. Gli enigmi risolti sono salvati.
+    /// Gestisce la stanza-ricordo: crea gli oggetti-enigma (R009: oggetti d'epoca nel mondo, niente piu' marcatori), mostra l'HUD "Enigmi: n/N"
+    /// e apre l'uscita quando tutti sono risolti. Gli enigmi risolti sono salvati; l'ordine lo danno i campi richiede/produce.
     /// </summary>
     public class EscapeRoomController : MonoBehaviour
     {
         public string flashbackId;
 
         FlashbackDef flashback;
-        readonly List<PuzzleStation> stations = new List<PuzzleStation>();
+        readonly List<EnigmaMondo> stations = new List<EnigmaMondo>();
         EscapeExit exit;
         string extraHud = "";
 
@@ -36,7 +36,13 @@ namespace TrenoBambini.Puzzles
             var root = new GameObject("Enigmi").transform;
             root.SetParent(transform, false);
             var enigmi = flashback.enigmi ?? new List<EnigmaDef>();
-            for (int i = 0; i < enigmi.Count; i++) CreateStation(enigmi[i], root);
+            for (int i = 0; i < enigmi.Count; i++)
+            {
+                var st = EnigmaMondo.Crea(enigmi[i], Key(enigmi[i]), root);
+                st.alRisolto = OnEnigmaSolved;
+                st.progresso = SetExtraHud;
+                stations.Add(st);
+            }
 
             int solvedCount = CountSolved();
             RefreshAll();
@@ -52,69 +58,26 @@ namespace TrenoBambini.Puzzles
             if (UIRoot.I != null) UIRoot.I.SetHudCounter("");
         }
 
-        void CreateStation(EnigmaDef e, Transform parent)
-        {
-            string modello = e.modello;
-            if (string.IsNullOrEmpty(modello))
-            {
-                switch ((e.tipo ?? "").ToLowerInvariant())
-                {
-                    case "lucchetto": modello = "cilindro"; break;
-                    case "abbina": modello = "sfera"; break;
-                    default: modello = "cubo"; break;
-                }
-            }
-            var go = PrimitiveFactory.Create(modello, "Postazione_" + e.id, new Vector3(e.x, e.y, e.z), 0.6f, StationColor(e.tipo), parent);
-            var st = go.AddComponent<PuzzleStation>();
-            var glow = go.AddComponent<Glow>();
-            glow.on = false;
-            st.Setup(e, this, glow);
-            stations.Add(st);
-        }
-
-        static Color StationColor(string tipo)
-        {
-            switch ((tipo ?? "").ToLowerInvariant())
-            {
-                case "quiz": return new Color(0.62f, 0.42f, 0.25f);
-                case "lucchetto": return new Color(0.45f, 0.45f, 0.5f);
-                case "nascosto": return new Color(0.5f, 0.55f, 0.35f);
-                case "ordina": return new Color(0.6f, 0.35f, 0.3f);
-                case "abbina": return new Color(0.4f, 0.5f, 0.6f);
-                default: return new Color(0.6f, 0.5f, 0.4f);
-            }
-        }
-
         string Key(EnigmaDef e) { return flashbackId + "/" + e.id; }
-
-        bool IsSolved(EnigmaDef e) { return GameManager.I.Save.enigmiRisolti.Contains(Key(e)); }
 
         /// <summary>Posizione (0..n-1) dell enigma nel flashback, -1 se sconosciuto. Serve al numero romano nel titolo del pannello.</summary>
         public int IndexOfEnigma(EnigmaDef d)
         {
-            for (int i = 0; i < stations.Count; i++) if (stations[i].def == d) return i;
+            for (int i = 0; i < stations.Count; i++) if (stations[i].def == d || stations[i].def.id == d.id) return i;
             return -1;
         }
 
         int CountSolved()
         {
             int c = 0;
-            for (int i = 0; i < stations.Count; i++) if (IsSolved(stations[i].def)) c++;
+            for (int i = 0; i < stations.Count; i++) if (stations[i].Risolto) c++;
             return c;
         }
 
         void RefreshAll()
         {
-            bool activeAssigned = false;
-            int solved = 0;
-            for (int i = 0; i < stations.Count; i++)
-            {
-                bool s = IsSolved(stations[i].def);
-                bool active = false;
-                if (s) solved++;
-                else if (!activeAssigned) { active = true; activeAssigned = true; }
-                stations[i].Refresh(active, s);
-            }
+            int solved = CountSolved();
+            for (int i = 0; i < stations.Count; i++) stations[i].Aggiorna();
             bool all = solved >= stations.Count;
             if (exit != null) exit.Setup(flashback, all);
             UpdateHud(solved);
@@ -133,13 +96,9 @@ namespace TrenoBambini.Puzzles
             UpdateHud(CountSolved());
         }
 
-        public void OnEnigmaSolved(PuzzleStation st)
+        public void OnEnigmaSolved(EnigmaMondo st)
         {
             extraHud = "";
-            var key = Key(st.def);
-            var s = GameManager.I.Save;
-            if (!s.enigmiRisolti.Contains(key)) s.enigmiRisolti.Add(key);
-            GameManager.I.SaveGame();
             RefreshAll();
 
             if (UIRoot.I == null) return;

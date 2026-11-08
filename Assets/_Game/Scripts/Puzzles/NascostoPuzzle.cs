@@ -55,16 +55,19 @@ namespace TrenoBambini.Puzzles
             for (int i = 0; i < total; i++)
             {
                 var n = d.oggetti[i];
-                var go = PrimitiveFactory.Create(n.modello, "Nascosto_" + n.id, new Vector3(n.x, n.y, n.z), 0.28f,
-                    new Color(0.55f, 0.38f, 0.24f), transform);
-                var col = go.GetComponent<Collider>();
-                if (col != null) col.isTrigger = true; // non blocca il player
+                if (MondoStato.Ha(n.id)) { found++; continue; } // gia' nella borsa (partita ripresa)
+                var go = MondoFab.Scarpa(new ParteDef { id = "Nascosto_" + n.id, testo = n.modello, x = n.x, y = n.y, z = n.z, ry = 20f * i + 15f, sx = 1.15f, sy = 1.15f, sz = 1.15f }, transform, false);
+                go.transform.position = new Vector3(n.x, n.y, n.z);
+                var bc = go.AddComponent<BoxCollider>();
+                bc.isTrigger = true; // non blocca il player
+                bc.center = new Vector3(0f, 0.06f, 0f); bc.size = new Vector3(0.4f, 0.2f, 0.25f);
                 var h = go.AddComponent<HiddenItem>();
                 h.item = n;
                 h.owner = this;
                 h.prompt = "Raccogli: " + n.nome;
             }
 
+            if (found >= total) { Complete(); return; }
             if (UIRoot.I != null) UIRoot.I.ShowMessage(d.titolo, d.consegna, null);
             Report();
         }
@@ -87,6 +90,8 @@ namespace TrenoBambini.Puzzles
                 Vector3 sp = Camera.main.WorldToScreenPoint(h.transform.position);
                 if (sp.z > 0f) UIParticles.BurstAtScreen(ParticleKind.Spark, sp, 10);
             }
+            MondoStato.Dai(h.item.id);
+            if (GameManager.I != null) GameManager.I.SaveGame();
             Destroy(h.gameObject);
             found++;
             if (found >= total) Complete();
@@ -116,6 +121,7 @@ namespace TrenoBambini.Puzzles
             string t = def.spiegazione ?? "";
             if (!string.IsNullOrEmpty(def.temaCivico)) t += (t.Length > 0 ? "\n\n" : "") + "Educazione civica: " + def.temaCivico;
             if (t.Length == 0) t = "Hai trovato tutto!";
+            t += "\n\nPortale ora alle forme del calzolaio: vediamo a chi calzano.";
             var cb = onSolved;
             if (UIRoot.I != null) UIRoot.I.ShowMessage(def.titolo, t, () => { if (cb != null) cb(); });
             else if (cb != null) cb();

@@ -1,5 +1,6 @@
 using TrenoBambini.Core;
 using TrenoBambini.Data;
+using TrenoBambini.Puzzles;
 using TrenoBambini.UI;
 using UnityEngine;
 
@@ -43,6 +44,18 @@ namespace TrenoBambini.World
                         AudioManager.FireAt("porta_chiusa", transform.position);
                         if (UIRoot.I != null) UIRoot.I.Toast(l.nome + " si aprirà più avanti.");
                         return;
+                    }
+                    // R020: porta chiusa a chiave finche' non si hanno i gettoni (porta trovata, chiave)
+                    if (l.richiede != null && !GameManager.I.Save.inventario.Contains("scarpe"))
+                    {
+                        for (int i = 0; i < l.richiede.Count; i++)
+                        {
+                            if (MondoStato.Ha(l.richiede[i])) continue;
+                            AudioManager.FireAt("porta_chiusa", transform.position);
+                            string m = l.richiedeMsg != null && i < l.richiedeMsg.Count ? l.richiedeMsg[i] : "Questa porta è chiusa a chiave.";
+                            if (UIRoot.I != null) UIRoot.I.Toast(m, 4.5f);
+                            return;
+                        }
                     }
                     if (string.IsNullOrEmpty(scena)) scena = l.scena;
                     if (string.IsNullOrEmpty(spawn)) spawn = l.spawn;

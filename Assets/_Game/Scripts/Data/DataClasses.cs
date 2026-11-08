@@ -11,6 +11,8 @@ namespace TrenoBambini.Data
     {
         public string id; public string nome; public string scena; public string spawn; public string descrizione;
         public string meteo; // R007 t4: pioggia | pioggia_fuori | sereno (vuoto = sereno)
+        public List<string> richiede = new List<string>();     // R020: gettoni necessari per entrare (porta chiusa a chiave)
+        public List<string> richiedeMsg = new List<string>();   // messaggio gentile per ciascun gettone mancante (stesso ordine)
         public bool aperto;
     }
 
@@ -30,6 +32,8 @@ namespace TrenoBambini.Data
         public string id; public string nome; public string ritratto;
         public string colore; // "#RRGGBB"
     }
+
+    [Serializable] public class EnigmiMondoFile { public List<EnigmaDef> enigmi = new List<EnigmaDef>(); public List<NascostoDef> oggetti = new List<NascostoDef>(); }
 
     [Serializable]
     public class FlashbackDef
@@ -51,13 +55,80 @@ namespace TrenoBambini.Data
         public List<NascostoDef> oggetti = new List<NascostoDef>();
         public List<EventoDef> eventi = new List<EventoDef>();
         public List<CoppiaDef> coppie = new List<CoppiaDef>();
+
+        // ---- R009/R020: enigmi dentro il mondo (oggetti d'epoca esaminabili) ----
+        public string scena;                 // solo in enigmi_mondo.json: scena in cui sta l'oggetto
+        public string meccanismo;            // oggetto | ruote | deduzione | documenti | ordina | nascosto ("" = ricavato dal tipo)
+        public float yaw;                    // orientamento nel mondo (gradi)
+        public float scala = 1f;             // scala dell'oggetto nel mondo (nella vista ravvicinata e' ingrandito)
+        public float distanza = 1.6f;        // distanza della camera nella vista ravvicinata
+        public string prompt;                // "Esamina: ..." se diverso dal titolo
+        public List<ParteDef> parti = new List<ParteDef>();   // l'oggetto: pezzi di primitive con materiali d'epoca
+        public RuotaDef ruote;               // ruote a cifre (lucchetto, calendario)
+        public List<string> richiede = new List<string>();    // oggetti o enigmi gia' ottenuti/risolti necessari per esaminare
+        public List<string> produce = new List<string>();     // oggetti/indizi ottenuti alla soluzione
+        public string bloccatoMsg;           // messaggio gentile se mancano i requisiti
+        public string scheda;                // scheda civica breve dopo la soluzione
+        public string appunto;               // riga che entra nel quaderno
+        public List<string> soluzione = new List<string>();   // eventi (id) da compiere nella vista ravvicinata
+        public bool ordinata;                // gli eventi vanno compiuti in ordine
+        public List<PassanteDef> passanti = new List<PassanteDef>();
+        public List<string> mestieri = new List<string>();
+        public List<DocumentoDef> documenti = new List<DocumentoDef>();
+        public string sostituisce;           // nomi (separati da virgola) di oggetti gia' presenti nella scena da nascondere perche' l'enigma li rimpiazza
+        public float inclina = 8f;           // inclinazione iniziale della camera nella vista ravvicinata (gradi)
+        public string finale;                // se valorizzato, alla soluzione parte il ricordo di questo oggetto (es. "scarpe")
     }
+
+    /// <summary>Un pezzo dell'oggetto esaminabile: una primitiva (o un testo) con materiale, posizione locale e comportamento al clic.</summary>
+    [Serializable]
+    public class ParteDef
+    {
+        public string id;
+        public string forma = "cubo";         // cubo | cilindro | sfera | capsula | testo | scarpa (stile in testo) | vuoto (gruppo; con clic ha un collider sx,sy,sz)
+        public string materiale = "legno";    // legno | metallo | ottone | argento | carta | stoffa | cuoio | pietra | gesso | vetro | cera
+        public string colore = "";            // "#RRGGBB" (vuoto = colore del materiale)
+        public float x, y, z;                 // posizione locale (m)
+        public float rx, ry, rz;              // rotazione locale (gradi)
+        public float sx = 1f, sy = 1f, sz = 1f;
+        public string testo = "";             // forma testo: il testo; con altre forme: scritta sulla faccia frontale
+        public float dimensione = 0.05f;      // altezza del testo (m)
+        public string gruppo = "";
+        public bool nascosta;                 // compare solo quando un'azione la rivela (campo dopo)
+        public bool clic;                     // cliccabile nella vista ravvicinata
+        public string azione = "";            // "" | leggi | gira | ruota | rivela | nascondi | muovi | premi | prendi | usa | errore
+        public string evento = "";            // evento registrato (vuoto = id della parte)
+        public string dopo = "";              // id o gruppi (g:nome) rivelati, separati da virgola
+        public string asse = "y";             // asse per gira/ruota/muovi
+        public float valore = 4f;             // gradi per clic (ruota), distanza (muovi)
+        public string msg = "";               // messaggio mostrato al clic
+        public string richiede = "";          // oggetto necessario per l'azione (inventario attivo)
+        public string produce = "";           // oggetto ottenuto con l'azione
+        public string genitore = "";          // id di un altro pezzo: questo ne diventa figlio (posizione locale rispetto al genitore)
+        public string bersaglio = "";          // id del pezzo su cui agisce gira/ruota/muovi (vuoto = questo)
+        public string quando = "";             // il pezzo compare quando questo evento e' accettato ("risolto" = a enigma risolto)
+    }
+
+    [Serializable] public class RuotaDef { public int n = 4; public float x, y, z, passo = 0.14f, larghezza = 0.09f, raggio = 0.07f; public string colore = "#8a7a52"; }
+
+    [Serializable]
+    public class PassanteDef
+    {
+        public string id, nome, descrizione;
+        public string stile;      // lucide | chiodate | zoccoli | militari | tacchi | risuolate
+        public string mestiere;   // soluzione (uno dei mestieri dell'enigma)
+        public string colore = "#3b2d22";
+        public string abito = "#5a4a3a";
+    }
+
+    [Serializable] public class DocumentoDef { public string id, titolo; public List<string> righe = new List<string>(); }
 
     [Serializable]
     public class DomandaDef
     {
         public string testo; public List<string> opzioni = new List<string>(); public int corretta;
         public string spiegazione; public string erroreMsg;
+        public string documento; public int riga = -1; // R020: la risposta e' la riga indicata nel documento (opzioni/corretta restano per la versione semplificata)
     }
 
     [Serializable]
