@@ -196,3 +196,11 @@ Texture Poly Haven CC0 usate come base (1K, scaricate con asset-hub): `rough_lin
 (https://polyhaven.com/a/<nome>, autori vari, licenza [CC0](https://creativecommons.org/publicdomain/zero/1.0/)).
 Scene di prova dei confronti: `Prove/R007_Modelli.unity` (primitive contro modelli) e `Prove/R007_Rifatti.unity` (modelli rifatti dopo il parere dell'utente); foto in `Docs/richieste/media/R007/t2_*.jpg` e `t2b_*.jpg`.
 Modelli scartati e rimossi dal progetto (non piu' in uso, nessun credito dovuto): Rusty Bicycle (Pjot), Rustic chair (Araon), Wooden Market Stall (ddineah0), Stone Bench [3D Scan] (imbace), ottone di Brass Pot/Pan (sostituito dal rame).
+
+## Meteo, decal e set dressing (R007, tappe 3B e 4)
+
+Nessun asset esterno nuovo. Tutto originale e generato da script riproducibili:
+- decal di umidita', salnitro e macchie d'acqua (`Assets/Art/Textures/Decal/DecalUmido.png`, `DecalMacchie.png`, da `ArtSource/Models/decal_muri.py`), proiettati con i DecalProjector URP alla base delle facciate;
+- `GabbiaUccellino` (gabbietta con uccellino appesa ai bassi): modello Blender originale, 580 tri, `ArtSource/Models/crea_oggetti_b.py`;
+- manifesti del referendum del 2 giugno 1946 (`Referendum`, `VotoDonne`, `Seggio`): testi originali in `testi_ambiente.json`, nessun materiale del film o del libro;
+- puntellature di guerra, pozzanghere, pioggia, spruzzi e gocce: geometria e particelle da codice (`MeteoController`), audio di pioggia sintetizzato (`SfxSynth`: `pioggia`, `pioggia_ovattata`).

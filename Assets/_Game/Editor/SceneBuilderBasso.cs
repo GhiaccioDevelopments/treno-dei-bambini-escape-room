@@ -369,7 +369,7 @@ namespace TrenoBambini.EditorTools
             var cassaB = Model("CassaLegno", props, new Vector3(-4.1f, 0f, -0.6f), 90f, 1.2f, true, "Cassa");
             var cassaT = Model("CassaLegno", props, new Vector3(-4.1f, 0.43f, -0.6f), 78f, 1.0f, true, "Cassa");
             Impila(cassaT, cassaB, Vector2.zero);
-            Pz(props, "PilaMaterassi", "B_PilaMaterassi", new[] { "M_TessutoLino", "PannoBeige", "PannoTerra" }, PilaMaterassi, new Vector3(-4.2f, 0f, -1.9f), 90f);
+            Pz(props, "PilaMaterassi", "B_PilaMaterassi", new[] { "PannoBeige", "PannoGrigio", "PannoTerra" }, PilaMaterassi, new Vector3(-4.2f, 0f, -1.9f), 90f);
             var credenza = Pz(props, "Credenza", "B_Credenza", new[] { "M_LegnoVernicePelata", "M_FerroRuggine02", "Cera" }, Credenza, new Vector3(-4.2f, 0f, 1.5f), 90f);
             var lampCredenza = Model("LampadaPetrolio_B", props, new Vector3(-4.2f, 0.96f, 1.2f), 0f, 1.3f, false, "LampadaCredenza");
             Impila(lampCredenza, credenza, new Vector2(0f, -0.3f));
@@ -431,7 +431,7 @@ namespace TrenoBambini.EditorTools
             // ---------------------------------------------------------------- alcova
             var letto = Pz(props, "LettoFerro", "B_LettoFerro", new[] { "M_FerroRuggine02", "M_TessutoLino", "Tessuto1" }, LettoFerro, new Vector3(-3.85f, 0f, 6.8f), 0f);
             letto.transform.localScale = new Vector3(0.86f, 1f, 1f); // letto da una piazza e mezza: lascia un corridoio di 90 cm
-            Pz(props, "MaterassoTerra", "B_MaterassoTerra", new[] { "M_TessutoLino", "PannoBeige", "PannoTerra" }, MaterassoTerra, new Vector3(-1.95f, 0f, 6.8f), 0f, false);
+            Pz(props, "MaterassoTerra", "B_MaterassoTerra", new[] { "PannoGrigio", "PannoBeige", "PannoTerra" }, MaterassoTerra, new Vector3(-1.95f, 0f, 6.8f), 0f, false);
             var baule = Model("CassaLegno", props, new Vector3(-3.95f, 0f, 4.5f), 0f, 1.3f, true, "BauleAlcova");
             Candela(props, "Alcova", new Vector3(-3.95f, 0.45f, 4.5f), baule);
             Model("SecchioLegno", props, new Vector3(-1.8f, 0f, 4.4f), 0f, 1.1f, true, "SecchioNotte");

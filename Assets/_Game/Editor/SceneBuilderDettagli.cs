@@ -308,9 +308,9 @@ namespace TrenoBambini.EditorTools
             {
                 float side = Mathf.Clamp01(1f - Mathf.Pow(Mathf.Abs(u * 2f - 1f), 2.5f) * 0.7f);
                 float k = Mathf.Lerp(0.6f, 1.1f, w) * side * (0.9f + 0.1f * ValueNoise(u * 5f, w * 8f));
-                return new Color(1.0f * k, 0.84f * k, 0.55f * k);
+                return new Color(1.0f * k, 0.66f * k, 0.34f * k); // R007 t3B: ambra, non piu' bianco
             });
-            EmissiveMat("M_LuceUscita", door, 2.4f);
+            EmissiveMat("M_LuceUscita", door, 0.9f);
             AssetDatabase.SaveAssets();
         }
 

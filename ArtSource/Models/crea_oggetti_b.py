@@ -1,6 +1,7 @@
 # R007 tappa 2 parte B: oggetti rifatti dopo i confronti con l'utente (bancarella da mercato, panchina popolare, sedia impagliata napoletana).
 # Importato da crea_oggetti.py. Fronte dei modelli a -Y Blender (= +Z Unity).
 import bpy, bmesh, math, random
+from mathutils import Matrix
 import lib_modelli as L
 from lib_modelli import box, cilindro, trasla, uv_box, smussa
 
@@ -169,3 +170,41 @@ def sedia():
     obj = L.unisci([o, o2])
     obj.name = 'SediaPaglia'
     return obj, {}
+
+
+def gabbia_uccellino():
+    """Gabbietta da appendere (R007 t3B): fili di ferro, base e cupola, anello, un uccellino giallo-bruno sul posatoio. Origine all'anello (pende verso il basso)."""
+    mats = crea_mats(['FerroGabbia', 'Uccellino'])
+    bm = bmesh.new()
+    R0, H0 = 0.13, 0.28
+    n = 18
+    for i in range(n):
+        a = i / n * 2 * math.pi
+        cx, cy = R0 * math.cos(a), R0 * math.sin(a)
+        box(bm, (cx - 0.0035, cy - 0.0035, 0.02), (cx + 0.0035, cy + 0.0035, H0), 0)
+    v, _ = cilindro(bm, 0.0, 0.025, R0 + 0.01, 18, 0)
+    v, _ = cilindro(bm, H0, H0 + 0.07, R0 + 0.004, 18, 0, raggio2=0.02)
+    v, _ = cilindro(bm, H0, H0 + 0.012, R0 + 0.006, 18, 0)
+    # anello e gancio
+    v, _ = cilindro(bm, H0 + 0.07, H0 + 0.12, 0.006, 8, 0)
+    box(bm, (-0.02, -0.004, H0 + 0.12), (0.02, 0.004, H0 + 0.135), 0)
+    # posatoio e uccellino
+    v, _ = cilindro(bm, -0.1, 0.1, 0.005, 6, 0, asse='x')
+    trasla(bm, v, (0, 0, 0.09))
+    r = bmesh.ops.create_icosphere(bm, subdivisions=2, radius=0.035)
+    for vv in r['verts']:
+        vv.co.y *= 0.7
+        vv.co.z *= 0.9
+    trasla(bm, r['verts'], (0, 0, 0.135))
+    for f in {f for vv in r['verts'] for f in vv.link_faces}:
+        f.material_index = 1
+    r2 = bmesh.ops.create_icosphere(bm, subdivisions=1, radius=0.018)
+    trasla(bm, r2['verts'], (0, -0.03, 0.165))
+    for f in {f for vv in r2['verts'] for f in vv.link_faces}:
+        f.material_index = 1
+    o = oggetto_da_bm('GabbiaUccellino', bm, mats)
+    o.data.transform(Matrix.Translation((0, 0, -(H0 + 0.135))))
+    for p in o.data.polygons:
+        p.use_smooth = True
+    return o, {'piatti': {'FerroGabbia': {'colore': [0.10, 0.10, 0.11], 'metallico': 0.85, 'levig': 0.35},
+                          'Uccellino': {'colore': [0.62, 0.48, 0.14], 'metallico': 0.0, 'levig': 0.25}}}

@@ -325,6 +325,7 @@ def crea_panni():
 
 
 COSTRUTTORI = {
+    'GabbiaUccellino': (B.gabbia_uccellino, dict()),
     'Bancarella': (B.bancarella, dict()),
     'PanchinaPopolare': (B.panchina, dict()),
     'SediaPaglia': (B.sedia, dict()),

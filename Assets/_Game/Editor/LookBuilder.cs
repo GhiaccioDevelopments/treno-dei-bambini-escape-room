@@ -815,11 +815,24 @@ namespace TrenoBambini.EditorTools
         }
 
         /// <summary>R007: il pavimento battuto dei cortili leggeva grigio: tono terra calda.</summary>
+        /// <summary>R007 t3B: tufo giallo napoletano: l'arenaria dei blocchi si riporta verso l'ocra-giallo caldo (stessa texture, solo tinta).</summary>
+        static void TintTufoGiallo()
+        {
+            foreach (var n in new[] { "M_ArenariaBlocchi", "M_ArenariaCrepe" })
+            {
+                var m = AssetDatabase.LoadAssetAtPath<Material>(MatFolder + "/" + n + ".mat");
+                if (m == null) continue;
+                var c = new Color(1.0f, 0.86f, 0.60f, 1f);
+                if (m.HasProperty("_BaseColor")) m.SetColor("_BaseColor", c);
+                EditorUtility.SetDirty(m);
+            }
+        }
+
         static void TintPavimentoBattuto()
         {
             var m = AssetDatabase.LoadAssetAtPath<Material>(MatFolder + "/M_PavimentoBattuto.mat");
             if (m == null) return;
-            var c = new Color(1.0f, 0.72f, 0.46f, 1f);
+            var c = new Color(1.0f, 0.80f, 0.56f, 1f); // R007 t3B: terra battuta ocra, non grigia
             if (m.HasProperty("_BaseColor")) m.SetColor("_BaseColor", c);
             if (m.HasProperty("_Color")) m.SetColor("_Color", c);
             EditorUtility.SetDirty(m);
@@ -841,6 +854,7 @@ namespace TrenoBambini.EditorTools
 
             EnsureSkyMaterials();
             TintPavimentoBattuto();
+            TintTufoGiallo();
             Material sky = AssetDatabase.LoadAssetAtPath<Material>(SkyHub);
             bool probesSky = true;
             var look = new GameObject(LookRoot);
@@ -892,8 +906,8 @@ namespace TrenoBambini.EditorTools
                 case "20_Int_BassoAntonietta":
                     // R007: interno buio nel presente. Fuori piove: luce fredda e grigia da finestre e porte (luci baked sulle aperture
                     // + sole debole freddo), lampade a petrolio e candele calde come fonti principali. Il cortile e' a cielo aperto.
-                    SetSun(sun, new Color(0.74f, 0.82f, 0.96f), 1.5f, new Vector3(52f, 28f, 0f), 0.6f);
-                    SetSkyAmbient(1.3f);
+                    SetSun(sun, new Color(0.74f, 0.82f, 0.96f), 2.3f, new Vector3(52f, 28f, 0f), 0.6f); // R007 t3B: cortile meno scuro (1,5 -> 2,3)
+                    SetSkyAmbient(1.8f);
                     bg = new Color(0.07f, 0.06f, 0.055f);
                     SetFog(0.006f, new Color(0.20f, 0.19f, 0.18f));
                     var main = GameObject.Find("Luce Calda");
@@ -917,7 +931,7 @@ namespace TrenoBambini.EditorTools
                     // R007: sole basso (altezza ~22 gradi) lungo l'asse della via, caldo e luminoso; cielo procedurale al tramonto
                     sky = AssetDatabase.LoadAssetAtPath<Material>(SkyRicordo);
                     SetSun(sun, new Color(1.00f, 0.74f, 0.42f), 5.5f, new Vector3(22f, -32f, 0f), 0.95f);
-                    SetSkyAmbient(2.3f);
+                    SetSkyAmbient(2.8f); // R007 t3B: cortili del ricordo meno scuri
                     bg = new Color(0.62f, 0.47f, 0.30f);
                     SetFog(0.011f, new Color(0.62f, 0.46f, 0.29f));
                     AddLampLights("LuceLampione", Cct(2400f), 2.6f, 7f);
@@ -945,6 +959,8 @@ namespace TrenoBambini.EditorTools
             }
 
             MarkStatic(scene);
+            MeteoBuilder.AddMeteo(scene, name);   // R007 t4: pioggia guidata da luoghi.json
+            MeteoBuilder.AddDecals(scene, name);  // R007 t3B: decal di umidita' e salnitro
             if (name == "10_Hub_Vicolo") AddHubProbes(look.transform, bg);
             else if (name == "20_Int_BassoAntonietta")
             {

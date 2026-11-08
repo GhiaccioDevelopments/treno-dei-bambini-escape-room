@@ -65,7 +65,7 @@ namespace TrenoBambini.EditorTools
             switch (name)
             {
                 case "Tessuto1": return TintedMat("M_TessutoLino", "M_Panno_Terracotta", new Color(0.78f, 0.46f, 0.36f));
-                case "Tessuto2": return TintedMat("M_TessutoLino", "M_Panno_Azzurro", new Color(0.52f, 0.63f, 0.72f));
+                case "Tessuto2": return AssetDatabase.LoadAssetAtPath<Material>("Assets/Art/Materials/M_TendaLino.mat"); // R007 t3B: tela di lino grezza (texture della radio), non piu' blu piatto
                 case "Tessuto3": return AssetDatabase.LoadAssetAtPath<Material>("Assets/Art/Materials/M_TessutoLino.mat");
                 case "Cuoio": return TintedMat("M_TessutoIuta", "M_Cuoio_Scarpe", new Color(0.34f, 0.22f, 0.14f));
                 case "PannoBianco": return TintedMat("M_TessutoLino", "M_Panno_Bianco", new Color(0.85f, 0.82f, 0.74f));

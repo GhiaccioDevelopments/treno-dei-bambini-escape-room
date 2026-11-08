@@ -63,12 +63,12 @@ Shader "Treno/PellicolaRicordi"
 
                 // graffio verticale: raro, sottile, interrotto
                 float st = floor(_Time.y * 8.0);
-                if (h11(st * 5.1) > 0.9)
+                if (h11(st * 5.1) > 0.975)
                 {
                     float x = h11(st * 7.7);
                     float d = abs(i.texcoord.x - x);
-                    float ln = smoothstep(0.0009, 0.0, d) * step(h11(floor(i.texcoord.y * 6.0) + st), 0.8);
-                    c = lerp(c, half3(0.85, 0.80, 0.64), ln * 0.4 * k);
+                    float ln = smoothstep(0.00035, 0.0, d) * step(h11(floor(i.texcoord.y * 6.0) + st), 0.8);
+                    c = lerp(c, half3(0.85, 0.80, 0.64), ln * 0.16 * k);
                 }
                 return half4(c, 1.0);
             }
