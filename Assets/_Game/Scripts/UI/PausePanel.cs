@@ -15,7 +15,7 @@ namespace TrenoBambini.UI
         GameObject view;
         PanelFx fx;
         Slider volume, music, ambient, effects, voices;
-        Button reduceBtn, lookBtn;
+        Button lookBtn;
         const float ItemH = 42f, RowH = 32f;
 
         void Awake()
@@ -68,8 +68,8 @@ namespace TrenoBambini.UI
             effects = SliderRow(content, "Effetti", v => OnChannel(AudioChannel.Effetti, v));
             voices = SliderRow(content, "Voci", v => OnChannel(AudioChannel.Voci, v));
 
-            reduceBtn = Item(content, "", OnToggleReduce);
-            Add(reduceBtn, 440f, ItemH);
+            // R008: grafica, audio e accessibilita' (effetti ridotti compresi) stanno nel menu Impostazioni
+            Add(Item(content, "Impostazioni", () => { if (UIRoot.I != null && UIRoot.I.Settings != null) UIRoot.I.Settings.Show(); }), 440f, ItemH);
             // R005: comandi da tastiera e scelta di come si gira la visuale (salvata)
             Add(Item(content, "Comandi", OnComandi), 440f, ItemH);
             lookBtn = Item(content, "", OnToggleLook);
@@ -106,11 +106,6 @@ namespace TrenoBambini.UI
             ((RectTransform)c.transform).sizeDelta = new Vector2(w, h);
         }
 
-        void RefreshReduceLabel()
-        {
-            UIFactory.SetLabel(reduceBtn, "Effetti ridotti: " + (UITheme.ReduceEffects ? "sì" : "no"));
-        }
-
         public void Show()
         {
             if (IsOpen) return;
@@ -123,7 +118,6 @@ namespace TrenoBambini.UI
             effects.SetValueWithoutNotify(am != null ? am.GetChannel(AudioChannel.Effetti) : 1f);
             voices.SetValueWithoutNotify(am != null ? am.GetChannel(AudioChannel.Voci) : 1f);
             if (am != null) am.Music.SetPaused(true); // la musica scende al 30% senza fermarsi
-            RefreshReduceLabel();
             RefreshLookLabel();
             transform.SetAsLastSibling();
             fx.Show();
@@ -146,12 +140,6 @@ namespace TrenoBambini.UI
         void OnChannel(AudioChannel ch, float v)
         {
             if (AudioManager.I != null) AudioManager.I.SetChannel(ch, v);
-        }
-
-        void OnToggleReduce()
-        {
-            if (UIRoot.I != null) UIRoot.I.SetReduceEffects(!UITheme.ReduceEffects);
-            RefreshReduceLabel();
         }
 
         void RefreshLookLabel()

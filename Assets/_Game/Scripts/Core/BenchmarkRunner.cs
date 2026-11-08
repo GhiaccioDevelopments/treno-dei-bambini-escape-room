@@ -14,7 +14,7 @@ namespace TrenoBambini.Core
 {
     /// <summary>
     /// R007 tappa 5: benchmark dei frame. Attivo SOLO con l'argomento da riga di comando -benchmark (es. TrenoBambini.exe -benchmark
-    /// -screen-width 1280 -screen-height 720 -screen-fullscreen 0 [-benchmarkout file.csv] [-benchmarkpresets 0,1,2,3] [-benchmarkseconds 20]).
+    /// -screen-width 1280 -screen-height 720 -screen-fullscreen 0 [-benchmarkout file.csv] [-benchmarkpresets 0,1,2,3,4 (4 = tutto al minimo)] [-benchmarkseconds 20] [-benchmarkscene 10_Hub]).
     /// Per ogni scena (hub, basso, ricordo) e per ogni preset (Bassa, Media, Alta, Ultra) carica la scena, sposta una camera su un tragitto fisso
     /// per circa 20 s e scrive media, 1% low e massimo del frame time in un CSV; poi chiude il gioco. Vsync spento.
     /// </summary>
@@ -34,7 +34,7 @@ namespace TrenoBambini.Core
             new Percorso { scena = "30_FB_Scarpe", punti = new[] { new Vector3(0f, 0f, -22f), new Vector3(0f, 0f, 0f), new Vector3(0f, 0f, 20f), new Vector3(0f, 0f, 36f) } },
         };
 
-        static readonly string[] NomiPreset = { "Bassa", "Media", "Alta", "Ultra" };
+        static readonly string[] NomiPreset = { "Bassa", "Media", "Alta", "Ultra", "Minimo" }; // 4 = tutto al minimo (R008)
 
         static readonly string[] Args = Environment.GetCommandLineArgs(); // letti una sola volta
 
@@ -59,8 +59,7 @@ namespace TrenoBambini.Core
 
         IEnumerator Start()
         {
-            QualitySettings.vSyncCount = 0;
-            Application.targetFrameRate = -1;
+            GraphicsPresets.BenchmarkSenzaLimiti(true); // R008: sincronia e limite FPS restano spenti anche cambiando preset
             string dirFoto = Arg("-benchmarkshots", "");
             string outPath = Arg("-benchmarkout", Path.Combine(Application.dataPath, "..", "benchmark.csv"));
             float secondi = float.Parse(Arg("-benchmarkseconds", "20"), CultureInfo.InvariantCulture);
@@ -69,9 +68,11 @@ namespace TrenoBambini.Core
             File.WriteAllText(outPath, "scena;preset;frame;media_ms;fps_medi;fps_1pct_low;max_ms;gpu;risoluzione\n", Encoding.UTF8);
             yield return new WaitForSecondsRealtime(4f); // Boot e titolo
 
+            string soloScena = Arg("-benchmarkscene", ""); // es. 10_Hub per misurare solo l'hub
             foreach (var p in Percorsi)
                 foreach (int lv in presets)
                 {
+                    if (soloScena != "" && !p.scena.StartsWith(soloScena)) continue;
                     yield return new WaitForSecondsRealtime(1f);   // pausa e pulizia tra una prova e l'altra (il DecalDrawSystem di URP puo' andare in crash se si cambia scena a raffica)
                     yield return Resources.UnloadUnusedAssets();
                     var op = SceneManager.LoadSceneAsync(p.scena);
@@ -85,7 +86,7 @@ namespace TrenoBambini.Core
                     go.tag = "MainCamera";
                     var data = cam.GetUniversalAdditionalCameraData();
                     data.renderPostProcessing = true; data.renderShadows = true;
-                    GraphicsPresets.Apply(lv, false);
+                    if (lv >= 4) GraphicsPresets.ApplyMinimum(); else GraphicsPresets.Apply(lv, false);
                     yield return new WaitForSecondsRealtime(2.5f); // assestamento: shader, probe, particelle
 
                     // lunghezza totale del tragitto
@@ -118,10 +119,10 @@ namespace TrenoBambini.Core
                         go.transform.position = pos;
                         go.transform.rotation = Quaternion.Euler(4f, Quaternion.LookRotation(dir).eulerAngles.y + sway, 0f);
                         if (t > warm) dt.Add(d);
-                        if (!foto && dirFoto != "" && t > secondi * 0.5f) { foto = true; Directory.CreateDirectory(dirFoto); ScreenCapture.CaptureScreenshot(Path.Combine(dirFoto, p.scena + "_" + NomiPreset[Mathf.Clamp(lv, 0, 3)] + ".png")); }
+                        if (!foto && dirFoto != "" && t > secondi * 0.5f) { foto = true; Directory.CreateDirectory(dirFoto); ScreenCapture.CaptureScreenshot(Path.Combine(dirFoto, p.scena + "_" + NomiPreset[Mathf.Clamp(lv, 0, 4)] + ".png")); }
                         yield return null;
                     }
-                    Scrivi(outPath, p.scena, NomiPreset[Mathf.Clamp(lv, 0, 3)], dt);
+                    Scrivi(outPath, p.scena, NomiPreset[Mathf.Clamp(lv, 0, 4)], dt);
                     Destroy(go);
                 }
             Application.Quit();
