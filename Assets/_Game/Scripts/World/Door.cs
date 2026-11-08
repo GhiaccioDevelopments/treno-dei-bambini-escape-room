@@ -57,6 +57,12 @@ namespace TrenoBambini.World
                             return;
                         }
                     }
+                    // R020: la prima volta la chiave gira nella toppa (inventario attivo: la chiave si usa sulla porta)
+                    if (l.richiede != null && l.richiede.Count > 0 && !MondoStato.Ha("porta_aperta"))
+                    {
+                        MondoStato.Dai("porta_aperta");
+                        if (UIRoot.I != null) UIRoot.I.Toast("Giri la chiave nella toppa: la porta cede con uno scatto.", 3.5f);
+                    }
                     if (string.IsNullOrEmpty(scena)) scena = l.scena;
                     if (string.IsNullOrEmpty(spawn)) spawn = l.spawn;
                 }

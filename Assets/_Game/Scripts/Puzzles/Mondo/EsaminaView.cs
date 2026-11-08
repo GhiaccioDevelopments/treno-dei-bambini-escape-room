@@ -45,7 +45,7 @@ namespace TrenoBambini.Puzzles
         RectTransform ui;
         TextMeshProUGUI feedback, manoLabel;
         RectTransform feedbackPlate;
-        Button hintBtn, closeBtn, actionBtn;
+        Button hintBtn, closeBtn, actionBtn, consegnaBtn;
         RectTransform manoRow;
         readonly List<Button> manoBtns = new List<Button>();
         PanelFx fx;
@@ -160,16 +160,22 @@ namespace TrenoBambini.Puzzles
         }
 
         Vector3 centro;
+        float tanVista = 0.3f;
 
         void Inquadra()
         {
+            // i pezzi nascosti (rivelati piu' tardi) contano nell'inquadratura: li accendo un istante per misurare
+            var spenti = new List<GameObject>();
+            foreach (var kv in run) if (kv.Value.go != null && !kv.Value.go.activeSelf) { spenti.Add(kv.Value.go); kv.Value.go.SetActive(true); }
             var b = MondoFab.Limiti(objRoot);
+            foreach (var g in spenti) g.SetActive(false);
             centro = b.center;
             float tanV = Mathf.Tan(cam.fieldOfView * 0.5f * Mathf.Deg2Rad);
             float asp = Mathf.Max(1.2f, (float)Screen.width / Mathf.Max(1, Screen.height));
             float dv = b.extents.y / tanV, dh = b.extents.x / (tanV * asp);
             // i pannelli occupano un po' di spazio in alto e in basso: tolgo margine
-            distBase = Mathf.Max(dv * 1.5f, dh * 1.3f, 0.5f) + b.extents.z + 0.1f;
+            distBase = Mathf.Max(dv * 1.8f, dh * 1.35f, 0.5f) + b.extents.z + 0.1f;
+            tanVista = tanV;
             if (def.distanza > 0.1f) distBase *= def.distanza / 1.6f;
             dist = distBase;
             yaw = 0f; pitch = def.inclina;
@@ -180,8 +186,10 @@ namespace TrenoBambini.Puzzles
         {
             // l'oggetto sta fermo e la camera orbita attorno al suo centro (davanti = -z)
             var rot = Quaternion.Euler(pitch, yaw, 0f);
-            cam.transform.position = centro + rot * new Vector3(0f, 0f, -dist);
             cam.transform.rotation = rot;
+            cam.transform.position = centro + rot * new Vector3(0f, 0f, -dist);
+            // l'oggetto sta nella fascia libera fra il titolo e il messaggio: sposto l'inquadratura un po' in basso
+            cam.transform.position -= cam.transform.up * (0.09f * 2f * dist * tanVista);
         }
 
         void BuildUi()
@@ -193,16 +201,12 @@ namespace TrenoBambini.Puzzles
             var raycastCatcher = UIFactory.MakePanel(ui, "Fondo", new Color(0f, 0f, 0f, 0f), true);
             UIFactory.Stretch(raycastCatcher.rectTransform);
 
-            // titolo + consegna in alto a sinistra
+            // titolo in alto a sinistra (la consegna sta nel messaggio in basso e si rilegge con il pulsante "Consegna")
             var plate = UIFactory.MakePanel(ui, "Targa", new Color(0.07f, 0.05f, 0.035f, 0.78f), false);
-            UIFactory.Place(plate.rectTransform, new Vector2(0f, 1f), new Vector2(0f, 1f), new Vector2(28f, -118f), new Vector2(880f, 150f));
-            var title = UIFactory.MakeText(plate.rectTransform, def.titolo ?? "", 34, UITheme.OttoneLuce, TextAlignmentOptions.TopLeft, FontStyles.Bold);
-            UIFactory.Stretch(title.rectTransform, 22f, 8f, 22f, 8f);
-            title.rectTransform.offsetMin = new Vector2(22f, 8f); title.rectTransform.offsetMax = new Vector2(-22f, -10f);
-            var cons = UIFactory.MakeText(plate.rectTransform, def.consegna ?? "", 21, UITheme.CartaChiara, TextAlignmentOptions.TopLeft);
-            cons.rectTransform.anchorMin = Vector2.zero; cons.rectTransform.anchorMax = Vector2.one;
-            cons.rectTransform.offsetMin = new Vector2(22f, 10f); cons.rectTransform.offsetMax = new Vector2(-22f, -54f);
-            cons.enableAutoSizing = true; cons.fontSizeMin = 14; cons.fontSizeMax = 21;
+            UIFactory.Place(plate.rectTransform, new Vector2(0f, 1f), new Vector2(0f, 1f), new Vector2(28f, -118f), new Vector2(760f, 66f));
+            var title = UIFactory.MakeText(plate.rectTransform, def.titolo ?? "", 34, UITheme.OttoneLuce, TextAlignmentOptions.Left, FontStyles.Bold);
+            UIFactory.Stretch(title.rectTransform, 22f, 6f, 22f, 6f);
+            title.enableAutoSizing = true; title.fontSizeMin = 20; title.fontSizeMax = 34;
 
             // feedback in basso
             var fb = UIFactory.MakePanel(ui, "FeedbackTarga", new Color(0.07f, 0.05f, 0.035f, 0.82f), false);
@@ -220,6 +224,8 @@ namespace TrenoBambini.Puzzles
             UIFactory.Stretch(hintBtn.GetComponentInChildren<TextMeshProUGUI>().rectTransform, 50f, 6f, 10f, 6f);
             closeBtn = UIFactory.MakeButton(ui, "Chiudi", () => Chiudi(), new Vector2(200f, 64f), ButtonStyle.Tag, 26f);
             UIFactory.Place((RectTransform)closeBtn.transform, new Vector2(0f, 0f), new Vector2(0f, 0f), new Vector2(244f, 24f), new Vector2(200f, 64f));
+            consegnaBtn = UIFactory.MakeButton(ui, "Consegna", () => { if (!solved) Info(def.consegna ?? ""); }, new Vector2(220f, 64f), ButtonStyle.Tag, 26f);
+            UIFactory.Place((RectTransform)consegnaBtn.transform, new Vector2(0f, 0f), new Vector2(0f, 0f), new Vector2(460f, 24f), new Vector2(220f, 64f));
             actionBtn = UIFactory.MakeButton(ui, "Avanti", () => { var cb = actionCb; if (cb != null) cb(); }, new Vector2(280f, 64f), ButtonStyle.Seal, 28f, true);
             UIFactory.Place((RectTransform)actionBtn.transform, new Vector2(1f, 0f), new Vector2(1f, 0f), new Vector2(-28f, 24f), new Vector2(280f, 64f));
             actionBtn.gameObject.SetActive(false);
@@ -364,10 +370,12 @@ namespace TrenoBambini.Puzzles
 
         void BuildDeduzioneUi()
         {
+            // elenco dei mestieri in una riga sotto il titolo (non copre le scarpe)
             var lista = UIFactory.MakePanel(ui, "Mestieri", new Color(0.07f, 0.05f, 0.035f, 0.78f), false);
-            UIFactory.Place(lista.rectTransform, new Vector2(1f, 0.5f), new Vector2(1f, 0.5f), new Vector2(-28f, 20f), new Vector2(300f, 60f + def.mestieri.Count * 34f));
-            var t = UIFactory.MakeText(lista.rectTransform, "<b>Mestieri</b>\n" + string.Join("\n", def.mestieri), 22, UITheme.CartaChiara, TextAlignmentOptions.TopLeft);
-            UIFactory.Stretch(t.rectTransform, 18f, 10f, 14f, 10f);
+            UIFactory.Place(lista.rectTransform, new Vector2(0f, 1f), new Vector2(0f, 1f), new Vector2(28f, -190f), new Vector2(1224f, 48f));
+            var t = UIFactory.MakeText(lista.rectTransform, "<b>Mestieri:</b>  " + string.Join("  ·  ", def.mestieri), 22, UITheme.CartaChiara, TextAlignmentOptions.Left);
+            UIFactory.Stretch(t.rectTransform, 18f, 4f, 14f, 4f);
+            t.enableAutoSizing = true; t.fontSizeMin = 14; t.fontSizeMax = 22;
             var ok = UIFactory.MakeButton(ui, "Conferma", () => Conferma(), new Vector2(240f, 64f), ButtonStyle.Brass, 26f, true);
             UIFactory.Place((RectTransform)ok.transform, new Vector2(1f, 0f), new Vector2(1f, 0f), new Vector2(-28f, 24f), new Vector2(240f, 64f));
             ok.gameObject.name = "ConfermaDeduzione";
@@ -412,25 +420,25 @@ namespace TrenoBambini.Puzzles
         void BuildDocumentiUi()
         {
             docArea = UIFactory.NewRect("Documenti", ui);
-            UIFactory.Place(docArea, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(0f, -20f), new Vector2(1720f, 600f));
+            UIFactory.Place(docArea, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(0f, 30f), new Vector2(1220f, 330f));
             var hl = docArea.gameObject.AddComponent<HorizontalLayoutGroup>();
             hl.spacing = 18f; hl.childAlignment = TextAnchor.UpperCenter; hl.childControlWidth = true; hl.childControlHeight = false; hl.childForceExpandWidth = true; hl.childForceExpandHeight = false;
             for (int d = 0; d < def.documenti.Count; d++)
             {
                 var doc = def.documenti[d];
                 var card = UIFactory.MakePaper(docArea, "Doc_" + doc.id, Color.white, true);
-                card.gameObject.AddComponent<LayoutElement>().minHeight = 560f;
+                card.gameObject.AddComponent<LayoutElement>().minHeight = 320f;
                 var v = card.gameObject.AddComponent<VerticalLayoutGroup>();
-                v.padding = new RectOffset(18, 18, 14, 14); v.spacing = 4f; v.childControlWidth = true; v.childControlHeight = false; v.childForceExpandWidth = true; v.childForceExpandHeight = false;
-                var t = UIFactory.MakeText(card.rectTransform, doc.titolo, 24, UITheme.Ceralacca, TextAlignmentOptions.Center, FontStyles.Bold);
-                t.rectTransform.sizeDelta = new Vector2(100f, 40f);
+                v.padding = new RectOffset(12, 12, 8, 8); v.spacing = 3f; v.childControlWidth = true; v.childControlHeight = false; v.childForceExpandWidth = true; v.childForceExpandHeight = false;
+                var t = UIFactory.MakeText(card.rectTransform, doc.titolo, 22, UITheme.Ceralacca, TextAlignmentOptions.Center, FontStyles.Bold);
+                t.rectTransform.sizeDelta = new Vector2(100f, 34f);
                 for (int r = 0; r < doc.righe.Count; r++)
                 {
                     int dd = d, rr = r;
-                    var b = UIFactory.MakeButton(card.rectTransform, doc.righe[r], () => RispondiDoc(def.documenti[dd].id, rr), new Vector2(100f, 56f), new Color(0.82f, 0.72f, 0.5f, 0.35f), UITheme.Inchiostro, 19);
+                    var b = UIFactory.MakeButton(card.rectTransform, doc.righe[r], () => RispondiDoc(def.documenti[dd].id, rr), new Vector2(100f, 56f), new Color(0.82f, 0.72f, 0.5f, 0.35f), UITheme.Inchiostro, 17);
                     b.gameObject.name = "Riga_" + doc.id + "_" + r;
-                    var le = b.gameObject.AddComponent<LayoutElement>(); le.minHeight = 44f; le.preferredHeight = 58f;
-                    var lt = b.GetComponentInChildren<TextMeshProUGUI>(); lt.enableAutoSizing = true; lt.fontSizeMin = 13; lt.fontSizeMax = 19; lt.alignment = TextAlignmentOptions.Left;
+                    var le = b.gameObject.AddComponent<LayoutElement>(); le.minHeight = 40f; le.preferredHeight = 56f;
+                    var lt = b.GetComponentInChildren<TextMeshProUGUI>(); lt.enableAutoSizing = true; lt.fontSizeMin = 11; lt.fontSizeMax = 17; lt.alignment = TextAlignmentOptions.Left;
                 }
             }
             MostraDomandaDoc();
@@ -954,6 +962,7 @@ namespace TrenoBambini.Puzzles
             RivelaQuando("risolto");
             hintBtn.gameObject.SetActive(false);
             closeBtn.gameObject.SetActive(false);
+            consegnaBtn.gameObject.SetActive(false);
             Evidenzia(hover, false);
             string t = def.spiegazione ?? "";
             if (!string.IsNullOrEmpty(def.scheda)) t += (t.Length > 0 ? "\n" : "") + def.scheda;

@@ -88,7 +88,8 @@ Assets/_Game/
   Scripts/Core       GameManager, SaveSystem, SceneLoader, Transition, GameData (loader JSON)
   Scripts/Player     ThirdPersonController (CharacterController), CameraRig (Cinemachine 3), WallFader, PlayerInteractor
   Scripts/World      Interactable, Door, ItemPickup (avvia flashback), Glow (emissione pulsante)
-  Scripts/Puzzles    EscapeRoomController, PuzzleBase + Quiz/Lucchetto/Nascosto/Ordina/Abbina
+  Scripts/Puzzles    EscapeRoomController, PuzzleBase + Quiz/Lucchetto/Nascosto/Ordina/Abbina (pannelli 2D, anche versione semplificata)
+  Scripts/Puzzles/Mondo  R009/R020: EnigmaMondo (oggetto d'epoca nel mondo), EsaminaView (vista ravvicinata 3D), MondoFab (pezzi da primitive), MondoStato, EnigmiSelfTest
   Scripts/Dialogue   CutscenePlayer, VoiceLibrary
   Scripts/UI         UIRoot (UI costruita da codice), Inventario, Pausa, Titolo, Dialog box, Toast
   Scripts/Data       classi serializzabili che rispecchiano i JSON
@@ -104,9 +105,16 @@ Doppiaggio/          copione CSV esportato
 Namespace: `TrenoBambini.<Area>` (es. `TrenoBambini.Core`).
 
 ## Schema JSON (sintesi)
-- `luoghi.json`: `{ "luoghi": [ {id, nome, scena, aperto, descrizione} ] }`
+- `luoghi.json`: `{ "luoghi": [ {id, nome, scena, aperto, descrizione, richiede[], richiedeMsg[]} ] }` (`richiede` = gettoni necessari per entrare, un messaggio gentile per ciascuno)
 - `oggetti.json`: `{ "oggetti": [ {id, nome, descrizione, significato, temaCivico, icona, flashback, cutscene, luogo} ] }`
 - `flashback_<id>.json`: `{ id, oggetto, titolo, introduzione, conclusione, enigmi: [Enigma] }`
+  - Enigma (R009/R020, campi nuovi, tutti opzionali): `meccanismo: oggetto|ruote|deduzione|documenti|ordina` (vuoto = ricavato dal tipo), `x,y,z,yaw,scala` (posto dell'oggetto nel mondo),
+    `prompt`, `parti[]` (l'oggetto: pezzi di primitive), `ruote{n,x,y,z,passo,larghezza,raggio,colore}` + `codice`, `richiede[]` / `produce[]` (gettoni: oggetti, indizi e id di enigmi risolti, salvati in `oggettiEnigma`),
+    `bloccatoMsg`, `scheda` (scheda civica dopo la soluzione), `appunto` (riga del quaderno), `soluzione[]` + `ordinata` (eventi da compiere nella vista ravvicinata), `passanti[]` + `mestieri[]` (deduzione),
+    `documenti[{id,titolo,righe[]}]` (le domande hanno `documento` e `riga` = riga da indicare; `opzioni/corretta` restano per la versione semplificata), `sostituisce` (oggetti di scena nascosti perche' rimpiazzati), `inclina` (camera), `finale` (id oggetto: alla soluzione parte il suo ricordo).
+  - Parte (`parti[]`): `{id, forma: cubo|cilindro|sfera|capsula|testo|scarpa|vuoto, materiale: legno|metallo|ottone|argento|carta|stoffa|cuoio|pietra|gesso|vetro|cera|quadri, colore, x,y,z, rx,ry,rz, sx,sy,sz, testo, dimensione, gruppo, nascosta,
+    clic, azione: leggi|gira|ruota|rivela|nascondi|segna|muovi|premi|prendi|usa|verifica|errore, evento, dopo (id, g:gruppo, -id per nascondere), asse, valore, msg, richiede, produce, genitore, bersaglio, quando}`. Fronte dell'oggetto = -z.
+  - `enigmi_mondo.json`: `{ enigmi: [Enigma con scena], oggetti: [{id, nome, descrizione}] }` = enigmi di hub e basso (scene `10_Hub_Vicolo`, `20_Int_BassoAntonietta`) e nomi dei gettoni; gli enigmi del ricordo stanno in `flashback_<id>.json`.
   - Enigma: `{ id, tipo: quiz|lucchetto|nascosto|ordina|abbina, titolo, consegna, temaCivico,
     indizi[], spiegazione, x, y, z, ...campi del tipo }`
   - quiz: `domande: [{testo, opzioni[], corretta, spiegazione}]`
