@@ -80,18 +80,20 @@ namespace TrenoBambini.UI
             column.anchorMin = column.anchorMax = new Vector2(0.5f, 0f);
             column.pivot = new Vector2(0.5f, 0f);
             column.anchoredPosition = new Vector2(0f, 34f);
-            column.sizeDelta = new Vector2(420f, 270f);
-            var vl = UIFactory.AddVLayout(column.gameObject, 12f, TextAnchor.LowerCenter);
+            column.sizeDelta = new Vector2(420f, 290f);
+            var vl = UIFactory.AddVLayout(column.gameObject, 10f, TextAnchor.LowerCenter);
 
-            var bNew = UIFactory.MakeButton(column, "Nuova partita", OnNew, new Vector2(400f, 72f), ButtonStyle.Brass, 30f, !hasSave);
+            var bNew = UIFactory.MakeButton(column, "Nuova partita", OnNew, new Vector2(400f, 62f), ButtonStyle.Brass, 30f, !hasSave);
             Cascade(bNew, endTime + 0.1f);
             if (hasSave)
             {
-                var bCont = UIFactory.MakeButton(column, "Continua", OnContinue, new Vector2(400f, 72f), ButtonStyle.Seal, 30f, true);
+                var bCont = UIFactory.MakeButton(column, "Continua", OnContinue, new Vector2(400f, 62f), ButtonStyle.Seal, 30f, true);
                 Cascade(bCont, endTime + 0.2f);
             }
-            var bCred = UIFactory.MakeButton(column, "Crediti", OnCredits, new Vector2(400f, 72f), ButtonStyle.Tag, 30f);
-            Cascade(bCred, endTime + 0.3f);
+            var bSet = UIFactory.MakeButton(column, "Impostazioni", OnSettings, new Vector2(400f, 62f), ButtonStyle.Tag, 30f);
+            Cascade(bSet, endTime + 0.3f);
+            var bCred = UIFactory.MakeButton(column, "Crediti", OnCredits, new Vector2(400f, 62f), ButtonStyle.Tag, 30f);
+            Cascade(bCred, endTime + 0.4f);
         }
 
         static float Max(float a, float b) { return a > b ? a : b; }
@@ -239,6 +241,11 @@ namespace TrenoBambini.UI
         void OnContinue()
         {
             if (GameManager.I != null) GameManager.I.Continue();
+        }
+
+        void OnSettings()
+        {
+            if (UIRoot.I != null && UIRoot.I.Settings != null) UIRoot.I.Settings.Show();
         }
 
         void OnCredits()

@@ -21,6 +21,7 @@ Shader "Treno/PellicolaRicordi"
 
             float _TrenoPellicola;
             float _TrenoPellicolaQ;
+            float _TrenoPellicolaMov; // R008: 1 = "riduci effetti di movimento" (niente tremolio del fotogramma ne' sfarfallio)
 
             float h11(float p)
             {
@@ -40,10 +41,10 @@ Shader "Treno/PellicolaRicordi"
 
                 float t = floor(_Time.y * 12.0);
                 // gate weave: lo scatto del fotogramma sul proiettore (frazioni di percento dello schermo)
-                uv += float2(h11(t * 1.7) - 0.5, h11(t * 2.3 + 9.0) - 0.5) * float2(0.0016, 0.0022) * k;
+                uv += float2(h11(t * 1.7) - 0.5, h11(t * 2.3 + 9.0) - 0.5) * float2(0.0016, 0.0022) * k * (1.0 - _TrenoPellicolaMov);
                 half3 c = SAMPLE_TEXTURE2D_X(_BlitTexture, sampler_LinearClamp, uv).rgb;
                 // sfarfallio di esposizione (+-2,5%)
-                c *= 1.0 + (h11(t * 3.1) - 0.5) * 0.05 * k;
+                c *= 1.0 + (h11(t * 3.1) - 0.5) * 0.05 * k * (1.0 - _TrenoPellicolaMov);
 
                 // polvere: fino a 4 puntini per fotogramma, in media meno di uno
                 float aspect = _ScreenParams.x / _ScreenParams.y;

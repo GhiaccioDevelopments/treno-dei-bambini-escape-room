@@ -30,9 +30,14 @@ namespace TrenoBambini.World
         Transform cam;
         ParticleSystem pioggia, spruzzi;
         readonly List<ParticleSystem> gocce = new List<ParticleSystem>();
-        int preset = -1;
+        int versione = -1;           // R008: ultima versione delle impostazioni grafiche applicata
+        float kPioggia = 1f;
+        bool spruzziOn, bagnatoOn = true;
         float resto;
         bool pozzanghereFatte;
+        GameObject padrePozzanghere;
+        readonly List<KeyValuePair<MeshRenderer, Material[]>> suoliBagnati = new List<KeyValuePair<MeshRenderer, Material[]>>(); // (renderer, materiali asciutti)
+        readonly List<Material[]> suoliBagnatiMat = new List<Material[]>();                                                      // materiali bagnati, stesso ordine
 
         static string MeteoDi(string scena)
         {
@@ -68,10 +73,10 @@ namespace TrenoBambini.World
             var em = pioggia.emission; em.enabled = attiva;
             if (!attiva) return;
             pioggia.Simulate(1.5f, true, true);
-            if (preset <= 0) return;
+            if (!spruzziOn) return;
             Physics.SyncTransforms();
             var ep = new ParticleSystem.EmitParams();
-            int n = preset == 1 ? 40 : 90;
+            int n = kPioggia < 0.5f ? 40 : 90;
             for (int i = 0; i < n; i++)
             {
                 var o = camPos + new Vector3(Random.Range(-8f, 8f), 4f, Random.Range(-2f, 12f));
@@ -99,6 +104,7 @@ namespace TrenoBambini.World
             foreach (var g in creatiAnteprima) if (g != null) DestroyImmediate(g);
             creatiAnteprima.Clear();
             pioggia = null; spruzzi = null; gocce.Clear(); pozzanghereFatte = false;
+            suoliBagnati.Clear(); suoliBagnatiMat.Clear(); padrePozzanghere = null;
         }
 
         // ------------------------------------------------------------------ particelle
@@ -148,20 +154,38 @@ namespace TrenoBambini.World
             Applica();
         }
 
-        // preset: Bassa (WebGL) = poche gocce, niente spruzzi ne' gocce dai fili; Media meta; Alta e Ultra piene
+        // R008: tutto guidato dalle voci Pioggia, Schizzi e gocce, Selciato bagnato (menu Impostazioni); i preset le riscrivono
         void Applica()
         {
-            preset = GraphicsPresets.Current;
-            float k = preset <= 0 ? 0.12f : preset == 1 ? 0.45f : preset == 2 ? 0.8f : 1f;
+            versione = GraphicsPresets.Version;
+            kPioggia = GraphicsOptions.Pioggia[Mathf.Clamp(GraphicsPresets.Get(Voce.Pioggia), 0, GraphicsOptions.Pioggia.Length - 1)];
+            spruzziOn = GraphicsPresets.Get(Voce.Spruzzi) != 0 && kPioggia > 0f;
+            bagnatoOn = GraphicsPresets.Get(Voce.Bagnato) != 0;
+            float k = kPioggia;
             if (meteo == "pioggia_fuori") k *= 0.25f; // il cortile e' piccolo: poche gocce
-            var em = pioggia.emission; em.rateOverTime = 2200f * k;
-            foreach (var d in gocce) if (d != null) { var e = d.emission; e.enabled = preset >= 1; }
+            var em = pioggia.emission; em.rateOverTime = 2200f * k; em.enabled = k > 0f;
+            foreach (var d in gocce) if (d != null) { var e = d.emission; e.enabled = spruzziOn; }
+            ImpostaBagnato(bagnatoOn);
+        }
+
+        /// <summary>Basoli bagnati e pozzanghere accesi/spenti al volo.</summary>
+        void ImpostaBagnato(bool on)
+        {
+            if (padrePozzanghere != null && padrePozzanghere.activeSelf != on) padrePozzanghere.SetActive(on);
+            for (int i = 0; i < suoliBagnati.Count; i++)
+            {
+                var r = suoliBagnati[i].Key;
+                if (r == null) continue;
+                var voluti = on ? suoliBagnatiMat[i] : suoliBagnati[i].Value;
+                if (r.sharedMaterials.Length == voluti.Length && ReferenceEquals(r.sharedMaterials[0], voluti[0])) continue;
+                r.sharedMaterials = voluti;
+            }
         }
 
         void LateUpdate()
         {
             if (pioggia == null) return;
-            if (preset != GraphicsPresets.Current) Applica();
+            if (versione != GraphicsPresets.Version) Applica();
             var cp = Camera.main;                     // ricontrollata a ogni frame: puo' cambiare (cutscene, benchmark, camera disattivata)
             if (cp != null) cam = cp.transform;
             if (cam == null) return;
@@ -171,10 +195,10 @@ namespace TrenoBambini.World
             bool attiva = !fuori || dx * dx + dz * dz < 144f; // pioggia_fuori: solo se il giocatore e' entro 12 m dal cortile
             var em = pioggia.emission;
             if (em.enabled != attiva) em.enabled = attiva;
-            if (!attiva || preset <= 0) return;
+            if (!attiva || !spruzziOn) return;
 
-            // spruzzi a terra: raycast verso il basso attorno al giocatore (30/60/90 al secondo)
-            float rate = preset == 1 ? 30f : preset == 2 ? 60f : 90f;
+            // spruzzi a terra: raycast verso il basso attorno al giocatore (30/60/90 al secondo, per intensita' della pioggia)
+            float rate = kPioggia < 0.5f ? 30f : kPioggia < 0.9f ? 60f : 90f;
             if (meteo == "pioggia_fuori") rate *= 0.5f;
             resto += rate * Time.deltaTime;
             int n = (int)resto; resto -= n;
@@ -205,7 +229,10 @@ namespace TrenoBambini.World
                     if (sm[i] != null && sm[i].name == suoloOriginale) { sm[i] = suoloBagnato; cambia = true; }
                 if (cambia)
                 {
-                    if (anteprima) originaliAnteprima.Add(new KeyValuePair<MeshRenderer, Material[]>(r, r.sharedMaterials));
+                    var asciutti = r.sharedMaterials;
+                    if (anteprima) originaliAnteprima.Add(new KeyValuePair<MeshRenderer, Material[]>(r, asciutti));
+                    suoliBagnati.Add(new KeyValuePair<MeshRenderer, Material[]>(r, asciutti));
+                    suoliBagnatiMat.Add(sm);
                     r.sharedMaterials = sm;
                 }
             }
@@ -219,6 +246,7 @@ namespace TrenoBambini.World
             var rnd = new System.Random(1946);
             var padreGo = new GameObject("Pozzanghere");
             Proteggi(padreGo);
+            padrePozzanghere = padreGo;
             var padre = padreGo.transform;
             padre.SetParent(transform, false);
             var mesh = DiscoMesh(18);
