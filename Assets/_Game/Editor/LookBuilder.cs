@@ -31,6 +31,7 @@ namespace TrenoBambini.EditorTools
         const string ProfEpoca = VolumesFolder + "/VP_Epoca.asset";   // hub e titolo (presente, pioggia)
         const string ProfBasso = VolumesFolder + "/VP_Basso.asset";   // R007: interno del basso (presente)
         const string ProfFlash = VolumesFolder + "/VP_Flashback.asset";
+        const string Prof1994 = VolumesFolder + "/VP_1994.asset";     // R007 t3: 1994, freddo e neutro (solo il profilo, non ancora usato da una scena)
         const string MatFolder = "Assets/Art/Materials";
         const string SkyHub = MatFolder + "/M_Sky_Hub.mat";           // R007: cielo coperto (HDRI CieloCoperto)
         const string SkyRicordo = MatFolder + "/M_Sky_Ricordo.mat";   // R007: cielo procedurale col sole basso
@@ -375,26 +376,31 @@ namespace TrenoBambini.EditorTools
             var lutF = AssetDatabase.LoadAssetAtPath<Texture2D>(LutFlash);
 
             // Presente (hub, titolo): freddo, desaturato, ACES, grana sottile, bloom morbido
-            BuildProfile(ProfEpoca, lutP, 1f, exposure: 0.45f, contrast: 8f, sat: -6f, temp: -6f, tint: 2f,
+            BuildProfile(ProfEpoca, lutP, 0.7f, exposure: 0.45f, contrast: 8f, sat: -12f, temp: 5f, tint: 2f, caInt: 0.05f,
                          vigColor: Color.black, vigInt: 0.28f, vigSmooth: 0.45f,
                          grain: FilmGrainLookup.Thin1, grainInt: 0.20f, bloomThr: 1.0f, bloomInt: 0.20f, bloomScatter: 0.65f,
                          bloomTint: new Color(1f, 0.88f, 0.72f));
             // Basso (presente, interno): lampade calde nel buio, luce grigia dalle aperture
-            BuildProfile(ProfBasso, lutP, 0.9f, exposure: 0.35f, contrast: 6f, sat: 0f, temp: 4f, tint: 0f,
+            BuildProfile(ProfBasso, lutP, 0.7f, exposure: 0.35f, contrast: 6f, sat: -8f, temp: 7f, tint: 0f, caInt: 0.04f,
                          vigColor: Color.black, vigInt: 0.30f, vigSmooth: 0.45f,
                          grain: FilmGrainLookup.Thin2, grainInt: 0.22f, bloomThr: 0.9f, bloomInt: 0.28f, bloomScatter: 0.7f,
                          bloomTint: new Color(1f, 0.82f, 0.60f));
             // Ricordo 1946: sole basso dorato, seppia marcato, bordi sfumati, alone morbido sulle luci
-            BuildProfile(ProfFlash, lutF, 1f, exposure: 0.85f, contrast: 6f, sat: 0f, temp: 6f, tint: 0f,
+            BuildProfile(ProfFlash, lutF, 1f, exposure: 0.85f, contrast: 6f, sat: 0f, temp: 6f, tint: 0f, caInt: 0.08f,
                          vigColor: new Color(0.08f, 0.05f, 0.03f), vigInt: 0.38f, vigSmooth: 0.60f,
                          grain: FilmGrainLookup.Medium1, grainInt: 0.35f, bloomThr: 0.85f, bloomInt: 0.40f, bloomScatter: 0.75f,
                          bloomTint: new Color(1f, 0.86f, 0.62f));
+            // 1994 (TRAMA 7.1): freddo e neutro, nitido: poca grana, nessun LUT, alone appena accennato, vignetta lieve
+            BuildProfile(Prof1994, null, 0f, exposure: 0.4f, contrast: 10f, sat: -8f, temp: -9f, tint: -2f, caInt: 0.02f,
+                         vigColor: Color.black, vigInt: 0.15f, vigSmooth: 0.40f,
+                         grain: FilmGrainLookup.Thin1, grainInt: 0.10f, bloomThr: 1.0f, bloomInt: 0.12f, bloomScatter: 0.6f,
+                         bloomTint: new Color(0.85f, 0.92f, 1f));
         }
 
         /// <summary>R007: profilo con ACES, color grading (LUT d'epoca + regolazioni), vignetta, grana, bloom e profondita' di campo spenta (solo cutscene).</summary>
         static void BuildProfile(string path, Texture2D lut, float lutContribution, float exposure, float contrast, float sat, float temp, float tint,
                                  Color vigColor, float vigInt, float vigSmooth, FilmGrainLookup grain, float grainInt,
-                                 float bloomThr, float bloomInt, float bloomScatter, Color bloomTint)
+                                 float bloomThr, float bloomInt, float bloomScatter, Color bloomTint, float caInt = 0.05f)
         {
             var p = ResetProfile(path);
             var tm = p.Add<Tonemapping>(true);
@@ -403,9 +409,12 @@ namespace TrenoBambini.EditorTools
             ca.postExposure.Override(exposure);
             ca.contrast.Override(contrast);
             ca.saturation.Override(sat);
-            var cl = p.Add<ColorLookup>(true);
-            cl.texture.Override(lut);
-            cl.contribution.Override(lutContribution);
+            if (lut != null)
+            {
+                var cl = p.Add<ColorLookup>(true);
+                cl.texture.Override(lut);
+                cl.contribution.Override(lutContribution);
+            }
             var wb = p.Add<WhiteBalance>(true);
             wb.temperature.Override(temp);
             wb.tint.Override(tint);
@@ -424,6 +433,13 @@ namespace TrenoBambini.EditorTools
             bl.scatter.Override(bloomScatter);
             bl.tint.Override(bloomTint);
             bl.highQualityFiltering.Override(false);
+            // R007 t3 pellicola: leggera aberrazione cromatica d'obiettivo e curva tonale "stampa" (neri morbidi, alte luci compresse)
+            var cab = p.Add<ChromaticAberration>(true);
+            cab.intensity.Override(caInt);
+            var cc = p.Add<ColorCurves>(true);
+            var master = new AnimationCurve(new Keyframe(0f, 0.010f), new Keyframe(0.18f, 0.165f), new Keyframe(0.5f, 0.51f), new Keyframe(0.82f, 0.81f), new Keyframe(1f, 0.95f));
+            for (int ki = 0; ki < master.length; ki++) master.SmoothTangents(ki, 0f);
+            cc.master.Override(new TextureCurve(master, 0f, false, new Vector2(0f, 1f)));
             // profondita' di campo: predisposta ma spenta in gioco; la accende GraphicsPresets.CutsceneDepthOfField
             var dof = p.Add<DepthOfField>(true);
             dof.mode.Override(DepthOfFieldMode.Bokeh);
@@ -1016,7 +1032,8 @@ namespace TrenoBambini.EditorTools
                     foreach (var t in mb.GetComponentsInChildren<Transform>(true)) excluded.Add(t);
                 foreach (var t in root.GetComponentsInChildren<Transform>(true))
                 {
-                    t.gameObject.isStatic = !excluded.Contains(t);
+                    // R007 t3: i panni stesi si muovono col vento, non entrano nelle lightmap: non statici, illuminati dai light probe
+                    t.gameObject.isStatic = !excluded.Contains(t) && !t.name.StartsWith("Panno_");
                 }
             }
         }

@@ -117,7 +117,7 @@ namespace TrenoBambini.EditorTools
                     {
                         if (!p.Name.StartsWith("albedo_")) continue;
                         string var = p.Name.Substring(7);
-                        var altAlb = CaricaTex(td, (string)p.Value, TipoTex.Colore, false);
+                        var altAlb = CaricaTex(td, (string)p.Value, TipoTex.Colore, clip.Contains(m)); // alpha clip anche nelle varianti (senza, i panni B e C erano rettangoli opachi)
                         var vmat = AssetImportHelper.MakeLit(MatRoot + "/" + matName + "_" + var + ".mat", altAlb, nor, ms, tint, null, Color.black, alphaMode, doppia.Contains(m), ms != null ? 1f : levig, ms);
                         vmat.SetFloat("_Metallic", 0f);
                         EditorUtility.SetDirty(vmat);

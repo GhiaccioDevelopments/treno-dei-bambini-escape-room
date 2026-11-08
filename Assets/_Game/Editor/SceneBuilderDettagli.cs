@@ -146,7 +146,7 @@ namespace TrenoBambini.EditorTools
                 string kind = roll < 0.22 ? "Lenzuolo" : roll < 0.58 ? "Camicia" : roll < 0.84 ? "Pantaloni" : "Straccio";
                 int variant = r.Next(0, 2);
                 float baseW = kind == "Lenzuolo" ? 1.25f : kind == "Camicia" ? 0.81f : kind == "Pantaloni" ? 0.64f : 0.54f; // larghezze dei modelli Panno_* (R007 t2)
-                float s = 0.8f + (float)r.NextDouble() * 0.35f;
+                float s = 0.75f + (float)r.NextDouble() * 0.2f; // R007 t3: scala reale (camicia ~0,7 m, lenzuolo ~1,1 m)
                 float sx = Mathf.Min(s, maxW / baseW);
                 float yTop = Mathf.Lerp(yL, yR, tt) - 0.03f;
                 string mat = ClothColors[r.Next(ClothColors.Length)];

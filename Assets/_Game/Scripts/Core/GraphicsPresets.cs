@@ -132,8 +132,18 @@ namespace TrenoBambini.Core
 
         // ------------------------------------------------------------------ camere e volumi
 
+        /// <summary>R007 t3: la pellicola dei ricordi (gate weave, polvere, graffi) e' accesa solo nel ricordo 1946 (scena 30_FB_Scarpe); piu' forte a Alta/Ultra.</summary>
+        static void ApplyPellicola()
+        {
+            bool ricordo = SceneManager.GetActiveScene().name.StartsWith("30_");
+            float q = Current == (int)GraphicsPreset.Media ? 0.6f : 1f;
+            Shader.SetGlobalFloat("_TrenoPellicola", ricordo ? 1f : 0f);
+            Shader.SetGlobalFloat("_TrenoPellicolaQ", q);
+        }
+
         static void ApplyToScene()
         {
+            ApplyPellicola();
             ApplyAntiAliasing();
             ApplyPostSwitches();
         }
@@ -158,9 +168,13 @@ namespace TrenoBambini.Core
         /// </summary>
         static void ApplyPostSwitches()
         {
+            // R007 t3 (pellicola): Bassa = solo grana e curva tonale (renderer Lite, WebGL); Media 0,8 / Alta 1 / Ultra 1,1 sulla grana;
+            // alone (bloom), vignetta e aberrazione solo da Media in su, aberrazione scalata per preset.
             bool lite = Current == (int)GraphicsPreset.Bassa;
-            bool grain = !lite && FilmGrainEnabled;
+            bool grain = FilmGrainEnabled;
             bool bloom = !lite && BloomEnabled;
+            float grainK = Current == (int)GraphicsPreset.Bassa ? 0.7f : Current == (int)GraphicsPreset.Media ? 0.8f : Current == (int)GraphicsPreset.Alta ? 1f : 1.1f;
+            float caK = Current == (int)GraphicsPreset.Media ? 0.5f : Current == (int)GraphicsPreset.Alta ? 1f : Current == (int)GraphicsPreset.Ultra ? 1.2f : 0f;
             bool hq = Current >= (int)GraphicsPreset.Alta;
             bool dof = !lite && _cutsceneDof;
             foreach (var vol in Object.FindObjectsByType<Volume>(FindObjectsInactive.Exclude))
@@ -168,7 +182,21 @@ namespace TrenoBambini.Core
                 var profile = vol.profile; // istanza: non modifica l'asset
                 if (profile == null) continue;
                 FilmGrain fg;
-                if (profile.TryGet(out fg)) fg.active = grain;
+                if (profile.TryGet(out fg))
+                {
+                    fg.active = grain;
+                    FilmGrain bfg;
+                    if (vol.sharedProfile != null && vol.sharedProfile.TryGet(out bfg)) fg.intensity.Override(Mathf.Clamp01(bfg.intensity.value * grainK));
+                }
+                Vignette vgn;
+                if (profile.TryGet(out vgn)) vgn.active = !lite;
+                ChromaticAberration cab;
+                if (profile.TryGet(out cab))
+                {
+                    cab.active = !lite;
+                    ChromaticAberration bca;
+                    if (vol.sharedProfile != null && vol.sharedProfile.TryGet(out bca)) cab.intensity.Override(bca.intensity.value * caK);
+                }
                 Bloom bl;
                 if (profile.TryGet(out bl)) { bl.active = bloom; bl.highQualityFiltering.Override(hq); }
                 DepthOfField df;

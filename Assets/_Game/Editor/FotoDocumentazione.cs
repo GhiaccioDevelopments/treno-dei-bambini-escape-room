@@ -22,7 +22,7 @@ namespace TrenoBambini.EditorTools
             new object[] { "10_Hub_Vicolo", "hub_vico_salita", new Vector3(0f, 1.7f, -20f), new Vector3(0f, 2.2f, 6f) },
             new object[] { "10_Hub_Vicolo", "hub_edicola_votiva", new Vector3(0f, 1.7f, 28f), new Vector3(-7.2f, 5.2f, 37f) },
             new object[] { "10_Hub_Vicolo", "hub_piazzetta_fontanella", new Vector3(4f, 1.7f, -36f), new Vector3(0f, 2.5f, -15f) },
-            new object[] { "20_Int_BassoAntonietta", "basso_stanza", new Vector3(-3.8f, 2.4f, -2.0f), new Vector3(1.5f, 1.2f, 2.5f) },
+            new object[] { "20_Int_BassoAntonietta", "basso_stanza", new Vector3(-3.9f, 1.65f, -2.6f), new Vector3(1.5f, 1.3f, 2.5f) },
             new object[] { "20_Int_BassoAntonietta", "basso_cortile", new Vector3(3.6f, 2.6f, 8.6f), new Vector3(3.6f, 1.2f, 13f) },
             new object[] { "30_FB_Scarpe", "fb_via_bottega_calzolaio", new Vector3(-4.5f, 1.7f, -1f), new Vector3(-9f, 1.5f, -3.5f) },
             new object[] { "30_FB_Scarpe", "fb_via_piazzetta", new Vector3(3f, 1.7f, 20f), new Vector3(-1f, 1.6f, 32f) },

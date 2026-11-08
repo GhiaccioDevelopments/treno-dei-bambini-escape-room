@@ -194,12 +194,22 @@ def panni(base, var=''):
                 px, py = int(r.integers(20, cw - pw - 20)), int(r.integers(40, ch - ph_ - 40))
                 tinta = colore * r.uniform(0.78, 1.12) + r.uniform(-6, 6, 3)
                 c[py:py + ph_, px:px + pw] = tinta * (0.8 + 0.2 * tex[py:py + ph_, px:px + pw, None])
-                for t in range(0, pw, 9):
-                    c[py:py + 2, px + t:px + t + 5] *= 0.55
-                    c[py + ph_ - 2:py + ph_, px + t:px + t + 5] *= 0.55
-                for t in range(0, ph_, 9):
-                    c[py + t:py + t + 5, px:px + 2] *= 0.55
-                    c[py + t:py + t + 5, px + pw - 2:px + pw] *= 0.55
+                # cuciture: punti piccoli e irregolari, poco contrastati (1 px, -12%), lungo i quattro lati della toppa
+                for lato in range(4):
+                    pos = 0
+                    lung = pw if lato < 2 else ph_
+                    while pos < lung - 3:
+                        pl = int(r.integers(2, 5))
+                        off = int(r.integers(-1, 2))
+                        if lato == 0:
+                            c[py + 2 + off:py + 3 + off, px + pos:px + pos + pl] *= 0.88
+                        elif lato == 1:
+                            c[py + ph_ - 3 + off:py + ph_ - 2 + off, px + pos:px + pos + pl] *= 0.88
+                        elif lato == 2:
+                            c[py + pos:py + pos + pl, px + 2 + off:px + 3 + off] *= 0.88
+                        else:
+                            c[py + pos:py + pos + pl, px + pw - 3 + off:px + pw - 2 + off] *= 0.88
+                        pos += pl + int(r.integers(2, 6))
         if stile == 'camicia':
             c[:, cw // 2 - 1:cw // 2 + 1] *= 0.82                                # abbottonatura
             for k in range(5):
@@ -239,14 +249,14 @@ def panni(base, var=''):
         al = np.clip((bl + fr * pesobordo - 0.5) * 7.0 + 0.5, 0, 1)
         # fili piu' chiari sul bordo
         bordo = np.clip(1 - np.abs(bl - 0.5) * 4, 0, 1) * 0.12
-        c = c * (1 - bordo[..., None]) + 245 * bordo[..., None]
+        c = c * (1 - bordo[..., None] * 0.6)   # bordo appena piu' scuro, mai chiaro (niente alone bianco)
         # fuori dal ritaglio: colore pieno (niente aloni neri nei mip)
         alb[y0:y0 + ch, x0:x0 + cw, :3] = c
         alb[y0:y0 + ch, x0:x0 + cw, 3] = al * 255
         nrm[y0:y0 + ch, x0:x0 + cw] = np.tile(nor, (reps[0], reps[1], 1))[:ch, :cw]
     # riempi le zone vuote dell'atlante col colore medio per evitare aloni nei mip
     vuoto = alb[..., 3] == 0
-    alb[vuoto, :3] = 200
+    alb[vuoto, :3] = 150
     suf = '_albedo_' + var if var else '_albedo'
     Image.fromarray(np.clip(alb, 0, 255).astype(np.uint8), 'RGBA').save(base + suf + '.png', optimize=True)
     nome = os.path.basename(base)
