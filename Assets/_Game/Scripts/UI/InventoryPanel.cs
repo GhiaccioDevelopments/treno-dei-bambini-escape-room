@@ -483,6 +483,13 @@ namespace TrenoBambini.UI
                 var img = tabRt[i].GetComponent<Image>();
                 if (img != null) img.color = on ? Color.white : new Color(0.78f, 0.72f, 0.58f, 1f);
             }
+            // il bordo rosso del fuoco segue la pagina mostrata (con Q/E, col mouse o dal gamepad), non resta sulla prima linguetta
+            if (EventSystem.current != null && (int)p < tabs.Count)
+            {
+                var sel = EventSystem.current.currentSelectedGameObject;
+                bool suUnaLinguetta = sel == null || tabs.Exists(t => t != null && t.gameObject == sel);
+                if (suUnaLinguetta) EventSystem.current.SetSelectedGameObject(tabs[(int)p].gameObject);
+            }
             if (suono) UISfx.Play(Sfx.ClickPaper, 0.5f);
         }
 

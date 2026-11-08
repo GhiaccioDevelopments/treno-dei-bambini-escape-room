@@ -411,6 +411,135 @@ namespace TrenoBambini.EditorTools
             return m;
         }
 
+        // ------------------------------------------------------------------ cuoio liscio consumato delle scarpe
+        /// <summary>
+        /// Texture procedurali (512 px) del cuoio delle scarpe, costruite sulla mesh vera: ogni triangolo si disegna nello spazio UV con la sua altezza e la sua
+        /// posizione lungo il piede, cosi' la suola si scurisce, la punta sbiadisce e le pieghe cadono dove il piede si piega. Nessuna trama intrecciata:
+        /// grana fine, pieghe, graffi, macchie. Materiale PBR URP/Lit (metallic 0, smoothness 0,32).
+        /// </summary>
+        static Material GeneraCuoioScarpe(Mesh mesh)
+        {
+            const int W = 512;
+            string dir = "Assets/Art/Textures/Scarpe";
+            Cartella(dir);
+            var vtx = mesh.vertices; var uv = mesh.uv; var tri = mesh.triangles;
+            var b = mesh.bounds;
+            int ax = b.size.x > b.size.z ? 0 : 2;                  // asse lungo del piede
+            float lo = b.min[ax], len = Mathf.Max(0.0001f, b.size[ax]);
+            // la punta e' l'estremita' piu' bassa (il collo del piede e la tomaia alta stanno dal lato del tallone)
+            float yA = 0, yB = 0; int nA = 0, nB = 0;
+            for (int i = 0; i < vtx.Length; i++)
+            {
+                float t = (vtx[i][ax] - lo) / len;
+                if (t < 0.15f) { yA += vtx[i].y; nA++; } else if (t > 0.85f) { yB += vtx[i].y; nB++; }
+            }
+            bool puntaAlto = nB > 0 && nA > 0 && (yB / nB) < (yA / nA);   // true: la punta e' dal lato dei valori alti
+            float yMin = b.min.y, yH = Mathf.Max(0.0001f, b.size.y);
+
+            var zN = new float[W * W]; var yN = new float[W * W]; var fill = new bool[W * W];
+            for (int k = 0; k + 2 < tri.Length; k += 3)
+            {
+                int i0 = tri[k], i1 = tri[k + 1], i2 = tri[k + 2];
+                Vector2 a = uv[i0] * (W - 1), bb = uv[i1] * (W - 1), c = uv[i2] * (W - 1);
+                int x0 = Mathf.Max(0, Mathf.FloorToInt(Mathf.Min(a.x, Mathf.Min(bb.x, c.x)))), x1 = Mathf.Min(W - 1, Mathf.CeilToInt(Mathf.Max(a.x, Mathf.Max(bb.x, c.x))));
+                int y0 = Mathf.Max(0, Mathf.FloorToInt(Mathf.Min(a.y, Mathf.Min(bb.y, c.y)))), y1 = Mathf.Min(W - 1, Mathf.CeilToInt(Mathf.Max(a.y, Mathf.Max(bb.y, c.y))));
+                float den = (bb.y - c.y) * (a.x - c.x) + (c.x - bb.x) * (a.y - c.y);
+                if (Mathf.Abs(den) < 1e-6f) continue;
+                for (int y = y0; y <= y1; y++)
+                    for (int x = x0; x <= x1; x++)
+                    {
+                        float w0 = ((bb.y - c.y) * (x - c.x) + (c.x - bb.x) * (y - c.y)) / den;
+                        float w1 = ((c.y - a.y) * (x - c.x) + (a.x - c.x) * (y - c.y)) / den;
+                        float w2 = 1f - w0 - w1;
+                        if (w0 < -0.02f || w1 < -0.02f || w2 < -0.02f) continue;
+                        float pz = (vtx[i0][ax] * w0 + vtx[i1][ax] * w1 + vtx[i2][ax] * w2 - lo) / len;
+                        float py = (vtx[i0].y * w0 + vtx[i1].y * w1 + vtx[i2].y * w2 - yMin) / yH;
+                        int id = y * W + x;
+                        zN[id] = puntaAlto ? pz : 1f - pz; yN[id] = py; fill[id] = true;
+                    }
+            }
+            // allarga le isole di qualche pixel (niente cuciture visibili con i mip)
+            for (int pass = 0; pass < 6; pass++)
+            {
+                var f2 = (bool[])fill.Clone();
+                for (int y = 0; y < W; y++)
+                    for (int x = 0; x < W; x++)
+                    {
+                        int id = y * W + x; if (fill[id]) continue;
+                        for (int dy = -1; dy <= 1 && !f2[id]; dy++)
+                            for (int dx = -1; dx <= 1; dx++)
+                            {
+                                int xx = x + dx, yy = y + dy; if (xx < 0 || yy < 0 || xx >= W || yy >= W) continue;
+                                int nid = yy * W + xx; if (!fill[nid]) continue;
+                                zN[id] = zN[nid]; yN[id] = yN[nid]; f2[id] = true; break;
+                            }
+                    }
+                fill = f2;
+            }
+
+            var rnd = new System.Random(1946);
+            float ox = (float)rnd.NextDouble() * 100f, oy = (float)rnd.NextDouble() * 100f;
+            // altezza (pieghe, grana, graffi) e graffi chiari
+            var hgt = new float[W * W]; var graf = new float[W * W];
+            for (int s2 = 0; s2 < 90; s2++)
+            {
+                float sx = (float)rnd.NextDouble() * W, sy = (float)rnd.NextDouble() * W, ang = (float)rnd.NextDouble() * Mathf.PI * 2f, l = 14f + (float)rnd.NextDouble() * 44f;
+                for (int t = 0; t < (int)l; t++)
+                {
+                    int px = Mathf.RoundToInt(sx + Mathf.Cos(ang) * t), py = Mathf.RoundToInt(sy + Mathf.Sin(ang) * t);
+                    if (px < 0 || py < 0 || px >= W || py >= W) break;
+                    float fade = 1f - Mathf.Abs(t / l - 0.5f) * 1.2f;
+                    graf[py * W + px] = Mathf.Max(graf[py * W + px], 0.6f * fade);
+                }
+            }
+            var col = new Color[W * W];
+            for (int y = 0; y < W; y++)
+                for (int x = 0; x < W; x++)
+                {
+                    int id = y * W + x;
+                    float z = zN[id], h = yN[id];
+                    float n1 = Mathf.PerlinNoise(ox + x * 0.012f, oy + y * 0.012f);
+                    float n2 = Mathf.PerlinNoise(ox + 40f + x * 0.045f, oy + 40f + y * 0.045f);
+                    float grana = Mathf.PerlinNoise(ox + 80f + x * 0.35f, oy + 80f + y * 0.35f);
+                    // pieghe: bande perpendicolari al piede dove il piede si piega (attacco della punta) e sul collo, un po' ondulate
+                    float onda = (n2 - 0.5f) * 0.06f;
+                    float p1 = Mathf.Exp(-Mathf.Pow((z - 0.62f + onda) / 0.022f, 2f));
+                    float p2 = Mathf.Exp(-Mathf.Pow((z - 0.55f + onda * 1.4f) / 0.016f, 2f)) * 0.7f;
+                    float p3 = Mathf.Exp(-Mathf.Pow((z - 0.30f + onda) / 0.02f, 2f)) * 0.5f;
+                    float pieghe = (p1 + p2 + p3) * Mathf.SmoothStep(0.18f, 0.35f, h);   // non sulla suola
+                    hgt[id] = -pieghe * 0.9f + (grana - 0.5f) * 0.18f + (n2 - 0.5f) * 0.1f - graf[id] * 0.5f;
+                    // colore: cuoio scuro consumato
+                    Color baseC = Color.Lerp(new Color(0.105f, 0.058f, 0.030f), new Color(0.185f, 0.10f, 0.052f), n1);
+                    baseC *= 0.92f + (n2 - 0.5f) * 0.25f;
+                    float usura = Mathf.SmoothStep(0.74f, 1f, z) * (0.55f + 0.45f * n2);          // punta sbiadita e grattata
+                    baseC = Color.Lerp(baseC, new Color(0.34f, 0.23f, 0.145f), usura * 0.6f);
+                    float suola = Mathf.SmoothStep(0.32f, 0.16f, h);                                    // suola scurita
+                    baseC = Color.Lerp(baseC, new Color(0.035f, 0.025f, 0.018f), suola * 0.92f);
+                    baseC *= 1f - pieghe * 0.5f;                                                       // le pieghe sono piu' scure sul fondo
+                    baseC = Color.Lerp(baseC, new Color(0.40f, 0.29f, 0.20f), graf[id] * (1f - suola) * 0.5f);
+                    col[id] = new Color(baseC.r, baseC.g, baseC.b, 1f);
+                }
+            var tex = new Texture2D(W, W, TextureFormat.RGB24, false); tex.SetPixels(col);
+            var nm = new Texture2D(W, W, TextureFormat.RGB24, false); var npx = new Color[W * W];
+            for (int y = 0; y < W; y++)
+                for (int x = 0; x < W; x++)
+                {
+                    float hl = hgt[y * W + (x + W - 1) % W], hr = hgt[y * W + (x + 1) % W];
+                    float hd = hgt[((y + W - 1) % W) * W + x], hu = hgt[((y + 1) % W) * W + x];
+                    var n = new Vector3((hl - hr) * 2.2f, (hd - hu) * 2.2f, 1f).normalized;
+                    npx[y * W + x] = new Color(n.x * 0.5f + 0.5f, n.y * 0.5f + 0.5f, n.z * 0.5f + 0.5f);
+                }
+            nm.SetPixels(npx);
+            SalvaTex(dir + "/T_Cuoio_Scarpe_Albedo.png", tex, false);
+            SalvaTex(dir + "/T_Cuoio_Scarpe_Normale.png", nm, true);
+            var tA = AssetDatabase.LoadAssetAtPath<Texture2D>(dir + "/T_Cuoio_Scarpe_Albedo.png");
+            var tN = AssetDatabase.LoadAssetAtPath<Texture2D>(dir + "/T_Cuoio_Scarpe_Normale.png");
+            var m = Materiale("M_Cuoio_Scarpa_Liscio", tA, tN, 0f, 0.32f, Color.white);
+            m.SetFloat("_BumpScale", 0.8f);
+            EditorUtility.SetDirty(m);
+            return m;
+        }
+
         // ------------------------------------------------------------------ prefab delle scarpe
         [MenuItem("Treno/R023/Genera prefab scarpe")]
         public static void GeneraPrefabScarpe()
@@ -425,9 +554,12 @@ namespace TrenoBambini.EditorTools
             var model = AssetDatabase.LoadAssetAtPath<GameObject>(fbx);
             var root = new GameObject("scarpe");
             var inst = (GameObject)PrefabUtility.InstantiatePrefab(model, root.transform);
+            Mesh meshScarpa = null;
+            foreach (var mf in inst.GetComponentsInChildren<MeshFilter>()) { meshScarpa = mf.sharedMesh; break; }
+            Material cuoio = meshScarpa != null ? GeneraCuoioScarpe(meshScarpa) : AssetDatabase.LoadAssetAtPath<Material>(MatDir + "/M_Cuoio_Scarpe.mat");
             var mats = new[]
             {
-                AssetDatabase.LoadAssetAtPath<Material>(MatDir + "/M_Cuoio_Scarpe.mat"),
+                cuoio,
                 AssetDatabase.LoadAssetAtPath<Material>(MatDir + "/M_Suola_Scarpa.mat"),
                 AssetDatabase.LoadAssetAtPath<Material>(MatDir + "/M_Lacci_Scarpe.mat")
             };
