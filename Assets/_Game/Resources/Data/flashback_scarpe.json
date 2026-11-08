@@ -25,6 +25,7 @@
    "z": -23.0,
    "yaw": 0,
    "scala": 1.35,
+   "sostituisce": "PalloneStracci",
    "prompt": "il gradino con i nomi dei mestieri",
    "inclina": 26,
    "passanti": [
@@ -111,7 +112,7 @@
      "id": "gesso",
      "forma": "testo",
      "materiale": "legno",
-     "colore": "#e6e1d2",
+     "colore": "#8a8578",
      "y": 0.13,
      "z": -0.202,
      "sx": 0.8,
@@ -313,25 +314,14 @@
     },
     {
      "id": "forma_zoccolo_l",
-     "forma": "capsula",
+     "forma": "cubo",
      "materiale": "legno",
      "colore": "#a67c52",
-     "rz": 90,
-     "sx": 0.06,
+     "y": 0.02,
+     "sx": 0.22999999999999998,
      "sy": 0.1,
-     "sz": 0.07,
-     "genitore": "forma_zoccolo"
-    },
-    {
-     "id": "forma_zoccolo_t",
-     "forma": "sfera",
-     "materiale": "legno",
-     "colore": "#a67c52",
-     "x": -0.06999999999999999,
-     "y": 0.03,
-     "sx": 0.07,
-     "sy": 0.08,
-     "sz": 0.07,
+     "sz": 0.09,
+     "modello": "forma_legno",
      "genitore": "forma_zoccolo"
     },
     {
@@ -378,25 +368,14 @@
     },
     {
      "id": "forma_scarpone_l",
-     "forma": "capsula",
+     "forma": "cubo",
      "materiale": "legno",
      "colore": "#a67c52",
-     "rz": 90,
-     "sx": 0.06,
-     "sy": 0.11,
-     "sz": 0.07,
-     "genitore": "forma_scarpone"
-    },
-    {
-     "id": "forma_scarpone_t",
-     "forma": "sfera",
-     "materiale": "legno",
-     "colore": "#a67c52",
-     "x": -0.077,
-     "y": 0.03,
-     "sx": 0.07,
+     "y": 0.02,
+     "sx": 0.253,
      "sy": 0.16,
-     "sz": 0.07,
+     "sz": 0.09,
+     "modello": "forma_legno",
      "genitore": "forma_scarpone"
     },
     {
@@ -442,25 +421,14 @@
     },
     {
      "id": "forma_tacco_l",
-     "forma": "capsula",
+     "forma": "cubo",
      "materiale": "legno",
      "colore": "#a67c52",
-     "rz": 90,
-     "sx": 0.06,
+     "y": 0.02,
+     "sx": 0.22999999999999998,
      "sy": 0.1,
-     "sz": 0.07,
-     "genitore": "forma_tacco"
-    },
-    {
-     "id": "forma_tacco_t",
-     "forma": "sfera",
-     "materiale": "legno",
-     "colore": "#a67c52",
-     "x": -0.06999999999999999,
-     "y": 0.07,
-     "sx": 0.07,
-     "sy": 0.08,
-     "sz": 0.07,
+     "sz": 0.09,
+     "modello": "forma_legno",
      "genitore": "forma_tacco"
     },
     {
@@ -507,25 +475,14 @@
     },
     {
      "id": "forma_cartone_l",
-     "forma": "capsula",
+     "forma": "cubo",
      "materiale": "legno",
      "colore": "#a67c52",
-     "rz": 90,
-     "sx": 0.06,
-     "sy": 0.09,
-     "sz": 0.07,
-     "genitore": "forma_cartone"
-    },
-    {
-     "id": "forma_cartone_t",
-     "forma": "sfera",
-     "materiale": "legno",
-     "colore": "#a67c52",
-     "x": -0.063,
-     "y": 0.03,
-     "sx": 0.07,
-     "sy": 0.08,
-     "sz": 0.07,
+     "y": 0.02,
+     "sx": 0.207,
+     "sy": 0.1,
+     "sz": 0.09,
+     "modello": "forma_legno",
      "genitore": "forma_cartone"
     },
     {
@@ -572,25 +529,14 @@
     },
     {
      "id": "forma_piccola_l",
-     "forma": "capsula",
+     "forma": "cubo",
      "materiale": "legno",
      "colore": "#a67c52",
-     "rz": 90,
-     "sx": 0.06,
-     "sy": 0.06,
-     "sz": 0.07,
-     "genitore": "forma_piccola"
-    },
-    {
-     "id": "forma_piccola_t",
-     "forma": "sfera",
-     "materiale": "legno",
-     "colore": "#a67c52",
-     "x": -0.041999999999999996,
-     "y": 0.03,
-     "sx": 0.07,
-     "sy": 0.08,
-     "sz": 0.07,
+     "y": 0.02,
+     "sx": 0.13799999999999998,
+     "sy": 0.1,
+     "sz": 0.09,
+     "modello": "forma_legno",
      "genitore": "forma_piccola"
     },
     {
@@ -1108,24 +1054,15 @@
      "sz": 0.03
     },
     {
-     "id": "arco",
-     "forma": "cilindro",
-     "materiale": "metallo",
-     "colore": "#4a4640",
-     "y": 0.1,
-     "rx": 90,
-     "sx": 0.16,
-     "sy": 0.05,
-     "sz": 0.16
-    },
-    {
      "id": "corpo",
      "forma": "cubo",
      "materiale": "ottone",
      "colore": "#8a6a2c",
+     "y": 0.08,
      "sx": 0.32,
-     "sy": 0.2,
-     "sz": 0.08
+     "sy": 0.38,
+     "sz": 0.1,
+     "modello": "lucchetto"
     },
     {
      "id": "scatto",

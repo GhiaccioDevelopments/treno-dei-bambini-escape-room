@@ -42,6 +42,7 @@ namespace TrenoBambini.Puzzles
                 st.alRisolto = OnEnigmaSolved;
                 st.progresso = SetExtraHud;
                 stations.Add(st);
+                MondoSpawner.Sostituisci(gameObject.scene, enigmi[i].sostituisce);
             }
 
             int solvedCount = CountSolved();

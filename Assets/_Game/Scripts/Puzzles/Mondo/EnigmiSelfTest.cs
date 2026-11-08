@@ -1,4 +1,4 @@
-#if UNITY_EDITOR || DEVELOPMENT_BUILD
+#if UNITY_EDITOR || DEBUG
 // R020: prova automatica degli enigmi nel mondo, solo negli editor e nelle build di sviluppo (mai nella build normale).
 using System;
 using System.Collections;
@@ -400,6 +400,7 @@ namespace TrenoBambini.Core
             switch (id)
             {
                 case "enigma_bucato": return new[] { new Vector3(-6.0f, 2.2f, -3.8f), new Vector3(-3.4f, 1.8f, -3.7f) };
+                case "enigma_baule": return new[] { new Vector3(-3.95f, 1.15f, 3.0f), new Vector3(-2.2f, 2.0f, 7.2f) };
                 default: return null;
             }
         }

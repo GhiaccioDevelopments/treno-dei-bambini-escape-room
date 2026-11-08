@@ -190,7 +190,7 @@ namespace TrenoBambini.Puzzles
         }
 
         /// <summary>Nasconde gli oggetti di scena che l'enigma rimpiazza (stesso posto, stesso ruolo, ora esaminabili).</summary>
-        static void Sostituisci(Scene sc, string nomi)
+        public static void Sostituisci(Scene sc, string nomi)
         {
             if (string.IsNullOrEmpty(nomi)) return;
             var cerca = new HashSet<string>();

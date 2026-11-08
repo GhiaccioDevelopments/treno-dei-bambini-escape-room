@@ -37,11 +37,15 @@ def da_metaball(nome, elementi, soglia=0.05, risoluzione=0.012):
     mb.resolution = risoluzione
     mb.render_resolution = risoluzione
     mb.threshold = soglia
-    for t, x, y, z, sx, sy, sz in elementi:
+    for el in elementi:
+        t, x, y, z, sx, sy, sz = el[:7]
+        raggio = el[7] if len(el) > 7 else 1.0
         e = mb.elements.new(type=t)
         e.co = (x, y, z)
-        e.radius = 1.0
-        e.size_x, e.size_y, e.size_z = sx, sy, sz
+        e.radius = raggio
+        e.stiffness = 3.0
+        if t != "BALL":
+            e.size_x, e.size_y, e.size_z = sx, sy, sz
     o = bpy.data.objects.new(nome, mb)
     bpy.context.collection.objects.link(o)
     attiva(o)
@@ -78,6 +82,7 @@ def scambia_yz(o):
 
 def esporta(o, nome):
     attiva(o)
+    modificatore(o, "TRIANGULATE", quad_method="BEAUTY", ngon_method="BEAUTY")
     o.name = nome
     o.data.name = nome
     bpy.ops.export_scene.fbx(filepath=os.path.join(OUT, nome + ".fbx"), use_selection=True, object_types={"MESH"}, apply_unit_scale=True,
@@ -122,22 +127,36 @@ def panno():
 
 
 # --------------------------------------------------------------------------------------------- ex-voto a piede e a cuore (sbalzati)
+def cilindro_piatto(x, y, rx, ry, spessore=0.05):
+    bpy.ops.mesh.primitive_cylinder_add(vertices=40, radius=1.0, depth=1.0, location=(x, y, 0))
+    c = bpy.context.view_layer.objects.active
+    c.scale = (rx, ry, spessore)
+    attiva(c); bpy.ops.object.transform_apply(location=True, rotation=True, scale=True)
+    return c
+
+
 def exvoto_piede():
-    # sagoma vista dall'alto: tallone, collo del piede, pianta larga, cinque dita; spessore sottile con bordo arrotondato
-    el = [("ELLIPSOID", 0.0, -0.32, 0.0, 0.17, 0.20, 0.07), ("ELLIPSOID", 0.0, -0.05, 0.0, 0.14, 0.28, 0.07), ("ELLIPSOID", 0.03, 0.22, 0.0, 0.20, 0.17, 0.07)]
-    dita = [(-0.16, 0.42, 0.075), (-0.085, 0.50, 0.062), (0.0, 0.52, 0.056), (0.085, 0.50, 0.05), (0.15, 0.45, 0.045)]
+    # sagoma vista dall'alto come unione di ellissi piatte (tallone, arco, pianta, cinque dita), bordo smussato
+    parti = [(0.0, -0.33, 0.115, 0.14), (0.015, -0.1, 0.10, 0.2), (0.02, 0.17, 0.165, 0.13)]
+    dita = [(-0.125, 0.33, 0.062), (-0.04, 0.395, 0.052), (0.04, 0.395, 0.048), (0.11, 0.37, 0.044), (0.165, 0.32, 0.038)]
+    base = cilindro_piatto(*parti[0])
+    for x, y, rx, ry in parti[1:]:
+        c = cilindro_piatto(x, y, rx, ry)
+        attiva(base); m = base.modifiers.new("u", "BOOLEAN"); m.operation = "UNION"; m.object = c; m.solver = "EXACT"
+        bpy.ops.object.modifier_apply(modifier=m.name); bpy.data.objects.remove(c)
     for x, y, r in dita:
-        el.append(("BALL", x, y, 0.0, r * 3.2, r * 3.2, 0.06))
-    o = da_metaball("exvoto_piede", el, soglia=0.35, risoluzione=0.02)
-    attiva(o)
-    modificatore(o, "SMOOTH", factor=0.6, iterations=3)
-    modificatore(o, "DECIMATE", ratio=0.06)
-    # il piede e' appiattito: sulla fronte (-Z) un bordo rialzato e il campo incavato (sbalzo)
+        c = cilindro_piatto(x, y, r, r * 1.15)
+        attiva(base); m = base.modifiers.new("u", "BOOLEAN"); m.operation = "UNION"; m.object = c; m.solver = "EXACT"
+        bpy.ops.object.modifier_apply(modifier=m.name); bpy.data.objects.remove(c)
+    o = base
+    modificatore(o, "BEVEL", width=0.012, segments=3, limit_method="ANGLE", angle_limit=math.radians(25))
+    # sbalzo: il campo e' leggermente incavato rispetto al bordo
     bm = bmesh.new(); bm.from_mesh(o.data)
     for v in bm.verts:
-        if v.co.z < 0:
-            v.co.z -= 0.012 * (1.0 if (abs(v.co.x) > 0.06 or v.co.y < -0.1) else 0.2)
+        if v.co.z < 0 and (abs(v.co.x) < 0.07 and -0.3 < v.co.y < 0.2):
+            v.co.z *= 0.8
     bm.to_mesh(o.data); bm.free()
+    print("PIEDE poligoni", len(o.data.polygons))
     scambia_yz(o)
     normalizza(o)
     esporta(o, "exvoto_piede")
@@ -148,7 +167,7 @@ def exvoto_cuore():
     o = da_metaball("exvoto_cuore", el, soglia=0.28, risoluzione=0.02)
     attiva(o)
     modificatore(o, "SMOOTH", factor=0.6, iterations=3)
-    modificatore(o, "DECIMATE", ratio=0.06)
+    modificatore(o, "DECIMATE", ratio=0.03)
     scambia_yz(o)
     normalizza(o)
     esporta(o, "exvoto_cuore")
@@ -207,7 +226,7 @@ def forma_legno():
     o = da_metaball("forma_legno", el, soglia=0.3, risoluzione=0.015)
     attiva(o)
     modificatore(o, "SMOOTH", factor=0.5, iterations=3)
-    modificatore(o, "DECIMATE", ratio=0.1)
+    modificatore(o, "DECIMATE", ratio=0.03)
     normalizza(o)
     esporta(o, "forma_legno")
 

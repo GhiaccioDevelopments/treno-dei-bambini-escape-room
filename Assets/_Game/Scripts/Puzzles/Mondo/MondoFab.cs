@@ -126,6 +126,22 @@ namespace TrenoBambini.Puzzles
             return GameObject.CreatePrimitive(t);
         }
 
+        /// <summary>Istanzia un modello vero di Resources/Modelli/Enigmi, senza collider e con il materiale dato su tutte le mesh. Null se il modello manca (resta la primitiva).</summary>
+        public static GameObject Modello(string nome, Transform parent, Material mat, Vector3 pos, Vector3 rot, Vector3 scala)
+        {
+            if (string.IsNullOrEmpty(nome)) return null;
+            var pf = Resources.Load<GameObject>("Modelli/Enigmi/" + nome);
+            if (pf == null) return null;
+            var g = Object.Instantiate(pf, parent);
+            g.name = "Modello_" + nome;
+            g.transform.localPosition = pos;
+            g.transform.localRotation = Quaternion.Euler(rot);
+            g.transform.localScale = scala;
+            foreach (var r in g.GetComponentsInChildren<Renderer>()) r.sharedMaterial = mat;
+            foreach (var c in g.GetComponentsInChildren<Collider>()) Object.Destroy(c);
+            return g;
+        }
+
         /// <summary>Costruisce un singolo pezzo come figlio di parent. Con colliders = true il pezzo cliccabile ha il collider per i raggi.</summary>
         public static GameObject Pezzo(ParteDef d, Transform parent, bool colliders)
         {
@@ -175,7 +191,10 @@ namespace TrenoBambini.Puzzles
             go.transform.localPosition = new Vector3(d.x, d.y, d.z);
             go.transform.localRotation = Quaternion.Euler(d.rx, d.ry, d.rz);
             go.transform.localScale = new Vector3(d.sx, d.sy, d.sz);
-            go.GetComponent<Renderer>().sharedMaterial = Mat(d.materiale, d.colore);
+            var matParte = Mat(d.materiale, d.colore);
+            go.GetComponent<Renderer>().sharedMaterial = matParte;
+            if (!string.IsNullOrEmpty(d.modello) && Modello(d.modello, go.transform, matParte, Vector3.zero, Vector3.zero, Vector3.one) != null)
+                go.GetComponent<Renderer>().enabled = false; // al posto del cubo si vede il modello (il cubo resta come collider)
             var c = go.GetComponent<Collider>();
             if (c != null && !(colliders && d.clic)) Object.Destroy(c);
             if (!string.IsNullOrEmpty(d.testo) && f != "testo")
@@ -242,9 +261,15 @@ namespace TrenoBambini.Puzzles
             else
             {
                 float alto = (st == "militari") ? 0.17f : (st == "tacchi" ? 0.07f : 0.1f);
-                Part(root, PrimitiveType.Cube, "tomaia", new Vector3(-0.045f, 0.025f + alto * 0.5f, 0f), new Vector3(0.15f, alto, 0.088f), mLucido);
-                Part(root, PrimitiveType.Sphere, "punta", new Vector3(0.095f, 0.05f, 0f), new Vector3(0.12f, 0.07f, 0.092f), mLucido);
-                Part(root, PrimitiveType.Cube, "ponte", new Vector3(0.03f, 0.065f, 0f), new Vector3(0.11f, 0.05f, 0.085f), mLucido);
+                // modello vero della scarpa (lunghezza 1 su X, alto 0,45, largo 0,51): lunghezza 0,29 m, altezza e larghezza dal tipo di scarpa
+                float ky = (st == "militari") ? 0.95f : (st == "tacchi" ? 0.62f : 0.78f);
+                var mod = Modello("scarpa", root.transform, mLucido, new Vector3(0.0f, 0.06f + 0.29f * 0.45f * ky * 0.5f, 0f), Vector3.zero, new Vector3(0.29f, 0.29f * ky, 0.2f));
+                if (mod == null)
+                {
+                    Part(root, PrimitiveType.Cube, "tomaia", new Vector3(-0.045f, 0.025f + alto * 0.5f, 0f), new Vector3(0.15f, alto, 0.088f), mLucido);
+                    Part(root, PrimitiveType.Sphere, "punta", new Vector3(0.095f, 0.05f, 0f), new Vector3(0.12f, 0.07f, 0.092f), mLucido);
+                    Part(root, PrimitiveType.Cube, "ponte", new Vector3(0.03f, 0.065f, 0f), new Vector3(0.11f, 0.05f, 0.085f), mLucido);
+                }
                 if (st == "tacchi")
                 {
                     root.transform.localScale = new Vector3(d.sx, d.sy, d.sz);
