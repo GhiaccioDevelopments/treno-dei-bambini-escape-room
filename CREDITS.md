@@ -58,6 +58,17 @@ Il gioco è pubblicato online: si usano preferibilmente asset con licenza **CC0*
 | LanternaAppesa ("Metal hanging lantern") | Modello 3D (1460 tri) | Assets/Art/Models/LanternaAppesa/ | https://sketchfab.com/3d-models/metal-hanging-lantern-1bdbe7ea2e5242948f6cd7cccfd7206e | [Qwert Models](https://sketchfab.com/QwertModels) | [CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/) | Convertito glTF -> FBX con Blender, scalata a 35 cm, origine alla base; texture ridimensionate a max 1K, mappa metallic/roughness convertita in metallic/smoothness; materiali URP Lit con tinta d'epoca; UV lightmap generate |
 | LampioneStrada_Pixie ("Old Fashioned Lamppost") | Modello 3D (932 tri) | Assets/Art/Models/LampioneStrada_Pixie/ | https://sketchfab.com/3d-models/old-fashioned-lamppost-a58ad12fb9a24a10ba2328d6c18d8775 | [Pixie3D](https://sketchfab.com/pixie-3d) | [CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/) | Convertito glTF -> FBX con Blender, scalato a 3,2 m, origine alla base; texture ridimensionate a max 1K, mappa metallic/roughness convertita in metallic/smoothness; materiali URP Lit con tinta d'epoca; UV lightmap generate |
 | VasoTerracotta ("Terracotta pot") | Modello 3D (912 tri) | Assets/Art/Models/VasoTerracotta/ | https://sketchfab.com/3d-models/terracotta-pot-2bcf7aab467e490e9095257a2107a751 | [Sousinho](https://sketchfab.com/sousinho) | [CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/) | Convertito glTF -> FBX con Blender, scalato a 30 cm, origine alla base; texture ridimensionate a max 1K, mappa metallic/roughness convertita in metallic/smoothness; materiali URP Lit con tinta d'epoca; UV lightmap generate |
+| LettoFerro ("Metal Bed Frame") | Modello 3D (3422 tri, con LOD1/LOD2) | Assets/Art/Models/LettoFerro/ | https://sketchfab.com/3d-models/metal-bed-frame-5e22458c087f499fad020ffdb47454f3 | [Kuutti Siitonen](https://sketchfab.com/kuutti) | [CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/) | R007 t2: scala 2 m di lunghezza, origine a terra, LOD; texture 2K (normal in JPG); metallico corretto col fattore glTF |
+| Credenza ("Painted Wooden Cabinet") | Modello 3D (2227 tri, con LOD1/LOD2) | Assets/Art/Models/Credenza/ | https://polyhaven.com/a/painted_wooden_cabinet | Kirill Sannikov | [CC0](https://creativecommons.org/publicdomain/zero/1.0/) | R007 t2: glTF 2K -> FBX, altezza 1,15 m, LOD; texture 2K, ARM convertita in mask |
+| Pozzo ("Old Rural Well") | Modello 3D (4134 tri, con LOD1/LOD2) | Assets/Art/Models/Pozzo/ | https://sketchfab.com/3d-models/old-rural-well-1163b47dc0aa4de2a19b23ab4539bef4 | [brianjernigan](https://sketchfab.com/brianjernigan) | [CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/) | R007 t2: altezza 2,2 m, 6 materiali, LOD; texture 2K |
+| Bicicletta ("Low-Poly Vintage Bicycle Model") | Modello 3D (2640 tri, con LOD1/LOD2) | Assets/Art/Models/Bicicletta/ | https://sketchfab.com/3d-models/low-poly-vintage-bicycle-model-5297f7525763435c8ef2e97fd3a6d30d | [wasabicats](https://sketchfab.com/wasabicats) | [CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/) | R007 t2 parte B: lunghezza 1,75 m, ruote a raggi (card alpha) scartate, materiali ridotti a 3 colori piatti (telaio nero, cuoio scuro, fanale ottone); LOD |
+| Fontana ("Fountain") | Modello 3D (4660 tri, con LOD1/LOD2) | Assets/Art/Models/Fontana/ | https://sketchfab.com/3d-models/fountain-3d355747050a4f28ac8d75b8d041677f | Diccbudd | [CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/) | R007 t2: diametro 3,6 m, LOD; albedo 1K scurito (x0,8) per la luce autunnale; acqua = materiale M_Acqua del progetto. Scelta al posto di "Fountain" di Havardan (scartata: la geometria utile era minuscola) |
+| Valigia / Valigia2 ("Vintage Suitcase") | Modello 3D (4000 ciascuna (da 8237) tri, con LOD1/LOD2) | Assets/Art/Models/Valigia / Valigia2/ | https://polyhaven.com/a/vintage_suitcase | Maximilian Schuster | [CC0](https://creativecommons.org/publicdomain/zero/1.0/) | R007 t2: le due valigie del modello separate in due FBX, decimate, larghezza 0,62 m, LOD; texture 512 |
+| Sacco ("Grain Sack") | Modello 3D (3312 tri, con LOD1/LOD2) | Assets/Art/Models/Sacco/ | https://sketchfab.com/3d-models/grain-sack-9f4cc3c241b641f0aac43e1ffe497559 | [dalroron](https://sketchfab.com/dalroron) | [CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/) | R007 t2: lunghezza 0,85 m, LOD; texture 1K; metallico = 0 (fattore glTF) |
+| Tavolino ("Round Wooden Table 01") | Modello 3D (3000 (da 8640) tri, con LOD1/LOD2) | Assets/Art/Models/Tavolino/ | https://polyhaven.com/a/round_wooden_table_01 | Ulan Cabanilla | [CC0](https://creativecommons.org/publicdomain/zero/1.0/) | R007 t2: decimato, altezza 0,74 m, LOD; texture 1K |
+| PentolaRame ("Brass Pot 02") | Modello 3D (3344 tri, con LOD1/LOD2) | Assets/Art/Models/PentolaRame/ | https://polyhaven.com/a/brass_pot_02 | Rico Cilliers | [CC0](https://creativecommons.org/publicdomain/zero/1.0/) | R007 t2: albedo ricolorato in rame (scelta dell'utente, niente ottone); LOD; texture 512 |
+| PadellaRame ("Brass Pan 01") | Modello 3D (4340 tri, con LOD1/LOD2) | Assets/Art/Models/PadellaRame/ | https://polyhaven.com/a/brass_pan_01 | Rico Cilliers | [CC0](https://creativecommons.org/publicdomain/zero/1.0/) | R007 t2: albedo ricolorato in rame; LOD; texture 512 |
+| MadonnaStatuetta ("Mary_Evora") | Modello 3D (4999 (da 9561) tri, con LOD1/LOD2) | Assets/Art/Models/MadonnaStatuetta/ | https://sketchfab.com/3d-models/mary-evora-a864230e91964df193a8007582cd82c5 | Ye Myat Lwin | [CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/) | R007 t2: decimata, altezza 0,9 m (da scalare per le edicole piccole), LOD; albedo da 8K a 1K, normal generata dalla luminanza (forza 3) |
 
 ## Personaggi
 
@@ -155,3 +166,41 @@ I manifesti e le insegne sono **texture originali** disegnate dal generatore con
 (`Assets/_Game/Generated/Tex/T_Man_*.png`, `T_Ins_*.png`): testi inventati, senza marchi, partiti o nomi reali. Gli unici modelli esterni
 usati restano quelli già annotati sopra (carretto, botti, casse, ceste, secchi, scala, vaso di terracotta, lampioni, candele, macerie)
 e i materiali PBR Poly Haven già in uso, ricolorati (`M_Intonaco_*`, `M_Foglia`, `M_Paglia`) con tinte derivate dalle stesse texture.
+
+## Look, cielo e post-processing (R007, tappa 1)
+
+Nessun asset esterno nuovo scaricato: il cielo coperto dell'hub e del titolo riusa l'HDRI **CieloCoperto** (Poly Haven `overcast_soil_puresky`,
+Jarod Guest e Sergej Majboroda, CC0, 1K, già annotato nella sezione HDRI) tramite il nuovo materiale skybox `Assets/Art/Materials/M_Sky_Hub.mat`
+(tinta fredda, esposizione 1). Il cielo del ricordo è **procedurale** (`M_Sky_Ricordo.mat`, shader Skybox/Procedural di Unity, nessun file).
+LUT d'epoca `LUT_Presente.png` (presente freddo e desaturato) **originale**, generata da `LookBuilder` come `LUT_Neorealismo` e `LUT_Flashback`.
+Tutto è prodotto da **Treno ▸ Look ▸ Crea preset grafici e profili** e **Applica look alle scene**.
+
+## Oggetti modellati da zero e texture CC0 (R007, tappa 2)
+
+Modelli **originali** (nessun file esterno di geometria), realizzati con script Blender riproducibili in `ArtSource/Models/` (`crea_oggetti.py`,
+`lib_modelli.py`, `panni_def.py`) e texture generate con `texture_procedurali.py`. Cartelle in `Assets/Art/Models/<Oggetto>/`. Tutti con LOD1/LOD2.
+
+| Oggetto | Tri LOD0 | Texture |
+|---------|----------|---------|
+| GabbiaGalline (assi di legno vissuto, porticina con cerniere di ferro, posatoio) | 772 | legno Poly Haven `weathered_planks` (CC0) |
+| Lavatoio (vasca di pietra con piano inclinato per strofinare e tubo di ferro) | 744 | pietra Poly Haven `sandstone_cracks` (CC0) |
+| Bacinella (catino smaltato scrostato, bordo scuro, varianti bianca e azzurra) | 432 | smalto **originale** generato (scheggiature e ruggine) |
+| CassaFrutta_Arance / _Pomodori / _Verdura | 2020 / 3060 / 820 | legno `weathered_planks`; buccia e foglie **originali** generate |
+| Radio (radio a valvole anni '40: mobile in legno, tela sull'altoparlante, scala parlante, manopole in bachelite) | 648 | legno `dark_wood` (CC0), tela da `rough_linen` (CC0) ricolorata, scala parlante **originale** |
+| Bancarella (banco da mercato di 2 m: pali, piano di assi, cassette, ripiano, tendone di tela con risvolto) | 1220 | legno `weathered_planks` (CC0), tela da `rough_linen` (CC0) ricolorata |
+| PanchinaPopolare (due ceppi di pietra grezza e due tavole, niente schienale) | 520 | pietra `sandstone_cracks` e legno `weathered_planks` (CC0) |
+| SediaPaglia (sedia impagliata napoletana: legno scuro, gambe anteriori tornite, spalliera a 3 traverse, seduta di paglia) | 956 | legno `dark_wood` (CC0) ricolorato, paglia **originale** generata |
+| Panni stesi: Lenzuolo, LenzuoloRammendato, Tovaglia, Straccio, Camicia, Mutandoni (`Assets/Art/Models/Panni/Panno_*.fbx`) | 570 / 442 / 384 / 174 / 248 / 240 | un solo atlante 1024x2048 **originale** in 3 varianti di colore spento (`M_Panni`, `M_Panni_B`, `M_Panni_C`; alpha clip per i bordi sfilacciati; toppe, macchie e pieghe marcate) con trama e normal da `rough_linen` (CC0) |
+
+Texture Poly Haven CC0 usate come base (1K, scaricate con asset-hub): `rough_linen`, `weathered_planks`, `dark_wood`, `sandstone_cracks`
+(https://polyhaven.com/a/<nome>, autori vari, licenza [CC0](https://creativecommons.org/publicdomain/zero/1.0/)).
+Scene di prova dei confronti: `Prove/R007_Modelli.unity` (primitive contro modelli) e `Prove/R007_Rifatti.unity` (modelli rifatti dopo il parere dell'utente); foto in `Docs/richieste/media/R007/t2_*.jpg` e `t2b_*.jpg`.
+Modelli scartati e rimossi dal progetto (non piu' in uso, nessun credito dovuto): Rusty Bicycle (Pjot), Rustic chair (Araon), Wooden Market Stall (ddineah0), Stone Bench [3D Scan] (imbace), ottone di Brass Pot/Pan (sostituito dal rame).
+
+## Meteo, decal e set dressing (R007, tappe 3B e 4)
+
+Nessun asset esterno nuovo. Tutto originale e generato da script riproducibili:
+- decal di umidita', salnitro e macchie d'acqua (`Assets/Art/Textures/Decal/DecalUmido.png`, `DecalMacchie.png`, da `ArtSource/Models/decal_muri.py`), proiettati con i DecalProjector URP alla base delle facciate;
+- `GabbiaUccellino` (gabbietta con uccellino appesa ai bassi): modello Blender originale, 580 tri, `ArtSource/Models/crea_oggetti_b.py`;
+- manifesti del referendum del 2 giugno 1946 (`Referendum`, `VotoDonne`, `Seggio`): testi originali in `testi_ambiente.json`, nessun materiale del film o del libro;
+- puntellature di guerra, pozzanghere, pioggia, spruzzi e gocce: geometria e particelle da codice (`MeteoController`), audio di pioggia sintetizzato (`SfxSynth`: `pioggia`, `pioggia_ovattata`).

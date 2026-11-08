@@ -125,7 +125,9 @@ namespace TrenoBambini.EditorTools
 
         static void Bacinella(Transform env, Vector3 pos)
         {
-            var go = Cyl("Bacinella", env, pos + Vector3.up * 0.07f, 0.55f, 0.14f, "M_SecchioMetallo", null, true);
+            // R007 t2: catino smaltato (modello vero), bianco o azzurro a seconda della posizione
+            bool az = (((int)(pos.x * 10f) + (int)(pos.z * 10f)) & 1) == 1;
+            var go = ModelloIst(az ? "Bacinella/Bacinella_azzurro.prefab" : "Bacinella/Bacinella.fbx", env, pos, pos.x * 53f, Vector3.one, true, "Bacinella", 0.03f);
             Mob(go);
         }
 
@@ -157,7 +159,15 @@ namespace TrenoBambini.EditorTools
                 case 6: Bacinella(env, p); break;
                 case 7: Pezzo(env, "GabbiaGalline", "Gabbia", new[] { "M_LegnoVernicePelata", "M_FerroRuggine02" }, GabbiaGalline, p, yaw, 0.03f); break;
                 case 8: Pezzo(env, "Bicicletta", "Bicicletta", new[] { "M_FerroRuggine02", "Cuoio", "SuolaScarpa" }, Bicicletta, p, yaw, 0.03f); break;
-                case 9: Model("Carretto_Filip", env, p, yaw + 90f, 1.15f, true, "Carretto"); break;
+                case 9:
+                    {
+                        // R007 t2: il carretto (2,5 m) non si piazza accanto a un tavolino gia' posato: i modelli veri non si lasciano spingere nel muro
+                        bool vicinoTavolo = false;
+                        foreach (var m in mobili) if (m != null && m.name == "Tavolino" && (m.transform.position - p).sqrMagnitude < 12f) vicinoTavolo = true;
+                        if (vicinoTavolo) Model("CestaVimini", env, p, yaw, 1.5f, true, "Cesta");
+                        else Model("Carretto_Filip", env, p, yaw + 90f, 1.05f, true, "Carretto"); // 1,05 invece di 1,15: tra facciata e tavolino restano 87 cm
+                        break;
+                    }
                 case 10: Sacco(env, p, yaw); Sacco(env, p + new Vector3(0.75f, 0f, 0.05f), yaw + 30f); break;
                 default: Valigia(env, p, yaw); break;
             }

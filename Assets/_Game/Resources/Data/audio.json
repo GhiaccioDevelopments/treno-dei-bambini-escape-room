@@ -1,23 +1,128 @@
 {
   "scene": [
-    { "scena": "01_Titolo", "musica": "tema_amerigo_solo", "ambiente": ["stazione_vapore"], "sparsi": ["treno_fischio"], "intervallo": [14, 30], "superficie": "pietra" },
-    { "scena": "10_Hub_Vicolo", "musica": "vicolo_mandolino", "ambiente": ["vicolo_brusio", "vento_mare"],
-      "sparsi": ["campane", "gabbiani", "carretto", "venditore", "bambini", "panni", "finestra"], "intervallo": [6, 18], "superficie": "pietra" },
-    { "scena": "20_Int_BassoAntonietta", "musica": "", "ambiente": ["interno_silenzio"],
-      "sparsi": ["pendolo", "sedia", "pentola"], "intervallo": [10, 25], "superficie": "legno" },
-    { "scena": "30_FB_Scarpe", "musica": "tema_amerigo_ricordo", "ambiente": ["ricordo_tono"],
-      "sparsi": ["treno_fischio"], "intervallo": [25, 50], "superficie": "ovattato" }
+    {
+      "scena": "01_Titolo",
+      "musica": "tema_amerigo_solo",
+      "ambiente": [
+        "stazione_vapore"
+      ],
+      "sparsi": [
+        "treno_fischio"
+      ],
+      "intervallo": [
+        14,
+        30
+      ],
+      "superficie": "pietra"
+    },
+    {
+      "scena": "10_Hub_Vicolo",
+      "musica": "vicolo_mandolino",
+      "ambiente": [
+        "vicolo_brusio",
+        "vento_mare",
+        "pioggia"
+      ],
+      "sparsi": [
+        "campane",
+        "carretto",
+        "venditore",
+        "panni",
+        "finestra"
+      ],
+      "intervallo": [
+        6,
+        18
+      ],
+      "superficie": "pietra"
+    },
+    {
+      "scena": "20_Int_BassoAntonietta",
+      "musica": "",
+      "ambiente": [
+        "interno_silenzio",
+        "pioggia_ovattata"
+      ],
+      "sparsi": [
+        "pendolo",
+        "sedia",
+        "pentola"
+      ],
+      "intervallo": [
+        10,
+        25
+      ],
+      "superficie": "legno"
+    },
+    {
+      "scena": "30_FB_Scarpe",
+      "musica": "tema_amerigo_ricordo",
+      "ambiente": [
+        "ricordo_tono"
+      ],
+      "sparsi": [
+        "treno_fischio"
+      ],
+      "intervallo": [
+        25,
+        50
+      ],
+      "superficie": "ovattato"
+    }
   ],
   "eventi": [
-    { "id": "enigma_risolto", "stinger": "stinger_risolto", "sfx": "" },
-    { "id": "oggetto_ritrovato", "stinger": "tema_amerigo_scoperta", "sfx": "" },
-    { "id": "ricordo_entra", "stinger": "", "sfx": "violino_sale" },
-    { "id": "ricordo_esce", "stinger": "", "sfx": "proiettore_stop" },
-    { "id": "porta_apre", "stinger": "", "sfx": "porta_apri" },
-    { "id": "porta_chiusa", "stinger": "", "sfx": "porta_chiusa" },
-    { "id": "raccolta", "stinger": "", "sfx": "raccolta" },
-    { "id": "trovato", "stinger": "", "sfx": "trovato" },
-    { "id": "cambio_scena", "stinger": "", "sfx": "" }
+    {
+      "id": "enigma_risolto",
+      "stinger": "stinger_risolto",
+      "sfx": ""
+    },
+    {
+      "id": "oggetto_ritrovato",
+      "stinger": "tema_amerigo_scoperta",
+      "sfx": ""
+    },
+    {
+      "id": "ricordo_entra",
+      "stinger": "",
+      "sfx": "violino_sale"
+    },
+    {
+      "id": "ricordo_esce",
+      "stinger": "",
+      "sfx": "proiettore_stop"
+    },
+    {
+      "id": "porta_apre",
+      "stinger": "",
+      "sfx": "porta_apri"
+    },
+    {
+      "id": "porta_chiusa",
+      "stinger": "",
+      "sfx": "porta_chiusa"
+    },
+    {
+      "id": "raccolta",
+      "stinger": "",
+      "sfx": "raccolta"
+    },
+    {
+      "id": "trovato",
+      "stinger": "",
+      "sfx": "trovato"
+    },
+    {
+      "id": "cambio_scena",
+      "stinger": "",
+      "sfx": ""
+    }
   ],
-  "volumi": { "musica": 0.6, "ambiente": 0.7, "effetti": 0.9, "voci": 1.0, "duckingMusica": 0.35, "duckingAmbiente": 0.6 }
+  "volumi": {
+    "musica": 0.6,
+    "ambiente": 0.7,
+    "effetti": 0.9,
+    "voci": 1.0,
+    "duckingMusica": 0.35,
+    "duckingAmbiente": 0.6
+  }
 }

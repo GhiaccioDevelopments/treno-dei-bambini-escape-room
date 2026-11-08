@@ -369,7 +369,7 @@ namespace TrenoBambini.EditorTools
             var cassaB = Model("CassaLegno", props, new Vector3(-4.1f, 0f, -0.6f), 90f, 1.2f, true, "Cassa");
             var cassaT = Model("CassaLegno", props, new Vector3(-4.1f, 0.43f, -0.6f), 78f, 1.0f, true, "Cassa");
             Impila(cassaT, cassaB, Vector2.zero);
-            Pz(props, "PilaMaterassi", "B_PilaMaterassi", new[] { "M_TessutoLino", "PannoBeige", "PannoTerra" }, PilaMaterassi, new Vector3(-4.2f, 0f, -1.9f), 90f);
+            Pz(props, "PilaMaterassi", "B_PilaMaterassi", new[] { "PannoBeige", "PannoGrigio", "PannoTerra" }, PilaMaterassi, new Vector3(-4.2f, 0f, -1.9f), 90f);
             var credenza = Pz(props, "Credenza", "B_Credenza", new[] { "M_LegnoVernicePelata", "M_FerroRuggine02", "Cera" }, Credenza, new Vector3(-4.2f, 0f, 1.5f), 90f);
             var lampCredenza = Model("LampadaPetrolio_B", props, new Vector3(-4.2f, 0.96f, 1.2f), 0f, 1.3f, false, "LampadaCredenza");
             Impila(lampCredenza, credenza, new Vector2(0f, -0.3f));
@@ -377,6 +377,7 @@ namespace TrenoBambini.EditorTools
             Cavaliere(fiammaCredenza, credenza);
             var sveglia = Pz(props, "SvegliaRotta", "B_SvegliaRotta", new[] { "M_FerroRuggine02", "Cera" }, SvegliaRotta, new Vector3(0f, 0.96f, 0f), 90f, false);
             Impila(sveglia, credenza, new Vector2(0f, 0.2f));
+            sveglia.transform.position += Vector3.up * 0.02f; // R007 t2: il modello della credenza e' un solido: la sveglia sta 2 cm sopra, senza compenetrazione
             Cavaliere(sveglia, credenza);
             Sacco(props, new Vector3(3.9f, 0f, 2.9f), 20f);
 
@@ -430,7 +431,7 @@ namespace TrenoBambini.EditorTools
             // ---------------------------------------------------------------- alcova
             var letto = Pz(props, "LettoFerro", "B_LettoFerro", new[] { "M_FerroRuggine02", "M_TessutoLino", "Tessuto1" }, LettoFerro, new Vector3(-3.85f, 0f, 6.8f), 0f);
             letto.transform.localScale = new Vector3(0.86f, 1f, 1f); // letto da una piazza e mezza: lascia un corridoio di 90 cm
-            Pz(props, "MaterassoTerra", "B_MaterassoTerra", new[] { "M_TessutoLino", "PannoBeige", "PannoTerra" }, MaterassoTerra, new Vector3(-1.95f, 0f, 6.8f), 0f, false);
+            Pz(props, "MaterassoTerra", "B_MaterassoTerra", new[] { "PannoGrigio", "PannoBeige", "PannoTerra" }, MaterassoTerra, new Vector3(-1.95f, 0f, 6.8f), 0f, false);
             var baule = Model("CassaLegno", props, new Vector3(-3.95f, 0f, 4.5f), 0f, 1.3f, true, "BauleAlcova");
             Candela(props, "Alcova", new Vector3(-3.95f, 0.45f, 4.5f), baule);
             Model("SecchioLegno", props, new Vector3(-1.8f, 0f, 4.4f), 0f, 1.1f, true, "SecchioNotte");
@@ -447,7 +448,12 @@ namespace TrenoBambini.EditorTools
             // pentole appese a un'asse sulla parete est
             Appeso(props, "Appeso_AsseePentole", new Vector3(4.46f, 1.75f, 5.7f), new Vector3(0.05f, 0.05f, 1.8f), "M_LegnoVernicePelata");
             for (int i = 0; i < 5; i++)
-                Cyl("Appeso_Pentola" + i, props, new Vector3(4.34f, 1.6f - (i % 2) * 0.08f, 4.95f + i * 0.35f), 0.2f + (i % 3) * 0.03f, 0.14f, "M_FerroRuggineGrossa", new Vector3(0f, 0f, 90f), false);
+            {
+                // R007 t2: pentole e padelle di rame (modelli veri) con l'apertura verso la stanza: ruotate di 90 gradi attorno a z
+                string mod = i % 3 == 2 ? "PadellaRame/PadellaRame.fbx" : "PentolaRame/PentolaRame.fbx";
+                var pg = ModelloIst(mod, props, new Vector3(4.40f, 1.6f - (i % 2) * 0.08f, 4.85f + i * 0.40f), 0f, Vector3.one, false, "Appeso_Pentola" + i, 0.03f);
+                pg.transform.localRotation = Quaternion.Euler(0f, 0f, 90f);
+            }
             Pz(props, "BacinellaCucina", "B_BacinellaTreppiede", new[] { "M_FerroRuggine02", "M_SecchioMetallo" }, kb =>
             {
                 foreach (var a in new[] { 0f, 120f, 240f })

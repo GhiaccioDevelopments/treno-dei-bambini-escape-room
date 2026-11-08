@@ -1,0 +1,27 @@
+{
+ "nome": "PentolaRame",
+ "cartella": "PentolaRame",
+ "sorgente": "Pentole_brass_pot_02",
+ "materiali": [
+  "brass_pot_02"
+ ],
+ "tri": [
+  3344,
+  1672,
+  836
+ ],
+ "tri_originali": 3344,
+ "dim": [
+  0.37,
+  0.305,
+  0.11
+ ],
+ "texture": {
+  "brass_pot_02": {
+   "albedo": "brass_pot_02_albedo.jpg",
+   "normal": "brass_pot_02_normal.jpg",
+   "mask": "brass_pot_02_mask.png",
+   "levigatezza": 0.3
+  }
+ }
+}
