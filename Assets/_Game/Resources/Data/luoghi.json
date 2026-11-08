@@ -7,7 +7,15 @@
       "spawn": "ingresso",
       "aperto": true,
       "descrizione": "Un basso al pianterreno, senza finestre sul vicolo: la stanza principale affollata di casse, materassi e una credenza, l'alcova col letto dietro una tenda, un angolo cucina e, sul retro, un piccolo cortile. Poco spazio, ma è casa.",
-      "meteo": "pioggia_fuori"
+      "meteo": "pioggia_fuori",
+      "richiede": [
+        "porta_trovata",
+        "chiave_basso"
+      ],
+      "richiedeMsg": [
+        "Quale sarà la tua porta? In questo vicolo le porte si assomigliano tutte. Guarda i panni stesi: ti ricorderanno la strada.",
+        "La porta è chiusa a chiave. La chiave di casa: dove la lasciava Antonietta? Cerca dove le cose care si affidano a qualcuno."
+      ]
     },
     {
       "id": "casa_capa_e_fierro",
