@@ -1,0 +1,34 @@
+{
+  "titolo1": "Il treno",
+  "titolo2": "dei bambini",
+  "sottotitolo": "Napoli, 1946",
+  "voci": [
+    { "id": "continua", "etichetta": "Continua", "nota": "Binario 1" },
+    { "id": "nuova", "etichetta": "Nuova partita", "nota": "Binario 2" },
+    { "id": "ricordi", "etichetta": "Ricordi", "nota": "Binario 3" },
+    { "id": "impostazioni", "etichetta": "Impostazioni", "nota": "Binario 4" },
+    { "id": "crediti", "etichetta": "Crediti", "nota": "Binario 5" },
+    { "id": "esci", "etichetta": "Esci", "nota": "Binario 6" }
+  ],
+  "anteprima": {
+    "intestazione": "Ultima partita",
+    "oggetti": "1 oggetto nella latta",
+    "tempo": "14 minuti di gioco",
+    "oggettoId": "scarpe",
+    "luogoId": "basso_antonietta"
+  },
+  "sezioni": [ "Oggetti", "Ricordi", "Quaderno", "Mappa" ],
+  "inventario": {
+    "titoloLatta": "La latta",
+    "intestazioneQuaderno": "Appunti",
+    "etichettaTema": "Educazione civica",
+    "aiuto": "Trascina per girare l'oggetto  -  Tab: cambia sezione  -  Esc: chiudi",
+    "daTrovare": "Da trovare"
+  },
+  "bozzaEtichette": {
+    "menuA": "Bozza A: locandina",
+    "menuB": "Bozza B: biglietti",
+    "inventarioA": "Bozza A: latta e quaderno a fianco",
+    "inventarioB": "Bozza B: latta dall'alto e quaderno sotto"
+  }
+}
