@@ -15,10 +15,34 @@ namespace TrenoBambini.Core
         public int cambi = 60;
         public float intervallo = 0.25f;
         public bool salva = true;
+        public bool autonomo;       // da riga di comando: carica la scena, fa la prova e chiude il gioco
+        public string scena = "10_Hub_Vicolo";
+
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
+        static void Avvia()
+        {
+            var args = System.Environment.GetCommandLineArgs();
+            for (int i = 0; i < args.Length; i++)
+                if (args[i] == "-graphicsstress")
+                {
+                    var go = new GameObject("GraphicsStress");
+                    DontDestroyOnLoad(go);
+                    var st = go.AddComponent<GraphicsStress>();
+                    st.autonomo = true; st.cambi = 300; st.intervallo = 0.1f;
+                    if (i + 1 < args.Length && !args[i + 1].StartsWith("-")) st.scena = args[i + 1];
+                    return;
+                }
+        }
 
         IEnumerator Start()
         {
             var rnd = new System.Random(8);
+            if (autonomo)
+            {
+                yield return new WaitForSecondsRealtime(4f);
+                UnityEngine.SceneManagement.SceneManager.LoadScene(scena);
+                yield return new WaitForSecondsRealtime(4f);
+            }
             int partenza = Mathf.Max(0, GraphicsPresets.Current);
             var voci = (Voce[])System.Enum.GetValues(typeof(Voce));
             int errori = 0;
@@ -38,6 +62,7 @@ namespace TrenoBambini.Core
             GraphicsPresets.Apply(partenza, salva);
             Application.logMessageReceived -= cb;
             Debug.Log("[GraphicsStress] finito: " + cambi + " cambi, errori in console: " + errori);
+            if (autonomo) Application.Quit();
             Destroy(gameObject);
         }
     }

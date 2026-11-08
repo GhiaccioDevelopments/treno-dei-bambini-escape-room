@@ -14,7 +14,7 @@ namespace TrenoBambini.Core
 {
     /// <summary>
     /// R007 tappa 5: benchmark dei frame. Attivo SOLO con l'argomento da riga di comando -benchmark (es. TrenoBambini.exe -benchmark
-    /// -screen-width 1280 -screen-height 720 -screen-fullscreen 0 [-benchmarkout file.csv] [-benchmarkpresets 0,1,2,3,4 (4 = tutto al minimo)] [-benchmarkseconds 20]).
+    /// -screen-width 1280 -screen-height 720 -screen-fullscreen 0 [-benchmarkout file.csv] [-benchmarkpresets 0,1,2,3,4 (4 = tutto al minimo)] [-benchmarkseconds 20] [-benchmarkscene 10_Hub]).
     /// Per ogni scena (hub, basso, ricordo) e per ogni preset (Bassa, Media, Alta, Ultra) carica la scena, sposta una camera su un tragitto fisso
     /// per circa 20 s e scrive media, 1% low e massimo del frame time in un CSV; poi chiude il gioco. Vsync spento.
     /// </summary>
@@ -68,9 +68,11 @@ namespace TrenoBambini.Core
             File.WriteAllText(outPath, "scena;preset;frame;media_ms;fps_medi;fps_1pct_low;max_ms;gpu;risoluzione\n", Encoding.UTF8);
             yield return new WaitForSecondsRealtime(4f); // Boot e titolo
 
+            string soloScena = Arg("-benchmarkscene", ""); // es. 10_Hub per misurare solo l'hub
             foreach (var p in Percorsi)
                 foreach (int lv in presets)
                 {
+                    if (soloScena != "" && !p.scena.StartsWith(soloScena)) continue;
                     yield return new WaitForSecondsRealtime(1f);   // pausa e pulizia tra una prova e l'altra (il DecalDrawSystem di URP puo' andare in crash se si cambia scena a raffica)
                     yield return Resources.UnloadUnusedAssets();
                     var op = SceneManager.LoadSceneAsync(p.scena);

@@ -21,7 +21,7 @@ namespace TrenoBambini.Core
     /// Gestisce la grafica del gioco: preset (Bassa/Media/Alta/Ultra) e singole voci (R008, vedi <see cref="GraphicsOptions"/>).
     /// Scegliere un preset riscrive tutte le voci legate al preset; cambiare una voce porta a "Personalizzata". Tutto e' salvato in PlayerPrefs
     /// (<c>treno_grafica</c> = preset di base 0..3, <c>treno_grafica_pers</c> = personalizzata, <c>treno_g_&lt;chiave&gt;</c> = valore di ogni voce) e applicato subito.
-    /// Le impostazioni del render pipeline si applicano a una COPIA a runtime dell'asset URP del livello (gli asset su disco non vengono modificati);
+    /// Le impostazioni del render pipeline si applicano direttamente all'asset URP del livello (nell'editor i valori originali sono rimessi all'uscita dal Play);
     /// le funzioni dei renderer (SSAO, decal, pellicola) si accendono/spengono e nell'editor sono rimesse a posto all'uscita dal Play.
     /// Tasto di debug F9 (solo editor/development build) = preset successivo.
     /// </summary>
@@ -61,6 +61,7 @@ namespace TrenoBambini.Core
         {
             var d = Def(v);
             if (d.soloDesktop && Web) return false;
+            if (v == Voce.OmbreLuci) return false; // nascosta: nessuna luce secondaria proietta ombre e le varianti shader non sono nelle build (vedi Rapporto R008)
             return true;
         }
 
@@ -160,8 +161,11 @@ namespace TrenoBambini.Core
             _cutsceneDof = false;
             _loaded = false;
             _v = new int[GraphicsOptions.Defs.Length];
-            _clone = null; _cloneIndex = -1; _risoluzioni = null;
-            _origFeatureActive.Clear(); _origDecalDist.Clear(); _origPipelines.Clear();
+            _risoluzioni = null;
+            _origFeatureActive.Clear(); _origDecalDist.Clear();
+#if UNITY_EDITOR
+            _snapshot.Clear();
+#endif
             _fogScene = null; _lastLevel = -1;
             ScenaDettagli.NuovaScena();
         }
@@ -402,10 +406,10 @@ namespace TrenoBambini.Core
 
         // --- render pipeline: copia a runtime dell'asset del livello + funzioni dei renderer
 
-        static UniversalRenderPipelineAsset _clone;
-        static int _cloneIndex = -1;
         static int _lastLevel = -1;
-        static readonly Dictionary<int, UnityEngine.Rendering.RenderPipelineAsset> _origPipelines = new Dictionary<int, UnityEngine.Rendering.RenderPipelineAsset>();
+#if UNITY_EDITOR
+        static readonly Dictionary<UniversalRenderPipelineAsset, string> _snapshot = new Dictionary<UniversalRenderPipelineAsset, string>();
+#endif
         static readonly Dictionary<ScriptableRendererFeature, bool> _origFeatureActive = new Dictionary<ScriptableRendererFeature, bool>();
         static readonly Dictionary<ScriptableRendererFeature, float> _origDecalDist = new Dictionary<ScriptableRendererFeature, float>();
 
@@ -433,22 +437,14 @@ namespace TrenoBambini.Core
             bool livelloCambiato = QualitySettings.GetQualityLevel() != index;
             if (livelloCambiato) QualitySettings.SetQualityLevel(index, true);
 
-            if (!_origPipelines.ContainsKey(index)) _origPipelines[index] = QualitySettings.GetRenderPipelineAssetAt(index);
-            var src = _origPipelines[index] as UniversalRenderPipelineAsset;
-            if (src == null) return; // pipeline non URP: nessuna regolazione
-            if (_clone == null || _cloneIndex != index)
-            {
-                if (_clone != null) Object.Destroy(_clone);
-                _clone = Object.Instantiate(src);
-                _clone.hideFlags = HideFlags.HideAndDontSave;
-                _clone.name = src.name + "_runtime";
-                _cloneIndex = index;
-                QualitySettings.renderPipeline = _clone;
-            }
-            else if (QualitySettings.renderPipeline != _clone) QualitySettings.renderPipeline = _clone;
+            // L'asset URP del livello si modifica direttamente (NON una copia: una copia crea un secondo renderer che condivide le funzioni
+            // con l'originale e fa andare in crash il DecalDrawSystem). Nell'editor il valore originale e' salvato e rimesso all'uscita dal Play.
+            var rp = QualitySettings.renderPipeline as UniversalRenderPipelineAsset;
+            if (rp == null) return; // pipeline non URP: nessuna regolazione
+#if UNITY_EDITOR
+            if (!_snapshot.ContainsKey(rp)) _snapshot[rp] = UnityEditor.EditorJsonUtility.ToJson(rp);
+#endif
             _lastLevel = index;
-
-            var rp = _clone;
             int ombre = _v[(int)Voce.OmbreQualita];
             int aa = Mathf.Clamp(_v[(int)Voce.Antialiasing], 0, NumOpzioni(Voce.Antialiasing) - 1);
             rp.renderScale = GraphicsOptions.Scale[Mathf.Clamp(_v[(int)Voce.ScalaRender], 0, GraphicsOptions.Scale.Length - 1)];
@@ -528,10 +524,9 @@ namespace TrenoBambini.Core
                 // rimette negli asset i valori originali (nessun diff nei file del progetto)
                 foreach (var kv in _origFeatureActive) if (kv.Key != null && kv.Key.isActive != kv.Value) kv.Key.SetActive(kv.Value);
                 foreach (var kv in _origDecalDist) if (kv.Key != null) ImpostaDistanzaDecalAsset(kv.Key, kv.Value);
-                int corrente = QualitySettings.GetQualityLevel();
-                foreach (var kv in _origPipelines) { QualitySettings.SetQualityLevel(kv.Key, false); QualitySettings.renderPipeline = kv.Value; }
-                QualitySettings.SetQualityLevel(corrente, false);
-                _origFeatureActive.Clear(); _origDecalDist.Clear(); _origPipelines.Clear();
+                foreach (var kv in _snapshot) if (kv.Key != null) UnityEditor.EditorJsonUtility.FromJsonOverwrite(kv.Value, kv.Key);
+                _snapshot.Clear();
+                _origFeatureActive.Clear(); _origDecalDist.Clear();
             };
         }
 
