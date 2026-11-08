@@ -150,3 +150,6 @@ __pycache__/
 
 # Cartella di recupero di Unity
 Assets/_Recovery*
+
+# R020: mappe intermedie dei modelli degli enigmi (si rigenerano con texture_enigmi.py)
+ArtSource/Models/Enigmi/_tmp/
