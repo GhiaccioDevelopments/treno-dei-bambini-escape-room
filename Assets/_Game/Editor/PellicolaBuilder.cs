@@ -54,7 +54,7 @@ namespace TrenoBambini.EditorTools
                 if (f != null && f.name == FeatureName)
                 {
                     var ex = f as FullScreenPassRendererFeature;
-                    if (ex != null) { ex.passMaterial = mat; EditorUtility.SetDirty(ex); }
+                    if (ex != null) { ex.passMaterial = mat; ex.SetActive(false); EditorUtility.SetDirty(ex); } // spento di default: lo accende GraphicsPresets solo nel ricordo
                     return;
                 }
             var feat = ScriptableObject.CreateInstance<FullScreenPassRendererFeature>();
@@ -63,6 +63,7 @@ namespace TrenoBambini.EditorTools
             feat.injectionPoint = FullScreenPassRendererFeature.InjectionPoint.AfterRenderingPostProcessing;
             feat.fetchColorBuffer = true;
             feat.requirements = ScriptableRenderPassInput.None;
+            feat.SetActive(false); // acceso a runtime solo nel ricordo (GraphicsPresets)
             AssetDatabase.AddObjectToAsset(feat, rd);
             var so = new SerializedObject(rd);
             var arr = so.FindProperty("m_RendererFeatures");

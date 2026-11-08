@@ -6,7 +6,8 @@ import bpy, sys, os
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import lib_modelli as L
 
-STAGING = r'C:\Users\rosan\treno-asset-staging'
+# cartella con i modelli scaricati: variabile TRENO_STAGING, altrimenti 'treno-asset-staging' accanto al repo
+STAGING = os.environ.get('TRENO_STAGING', os.path.abspath(os.path.join(L.RADICE, '..', 'treno-asset-staging')))
 
 # nome: dict(src, asse, valore (m), tri (obiettivo LOD0 o None), prefisso (solo oggetti col nome che inizia cosi'))
 CAT = {
@@ -40,7 +41,7 @@ def lavora(nome, c):
     L.scala_e_base(obj, c['asse'], c['valore'])
     if c.get('uv_box'):
         L.uv_box(obj.data, c['uv_box'])  # modello senza UV: proiezione a scatola, 1 texture ogni c['uv_box'] metri
-    return L.finalizza(nome, obj, tri_obiettivo=c.get('tri'), sorgente=os.path.dirname(percorso))
+    return L.finalizza(nome, obj, tri_obiettivo=c.get('tri'), sorgente=os.path.relpath(os.path.dirname(percorso), STAGING).replace(os.sep, '/'))
 
 
 if __name__ == '__main__':

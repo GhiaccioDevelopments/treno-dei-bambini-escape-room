@@ -5,7 +5,8 @@ import bpy, sys, os
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import lib_modelli as L
 
-SRC = r'C:\Users\rosan\treno-asset-staging\Bicicletta_alt_wasabicats\scene.gltf'
+STAGING = os.environ.get('TRENO_STAGING', os.path.abspath(os.path.join(L.RADICE, '..', 'treno-asset-staging')))
+SRC = os.path.join(STAGING, 'Bicicletta_alt_wasabicats', 'scene.gltf')
 GRUPPI = {
     'BiciNero': ('Material.001', 'Material.002', 'Material.003', 'Material.004', 'Material.005', 'Material.006'),
     'Cuoio': ('Material.007', 'Material.008'),

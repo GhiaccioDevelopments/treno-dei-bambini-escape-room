@@ -1,3 +1,5 @@
+#if UNITY_EDITOR || DEBUG
+// R007 t5: il benchmark esiste solo negli editor e nelle build di sviluppo, mai nella build normale (WebGL compresa).
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -34,10 +36,12 @@ namespace TrenoBambini.Core
 
         static readonly string[] NomiPreset = { "Bassa", "Media", "Alta", "Ultra" };
 
+        static readonly string[] Args = Environment.GetCommandLineArgs(); // letti una sola volta
+
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         static void Avvia()
         {
-            foreach (var a in Environment.GetCommandLineArgs())
+            foreach (var a in Args)
                 if (a == "-benchmark")
                 {
                     var go = new GameObject("BenchmarkRunner");
@@ -49,8 +53,7 @@ namespace TrenoBambini.Core
 
         static string Arg(string nome, string def)
         {
-            var a = Environment.GetCommandLineArgs();
-            for (int i = 0; i < a.Length - 1; i++) if (a[i] == nome) return a[i + 1];
+            for (int i = 0; i < Args.Length - 1; i++) if (Args[i] == nome) return Args[i + 1];
             return def;
         }
 
@@ -58,6 +61,7 @@ namespace TrenoBambini.Core
         {
             QualitySettings.vSyncCount = 0;
             Application.targetFrameRate = -1;
+            string dirFoto = Arg("-benchmarkshots", "");
             string outPath = Arg("-benchmarkout", Path.Combine(Application.dataPath, "..", "benchmark.csv"));
             float secondi = float.Parse(Arg("-benchmarkseconds", "20"), CultureInfo.InvariantCulture);
             var presets = new List<int>();
@@ -68,6 +72,8 @@ namespace TrenoBambini.Core
             foreach (var p in Percorsi)
                 foreach (int lv in presets)
                 {
+                    yield return new WaitForSecondsRealtime(1f);   // pausa e pulizia tra una prova e l'altra (il DecalDrawSystem di URP puo' andare in crash se si cambia scena a raffica)
+                    yield return Resources.UnloadUnusedAssets();
                     var op = SceneManager.LoadSceneAsync(p.scena);
                     while (!op.isDone) yield return null;
                     yield return null;
@@ -112,7 +118,6 @@ namespace TrenoBambini.Core
                         go.transform.position = pos;
                         go.transform.rotation = Quaternion.Euler(4f, Quaternion.LookRotation(dir).eulerAngles.y + sway, 0f);
                         if (t > warm) dt.Add(d);
-                        string dirFoto = Arg("-benchmarkshots", "");
                         if (!foto && dirFoto != "" && t > secondi * 0.5f) { foto = true; Directory.CreateDirectory(dirFoto); ScreenCapture.CaptureScreenshot(Path.Combine(dirFoto, p.scena + "_" + NomiPreset[Mathf.Clamp(lv, 0, 3)] + ".png")); }
                         yield return null;
                     }
@@ -140,3 +145,4 @@ namespace TrenoBambini.Core
         }
     }
 }
+#endif

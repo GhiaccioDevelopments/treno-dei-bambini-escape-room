@@ -139,6 +139,27 @@ namespace TrenoBambini.Core
             float q = Current == (int)GraphicsPreset.Media ? 0.6f : 1f;
             Shader.SetGlobalFloat("_TrenoPellicola", ricordo ? 1f : 0f);
             Shader.SetGlobalFloat("_TrenoPellicolaQ", q);
+            ImpostaPassoPellicola(ricordo); // nell'editor fuori da Play resta acceso: non si modifica l'asset del renderer
+        }
+
+        /// <summary>Accende/spegne il passo a schermo intero "PellicolaRicordi" del renderer corrente: spento = nessuna copia del colore e nessun blit.</summary>
+        static void ImpostaPassoPellicola(bool acceso)
+        {
+            try
+            {
+                var rp = UnityEngine.Rendering.GraphicsSettings.currentRenderPipeline as UniversalRenderPipelineAsset;
+                if (rp == null) return;
+                var campo = typeof(UniversalRenderPipelineAsset).GetField("m_RendererDataList", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+                var lista = campo != null ? campo.GetValue(rp) as ScriptableRendererData[] : null;
+                if (lista == null) return;
+                foreach (var rd in lista)
+                {
+                    if (rd == null) continue;
+                    foreach (var f in rd.rendererFeatures)
+                        if (f != null && f.name == "PellicolaRicordi" && f.isActive != acceso) f.SetActive(acceso); // solo se cambia: SetActive a raffica faceva andare in crash il DecalDrawSystem di URP
+                }
+            }
+            catch (System.Exception e) { Debug.LogWarning("[GraphicsPresets] Passo pellicola non regolabile: " + e.Message); }
         }
 
         static void ApplyToScene()
@@ -162,8 +183,9 @@ namespace TrenoBambini.Core
         }
 
         /// <summary>
-        /// Post-processing per preset (R007). Bassa: solo tonemapping/LUT/vignetta (nessuna grana ne' bloom, nessuna SSAO: renderer leggero);
-        /// Media: + grana e bloom standard; Alta/Ultra: bloom ad alta qualita' di filtro. Grana e bloom restano interruttori dell'utente.
+        /// Post-processing per preset (R007 t3, pellicola). Bassa (renderer Lite, WebGL): solo grana (scalata 0,7) e curva tonale, senza bloom, vignetta,
+        /// aberrazione ne' SSAO; Media/Alta/Ultra: + alone (bloom), vignetta e aberrazione cromatica scalata per preset (0,5 / 1 / 1,2), grana 0,8 / 1 / 1,1;
+        /// Alta/Ultra: bloom ad alta qualita' di filtro. Grana e bloom restano interruttori dell'utente.
         /// La profondita' di campo e' predisposta nei profili ma accesa solo con <see cref="CutsceneDepthOfField"/>.
         /// </summary>
         static void ApplyPostSwitches()

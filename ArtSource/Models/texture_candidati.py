@@ -8,6 +8,7 @@ from PIL import Image, ImageFilter
 
 QUI = os.path.dirname(os.path.abspath(__file__))
 RADICE = os.path.abspath(os.path.join(QUI, '..', '..'))
+STAGING = os.environ.get('TRENO_STAGING', os.path.abspath(os.path.join(RADICE, '..', 'treno-asset-staging')))
 META = os.path.join(QUI, 'build')
 MODELLI = os.path.join(RADICE, 'Assets', 'Art', 'Models')
 
@@ -83,13 +84,14 @@ def lavora(nome):
     if nome in SENZA:
         print('SENZA TEXTURE', nome)
         return
-    src = os.path.join(meta['sorgente'], 'textures')
+    sorg = meta['sorgente'] if os.path.isabs(meta['sorgente']) else os.path.join(STAGING, meta['sorgente'])
+    src = os.path.join(sorg, 'textures')
     if not os.path.isdir(src):
-        src = meta['sorgente']
+        src = sorg
     out = os.path.join(MODELLI, meta['cartella'], 'Textures')
     os.makedirs(out, exist_ok=True)
     lato = LATO.get(nome, 1024)
-    fattori = fattori_gltf(meta['sorgente'])
+    fattori = fattori_gltf(sorg)
     mappe = {}
     for mat in meta['materiali']:
         safe = mat.replace('.', '_')

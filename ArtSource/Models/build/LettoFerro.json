@@ -1,7 +1,7 @@
 {
  "nome": "LettoFerro",
  "cartella": "LettoFerro",
- "sorgente": "C:\\Users\\rosan\\treno-asset-staging\\LettoFerro_alt_KuuttiMetalBed",
+ "sorgente": "LettoFerro_alt_KuuttiMetalBed",
  "materiali": [
   "Material.001"
  ],

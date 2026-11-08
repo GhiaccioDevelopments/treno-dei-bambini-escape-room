@@ -59,7 +59,7 @@ credibili, umidità, profondità), non di contenuti: niente asset, scene o look 
 ## 6. Criteri di accettazione
 - [~] Screenshot in `Docs/richieste/media/R007/`: prima/dopo di hub, basso e ricordo per ogni tappa (`t1_*`, `t2_*`, `t2b_*`, `t3_frame_*`, `t4_*`) approvati dall'utente tappa per tappa. I `t4_*` sono a Bassa e Alta (non Ultra) e sono anteprime dall'editor.
 - [~] Pioggia nell'hub guidata da `luoghi.json`, con audio e superfici bagnate: realizzata (campo `meteo`, `MeteoController`, audio `pioggia`/`pioggia_ovattata`, basoli bagnati, pozzanghere), verificata solo nell'anteprima dell'editor e nel benchmark; **non vista in Play dall'utente**.
-- [x] Alta ≥ 60 FPS: misurato, 615-907 FPS medi a 1280x720 (tabella sotto). [ ] WebGL Bassa ≥ 30 FPS: **non raggiunto in questa misura** (24 FPS indicativi nel titolo, Chrome automatizzato).
+- [x] Alta ≥ 60 FPS: misurato, 623-949 FPS medi a 1280x720 (tabella sotto). [ ] WebGL Bassa ≥ 30 FPS: **non raggiunto in questa misura** (24 FPS indicativi nel titolo, Chrome automatizzato).
 - [x] Console pulita; ogni asset nuovo in `CREDITS.md`. [~] UI invariata: non toccata dal codice, nessun confronto sistematico.
 
 ## 7. Decisioni dell'utente (2026-11-06, prima dello sviluppo)
@@ -98,23 +98,23 @@ Branch `richiesta/R007-grafica-realistica-pioggia`, cinque tappe (modelli veri, 
 ### FPS (build Windows di sviluppo, RTX 4060 Ti, 1280x720, vsync spento, tragitto fisso di 20 s con camera in movimento, pioggia e pellicola attive)
 | Scena | Preset | FPS medi | 1% low (FPS) | Frame max (ms) |
 |---|---|---|---|---|
-| 10_Hub_Vicolo | Bassa | 1102.5 | 275.4 | 9.4 |
-| 10_Hub_Vicolo | Media | 708.3 | 187.2 | 12.8 |
-| 10_Hub_Vicolo | Alta | 614.9 | 164.5 | 12.5 |
-| 10_Hub_Vicolo | Ultra | 524.4 | 147.9 | 14.3 |
-| 20_Int_BassoAntonietta | Bassa | 1428.8 | 302.7 | 13.1 |
-| 20_Int_BassoAntonietta | Media | 1040.8 | 242.3 | 16.2 |
-| 20_Int_BassoAntonietta | Alta | 906.8 | 230.4 | 10.8 |
-| 20_Int_BassoAntonietta | Ultra | 778.4 | 215.1 | 10.5 |
-| 30_FB_Scarpe | Bassa | 1268.9 | 286.6 | 13.8 |
-| 30_FB_Scarpe | Media | 813.9 | 200.0 | 17.7 |
-| 30_FB_Scarpe | Alta | 692.0 | 202.5 | 15.1 |
-| 30_FB_Scarpe | Ultra | 588.4 | 174.9 | 14.9 |
+| 10_Hub_Vicolo | Bassa | 1068.0 | 414.0 | 4.1 |
+| 10_Hub_Vicolo | Media | 711.1 | 274.9 | 8.9 |
+| 10_Hub_Vicolo | Alta | 622.9 | 249.6 | 6.4 |
+| 10_Hub_Vicolo | Ultra | 528.7 | 227.5 | 6.2 |
+| 20_Int_BassoAntonietta | Bassa | 1427.8 | 358.9 | 6.2 |
+| 20_Int_BassoAntonietta | Media | 1014.5 | 360.7 | 4.7 |
+| 20_Int_BassoAntonietta | Alta | 948.9 | 358.1 | 5.4 |
+| 20_Int_BassoAntonietta | Ultra | 821.7 | 313.6 | 5.1 |
+| 30_FB_Scarpe | Bassa | 1240.2 | 363.6 | 12.4 |
+| 30_FB_Scarpe | Media | 785.3 | 292.8 | 5.0 |
+| 30_FB_Scarpe | Alta | 654.0 | 248.5 | 6.7 |
+| 30_FB_Scarpe | Ultra | 547.0 | 225.8 | 6.6 |
 
-Alta e' ben oltre l'obiettivo di 60 FPS in tutte le scene: non serve ottimizzare per preset. La camera di prova non e' quella del giocatore e la UI e' presente ma ferma; il caso peggiore e' l'hub in Ultra (524 FPS). Dati grezzi in `Docs/richieste/media/R007/fps_windows.csv`. Su un PC scolastico la GPU e' molto piu' lenta: la misura e' un limite superiore, non la prova su "PC normale".
+Alta e' ben oltre l'obiettivo di 60 FPS in tutte le scene: non serve ottimizzare per preset. La camera di prova non e' quella del giocatore e la UI e' presente ma ferma; il caso peggiore e' l'hub in Ultra (529 FPS). Dati grezzi in `Docs/richieste/media/R007/fps_windows.csv`. Su un PC scolastico la GPU e' molto piu' lenta: la misura e' un limite superiore, non la prova su "PC normale".
 
 ### Peso
-- Build Windows di sviluppo: 496 MB (fuori dal repo, `C:/Users/rosan/treno-build-r007/Win`).
+- Build Windows di sviluppo: 474 MB (fuori dal repo, `../treno-build-r007/Win` (variabile TRENO_BUILD_DIR)).
 - Build WebGL Bassa (Gzip, renderer Mobile): 59,6 MB (`.../WebGL`, non pubblicata). FPS indicativi in Chrome automatizzato: **24** nella scena del titolo; non misurati hub, basso e ricordo.
 - LFS: R007 ha aggiunto circa 151 MB (da 665 a circa 816 MB totali su 1 GB; soglia di avviso 850 MB non superata). I candidati scartati restano nello storage remoto (liberarli richiede di riscrivere la storia).
 
@@ -126,6 +126,13 @@ Alta e' ben oltre l'obiettivo di 60 FPS in tutte le scene: non serve ottimizzare
 - WebGL Bassa sotto i 30 FPS nella sola misura fatta (24 FPS, titolo); da rimisurare su un browser con GPU reale.
 - 1 coppia di superfici complanari visibile nel Titolo (Macerie contro Macerie), preesistente.
 - Il benchmark usa una camera propria (non il giocatore) e non misura la RAM.
+- **Tuoni lontani**, **gocciolio dal soffitto del basso** e **gocce da grondaie e balconi**: non fatti (le gocce ci sono solo dai fili del bucato, da Media in su).
+- **Id audio**: la specifica prevedeva `pioggia_interno`; nel codice e in `audio.json` si chiama `pioggia_ovattata`.
+- **Profondita' di campo in cutscene** (`GraphicsPresets.CutsceneDepthOfField`): resta predisposta ma non collegata. Le cutscene di questo gioco sono schermate 2D (`CutscenePlayer` mostra uno sfondo a tutto schermo), quindi sfocare il mondo 3D dietro non cambierebbe nulla.
+- **Crash intermittente di URP nei decal**: nel benchmark (cambio di scena e di preset a raffica, camera sostituita) il `DecalDrawSystem` di URP andava in crash nel percorso di disegno non istanziato. Con `enableInstancing` sui due materiali dei decal il benchmark completo (12 prove) gira senza crash. Resta da tenere d'occhio nel gioco vero, soprattutto cambiando preset durante la partita.
+- **Pioggia nel basso**: ora cade solo in un box fisso sul cortile scoperto (non segue piu' la camera e non entra nelle stanze); la camera e' ricontrollata a ogni frame.
+- **Texture condivise**: legno ad assi, pietra, tela di lino e normal del legno scuro stanno in `Assets/Art/Textures/Condivise` (7 MB di duplicati tolti); la maschera del letto e' a 1K. Se si rilanciano gli script `texture_*.py` e l'importatore, rigenerano le copie per modello: vanno riunificate a mano.
+- **Percorsi**: nel repo pubblico restano, nella storia dei commit precedenti, alcuni percorsi assoluti con il nome utente (ArtSource/Models/build, BenchmarkBuilder); nella versione attuale sono stati tolti (variabili TRENO_STAGING e TRENO_BUILD_DIR).
 
 ### Verifiche finali
 Superfici e buchi: 59 complanari, 1 visibile (Titolo), 0 buchi. Compenetrazioni: 0 (restano 4 voci intenzionali del piano di sicurezza). Camera: 10044 pose, 0 errori. Raggiungibilita': 0 problemi.

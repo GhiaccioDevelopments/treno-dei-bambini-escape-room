@@ -54,6 +54,7 @@ namespace TrenoBambini.EditorTools
             if (sh == null) { Debug.LogWarning("[Meteo] Shader Graphs/Decal non trovato"); return null; }
             if (m == null) { m = new Material(sh); AssetDatabase.CreateAsset(m, path); }
             m.shader = sh;
+            m.enableInstancing = true; // percorso istanziato del DecalDrawSystem (quello non istanziato e' andato in crash nel benchmark)
             var t = AssetDatabase.LoadAssetAtPath<Texture2D>(TexDecal + "/" + tex);
             if (t != null)
             {
@@ -158,6 +159,7 @@ namespace TrenoBambini.EditorTools
                 if (mc != null) mc.Anteprima(pos);
                 var e = Quaternion.LookRotation((Vector3)q[3] - pos).eulerAngles;
                 FotoDocumentazione.Scatta(scena, pos, e.y, e.x > 180f ? e.x - 360f : e.x, preset, "t4_" + (string)q[1] + "_" + suffisso);
+                if (mc != null) mc.RipristinaAnteprima(); // niente oggetti di anteprima nella scena
             }
         }
 

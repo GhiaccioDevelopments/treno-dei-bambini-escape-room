@@ -19,6 +19,12 @@ namespace TrenoBambini.World
         public string suoloOriginale = "M_BasoliLavica";
         [Tooltip("Solo per meteo pioggia_fuori: z oltre la quale si e' nel cortile scoperto")]
         public float cortileDaZ = 9.3f;
+        [Tooltip("Solo pioggia_fuori: centro (x,z) e semi-dimensioni del cortile scoperto: la pioggia cade solo li' (box fisso), mai dentro le stanze")]
+        public Vector2 centroCortile = new Vector2(3.7f, 11.8f);
+        public Vector2 mezzoCortile = new Vector2(3.0f, 2.8f);
+        bool anteprima;
+        readonly List<KeyValuePair<MeshRenderer, Material[]>> originaliAnteprima = new List<KeyValuePair<MeshRenderer, Material[]>>();
+        readonly List<GameObject> creatiAnteprima = new List<GameObject>();
 
         string meteo = "sereno";
         Transform cam;
@@ -49,14 +55,16 @@ namespace TrenoBambini.World
         {
             meteo = MeteoDi(gameObject.scene.name);
             if (meteo == "sereno") return;
+            anteprima = !Application.isPlaying;
             if (pioggia == null)
             {
                 if (meteo == "pioggia") { BagnaSuolo(); Pozzanghere(); Gocce(); }
                 CreaPioggia();
             }
             Applica();
-            pioggia.transform.position = camPos + Vector3.up * 9f;
-            bool attiva = meteo == "pioggia" || camPos.z > cortileDaZ;
+            if (meteo == "pioggia_fuori") pioggia.transform.position = new Vector3(centroCortile.x, 8f, centroCortile.y);
+            else pioggia.transform.position = camPos + Vector3.up * 9f;
+            bool attiva = meteo == "pioggia" || ((camPos.x - centroCortile.x) * (camPos.x - centroCortile.x) + (camPos.z - centroCortile.y) * (camPos.z - centroCortile.y) < 144f);
             var em = pioggia.emission; em.enabled = attiva;
             if (!attiva) return;
             pioggia.Simulate(1.5f, true, true);
@@ -75,11 +83,30 @@ namespace TrenoBambini.World
             foreach (var d in gocce) if (d != null) d.Simulate(1.2f, true, true);
         }
 
+        /// <summary>Anteprima nell'editor: gli oggetti creati non vengono salvati nella scena (HideFlags.DontSave) e si rimuovono con RipristinaAnteprima.</summary>
+        void Proteggi(GameObject g)
+        {
+            if (!anteprima) return;
+            g.hideFlags = HideFlags.DontSave;
+            creatiAnteprima.Add(g);
+        }
+
+        /// <summary>Annulla l'anteprima: rimette i materiali originali del suolo e distrugge particelle, pozzanghere e gocce create.</summary>
+        public void RipristinaAnteprima()
+        {
+            foreach (var kv in originaliAnteprima) if (kv.Key != null) kv.Key.sharedMaterials = kv.Value;
+            originaliAnteprima.Clear();
+            foreach (var g in creatiAnteprima) if (g != null) DestroyImmediate(g);
+            creatiAnteprima.Clear();
+            pioggia = null; spruzzi = null; gocce.Clear(); pozzanghereFatte = false;
+        }
+
         // ------------------------------------------------------------------ particelle
 
         void CreaPioggia()
         {
             var go = new GameObject("Pioggia");
+            Proteggi(go);
             go.transform.SetParent(transform, false);
             pioggia = go.AddComponent<ParticleSystem>();
             pioggia.Stop();
@@ -90,12 +117,14 @@ namespace TrenoBambini.World
             main.startSize = 0.012f; main.maxParticles = 3000;
             main.startColor = new Color(0.82f, 0.88f, 0.95f, 0.30f);
             var sh = pioggia.shape;
-            sh.shapeType = ParticleSystemShapeType.Box; sh.scale = new Vector3(22f, 0.1f, 22f); sh.rotation = new Vector3(90f, 0f, 0f);
+            sh.shapeType = ParticleSystemShapeType.Box; sh.rotation = new Vector3(90f, 0f, 0f);
+            sh.scale = meteo == "pioggia_fuori" ? new Vector3(mezzoCortile.x * 2f, 0.1f, mezzoCortile.y * 2f) : new Vector3(22f, 0.1f, 22f);
             var r = go.GetComponent<ParticleSystemRenderer>();
             r.renderMode = ParticleSystemRenderMode.Stretch; r.lengthScale = 2f; r.velocityScale = 0.035f;
             r.sharedMaterial = materialePioggia; r.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off; r.receiveShadows = false;
 
             var sg = new GameObject("Spruzzi");
+            Proteggi(sg);
             sg.transform.SetParent(transform, false);
             spruzzi = sg.AddComponent<ParticleSystem>();
             spruzzi.Stop();
@@ -124,7 +153,7 @@ namespace TrenoBambini.World
         {
             preset = GraphicsPresets.Current;
             float k = preset <= 0 ? 0.12f : preset == 1 ? 0.45f : preset == 2 ? 0.8f : 1f;
-            if (meteo == "pioggia_fuori") k *= 0.6f;
+            if (meteo == "pioggia_fuori") k *= 0.25f; // il cortile e' piccolo: poche gocce
             var em = pioggia.emission; em.rateOverTime = 2200f * k;
             foreach (var d in gocce) if (d != null) { var e = d.emission; e.enabled = preset >= 1; }
         }
@@ -133,9 +162,13 @@ namespace TrenoBambini.World
         {
             if (pioggia == null) return;
             if (preset != GraphicsPresets.Current) Applica();
-            if (cam == null) { var c = Camera.main; if (c != null) cam = c.transform; else return; }
-            pioggia.transform.position = cam.position + Vector3.up * 9f;
-            bool attiva = meteo == "pioggia" || cam.position.z > cortileDaZ;
+            var cp = Camera.main;                     // ricontrollata a ogni frame: puo' cambiare (cutscene, benchmark, camera disattivata)
+            if (cp != null) cam = cp.transform;
+            if (cam == null) return;
+            bool fuori = meteo == "pioggia_fuori";
+            pioggia.transform.position = fuori ? new Vector3(centroCortile.x, 8f, centroCortile.y) : cam.position + Vector3.up * 9f;
+            float dx = cam.position.x - centroCortile.x, dz = cam.position.z - centroCortile.y;
+            bool attiva = !fuori || dx * dx + dz * dz < 144f; // pioggia_fuori: solo se il giocatore e' entro 12 m dal cortile
             var em = pioggia.emission;
             if (em.enabled != attiva) em.enabled = attiva;
             if (!attiva || preset <= 0) return;
@@ -148,7 +181,8 @@ namespace TrenoBambini.World
             var ep = new ParticleSystem.EmitParams();
             for (int i = 0; i < n; i++)
             {
-                var o = cam.position + new Vector3(Random.Range(-9f, 9f), 4f, Random.Range(-9f, 9f));
+                var o = fuori ? new Vector3(centroCortile.x + Random.Range(-mezzoCortile.x, mezzoCortile.x), 6f, centroCortile.y + Random.Range(-mezzoCortile.y, mezzoCortile.y))
+                              : cam.position + new Vector3(Random.Range(-9f, 9f), 4f, Random.Range(-9f, 9f));
                 RaycastHit h;
                 if (Physics.Raycast(o, Vector3.down, out h, 14f, ~0, QueryTriggerInteraction.Ignore) && h.normal.y > 0.7f)
                 {
@@ -169,7 +203,11 @@ namespace TrenoBambini.World
                 bool cambia = false;
                 for (int i = 0; i < sm.Length; i++)
                     if (sm[i] != null && sm[i].name == suoloOriginale) { sm[i] = suoloBagnato; cambia = true; }
-                if (cambia) r.sharedMaterials = sm;
+                if (cambia)
+                {
+                    if (anteprima) originaliAnteprima.Add(new KeyValuePair<MeshRenderer, Material[]>(r, r.sharedMaterials));
+                    r.sharedMaterials = sm;
+                }
             }
         }
 
@@ -179,7 +217,9 @@ namespace TrenoBambini.World
             if (pozzanghereFatte || materialePozzanghera == null) return;
             pozzanghereFatte = true;
             var rnd = new System.Random(1946);
-            var padre = new GameObject("Pozzanghere").transform;
+            var padreGo = new GameObject("Pozzanghere");
+            Proteggi(padreGo);
+            var padre = padreGo.transform;
             padre.SetParent(transform, false);
             var mesh = DiscoMesh(18);
             int fatte = 0;
@@ -229,6 +269,7 @@ namespace TrenoBambini.World
                 if (t.name != "Filo") continue;
                 if (((int)(t.position.x * 7f) + (int)(t.position.z * 3f)) % 3 != 0) continue;
                 var go = new GameObject("Gocciolio");
+                Proteggi(go);
                 go.transform.SetParent(t, false);
                 go.transform.localPosition = new Vector3(Random.Range(-0.4f, 0.4f) * t.lossyScale.x, -0.05f, 0f);
                 go.transform.rotation = Quaternion.identity;
