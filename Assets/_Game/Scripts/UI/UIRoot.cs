@@ -563,7 +563,7 @@ namespace TrenoBambini.UI
 
         void OnSceneLoaded(Scene s, LoadSceneMode mode)
         {
-            menuScene = GameManager.IsMenuScene(s.name);
+            menuScene = GameManager.IsMenuScene(s.name) || (GameManager.MenuBackdrop && mode == LoadSceneMode.Additive);
             EnsureEventSystem();
             SyncReduceEffects();
             if (Fader != null) Fader.SetFlashbackLook(s.name.Contains("_FB_"));

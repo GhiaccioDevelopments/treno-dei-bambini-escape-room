@@ -20,6 +20,7 @@ namespace TrenoBambini.Data
     {
         public string id; public string nome; public string descrizione; public string significato;
         public string temaCivico; public string icona; public string flashback; public string cutscene; public string luogo;
+        public string modello; // R023: prefab in Resources/Modelli/<modello> mostrato in 3D nella latta (vuoto = solo l'icona)
     }
 
     [Serializable] public class PersonaggiFile { public List<PersonaggioDef> personaggi = new List<PersonaggioDef>(); }
@@ -119,4 +120,40 @@ namespace TrenoBambini.Data
         public float musica = 0.6f, ambiente = 0.7f, effetti = 0.9f, voci = 1f;
         public float duckingMusica = 0.35f, duckingAmbiente = 0.6f;
     }
+
+    // R023: testi di menu iniziale e inventario (Resources/Data/ui_menu.json) e crediti (Resources/Data/crediti.json, generato da CREDITS.md)
+    [Serializable] public class UiVoce { public string id; public string etichetta; }
+    [Serializable]
+    public class UiAnteprima { public string intestazione, oggetto1, oggetti, nessunOggetto, tempo, tempoPoco; }
+    [Serializable]
+    public class UiConferma { public string timbro, titolo, testo, si, no; }
+    [Serializable]
+    public class UiRicordi { public string titolo, bloccato, bloccatoNota, luogo, rivissuto, nessuno, indietro; }
+    [Serializable]
+    public class UiCrediti { public string titolo, intro, assetTitolo, indietro; public List<string> squadra = new List<string>(); }
+    [Serializable]
+    public class UiQuaderno { public string appunti, appuntiVuoto, indizi, indiziVuoto, segreti, segretiVuoto; }
+    [Serializable]
+    public class UiMappa { public string titolo, testo; }
+    [Serializable]
+    public class UiInventario
+    {
+        public string titoloLatta, aiuto, aiutoTouch, etichettaTema, daTrovare, latta, chiudi, ricordoStato, ricordoDaFare, ricordiVuoto;
+        public List<UiVoce> sezioni = new List<UiVoce>();
+        public UiQuaderno quaderno = new UiQuaderno();
+        public UiMappa mappa = new UiMappa();
+    }
+    [Serializable]
+    public class UiMenuFile
+    {
+        public string titolo1, titolo2, sottotitolo, premiUnTasto, aiutoMenu;
+        public List<UiVoce> voci = new List<UiVoce>();
+        public UiAnteprima anteprima = new UiAnteprima();
+        public UiConferma conferma = new UiConferma();
+        public UiRicordi ricordi = new UiRicordi();
+        public UiCrediti crediti = new UiCrediti();
+        public UiInventario inventario = new UiInventario();
+    }
+    [Serializable] public class CreditoVoce { public string asset, tipo, autore, licenza; }
+    [Serializable] public class CreditiFile { public List<CreditoVoce> voci = new List<CreditoVoce>(); }
 }

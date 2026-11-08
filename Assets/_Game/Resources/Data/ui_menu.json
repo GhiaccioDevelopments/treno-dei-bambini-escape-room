@@ -1,0 +1,79 @@
+{
+  "titolo1": "Il treno",
+  "titolo2": "dei bambini",
+  "sottotitolo": "Napoli, 1946",
+  "premiUnTasto": "Premi un tasto",
+  "aiutoMenu": "Frecce o W/S: scegli   Invio: conferma   Esc: indietro",
+  "voci": [
+    { "id": "continua", "etichetta": "Continua" },
+    { "id": "nuova", "etichetta": "Nuova partita" },
+    { "id": "ricordi", "etichetta": "Ricordi" },
+    { "id": "impostazioni", "etichetta": "Impostazioni" },
+    { "id": "crediti", "etichetta": "Crediti" },
+    { "id": "esci", "etichetta": "Esci" }
+  ],
+  "anteprima": {
+    "intestazione": "Ultima partita",
+    "oggetto1": "1 oggetto nella latta",
+    "oggetti": "{0} oggetti nella latta",
+    "nessunOggetto": "La latta è ancora vuota",
+    "tempo": "{0} minuti di gioco",
+    "tempoPoco": "meno di un minuto di gioco"
+  },
+  "conferma": {
+    "timbro": "ATTENZIONE",
+    "titolo": "Nuova partita",
+    "testo": "Esiste già un salvataggio. Se ricominci, verrà cancellato. Vuoi continuare?",
+    "si": "Sì, ricomincia",
+    "no": "Annulla"
+  },
+  "ricordi": {
+    "titolo": "Ricordi",
+    "bloccato": "Ricordo da trovare",
+    "bloccatoNota": "Si apre quando ritrovi l'oggetto giusto.",
+    "luogo": "Dove",
+    "rivissuto": "Rivissuto",
+    "nessuno": "Non hai ancora rivissuto nessun ricordo.",
+    "indietro": "Indietro"
+  },
+  "crediti": {
+    "titolo": "Crediti",
+    "intro": "Il treno dei bambini - Escape room. Gioco educativo di Educazione Civica ispirato al romanzo di Viola Ardone (2019) e al film di Cristina Comencini (2024). Personaggi, dialoghi e grafica originali.",
+    "squadra": [
+      "Sviluppo principale: Thomas Rosania, Luca Arduini",
+      "Collaboratori: Zaim Halili, Renis Caushi"
+    ],
+    "assetTitolo": "Asset esterni e licenze",
+    "indietro": "Indietro"
+  },
+  "inventario": {
+    "titoloLatta": "La latta",
+    "sezioni": [
+      { "id": "oggetti", "etichetta": "Oggetti" },
+      { "id": "ricordi", "etichetta": "Ricordi" },
+      { "id": "quaderno", "etichetta": "Quaderno" },
+      { "id": "mappa", "etichetta": "Mappa" }
+    ],
+    "aiuto": "Trascina per girare l'oggetto   Q/E: cambia pagina   Frecce: oggetti   Esc: chiudi",
+    "aiutoTouch": "Trascina per girare l'oggetto   Tocca le linguette per cambiare pagina",
+    "etichettaTema": "Educazione civica",
+    "daTrovare": "Da trovare",
+    "latta": "Nella latta",
+    "chiudi": "Chiudi",
+    "ricordoStato": "Rivissuto",
+    "ricordoDaFare": "Da rivivere",
+    "ricordiVuoto": "Nessun ricordo ancora: ritrova un oggetto per aprirne uno.",
+    "quaderno": {
+      "appunti": "Appunti",
+      "appuntiVuoto": "Risolvi gli enigmi dei ricordi: le note si scrivono qui.",
+      "indizi": "Indizi",
+      "indiziVuoto": "Gli indizi che trovi restano segnati in questa pagina.",
+      "segreti": "Segreti",
+      "segretiVuoto": "Nessun segreto ancora trovato. Cerca nei vicoli: qualcosa è nascosto."
+    },
+    "mappa": {
+      "titolo": "Mappa",
+      "testo": "La mappa del quartiere non è ancora disponibile: arriverà con un prossimo aggiornamento."
+    }
+  }
+}

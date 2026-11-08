@@ -41,6 +41,7 @@ namespace TrenoBambini.Core
             else AudioManager.Fire("cambio_scena");
 
             if (fader != null) yield return fader.Out(stile);
+            GameManager.MenuBackdrop = false; // R023: da qui lo sfondo del menu non conta piu' (niente pellicola del menu nella scena che arriva)
             if (UIRoot.I != null) { UIRoot.I.HidePrompt(); UIRoot.I.SetHudCounter(""); }
 
             var op = SceneManager.LoadSceneAsync(scena);

@@ -12,15 +12,23 @@ namespace TrenoBambini.Core
         static List<OggettoDef> oggetti;
         static List<PersonaggioDef> personaggi;
         static AudioFile audio;
+        static UiMenuFile uiMenu;
+        static CreditiFile crediti;
         static readonly Dictionary<string, FlashbackDef> flashbacks = new Dictionary<string, FlashbackDef>();
         static readonly Dictionary<string, CutsceneDef> cutscenes = new Dictionary<string, CutsceneDef>();
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         static void ResetStatics()
         {
-            luoghi = null; oggetti = null; personaggi = null; audio = null;
+            luoghi = null; oggetti = null; personaggi = null; audio = null; uiMenu = null; crediti = null;
             flashbacks.Clear(); cutscenes.Clear();
         }
+
+        /// <summary>R023: testi di menu iniziale e inventario (ui_menu.json).</summary>
+        public static UiMenuFile UiMenu { get { if (uiMenu == null) uiMenu = LoadJson<UiMenuFile>("ui_menu") ?? new UiMenuFile(); return uiMenu; } }
+
+        /// <summary>R023: asset esterni e licenze, generati da CREDITS.md (Treno > Crediti > Genera crediti.json).</summary>
+        public static CreditiFile Crediti { get { if (crediti == null) crediti = LoadJson<CreditiFile>("crediti") ?? new CreditiFile(); return crediti; } }
 
         public static List<LuogoDef> Luoghi
         {

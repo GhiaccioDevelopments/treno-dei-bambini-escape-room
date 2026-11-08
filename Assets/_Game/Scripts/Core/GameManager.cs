@@ -55,6 +55,9 @@ namespace TrenoBambini.Core
 
         void OnDestroy() { if (I == this) I = null; }
 
+        /// <summary>R023: vero mentre il menu iniziale mostra il vicolo dell'hub come sfondo (la scena hub e' caricata in additivo, ma e' ancora il menu).</summary>
+        public static bool MenuBackdrop;
+
         public static bool IsMenuScene(string sceneName)
         {
             return sceneName == SceneBoot || sceneName == SceneTitolo;
@@ -97,6 +100,7 @@ namespace TrenoBambini.Core
         /// </summary>
         void Update()
         {
+            if (!MenuBackdrop && !IsMenuScene(SceneManager.GetActiveScene().name) && SaveSystem.Exists()) Save.tempoGioco += Time.unscaledDeltaTime;
             if (blockers <= 0) { orphanSince = -1f; return; }
             var ui = UIRoot.I;
             bool owner = (SceneLoader.I != null && SceneLoader.I.IsLoading)

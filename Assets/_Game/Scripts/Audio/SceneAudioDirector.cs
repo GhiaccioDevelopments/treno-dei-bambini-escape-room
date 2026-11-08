@@ -20,7 +20,11 @@ namespace TrenoBambini.Audio
 
         void Start() { Apply(SceneManager.GetActiveScene().name); }
 
-        void OnLoaded(Scene s, LoadSceneMode mode) { Apply(s.name); }
+        void OnLoaded(Scene s, LoadSceneMode mode)
+        {
+            if (mode == LoadSceneMode.Additive && GameManager.MenuBackdrop) return; // R023: vicolo come sfondo del menu, la musica resta quella del titolo
+            Apply(s.name);
+        }
 
         /// <summary>Riapplica la scena corrente (es. dopo il primo gesto in WebGL).</summary>
         public void Reapply() { Apply(SceneManager.GetActiveScene().name); }
