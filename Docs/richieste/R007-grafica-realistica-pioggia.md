@@ -57,10 +57,10 @@ credibili, umidità, profondità), non di contenuti: niente asset, scene o look 
 4. Screenshot prima/dopo a ogni preset e approvazione dell'utente. 5. FPS per preset.
 
 ## 6. Criteri di accettazione
-- [ ] Screenshot prima/dopo di hub, basso, flashback a Bassa e Ultra in `Docs/richieste/media/R007/`, approvati dall'utente.
-- [ ] Pioggia nell'hub guidata da `luoghi.json`, con audio e superfici bagnate.
-- [ ] Alta ≥ 60 FPS su PC normale; WebGL Bassa ≥ 30 FPS.
-- [ ] UI invariata; console pulita; ogni asset nuovo in `CREDITS.md`.
+- [~] Screenshot in `Docs/richieste/media/R007/`: prima/dopo di hub, basso e ricordo per ogni tappa (`t1_*`, `t2_*`, `t2b_*`, `t3_frame_*`, `t4_*`) approvati dall'utente tappa per tappa. I `t4_*` sono a Bassa e Alta (non Ultra) e sono anteprime dall'editor.
+- [~] Pioggia nell'hub guidata da `luoghi.json`, con audio e superfici bagnate: realizzata (campo `meteo`, `MeteoController`, audio `pioggia`/`pioggia_ovattata`, basoli bagnati, pozzanghere), verificata solo nell'anteprima dell'editor e nel benchmark; **non vista in Play dall'utente**.
+- [x] Alta ≥ 60 FPS: misurato, 615-907 FPS medi a 1280x720 (tabella sotto). [ ] WebGL Bassa ≥ 30 FPS: **non raggiunto in questa misura** (24 FPS indicativi nel titolo, Chrome automatizzato).
+- [x] Console pulita; ogni asset nuovo in `CREDITS.md`. [~] UI invariata: non toccata dal codice, nessun confronto sistematico.
 
 ## 7. Decisioni dell'utente (2026-11-06, prima dello sviluppo)
 - **Base**: le mappe grandi di R006 (già in `feature/upgrade-realistico`, merge 1af2cc3).
@@ -84,4 +84,48 @@ credibili, umidità, profondità), non di contenuti: niente asset, scene o look 
   tappa 4 pioggia; tappa 5 FPS, peso, confronto prima/dopo, reviewer. Alla chiusura di R007 si chiude anche la PR #23.
 
 ## Rapporto
-_(da compilare a fine lavoro)_
+
+Branch `richiesta/R007-grafica-realistica-pioggia`, cinque tappe (modelli veri, panni, pellicola, materiali/decal, pioggia, misure). Un solo bake per tappa, l'ultimo a fine tappa 4.
+
+### Fatto
+- **Tappa 1** luce e cielo coperto, LUT, profili per scena (foto `t1_*`).
+- **Tappa 2** oggetti di primitive sostituiti da modelli veri o rifatti in Blender (`ArtSource/Models`), con LOD e collider; panni stesi a 6 capi in 3 varianti di colore, non statici; bancarella, panchina, sedia impagliata, bicicletta d'epoca (wasabicats, CC-BY), pentole di rame, Madonna al posto della capsula.
+- **Tappa 3A** pellicola neorealista: grana per luminanza, alone, vignetta, aberrazione, curva a stampa; profili PRESENTE, RICORDI (gate weave, polvere, graffi rari) e 1994 (solo profilo). Bassa: solo grana e curva.
+- **Tappa 3B** tufo giallo (tinta), terra battuta ocra, cortili piu' luminosi, decal URP di umidita'/salnitro/macchie (hub 62, ricordo 30), manifesti del referendum 1946, puntellature, gabbiette con uccellino, sedie fuori dai bassi.
+- **Tappa 4** pioggia guidata da `luoghi.json` (hub `pioggia`, ricordo `sereno`, basso `pioggia_fuori`), particelle per preset, spruzzi a terra, gocce dai fili, basoli bagnati, pozzanghere, audio di pioggia (ovattato nel basso).
+- **Tappa 5** benchmark (`BenchmarkRunner`, argomento `-benchmark`) e build Windows di sviluppo fuori dal repo.
+
+### FPS (build Windows di sviluppo, RTX 4060 Ti, 1280x720, vsync spento, tragitto fisso di 20 s con camera in movimento, pioggia e pellicola attive)
+| Scena | Preset | FPS medi | 1% low (FPS) | Frame max (ms) |
+|---|---|---|---|---|
+| 10_Hub_Vicolo | Bassa | 1102.5 | 275.4 | 9.4 |
+| 10_Hub_Vicolo | Media | 708.3 | 187.2 | 12.8 |
+| 10_Hub_Vicolo | Alta | 614.9 | 164.5 | 12.5 |
+| 10_Hub_Vicolo | Ultra | 524.4 | 147.9 | 14.3 |
+| 20_Int_BassoAntonietta | Bassa | 1428.8 | 302.7 | 13.1 |
+| 20_Int_BassoAntonietta | Media | 1040.8 | 242.3 | 16.2 |
+| 20_Int_BassoAntonietta | Alta | 906.8 | 230.4 | 10.8 |
+| 20_Int_BassoAntonietta | Ultra | 778.4 | 215.1 | 10.5 |
+| 30_FB_Scarpe | Bassa | 1268.9 | 286.6 | 13.8 |
+| 30_FB_Scarpe | Media | 813.9 | 200.0 | 17.7 |
+| 30_FB_Scarpe | Alta | 692.0 | 202.5 | 15.1 |
+| 30_FB_Scarpe | Ultra | 588.4 | 174.9 | 14.9 |
+
+Alta e' ben oltre l'obiettivo di 60 FPS in tutte le scene: non serve ottimizzare per preset. La camera di prova non e' quella del giocatore e la UI e' presente ma ferma; il caso peggiore e' l'hub in Ultra (524 FPS). Dati grezzi in `Docs/richieste/media/R007/fps_windows.csv`. Su un PC scolastico la GPU e' molto piu' lenta: la misura e' un limite superiore, non la prova su "PC normale".
+
+### Peso
+- Build Windows di sviluppo: 496 MB (fuori dal repo, `C:/Users/rosan/treno-build-r007/Win`).
+- Build WebGL Bassa (Gzip, renderer Mobile): 59,6 MB (`.../WebGL`, non pubblicata). FPS indicativi in Chrome automatizzato: **24** nella scena del titolo; non misurati hub, basso e ricordo.
+- LFS: R007 ha aggiunto circa 151 MB (da 665 a circa 816 MB totali su 1 GB; soglia di avviso 850 MB non superata). I candidati scartati restano nello storage remoto (liberarli richiede di riscrivere la storia).
+
+### Non fatto o limitato (apertamente)
+- **Piperno e basoli fotogrammetrici, scrostature a piu' strati**: non aggiunti; i materiali esistenti sono stati solo ritinti (tufo, terra battuta) per non pesare su LFS.
+- **Decal assenti nel renderer Lite** (Bassa e WebGL): li disegnano solo Media, Alta e Ultra.
+- **Uccellini** delle gabbiette: due blob colorati, non modelli veri.
+- **Pioggia non vista in Play dall'utente**: provata solo in anteprima nell'editor e nel benchmark; da tarare in gioco.
+- WebGL Bassa sotto i 30 FPS nella sola misura fatta (24 FPS, titolo); da rimisurare su un browser con GPU reale.
+- 1 coppia di superfici complanari visibile nel Titolo (Macerie contro Macerie), preesistente.
+- Il benchmark usa una camera propria (non il giocatore) e non misura la RAM.
+
+### Verifiche finali
+Superfici e buchi: 59 complanari, 1 visibile (Titolo), 0 buchi. Compenetrazioni: 0 (restano 4 voci intenzionali del piano di sicurezza). Camera: 10044 pose, 0 errori. Raggiungibilita': 0 problemi.
