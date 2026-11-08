@@ -25,10 +25,12 @@ namespace TrenoBambini.Core
             public string scena;
             public Vector3[] punti;   // x,z dei vertici (y = quota del suolo + 1,7 m, tranne dove y > 0: quota fissa)
             public float altezza = 1.7f;
+            public bool menu;         // R023: misura il menu iniziale (scena del titolo con lo sfondo vivo), con la sua camera
         }
 
         static readonly Percorso[] Percorsi =
         {
+            new Percorso { scena = "01_Titolo", menu = true },
             new Percorso { scena = "10_Hub_Vicolo", punti = new[] { new Vector3(0f, 0f, -34f), new Vector3(0f, 0f, -8f), new Vector3(0f, 0f, 14f), new Vector3(0f, 0f, 36f) } },
             new Percorso { scena = "20_Int_BassoAntonietta", altezza = 1.65f, punti = new[] { new Vector3(-3.9f, 0f, -2.6f), new Vector3(0f, 0f, 1f), new Vector3(3.0f, 0f, 4.5f), new Vector3(3.6f, 0f, 12f) } },
             new Percorso { scena = "30_FB_Scarpe", punti = new[] { new Vector3(0f, 0f, -22f), new Vector3(0f, 0f, 0f), new Vector3(0f, 0f, 20f), new Vector3(0f, 0f, 36f) } },
@@ -59,6 +61,7 @@ namespace TrenoBambini.Core
 
         IEnumerator Start()
         {
+            Application.runInBackground = true; // la misura gira anche con la finestra in secondo piano
             GraphicsPresets.BenchmarkSenzaLimiti(true); // R008: sincronia e limite FPS restano spenti anche cambiando preset
             string dirFoto = Arg("-benchmarkshots", "");
             string outPath = Arg("-benchmarkout", Path.Combine(Application.dataPath, "..", "benchmark.csv"));
@@ -73,6 +76,7 @@ namespace TrenoBambini.Core
                 foreach (int lv in presets)
                 {
                     if (soloScena != "" && !p.scena.StartsWith(soloScena)) continue;
+                    if (p.menu) { yield return MisuraMenu(p, lv, secondi, outPath, dirFoto); continue; }
                     yield return new WaitForSecondsRealtime(1f);   // pausa e pulizia tra una prova e l'altra (il DecalDrawSystem di URP puo' andare in crash se si cambia scena a raffica)
                     yield return Resources.UnloadUnusedAssets();
                     var op = SceneManager.LoadSceneAsync(p.scena);
@@ -126,6 +130,28 @@ namespace TrenoBambini.Core
                     Destroy(go);
                 }
             Application.Quit();
+        }
+
+        /// <summary>R023: il preset si applica prima di caricare il titolo (lo sfondo vivo dipende dal preset), poi si aspetta la fine dell'intro e si misura il menu fermo.</summary>
+        IEnumerator MisuraMenu(Percorso p, int lv, float secondi, string outPath, string dirFoto)
+        {
+            yield return new WaitForSecondsRealtime(1f);
+            yield return Resources.UnloadUnusedAssets();
+            if (lv >= 4) GraphicsPresets.ApplyMinimum(); else GraphicsPresets.Apply(lv, false);
+            var op = SceneManager.LoadSceneAsync(p.scena);
+            while (!op.isDone) yield return null;
+            yield return new WaitForSecondsRealtime(14f); // caricamento del vicolo, intro e assestamento
+            var dt = new List<float>(4096);
+            float t = 0f; bool foto = false;
+            while (t < secondi)
+            {
+                float d = Time.unscaledDeltaTime;
+                t += d;
+                dt.Add(d);
+                if (!foto && dirFoto != "" && t > secondi * 0.5f) { foto = true; Directory.CreateDirectory(dirFoto); ScreenCapture.CaptureScreenshot(Path.Combine(dirFoto, p.scena + "_" + NomiPreset[Mathf.Clamp(lv, 0, 4)] + ".png")); }
+                yield return null;
+            }
+            Scrivi(outPath, p.scena, NomiPreset[Mathf.Clamp(lv, 0, 4)], dt);
         }
 
         static void Scrivi(string path, string scena, string preset, List<float> dt)

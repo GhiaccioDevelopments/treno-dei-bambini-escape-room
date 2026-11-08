@@ -50,6 +50,10 @@ namespace TrenoBambini.UI
         MenuBackdrop backdrop;
         UiMenuFile T;
         Stato stato = Stato.Caricamento;
+
+        /// <summary>Per le prove automatiche (MenuSelfTest): fase corrente e id della voce con il fuoco.</summary>
+        public string Fase { get { return stato.ToString(); } }
+        public string FuocoId { get { return focus != null ? focus.id : ""; } }
         readonly List<Beat> beats = new List<Beat>();
         readonly List<MenuRow> rows = new List<MenuRow>();
         float introT, introTotal;
