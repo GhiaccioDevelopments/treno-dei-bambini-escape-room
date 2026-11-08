@@ -66,11 +66,12 @@ dal film o dal libro (CLAUDE.md). Tono serio, mai cartoon.
 - Sfondo del menu: **vicolo di Napoli** (presente) o **binario/treno alla stazione** (il viaggio)?
 
 ## 7. Criteri di accettazione
-- [ ] Bozze approvate dall'utente.
-- [ ] Menu iniziale con sfondo 3D vivo, sequenza d'apertura saltabile, transizioni, anteprima del salvataggio.
-- [ ] Inventario 3D con oggetti esaminabili e sezioni Oggetti/Ricordi/Quaderno/Mappa.
-- [ ] Mouse, tastiera, gamepad, touch; accessibilità rispettata; 60 FPS a Alta, fluido su WebGL Bassa.
-- [ ] Console pulita; GIF/screenshot in `Docs/richieste/media/R023/`; l'utente ha approvato il risultato.
+Stato aggiornato il 2026-11-08 dopo la revisione e le prove sulla build Windows (vedi "Revisione e prove" nel Rapporto).
+- [x] Bozze approvate dall'utente (menu = bozza A, inventario = bozza A).
+- [x] Menu iniziale con sfondo 3D vivo, sequenza d'apertura saltabile, transizioni, anteprima del salvataggio. Provato nella build Windows (sfondo vivo a Alta e Media; fotogramma fisso a Bassa/WebGL solo in editor).
+- [x] Inventario 3D con oggetti esaminabili e sezioni Oggetti/Ricordi/Quaderno/Mappa (la Mappa e' un segnaposto dichiarato in attesa di R019).
+- [ ] Mouse, tastiera, gamepad, touch; accessibilita' rispettata; 60 FPS a Alta, fluido su WebGL Bassa. **Parziale**: mouse e tastiera provati (eventi dell'Input System su dispositivi virtuali); gamepad e touch NON provati con un dispositivo vero; "riduci movimento" gestito ma non provato nella build; alto contrasto e scala del testo non esistono ancora nel progetto; 60 FPS a Alta superati (203 FPS medi, 75 al 1% basso, build di sviluppo); la build WebGL e' stata fatta ma non avviata in un browser.
+- [ ] Console pulita; GIF/screenshot in `Docs/richieste/media/R023/`; l'utente ha approvato il risultato. Console dell'editor pulita (nessun errore o avviso) e screenshot presenti; **manca l'approvazione dell'utente sul risultato finale**.
 
 ## Rapporto
 _Compilato il 2026-11-08 (PC casa). Scelte dell'utente: menu = bozza A (locandina), inventario = bozza A (latta a sinistra, quaderno a destra); sfondo = vicolo dell'hub all'imbrunire._
@@ -90,9 +91,53 @@ _Compilato il 2026-11-08 (PC casa). Scelte dell'utente: menu = bozza A (locandin
 - Proporzioni provate nel Game view: 16:9 (1280x720), 16:10 (1280x800) e 4:3 (1024x768): menu e inventario restano leggibili e dentro lo schermo (`prop_*.jpg`).
 - Peso aggiunto in LFS circa 3,6 MB (3 PNG della latta, FBX e .blend delle scarpe, fotogramma fisso, GIF); mesh e prefab sono YAML fuori da LFS (circa 1 MB). LFS resta intorno a 820 MB.
 
-### Limiti e cose aperte
-- Il vecchio diorama del titolo e' ancora dentro `01_Titolo.unity` (si spegne a runtime): va tolto dal costruttore di scene quando si ricostruisce quella scena.
+### Limiti e cose aperte (aggiornati il 2026-11-08)
+- Il vecchio diorama del titolo e' stato tolto: `01_Titolo` e' ora solo camera + `TitleScreen` (menu **Treno > Scene > Ricostruisci solo il Titolo**, `SceneBuilder.BuildTitolo`), niente luci da cuocere; le 5 texture di lightmap e reflection probe della vecchia scena sono state tolte dal repo (restano nello storico LFS).
 - Sfocatura vera dello sfondo non fatta: il set della latta copre la scena con vignetta e grana invece di sfocarla.
-- La prova dei tasti (Q/E, frecce, gamepad, tocco, skip con un tasto) e' stata fatta chiamando i metodi da codice, non premendo davvero i tasti; gamepad e touch non sono stati provati con un dispositivo.
+- Gamepad e touch non provati con un dispositivo vero. Le prove automatiche passano da dispositivi virtuali dell'Input System (tastiera e mouse), non da un gamepad.
+- Alto contrasto e scala del testo non esistono nel progetto: non toccati.
 - Le scarpe sono un modello fatto a mano ma semplice (tomaia lofted, nessuna texture dedicata: usano i materiali del cuoio gia' presenti).
 - Gli screenshot catturati con `ScreenCapture` vanno scritti su un `RenderTexture` Linear: con sRGB risultano schiariti (errore trovato e corretto durante il lavoro).
+- Il crash intermittente del `DecalDrawSystem` di URP (giocatore Windows, preset con decal) esiste anche senza R023, ma il menu vivo aggiungeva un caricamento in piu' della stessa scena: vedi sotto.
+- Il tempo di gioco e' salvato a ogni uscita, pausa dell'app e ogni 30 s; su WebGL non e' stato aggiunto un hook JavaScript per la scheda nascosta (si affida a `OnApplicationFocus/Pause`, che nei browser recenti scattano alla perdita di visibilita', ma non e' provato).
+
+### Revisione e prove (2026-11-08, PC casa)
+Correzioni della revisione, tutte fatte:
+- **I1** Il clic, Invio o A che salta l'intro non attiva piu' una voce: durante l'intro la locandina non e' interattiva (`CanvasGroup`), dopo la fine le voci ignorano i comandi per 0,25 s e finche' il tasto non e' rilasciato.
+- **I2** Con "riduci movimento" le beat gia' passate si segnano come partite senza suono (e ogni beat in ritardo di oltre 0,3 s non suona).
+- **I3** La scheda oggetto mostra descrizione (testo dritto), significato (corsivo), ricordo collegato con il suo stato (Da rivivere / Rivissuto) e il tema civico; gli oggetti da trovare si possono scegliere e mostrano "cerca vicino a <luogo>" senza svelare il nome. Etichette in `ui_menu.json`.
+- **I4** Vecchio diorama tolto da `SceneBuilder`; `MenuBackdrop` non spegne piu' le root della scena del titolo; `01_Titolo` tolta anche da `LookBuilder`.
+- **I5** Nel menu niente pioggia (`MeteoController.Sereno()`: particelle, gocce e spruzzi spenti, suolo asciutto), niente decal e niente pozzanghere.
+- **M1** Il tempo di gioco si salva in `OnApplicationQuit/Pause/Focus` e ogni 30 s, non conta con pausa, inventario o impostazioni aperti; la riga del tempo nell'anteprima sparisce se il tempo e' 0.
+- **M2** Lo sfondo vivo rispetta la preferenza Nebbia. **M3** il materiale del fumo e' un'istanza (`new Material`), l'asset non cambia.
+- **M4** Chiuse le Impostazioni il fuoco torna sull'ultima voce; un oggetto selezionato ma non piu' attivo conta come fuoco perso.
+- **M5** Ricordi dell'inventario: titolo e descrizione restano nascosti finche' l'oggetto non e' stato trovato (come nel sottomenu del titolo).
+- **M6** Valori di ripiego in tutte le classi `Ui*` e `UiMenuFile.Normalizza()` (blocchi o liste mancanti o null in `ui_menu.json` non fanno crollare la UI).
+- **M7** "Valigia" diventa "Latta" nell'HUD e nella pausa (testo da `ui_menu.json`, nuova icona `UIArt.IconLatta`).
+- **M8** Un solo `AudioListener` attivo: quello della camera dell'hub mentre c'e' lo sfondo vivo (verificato in partita: 1).
+- **M11** Commento corretto (API reale `QuadernoSegreti.Provider`).
+
+Problemi trovati e risolti durante le prove (non erano nell'elenco della revisione):
+- **W/S saltavano una voce su due** nel titolo: il menu gestiva W/S a mano e in piu' la navigazione dell'EventSystem li legge come frecce. Con 6 voci erano raggiungibili solo quelle di posto pari. Tolto il gestore manuale.
+- **Esc non chiudeva le Impostazioni aperte dal titolo** (in quella scena `UIRoot` ignora i tasti di gioco). Ora Esc o B le chiudono ovunque.
+- **Testo dei Ricordi a una riga sola, piccolo e tagliato** (c'era gia' nello screenshot approvato `inventario_ricordi.jpg`): i testi con ridimensionamento automatico erano creati con il pannello spento. Ora i contenuti si costruiscono a pagina accesa e si rifa il layout (`UIFactory.RefreshText`).
+- **Crash nativo del player Windows** (`DecalDrawSystem.Draw`, memcpy in URP) entrando nel gioco dal titolo: tre crash su quattro tentativi prima delle correzioni. Ora il vicolo del menu si scarica a schermo nero prima del caricamento vero (`MenuBackdrop.Congeda`), i decal si spengono prima di ogni cambio scena (`SceneLoader`) e nel menu non ci sono decal. Dopo le correzioni: 5 giri completi di prova senza crash. Non e' una garanzia: il bug e' di URP e si manifestava gia' nel benchmark di R007.
+
+Come ho provato davvero (build Windows di sviluppo in `../treno-build/Win`, fuori dal repo; dall'editor non era possibile: con la finestra in secondo piano l'editor non avanza i fotogrammi):
+- Prova automatica `Scripts/Core/MenuSelfTest.cs` (solo editor e build di sviluppo, argomento `-menutest`): tasti e mouse sono eventi dell'Input System su una tastiera e un mouse virtuali (gli altri dispositivi vengono disattivati, cosi' i tasti o il gamepad del computer non entrano nella prova). Salva e rimette a posto il salvataggio. Flusso: Titolo, **salto dell'intro con un clic sopra "Nuova partita"** (non parte nulla, il menu resta aperto), Ricordi, Impostazioni (Esc chiude, il fuoco torna sulla voce), Crediti, Nuova partita con salvataggio (conferma, Annulla con Esc), Continua, gioco, un solo AudioListener, il tempo di gioco avanza, I apre l'inventario, il tempo si ferma con inventario e pausa aperti, Esc chiude, Esc apre la pausa, Torna al titolo con conferma, e **secondo giro: salto dell'intro con Invio** senza lanciare il gioco.
+- Risultato ultimo giro: **31 PASS, 0 FAIL**; i giri precedenti dopo le correzioni dei crash: 3 su 3 senza crash (un giro con un solo FAIL, dovuto alla pausa che il gioco apre da solo quando con la finestra in secondo piano cade il blocco del cursore, `OpenPauseFromLockLoss`; la prova ora la richiude).
+- Console dell'editor pulita dopo ogni compilazione (nessun errore, nessun avviso).
+- La prova NON ha usato i tasti del computer ne' un gamepad vero.
+
+FPS del menu iniziale (build Windows di sviluppo con overlay FPS, RTX 4060 Ti, 1280x720, vsync spento, 20 s a menu fermo dopo l'intro, sfondo vivo):
+
+| Preset | FPS medi | 1% basso | frame massimo |
+|---|---|---|---|
+| Alta | 203,3 | 74,9 | 21,7 ms |
+| Media | 218,9 | 87,7 | 24,2 ms |
+
+(Il benchmark dei frame ora ha anche la voce `01_Titolo`: `-benchmark -benchmarkscene 01_Titolo -benchmarkpresets 2,1`.) Bassa/WebGL non misurati in build: nel titolo usano il fotogramma fisso.
+
+Peso: build Windows di sviluppo 475,3 MB (comprende i simboli di sviluppo e tutte le scene); build WebGL leggera (preset Bassa, Gzip, `WebGLBuilder` con `TRENO_WEBGL_OUT` fuori dal repo) **58,2 MB** in 463 s, compilata senza errori; **non avviata in un browser** e non pubblicata su gh-pages. LFS: **nessun file nuovo in LFS** in questa revisione (solo codice, JSON, scena YAML e screenshot JPG); stima ancora intorno a 820 MB su 1 GB, sotto la soglia di 850 MB.
+
+Screenshot (dalla build Windows, 1280x720 JPG, con l'overlay FPS e la scritta "Development Build" della build di sviluppo): `media/R023/build_titolo.jpg`, `build_titolo_ricordi.jpg`, `build_inventario_scheda.jpg` (scheda con descrizione, significato, ricordo "Da rivivere" e tema), `build_inventario_ricordi_bloccato.jpg`, `build_inventario_ricordi_da_rivivere.jpg`, `build_inventario_ricordi_rivissuto.jpg`.
