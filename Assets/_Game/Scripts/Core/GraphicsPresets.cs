@@ -521,11 +521,12 @@ namespace TrenoBambini.Core
         static void ApplyPellicola()
         {
             bool ricordo = SceneManager.GetActiveScene().name.StartsWith("30_");
+            float k = ricordo ? 1f : (GameManager.MenuBackdrop ? 0.5f : 0f); // R023: nel menu iniziale la pellicola e' piu' leggera che nei ricordi
             float q = Current == (int)GraphicsPreset.Media ? 0.6f : 1f;
-            Shader.SetGlobalFloat("_TrenoPellicola", ricordo ? 1f : 0f);
+            Shader.SetGlobalFloat("_TrenoPellicola", k);
             Shader.SetGlobalFloat("_TrenoPellicolaQ", q);
             Shader.SetGlobalFloat("_TrenoPellicolaMov", ReduceMotion ? 1f : 0f); // R008: niente tremolio ne' sfarfallio
-            ImpostaPassoPellicola(ricordo); // nell'editor fuori da Play resta acceso: non si modifica l'asset del renderer
+            ImpostaPassoPellicola(k > 0f); // nell'editor fuori da Play resta acceso: non si modifica l'asset del renderer
         }
 
         /// <summary>Accende/spegne il passo a schermo intero "PellicolaRicordi" del renderer corrente: spento = nessuna copia del colore e nessun blit.</summary>

@@ -1,0 +1,466 @@
+{
+    "voci": [
+        {
+            "asset": "IntonacoMattoni",
+            "tipo": "Texture PBR",
+            "autore": "Amal Kumar",
+            "licenza": "CC0"
+        },
+        {
+            "asset": "IntonacoRustico05",
+            "tipo": "Texture PBR",
+            "autore": "Rob Tuytel",
+            "licenza": "CC0"
+        },
+        {
+            "asset": "IntonacoRossoSbiadito",
+            "tipo": "Texture PBR",
+            "autore": "Amal Kumar",
+            "licenza": "CC0"
+        },
+        {
+            "asset": "ArenariaCrepe",
+            "tipo": "Texture PBR",
+            "autore": "Rob Tuytel",
+            "licenza": "CC0"
+        },
+        {
+            "asset": "ArenariaBlocchi",
+            "tipo": "Texture PBR",
+            "autore": "Rob Tuytel",
+            "licenza": "CC0"
+        },
+        {
+            "asset": "MuroRotto",
+            "tipo": "Texture PBR",
+            "autore": "Rob Tuytel",
+            "licenza": "CC0"
+        },
+        {
+            "asset": "BasoliLavica",
+            "tipo": "Texture PBR",
+            "autore": "Amal Kumar",
+            "licenza": "CC0"
+        },
+        {
+            "asset": "LegnoVernicePelata",
+            "tipo": "Texture PBR",
+            "autore": "Rob Tuytel, Dimitrios Savva",
+            "licenza": "CC0"
+        },
+        {
+            "asset": "LegnoDipintoBlu",
+            "tipo": "Texture PBR",
+            "autore": "Rob Tuytel",
+            "licenza": "CC0"
+        },
+        {
+            "asset": "AssiStagionate",
+            "tipo": "Texture PBR",
+            "autore": "Dario Barresi, Dimitrios Savva",
+            "licenza": "CC0"
+        },
+        {
+            "asset": "AssiConsunte",
+            "tipo": "Texture PBR",
+            "autore": "Dimitrios Savva",
+            "licenza": "CC0"
+        },
+        {
+            "asset": "PavimentoPiastreGrandi",
+            "tipo": "Texture PBR",
+            "autore": "Rob Tuytel",
+            "licenza": "CC0"
+        },
+        {
+            "asset": "PavimentoBattuto",
+            "tipo": "Texture PBR",
+            "autore": "Dimitrios Savva, Rico Cilliers",
+            "licenza": "CC0"
+        },
+        {
+            "asset": "PavimentoCotto",
+            "tipo": "Texture PBR",
+            "autore": "Dimitrios Savva",
+            "licenza": "CC0"
+        },
+        {
+            "asset": "CoppiArgilla",
+            "tipo": "Texture PBR",
+            "autore": "Amal Kumar",
+            "licenza": "CC0"
+        },
+        {
+            "asset": "FerroRuggine02",
+            "tipo": "Texture PBR",
+            "autore": "Rob Tuytel",
+            "licenza": "CC0"
+        },
+        {
+            "asset": "FerroRuggineGrossa",
+            "tipo": "Texture PBR",
+            "autore": "Dimitrios Savva, Rico Cilliers",
+            "licenza": "CC0"
+        },
+        {
+            "asset": "TessutoLino",
+            "tipo": "Texture PBR",
+            "autore": "colormass, Rico Cilliers",
+            "licenza": "CC0"
+        },
+        {
+            "asset": "TessutoIuta",
+            "tipo": "Texture PBR",
+            "autore": "colormass, Rico Cilliers",
+            "licenza": "CC0"
+        },
+        {
+            "asset": "TerraPolverosa",
+            "tipo": "Texture PBR",
+            "autore": "eye-candy.xyz",
+            "licenza": "CC0"
+        },
+        {
+            "asset": "CieloCoperto",
+            "tipo": "HDRI (1K .hdr)",
+            "autore": "Jarod Guest, Sergej Majboroda",
+            "licenza": "CC0"
+        },
+        {
+            "asset": "CieloVelatoCaldo",
+            "tipo": "HDRI (1K .hdr)",
+            "autore": "Jarod Guest, Sergej Majboroda",
+            "licenza": "CC0"
+        },
+        {
+            "asset": "BotteVino",
+            "tipo": "Modello 3D (3000 tri)",
+            "autore": "James Ray Cock",
+            "licenza": "CC0"
+        },
+        {
+            "asset": "CassaLegno",
+            "tipo": "Modello 3D (1800 tri)",
+            "autore": "James Ray Cock",
+            "licenza": "CC0"
+        },
+        {
+            "asset": "SediaDipinta",
+            "tipo": "Modello 3D (724 tri)",
+            "autore": "Kuutti Siitonen",
+            "licenza": "CC0"
+        },
+        {
+            "asset": "TavoloLegno01",
+            "tipo": "Modello 3D (952 tri)",
+            "autore": "Ethan Place",
+            "licenza": "CC0"
+        },
+        {
+            "asset": "TavoloLegno02",
+            "tipo": "Modello 3D (1514 tri)",
+            "autore": "Fran Calvente",
+            "licenza": "CC0"
+        },
+        {
+            "asset": "SecchioLegno",
+            "tipo": "Modello 3D (2200 tri)",
+            "autore": "James Ray Cock",
+            "licenza": "CC0"
+        },
+        {
+            "asset": "CestaVimini",
+            "tipo": "Modello 3D (3000 tri)",
+            "autore": "Kuutti Siitonen",
+            "licenza": "CC0"
+        },
+        {
+            "asset": "ScalaLegno",
+            "tipo": "Modello 3D (2800 tri)",
+            "autore": "Miroslav Turura",
+            "licenza": "CC0"
+        },
+        {
+            "asset": "LanternaPH",
+            "tipo": "Modello 3D (3000 tri)",
+            "autore": "Rajil Jose Macatangay",
+            "licenza": "CC0"
+        },
+        {
+            "asset": "LampadaPetrolio_A (\"Kerosene lamp\")",
+            "tipo": "Modello 3D (1078 tri)",
+            "autore": "razorback456",
+            "licenza": "CC-BY 4.0"
+        },
+        {
+            "asset": "LampadaPetrolio_B (\"Oil Lamp\")",
+            "tipo": "Modello 3D (1860 tri)",
+            "autore": "luapqq",
+            "licenza": "CC-BY 4.0"
+        },
+        {
+            "asset": "Carretto_Filip (\"Wooden Cart\")",
+            "tipo": "Modello 3D (3428 tri)",
+            "autore": "Filip",
+            "licenza": "CC-BY 4.0"
+        },
+        {
+            "asset": "Macerie_Mattoni (\"Red Brick Pile Rubble Debris\")",
+            "tipo": "Modello 3D (4822 tri)",
+            "autore": "3DWALKABOUT",
+            "licenza": "CC-BY 4.0"
+        },
+        {
+            "asset": "SecchioMetallo (\"Metal bucket\")",
+            "tipo": "Modello 3D (1408 tri)",
+            "autore": "Kozlov Maksim",
+            "licenza": "CC-BY 4.0"
+        },
+        {
+            "asset": "LampioneMuro_Kigha (\"Medieval Wall-Mounted Lantern\")",
+            "tipo": "Modello 3D (3422 tri)",
+            "autore": "Kigha",
+            "licenza": "CC-BY 4.0"
+        },
+        {
+            "asset": "Candela (\"Candle\")",
+            "tipo": "Modello 3D (672 tri)",
+            "autore": "deniska40k",
+            "licenza": "CC-BY 4.0"
+        },
+        {
+            "asset": "LanternaAppesa (\"Metal hanging lantern\")",
+            "tipo": "Modello 3D (1460 tri)",
+            "autore": "Qwert Models",
+            "licenza": "CC-BY 4.0"
+        },
+        {
+            "asset": "LampioneStrada_Pixie (\"Old Fashioned Lamppost\")",
+            "tipo": "Modello 3D (932 tri)",
+            "autore": "Pixie3D",
+            "licenza": "CC-BY 4.0"
+        },
+        {
+            "asset": "VasoTerracotta (\"Terracotta pot\")",
+            "tipo": "Modello 3D (912 tri)",
+            "autore": "Sousinho",
+            "licenza": "CC-BY 4.0"
+        },
+        {
+            "asset": "LettoFerro (\"Metal Bed Frame\")",
+            "tipo": "Modello 3D (3422 tri, con LOD1/LOD2)",
+            "autore": "Kuutti Siitonen",
+            "licenza": "CC-BY 4.0"
+        },
+        {
+            "asset": "Credenza (\"Painted Wooden Cabinet\")",
+            "tipo": "Modello 3D (2227 tri, con LOD1/LOD2)",
+            "autore": "Kirill Sannikov",
+            "licenza": "CC0"
+        },
+        {
+            "asset": "Pozzo (\"Old Rural Well\")",
+            "tipo": "Modello 3D (4134 tri, con LOD1/LOD2)",
+            "autore": "brianjernigan",
+            "licenza": "CC-BY 4.0"
+        },
+        {
+            "asset": "Bicicletta (\"Low-Poly Vintage Bicycle Model\")",
+            "tipo": "Modello 3D (2640 tri, con LOD1/LOD2)",
+            "autore": "wasabicats",
+            "licenza": "CC-BY 4.0"
+        },
+        {
+            "asset": "Fontana (\"Fountain\")",
+            "tipo": "Modello 3D (4660 tri, con LOD1/LOD2)",
+            "autore": "Diccbudd",
+            "licenza": "CC-BY 4.0"
+        },
+        {
+            "asset": "Valigia / Valigia2 (\"Vintage Suitcase\")",
+            "tipo": "Modello 3D (4000 ciascuna (da 8237) tri, con LOD1/LOD2)",
+            "autore": "Maximilian Schuster",
+            "licenza": "CC0"
+        },
+        {
+            "asset": "Sacco (\"Grain Sack\")",
+            "tipo": "Modello 3D (3312 tri, con LOD1/LOD2)",
+            "autore": "dalroron",
+            "licenza": "CC-BY 4.0"
+        },
+        {
+            "asset": "Tavolino (\"Round Wooden Table 01\")",
+            "tipo": "Modello 3D (3000 (da 8640) tri, con LOD1/LOD2)",
+            "autore": "Ulan Cabanilla",
+            "licenza": "CC0"
+        },
+        {
+            "asset": "PentolaRame (\"Brass Pot 02\")",
+            "tipo": "Modello 3D (3344 tri, con LOD1/LOD2)",
+            "autore": "Rico Cilliers",
+            "licenza": "CC0"
+        },
+        {
+            "asset": "PadellaRame (\"Brass Pan 01\")",
+            "tipo": "Modello 3D (4340 tri, con LOD1/LOD2)",
+            "autore": "Rico Cilliers",
+            "licenza": "CC0"
+        },
+        {
+            "asset": "MadonnaStatuetta (\"Mary_Evora\")",
+            "tipo": "Modello 3D (4999 (da 9561) tri, con LOD1/LOD2)",
+            "autore": "Ye Myat Lwin",
+            "licenza": "CC-BY 4.0"
+        },
+        {
+            "asset": "Musica, effetti e ambienti (Tema di Amerigo, passi, porte, ambienti dei luoghi)",
+            "tipo": "Audio sintetizzato da codice",
+            "autore": "Thomas Rosania, Luca Arduini / Claude",
+            "licenza": "Originale del progetto"
+        },
+        {
+            "asset": "Cinemachine",
+            "tipo": "Pacchetto Unity",
+            "autore": "Unity Technologies",
+            "licenza": "Unity Companion License"
+        },
+        {
+            "asset": "Timeline",
+            "tipo": "Pacchetto Unity",
+            "autore": "Unity Technologies",
+            "licenza": "Unity Companion License"
+        },
+        {
+            "asset": "Universal Render Pipeline (URP)",
+            "tipo": "Pacchetto Unity",
+            "autore": "Unity Technologies",
+            "licenza": "Unity Companion License"
+        },
+        {
+            "asset": "TextMesh Pro (incluso in uGUI 2.6.0)",
+            "tipo": "Pacchetto Unity",
+            "autore": "Unity Technologies",
+            "licenza": "Unity Companion License"
+        },
+        {
+            "asset": "Basemesh MakeHuman 1.1 e target macro",
+            "tipo": "Modello 3D base",
+            "autore": "MakeHuman Community (MPFB2: Joel Palmius)",
+            "licenza": "CC0 1.0"
+        },
+        {
+            "asset": "Rig \"game_engine\"",
+            "tipo": "Scheletro e pesi",
+            "autore": "MakeHuman Community / MPFB2",
+            "licenza": "CC0 1.0"
+        },
+        {
+            "asset": "Pelle young_caucasian_male",
+            "tipo": "Texture",
+            "autore": "makehuman_system",
+            "licenza": "CC0"
+        },
+        {
+            "asset": "Pelle middleage_caucasian_male",
+            "tipo": "Texture",
+            "autore": "makehuman_system",
+            "licenza": "CC0"
+        },
+        {
+            "asset": "Capelli short02 (bambino) e short04 (adulto)",
+            "tipo": "Mesh + texture alpha",
+            "autore": "makehuman_system",
+            "licenza": "CC0"
+        },
+        {
+            "asset": "Occhi high-poly (brown), sopracciglia 001 e 005, ciglia 01, denti base",
+            "tipo": "Mesh + texture",
+            "autore": "makehuman_system",
+            "licenza": "CC0"
+        },
+        {
+            "asset": "Abito male_elegantsuit01 (adulto)",
+            "tipo": "Mesh + texture",
+            "autore": "makehuman_system",
+            "licenza": "CC0"
+        },
+        {
+            "asset": "Scarpe shoes04 (adulto)",
+            "tipo": "Mesh + texture",
+            "autore": "makehuman_system",
+            "licenza": "CC0"
+        },
+        {
+            "asset": "Abiti del bambino (camicia, calzoncini, scarpe, toppe, bretelle, cintura)",
+            "tipo": "Mesh originali",
+            "autore": "Progetto Il Treno dei Bambini",
+            "licenza": "Proprietà del progetto"
+        },
+        {
+            "asset": "Basemesh, target macro, rig \"game_engine\", espressioni (.mhpose)",
+            "tipo": "Modello, scheletro, pose del viso",
+            "autore": "MakeHuman Community",
+            "licenza": "CC0 1.0"
+        },
+        {
+            "asset": "Pelle young_caucasian_male / middleage_caucasian_male",
+            "tipo": "Texture",
+            "autore": "makehuman_system",
+            "licenza": "CC0"
+        },
+        {
+            "asset": "Capelli short02 (bambino), short04 (adulto)",
+            "tipo": "Mesh + texture alpha",
+            "autore": "makehuman_system",
+            "licenza": "CC0"
+        },
+        {
+            "asset": "Tuta male_worksuit01 (bambino)",
+            "tipo": "Mesh + texture",
+            "autore": "makehuman_system",
+            "licenza": "CC0"
+        },
+        {
+            "asset": "Abito male_elegantsuit01, scarpe shoes03 (adulto)",
+            "tipo": "Mesh + texture",
+            "autore": "makehuman_system",
+            "licenza": "CC0"
+        },
+        {
+            "asset": "Occhi high-poly (brown), sopracciglia 001/002, ciglia 01, denti base",
+            "tipo": "Mesh + texture",
+            "autore": "makehuman_system",
+            "licenza": "CC0"
+        },
+        {
+            "asset": "Copie importate in Unity (FBX e texture)",
+            "tipo": "Modello, texture",
+            "autore": "MakeHuman Community / makehuman_system",
+            "licenza": "CC0 1.0"
+        },
+        {
+            "asset": "Scarpe",
+            "tipo": "Modello 3D (3584 tri, un paio)",
+            "autore": "Team del gioco",
+            "licenza": "Originale del progetto"
+        },
+        {
+            "asset": "Latta d'epoca",
+            "tipo": "Texture generate da codice (1024 px al massimo) e mesh con spigoli smussati",
+            "autore": "Team del gioco",
+            "licenza": "Originale del progetto"
+        },
+        {
+            "asset": "Fumo del menu",
+            "tipo": "Texture generata da codice (UIArt.Smoke)",
+            "autore": "Team del gioco",
+            "licenza": "Originale del progetto"
+        },
+        {
+            "asset": "Sfondo fermo del menu",
+            "tipo": "Fotogramma del vicolo dell'hub",
+            "autore": "Team del gioco",
+            "licenza": "Originale del progetto"
+        }
+    ]
+}

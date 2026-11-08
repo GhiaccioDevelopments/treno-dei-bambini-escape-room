@@ -147,3 +147,6 @@ ArtSource/Characters/screenshots/*
 !ArtSource/Characters/screenshots/mh_ingioco_*.png
 ArtSource/tmp/
 __pycache__/
+
+# Cartella di recupero di Unity
+Assets/_Recovery*

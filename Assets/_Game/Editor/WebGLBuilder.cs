@@ -70,7 +70,7 @@ namespace TrenoBambini.EditorTools
                 var existing = UnityEngine.SceneManagement.SceneManager.GetSceneByPath(sp);
                 bool giaAperta = existing.IsValid() && existing.isLoaded;
                 var sc = giaAperta ? existing : UnityEditor.SceneManagement.EditorSceneManager.OpenScene(sp, UnityEditor.SceneManagement.OpenSceneMode.Additive);
-                bool bakedExpected = sp.Contains("01_Titolo") || sp.Contains("10_Hub") || sp.Contains("20_Int") || sp.Contains("30_FB");
+                bool bakedExpected = sp.Contains("10_Hub") || sp.Contains("20_Int") || sp.Contains("30_FB");
                 if (bakedExpected && Lightmapping.GetLightingDataAssetForScene(sc) == null)
                     Debug.LogWarning("[WebGLBuilder] Luci da rifare: Treno ▸ Look ▸ Bake luci di tutte le scene (manca il lighting data di " + sp + ")");
                 if (!giaAperta && UnityEditor.SceneManagement.EditorSceneManager.sceneCount > 1)

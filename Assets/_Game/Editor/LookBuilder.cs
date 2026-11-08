@@ -42,7 +42,7 @@ namespace TrenoBambini.EditorTools
 
         const int LutSize = 32;
 
-        static readonly string[] LookScenes = { "01_Titolo", "10_Hub_Vicolo", "20_Int_BassoAntonietta", "30_FB_Scarpe" };
+        static readonly string[] LookScenes = { "10_Hub_Vicolo", "20_Int_BassoAntonietta", "30_FB_Scarpe" };
         const string LookRoot = "Look";
         const string LookLightName = "Look_Luce";
 
@@ -892,16 +892,6 @@ namespace TrenoBambini.EditorTools
                     AddLampLights("LuceEdicolaGrande", Cct(1900f), 4.5f, 10f);
                     AddLampLights("LuceCampanile", Cct(2000f), 3.5f, 14f);
                     probeMin = new Vector3(-3.2f, 0.4f, -19f); probeMax = new Vector3(3.2f, 4.0f, 19f); probeStep = 3.2f;
-                    break;
-                case "01_Titolo":
-                    exterior = true;
-                    // coerente con l'hub piovoso
-                    SetSun(sun, new Color(0.80f, 0.86f, 0.97f), 0.9f, new Vector3(34f, -30f, 0f), 0.45f);
-                    SetSkyAmbient(1.5f);
-                    bg = new Color(0.50f, 0.54f, 0.58f);
-                    SetFog(0.026f, bg);
-                    AddLampLights("LuceLampione", Cct(2300f), 4.5f, 7f);
-                    probeMin = new Vector3(-1.2f, 0.4f, -6f); probeMax = new Vector3(1.2f, 3.0f, 6f); probeStep = 1.6f;
                     break;
                 case "20_Int_BassoAntonietta":
                     // R007: interno buio nel presente. Fuori piove: luce fredda e grigia da finestre e porte (luci baked sulle aperture

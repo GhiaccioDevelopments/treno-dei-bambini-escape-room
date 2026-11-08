@@ -204,3 +204,13 @@ Nessun asset esterno nuovo. Tutto originale e generato da script riproducibili:
 - `GabbiaUccellino` (gabbietta con uccellino appesa ai bassi): modello Blender originale, 580 tri, `ArtSource/Models/crea_oggetti_b.py`;
 - manifesti del referendum del 2 giugno 1946 (`Referendum`, `VotoDonne`, `Seggio`): testi originali in `testi_ambiente.json`, nessun materiale del film o del libro;
 - puntellature di guerra, pozzanghere, pioggia, spruzzi e gocce: geometria e particelle da codice (`MeteoController`), audio di pioggia sintetizzato (`SfxSynth`: `pioggia`, `pioggia_ovattata`).
+
+## Menu iniziale e inventario (R023)
+
+| Asset | Tipo | Percorso nel progetto | Fonte (URL) | Autore | Licenza | Modifiche |
+|-------|------|------------------------|-------------|--------|---------|-----------|
+| Scarpe | Modello 3D (3584 tri, un paio) | Assets/Art/Models/Scarpe/ | Originale del team, nessuna fonte esterna (script `ArtSource/Models/Scarpe/genera_scarpe.py`, Blender 5.2 headless) | Team del gioco | Originale del progetto | Scarpa bassa di cuoio consumata, anni '40: tomaia con collo aperto e linguetta, lacci sciatti, suola con tacco; la destra rovesciata su un fianco. Materiali: M_Cuoio_Scarpe e M_Suola_Scarpa gia' del progetto, M_Lacci_Scarpe nuovo |
+| Latta d'epoca | Texture generate da codice (1024 px al massimo) e mesh con spigoli smussati | Assets/Art/Textures/Latta/, Assets/Art/Models/Latta/ | Originale del team (generatore `Assets/_Game/Editor/R023Builder.cs`, menu Treno > R023) | Team del gioco | Originale del progetto | Smalto verde consumato con ruggine e graffi, coperchio stampato con una locomotiva a vapore nel cartiglio (disegno originale), normal map martellata, ammaccatura nella parete anteriore. Tavolo e panno: materiali gia' del progetto (TavoloLegno01, Panno_Terra) |
+| Fumo del menu | Texture generata da codice (UIArt.Smoke) | Assets/_Game/Resources/Menu/ | Originale del team | Team del gioco | Originale del progetto | Sbuffo lontano di locomotiva dietro ai tetti del vicolo |
+| Sfondo fermo del menu | Fotogramma del vicolo dell'hub | Assets/_Game/Resources/Menu/sfondo_vicolo.jpg | Catturato dal gioco (Treno > R023, `MenuBackdrop.CatturaFermo`) | Team del gioco | Originale del progetto | Usato su WebGL e a grafica Bassa al posto della scena viva |
+

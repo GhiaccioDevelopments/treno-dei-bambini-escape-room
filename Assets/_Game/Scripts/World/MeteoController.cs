@@ -55,6 +55,16 @@ namespace TrenoBambini.World
             CreaPioggia();
         }
 
+        /// <summary>R023: spegne la pioggia (particelle, spruzzi, gocce) e rimette il suolo asciutto; serve allo sfondo del menu iniziale.</summary>
+        public void Sereno()
+        {
+            enabled = false;
+            if (pioggia != null) pioggia.gameObject.SetActive(false);
+            if (spruzzi != null) spruzzi.gameObject.SetActive(false);
+            foreach (var d in gocce) if (d != null) d.gameObject.SetActive(false);
+            ImpostaBagnato(false);
+        }
+
         /// <summary>Solo per le foto di documentazione nell'editor (fuori da Play): costruisce la pioggia, la fa cadere per 1,5 s e posa spruzzi attorno alla camera.</summary>
         public void Anteprima(Vector3 camPos)
         {

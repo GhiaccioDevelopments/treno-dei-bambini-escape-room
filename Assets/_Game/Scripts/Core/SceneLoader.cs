@@ -41,6 +41,12 @@ namespace TrenoBambini.Core
             else AudioManager.Fire("cambio_scena");
 
             if (fader != null) yield return fader.Out(stile);
+            if (GameManager.MenuBackdrop) yield return MenuBackdrop.Congeda(); // R023: schermo nero, il vicolo del menu si scarica prima del caricamento vero
+            // i decal escono dal DecalEntityManager di URP uno alla volta, prima che la scena sparisca: scaricare la scena con i decal ancora attivi
+            // faceva andare in crash il DecalDrawSystem (player Windows, preset con decal)
+            foreach (var d in FindObjectsByType<UnityEngine.Rendering.Universal.DecalProjector>(FindObjectsInactive.Exclude)) d.enabled = false;
+            yield return null; yield return null;
+            GameManager.MenuBackdrop = false; // R023: da qui lo sfondo del menu non conta piu' (niente pellicola del menu nella scena che arriva)
             if (UIRoot.I != null) { UIRoot.I.HidePrompt(); UIRoot.I.SetHudCounter(""); }
 
             var op = SceneManager.LoadSceneAsync(scena);
