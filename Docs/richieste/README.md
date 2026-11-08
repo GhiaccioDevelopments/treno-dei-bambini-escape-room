@@ -40,7 +40,7 @@ MCP for Unity) le implementa. Le due sessioni non si parlano: comunicano **solo 
 | R004 | Animazione di corsa nuova (da Mixamo) | integrata in `feature/upgrade-realistico` (6/11), in prova |
 | R006 | Mappe molto più grandi e pulizia dei modelli compenetrati | aperta, PR #8 (prima del gruppo) |
 | R007 | Grafica realistica e cinematografica, con la pioggia | integrata in `feature/upgrade-realistico` (8/11, con R021), PR #9 |
-| R008 | Impostazioni grafiche dettagliate (ombre, luci, effetti) | aperta, PR #10 (dopo R007) |
+| R008 | Impostazioni grafiche dettagliate (ombre, luci, effetti) | integrata in feature/upgrade-realistico (2026-11-08), PR #10 |
 | R009 | Enigmi dentro il mondo, niente più oggetti viola | aperta, PR #11 (dopo R006) |
 | R010 | Ridisegno degli enigmi di "Le scarpe" | aperta, PR #12 (dopo R009) |
 | R011 | Easter egg ed enigmi nascosti in ogni stanza | aperta, PR #13 (dopo R006 e R009) |
@@ -55,4 +55,4 @@ MCP for Unity) le implementa. Le due sessioni non si parlano: comunicano **solo 
 | R020 | Enigmi d'autore in ogni stanza (quadri, codici, trama) | aperta, PR #22 (contenuto di R009, assorbe R010) |
 | R021 | Grafica realistica con identità unica (pellicola neorealista) | fusa in R007 e integrata (8/11), PR #23 chiusa |
 | R022 | Corsa corretta: personaggio dritto, gamba sinistra | integrata in `feature/upgrade-realistico` (7/11), PR #24 |
-| R023 | Menu iniziale e inventario rifatti, al livello dei giochi più belli | aperta, PR #25 (dopo R008) |
+| R023 | Menu iniziale e inventario rifatti, al livello dei giochi più belli | in corso (latta + quaderno, sfondo vicolo), PR #25 |
