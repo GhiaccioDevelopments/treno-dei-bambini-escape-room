@@ -43,7 +43,7 @@ namespace TrenoBambini.Core
                 UnityEngine.SceneManagement.SceneManager.LoadScene(scena);
                 yield return new WaitForSecondsRealtime(4f);
             }
-            int partenza = Mathf.Max(0, GraphicsPresets.Current);
+            var stato = GraphicsPresets.EsportaStato(); // le impostazioni dell'utente, personalizzate comprese, tornano com'erano
             var voci = (Voce[])System.Enum.GetValues(typeof(Voce));
             int errori = 0;
             Application.LogCallback cb = (testo, stack, tipo) => { if (tipo == LogType.Error || tipo == LogType.Exception) errori++; };
@@ -59,7 +59,7 @@ namespace TrenoBambini.Core
                 else GraphicsPresets.Apply(rnd.Next(4), false);
                 yield return new WaitForSecondsRealtime(intervallo);
             }
-            GraphicsPresets.Apply(partenza, salva);
+            GraphicsPresets.ImportaStato(stato, salva);
             Application.logMessageReceived -= cb;
             Debug.Log("[GraphicsStress] finito: " + cambi + " cambi, errori in console: " + errori);
             if (autonomo) Application.Quit();

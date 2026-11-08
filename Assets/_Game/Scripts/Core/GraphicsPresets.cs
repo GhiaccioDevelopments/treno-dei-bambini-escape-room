@@ -88,6 +88,13 @@ namespace TrenoBambini.Core
 
         // ------------------------------------------------------------------ valori
 
+        /// <summary>Valore usato dall'applicazione: su WebGL SSAO, decal, sfocatura di movimento e ombre delle luci secondarie sono sempre spenti, qualunque sia il preset.</summary>
+        static int Val(Voce v)
+        {
+            if (Web && (v == Voce.Ssao || v == Voce.Decal || v == Voce.SfocaturaMovimento || v == Voce.OmbreLuci)) return 0;
+            return _v[(int)v];
+        }
+
         /// <summary>Valore (indice di opzione) della voce.</summary>
         public static int Get(Voce v)
         {
@@ -161,11 +168,7 @@ namespace TrenoBambini.Core
             _cutsceneDof = false;
             _loaded = false;
             _v = new int[GraphicsOptions.Defs.Length];
-            _risoluzioni = null;
-            _origFeatureActive.Clear(); _origDecalDist.Clear();
-#if UNITY_EDITOR
-            _snapshot.Clear();
-#endif
+            _risoluzioni = null; _fps = null;
             _fogScene = null; _lastLevel = -1;
             ScenaDettagli.NuovaScena();
         }
@@ -397,9 +400,13 @@ namespace TrenoBambini.Core
 
         static void ApplyAll()
         {
+#if UNITY_EDITOR
+            GraphicsEditorBackup.Assicura(); // stato originale degli asset, salvato una volta per Play (SessionState)
+#endif
             ApplyPipeline();
             ApplyQualitySettings();
             ApplyToScene();
+            if (_fps != null) _fps.enabled = Val(Voce.ContatoreFps) != 0;
             Version++;
             if (Changed != null) Changed(Current);
         }
@@ -407,11 +414,8 @@ namespace TrenoBambini.Core
         // --- render pipeline: copia a runtime dell'asset del livello + funzioni dei renderer
 
         static int _lastLevel = -1;
-#if UNITY_EDITOR
-        static readonly Dictionary<UniversalRenderPipelineAsset, string> _snapshot = new Dictionary<UniversalRenderPipelineAsset, string>();
-#endif
-        static readonly Dictionary<ScriptableRendererFeature, bool> _origFeatureActive = new Dictionary<ScriptableRendererFeature, bool>();
-        static readonly Dictionary<ScriptableRendererFeature, float> _origDecalDist = new Dictionary<ScriptableRendererFeature, float>();
+        /// <summary>Le modifiche agli asset (URP, renderer, QualitySettings) valgono nel player e in Play; fuori dal Play dell'editor no (gli strumenti di foto non sporcano il progetto).</summary>
+        static bool Live { get { return Application.isPlaying || !Application.isEditor; } }
 
         static void SetField(object o, string name, object value)
         {
@@ -424,7 +428,7 @@ namespace TrenoBambini.Core
         static int PipelineTier()
         {
             int tier = Mathf.Max(0, Current);
-            if (tier == (int)GraphicsPreset.Bassa && !Web && (_v[(int)Voce.Ssao] != 0 || _v[(int)Voce.Decal] != 0) && IsAvailable((int)GraphicsPreset.Media))
+            if (tier == (int)GraphicsPreset.Bassa && !Web && (Val(Voce.Ssao) != 0 || Val(Voce.Decal) != 0) && IsAvailable((int)GraphicsPreset.Media))
                 tier = (int)GraphicsPreset.Media;
             return tier;
         }
@@ -436,28 +440,26 @@ namespace TrenoBambini.Core
             int index = ResolveLevel(PipelineTier(), out eff);
             bool livelloCambiato = QualitySettings.GetQualityLevel() != index;
             if (livelloCambiato) QualitySettings.SetQualityLevel(index, true);
+            if (!Live) return;
 
             // L'asset URP del livello si modifica direttamente (NON una copia: una copia crea un secondo renderer che condivide le funzioni
             // con l'originale e fa andare in crash il DecalDrawSystem). Nell'editor il valore originale e' salvato e rimesso all'uscita dal Play.
             var rp = QualitySettings.renderPipeline as UniversalRenderPipelineAsset;
             if (rp == null) return; // pipeline non URP: nessuna regolazione
-#if UNITY_EDITOR
-            if (!_snapshot.ContainsKey(rp)) _snapshot[rp] = UnityEditor.EditorJsonUtility.ToJson(rp);
-#endif
             _lastLevel = index;
-            int ombre = _v[(int)Voce.OmbreQualita];
-            int aa = Mathf.Clamp(_v[(int)Voce.Antialiasing], 0, NumOpzioni(Voce.Antialiasing) - 1);
-            rp.renderScale = GraphicsOptions.Scale[Mathf.Clamp(_v[(int)Voce.ScalaRender], 0, GraphicsOptions.Scale.Length - 1)];
+            int ombre = Val(Voce.OmbreQualita);
+            int aa = Mathf.Clamp(Val(Voce.Antialiasing), 0, NumOpzioni(Voce.Antialiasing) - 1);
+            rp.renderScale = GraphicsOptions.Scale[Mathf.Clamp(Val(Voce.ScalaRender), 0, GraphicsOptions.Scale.Length - 1)];
             rp.msaaSampleCount = aa == 3 ? 2 : aa == 4 ? 4 : aa == 5 ? 8 : 1;
-            rp.shadowDistance = ombre == 0 ? 0f : GraphicsOptions.DistanzaOmbre[Mathf.Clamp(_v[(int)Voce.OmbreDistanza], 0, 4)];
-            rp.shadowCascadeCount = _v[(int)Voce.OmbreCascate] + 1;
+            rp.shadowDistance = ombre == 0 ? 0f : GraphicsOptions.DistanzaOmbre[Mathf.Clamp(Val(Voce.OmbreDistanza), 0, 4)];
+            rp.shadowCascadeCount = Val(Voce.OmbreCascate) + 1;
             if (ombre > 0) rp.mainLightShadowmapResolution = GraphicsOptions.RisOmbre[ombre];
             SetField(rp, "m_MainLightShadowsSupported", ombre > 0);
-            SetField(rp, "m_SoftShadowsSupported", _v[(int)Voce.OmbreMorbide] != 0);
-            SetField(rp, "m_AdditionalLightShadowsSupported", _v[(int)Voce.OmbreLuci] != 0 && ombre > 0 && !Web);
-            SetField(rp, "m_AdditionalLightsRenderingMode", _v[(int)Voce.LuciSecondarie] == 0 ? LightRenderingMode.Disabled : LightRenderingMode.PerPixel);
-            rp.maxAdditionalLightsCount = GraphicsOptions.MaxLuci[Mathf.Clamp(_v[(int)Voce.LuciMax], 0, 3)];
-            int rif = _v[(int)Voce.Riflessi];
+            SetField(rp, "m_SoftShadowsSupported", Val(Voce.OmbreMorbide) != 0);
+            SetField(rp, "m_AdditionalLightShadowsSupported", Val(Voce.OmbreLuci) != 0 && ombre > 0 && !Web);
+            SetField(rp, "m_AdditionalLightsRenderingMode", Val(Voce.LuciSecondarie) == 0 ? LightRenderingMode.Disabled : LightRenderingMode.PerPixel);
+            rp.maxAdditionalLightsCount = GraphicsOptions.MaxLuci[Mathf.Clamp(Val(Voce.LuciMax), 0, 3)];
+            int rif = Val(Voce.Riflessi);
             SetField(rp, "m_ReflectionProbeBlending", rif >= 1);
             SetField(rp, "m_ReflectionProbeBoxProjection", rif >= 2);
 
@@ -472,72 +474,26 @@ namespace TrenoBambini.Core
             foreach (var rd in lista) if (rd != null) yield return rd;
         }
 
-        /// <summary>SetActive solo se cambia (a raffica faceva andare in crash il DecalDrawSystem di URP) e ricordando il valore originale per l'editor.</summary>
+        /// <summary>SetActive solo se cambia (a raffica faceva andare in crash il DecalDrawSystem di URP). Nell'editor lo stato originale e' salvato da GraphicsEditorBackup.</summary>
         static void ImpostaFeature(ScriptableRendererFeature f, bool acceso)
         {
-            if (f == null) return;
-            if (!_origFeatureActive.ContainsKey(f)) _origFeatureActive[f] = f.isActive;
+            if (f == null || !Live) return;
             if (f.isActive != acceso) f.SetActive(acceso);
         }
 
         static void ApplyFeatures(UniversalRenderPipelineAsset rp)
         {
-            int decal = _v[(int)Voce.Decal];
-            bool ssao = _v[(int)Voce.Ssao] != 0;
+            int decal = Val(Voce.Decal);
+            bool ssao = Val(Voce.Ssao) != 0;
             foreach (var rd in RendererDati(rp))
                 foreach (var f in rd.rendererFeatures)
                 {
                     if (f == null) continue;
                     string tipo = f.GetType().Name;
                     if (tipo == "ScreenSpaceAmbientOcclusion") ImpostaFeature(f, ssao);
-                    else if (tipo == "DecalRendererFeature")
-                    {
-                        ImpostaFeature(f, decal != 0);
-                        ImpostaDistanzaDecal(f, decal == 1);
-                    }
+                    else if (tipo == "DecalRendererFeature") ImpostaFeature(f, decal != 0);
                 }
         }
-
-        static void ImpostaDistanzaDecal(ScriptableRendererFeature f, bool vicini)
-        {
-            try
-            {
-                var campo = f.GetType().GetField("m_Settings", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-                if (campo == null) return;
-                var s = campo.GetValue(f);
-                var md = s.GetType().GetField("maxDrawDistance");
-                if (md == null) return;
-                if (!_origDecalDist.ContainsKey(f)) _origDecalDist[f] = (float)md.GetValue(s);
-                float voluta = vicini ? 15f : _origDecalDist[f];
-                if (!Mathf.Approximately((float)md.GetValue(s), voluta)) md.SetValue(s, voluta);
-            }
-            catch (System.Exception e) { Debug.LogWarning("[GraphicsPresets] Distanza dei decal non regolabile: " + e.Message); }
-        }
-
-#if UNITY_EDITOR
-        [UnityEditor.InitializeOnLoadMethod]
-        static void RegistraRipristinoEditor()
-        {
-            UnityEditor.EditorApplication.playModeStateChanged += st =>
-            {
-                if (st != UnityEditor.PlayModeStateChange.ExitingPlayMode) return;
-                // rimette negli asset i valori originali (nessun diff nei file del progetto)
-                foreach (var kv in _origFeatureActive) if (kv.Key != null && kv.Key.isActive != kv.Value) kv.Key.SetActive(kv.Value);
-                foreach (var kv in _origDecalDist) if (kv.Key != null) ImpostaDistanzaDecalAsset(kv.Key, kv.Value);
-                foreach (var kv in _snapshot) if (kv.Key != null) UnityEditor.EditorJsonUtility.FromJsonOverwrite(kv.Value, kv.Key);
-                _snapshot.Clear();
-                _origFeatureActive.Clear(); _origDecalDist.Clear();
-            };
-        }
-
-        static void ImpostaDistanzaDecalAsset(ScriptableRendererFeature f, float v)
-        {
-            var campo = f.GetType().GetField("m_Settings", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            var s = campo != null ? campo.GetValue(f) : null;
-            var md = s != null ? s.GetType().GetField("maxDrawDistance") : null;
-            if (md != null) md.SetValue(s, v);
-        }
-#endif
 
         // --- QualitySettings: sincronia, limite FPS, texture, filtro, LOD
 
@@ -548,14 +504,15 @@ namespace TrenoBambini.Core
 
         static void ApplyQualitySettings()
         {
-            QualitySettings.globalTextureMipmapLimit = Mathf.Clamp(_v[(int)Voce.Texture], 0, 2);
-            QualitySettings.anisotropicFiltering = _v[(int)Voce.Anisotropico] == 0 ? AnisotropicFiltering.Disable
-                : _v[(int)Voce.Anisotropico] == 1 ? AnisotropicFiltering.Enable : AnisotropicFiltering.ForceEnable;
-            QualitySettings.lodBias = GraphicsOptions.LodBias[Mathf.Clamp(_v[(int)Voce.Lod], 0, 3)];
+            if (!Live) return;
+            QualitySettings.globalTextureMipmapLimit = Mathf.Clamp(Val(Voce.Texture), 0, 2);
+            QualitySettings.anisotropicFiltering = Val(Voce.Anisotropico) == 0 ? AnisotropicFiltering.Disable
+                : Val(Voce.Anisotropico) == 1 ? AnisotropicFiltering.Enable : AnisotropicFiltering.ForceEnable;
+            QualitySettings.lodBias = GraphicsOptions.LodBias[Mathf.Clamp(Val(Voce.Lod), 0, 3)];
             if (_benchmarkLibero) { QualitySettings.vSyncCount = 0; Application.targetFrameRate = -1; return; }
             if (Web) { Application.targetFrameRate = -1; return; } // WebGL: il browser decide
-            QualitySettings.vSyncCount = _v[(int)Voce.VSync] != 0 ? 1 : 0;
-            Application.targetFrameRate = GraphicsOptions.Limiti[Mathf.Clamp(_v[(int)Voce.LimiteFps], 0, 3)];
+            QualitySettings.vSyncCount = Val(Voce.VSync) != 0 ? 1 : 0;
+            Application.targetFrameRate = GraphicsOptions.Limiti[Mathf.Clamp(Val(Voce.LimiteFps), 0, 3)];
         }
 
         // ------------------------------------------------------------------ camere e volumi
@@ -592,7 +549,7 @@ namespace TrenoBambini.Core
         {
             string scena = SceneManager.GetActiveScene().name;
             if (_fogScene != scena) { _fogScene = scena; _fogOriginale = RenderSettings.fog; }
-            RenderSettings.fog = _fogOriginale && _v[(int)Voce.Nebbia] != 0;
+            RenderSettings.fog = _fogOriginale && Val(Voce.Nebbia) != 0;
         }
 
         static void ApplyToScene()
@@ -601,13 +558,13 @@ namespace TrenoBambini.Core
             ApplyAntiAliasing();
             ApplyPostSwitches();
             ApplyFog();
-            ScenaDettagli.Applica(_v[(int)Voce.Dettagli]);
+            ScenaDettagli.Applica(Val(Voce.Dettagli));
         }
 
         /// <summary>FXAA/SMAA sulla camera; MSAA e' nell'asset URP (vedi ApplyPipeline).</summary>
         static void ApplyAntiAliasing()
         {
-            int aa = _v[(int)Voce.Antialiasing];
+            int aa = Val(Voce.Antialiasing);
             var mode = aa == 1 ? AntialiasingMode.FastApproximateAntialiasing : aa == 2 ? AntialiasingMode.SubpixelMorphologicalAntiAliasing : AntialiasingMode.None;
             foreach (var cam in Object.FindObjectsByType<Camera>(FindObjectsInactive.Include))
             {
@@ -626,14 +583,14 @@ namespace TrenoBambini.Core
         /// </summary>
         static void ApplyPostSwitches()
         {
-            bool grain = _v[(int)Voce.Grana] != 0;
-            bool bloom = _v[(int)Voce.Bloom] != 0;
-            bool vignetta = _v[(int)Voce.Vignetta] != 0;
-            bool mblur = _v[(int)Voce.SfocaturaMovimento] != 0 && !ReduceMotion && !Web;
+            bool grain = Val(Voce.Grana) != 0;
+            bool bloom = Val(Voce.Bloom) != 0;
+            bool vignetta = Val(Voce.Vignetta) != 0;
+            bool mblur = Val(Voce.SfocaturaMovimento) != 0 && !ReduceMotion && !Web;
             float grainK = Current == (int)GraphicsPreset.Bassa ? 0.7f : Current == (int)GraphicsPreset.Media ? 0.8f : Current == (int)GraphicsPreset.Alta ? 1f : 1.1f;
             float caK = Current == (int)GraphicsPreset.Media ? 0.5f : Current == (int)GraphicsPreset.Alta ? 1f : Current == (int)GraphicsPreset.Ultra ? 1.2f : 0.5f;
             bool hq = Current >= (int)GraphicsPreset.Alta;
-            bool dof = _v[(int)Voce.ProfonditaCampo] != 0 && _cutsceneDof;
+            bool dof = Val(Voce.ProfonditaCampo) != 0 && _cutsceneDof;
             foreach (var vol in Object.FindObjectsByType<Volume>(FindObjectsInactive.Exclude))
             {
                 var profile = vol.profile; // istanza: non modifica l'asset
@@ -686,12 +643,20 @@ namespace TrenoBambini.Core
             go.hideFlags = HideFlags.HideInHierarchy;
             Object.DontDestroyOnLoad(go);
             go.AddComponent<Driver>();
+            _fps = go.AddComponent<FpsCounter>();
+            _fps.enabled = Val(Voce.ContatoreFps) != 0;
         }
+
+        static bool _fsNoto;
+        static Vector2Int _ultimaFinestra = new Vector2Int(1280, 720);
 
         sealed class Driver : MonoBehaviour
         {
-            float acc; int frames; float fps;
-            GUIStyle stile;
+            void Start()
+            {
+                _fsNoto = Screen.fullScreen;
+                _ultimaFinestra = new Vector2Int(Screen.width, Screen.height);
+            }
 
             void OnEnable() { SceneManager.sceneLoaded += OnSceneLoaded; }
             void OnDisable() { SceneManager.sceneLoaded -= OnSceneLoaded; }
@@ -705,8 +670,19 @@ namespace TrenoBambini.Core
 
             void Update()
             {
-                acc += Time.unscaledDeltaTime; frames++;
-                if (acc >= 0.5f) { fps = frames / acc; acc = 0f; frames = 0; }
+                // Alt+Invio (o il sistema) cambia modalita' schermo fuori dal menu: la preferenza resta allineata (controllo di un solo booleano)
+                if (!Application.isEditor && !Web)
+                {
+                    bool fs = Screen.fullScreen;
+                    if (fs != _fsNoto)
+                    {
+                        _fsNoto = fs;
+                        if (fs) { PlayerPrefs.SetInt(VoceKey + "finestra_w", _ultimaFinestra.x); PlayerPrefs.SetInt(VoceKey + "finestra_h", _ultimaFinestra.y); }
+                        PlayerPrefs.SetInt(VoceKey + "schermo", fs ? 1 : 0);
+                        PlayerPrefs.Save();
+                    }
+                    else if (!fs && (Screen.width != _ultimaFinestra.x || Screen.height != _ultimaFinestra.y)) _ultimaFinestra = new Vector2Int(Screen.width, Screen.height);
+                }
 
                 if (!Application.isEditor && !Debug.isDebugBuild) return; // F9 solo editor / development build
                 var kb = Keyboard.current;
@@ -716,19 +692,59 @@ namespace TrenoBambini.Core
                 Debug.Log("[GraphicsPresets] " + msg);
                 if (UIRoot.I != null) UIRoot.I.Toast(msg, 1.5f);
             }
+        }
+
+        /// <summary>Contatore FPS (IMGUI): il componente e' spento finche' la voce e' "No", quindi nessun costo di OnGUI. Testo e stile in cache.</summary>
+        sealed class FpsCounter : MonoBehaviour
+        {
+            float acc; int frames;
+            string testo = "FPS";
+            GUIStyle stile, ombra;
+            Rect r = new Rect(10f, 6f, 200f, 26f), ro = new Rect(11f, 7f, 200f, 26f);
+
+            void OnEnable() { acc = 0f; frames = 0; }
+
+            void Update()
+            {
+                acc += Time.unscaledDeltaTime; frames++;
+                if (acc >= 0.5f) { testo = "FPS " + Mathf.RoundToInt(frames / acc); acc = 0f; frames = 0; }
+            }
 
             void OnGUI()
             {
-                if (_v[(int)Voce.ContatoreFps] == 0) return;
                 if (stile == null)
                 {
                     stile = new GUIStyle(GUI.skin.label) { fontSize = 16, fontStyle = FontStyle.Bold };
                     stile.normal.textColor = new Color(0.95f, 0.9f, 0.7f, 0.95f);
+                    ombra = new GUIStyle(stile);
+                    ombra.normal.textColor = new Color(0f, 0f, 0f, 0.7f);
                 }
-                var r = new Rect(10f, 6f, 200f, 26f);
-                GUI.Label(new Rect(r.x + 1f, r.y + 1f, r.width, r.height), "FPS " + fps.ToString("0"), new GUIStyle(stile) { normal = { textColor = new Color(0f, 0f, 0f, 0.7f) } });
-                GUI.Label(r, "FPS " + fps.ToString("0"), stile);
+                GUI.Label(ro, testo, ombra);
+                GUI.Label(r, testo, stile);
             }
+        }
+
+        static FpsCounter _fps;
+
+        // ------------------------------------------------------------------ stato (prove e ripristino)
+
+        /// <summary>Copia dello stato corrente (preset di base, personalizzata, valori delle voci), per ripristinarlo dopo una prova.</summary>
+        public static int[] EsportaStato()
+        {
+            EnsureLoaded();
+            var a = new int[N + 2];
+            a[0] = Current; a[1] = Custom ? 1 : 0;
+            System.Array.Copy(_v, 0, a, 2, N);
+            return a;
+        }
+
+        public static void ImportaStato(int[] a, bool save)
+        {
+            if (a == null || a.Length != N + 2) return;
+            Current = a[0]; Custom = a[1] != 0;
+            System.Array.Copy(a, 2, _v, 0, N);
+            if (save) Save();
+            ApplyAll();
         }
     }
 }

@@ -472,8 +472,14 @@ namespace TrenoBambini.UI
             if (save && GameManager.I != null)
             {
                 GameManager.I.Save.effettiRidotti = value;
-                GameManager.I.SaveGame();
+                SalvaSeInCorso();
             }
+        }
+
+        /// <summary>Salva la partita solo se ce n'e' una (salvataggio esistente o scena di gioco): dal Titolo senza partita non crea un salvataggio vuoto (comparirebbe "Continua").</summary>
+        public void SalvaSeInCorso()
+        {
+            if (GameManager.I != null && (GameManager.I.HasSave || !menuScene)) GameManager.I.SaveGame();
         }
 
         void SyncReduceEffects()

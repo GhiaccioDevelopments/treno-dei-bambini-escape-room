@@ -97,13 +97,13 @@ namespace TrenoBambini.Core
               NoSi, new[] { 0, 1, 1, 1 }),
             D(Voce.SfocaturaMovimento, "motionblur", "Effetti", "Sfocatura di movimento", "Striscia l'immagine quando la camera si muove veloce. Spenta di base.",
               NoSi, new[] { 0, 0, 0, 0 }, true, true),
-            D(Voce.Decal, "decal", "Effetti", "Segni sui muri (decal)", "Umidità e salnitro sulle pareti. «Vicini»: solo quelli entro 15 metri.",
-              new[] { "Spenti", "Vicini", "Tutti" }, new[] { 0, 1, 2, 2 }, true, true),
+            D(Voce.Decal, "decal", "Effetti", "Segni sui muri (decal)", "Umidità e salnitro sulle pareti.",
+              new[] { "Spenti", "Accesi" }, new[] { 0, 1, 1, 1 }, true, true),
             D(Voce.Nebbia, "nebbia", "Effetti", "Nebbia", "Foschia leggera in lontananza. Spenta, la vista è più nitida.",
               NoSi, new[] { 1, 1, 1, 1 }),
 
             D(Voce.Pioggia, "pioggia", "Meteo", "Pioggia", "Quanta pioggia cade nel vicolo e nel cortile (quando in scena piove).",
-              new[] { "Spenta", "Leggera", "Normale", "Intensa" }, new[] { 1, 2, 2, 3 }),
+              new[] { "Spenta", "Leggera", "Normale", "Forte", "Intensa" }, new[] { 1, 2, 3, 4 }),
             D(Voce.Spruzzi, "spruzzi", "Meteo", "Schizzi e gocce", "Spruzzi a terra e gocce dai fili del bucato.",
               NoSi, new[] { 0, 1, 1, 1 }),
             D(Voce.Bagnato, "bagnato", "Meteo", "Selciato bagnato e pozzanghere", "Basoli scuri e pozzanghere che riflettono il cielo.",
@@ -115,8 +115,8 @@ namespace TrenoBambini.Core
               new[] { "Spento", "Normale", "Massimo" }, new[] { 1, 1, 2, 2 }),
             D(Voce.Lod, "lod", "Dettaglio", "Distanza di dettaglio (LOD)", "Fino a dove gli oggetti restano dettagliati prima di semplificarsi.",
               new[] { "Corta", "Normale", "Lunga", "Massima" }, new[] { 0, 1, 2, 3 }),
-            D(Voce.Dettagli, "dettagli", "Dettaglio", "Oggetti sparsi", "Quanti panni, macerie, secchi e ceste compaiono. Meno oggetti = meno lavoro.",
-              new[] { "Pochi", "Medi", "Tutti" }, new[] { 1, 2, 2, 2 }),
+            D(Voce.Dettagli, "dettagli", "Dettaglio", "Oggetti sparsi", "Quanti panni stesi (e altri oggetti sparsi senza ostacolo) compaiono. Meno oggetti = meno lavoro.",
+              new[] { "Pochi", "Medi", "Tutti" }, new[] { 2, 2, 2, 2 }),
 
             D(Voce.RiduciMovimento, "ridmov", "Accessibilità", "Riduci effetti di movimento", "Spegne la sfocatura di movimento e il tremolio e lo sfarfallio della pellicola dei ricordi.",
               NoSi, new[] { 0, 0, 0, 0 }, false),
@@ -129,7 +129,7 @@ namespace TrenoBambini.Core
         public static readonly int[] MaxLuci = { 1, 2, 4, 8 };
         public static readonly float[] LodBias = { 0.8f, 1f, 1.5f, 2f };
         public static readonly int[] Limiti = { 30, 60, 120, -1 };
-        /// <summary>Moltiplicatore della pioggia: Spenta, Leggera, Normale, Intensa.</summary>
-        public static readonly float[] Pioggia = { 0f, 0.2f, 0.6f, 1f };
+        /// <summary>Moltiplicatore della pioggia: Spenta, Leggera (0,12 come Bassa), Normale (0,45 come Media), Forte (0,8 come Alta), Intensa (1 come Ultra).</summary>
+        public static readonly float[] Pioggia = { 0f, 0.12f, 0.45f, 0.8f, 1f };
     }
 }

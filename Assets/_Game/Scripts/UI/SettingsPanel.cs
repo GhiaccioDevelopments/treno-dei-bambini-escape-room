@@ -265,7 +265,7 @@ namespace TrenoBambini.UI
             if (!IsOpen) return;
             IsOpen = false;
             fx.Hide();
-            if (GameManager.I != null) GameManager.I.SaveGame();
+            if (UIRoot.I != null) UIRoot.I.SalvaSeInCorso();
         }
 
         /// <summary>Per le prove: apre la scheda indicata.</summary>

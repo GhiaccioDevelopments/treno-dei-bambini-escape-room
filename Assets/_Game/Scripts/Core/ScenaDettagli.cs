@@ -5,9 +5,9 @@ using UnityEngine;
 namespace TrenoBambini.Core
 {
     /// <summary>
-    /// R008: densita' degli oggetti sparsi (panni, macerie, secchi, ceste, casse, botti, vasi). A "Medi" e "Pochi" nasconde in modo
-    /// deterministico un terzo / due terzi degli oggetti che si trovano per nome: si spengono solo i Renderer (collisioni e giocabilita'
-    /// restano identiche) e gli oggetti con cui si puo' interagire non vengono mai toccati. Si applica a ogni cambio di scena e subito dal menu.
+    /// R008: densita' degli oggetti sparsi (oggi nell'hub risultano idonei solo i panni stesi: gli altri hanno collider o luce cotta). A "Medi" e "Pochi" nasconde in modo
+    /// deterministico un terzo / due terzi degli oggetti che si trovano per nome. Vengono toccati solo gli oggetti senza collider (non trigger),
+    /// senza luce cotta (lightmap) e non interagibili: cosi' non restano ostacoli invisibili ne' ombre cotte. Si applica a ogni cambio di scena e subito dal menu.
     /// </summary>
     public static class ScenaDettagli
     {
@@ -53,6 +53,13 @@ namespace TrenoBambini.Core
                 if (t.GetComponentInChildren<Interactable>(true) != null || t.GetComponentInParent<Interactable>() != null) continue;
                 var rend = t.GetComponentsInChildren<Renderer>(true);
                 if (rend.Length == 0) continue;
+                // solo oggetti sparsi "leggeri": con un collider (non trigger) sparirebbe l'oggetto ma non l'ostacolo; con la luce cotta (lightmap)
+                // resterebbe la sua ombra. Questi si lasciano sempre visibili.
+                bool escluso = false;
+                foreach (var c in t.GetComponentsInChildren<Collider>(true)) if (!c.isTrigger) { escluso = true; break; }
+                if (escluso) continue;
+                foreach (var r in rend) if (r.lightmapIndex >= 0 && r.lightmapIndex < 65534) { escluso = true; break; }
+                if (escluso) continue;
                 int h = Mathf.Abs(Mathf.RoundToInt(t.position.x * 37f) * 31 + Mathf.RoundToInt(t.position.z * 53f) * 17 + t.name.GetHashCode() % 997);
                 var orig = new bool[rend.Length];
                 for (int i = 0; i < rend.Length; i++) orig[i] = rend[i].enabled;
