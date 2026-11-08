@@ -59,7 +59,7 @@ namespace TrenoBambini.UI
             var title = UIFactory.MakeText(content, "Pausa", 42, UITheme.InchiostroBlu, TextAlignmentOptions.Center, FontStyles.Bold | FontStyles.Italic);
             Add(title, 440f, 50f);
             Add(Item(content, "Riprendi", Hide), 440f, ItemH);
-            Add(Item(content, "Valigia", () => { if (UIRoot.I != null) UIRoot.I.Inventory.Show(); }), 440f, ItemH);
+            Add(Item(content, GameData.UiMenu.hud.latta, () => { if (UIRoot.I != null) UIRoot.I.Inventory.Show(); }), 440f, ItemH);
 
             // R002: volume generale + quattro canali, una riga per slider (etichetta a sinistra)
             volume = SliderRow(content, "Generale", OnVolume);

@@ -68,7 +68,7 @@ namespace TrenoBambini.UI
         int modalCount;
         int lastModalPopFrame = -1;
 
-        // nuovo oggetto ottenuto (animazione della valigia)
+        // nuovo oggetto ottenuto (animazione della latta)
         string pendingNewItem;
 
         // effetti ridotti automatici se gli fps restano bassi
@@ -99,7 +99,7 @@ namespace TrenoBambini.UI
             return (tastoDestro ? "Mouse con tasto destro premuto: guardarsi intorno\n" : "Muovi il mouse: guardarsi intorno\n")
                 + "W A S D o frecce: camminare (Maiusc: correre)\n"
                 + "E: interagire con l'oggetto evidenziato\n"
-                + "I o Tab: valigia (inventario)\n"
+                + "I o Tab: latta (inventario)\n"
                 + "Esc o P: pausa\n"
                 + "F3: finestra di diagnosi";
         }
@@ -217,10 +217,10 @@ namespace TrenoBambini.UI
             // contatore enigmi a biglietto (in alto a sinistra)
             ticket = TicketHud.Create(HudLayer);
 
-            // pulsanti Inventario (valigia) / Pausa (orologio) in alto a destra, sempre cliccabili (utili su LIM)
+            // pulsanti Inventario (latta) / Pausa (orologio) in alto a destra, sempre cliccabili (utili su LIM)
             var pausa = MakeIconButton(HudLayer, "Pausa", UIArt.IconWatch(), TogglePause, new Vector2(170f, 60f));
             UIFactory.Place((RectTransform)pausa.transform, new Vector2(1f, 1f), new Vector2(1f, 1f), new Vector2(-16f, -16f), new Vector2(170f, 60f));
-            var inv = MakeIconButton(HudLayer, "Valigia", UIArt.IconSuitcase(), ToggleInventory, new Vector2(190f, 60f));
+            var inv = MakeIconButton(HudLayer, GameData.UiMenu.hud.latta, UIArt.IconLatta(), ToggleInventory, new Vector2(190f, 60f));
             UIFactory.Place((RectTransform)inv.transform, new Vector2(1f, 1f), new Vector2(1f, 1f), new Vector2(-196f, -16f), new Vector2(190f, 60f));
             inventoryButton = (RectTransform)inv.transform;
 
@@ -459,7 +459,7 @@ namespace TrenoBambini.UI
             lastModalPopFrame = Time.frameCount;
         }
 
-        /// <summary>Segnala un oggetto appena ottenuto: l'animazione della valigia parte quando il gioco è di nuovo libero.</summary>
+        /// <summary>Segnala un oggetto appena ottenuto: l'animazione della latta parte quando il gioco è di nuovo libero.</summary>
         public void QueueNewItem(string oggettoId)
         {
             pendingNewItem = oggettoId;
@@ -642,12 +642,12 @@ namespace TrenoBambini.UI
             }
         }
 
-        // ---------------------------------------------------------------- nuovo oggetto: vola nella valigia
+        // ---------------------------------------------------------------- nuovo oggetto: vola nella latta
         void PlayNewItem(string id)
         {
             var o = GameData.Oggetto(id);
             Sprite spr = o != null ? UIFactory.LoadSprite("oggetti", o.icona) : null;
-            if (spr == null) spr = UIArt.IconSuitcase();
+            if (spr == null) spr = UIArt.IconLatta();
 
             var card = UIFactory.MakePanel(FlightLayer, "NuovoOggetto", Color.white, false);
             card.sprite = UIArt.Postcard();
@@ -672,7 +672,7 @@ namespace TrenoBambini.UI
             UITween.Alpha(lg, 1f, 0.3f);
             UIParticles.BurstAtScreen(ParticleKind.Spark, new Vector2(Screen.width * 0.5f, Screen.height * 0.5f), 14);
 
-            // dopo una pausa vola verso la valigia dell'HUD lasciando una scia di scintille
+            // dopo una pausa vola verso la latta dell'HUD lasciando una scia di scintille
             UITween.After(cr, 1.3f, () =>
             {
                 if (cr == null) return;

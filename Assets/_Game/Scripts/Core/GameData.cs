@@ -25,7 +25,7 @@ namespace TrenoBambini.Core
         }
 
         /// <summary>R023: testi di menu iniziale e inventario (ui_menu.json).</summary>
-        public static UiMenuFile UiMenu { get { if (uiMenu == null) uiMenu = LoadJson<UiMenuFile>("ui_menu") ?? new UiMenuFile(); return uiMenu; } }
+        public static UiMenuFile UiMenu { get { if (uiMenu == null) uiMenu = (LoadJson<UiMenuFile>("ui_menu") ?? new UiMenuFile()).Normalizza(); return uiMenu; } }
 
         /// <summary>R023: asset esterni e licenze, generati da CREDITS.md (Treno > Crediti > Genera crediti.json).</summary>
         public static CreditiFile Crediti { get { if (crediti == null) crediti = LoadJson<CreditiFile>("crediti") ?? new CreditiFile(); return crediti; } }

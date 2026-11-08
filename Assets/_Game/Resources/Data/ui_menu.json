@@ -47,6 +47,9 @@
     "assetTitolo": "Asset esterni e licenze",
     "indietro": "Indietro"
   },
+  "hud": {
+    "latta": "Latta"
+  },
   "inventario": {
     "titoloLatta": "La latta",
     "sezioni": [
@@ -64,6 +67,11 @@
     "ricordoStato": "Rivissuto",
     "ricordoDaFare": "Da rivivere",
     "ricordiVuoto": "Nessun ricordo ancora: ritrova un oggetto per aprirne uno.",
+    "etichettaRicordo": "Ricordo",
+    "cercaVicino": "Un ricordo ancora da trovare: cerca vicino a {0}.",
+    "cercaGenerico": "Un ricordo ancora da trovare.",
+    "latteVuota": "La latta è vuota. Esplora il vicolo e cerca gli oggetti che custodiscono i ricordi.",
+    "ricordoNonDisponibile": "Ricordo non ancora disponibile.",
     "quaderno": {
       "appunti": "Appunti",
       "appuntiVuoto": "Risolvi gli enigmi dei ricordi: le note si scrivono qui.",

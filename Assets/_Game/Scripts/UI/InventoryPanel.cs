@@ -41,6 +41,7 @@ namespace TrenoBambini.UI
         CanvasGroup veil;
         Image veilImg;
         UiInventario T;
+        UiRicordi R;
         bool busy;
         Pagina pagina = Pagina.Oggetti;
         int oggettoIdx;
@@ -53,7 +54,7 @@ namespace TrenoBambini.UI
         readonly List<CanvasGroup> pagine = new List<CanvasGroup>();
         RectTransform chooser;
         readonly List<RectTransform> chooserBtns = new List<RectTransform>();
-        TextMeshProUGUI oggHeading, oggBody, oggTema, helpText;
+        TextMeshProUGUI oggHeading, oggBody, oggTema, oggRicordo, helpText;
         RectTransform oggStamp;
         RectTransform ricordiContent, quadernoContent;
         TextMeshProUGUI mappaTitolo, mappaTesto;
@@ -72,6 +73,7 @@ namespace TrenoBambini.UI
         {
             UIFactory.Stretch((RectTransform)transform);
             T = GameData.UiMenu.inventario;
+            R = GameData.UiMenu.ricordi;
             BuildUi();
             view.SetActive(false);
         }
@@ -174,13 +176,18 @@ namespace TrenoBambini.UI
             var p = NewPagina(page, "PaginaOggetti");
             oggHeading = UIFactory.MakeText(p, "", 40, UITheme.Ceralacca, TextAlignmentOptions.Left, FontStyles.Bold | FontStyles.Italic);
             UIFactory.Place(oggHeading.rectTransform, new Vector2(0f, 1f), new Vector2(0f, 1f), new Vector2(40f, -22f), new Vector2(420f, 54f));
-            oggBody = UIFactory.MakeText(p, "", 22, UITheme.InchiostroBlu, TextAlignmentOptions.TopLeft, FontStyles.Italic);
-            UIFactory.Stretch(oggBody.rectTransform, 40f, 190f, 30f, 92f);
-            oggBody.enableAutoSizing = true; oggBody.fontSizeMin = 13; oggBody.fontSizeMax = 22;
+            // descrizione (testo dritto) e significato (corsivo, come una nota a margine) nello stesso riquadro
+            oggBody = UIFactory.MakeText(p, "", 20, UITheme.InchiostroBlu, TextAlignmentOptions.TopLeft, FontStyles.Normal);
+            UIFactory.Stretch(oggBody.rectTransform, 40f, 200f, 30f, 78f);
+            oggBody.enableAutoSizing = true; oggBody.fontSizeMin = 10; oggBody.fontSizeMax = 20;
+            // ricordo collegato e suo stato
+            oggRicordo = UIFactory.MakeText(p, "", 18, UITheme.Ceralacca, TextAlignmentOptions.TopLeft, FontStyles.Normal);
+            UIFactory.Place(oggRicordo.rectTransform, new Vector2(0.5f, 0f), new Vector2(0.5f, 0f), new Vector2(0f, 144f), new Vector2(420f, 52f));
+            oggRicordo.enableAutoSizing = true; oggRicordo.fontSizeMin = 11; oggRicordo.fontSizeMax = 18;
             var st = UIFactory.MakePanel(p, "TimbroTema", new Color(UITheme.InchiostroBlu.r, UITheme.InchiostroBlu.g, UITheme.InchiostroBlu.b, 0.85f), false);
             st.sprite = UIArt.StampFrame(); st.type = Image.Type.Sliced;
             oggStamp = st.rectTransform;
-            UIFactory.Place(oggStamp, new Vector2(0.5f, 0f), new Vector2(0.5f, 0f), new Vector2(0f, 24f), new Vector2(410f, 158f));
+            UIFactory.Place(oggStamp, new Vector2(0.5f, 0f), new Vector2(0.5f, 0f), new Vector2(0f, 24f), new Vector2(410f, 112f));
             oggStamp.localRotation = Quaternion.Euler(0f, 0f, -2f);
             var h = UIFactory.MakeText(oggStamp, T.etichettaTema.ToUpperInvariant(), 16, UITheme.InchiostroBlu, TextAlignmentOptions.Center, FontStyles.Bold);
             UIFactory.Place(h.rectTransform, new Vector2(0.5f, 1f), new Vector2(0.5f, 1f), new Vector2(0f, -8f), new Vector2(390f, 24f));
@@ -247,9 +254,9 @@ namespace TrenoBambini.UI
                 int idx = i;
                 var o = oggetti[i];
                 bool trovato = save != null && save.inventario.Contains(o.id);
+                // gli oggetti da trovare si possono scegliere: la scheda dice dove cercarli (senza svelare il nome)
                 var b = UIFactory.MakeButton(chooser, trovato ? o.nome : T.daTrovare, () => SelezionaOggetto(idx), new Vector2(trovato ? 200f : 150f, 56f),
                     trovato ? ButtonStyle.Tag : ButtonStyle.Card, 22f);
-                b.interactable = trovato;
                 ((RectTransform)b.transform).sizeDelta = new Vector2(trovato ? 200f : 150f, 56f);
                 AddRing(b.gameObject);
                 chooserBtns.Add((RectTransform)b.transform);
@@ -267,14 +274,53 @@ namespace TrenoBambini.UI
         {
             oggettoIdx = idx;
             OggettoDef o = idx >= 0 && idx < oggetti.Count ? oggetti[idx] : null;
-            oggHeading.text = o != null ? o.nome : "";
-            oggBody.text = o != null ? (o.significato ?? "") : "";
-            oggTema.text = o != null ? (o.temaCivico ?? "") : "";
-            oggStamp.gameObject.SetActive(o != null && !string.IsNullOrEmpty(o.temaCivico));
+            var save = GameManager.I != null ? GameManager.I.Save : null;
+            bool trovato = o != null && save != null && save.inventario.Contains(o.id);
+            if (o == null)
+            {
+                // la latta e' vuota
+                oggHeading.text = "";
+                oggBody.text = T.latteVuota ?? "";
+                oggRicordo.text = "";
+                oggTema.text = "";
+                oggStamp.gameObject.SetActive(false);
+            }
+            else if (!trovato)
+            {
+                // da trovare: solo l'indizio sul luogo, nessun nome e nessun ricordo
+                var luogo = GameData.Luogo(o.luogo);
+                oggHeading.text = T.daTrovare;
+                oggBody.text = luogo != null && !string.IsNullOrEmpty(luogo.nome) ? string.Format(T.cercaVicino, luogo.nome) : T.cercaGenerico;
+                oggRicordo.text = "";
+                oggTema.text = "";
+                oggStamp.gameObject.SetActive(false);
+            }
+            else
+            {
+                oggHeading.text = o.nome;
+                var sb = new StringBuilder();
+                if (!string.IsNullOrEmpty(o.descrizione)) sb.Append(o.descrizione);
+                if (!string.IsNullOrEmpty(o.significato)) { if (sb.Length > 0) sb.Append("\n\n"); sb.Append("<i>").Append(o.significato).Append("</i>"); }
+                oggBody.text = sb.ToString();
+                oggRicordo.text = TestoRicordo(o, save);
+                oggTema.text = o.temaCivico ?? "";
+                oggStamp.gameObject.SetActive(!string.IsNullOrEmpty(o.temaCivico));
+            }
             if (suono) UISfx.Play(Sfx.ClickPaper, 0.5f);
             // evidenzia l'oggetto scelto nella fila (sollevato)
             for (int i = 0; i < chooserBtns.Count; i++) chooserBtns[i].localScale = Vector3.one * (i == idx ? 1.08f : 1f);
-            MostraOggetto3d(o);
+            MostraOggetto3d(trovato ? o : null);
+        }
+
+        /// <summary>Riga "Ricordo: titolo - Rivissuto / Da rivivere" della scheda; vuota se l'oggetto non ha un ricordo.</summary>
+        string TestoRicordo(OggettoDef o, SaveData save)
+        {
+            if (o == null || string.IsNullOrEmpty(o.flashback)) return "";
+            var f = GameData.Flashback(o.flashback);
+            if (f == null) return "<b>" + T.etichettaRicordo + ":</b> " + T.ricordoNonDisponibile;
+            bool fatto = save != null && save.flashbackCompletati.Contains(o.flashback);
+            string titolo = !string.IsNullOrEmpty(f.titolo) ? f.titolo : o.nome;
+            return "<b>" + T.etichettaRicordo + ":</b> " + titolo + " - <i>" + (fatto ? T.ricordoStato : T.ricordoDaFare) + "</i>";
         }
 
         void MostraOggetto3d(OggettoDef o)
@@ -327,22 +373,31 @@ namespace TrenoBambini.UI
                 if (string.IsNullOrEmpty(o.flashback)) continue;
                 n++;
                 bool aperto = save != null && save.flashbackCompletati.Contains(o.flashback);
-                var f = GameData.Flashback(o.flashback);
+                // M5: un ricordo non ancora rivissuto non svela titolo ne' descrizione (come il sottomenu Ricordi del titolo)
+                var f = aperto ? GameData.Flashback(o.flashback) : null;
+                var luogoDef = GameData.Luogo(o.luogo);
                 var card = UIFactory.MakePanel(ricordiContent, "Ricordo_" + o.id, Color.white, false);
                 card.sprite = UIArt.Tag(); card.type = Image.Type.Sliced;
                 card.gameObject.AddComponent<LayoutElement>().minHeight = 210f;
-                var title = UIFactory.MakeText(card.rectTransform, f != null && !string.IsNullOrEmpty(f.titolo) ? f.titolo : o.nome, 26, UITheme.Ceralacca, TextAlignmentOptions.TopLeft, FontStyles.Bold);
+                var title = UIFactory.MakeText(card.rectTransform, !aperto ? R.bloccato : f != null && !string.IsNullOrEmpty(f.titolo) ? f.titolo : o.nome, 26, UITheme.Ceralacca, TextAlignmentOptions.TopLeft, FontStyles.Bold);
                 title.rectTransform.anchorMin = new Vector2(0f, 1f); title.rectTransform.anchorMax = new Vector2(1f, 1f); title.rectTransform.pivot = new Vector2(0f, 1f);
                 title.rectTransform.offsetMin = new Vector2(24f, -50f); title.rectTransform.offsetMax = new Vector2(-24f, -10f);
                 var stato = UIFactory.MakeText(card.rectTransform, aperto ? T.ricordoStato : T.ricordoDaFare, 17, aperto ? UITheme.Esatto : UITheme.InchiostroBlu, TextAlignmentOptions.TopRight, FontStyles.Italic);
                 stato.rectTransform.anchorMin = new Vector2(1f, 1f); stato.rectTransform.anchorMax = new Vector2(1f, 1f); stato.rectTransform.pivot = new Vector2(1f, 1f);
                 stato.rectTransform.anchoredPosition = new Vector2(-18f, -50f); stato.rectTransform.sizeDelta = new Vector2(240f, 24f);
-                var body = UIFactory.MakeText(card.rectTransform, aperto && f != null ? f.introduzione : o.descrizione, 18, UITheme.Inchiostro, TextAlignmentOptions.TopLeft);
+                var body = UIFactory.MakeText(card.rectTransform, !aperto ? ProssimoRicordo(luogoDef) : f != null ? f.introduzione : o.descrizione, 18, UITheme.Inchiostro, TextAlignmentOptions.TopLeft);
                 body.rectTransform.anchorMin = Vector2.zero; body.rectTransform.anchorMax = Vector2.one;
                 body.rectTransform.offsetMin = new Vector2(24f, 10f); body.rectTransform.offsetMax = new Vector2(-24f, -76f);
                 body.enableAutoSizing = true; body.fontSizeMin = 11; body.fontSizeMax = 20;
             }
             if (n == 0) NotaVuota(ricordiContent, T.ricordiVuoto);
+        }
+
+        string ProssimoRicordo(LuogoDef luogo)
+        {
+            string s = R.bloccatoNota ?? "";
+            if (luogo != null && !string.IsNullOrEmpty(luogo.nome)) s += "\n" + R.luogo + ": " + luogo.nome;
+            return s;
         }
 
         void RefreshQuaderno()
@@ -378,7 +433,7 @@ namespace TrenoBambini.UI
             if (indizi.Length > 0) Riga(quadernoContent, indizi.ToString().TrimEnd());
             else NotaVuota(quadernoContent, T.quaderno.indiziVuoto);
 
-            // segreti: li aggiunge R011 con QuadernoSegreti.Aggiungi(...)
+            // segreti: R011 imposta una volta QuadernoSegreti.Provider (funzione che legge dal salvataggio i segreti trovati)
             Intestazione(quadernoContent, T.quaderno.segreti);
             var segreti = QuadernoSegreti.Trovati();
             if (segreti.Count == 0) NotaVuota(quadernoContent, T.quaderno.segretiVuoto);
@@ -581,11 +636,9 @@ namespace TrenoBambini.UI
             if (oggetti.Count == 0) return;
             var save = GameManager.I != null ? GameManager.I.Save : null;
             int n = oggetti.Count, i = oggettoIdx;
-            for (int k = 0; k < n; k++)
-            {
-                i = (i + dir + n) % n;
-                if (save != null && save.inventario.Contains(oggetti[i].id)) { SelezionaOggetto(i); return; }
-            }
+            // si passa anche sugli oggetti da trovare: la loro scheda dice dove cercarli
+            i = (i + dir + n) % n;
+            SelezionaOggetto(i);
         }
     }
 }
