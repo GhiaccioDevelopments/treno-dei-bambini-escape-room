@@ -1,0 +1,34 @@
+{
+ "nome": "SediaPaglia",
+ "cartella": "SediaPaglia",
+ "sorgente": "",
+ "materiali": [
+  "LegnoSedia",
+  "Paglia"
+ ],
+ "tri": [
+  956,
+  478,
+  238
+ ],
+ "tri_originali": 956,
+ "dim": [
+  0.42,
+  0.4,
+  0.95
+ ],
+ "texture": {
+  "LegnoSedia": {
+   "albedo": "LegnoSedia_albedo.jpg",
+   "normal": "LegnoSedia_normal.jpg",
+   "mask": "LegnoSedia_mask.png",
+   "levigatezza": 0.3
+  },
+  "Paglia": {
+   "albedo": "Paglia_albedo.jpg",
+   "normal": "Paglia_normal.jpg",
+   "mask": "Paglia_mask.png",
+   "levigatezza": 0.3
+  }
+ }
+}

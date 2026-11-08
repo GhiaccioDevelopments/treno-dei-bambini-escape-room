@@ -142,6 +142,7 @@ Temi trasversali: voto alle donne (amministrative di marzo 1946, poi 2 giugno 19
 ## 7. Proposta per il gioco [GIOCO: proposta]
 
 ### 7.1 Struttura
+- **Decisione dell'utente 2026-11-07: Napoli della memoria.** Hub e basso hanno l'aspetto del 1946 e si giocano con Amerigo adulto, che li attraversa nel presente. Il 1994 vero c'è solo nel finale (R016).
 - **Cornice (1994):** Amerigo adulto (≈55 anni) torna a Napoli per la morte di Antonietta ed entra nel basso svuotato. Ogni oggetto trovato apre un **ricordo**, cioè l'oggetto/flashback dell'escape room. Hub vicolo e basso restano nel **1946**, come già costruiti.
 - **Opzione A (consigliata):** presente 1994 solo in **brevi cutscene** (Timeline) e in una **stanza-cornice** (il basso nel 1994: spoglio, lampadina, calendario 1994, telefono). Serve un secondo set leggero e un look distinto per il presente (più freddo e neutro, meno grana), così il 1946 resta caldo e i flashback più seppia, come vuole CLAUDE.md.
 - **Opzione B:** vicolo 1994 giocabile. Costosa (insegne, auto, cavi), sconsigliata per la Fase 2.
@@ -238,3 +239,5 @@ Storia:
 - Referendum e via Medina (da risultati di ricerca): https://www.avvenire.it/agora/cultura/e-litalia-grido-repubblica_24232 , https://www.panorama.it/news/70-anni-della-repubblica-e-litalia-del-1946 , https://www.agi.it/cultura/news/2026-06-10/addio-italia-umberto-ii-37466039/ , https://www.startmag.it/?p=109908
 - G7 Napoli 1994: https://g7.utoronto.ca/summit/1994naples/index.html ; https://www.iai.it/it/node/5116
 - Legge 184/1983: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:1983-05-04;184 (riferimento noto, pagina non aperta)
+
+- Verifiche storiche per i testi dei capitoli: Docs/VERIFICHE_STORICHE.md (2026-11-07)

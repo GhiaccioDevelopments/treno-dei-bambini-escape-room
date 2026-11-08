@@ -157,6 +157,7 @@ namespace TrenoBambini.EditorTools
             RisolviSpazio("30_FB_Scarpe");
             AssestaMacerie();
             SetStatic(env.gameObject);
+            PredisponiSicurezza(true); // R017
 
             // uscita: bagliore nel muro nord della piazzetta
             var exitRoot = new GameObject("Uscita").transform;
@@ -165,6 +166,13 @@ namespace TrenoBambini.EditorTools
             var exit = Box("EscapeExit", exitRoot, fu.wp + fu.n * 0.12f + Vector3.up * 1.2f, new Vector3(1.4f, 2.4f, 0.12f), "M_LuceUscita");
             exit.AddComponent<Glow>();
             exit.AddComponent<EscapeExit>();
+            {   // R007 t3B: l'uscita e' un portone di tavole con stipiti e architrave, non una lastra luminosa piatta
+                Vector3 c0 = fu.wp + fu.n * 0.12f; Vector3 lat = Vector3.Cross(Vector3.up, fu.n).normalized; var qf = Quaternion.LookRotation(fu.n, Vector3.up).eulerAngles;
+                Box("UscitaStipite", exitRoot, c0 + lat * 0.8f + Vector3.up * 1.25f, new Vector3(0.18f, 2.5f, 0.2f), "M_AssiConsunte", qf, false);
+                Box("UscitaStipite", exitRoot, c0 - lat * 0.8f + Vector3.up * 1.25f, new Vector3(0.18f, 2.5f, 0.2f), "M_AssiConsunte", qf, false);
+                Box("UscitaArchitrave", exitRoot, c0 + Vector3.up * 2.55f, new Vector3(1.9f, 0.2f, 0.22f), "M_AssiConsunte", qf, false);
+                Box("UscitaSoglia", exitRoot, c0 + Vector3.up * 0.04f, new Vector3(1.7f, 0.08f, 0.35f), "M_ArenariaBlocchi", qf, false);
+            }
 
             var ctrl = new GameObject("EscapeRoom");
             ctrl.AddComponent<EscapeRoomController>().flashbackId = "flashback_scarpe";
@@ -362,7 +370,7 @@ namespace TrenoBambini.EditorTools
                     }
                 case "Salumeria":
                     {
-                        Pezzo(env, "Bancarella", "Bancarella1", new[] { "M_LegnoVernicePelata", "Tessuto1", "M_CassaLegno", "PannoOcra" }, Bancarella, Fronte(f, 1.2f, 0f), YawMuro(f) + 90f, 0.03f);
+                        Pezzo(env, "Bancarella", "Bancarella1", new[] { "M_LegnoVernicePelata", "Tessuto1", "M_CassaLegno", "PannoOcra" }, Bancarella, Fronte(f, 1.2f, 0f), YawStrada(f), 0.03f); // R007 t2: banco parallelo alla facciata, fronte verso la strada (2,3 m non sta di punta)
                         Pz(env, "Appeso_Salumi", "R_Salumi", new[] { "M_FerroRuggine02", "Tessuto1", "PannoOcra" }, kb =>
                         {
                             kb.Box(new Vector3(-1.1f, 2.1f, -0.03f), new Vector3(1.1f, 2.14f, 0.03f), 0, 0.3f);
@@ -401,7 +409,7 @@ namespace TrenoBambini.EditorTools
                     }
                 case "Fruttivendolo":
                     {
-                        Pezzo(env, "Bancarella", "Bancarella2", new[] { "M_LegnoVernicePelata", "Tessuto2", "M_CassaLegno", "PannoBeige" }, Bancarella, Fronte(f, 1.2f, 0f), YawMuro(f) + 90f, 0.03f);
+                        Pezzo(env, "Bancarella", "Bancarella2", new[] { "M_LegnoVernicePelata", "Tessuto2", "M_CassaLegno", "PannoBeige" }, Bancarella, Fronte(f, 1.2f, 0f), YawStrada(f), 0.03f); // R007 t2: banco parallelo alla facciata, fronte verso la strada (2,3 m non sta di punta)
                         for (int i = 0; i < 4; i++)
                         {
                             int tipo = i % 3;

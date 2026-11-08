@@ -55,6 +55,9 @@ namespace TrenoBambini.Core
 
         void OnDestroy() { if (I == this) I = null; }
 
+        /// <summary>R023: vero mentre il menu iniziale mostra il vicolo dell'hub come sfondo (la scena hub e' caricata in additivo, ma e' ancora il menu).</summary>
+        public static bool MenuBackdrop;
+
         public static bool IsMenuScene(string sceneName)
         {
             return sceneName == SceneBoot || sceneName == SceneTitolo;
@@ -97,6 +100,7 @@ namespace TrenoBambini.Core
         /// </summary>
         void Update()
         {
+            ContaTempo();
             if (blockers <= 0) { orphanSince = -1f; return; }
             var ui = UIRoot.I;
             bool owner = (SceneLoader.I != null && SceneLoader.I.IsLoading)
@@ -113,6 +117,33 @@ namespace TrenoBambini.Core
                 ResetBlocks();
             }
         }
+
+        // ---------- tempo di gioco ----------
+        float ultimoSalvataggioTempo;
+
+        /// <summary>Tempo giocato: conta solo in partita (non nei menu, non con pausa, inventario o impostazioni aperti) e lo salva ogni 30 s.</summary>
+        void ContaTempo()
+        {
+            if (MenuBackdrop || IsMenuScene(SceneManager.GetActiveScene().name) || !SaveSystem.Exists()) return;
+            var ui = UIRoot.I;
+            bool inPausa = ui != null && ((ui.Pause != null && ui.Pause.IsOpen) || (ui.Inventory != null && ui.Inventory.IsOpen) || (ui.Settings != null && ui.Settings.IsOpen));
+            if (inPausa || Time.timeScale <= 0f) return;
+            Save.tempoGioco += Time.unscaledDeltaTime;
+            if (Time.unscaledTime - ultimoSalvataggioTempo > 30f) SalvaTempo();
+        }
+
+        /// <summary>Scrive il salvataggio solo se esiste gia' e si e' in partita (dal titolo non si crea un salvataggio vuoto).</summary>
+        void SalvaTempo()
+        {
+            ultimoSalvataggioTempo = Time.unscaledTime;
+            if (save == null || MenuBackdrop || IsMenuScene(SceneManager.GetActiveScene().name) || !SaveSystem.Exists()) return;
+            SaveSystem.Save(save);
+        }
+
+        // chiusura del programma, app in secondo piano (mobile) o scheda del browser nascosta (WebGL): il tempo non va perso
+        void OnApplicationQuit() { SalvaTempo(); }
+        void OnApplicationPause(bool inPausa) { if (inPausa) SalvaTempo(); }
+        void OnApplicationFocus(bool fuoco) { if (!fuoco) SalvaTempo(); }
 
         // ---------- salvataggio ----------
         public void SaveGame() { SaveSystem.Save(Save); }

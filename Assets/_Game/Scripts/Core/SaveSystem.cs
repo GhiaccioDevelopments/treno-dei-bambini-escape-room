@@ -21,6 +21,7 @@ namespace TrenoBambini.Core
         public bool effettiRidotti; // R001: UI senza tremolii/particelle (accessibilità o PC lento)
         // R005: true = la visuale gira solo tenendo premuto il tasto destro (cursore libero); false = muovendo il mouse (cursore bloccato)
         public bool visualeTastoDestro;
+        public float tempoGioco; // R023: secondi giocati (anteprima di Continua)
     }
 
     /// <summary>Salvataggio su PlayerPrefs (chiave treno_save, JSON).</summary>

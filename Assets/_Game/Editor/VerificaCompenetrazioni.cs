@@ -36,15 +36,15 @@ namespace TrenoBambini.EditorTools
         // strutture (pareti, facciate): si controlla il loro corpo, non le decorazioni
         static readonly Regex RxStruttura = new Regex(@"^(Casa_|Chiusura|Muro)");
         // contatti voluti con le pareti: battenti nei varchi, insegne, lampioni e pannelli fissati al muro
-        static readonly Regex RxFissatoAlMuro = new Regex(@"^(Porta|Appeso|Insegna|LampioneMuro|Edicola|Altarino|Stenditoio|Manifesto|Cartello|Lanterna)");
+        static readonly Regex RxFissatoAlMuro = new Regex(@"^(GabbiaUccellino|Puntello|Uscita|Porta|Appeso|Insegna|LampioneMuro|Edicola|Altarino|Stenditoio|Manifesto|Cartello|Lanterna)");
         // oggetti appesi/fissati per costruzione: niente controllo di appoggio
-        static readonly Regex RxAppeso = new Regex(@"^(Appeso|Decal|TraveSpezzata|Macerie|Panno|Filo|Tenda|BastoneTenda|Insegna|LampioneMuro|Stenditoio|Fiamma|Lumino|Brace|VetroFinestra|EscapeExit|Edicola|Altarino|Statuetta|Luce|Manifesto|Cartello|Lanterna|Bucato)");
+        static readonly Regex RxAppeso = new Regex(@"^(GabbiaUccellino|Puntello|Uscita|Appeso|Decal|TraveSpezzata|Macerie|Panno|Filo|Tenda|BastoneTenda|Insegna|LampioneMuro|Stenditoio|Fiamma|Lumino|Brace|VetroFinestra|EscapeExit|Edicola|Altarino|Statuetta|Luce|Manifesto|Cartello|Lanterna|Bucato)");
         // cumuli d'insieme: i pezzi si sovrappongono per natura (macerie, trave caduta sulle macerie)
         // luci/bagliori emissivi e vetri luminosi
         static readonly Regex RxLuce = new Regex(@"^(Fiamma|Lumino|EdicolaLumino|Brace|VetroFinestra|EscapeExit|Glow|Curvo|Acqua)");
         static readonly Regex RxPannoAppeso = new Regex(@"^Panno_");
         static readonly Regex RxSostegno = new Regex(@"^(Filo|Stenditoio|BastoneTenda)");
-        static readonly Regex RxCumulo = new Regex(@"^(Macerie|TraveSpezzata)");
+        static readonly Regex RxCumulo = new Regex(@"^(Macerie|TraveSpezzata|Puntello|Uscita)");
 
         sealed class Segnalazione { public float depth; public Obb a, b; public Vector3 pos; }
 
@@ -245,7 +245,8 @@ namespace TrenoBambini.EditorTools
             {
                 if (!r.enabled) continue;
                 var go = r.gameObject;
-                if (go.name == "LOD1") continue;                    // livello a distanza della stessa facciata
+                if (go.name == "LOD1" || go.name.EndsWith("_LOD1") || go.name.EndsWith("_LOD2")) continue; // R007 t2: livelli LOD dei modelli veri
+                //                   // livello a distanza della stessa facciata
                 if (go.GetComponentInParent<TrenoBambini.Player.ThirdPersonController>() != null) continue; // il giocatore
                 if (go.GetComponentInParent<Canvas>() != null) continue;
                 var mf = go.GetComponent<MeshFilter>();

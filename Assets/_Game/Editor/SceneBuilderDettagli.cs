@@ -91,7 +91,7 @@ namespace TrenoBambini.EditorTools
                 case "Pantaloni":
                     AddSheet(v, uv, t, new Vector3(-0.21f, 0, 0), new Vector3(0.2f, 0, 0), new Vector3(0, -0.9f, 0), 3, 8, 0.03f, 1.5f, ph);
                     AddSheet(v, uv, t, new Vector3(0.01f, 0, 0), new Vector3(0.2f, 0, 0), new Vector3(0, -0.9f, 0), 3, 8, 0.03f, 1.5f, ph + 2f);
-                    AddSheet(v, uv, t, new Vector3(-0.21f, 0, 0.004f), new Vector3(0.42f, 0, 0), new Vector3(0, -0.14f, 0), 4, 2, 0.01f, 1f, ph);
+                    AddSheet(v, uv, t, new Vector3(-0.21f, 0, 0.02f), new Vector3(0.42f, 0, 0), new Vector3(0, -0.14f, 0), 4, 2, 0.01f, 1f, ph); // cintura: 2 cm davanti ai due panni (R017: niente facce complanari)
                     break;
                 default: // straccio
                     AddSheet(v, uv, t, new Vector3(-0.2f, 0, 0), new Vector3(0.4f, 0, 0), new Vector3(0.03f, -0.5f, 0), 5, 5, 0.05f, 2f + variant, ph);
@@ -114,14 +114,16 @@ namespace TrenoBambini.EditorTools
 
         static GameObject ClothObject(Transform parent, string kind, int variant, string mat, Vector3 topPos, float yaw, Vector3 scale)
         {
-            var go = new GameObject("Panno_" + kind);
-            go.transform.SetParent(parent, false);
-            go.transform.localPosition = topPos;
-            go.transform.localRotation = Quaternion.Euler(0f, yaw, 0f);
-            go.transform.localScale = scale;
-            go.AddComponent<MeshFilter>().sharedMesh = ClothMesh(kind, variant);
-            var mr = go.AddComponent<MeshRenderer>();
-            mr.sharedMaterial = Mat(mat);
+            // R007 t2: panni veri (modelli Panno_* con LOD, alpha clip e bordi sfilacciati). Capo e variante di colore (3 materiali) dipendono dalla
+            // posizione, quindi sono diversi da un'istanza all'altra e riproducibili. L'argomento mat (colori delle primitive) non si usa piu'.
+            int h = Mathf.Abs((int)(topPos.x * 13.7f) + (int)(topPos.z * 7.3f) * 31 + (int)(topPos.y * 5f) + variant * 17);
+            string capo = kind == "Camicia" ? "Camicia" : kind == "Pantaloni" ? "Mutandoni" : kind == "Straccio" ? "Straccio" : ((h & 3) == 1 ? "LenzuoloRammendato" : (h & 3) == 3 ? "Tovaglia" : "Lenzuolo");
+            if ((h >> 3) % 3 == 0) yaw += 180f; // specchia il verso del vento
+            var go = ModelloIst("Panni/Panno_" + capo + ".fbx", parent, topPos, yaw, scale, false, "Panno_" + kind, 0.04f);
+            string[] mm = { "M_Panni", "M_Panni_B", "M_Panni_C" };
+            var m = AssetDatabase.LoadAssetAtPath<Material>("Assets/Art/Materials/" + mm[(h >> 1) % 3] + ".mat");
+            if (m != null)
+                foreach (var r in go.GetComponentsInChildren<Renderer>()) r.sharedMaterial = m;
             return go;
         }
 
@@ -143,8 +145,8 @@ namespace TrenoBambini.EditorTools
                 double roll = r.NextDouble();
                 string kind = roll < 0.22 ? "Lenzuolo" : roll < 0.58 ? "Camicia" : roll < 0.84 ? "Pantaloni" : "Straccio";
                 int variant = r.Next(0, 2);
-                float baseW = kind == "Lenzuolo" ? 1.1f : kind == "Camicia" ? 0.9f : kind == "Pantaloni" ? 0.42f : 0.4f;
-                float s = 0.8f + (float)r.NextDouble() * 0.35f;
+                float baseW = kind == "Lenzuolo" ? 1.25f : kind == "Camicia" ? 0.81f : kind == "Pantaloni" ? 0.64f : 0.54f; // larghezze dei modelli Panno_* (R007 t2)
+                float s = 0.75f + (float)r.NextDouble() * 0.2f; // R007 t3: scala reale (camicia ~0,7 m, lenzuolo ~1,1 m)
                 float sx = Mathf.Min(s, maxW / baseW);
                 float yTop = Mathf.Lerp(yL, yR, tt) - 0.03f;
                 string mat = ClothColors[r.Next(ClothColors.Length)];
@@ -306,9 +308,9 @@ namespace TrenoBambini.EditorTools
             {
                 float side = Mathf.Clamp01(1f - Mathf.Pow(Mathf.Abs(u * 2f - 1f), 2.5f) * 0.7f);
                 float k = Mathf.Lerp(0.6f, 1.1f, w) * side * (0.9f + 0.1f * ValueNoise(u * 5f, w * 8f));
-                return new Color(1.0f * k, 0.84f * k, 0.55f * k);
+                return new Color(1.0f * k, 0.66f * k, 0.34f * k); // R007 t3B: ambra, non piu' bianco
             });
-            EmissiveMat("M_LuceUscita", door, 2.4f);
+            EmissiveMat("M_LuceUscita", door, 0.9f);
             AssetDatabase.SaveAssets();
         }
 

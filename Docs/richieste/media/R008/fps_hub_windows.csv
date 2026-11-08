@@ -1,0 +1,6 @@
+﻿scena;preset;frame;media_ms;fps_medi;fps_1pct_low;max_ms;gpu;risoluzione
+10_Hub_Vicolo;Ultra;11830;1.61;622.6;371.8;7.2;NVIDIA GeForce RTX 4060 Ti;1280x720
+10_Hub_Vicolo;Alta;14091;1.35;741.6;424.3;3.0;NVIDIA GeForce RTX 4060 Ti;1280x720
+10_Hub_Vicolo;Media;15744;1.21;828.6;448.0;7.1;NVIDIA GeForce RTX 4060 Ti;1280x720
+10_Hub_Vicolo;Bassa;23389;0.81;1230.9;647.6;2.7;NVIDIA GeForce RTX 4060 Ti;1280x720
+10_Hub_Vicolo;Minimo;25981;0.73;1367.4;577.3;28.9;NVIDIA GeForce RTX 4060 Ti;1280x720

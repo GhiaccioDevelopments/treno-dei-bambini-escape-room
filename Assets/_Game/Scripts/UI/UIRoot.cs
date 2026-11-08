@@ -35,6 +35,7 @@ namespace TrenoBambini.UI
         public CutscenePlayer Cutscene { get; private set; }
         public InventoryPanel Inventory { get; private set; }
         public PausePanel Pause { get; private set; }
+        public SettingsPanel Settings { get; private set; }
 
         EventSystem eventSystem;
         bool menuScene = true;
@@ -67,7 +68,7 @@ namespace TrenoBambini.UI
         int modalCount;
         int lastModalPopFrame = -1;
 
-        // nuovo oggetto ottenuto (animazione della valigia)
+        // nuovo oggetto ottenuto (animazione della latta)
         string pendingNewItem;
 
         // effetti ridotti automatici se gli fps restano bassi
@@ -98,7 +99,7 @@ namespace TrenoBambini.UI
             return (tastoDestro ? "Mouse con tasto destro premuto: guardarsi intorno\n" : "Muovi il mouse: guardarsi intorno\n")
                 + "W A S D o frecce: camminare (Maiusc: correre)\n"
                 + "E: interagire con l'oggetto evidenziato\n"
-                + "I o Tab: valigia (inventario)\n"
+                + "I o Tab: latta (inventario)\n"
                 + "Esc o P: pausa\n"
                 + "F3: finestra di diagnosi";
         }
@@ -156,6 +157,8 @@ namespace TrenoBambini.UI
             Inventory = igo.gameObject.AddComponent<InventoryPanel>();
             var pgo = UIFactory.NewRect("PausePanel", ModalLayer);
             Pause = pgo.gameObject.AddComponent<PausePanel>();
+            var sgo = UIFactory.NewRect("SettingsPanel", ModalLayer);
+            Settings = sgo.gameObject.AddComponent<SettingsPanel>();
 
             // particelle sopra tutto tranne il fader
             var partLayer = NewLayer("Particelle", false);
@@ -214,10 +217,10 @@ namespace TrenoBambini.UI
             // contatore enigmi a biglietto (in alto a sinistra)
             ticket = TicketHud.Create(HudLayer);
 
-            // pulsanti Inventario (valigia) / Pausa (orologio) in alto a destra, sempre cliccabili (utili su LIM)
+            // pulsanti Inventario (latta) / Pausa (orologio) in alto a destra, sempre cliccabili (utili su LIM)
             var pausa = MakeIconButton(HudLayer, "Pausa", UIArt.IconWatch(), TogglePause, new Vector2(170f, 60f));
             UIFactory.Place((RectTransform)pausa.transform, new Vector2(1f, 1f), new Vector2(1f, 1f), new Vector2(-16f, -16f), new Vector2(170f, 60f));
-            var inv = MakeIconButton(HudLayer, "Valigia", UIArt.IconSuitcase(), ToggleInventory, new Vector2(190f, 60f));
+            var inv = MakeIconButton(HudLayer, GameData.UiMenu.hud.latta, UIArt.IconLatta(), ToggleInventory, new Vector2(190f, 60f));
             UIFactory.Place((RectTransform)inv.transform, new Vector2(1f, 1f), new Vector2(1f, 1f), new Vector2(-196f, -16f), new Vector2(190f, 60f));
             inventoryButton = (RectTransform)inv.transform;
 
@@ -456,7 +459,7 @@ namespace TrenoBambini.UI
             lastModalPopFrame = Time.frameCount;
         }
 
-        /// <summary>Segnala un oggetto appena ottenuto: l'animazione della valigia parte quando il gioco è di nuovo libero.</summary>
+        /// <summary>Segnala un oggetto appena ottenuto: l'animazione della latta parte quando il gioco è di nuovo libero.</summary>
         public void QueueNewItem(string oggettoId)
         {
             pendingNewItem = oggettoId;
@@ -469,8 +472,14 @@ namespace TrenoBambini.UI
             if (save && GameManager.I != null)
             {
                 GameManager.I.Save.effettiRidotti = value;
-                GameManager.I.SaveGame();
+                SalvaSeInCorso();
             }
+        }
+
+        /// <summary>Salva la partita solo se ce n'e' una (salvataggio esistente o scena di gioco): dal Titolo senza partita non crea un salvataggio vuoto (comparirebbe "Continua").</summary>
+        public void SalvaSeInCorso()
+        {
+            if (GameManager.I != null && (GameManager.I.HasSave || !menuScene)) GameManager.I.SaveGame();
         }
 
         void SyncReduceEffects()
@@ -546,6 +555,7 @@ namespace TrenoBambini.UI
 
         public void TogglePause()
         {
+            if (Settings != null && Settings.IsOpen) { Settings.Hide(); return; }
             if (Inventory.IsOpen) { Inventory.Hide(); return; }
             if (Pause.IsOpen) { Pause.Hide(); return; }
             if (CanOpenMenus) Pause.Show();
@@ -553,7 +563,7 @@ namespace TrenoBambini.UI
 
         void OnSceneLoaded(Scene s, LoadSceneMode mode)
         {
-            menuScene = GameManager.IsMenuScene(s.name);
+            menuScene = GameManager.IsMenuScene(s.name) || (GameManager.MenuBackdrop && mode == LoadSceneMode.Additive);
             EnsureEventSystem();
             SyncReduceEffects();
             if (Fader != null) Fader.SetFlashbackLook(s.name.Contains("_FB_"));
@@ -602,6 +612,13 @@ namespace TrenoBambini.UI
                 return;
             }
 
+            // le Impostazioni si chiudono con Esc o B anche dal titolo (li' il resto dei tasti del gioco e' spento)
+            if (Settings != null && Settings.IsOpen && Time.unscaledTime >= ignoreEscUntil)
+            {
+                var gpad = Gamepad.current;
+                if (kb.escapeKey.wasPressedThisFrame || (gpad != null && gpad.buttonEast.wasPressedThisFrame)) { Settings.Hide(); return; }
+            }
+
             if (menuScene || Cutscene.IsPlaying || Fader.Busy || lastModalPopFrame == Time.frameCount) return;
             MaybeShowComandiToast();
 
@@ -632,12 +649,12 @@ namespace TrenoBambini.UI
             }
         }
 
-        // ---------------------------------------------------------------- nuovo oggetto: vola nella valigia
+        // ---------------------------------------------------------------- nuovo oggetto: vola nella latta
         void PlayNewItem(string id)
         {
             var o = GameData.Oggetto(id);
             Sprite spr = o != null ? UIFactory.LoadSprite("oggetti", o.icona) : null;
-            if (spr == null) spr = UIArt.IconSuitcase();
+            if (spr == null) spr = UIArt.IconLatta();
 
             var card = UIFactory.MakePanel(FlightLayer, "NuovoOggetto", Color.white, false);
             card.sprite = UIArt.Postcard();
@@ -662,7 +679,7 @@ namespace TrenoBambini.UI
             UITween.Alpha(lg, 1f, 0.3f);
             UIParticles.BurstAtScreen(ParticleKind.Spark, new Vector2(Screen.width * 0.5f, Screen.height * 0.5f), 14);
 
-            // dopo una pausa vola verso la valigia dell'HUD lasciando una scia di scintille
+            // dopo una pausa vola verso la latta dell'HUD lasciando una scia di scintille
             UITween.After(cr, 1.3f, () =>
             {
                 if (cr == null) return;

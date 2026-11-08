@@ -1,0 +1,40 @@
+{
+ "nome": "GabbiaUccellino",
+ "cartella": "GabbiaUccellino",
+ "sorgente": "",
+ "materiali": [
+  "FerroGabbia",
+  "Uccellino"
+ ],
+ "tri": [
+  580,
+  290,
+  144
+ ],
+ "tri_originali": 580,
+ "dim": [
+  0.276,
+  0.28,
+  0.415
+ ],
+ "piatti": {
+  "FerroGabbia": {
+   "colore": [
+    0.1,
+    0.1,
+    0.11
+   ],
+   "metallico": 0.85,
+   "levig": 0.35
+  },
+  "Uccellino": {
+   "colore": [
+    0.62,
+    0.48,
+    0.14
+   ],
+   "metallico": 0.0,
+   "levig": 0.25
+  }
+ }
+}

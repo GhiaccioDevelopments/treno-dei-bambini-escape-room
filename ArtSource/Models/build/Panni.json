@@ -1,0 +1,25 @@
+{
+ "nome": "Panni",
+ "cartella": "Panni",
+ "sorgente": "",
+ "materiali": [
+  "PanniTessuto"
+ ],
+ "tri": [],
+ "dim": [],
+ "doppia_faccia": [
+  "PanniTessuto"
+ ],
+ "alpha_clip": [
+  "PanniTessuto"
+ ],
+ "texture": {
+  "PanniTessuto": {
+   "albedo": "PanniTessuto_albedo.png",
+   "normal": "PanniTessuto_normal.jpg",
+   "levigatezza": 0.12,
+   "albedo_B": "PanniTessuto_albedo_B.png",
+   "albedo_C": "PanniTessuto_albedo_C.png"
+  }
+ }
+}

@@ -9,7 +9,8 @@
       "icona": "scarpe",
       "flashback": "flashback_scarpe",
       "cutscene": "cutscene_scarpe",
-      "luogo": "basso_antonietta"
+      "luogo": "basso_antonietta",
+      "modello": "scarpe"
     }
   ]
 }
