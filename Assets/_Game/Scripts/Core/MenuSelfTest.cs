@@ -73,8 +73,16 @@ namespace TrenoBambini.Core
             bool avevaSave = PlayerPrefs.HasKey("treno_save");
             Log("Inizio prova. Salvataggio presente: " + avevaSave);
 
+            StartCoroutine(Osserva());
+            string pre = Arg("-menutestpreset", "");
+            if (pre != "") { GraphicsPresets.Apply(int.Parse(pre), false); Log("Preset forzato: " + pre); }
             kb = InputSystem.AddDevice<Keyboard>("MenuTestKb");
             ms = InputSystem.AddDevice<Mouse>("MenuTestMouse");
+
+            // con la finestra in secondo piano il computer del giocatore potrebbe mandare i suoi tasti, il suo mouse o il suo gamepad (altri giochi aperti):
+            // la prova ascolta solo i dispositivi virtuali
+            foreach (var d in InputSystem.devices) if (d != kb && d != ms) InputSystem.DisableDevice(d);
+            InputSystem.onDeviceChange += (d, ch) => { if ((ch == InputDeviceChange.Added || ch == InputDeviceChange.Reconnected || ch == InputDeviceChange.Enabled) && d != kb && d != ms) InputSystem.DisableDevice(d); };
 
             yield return Flusso();
 
@@ -84,6 +92,19 @@ namespace TrenoBambini.Core
             Log("Fine prova: " + ok + " PASS, " + ko + " FAIL");
             File.WriteAllText(Path.Combine(dir, ko == 0 ? "OK.txt" : "FALLITA.txt"), ok + " PASS, " + ko + " FAIL\n");
             Application.Quit();
+        }
+
+        /// <summary>Diagnosi: scrive nel log ogni cambio di fase del titolo, di scena attiva o di numero di scene.</summary>
+        IEnumerator Osserva()
+        {
+            string ultimo = "";
+            while (true)
+            {
+                var ts = FindAnyObjectByType<TitleScreen>();
+                string st = (ts != null ? ts.Fase + "/" + ts.FuocoId : "-") + " scena=" + SceneManager.GetActiveScene().name + " n=" + SceneManager.sceneCount + " backdrop=" + GameManager.MenuBackdrop;
+                if (st != ultimo) { ultimo = st; Log("  ~ " + st + " @" + Time.unscaledTime.ToString("0.0")); }
+                yield return null;
+            }
         }
 
         // ------------------------------------------------------------------ utilita'
@@ -130,13 +151,6 @@ namespace TrenoBambini.Core
 
         static string Selezionato() { var s = EventSystem.current != null ? EventSystem.current.currentSelectedGameObject : null; return s != null ? s.name : "(nessuno)"; }
 
-        /// <summary>Preme S finche' il fuoco e' sulla voce indicata.</summary>
-        IEnumerator VaiAVoce(string id)
-        {
-            for (int i = 0; i < 8 && title.FuocoId != id; i++) yield return Tap(Key.S);
-            yield return Attendi(0.2f);
-        }
-
         IEnumerator ScenaGioco(float timeout, System.Action<bool> res)
         {
             float t = 0f;
@@ -164,6 +178,36 @@ namespace TrenoBambini.Core
         }
 
         // ------------------------------------------------------------------ il flusso
+        /// <summary>Aspetta una condizione (massimo timeout secondi); vale true se si e' avverata.</summary>
+        IEnumerator Aspetta(System.Func<bool> cond, float timeout, System.Action<bool> res = null)
+        {
+            float t = 0f;
+            while (t < timeout && !cond()) { t += Time.unscaledDeltaTime; yield return null; }
+            if (res != null) res(cond());
+        }
+
+        void ParcheggiaMouse()
+        {
+            var p = new Vector2(Screen.width - 4f, 4f);
+            InputSystem.QueueStateEvent(ms, new MouseState { position = p });
+        }
+
+        /// <summary>Preme S finche' il fuoco e' sulla voce indicata; vale false se non ci arriva (e in quel caso non si deve premere Invio).</summary>
+        IEnumerator Raggiungi(string id, System.Action<bool> res)
+        {
+            var ordine = new System.Collections.Generic.List<string> { "continua", "nuova", "ricordi", "impostazioni", "crediti", "esci" };
+            for (int i = 0; i < 10 && title.FuocoId != id; i++)
+            {
+                int da = ordine.IndexOf(title.FuocoId), a = ordine.IndexOf(id);
+                yield return Tap(a >= da ? Key.S : Key.W);
+                yield return null;
+            }
+            yield return Attendi(0.15f);
+            bool ok2 = title.FuocoId == id;
+            if (!ok2) Check("Fuoco su " + id, false, title.FuocoId);
+            res(ok2);
+        }
+
         IEnumerator Flusso()
         {
             // --- titolo e salto dell'intro con un CLIC su una voce (I1): non deve partire nulla
@@ -171,8 +215,7 @@ namespace TrenoBambini.Core
             yield return ScenaTitolo(30f, r => pronto = r);
             Check("Titolo caricato", pronto);
             if (!pronto) yield break;
-            float t0 = 0f;
-            while (title.Fase != "Intro" && t0 < 40f) { t0 += Time.unscaledDeltaTime; yield return null; }
+            yield return Aspetta(() => title.Fase == "Intro", 40f);
             Check("Intro in corso", title.Fase == "Intro", title.Fase);
             yield return Attendi(1.2f);
             var voce = Trova("Voce_nuova");
@@ -185,138 +228,155 @@ namespace TrenoBambini.Core
             yield return null; yield return null;
             InputSystem.QueueStateEvent(ms, new MouseState { position = pos });   // rilascio
             yield return null; yield return null;
+            ParcheggiaMouse();
             yield return Attendi(0.8f);
             Check("Dopo il clic l'intro e' saltata (fase Menu)", title.Fase == "Menu", title.Fase);
-            Check("Il clic non ha aperto la conferma ne' lanciato nulla", title.Fase != "Conferma" && title.Fase != "Lancio" && SceneManager.GetActiveScene().name != "20_Int_BassoAntonietta");
+            Check("Il clic non ha aperto la conferma ne' lanciato nulla", title.Fase != "Conferma" && title.Fase != "Lancio" && SceneManager.sceneCount == 2 && GameManager.MenuBackdrop);
             yield return Attendi(1.0f);
-            Check("Ancora nel menu un secondo dopo", title.Fase == "Menu", title.Fase);
+            Check("Ancora nel menu un secondo dopo", title.Fase == "Menu" && GameManager.MenuBackdrop, title.Fase);
             Check("Il fuoco c'e' (una voce selezionata)", title.FuocoId != "", Selezionato());
-            string primaVoce = title.FuocoId;
             yield return Foto("titolo");
 
+            bool su = false;
             // --- Ricordi
-            yield return VaiAVoce("ricordi");
-            Check("Fuoco su Ricordi", title.FuocoId == "ricordi", title.FuocoId);
-            yield return Tap(Key.Enter);
-            yield return Attendi(1.0f);
-            Check("Ricordi aperto (Sottomenu)", title.Fase == "Sottomenu", title.Fase);
-            yield return Foto("ricordi_titolo");
-            yield return Tap(Key.Escape);
-            yield return Attendi(1.0f);
-            Check("Esc torna al menu", title.Fase == "Menu", title.Fase);
-            Check("Fuoco di nuovo su Ricordi", title.FuocoId == "ricordi" && Selezionato() == "Voce_ricordi", title.FuocoId + " / " + Selezionato());
+            yield return Raggiungi("ricordi", r => su = r);
+            if (su)
+            {
+                yield return Tap(Key.Enter);
+                yield return Aspetta(() => title.Fase == "Sottomenu", 3f);
+                Check("Ricordi aperto (Sottomenu)", title.Fase == "Sottomenu", title.Fase);
+                yield return Attendi(0.9f);
+                yield return Foto("ricordi_titolo");
+                yield return Tap(Key.Escape);
+                yield return Aspetta(() => title.Fase == "Menu", 3f);
+                Check("Esc torna al menu", title.Fase == "Menu", title.Fase);
+                yield return Attendi(0.5f);
+                Check("Fuoco di nuovo su Ricordi", title.FuocoId == "ricordi" && Selezionato() == "Voce_ricordi", title.FuocoId + " / " + Selezionato());
+            }
 
             // --- Impostazioni (M4)
-            yield return VaiAVoce("impostazioni");
-            yield return Tap(Key.Enter);
-            yield return Attendi(0.8f);
-            Check("Impostazioni aperte", UIRoot.I.Settings.IsOpen);
-            yield return Tap(Key.Escape);
-            yield return Attendi(0.8f);
-            Check("Impostazioni chiuse con Esc", !UIRoot.I.Settings.IsOpen);
-            Check("Dopo le Impostazioni il fuoco e' tornato sulla voce", Selezionato() == "Voce_impostazioni", Selezionato());
+            yield return Raggiungi("impostazioni", r => su = r);
+            if (su)
+            {
+                yield return Tap(Key.Enter);
+                yield return Aspetta(() => UIRoot.I.Settings.IsOpen, 3f);
+                Check("Impostazioni aperte", UIRoot.I.Settings.IsOpen);
+                yield return Attendi(0.8f);
+                yield return Tap(Key.Escape);
+                yield return Aspetta(() => !UIRoot.I.Settings.IsOpen, 3f);
+                Check("Impostazioni chiuse con Esc", !UIRoot.I.Settings.IsOpen);
+                yield return Attendi(0.6f);
+                Check("Dopo le Impostazioni il fuoco e' tornato sulla voce", Selezionato() == "Voce_impostazioni", Selezionato());
+            }
 
             // --- Crediti
-            yield return VaiAVoce("crediti");
-            yield return Tap(Key.Enter);
-            yield return Attendi(1.0f);
-            Check("Crediti aperti", title.Fase == "Sottomenu", title.Fase);
-            yield return Tap(Key.Escape);
-            yield return Attendi(1.0f);
-            Check("Crediti chiusi", title.Fase == "Menu", title.Fase);
+            yield return Raggiungi("crediti", r => su = r);
+            if (su)
+            {
+                yield return Tap(Key.Enter);
+                yield return Aspetta(() => title.Fase == "Sottomenu", 3f);
+                Check("Crediti aperti", title.Fase == "Sottomenu", title.Fase);
+                yield return Attendi(0.9f);
+                yield return Tap(Key.Escape);
+                yield return Aspetta(() => title.Fase == "Menu", 3f);
+                Check("Crediti chiusi", title.Fase == "Menu", title.Fase);
+            }
 
             // --- Nuova partita: conferma su foglietto, Annulla
             bool haSave = GameManager.I.HasSave;
-            yield return VaiAVoce("nuova");
-            yield return Tap(Key.Enter);
-            yield return Attendi(0.8f);
-            if (haSave) Check("Nuova partita con salvataggio: conferma aperta", title.Fase == "Conferma", title.Fase);
-            if (haSave) { yield return Foto("conferma"); yield return Tap(Key.Escape); yield return Attendi(0.8f); Check("Annulla (Esc) torna al menu", title.Fase == "Menu", title.Fase); }
+            yield return Raggiungi("nuova", r => su = r);
+            if (su && haSave)
+            {
+                yield return Tap(Key.Enter);
+                yield return Aspetta(() => title.Fase == "Conferma", 3f);
+                Check("Nuova partita con salvataggio: conferma aperta", title.Fase == "Conferma", title.Fase);
+                yield return Attendi(0.9f);
+                yield return Foto("conferma");
+                yield return Tap(Key.Escape);
+                yield return Aspetta(() => title.Fase == "Menu", 3f);
+                Check("Annulla (Esc) torna al menu", title.Fase == "Menu", title.Fase);
+                yield return Attendi(0.5f);
+            }
 
             // --- Continua -> gioco
-            if (haSave)
-            {
-                yield return VaiAVoce("continua");
-                yield return Attendi(0.6f);
-                yield return Foto("titolo_continua");
-                yield return Tap(Key.Enter);
-                bool gioco = false;
-                yield return ScenaGioco(40f, r => gioco = r);
-                Check("Continua porta al gioco (hub, un'unica scena)", gioco, SceneManager.GetActiveScene().name + " scene=" + SceneManager.sceneCount);
-                if (gioco)
-                {
-                    yield return Attendi(5f);
-                    var listeners = FindObjectsByType<AudioListener>(FindObjectsInactive.Exclude);
-                    int attivi = 0; foreach (var l in listeners) if (l.enabled) attivi++;
-                    Check("Un solo AudioListener attivo nel gioco", attivi == 1, attivi.ToString());
-                    // clic al centro: eventuale carta "clicca per giocare"
-                    var c = new Vector2(Screen.width * 0.5f, Screen.height * 0.5f);
-                    InputSystem.QueueStateEvent(ms, new MouseState { position = c }); yield return null; yield return null;
-                    InputSystem.QueueStateEvent(ms, new MouseState { position = c }.WithButton(MouseButton.Left)); yield return null; yield return null;
-                    InputSystem.QueueStateEvent(ms, new MouseState { position = c }); yield return null; yield return null;
-                    yield return Attendi(1f);
-                    float tempo0 = GameManager.I.Save.tempoGioco;
-                    yield return Attendi(3f);
-                    Check("Il tempo di gioco avanza in partita", GameManager.I.Save.tempoGioco > tempo0 + 2f, tempo0 + " -> " + GameManager.I.Save.tempoGioco);
+            if (!haSave) { Log("Nessun salvataggio: provo Nuova partita al posto di Continua"); }
+            string voceGioco = haSave ? "continua" : "nuova";
+            yield return Raggiungi(voceGioco, r => su = r);
+            if (!su) yield break;
+            yield return Attendi(0.9f);
+            yield return Foto("titolo_continua");
+            yield return Tap(Key.Enter);
+            bool gioco = false;
+            yield return ScenaGioco(60f, r => gioco = r);
+            Check("Il gioco parte (hub, un'unica scena)", gioco, SceneManager.GetActiveScene().name + " scene=" + SceneManager.sceneCount);
+            if (!gioco) yield break;
 
-                    yield return Tap(Key.I);
-                    yield return Attendi(1.2f);
-                    Check("Tasto I apre l'inventario", UIRoot.I.Inventory.IsOpen);
-                    yield return Attendi(0.5f);
-                    yield return Foto("inventario_oggetti");
-                    yield return Tap(Key.E);                       // pagina Ricordi
-                    yield return Attendi(0.8f);
-                    yield return Foto("inventario_ricordi");
-                    yield return Tap(Key.Q);
-                    yield return Attendi(0.5f);
-                    float tempoInv = GameManager.I.Save.tempoGioco;
-                    yield return Attendi(2f);
-                    Check("Il tempo non avanza con l'inventario aperto", GameManager.I.Save.tempoGioco - tempoInv < 0.1f, tempoInv + " -> " + GameManager.I.Save.tempoGioco);
-                    yield return Tap(Key.Escape);
-                    yield return Attendi(1.2f);
-                    Check("Esc chiude l'inventario", !UIRoot.I.Inventory.IsOpen);
+            yield return Attendi(5f);
+            int attivi = 0; foreach (var l in FindObjectsByType<AudioListener>(FindObjectsInactive.Exclude)) if (l.enabled) attivi++;
+            Check("Un solo AudioListener attivo nel gioco", attivi == 1, attivi.ToString());
+            var c = new Vector2(Screen.width * 0.5f, Screen.height * 0.5f);
+            InputSystem.QueueStateEvent(ms, new MouseState { position = c }); yield return null; yield return null;
+            InputSystem.QueueStateEvent(ms, new MouseState { position = c }.WithButton(MouseButton.Left)); yield return null; yield return null;
+            InputSystem.QueueStateEvent(ms, new MouseState { position = c }); yield return null; yield return null;
+            ParcheggiaMouse();
+            yield return Attendi(1f);
+            float tempo0 = GameManager.I.Save.tempoGioco;
+            yield return Attendi(3f);
+            Check("Il tempo di gioco avanza in partita", GameManager.I.Save.tempoGioco > tempo0 + 2f, tempo0 + " -> " + GameManager.I.Save.tempoGioco);
 
-                    yield return Tap(Key.Escape);
-                    yield return Attendi(1.0f);
-                    Check("Esc apre la pausa", UIRoot.I.Pause.IsOpen);
-                    float tempoPausa = GameManager.I.Save.tempoGioco;
-                    yield return Attendi(2f);
-                    Check("Il tempo non avanza in pausa", GameManager.I.Save.tempoGioco - tempoPausa < 0.1f, tempoPausa + " -> " + GameManager.I.Save.tempoGioco);
-                    yield return Foto("pausa");
-                    var bt = TrovaBottone("Torna al titolo");
-                    Check("Pulsante 'Torna al titolo' trovato", bt != null);
-                    if (bt != null)
-                    {
-                        EventSystem.current.SetSelectedGameObject(bt.gameObject);
-                        yield return null;
-                        yield return Tap(Key.Enter);
-                        yield return Attendi(0.8f);
-                        var si = TrovaBottone("Sì, torna al titolo");
-                        Check("Conferma 'Torna al titolo' aperta", si != null);
-                        if (si != null)
-                        {
-                            EventSystem.current.SetSelectedGameObject(si.gameObject);
-                            yield return null;
-                            yield return Tap(Key.Enter);
-                        }
-                        bool torna = false;
-                        yield return ScenaTitolo(40f, r => torna = r);
-                        Check("Torna al titolo", torna);
-                        if (torna)
-                        {
-                            // --- secondo giro: salto dell'intro con INVIO (I1)
-                            float tw = 0f;
-                            while (title.Fase != "Intro" && tw < 20f) { tw += Time.unscaledDeltaTime; yield return null; }
-                            yield return Attendi(1.0f);
-                            yield return Tap(Key.Enter);
-                            yield return Attendi(0.9f);
-                            Check("Secondo giro: Invio salta l'intro senza lanciare il gioco", title.Fase == "Menu" && SceneManager.GetActiveScene().name != "20_Int_BassoAntonietta", title.Fase);
-                            yield return Attendi(1.0f);
-                            Check("Secondo giro: ancora nel menu dopo un secondo", title.Fase == "Menu", title.Fase);
-                        }
-                    }
-                }
-            }
+            yield return Tap(Key.I);
+            yield return Aspetta(() => UIRoot.I.Inventory.IsOpen, 3f);
+            Check("Tasto I apre l'inventario", UIRoot.I.Inventory.IsOpen);
+            yield return Attendi(1.2f);
+            yield return Foto("inventario_oggetti");
+            yield return Tap(Key.E);                       // pagina Ricordi
+            yield return Attendi(1.0f);
+            yield return Foto("inventario_ricordi");
+            yield return Tap(Key.Q);
+            yield return Attendi(0.5f);
+            float tempoInv = GameManager.I.Save.tempoGioco;
+            yield return Attendi(2f);
+            Check("Il tempo non avanza con l'inventario aperto", GameManager.I.Save.tempoGioco - tempoInv < 0.1f, tempoInv + " -> " + GameManager.I.Save.tempoGioco);
+            yield return Tap(Key.Escape);
+            yield return Aspetta(() => !UIRoot.I.Inventory.IsOpen, 3f);
+            Check("Esc chiude l'inventario", !UIRoot.I.Inventory.IsOpen);
+            yield return Attendi(1.0f);
+
+            yield return Tap(Key.Escape);
+            yield return Aspetta(() => UIRoot.I.Pause.IsOpen, 3f);
+            Check("Esc apre la pausa", UIRoot.I.Pause.IsOpen);
+            yield return Attendi(0.6f);
+            float tempoPausa = GameManager.I.Save.tempoGioco;
+            yield return Attendi(2f);
+            Check("Il tempo non avanza in pausa", GameManager.I.Save.tempoGioco - tempoPausa < 0.1f, tempoPausa + " -> " + GameManager.I.Save.tempoGioco);
+            yield return Foto("pausa");
+            var bt = TrovaBottone("Torna al titolo");
+            Check("Pulsante 'Torna al titolo' trovato", bt != null);
+            if (bt == null) yield break;
+            EventSystem.current.SetSelectedGameObject(bt.gameObject);
+            yield return null;
+            yield return Tap(Key.Enter);
+            yield return Attendi(0.9f);
+            var si = TrovaBottone("Sì, torna al titolo");
+            Check("Conferma 'Torna al titolo' aperta", si != null);
+            if (si == null) yield break;
+            EventSystem.current.SetSelectedGameObject(si.gameObject);
+            yield return null;
+            yield return Tap(Key.Enter);
+            bool torna = false;
+            yield return ScenaTitolo(60f, r => torna = r);
+            Check("Torna al titolo", torna);
+            if (!torna) yield break;
+
+            // --- secondo giro: salto dell'intro con INVIO (I1)
+            yield return Aspetta(() => title.Fase == "Intro", 30f);
+            yield return Attendi(1.0f);
+            yield return Tap(Key.Enter);
+            yield return Attendi(0.9f);
+            Check("Secondo giro: Invio salta l'intro senza lanciare il gioco", title.Fase == "Menu" && SceneManager.sceneCount == 2 && GameManager.MenuBackdrop, title.Fase + " n=" + SceneManager.sceneCount);
+            yield return Attendi(1.0f);
+            Check("Secondo giro: ancora nel menu dopo un secondo", title.Fase == "Menu", title.Fase);
+            yield return Foto("titolo_secondo_giro");
         }
     }
 }

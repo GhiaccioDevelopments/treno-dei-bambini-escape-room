@@ -612,6 +612,13 @@ namespace TrenoBambini.UI
                 return;
             }
 
+            // le Impostazioni si chiudono con Esc o B anche dal titolo (li' il resto dei tasti del gioco e' spento)
+            if (Settings != null && Settings.IsOpen && Time.unscaledTime >= ignoreEscUntil)
+            {
+                var gpad = Gamepad.current;
+                if (kb.escapeKey.wasPressedThisFrame || (gpad != null && gpad.buttonEast.wasPressedThisFrame)) { Settings.Hide(); return; }
+            }
+
             if (menuScene || Cutscene.IsPlaying || Fader.Busy || lastModalPopFrame == Time.frameCount) return;
             MaybeShowComandiToast();
 

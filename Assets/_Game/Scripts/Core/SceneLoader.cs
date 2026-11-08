@@ -41,6 +41,7 @@ namespace TrenoBambini.Core
             else AudioManager.Fire("cambio_scena");
 
             if (fader != null) yield return fader.Out(stile);
+            if (GameManager.MenuBackdrop) yield return MenuBackdrop.Congeda(); // R023: schermo nero, il vicolo del menu si scarica prima del caricamento vero
             GameManager.MenuBackdrop = false; // R023: da qui lo sfondo del menu non conta piu' (niente pellicola del menu nella scena che arriva)
             if (UIRoot.I != null) { UIRoot.I.HidePrompt(); UIRoot.I.SetHudCounter(""); }
 

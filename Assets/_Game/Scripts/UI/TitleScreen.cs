@@ -762,13 +762,7 @@ namespace TrenoBambini.UI
                 }
             }
 
-            // il menu principale risponde anche a W/S
-            if (stato == Stato.Menu && kb != null && focus != null)
-            {
-                int i = rows.IndexOf(focus);
-                if (kb.wKey.wasPressedThisFrame) Seleziona(rows[(i - 1 + rows.Count) % rows.Count].gameObject);
-                else if (kb.sKey.wasPressedThisFrame) Seleziona(rows[(i + 1) % rows.Count].gameObject);
-            }
+            // W/S (come le frecce) li gestisce gia' la navigazione dell'EventSystem: un secondo gestore qui faceva saltare una voce ogni due
 
             // scorrimento dei crediti con tastiera e stick
             if (stato == Stato.Sottomenu && pannelloAttivo == creditiPanel && creditiScroll != null)

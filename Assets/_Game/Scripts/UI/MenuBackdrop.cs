@@ -74,6 +74,23 @@ namespace TrenoBambini.UI
             Ready = true;
         }
 
+        /// <summary>
+        /// Prima di entrare nel gioco (con lo schermo gia' nero): scarica il vicolo caricato in additivo e aspetta qualche fotogramma.
+        /// Senza questo, il caricamento della stessa scena in modo Single mentre quella additiva e' ancora viva mandava in crash il player Windows.
+        /// </summary>
+        public static IEnumerator Congeda()
+        {
+            Scene hub = SceneManager.GetSceneByName(SceneHub);
+            Scene titolo = SceneManager.GetSceneByName(GameManager.SceneTitolo);
+            if (!hub.IsValid() || !hub.isLoaded || !titolo.IsValid() || !titolo.isLoaded) yield break;
+            SceneManager.SetActiveScene(titolo);
+            var op = SceneManager.UnloadSceneAsync(hub);
+            while (op != null && !op.isDone) yield return null;
+            for (int i = 0; i < 10; i++) yield return null;
+            yield return Resources.UnloadUnusedAssets();
+            yield return new WaitForSecondsRealtime(0.3f);
+        }
+
         // ------------------------------------------------------------------ sfondo vivo
         void Isola(Scene hub)
         {
