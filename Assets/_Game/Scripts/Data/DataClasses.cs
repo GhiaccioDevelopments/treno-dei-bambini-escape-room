@@ -10,6 +10,7 @@ namespace TrenoBambini.Data
     public class LuogoDef
     {
         public string id; public string nome; public string scena; public string spawn; public string descrizione;
+        public string meteo; // R007 t4: pioggia | pioggia_fuori | sereno (vuoto = sereno)
         public bool aperto;
     }
 

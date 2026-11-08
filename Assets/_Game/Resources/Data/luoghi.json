@@ -6,23 +6,24 @@
       "scena": "20_Int_BassoAntonietta",
       "spawn": "ingresso",
       "aperto": true,
-      "descrizione": "Un'unica stanza al pianterreno, senza finestre sul vicolo, dove Antonietta e Amerigo vivono tra un letto, un tavolo e qualche cassa. Poco spazio, ma è casa."
+      "descrizione": "Un basso al pianterreno, senza finestre sul vicolo: la stanza principale affollata di casse, materassi e una credenza, l'alcova col letto dietro una tenda, un angolo cucina e, sul retro, un piccolo cortile. Poco spazio, ma è casa.",
+      "meteo": "pioggia_fuori"
     },
     {
       "id": "casa_capa_e_fierro",
-      "nome": "La casa di Capa e Fierro",
+      "nome": "La bottega di Capa 'e fierro",
       "scena": "",
       "spawn": "",
       "aperto": false,
-      "descrizione": "L'abitazione di un vicino di Antonietta, noto nel quartiere per il carattere testardo. Si aprirà più avanti nella storia."
+      "descrizione": "La bottega di robivecchi (stracci e ferri vecchi) di un vicino di Antonietta, noto nel quartiere per il carattere testardo. Si aprirà più avanti nella storia."
     },
     {
       "id": "sede_partito",
-      "nome": "La sede del partito",
+      "nome": "La sede del Comitato",
       "scena": "",
       "spawn": "",
       "aperto": false,
-      "descrizione": "Una sede politica dove le volontarie organizzano l'accoglienza dei bambini. Nel quartiere si dicono molte cose strane su chi la frequenta. Si aprirà più avanti."
+      "descrizione": "La sede del Comitato, dove le volontarie organizzano l'accoglienza dei bambini. Nel quartiere si dicono molte cose strane su chi la frequenta. Si aprirà più avanti."
     },
     {
       "id": "stazione",
@@ -39,6 +40,24 @@
       "spawn": "",
       "aperto": false,
       "descrizione": "Un vicolo stretto dove si raccolgono e si vendono stracci e panni usati. Si aprirà più avanti nella storia."
+    },
+    {
+      "id": "hub_vicolo",
+      "nome": "Il vicolo",
+      "scena": "10_Hub_Vicolo",
+      "spawn": "",
+      "aperto": false,
+      "descrizione": "Il quartiere di Napoli nel presente: un pomeriggio d'autunno di pioggia costante.",
+      "meteo": "pioggia"
+    },
+    {
+      "id": "ricordo_scarpe",
+      "nome": "Il ricordo delle scarpe",
+      "scena": "30_FB_Scarpe",
+      "spawn": "",
+      "aperto": false,
+      "descrizione": "La stessa strada nel 1946: sole basso e aria asciutta.",
+      "meteo": "sereno"
     }
   ]
 }

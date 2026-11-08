@@ -46,6 +46,15 @@ namespace TrenoBambini.Core
             set { PlayerPrefs.SetInt(BloomKey, value ? 1 : 0); PlayerPrefs.Save(); ApplyPostSwitches(); }
         }
 
+        static bool _cutsceneDof;
+
+        /// <summary>R007: profondita' di campo accesa solo durante le cutscene (da Media in su). In gioco resta spenta.</summary>
+        public static bool CutsceneDepthOfField
+        {
+            get { return _cutsceneDof; }
+            set { _cutsceneDof = value; ApplyPostSwitches(); }
+        }
+
         /// <summary>Preset di default per la piattaforma: WebGL = Bassa, altrove = Alta.</summary>
         public static int DefaultLevel()
         {
@@ -58,6 +67,7 @@ namespace TrenoBambini.Core
             // domain reload disattivato: azzera lo stato statico a ogni avvio del play mode
             Changed = null;
             Current = -1;
+            _cutsceneDof = false;
         }
 
         /// <summary>Indice in QualitySettings.names del preset (cercato per NOME); se manca (es. Alta/Ultra su WebGL)
@@ -122,8 +132,39 @@ namespace TrenoBambini.Core
 
         // ------------------------------------------------------------------ camere e volumi
 
+        /// <summary>R007 t3: la pellicola dei ricordi (gate weave, polvere, graffi) e' accesa solo nel ricordo 1946 (scena 30_FB_Scarpe); piu' forte a Alta/Ultra.</summary>
+        static void ApplyPellicola()
+        {
+            bool ricordo = SceneManager.GetActiveScene().name.StartsWith("30_");
+            float q = Current == (int)GraphicsPreset.Media ? 0.6f : 1f;
+            Shader.SetGlobalFloat("_TrenoPellicola", ricordo ? 1f : 0f);
+            Shader.SetGlobalFloat("_TrenoPellicolaQ", q);
+            ImpostaPassoPellicola(ricordo); // nell'editor fuori da Play resta acceso: non si modifica l'asset del renderer
+        }
+
+        /// <summary>Accende/spegne il passo a schermo intero "PellicolaRicordi" del renderer corrente: spento = nessuna copia del colore e nessun blit.</summary>
+        static void ImpostaPassoPellicola(bool acceso)
+        {
+            try
+            {
+                var rp = UnityEngine.Rendering.GraphicsSettings.currentRenderPipeline as UniversalRenderPipelineAsset;
+                if (rp == null) return;
+                var campo = typeof(UniversalRenderPipelineAsset).GetField("m_RendererDataList", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+                var lista = campo != null ? campo.GetValue(rp) as ScriptableRendererData[] : null;
+                if (lista == null) return;
+                foreach (var rd in lista)
+                {
+                    if (rd == null) continue;
+                    foreach (var f in rd.rendererFeatures)
+                        if (f != null && f.name == "PellicolaRicordi" && f.isActive != acceso) f.SetActive(acceso); // solo se cambia: SetActive a raffica faceva andare in crash il DecalDrawSystem di URP
+                }
+            }
+            catch (System.Exception e) { Debug.LogWarning("[GraphicsPresets] Passo pellicola non regolabile: " + e.Message); }
+        }
+
         static void ApplyToScene()
         {
+            ApplyPellicola();
             ApplyAntiAliasing();
             ApplyPostSwitches();
         }
@@ -141,20 +182,47 @@ namespace TrenoBambini.Core
             }
         }
 
-        /// <summary>Grana e bloom: spenti a Bassa (post-processing leggero) o se l'utente li ha disattivati.</summary>
+        /// <summary>
+        /// Post-processing per preset (R007 t3, pellicola). Bassa (renderer Lite, WebGL): solo grana (scalata 0,7) e curva tonale, senza bloom, vignetta,
+        /// aberrazione ne' SSAO; Media/Alta/Ultra: + alone (bloom), vignetta e aberrazione cromatica scalata per preset (0,5 / 1 / 1,2), grana 0,8 / 1 / 1,1;
+        /// Alta/Ultra: bloom ad alta qualita' di filtro. Grana e bloom restano interruttori dell'utente.
+        /// La profondita' di campo e' predisposta nei profili ma accesa solo con <see cref="CutsceneDepthOfField"/>.
+        /// </summary>
         static void ApplyPostSwitches()
         {
+            // R007 t3 (pellicola): Bassa = solo grana e curva tonale (renderer Lite, WebGL); Media 0,8 / Alta 1 / Ultra 1,1 sulla grana;
+            // alone (bloom), vignetta e aberrazione solo da Media in su, aberrazione scalata per preset.
             bool lite = Current == (int)GraphicsPreset.Bassa;
-            bool grain = !lite && FilmGrainEnabled;
+            bool grain = FilmGrainEnabled;
             bool bloom = !lite && BloomEnabled;
+            float grainK = Current == (int)GraphicsPreset.Bassa ? 0.7f : Current == (int)GraphicsPreset.Media ? 0.8f : Current == (int)GraphicsPreset.Alta ? 1f : 1.1f;
+            float caK = Current == (int)GraphicsPreset.Media ? 0.5f : Current == (int)GraphicsPreset.Alta ? 1f : Current == (int)GraphicsPreset.Ultra ? 1.2f : 0f;
+            bool hq = Current >= (int)GraphicsPreset.Alta;
+            bool dof = !lite && _cutsceneDof;
             foreach (var vol in Object.FindObjectsByType<Volume>(FindObjectsInactive.Exclude))
             {
                 var profile = vol.profile; // istanza: non modifica l'asset
                 if (profile == null) continue;
                 FilmGrain fg;
-                if (profile.TryGet(out fg)) fg.active = grain;
+                if (profile.TryGet(out fg))
+                {
+                    fg.active = grain;
+                    FilmGrain bfg;
+                    if (vol.sharedProfile != null && vol.sharedProfile.TryGet(out bfg)) fg.intensity.Override(Mathf.Clamp01(bfg.intensity.value * grainK));
+                }
+                Vignette vgn;
+                if (profile.TryGet(out vgn)) vgn.active = !lite;
+                ChromaticAberration cab;
+                if (profile.TryGet(out cab))
+                {
+                    cab.active = !lite;
+                    ChromaticAberration bca;
+                    if (vol.sharedProfile != null && vol.sharedProfile.TryGet(out bca)) cab.intensity.Override(bca.intensity.value * caK);
+                }
                 Bloom bl;
-                if (profile.TryGet(out bl)) bl.active = bloom;
+                if (profile.TryGet(out bl)) { bl.active = bloom; bl.highQualityFiltering.Override(hq); }
+                DepthOfField df;
+                if (profile.TryGet(out df)) df.active = dof;
             }
         }
 

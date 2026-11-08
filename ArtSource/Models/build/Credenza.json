@@ -1,0 +1,27 @@
+{
+ "nome": "Credenza",
+ "cartella": "Credenza",
+ "sorgente": "Credenza_alt_painted_wooden_cabinet",
+ "materiali": [
+  "painted_wooden_cabinet"
+ ],
+ "tri": [
+  2227,
+  1113,
+  556
+ ],
+ "tri_originali": 2227,
+ "dim": [
+  1.162,
+  0.6,
+  1.15
+ ],
+ "texture": {
+  "painted_wooden_cabinet": {
+   "albedo": "painted_wooden_cabinet_albedo.jpg",
+   "normal": "painted_wooden_cabinet_normal.jpg",
+   "mask": "painted_wooden_cabinet_mask.png",
+   "levigatezza": 0.3
+  }
+ }
+}

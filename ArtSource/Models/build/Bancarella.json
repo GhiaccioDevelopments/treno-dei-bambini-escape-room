@@ -1,0 +1,37 @@
+{
+ "nome": "Bancarella",
+ "cartella": "Bancarella",
+ "sorgente": "",
+ "materiali": [
+  "LegnoBanco",
+  "TeloBanco"
+ ],
+ "tri": [
+  1220,
+  610,
+  304
+ ],
+ "tri_originali": 1220,
+ "dim": [
+  2.3,
+  1.18,
+  2.32
+ ],
+ "doppia_faccia": [
+  "TeloBanco"
+ ],
+ "texture": {
+  "LegnoBanco": {
+   "albedo": "LegnoBanco_albedo.jpg",
+   "normal": "LegnoBanco_normal.jpg",
+   "mask": "LegnoBanco_mask.png",
+   "levigatezza": 0.3
+  },
+  "TeloBanco": {
+   "albedo": "TeloBanco_albedo.jpg",
+   "normal": "TeloBanco_normal.jpg",
+   "mask": "TeloBanco_mask.png",
+   "levigatezza": 0.3
+  }
+ }
+}

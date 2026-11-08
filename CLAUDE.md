@@ -72,6 +72,7 @@ Protagonista: Amerigo Speranza, Napoli 1946.
   importante, dirlo invece di ripiegare su soluzioni scadenti.
 - Texture PBR complete (albedo, normal, roughness/metallic, AO), materiali uniformati.
 - Peso del repo: Git LFS gratuito ha 1 GB di spazio e 1 GB/mese di traffico, tenerlo d'occhio.
+- Screenshot di documentazione: max 1280x720 JPG, fuori da LFS; un solo bake delle luci a fine tappa (ogni bake intermedio pesa su LFS). Quando LFS si avvicina a 1 GB, avvisare l'utente: ha deciso di comprare un data pack GitHub.
 
 ## Doppiaggio
 - Ogni battuta di cutscene ha un **ID univoco** `cs_<oggetto>_NNN` e un campo `audio` opzionale.
@@ -116,6 +117,10 @@ Namespace: `TrenoBambini.<Area>` (es. `TrenoBambini.Core`).
 - `cutscene_<id>.json`: `{ id, titolo, sfondo, battute: [ {id, personaggio, testo, emozione, audio, azione, sfondo} ] }`
   - azione: `entra_sx | entra_dx | esce | zoom | scuoti | dissolvenza | ""`
 - `personaggi.json`: `{ "personaggi": [ {id, nome, ritratto, colore} ] }`
+- `testi_ambiente.json`: `{ "testi": [ {chiave, gruppo, tipo, w, h, seed, righe[], carta[r,g,b], inchiostro[r,g,b]} ] }` (testi di manifesti, avvisi, graffiti,
+  santini, calendario, insegne, letti dai generatori editor; mai nel codice). `gruppo`: quartiere | basso | ricordo (quale scena li usa); `tipo`: manifesto (testo a righe su carta,
+  la prima e' il titolo) | insegna (una riga su tavola dipinta); `chiave` diventa il materiale `MP_<chiave>`; `w`,`h` dimensione texture in pixel; `seed` per macchie e consumo;
+  colori 0..1. Lettere ammesse: A-Z, 0-9 e . , ' - ! ? : /
 - `audio.json`: `{ scene: [ {scena, musica, ambiente[], sparsi[], intervallo[min,max], superficie: pietra|legno|ovattato} ],
   eventi: [ {id, stinger, sfx} ], volumi: {musica, ambiente, effetti, voci, duckingMusica, duckingAmbiente} }`
   - Gli id sono nomi di file in `Assets/Audio/{Musica,Ambienti,Effetti}` (menu **Treno > Audio > Aggiorna libreria**); se manca il file
@@ -171,4 +176,5 @@ Formato voce:
   Dopo ogni sotto-fase: console pulita + screenshot all'utente per approvazione prima di proseguire.
   Misurare FPS e peso build per preset. Merge su `main` e tag v0.2 solo dopo l'ok dell'utente.
   Richieste dell'utente in sospeso: `Docs/BACKLOG.md` (controllarlo all'inizio di ogni sotto-fase).
-- Oggetti futuri: stracci, volantino del treno, cappotto, violino, finale.
+- Oggetti futuri: stracci, volantino del treno, cappotto, violino, finale. **Ok dell'utente (2026-11-06)** a svilupparli tutti
+  tramite le richieste R012–R016 (schema degli enigmi di ogni capitolo da approvare prima dello sviluppo).

@@ -88,7 +88,8 @@ namespace TrenoBambini.EditorTools
             BuildReport report;
             try
             {
-                string outPath = Path.GetFullPath(Path.Combine(Application.dataPath, "..", OutputFolder));
+                string outPath = System.Environment.GetEnvironmentVariable("TRENO_WEBGL_OUT"); // R007 t5: cartella alternativa fuori dal repo
+                if (string.IsNullOrEmpty(outPath)) outPath = Path.GetFullPath(Path.Combine(Application.dataPath, "..", OutputFolder));
                 Directory.CreateDirectory(outPath);
 
                 var options = new BuildPlayerOptions
