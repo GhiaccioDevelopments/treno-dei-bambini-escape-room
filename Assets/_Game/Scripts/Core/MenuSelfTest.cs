@@ -320,6 +320,15 @@ namespace TrenoBambini.Core
             InputSystem.QueueStateEvent(ms, new MouseState { position = c }); yield return null; yield return null;
             ParcheggiaMouse();
             yield return Attendi(1f);
+            // con la finestra in secondo piano il blocco del cursore cade e il gioco apre da solo la pausa (OpenPauseFromLockLoss): qui la si richiude
+            if (UIRoot.I.Pause.IsOpen)
+            {
+                Log("(la pausa si e' aperta da sola per la perdita del blocco cursore: la chiudo)");
+                yield return Attendi(0.7f);
+                yield return Tap(Key.Escape);
+                yield return Aspetta(() => !UIRoot.I.Pause.IsOpen, 3f);
+                yield return Attendi(1f);
+            }
             float tempo0 = GameManager.I.Save.tempoGioco;
             yield return Attendi(3f);
             Check("Il tempo di gioco avanza in partita", GameManager.I.Save.tempoGioco > tempo0 + 2f, tempo0 + " -> " + GameManager.I.Save.tempoGioco);
@@ -340,6 +349,26 @@ namespace TrenoBambini.Core
             yield return Tap(Key.Escape);
             yield return Aspetta(() => !UIRoot.I.Inventory.IsOpen, 3f);
             Check("Esc chiude l'inventario", !UIRoot.I.Inventory.IsOpen);
+            yield return Attendi(1.0f);
+
+            // --- con le scarpe nella latta (ricordo ancora da rivivere): scheda oggetto con descrizione, significato, ricordo e stato
+            var sv = GameManager.I.Save;
+            if (!sv.inventario.Contains("scarpe")) sv.inventario.Add("scarpe");
+            sv.flashbackCompletati.Remove("flashback_scarpe");
+            yield return Tap(Key.I);
+            yield return Aspetta(() => UIRoot.I.Inventory.IsOpen, 3f);
+            yield return Attendi(1.4f);
+            yield return Foto("inventario_scheda");
+            yield return Tap(Key.E);
+            yield return Attendi(1.0f);
+            yield return Foto("inventario_ricordi_da_rivivere");
+            sv.flashbackCompletati.Add("flashback_scarpe");
+            yield return Tap(Key.Q); yield return Tap(Key.E);
+            yield return Attendi(1.0f);
+            yield return Foto("inventario_ricordi_rivissuto");
+            yield return Tap(Key.Escape);
+            yield return Aspetta(() => !UIRoot.I.Inventory.IsOpen, 3f);
+            Check("Inventario con le scarpe aperto e richiuso", !UIRoot.I.Inventory.IsOpen);
             yield return Attendi(1.0f);
 
             yield return Tap(Key.Escape);

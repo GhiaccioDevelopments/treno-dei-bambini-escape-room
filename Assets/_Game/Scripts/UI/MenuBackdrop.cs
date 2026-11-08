@@ -106,6 +106,10 @@ namespace TrenoBambini.UI
             foreach (var t in FindObjectsByType<Transform>(FindObjectsInactive.Include))
                 if (t.gameObject.scene == hub && (t.name == "Pozzanghera" || t.name == "Pozzanghere")) t.gameObject.SetActive(false);
 
+            // niente decal nel menu: meno lavoro per il DecalDrawSystem di URP e nessun decal da scaricare quando si entra nel gioco (vedi Congeda)
+            foreach (var d in FindObjectsByType<UnityEngine.Rendering.Universal.DecalProjector>(FindObjectsInactive.Include))
+                if (d.gameObject.scene == hub) d.enabled = false;
+
             // I5: nel menu non piove (niente pioggia sulla camera, gocce o spruzzi) e il suolo e' asciutto
             foreach (var m in FindObjectsByType<MeteoController>(FindObjectsInactive.Include))
                 if (m.gameObject.scene == hub) m.Sereno();

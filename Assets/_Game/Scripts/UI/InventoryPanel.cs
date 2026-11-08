@@ -373,19 +373,21 @@ namespace TrenoBambini.UI
                 if (string.IsNullOrEmpty(o.flashback)) continue;
                 n++;
                 bool aperto = save != null && save.flashbackCompletati.Contains(o.flashback);
-                // M5: un ricordo non ancora rivissuto non svela titolo ne' descrizione (come il sottomenu Ricordi del titolo)
-                var f = aperto ? GameData.Flashback(o.flashback) : null;
+                // M5: se l'oggetto non e' stato trovato (e il ricordo non e' rivissuto) non si svelano titolo ne' descrizione, come nel sottomenu Ricordi del titolo
+                bool trovato = save != null && save.inventario.Contains(o.id);
+                bool visibile = aperto || trovato;
+                var f = visibile ? GameData.Flashback(o.flashback) : null;
                 var luogoDef = GameData.Luogo(o.luogo);
                 var card = UIFactory.MakePanel(ricordiContent, "Ricordo_" + o.id, Color.white, false);
                 card.sprite = UIArt.Tag(); card.type = Image.Type.Sliced;
                 card.gameObject.AddComponent<LayoutElement>().minHeight = 210f;
-                var title = UIFactory.MakeText(card.rectTransform, !aperto ? R.bloccato : f != null && !string.IsNullOrEmpty(f.titolo) ? f.titolo : o.nome, 26, UITheme.Ceralacca, TextAlignmentOptions.TopLeft, FontStyles.Bold);
+                var title = UIFactory.MakeText(card.rectTransform, !visibile ? R.bloccato : f != null && !string.IsNullOrEmpty(f.titolo) ? f.titolo : o.nome, 26, UITheme.Ceralacca, TextAlignmentOptions.TopLeft, FontStyles.Bold);
                 title.rectTransform.anchorMin = new Vector2(0f, 1f); title.rectTransform.anchorMax = new Vector2(1f, 1f); title.rectTransform.pivot = new Vector2(0f, 1f);
                 title.rectTransform.offsetMin = new Vector2(24f, -50f); title.rectTransform.offsetMax = new Vector2(-24f, -10f);
-                var stato = UIFactory.MakeText(card.rectTransform, aperto ? T.ricordoStato : T.ricordoDaFare, 17, aperto ? UITheme.Esatto : UITheme.InchiostroBlu, TextAlignmentOptions.TopRight, FontStyles.Italic);
+                var stato = UIFactory.MakeText(card.rectTransform, aperto ? T.ricordoStato : trovato ? T.ricordoDaFare : T.daTrovare, 17, aperto ? UITheme.Esatto : UITheme.InchiostroBlu, TextAlignmentOptions.TopRight, FontStyles.Italic);
                 stato.rectTransform.anchorMin = new Vector2(1f, 1f); stato.rectTransform.anchorMax = new Vector2(1f, 1f); stato.rectTransform.pivot = new Vector2(1f, 1f);
                 stato.rectTransform.anchoredPosition = new Vector2(-18f, -50f); stato.rectTransform.sizeDelta = new Vector2(240f, 24f);
-                var body = UIFactory.MakeText(card.rectTransform, !aperto ? ProssimoRicordo(luogoDef) : f != null ? f.introduzione : o.descrizione, 18, UITheme.Inchiostro, TextAlignmentOptions.TopLeft);
+                var body = UIFactory.MakeText(card.rectTransform, !visibile ? ProssimoRicordo(luogoDef) : aperto && f != null ? f.introduzione : o.descrizione, 18, UITheme.Inchiostro, TextAlignmentOptions.TopLeft);
                 body.rectTransform.anchorMin = Vector2.zero; body.rectTransform.anchorMax = Vector2.one;
                 body.rectTransform.offsetMin = new Vector2(24f, 10f); body.rectTransform.offsetMax = new Vector2(-24f, -76f);
                 body.enableAutoSizing = true; body.fontSizeMin = 11; body.fontSizeMax = 20;
@@ -463,8 +465,6 @@ namespace TrenoBambini.UI
         void VaiA(Pagina p, bool suono = true)
         {
             pagina = p;
-            if (p == Pagina.Ricordi) RefreshRicordi();
-            if (p == Pagina.Quaderno) RefreshQuaderno();
             for (int i = 0; i < pagine.Count; i++)
             {
                 bool on = i == (int)p;
@@ -472,6 +472,10 @@ namespace TrenoBambini.UI
                 pagine[i].alpha = on ? 0f : 1f;
                 if (on) UITween.Alpha(pagine[i], 1f, UITheme.Dur(0.18f));
             }
+            // i contenuti si costruiscono a pagina accesa, cosi' il layout e i testi con ridimensionamento automatico hanno le misure giuste
+            if (p == Pagina.Ricordi) RefreshRicordi();
+            if (p == Pagina.Quaderno) RefreshQuaderno();
+            if (p == Pagina.Ricordi || p == Pagina.Quaderno) UIFactory.RefreshText((RectTransform)pagine[(int)p].transform);
             for (int i = 0; i < tabRt.Count; i++)
             {
                 bool on = i == (int)p;

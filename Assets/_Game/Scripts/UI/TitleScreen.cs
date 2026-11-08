@@ -508,6 +508,7 @@ namespace TrenoBambini.UI
         void Entra(RectTransform p)
         {
             p.gameObject.SetActive(true);
+            UIFactory.RefreshText(p);
             var cg = p.GetComponent<CanvasGroup>();
             cg.alpha = 0f; cg.interactable = true; cg.blocksRaycasts = true;
             p.anchoredPosition = new Vector2(120f, -4f);
