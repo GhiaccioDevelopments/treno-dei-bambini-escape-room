@@ -17,6 +17,7 @@
     "oggetto1": "1 oggetto nella latta",
     "oggetti": "{0} oggetti nella latta",
     "nessunOggetto": "La latta è ancora vuota",
+    "tempo1": "1 minuto di gioco",
     "tempo": "{0} minuti di gioco",
     "tempoPoco": "meno di un minuto di gioco"
   },

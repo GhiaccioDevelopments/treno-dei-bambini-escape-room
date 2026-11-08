@@ -437,6 +437,30 @@
             "tipo": "Modello, texture",
             "autore": "MakeHuman Community / makehuman_system",
             "licenza": "CC0 1.0"
+        },
+        {
+            "asset": "Scarpe",
+            "tipo": "Modello 3D (3584 tri, un paio)",
+            "autore": "Team del gioco",
+            "licenza": "Originale del progetto"
+        },
+        {
+            "asset": "Latta d'epoca",
+            "tipo": "Texture generate da codice (1024 px al massimo) e mesh con spigoli smussati",
+            "autore": "Team del gioco",
+            "licenza": "Originale del progetto"
+        },
+        {
+            "asset": "Fumo del menu",
+            "tipo": "Texture generata da codice (UIArt.Smoke)",
+            "autore": "Team del gioco",
+            "licenza": "Originale del progetto"
+        },
+        {
+            "asset": "Sfondo fermo del menu",
+            "tipo": "Fotogramma del vicolo dell'hub",
+            "autore": "Team del gioco",
+            "licenza": "Originale del progetto"
         }
     ]
 }

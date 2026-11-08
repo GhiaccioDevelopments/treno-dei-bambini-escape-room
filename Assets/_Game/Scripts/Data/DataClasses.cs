@@ -124,7 +124,7 @@ namespace TrenoBambini.Data
     // R023: testi di menu iniziale e inventario (Resources/Data/ui_menu.json) e crediti (Resources/Data/crediti.json, generato da CREDITS.md)
     [Serializable] public class UiVoce { public string id; public string etichetta; }
     [Serializable]
-    public class UiAnteprima { public string intestazione, oggetto1, oggetti, nessunOggetto, tempo, tempoPoco; }
+    public class UiAnteprima { public string intestazione, oggetto1, oggetti, nessunOggetto, tempo1, tempo, tempoPoco; }
     [Serializable]
     public class UiConferma { public string timbro, titolo, testo, si, no; }
     [Serializable]

@@ -249,7 +249,7 @@ namespace TrenoBambini.UI
             int n = s.inventario.Count;
             sb.AppendLine(n == 0 ? T.anteprima.nessunOggetto : n == 1 ? T.anteprima.oggetto1 : string.Format(T.anteprima.oggetti, n));
             int min = Mathf.FloorToInt(s.tempoGioco / 60f);
-            sb.Append(min < 1 ? T.anteprima.tempoPoco : string.Format(T.anteprima.tempo, min));
+            sb.Append(min < 1 ? T.anteprima.tempoPoco : min == 1 ? T.anteprima.tempo1 : string.Format(T.anteprima.tempo, min));
             return sb.ToString();
         }
 
