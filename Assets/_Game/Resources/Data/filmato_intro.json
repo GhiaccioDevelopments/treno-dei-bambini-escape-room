@@ -1,0 +1,2696 @@
+{
+ "parametri": {
+  "tenutaSalta": 1.2,
+  "velocitaTesto": 45,
+  "obiettivoForzatoSecondi": 30,
+  "guardiaSecondi": 0.35,
+  "pausaFraBattute": 0.3,
+  "velocitaCammino": 1.35,
+  "conRitratto": [
+   "antonietta",
+   "tommasino",
+   "maddalena"
+  ]
+ },
+ "testi": {
+  "saltaTitolo": "Per saltare, tieni premuto",
+  "rivedi": "Rivedi il filmato iniziale",
+  "continuaFilmato": "",
+  "indizio": "Indizio",
+  "erroreTitolo": "Quasi!",
+  "erroreTesto": "Non è la combinazione giusta, ma niente paura: il ricordo ti spiega perché e aspetta che tu riprovi.",
+  "piantaTitolo": "La pianta del quartiere",
+  "piantaNota": "",
+  "latta": "La latta",
+  "quaderno": "Il quaderno"
+ },
+ "controlli": [
+  {
+   "id": "salta",
+   "titolo": "Per saltare, tieni premuto",
+   "tastiera": [
+    "Esc"
+   ],
+   "gamepad": [
+    "B"
+   ],
+   "touch": [
+    "Tocco lungo"
+   ]
+  },
+  {
+   "id": "muovi",
+   "titolo": "Per muoverti",
+   "tastiera": [
+    "W",
+    "A",
+    "S",
+    "D"
+   ],
+   "gamepad": [
+    "Leva sinistra"
+   ],
+   "touch": [
+    "Joystick a sinistra"
+   ]
+  },
+  {
+   "id": "guarda",
+   "titolo": "Per guardarti intorno",
+   "tastiera": [
+    "Mouse"
+   ],
+   "gamepad": [
+    "Leva destra"
+   ],
+   "touch": [
+    "Trascina a destra"
+   ]
+  },
+  {
+   "id": "interagisci",
+   "titolo": "Per esaminare e prendere",
+   "tastiera": [
+    "E"
+   ],
+   "gamepad": [
+    "A"
+   ],
+   "touch": [
+    "Pulsante Interagisci"
+   ]
+  },
+  {
+   "id": "inventario",
+   "titolo": "La latta e il quaderno",
+   "tastiera": [
+    "I"
+   ],
+   "gamepad": [
+    "Pulsante Latta"
+   ],
+   "touch": [
+    "Pulsante Latta"
+   ]
+  },
+  {
+   "id": "mappa",
+   "titolo": "La pianta grande",
+   "tastiera": [
+    "M"
+   ],
+   "gamepad": [
+    "Select"
+   ],
+   "touch": [
+    "Tocca la minimappa"
+   ]
+  },
+  {
+   "id": "indizio",
+   "titolo": "Se ti serve una mano",
+   "tastiera": [
+    "Pulsante Indizio"
+   ],
+   "gamepad": [
+    "Pulsante Indizio"
+   ],
+   "touch": [
+    "Pulsante Indizio"
+   ]
+  }
+ ],
+ "carte": [
+  {
+   "id": "scheda",
+   "titolo": "2 giugno 1946",
+   "stile": "scheda",
+   "larghezza": 600,
+   "altezza": 400,
+   "inclina": -2.5,
+   "righe": [
+    "Repubblica o Monarchia?",
+    "",
+    "Per la prima volta in Italia",
+    "votano insieme donne e uomini.",
+    "",
+    "Si elegge anche l'Assemblea Costituente."
+   ]
+  },
+  {
+   "id": "art3",
+   "titolo": "Art. 3",
+   "stile": "pagina",
+   "larghezza": 760,
+   "altezza": 520,
+   "inclina": 1.5,
+   "righe": [
+    "Tutti i cittadini hanno pari dignità sociale e sono eguali davanti alla legge, senza distinzione di sesso, di razza, di lingua, di religione, di opinioni politiche, di condizioni personali e sociali.",
+    "",
+    "È compito della Repubblica rimuovere gli ostacoli di ordine economico e sociale, che, limitando di fatto la libertà e l'eguaglianza dei cittadini, impediscono il pieno sviluppo della persona umana."
+   ]
+  },
+  {
+   "id": "art2_31_34",
+   "titolo": "Articoli 2, 31 e 34",
+   "stile": "pagina",
+   "larghezza": 760,
+   "altezza": 520,
+   "inclina": -1.5,
+   "righe": [
+    "Art. 2: la Repubblica richiede l'adempimento dei doveri inderogabili di solidarietà politica, economica e sociale.",
+    "",
+    "Art. 31: protegge la maternità, l'infanzia e la gioventù, favorendo gli istituti necessari a tale scopo.",
+    "",
+    "Art. 34: la scuola è aperta a tutti."
+   ]
+  }
+ ],
+ "capitoli": [
+  {
+   "id": "c1_ritorno",
+   "scena": "10_Hub_Vicolo",
+   "stile": "fade",
+   "musica": "-",
+   "tinta": "#7A93B02A",
+   "tintaFine": "",
+   "inquadrature": [
+    {
+     "da": "",
+     "taglio": "",
+     "fov0": 50,
+     "fov1": 46,
+     "segui": "",
+     "ease": "dolce",
+     "scossa": 0,
+     "consegna": false,
+     "musica": "",
+     "p0": [
+      0,
+      17,
+      -53
+     ],
+     "p1": [
+      0,
+      14,
+      -50
+     ],
+     "m0": [
+      0,
+      4,
+      -22
+     ],
+     "m1": [
+      0,
+      3,
+      -26
+     ],
+     "attore": {
+      "presente": true,
+      "yaw": 0,
+      "percorso": [],
+      "velocita": 0,
+      "nascondi": true,
+      "pos": [
+       1.4,
+       -31
+      ]
+     }
+    },
+    {
+     "da": "cs_intro_002",
+     "taglio": "",
+     "fov0": 38,
+     "fov1": 32,
+     "segui": "adulto",
+     "ease": "dolce",
+     "scossa": 0,
+     "consegna": false,
+     "musica": "",
+     "p0": [
+      0.3,
+      1.62,
+      1.7
+     ],
+     "p1": [
+      0.12,
+      1.6,
+      1.15
+     ],
+     "m0": [
+      0,
+      1.6,
+      0
+     ],
+     "m1": [
+      0,
+      1.6,
+      0
+     ],
+     "attore": {
+      "presente": true,
+      "yaw": 180,
+      "percorso": [],
+      "velocita": 0,
+      "nascondi": false,
+      "pos": [
+       1.4,
+       -30
+      ]
+     }
+    },
+    {
+     "da": "cs_intro_003",
+     "taglio": "",
+     "fov0": 48,
+     "fov1": 0,
+     "segui": "adulto",
+     "ease": "dolce",
+     "scossa": 0,
+     "consegna": false,
+     "musica": "",
+     "p0": [
+      0.9,
+      1.9,
+      -3.6
+     ],
+     "p1": [
+      0.7,
+      1.65,
+      -2.9
+     ],
+     "m0": [
+      0,
+      1.5,
+      1.8
+     ],
+     "m1": [
+      0,
+      1.45,
+      2.2
+     ],
+     "attore": {
+      "presente": true,
+      "yaw": 0,
+      "percorso": [
+       1.4,
+       -9.5
+      ],
+      "velocita": 1.35,
+      "nascondi": false,
+      "pos": [
+       1.4,
+       -31
+      ]
+     }
+    },
+    {
+     "da": "cs_intro_004",
+     "taglio": "",
+     "fov0": 46,
+     "fov1": 0,
+     "segui": "adulto",
+     "ease": "dolce",
+     "scossa": 0,
+     "consegna": false,
+     "musica": "tema_amerigo_solo",
+     "p0": [
+      -1.1,
+      1.35,
+      -2.0
+     ],
+     "p1": [
+      -0.8,
+      1.55,
+      -2.6
+     ],
+     "m0": [
+      0.4,
+      1.9,
+      2.4
+     ],
+     "m1": [
+      0.2,
+      2.2,
+      3.2
+     ]
+    },
+    {
+     "da": "cs_intro_005",
+     "taglio": "",
+     "fov0": 42,
+     "fov1": 34,
+     "segui": "",
+     "ease": "dolce",
+     "scossa": 0,
+     "consegna": false,
+     "musica": "",
+     "p0": [
+      -4.8,
+      1.55,
+      -2.9
+     ],
+     "p1": [
+      -5.8,
+      1.75,
+      -2.6
+     ],
+     "m0": [
+      -9.1,
+      2.0,
+      -2.0
+     ],
+     "m1": [
+      -9.1,
+      2.1,
+      -2.0
+     ],
+     "attore": {
+      "presente": true,
+      "yaw": 9999,
+      "percorso": [],
+      "velocita": 0,
+      "nascondi": true
+     }
+    },
+    {
+     "da": "cs_intro_006",
+     "taglio": "",
+     "fov0": 30,
+     "fov1": 24,
+     "segui": "adulto",
+     "ease": "dolce",
+     "scossa": 0,
+     "consegna": false,
+     "musica": "",
+     "p0": [
+      0.22,
+      1.68,
+      0.95
+     ],
+     "p1": [
+      0.1,
+      1.67,
+      0.6
+     ],
+     "m0": [
+      0,
+      1.67,
+      0
+     ],
+     "m1": [
+      0,
+      1.67,
+      0
+     ],
+     "attore": {
+      "presente": true,
+      "yaw": 90,
+      "percorso": [],
+      "velocita": 0,
+      "nascondi": false,
+      "pos": [
+       -3.4,
+       -2.0
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "c2_1946",
+   "scena": "30_FB_Scarpe",
+   "stile": "ricordo",
+   "musica": "tema_amerigo_ricordo",
+   "tinta": "#8A5A2B18",
+   "inquadrature": [
+    {
+     "da": "",
+     "taglio": "",
+     "fov0": 52,
+     "fov1": 48,
+     "segui": "",
+     "ease": "dolce",
+     "scossa": 0,
+     "consegna": false,
+     "musica": "",
+     "p0": [
+      -3.6,
+      1.35,
+      -31.2
+     ],
+     "p1": [
+      -2.2,
+      1.5,
+      -30.2
+     ],
+     "m0": [
+      0,
+      2.2,
+      -14
+     ],
+     "m1": [
+      0,
+      2.0,
+      -14
+     ],
+     "attore": {
+      "presente": true,
+      "yaw": 9999,
+      "percorso": [],
+      "velocita": 0,
+      "nascondi": true
+     }
+    },
+    {
+     "da": "cs_intro_008",
+     "taglio": "",
+     "fov0": 38,
+     "fov1": 34,
+     "segui": "bambino",
+     "ease": "dolce",
+     "scossa": 0,
+     "consegna": false,
+     "musica": "",
+     "p0": [
+      0.45,
+      0.16,
+      1.15
+     ],
+     "p1": [
+      0.5,
+      0.8,
+      1.55
+     ],
+     "m0": [
+      0,
+      0.06,
+      0
+     ],
+     "m1": [
+      0,
+      0.78,
+      0
+     ],
+     "attore": {
+      "presente": true,
+      "yaw": 200,
+      "percorso": [],
+      "velocita": 0,
+      "nascondi": false,
+      "pos": [
+       -1.0,
+       -25.5
+      ]
+     }
+    },
+    {
+     "da": "cs_intro_009",
+     "taglio": "",
+     "fov0": 42,
+     "fov1": 0,
+     "segui": "bambino",
+     "ease": "dolce",
+     "scossa": 0,
+     "consegna": false,
+     "musica": "",
+     "p0": [
+      1.3,
+      0.75,
+      -1.9
+     ],
+     "p1": [
+      1.1,
+      0.72,
+      -1.45
+     ],
+     "m0": [
+      0,
+      0.6,
+      0.3
+     ],
+     "m1": [
+      0,
+      0.62,
+      0.3
+     ],
+     "attore": {
+      "presente": true,
+      "yaw": 20,
+      "percorso": [],
+      "velocita": 0,
+      "nascondi": false,
+      "pos": [
+       -1.0,
+       -25.5
+      ]
+     }
+    },
+    {
+     "da": "cs_intro_011",
+     "taglio": "",
+     "fov0": 48,
+     "fov1": 0,
+     "segui": "",
+     "ease": "dolce",
+     "scossa": 0,
+     "consegna": false,
+     "musica": "",
+     "p0": [
+      -0.2,
+      1.5,
+      -8.6
+     ],
+     "p1": [
+      -2.8,
+      1.5,
+      -7.2
+     ],
+     "m0": [
+      -6.0,
+      1.7,
+      -3.8
+     ],
+     "m1": [
+      -8.4,
+      1.7,
+      -3.9
+     ],
+     "attore": {
+      "presente": true,
+      "yaw": 9999,
+      "percorso": [],
+      "velocita": 0,
+      "nascondi": true
+     }
+    },
+    {
+     "da": "cs_intro_012",
+     "taglio": "",
+     "fov0": 45,
+     "fov1": 0,
+     "segui": "",
+     "ease": "dolce",
+     "scossa": 0,
+     "consegna": false,
+     "musica": "",
+     "attore": {
+      "presente": true,
+      "yaw": 9999,
+      "percorso": [],
+      "velocita": 0,
+      "nascondi": true
+     },
+     "inserto": {
+      "tipo": "pezzi",
+      "parti": [
+       {
+        "id": "panno",
+        "forma": "cubo",
+        "materiale": "stoffa",
+        "colore": "#8e8c84",
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "rx": 0,
+        "ry": 0,
+        "rz": 0,
+        "sx": 0.36,
+        "sy": 0.5,
+        "sz": 0.05,
+        "testo": "",
+        "dimensione": 0.05,
+        "modello": "panno_quadri",
+        "msx": 0.3431,
+        "msy": 0.5034,
+        "msz": 0.0787,
+        "mox": -0.0027,
+        "moy": -0.0016,
+        "moz": 0.0067
+       },
+       {
+        "id": "toppa",
+        "forma": "cubo",
+        "materiale": "stoffa",
+        "colore": "#6a5a3e",
+        "x": 0.04,
+        "y": -0.05,
+        "z": -0.045,
+        "rx": 0,
+        "ry": 0,
+        "rz": 0,
+        "sx": 0.14,
+        "sy": 0.14,
+        "sz": 0.004,
+        "testo": "",
+        "dimensione": 0.05,
+        "modello": ""
+       },
+       {
+        "id": "ago",
+        "forma": "cilindro",
+        "materiale": "metallo",
+        "colore": "#b9b5ae",
+        "x": 0.13,
+        "y": -0.02,
+        "z": -0.055,
+        "rx": 0,
+        "ry": 0,
+        "rz": 55,
+        "sx": 0.004,
+        "sy": 0.16,
+        "sz": 0.004,
+        "testo": "",
+        "dimensione": 0.05,
+        "modello": ""
+       },
+       {
+        "id": "molletta",
+        "forma": "cubo",
+        "materiale": "legno",
+        "colore": "#6b5a3e",
+        "x": -0.1,
+        "y": 0.25,
+        "z": -0.01,
+        "rx": 0,
+        "ry": 0,
+        "rz": 0,
+        "sx": 0.0135,
+        "sy": 0.072,
+        "sz": 0.024,
+        "testo": "",
+        "dimensione": 0.05,
+        "modello": "molletta"
+       }
+      ],
+      "distanza": 0.7,
+      "giraAlSecondo": 9,
+      "inclina": 8,
+      "alto": 0.25,
+      "fov": 32,
+      "luce": "lampada"
+     }
+    }
+   ]
+  },
+  {
+   "id": "c3_treni",
+   "scena": "30_FB_Scarpe",
+   "stile": "ricordo",
+   "musica": "",
+   "tinta": "#8A5A2B14",
+   "tintaFine": "#B4B4B4C0",
+   "inquadrature": [
+    {
+     "da": "",
+     "taglio": "",
+     "fov0": 38,
+     "fov1": 36,
+     "segui": "",
+     "ease": "lineare",
+     "scossa": 0,
+     "consegna": false,
+     "musica": "",
+     "p0": [
+      -1.9,
+      1.7,
+      -30.4
+     ],
+     "p1": [
+      1.9,
+      1.7,
+      -30.4
+     ],
+     "m0": [
+      -1.2,
+      1.72,
+      -32
+     ],
+     "m1": [
+      1.2,
+      1.72,
+      -32
+     ],
+     "attore": {
+      "presente": true,
+      "yaw": 0,
+      "percorso": [],
+      "velocita": 0,
+      "nascondi": true,
+      "pos": [
+       0,
+       -26
+      ]
+     }
+    },
+    {
+     "da": "cs_intro_014",
+     "taglio": "",
+     "fov0": 45,
+     "fov1": 0,
+     "segui": "",
+     "ease": "dolce",
+     "scossa": 0,
+     "consegna": false,
+     "musica": "",
+     "inserto": {
+      "tipo": "pezzi",
+      "parti": [
+       {
+        "id": "corpo",
+        "forma": "cubo",
+        "materiale": "metallo",
+        "colore": "#2b2926",
+        "x": 0,
+        "y": 0.45,
+        "z": 0,
+        "rx": 0,
+        "ry": 0,
+        "rz": 0,
+        "sx": 0.6,
+        "sy": 0.9,
+        "sz": 0.45,
+        "testo": "",
+        "dimensione": 0.05,
+        "modello": ""
+       },
+       {
+        "id": "piano",
+        "forma": "cubo",
+        "materiale": "metallo",
+        "colore": "#1f1d1b",
+        "x": 0,
+        "y": 0.92,
+        "z": 0,
+        "rx": 0,
+        "ry": 0,
+        "rz": 0,
+        "sx": 0.64,
+        "sy": 0.03,
+        "sz": 0.49,
+        "testo": "",
+        "dimensione": 0.05,
+        "modello": ""
+       },
+       {
+        "id": "tubo",
+        "forma": "cilindro",
+        "materiale": "metallo",
+        "colore": "#2b2926",
+        "x": 0.2,
+        "y": 1.2,
+        "z": 0.12,
+        "rx": 0,
+        "ry": 0,
+        "rz": 0,
+        "sx": 0.11,
+        "sy": 0.55,
+        "sz": 0.11,
+        "testo": "",
+        "dimensione": 0.05,
+        "modello": ""
+       },
+       {
+        "id": "sportello",
+        "forma": "cubo",
+        "materiale": "ottone",
+        "colore": "#8a6a2c",
+        "x": 0,
+        "y": 0.5,
+        "z": -0.23,
+        "rx": 0,
+        "ry": 0,
+        "rz": 0,
+        "sx": 0.28,
+        "sy": 0.2,
+        "sz": 0.02,
+        "testo": "",
+        "dimensione": 0.05,
+        "modello": ""
+       },
+       {
+        "id": "brace",
+        "forma": "cubo",
+        "materiale": "cera",
+        "colore": "#d4752b",
+        "x": 0,
+        "y": 0.5,
+        "z": -0.245,
+        "rx": 0,
+        "ry": 0,
+        "rz": 0,
+        "sx": 0.18,
+        "sy": 0.07,
+        "sz": 0.01,
+        "testo": "",
+        "dimensione": 0.05,
+        "modello": ""
+       },
+       {
+        "id": "pentola",
+        "forma": "cilindro",
+        "materiale": "metallo",
+        "colore": "#5b5750",
+        "x": -0.12,
+        "y": 1.04,
+        "z": 0,
+        "rx": 0,
+        "ry": 0,
+        "rz": 0,
+        "sx": 0.26,
+        "sy": 0.18,
+        "sz": 0.26,
+        "testo": "",
+        "dimensione": 0.05,
+        "modello": ""
+       },
+       {
+        "id": "coperchio",
+        "forma": "cilindro",
+        "materiale": "ottone",
+        "colore": "#8a6a2c",
+        "x": -0.12,
+        "y": 1.14,
+        "z": 0,
+        "rx": 0,
+        "ry": 0,
+        "rz": 0,
+        "sx": 0.27,
+        "sy": 0.02,
+        "sz": 0.27,
+        "testo": "",
+        "dimensione": 0.05,
+        "modello": ""
+       },
+       {
+        "id": "pane",
+        "forma": "sfera",
+        "materiale": "cuoio",
+        "colore": "#9a6a35",
+        "x": 0.17,
+        "y": 0.99,
+        "z": -0.08,
+        "rx": 0,
+        "ry": 0,
+        "rz": 0,
+        "sx": 0.17,
+        "sy": 0.08,
+        "sz": 0.12,
+        "testo": "",
+        "dimensione": 0.05,
+        "modello": ""
+       }
+      ],
+      "distanza": 0.85,
+      "giraAlSecondo": 10,
+      "inclina": 10,
+      "alto": 0.25,
+      "fov": 32,
+      "luce": "lampada"
+     }
+    },
+    {
+     "da": "cs_intro_015",
+     "taglio": "",
+     "fov0": 46,
+     "fov1": 0,
+     "segui": "",
+     "ease": "dolce",
+     "scossa": 0,
+     "consegna": false,
+     "musica": "",
+     "p0": [
+      2.4,
+      1.5,
+      -13.0
+     ],
+     "p1": [
+      1.6,
+      1.55,
+      -11.0
+     ],
+     "m0": [
+      -1.0,
+      1.7,
+      -4.0
+     ],
+     "m1": [
+      -1.4,
+      1.7,
+      -4.0
+     ],
+     "attore": {
+      "presente": true,
+      "yaw": 9999,
+      "percorso": [],
+      "velocita": 0,
+      "nascondi": true
+     }
+    },
+    {
+     "da": "cs_intro_016",
+     "taglio": "",
+     "fov0": 36,
+     "fov1": 30,
+     "segui": "",
+     "ease": "dolce",
+     "scossa": 0.035,
+     "consegna": false,
+     "musica": "",
+     "p0": [
+      0.5,
+      1.35,
+      -18.0
+     ],
+     "p1": [
+      0.2,
+      1.4,
+      -17.2
+     ],
+     "m0": [
+      -3.0,
+      1.5,
+      -15.0
+     ],
+     "m1": [
+      -3.1,
+      1.5,
+      -15.0
+     ]
+    },
+    {
+     "da": "cs_intro_017",
+     "taglio": "",
+     "fov0": 52,
+     "fov1": 46,
+     "segui": "",
+     "ease": "dolce",
+     "scossa": 0,
+     "consegna": false,
+     "musica": "",
+     "p0": [
+      1.0,
+      0.55,
+      -9.0
+     ],
+     "p1": [
+      0.6,
+      0.7,
+      -7.6
+     ],
+     "m0": [
+      -0.5,
+      2.3,
+      -3.0
+     ],
+     "m1": [
+      -0.6,
+      2.4,
+      -3.0
+     ]
+    },
+    {
+     "da": "cs_intro_018",
+     "taglio": "",
+     "fov0": 40,
+     "fov1": 0,
+     "segui": "bambino",
+     "ease": "dolce",
+     "scossa": 0,
+     "consegna": false,
+     "musica": "",
+     "p0": [
+      0.7,
+      0.55,
+      -1.6
+     ],
+     "p1": [
+      0.5,
+      0.5,
+      -1.2
+     ],
+     "m0": [
+      0,
+      0.7,
+      0.3
+     ],
+     "m1": [
+      0,
+      0.7,
+      0.3
+     ],
+     "attore": {
+      "presente": true,
+      "yaw": 0,
+      "percorso": [],
+      "velocita": 0,
+      "nascondi": false,
+      "pos": [
+       1.0,
+       -9.0
+      ]
+     }
+    },
+    {
+     "da": "cs_intro_019",
+     "taglio": "",
+     "fov0": 45,
+     "fov1": 0,
+     "segui": "",
+     "ease": "dolce",
+     "scossa": 0,
+     "consegna": false,
+     "musica": "",
+     "inserto": {
+      "tipo": "pezzi",
+      "parti": [
+       {
+        "id": "rotaia_s",
+        "forma": "cubo",
+        "materiale": "metallo",
+        "colore": "#3a3733",
+        "x": -0.37,
+        "y": 0.1,
+        "z": 0,
+        "rx": 0,
+        "ry": 0,
+        "rz": 0,
+        "sx": 0.06,
+        "sy": 0.1,
+        "sz": 3.2,
+        "testo": "",
+        "dimensione": 0.05,
+        "modello": ""
+       },
+       {
+        "id": "rotaia_d",
+        "forma": "cubo",
+        "materiale": "metallo",
+        "colore": "#3a3733",
+        "x": 0.37,
+        "y": 0.1,
+        "z": 0,
+        "rx": 0,
+        "ry": 0,
+        "rz": 0,
+        "sx": 0.06,
+        "sy": 0.1,
+        "sz": 3.2,
+        "testo": "",
+        "dimensione": 0.05,
+        "modello": ""
+       },
+       {
+        "id": "traversina0",
+        "forma": "cubo",
+        "materiale": "legno",
+        "colore": "#3b2a1c",
+        "x": 0,
+        "y": 0.03,
+        "z": -1.4,
+        "rx": 0,
+        "ry": 0,
+        "rz": 0,
+        "sx": 1.1,
+        "sy": 0.06,
+        "sz": 0.16,
+        "testo": "",
+        "dimensione": 0.05,
+        "modello": ""
+       },
+       {
+        "id": "traversina1",
+        "forma": "cubo",
+        "materiale": "legno",
+        "colore": "#3b2a1c",
+        "x": 0,
+        "y": 0.03,
+        "z": -1.0499999999999998,
+        "rx": 0,
+        "ry": 0,
+        "rz": 0,
+        "sx": 1.1,
+        "sy": 0.06,
+        "sz": 0.16,
+        "testo": "",
+        "dimensione": 0.05,
+        "modello": ""
+       },
+       {
+        "id": "traversina2",
+        "forma": "cubo",
+        "materiale": "legno",
+        "colore": "#3b2a1c",
+        "x": 0,
+        "y": 0.03,
+        "z": -0.7,
+        "rx": 0,
+        "ry": 0,
+        "rz": 0,
+        "sx": 1.1,
+        "sy": 0.06,
+        "sz": 0.16,
+        "testo": "",
+        "dimensione": 0.05,
+        "modello": ""
+       },
+       {
+        "id": "traversina3",
+        "forma": "cubo",
+        "materiale": "legno",
+        "colore": "#3b2a1c",
+        "x": 0,
+        "y": 0.03,
+        "z": -0.3500000000000001,
+        "rx": 0,
+        "ry": 0,
+        "rz": 0,
+        "sx": 1.1,
+        "sy": 0.06,
+        "sz": 0.16,
+        "testo": "",
+        "dimensione": 0.05,
+        "modello": ""
+       },
+       {
+        "id": "traversina4",
+        "forma": "cubo",
+        "materiale": "legno",
+        "colore": "#3b2a1c",
+        "x": 0,
+        "y": 0.03,
+        "z": 0.0,
+        "rx": 0,
+        "ry": 0,
+        "rz": 0,
+        "sx": 1.1,
+        "sy": 0.06,
+        "sz": 0.16,
+        "testo": "",
+        "dimensione": 0.05,
+        "modello": ""
+       },
+       {
+        "id": "traversina5",
+        "forma": "cubo",
+        "materiale": "legno",
+        "colore": "#3b2a1c",
+        "x": 0,
+        "y": 0.03,
+        "z": 0.3500000000000001,
+        "rx": 0,
+        "ry": 0,
+        "rz": 0,
+        "sx": 1.1,
+        "sy": 0.06,
+        "sz": 0.16,
+        "testo": "",
+        "dimensione": 0.05,
+        "modello": ""
+       },
+       {
+        "id": "traversina6",
+        "forma": "cubo",
+        "materiale": "legno",
+        "colore": "#3b2a1c",
+        "x": 0,
+        "y": 0.03,
+        "z": 0.6999999999999997,
+        "rx": 0,
+        "ry": 0,
+        "rz": 0,
+        "sx": 1.1,
+        "sy": 0.06,
+        "sz": 0.16,
+        "testo": "",
+        "dimensione": 0.05,
+        "modello": ""
+       },
+       {
+        "id": "traversina7",
+        "forma": "cubo",
+        "materiale": "legno",
+        "colore": "#3b2a1c",
+        "x": 0,
+        "y": 0.03,
+        "z": 1.0499999999999998,
+        "rx": 0,
+        "ry": 0,
+        "rz": 0,
+        "sx": 1.1,
+        "sy": 0.06,
+        "sz": 0.16,
+        "testo": "",
+        "dimensione": 0.05,
+        "modello": ""
+       },
+       {
+        "id": "traversina8",
+        "forma": "cubo",
+        "materiale": "legno",
+        "colore": "#3b2a1c",
+        "x": 0,
+        "y": 0.03,
+        "z": 1.4,
+        "rx": 0,
+        "ry": 0,
+        "rz": 0,
+        "sx": 1.1,
+        "sy": 0.06,
+        "sz": 0.16,
+        "testo": "",
+        "dimensione": 0.05,
+        "modello": ""
+       }
+      ],
+      "distanza": 0.7,
+      "giraAlSecondo": 6,
+      "inclina": 24,
+      "alto": 0.1,
+      "fov": 32,
+      "luce": "calda"
+     }
+    },
+    {
+     "da": "cs_intro_020",
+     "taglio": "",
+     "fov0": 45,
+     "fov1": 0,
+     "segui": "",
+     "ease": "dolce",
+     "scossa": 0,
+     "consegna": false,
+     "musica": "",
+     "inserto": {
+      "tipo": "pezzi",
+      "parti": [
+       {
+        "id": "cordino",
+        "forma": "cubo",
+        "materiale": "stoffa",
+        "colore": "#4a3a2a",
+        "x": 0,
+        "y": 0.5,
+        "z": 0,
+        "rx": 0,
+        "ry": 0,
+        "rz": 0,
+        "sx": 1.25,
+        "sy": 0.01,
+        "sz": 0.01,
+        "testo": "",
+        "dimensione": 0.05,
+        "modello": ""
+       },
+       {
+        "id": "filo0",
+        "forma": "cubo",
+        "materiale": "stoffa",
+        "colore": "#4a3a2a",
+        "x": -0.5,
+        "y": 0.44,
+        "z": 0,
+        "rx": 0,
+        "ry": 0,
+        "rz": 0,
+        "sx": 0.004,
+        "sy": 0.1,
+        "sz": 0.004,
+        "testo": "",
+        "dimensione": 0.05,
+        "modello": ""
+       },
+       {
+        "id": "cartellino0",
+        "forma": "cubo",
+        "materiale": "carta",
+        "colore": "#cdbb8f",
+        "x": -0.5,
+        "y": 0.33,
+        "z": 0,
+        "rx": 0,
+        "ry": 0,
+        "rz": 6,
+        "sx": 0.15,
+        "sy": 0.2,
+        "sz": 0.004,
+        "testo": "AMERIGO",
+        "dimensione": 0.017,
+        "modello": ""
+       },
+       {
+        "id": "filo1",
+        "forma": "cubo",
+        "materiale": "stoffa",
+        "colore": "#4a3a2a",
+        "x": -0.3,
+        "y": 0.44,
+        "z": 0,
+        "rx": 0,
+        "ry": 0,
+        "rz": 0,
+        "sx": 0.004,
+        "sy": 0.1,
+        "sz": 0.004,
+        "testo": "",
+        "dimensione": 0.05,
+        "modello": ""
+       },
+       {
+        "id": "cartellino1",
+        "forma": "cubo",
+        "materiale": "carta",
+        "colore": "#cdbb8f",
+        "x": -0.3,
+        "y": 0.33,
+        "z": 0,
+        "rx": 0,
+        "ry": 0,
+        "rz": -7,
+        "sx": 0.15,
+        "sy": 0.2,
+        "sz": 0.004,
+        "testo": "TOMMASINO",
+        "dimensione": 0.017,
+        "modello": ""
+       },
+       {
+        "id": "filo2",
+        "forma": "cubo",
+        "materiale": "stoffa",
+        "colore": "#4a3a2a",
+        "x": -0.09999999999999998,
+        "y": 0.44,
+        "z": 0,
+        "rx": 0,
+        "ry": 0,
+        "rz": 0,
+        "sx": 0.004,
+        "sy": 0.1,
+        "sz": 0.004,
+        "testo": "",
+        "dimensione": 0.05,
+        "modello": ""
+       },
+       {
+        "id": "cartellino2",
+        "forma": "cubo",
+        "materiale": "carta",
+        "colore": "#cdbb8f",
+        "x": -0.09999999999999998,
+        "y": 0.33,
+        "z": 0,
+        "rx": 0,
+        "ry": 0,
+        "rz": 6,
+        "sx": 0.15,
+        "sy": 0.2,
+        "sz": 0.004,
+        "testo": "CARMELA",
+        "dimensione": 0.017,
+        "modello": ""
+       },
+       {
+        "id": "filo3",
+        "forma": "cubo",
+        "materiale": "stoffa",
+        "colore": "#4a3a2a",
+        "x": 0.10000000000000009,
+        "y": 0.44,
+        "z": 0,
+        "rx": 0,
+        "ry": 0,
+        "rz": 0,
+        "sx": 0.004,
+        "sy": 0.1,
+        "sz": 0.004,
+        "testo": "",
+        "dimensione": 0.05,
+        "modello": ""
+       },
+       {
+        "id": "cartellino3",
+        "forma": "cubo",
+        "materiale": "carta",
+        "colore": "#cdbb8f",
+        "x": 0.10000000000000009,
+        "y": 0.33,
+        "z": 0,
+        "rx": 0,
+        "ry": 0,
+        "rz": -7,
+        "sx": 0.15,
+        "sy": 0.2,
+        "sz": 0.004,
+        "testo": "GENNARO",
+        "dimensione": 0.017,
+        "modello": ""
+       },
+       {
+        "id": "filo4",
+        "forma": "cubo",
+        "materiale": "stoffa",
+        "colore": "#4a3a2a",
+        "x": 0.30000000000000004,
+        "y": 0.44,
+        "z": 0,
+        "rx": 0,
+        "ry": 0,
+        "rz": 0,
+        "sx": 0.004,
+        "sy": 0.1,
+        "sz": 0.004,
+        "testo": "",
+        "dimensione": 0.05,
+        "modello": ""
+       },
+       {
+        "id": "cartellino4",
+        "forma": "cubo",
+        "materiale": "carta",
+        "colore": "#cdbb8f",
+        "x": 0.30000000000000004,
+        "y": 0.33,
+        "z": 0,
+        "rx": 0,
+        "ry": 0,
+        "rz": 6,
+        "sx": 0.15,
+        "sy": 0.2,
+        "sz": 0.004,
+        "testo": "ROSETTA",
+        "dimensione": 0.017,
+        "modello": ""
+       },
+       {
+        "id": "filo5",
+        "forma": "cubo",
+        "materiale": "stoffa",
+        "colore": "#4a3a2a",
+        "x": 0.5,
+        "y": 0.44,
+        "z": 0,
+        "rx": 0,
+        "ry": 0,
+        "rz": 0,
+        "sx": 0.004,
+        "sy": 0.1,
+        "sz": 0.004,
+        "testo": "",
+        "dimensione": 0.05,
+        "modello": ""
+       },
+       {
+        "id": "cartellino5",
+        "forma": "cubo",
+        "materiale": "carta",
+        "colore": "#cdbb8f",
+        "x": 0.5,
+        "y": 0.33,
+        "z": 0,
+        "rx": 0,
+        "ry": 0,
+        "rz": -7,
+        "sx": 0.15,
+        "sy": 0.2,
+        "sz": 0.004,
+        "testo": "PEPPINO",
+        "dimensione": 0.017,
+        "modello": ""
+       }
+      ],
+      "distanza": 0.9,
+      "giraAlSecondo": -8,
+      "inclina": 5,
+      "alto": 0.25,
+      "fov": 32,
+      "luce": "lampada"
+     }
+    },
+    {
+     "da": "cs_intro_021",
+     "taglio": "",
+     "fov0": 44,
+     "fov1": 0,
+     "segui": "bambino",
+     "ease": "dolce",
+     "scossa": 0,
+     "consegna": false,
+     "musica": "-",
+     "p0": [
+      1.4,
+      1.25,
+      -2.4
+     ],
+     "p1": [
+      1.2,
+      1.15,
+      -1.8
+     ],
+     "m0": [
+      0,
+      0.8,
+      0.5
+     ],
+     "m1": [
+      0,
+      0.85,
+      0.5
+     ],
+     "attore": {
+      "presente": true,
+      "yaw": 0,
+      "percorso": [],
+      "velocita": 0,
+      "nascondi": false,
+      "pos": [
+       0.0,
+       -12.0
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "c4_oggetti",
+   "scena": "10_Hub_Vicolo",
+   "stile": "fade",
+   "musica": "tema_amerigo_scoperta",
+   "tinta": "#7A93B02A",
+   "inquadrature": [
+    {
+     "da": "",
+     "taglio": "",
+     "fov0": 44,
+     "fov1": 38,
+     "segui": "adulto",
+     "ease": "dolce",
+     "scossa": 0,
+     "consegna": false,
+     "musica": "",
+     "p0": [
+      0.55,
+      1.55,
+      -1.7
+     ],
+     "p1": [
+      0.32,
+      1.52,
+      -1.2
+     ],
+     "m0": [
+      0,
+      1.25,
+      1.0
+     ],
+     "m1": [
+      0,
+      1.2,
+      1.0
+     ],
+     "attore": {
+      "presente": true,
+      "yaw": 270,
+      "percorso": [],
+      "velocita": 0,
+      "nascondi": false,
+      "pos": [
+       -8.3,
+       -2.0
+      ]
+     }
+    },
+    {
+     "da": "cs_intro_023",
+     "taglio": "",
+     "fov0": 46,
+     "fov1": 0,
+     "segui": "adulto",
+     "ease": "dolce",
+     "scossa": 0,
+     "consegna": false,
+     "musica": "",
+     "p0": [
+      0.35,
+      1.65,
+      -1.5
+     ],
+     "p1": [
+      0.25,
+      1.65,
+      -1.9
+     ],
+     "m0": [
+      0,
+      1.5,
+      2.2
+     ],
+     "m1": [
+      0,
+      1.5,
+      2.6
+     ],
+     "attore": {
+      "presente": true,
+      "yaw": 90,
+      "percorso": [
+       -3.6,
+       -2.0
+      ],
+      "velocita": 0.9,
+      "nascondi": false,
+      "pos": [
+       -7.0,
+       -2.0
+      ]
+     }
+    },
+    {
+     "da": "cs_intro_024",
+     "taglio": "",
+     "fov0": 45,
+     "fov1": 0,
+     "segui": "",
+     "ease": "dolce",
+     "scossa": 0,
+     "consegna": false,
+     "musica": "",
+     "inserto": {
+      "tipo": "pezzi",
+      "parti": [
+       {
+        "id": "asse",
+        "forma": "cubo",
+        "materiale": "legno",
+        "colore": "#4a3220",
+        "x": 0,
+        "y": -0.02,
+        "z": 0,
+        "rx": 0,
+        "ry": 0,
+        "rz": 0,
+        "sx": 0.7,
+        "sy": 0.04,
+        "sz": 0.35,
+        "testo": "",
+        "dimensione": 0.05,
+        "modello": ""
+       },
+       {
+        "id": "scarpa_s",
+        "forma": "scarpa",
+        "materiale": "",
+        "colore": "",
+        "x": -0.1,
+        "y": 0,
+        "z": -0.03,
+        "rx": 0,
+        "ry": 20,
+        "rz": 0,
+        "sx": 1.5,
+        "sy": 1.5,
+        "sz": 1.5,
+        "testo": "militari",
+        "dimensione": 0.05,
+        "modello": ""
+       },
+       {
+        "id": "scarpa_d",
+        "forma": "scarpa",
+        "materiale": "",
+        "colore": "",
+        "x": 0.1,
+        "y": 0,
+        "z": 0.04,
+        "rx": 0,
+        "ry": 5,
+        "rz": 0,
+        "sx": 1.5,
+        "sy": 1.5,
+        "sz": 1.5,
+        "testo": "militari",
+        "dimensione": 0.05,
+        "modello": ""
+       }
+      ],
+      "distanza": 0.9,
+      "giraAlSecondo": 16,
+      "inclina": 18,
+      "alto": 0.25,
+      "fov": 32,
+      "luce": "lampada"
+     }
+    },
+    {
+     "da": "cs_intro_025",
+     "taglio": "",
+     "fov0": 45,
+     "fov1": 0,
+     "segui": "",
+     "ease": "dolce",
+     "scossa": 0,
+     "consegna": false,
+     "musica": "",
+     "inserto": {
+      "tipo": "pezzi",
+      "parti": [
+       {
+        "id": "lucchetto",
+        "forma": "cubo",
+        "materiale": "ottone",
+        "colore": "#8a6a2c",
+        "x": -0.55,
+        "y": 0.08,
+        "z": 0,
+        "rx": 0,
+        "ry": 0,
+        "rz": 0,
+        "sx": 0.32,
+        "sy": 0.38,
+        "sz": 0.1,
+        "testo": "",
+        "dimensione": 0.05,
+        "modello": "lucchetto",
+        "msx": 0.32,
+        "msy": 0.469,
+        "msz": 0.107,
+        "mox": 0.0,
+        "moy": -0.0055,
+        "moz": -0.0015
+       },
+       {
+        "id": "foglio",
+        "forma": "cubo",
+        "materiale": "carta",
+        "colore": "#d3c49a",
+        "x": 0,
+        "y": 0.195,
+        "z": 0,
+        "rx": 0,
+        "ry": 0,
+        "rz": 0,
+        "sx": 0.45,
+        "sy": 0.85,
+        "sz": 0.0154,
+        "testo": "",
+        "dimensione": 0.05,
+        "modello": "calendario"
+       },
+       {
+        "id": "placca",
+        "forma": "cubo",
+        "materiale": "ottone",
+        "colore": "#8a6a2c",
+        "x": 0,
+        "y": -0.115,
+        "z": -0.012,
+        "rx": 0,
+        "ry": 0,
+        "rz": 0,
+        "sx": 0.46,
+        "sy": 0.16,
+        "sz": 0.02,
+        "testo": "",
+        "dimensione": 0.05,
+        "modello": "placca_ottone"
+       },
+       {
+        "id": "cornice",
+        "forma": "cubo",
+        "materiale": "legno",
+        "colore": "#3a2616",
+        "x": 0.56,
+        "y": 0.1,
+        "z": 0,
+        "rx": 0,
+        "ry": 0,
+        "rz": 0,
+        "sx": 0.36,
+        "sy": 0.46,
+        "sz": 0.045,
+        "testo": "",
+        "dimensione": 0.05,
+        "modello": "cornice",
+        "msx": 0.36,
+        "msy": 0.46,
+        "msz": 0.1198,
+        "mox": 0.0,
+        "moy": 0.0,
+        "moz": 0.0314
+       },
+       {
+        "id": "foto",
+        "forma": "cubo",
+        "materiale": "carta",
+        "colore": "#7b6a52",
+        "x": 0.56,
+        "y": 0.1,
+        "z": -0.0165,
+        "rx": 0,
+        "ry": 0,
+        "rz": 0,
+        "sx": 0.22,
+        "sy": 0.3,
+        "sz": 0.004,
+        "testo": "",
+        "dimensione": 0.05,
+        "modello": "fotografia"
+       }
+      ],
+      "distanza": 1.0,
+      "giraAlSecondo": 12,
+      "inclina": 8,
+      "alto": 0.25,
+      "fov": 32,
+      "luce": "calda"
+     }
+    },
+    {
+     "da": "cs_intro_026",
+     "taglio": "",
+     "fov0": 45,
+     "fov1": 0,
+     "segui": "",
+     "ease": "dolce",
+     "scossa": 0,
+     "consegna": false,
+     "musica": "",
+     "inserto": {
+      "tipo": "pezzi",
+      "parti": [
+       {
+        "id": "base",
+        "forma": "cubo",
+        "materiale": "metallo",
+        "colore": "#6e6a5a",
+        "x": -0.2,
+        "y": 0.05,
+        "z": 0,
+        "rx": 0,
+        "ry": 0,
+        "rz": 0,
+        "sx": 0.302,
+        "sy": 0.1,
+        "sz": 0.2098,
+        "testo": "",
+        "dimensione": 0.05,
+        "modello": "cassetta_corpo"
+       },
+       {
+        "id": "coperchio",
+        "forma": "cubo",
+        "materiale": "metallo",
+        "colore": "#7a7664",
+        "x": -0.2,
+        "y": 0.2,
+        "z": 0.1,
+        "rx": -100,
+        "ry": 0,
+        "rz": 0,
+        "sx": 0.31,
+        "sy": 0.032,
+        "sz": 0.21,
+        "testo": "",
+        "dimensione": 0.05,
+        "modello": "cassetta_coperchio"
+       },
+       {
+        "id": "bottoni",
+        "forma": "cilindro",
+        "materiale": "ottone",
+        "colore": "#9a7a3c",
+        "x": -0.2,
+        "y": 0.095,
+        "z": 0,
+        "rx": 0,
+        "ry": 0,
+        "rz": 0,
+        "sx": 0.08,
+        "sy": 0.01,
+        "sz": 0.08,
+        "testo": "",
+        "dimensione": 0.05,
+        "modello": ""
+       },
+       {
+        "id": "quaderno",
+        "forma": "cubo",
+        "materiale": "carta",
+        "colore": "#1b1815",
+        "x": 0.27,
+        "y": 0.012,
+        "z": -0.02,
+        "rx": 0,
+        "ry": -12,
+        "rz": 0,
+        "sx": 0.2,
+        "sy": 0.024,
+        "sz": 0.28,
+        "testo": "",
+        "dimensione": 0.05,
+        "modello": ""
+       },
+       {
+        "id": "pagine",
+        "forma": "cubo",
+        "materiale": "carta",
+        "colore": "#e3d8bc",
+        "x": 0.27,
+        "y": 0.026,
+        "z": -0.02,
+        "rx": 0,
+        "ry": -12,
+        "rz": 0,
+        "sx": 0.18,
+        "sy": 0.01,
+        "sz": 0.26,
+        "testo": "",
+        "dimensione": 0.05,
+        "modello": ""
+       },
+       {
+        "id": "matita",
+        "forma": "cilindro",
+        "materiale": "legno",
+        "colore": "#c9a24a",
+        "x": 0.1,
+        "y": 0.03,
+        "z": 0.1,
+        "rx": 0,
+        "ry": 25,
+        "rz": 90,
+        "sx": 0.008,
+        "sy": 0.18,
+        "sz": 0.008,
+        "testo": "",
+        "dimensione": 0.05,
+        "modello": ""
+       }
+      ],
+      "distanza": 0.9,
+      "giraAlSecondo": 12,
+      "inclina": 24,
+      "alto": 0.25,
+      "fov": 32,
+      "luce": "lampada"
+     }
+    }
+   ]
+  },
+  {
+   "id": "c5_strada",
+   "scena": "10_Hub_Vicolo",
+   "stile": "fade",
+   "musica": "tema_amerigo_solo",
+   "tinta": "#7A93B02A",
+   "inquadrature": [
+    {
+     "da": "",
+     "taglio": "",
+     "fov0": 52,
+     "fov1": 48,
+     "segui": "",
+     "ease": "dolce",
+     "scossa": 0,
+     "consegna": false,
+     "musica": "",
+     "p0": [
+      0.5,
+      2.2,
+      -12
+     ],
+     "p1": [
+      0,
+      18,
+      -16
+     ],
+     "m0": [
+      -4,
+      3.5,
+      -3
+     ],
+     "m1": [
+      -6,
+      0,
+      -2
+     ],
+     "attore": {
+      "presente": true,
+      "yaw": 9999,
+      "percorso": [],
+      "velocita": 0,
+      "nascondi": true
+     }
+    },
+    {
+     "da": "cs_intro_028",
+     "taglio": "",
+     "fov0": 48,
+     "fov1": 44,
+     "segui": "",
+     "ease": "dolce",
+     "scossa": 0,
+     "consegna": false,
+     "musica": "",
+     "p0": [
+      0,
+      18,
+      -16
+     ],
+     "p1": [
+      0,
+      30,
+      -18
+     ],
+     "m0": [
+      -6,
+      0,
+      -2
+     ],
+     "m1": [
+      -6,
+      0,
+      -2
+     ],
+     "inserto": {
+      "tipo": "pianta",
+      "scena": "10_Hub_Vicolo",
+      "croce": "si"
+     }
+    },
+    {
+     "da": "cs_intro_030",
+     "taglio": "",
+     "fov0": 45,
+     "fov1": 0,
+     "segui": "",
+     "ease": "dolce",
+     "scossa": 0,
+     "consegna": false,
+     "musica": "",
+     "inserto": {
+      "tipo": "pezzi",
+      "parti": [
+       {
+        "id": "corpo",
+        "forma": "cubo",
+        "materiale": "ottone",
+        "colore": "#8a6a2c",
+        "x": 0,
+        "y": 0.08,
+        "z": 0,
+        "rx": 0,
+        "ry": 0,
+        "rz": 0,
+        "sx": 0.32,
+        "sy": 0.38,
+        "sz": 0.1,
+        "testo": "",
+        "dimensione": 0.05,
+        "modello": "lucchetto",
+        "msx": 0.32,
+        "msy": 0.469,
+        "msz": 0.107,
+        "mox": 0.0,
+        "moy": -0.0055,
+        "moz": -0.0015
+       }
+      ],
+      "distanza": 1.05,
+      "giraAlSecondo": 14,
+      "inclina": 10,
+      "alto": 0.25,
+      "fov": 32,
+      "luce": "lampada",
+      "indizio": "si"
+     }
+    },
+    {
+     "da": "cs_intro_031",
+     "taglio": "",
+     "fov0": 45,
+     "fov1": 0,
+     "segui": "",
+     "ease": "dolce",
+     "scossa": 0,
+     "consegna": false,
+     "musica": "",
+     "inserto": {
+      "tipo": "pezzi",
+      "parti": [
+       {
+        "id": "corpo",
+        "forma": "cubo",
+        "materiale": "ottone",
+        "colore": "#8a6a2c",
+        "x": 0,
+        "y": 0.08,
+        "z": 0,
+        "rx": 0,
+        "ry": 0,
+        "rz": 0,
+        "sx": 0.32,
+        "sy": 0.38,
+        "sz": 0.1,
+        "testo": "",
+        "dimensione": 0.05,
+        "modello": "lucchetto",
+        "msx": 0.32,
+        "msy": 0.469,
+        "msz": 0.107,
+        "mox": 0.0,
+        "moy": -0.0055,
+        "moz": -0.0015
+       }
+      ],
+      "distanza": 1.05,
+      "giraAlSecondo": -14,
+      "inclina": 10,
+      "alto": 0.25,
+      "fov": 32,
+      "luce": "lampada",
+      "errore": "si"
+     }
+    }
+   ]
+  },
+  {
+   "id": "c6_perche",
+   "scena": "30_FB_Scarpe",
+   "stile": "ricordo",
+   "musica": "tema_amerigo_ricordo",
+   "tinta": "#8A5A2B60",
+   "tintaFine": "#8A5A2B00",
+   "inquadrature": [
+    {
+     "da": "",
+     "taglio": "",
+     "fov0": 44,
+     "fov1": 0,
+     "segui": "bambino",
+     "ease": "dolce",
+     "scossa": 0,
+     "consegna": false,
+     "musica": "",
+     "p0": [
+      0.9,
+      0.95,
+      -3.0
+     ],
+     "p1": [
+      0.6,
+      0.82,
+      -2.3
+     ],
+     "m0": [
+      0,
+      0.7,
+      3.5
+     ],
+     "m1": [
+      0,
+      0.7,
+      3.5
+     ],
+     "attore": {
+      "presente": true,
+      "yaw": 0,
+      "percorso": [
+       0,
+       -12.5
+      ],
+      "velocita": 0.6,
+      "nascondi": false,
+      "pos": [
+       0,
+       -17.5
+      ]
+     }
+    },
+    {
+     "da": "cs_intro_033",
+     "taglio": "",
+     "fov0": 45,
+     "fov1": 0,
+     "segui": "bambino",
+     "ease": "dolce",
+     "scossa": 0,
+     "consegna": false,
+     "musica": "",
+     "p0": [
+      1.0,
+      1.0,
+      -2.8
+     ],
+     "m0": [
+      0,
+      0.8,
+      3
+     ],
+     "inserto": {
+      "tipo": "carta",
+      "carta": "scheda"
+     }
+    },
+    {
+     "da": "cs_intro_034",
+     "taglio": "",
+     "fov0": 45,
+     "fov1": 0,
+     "segui": "bambino",
+     "ease": "dolce",
+     "scossa": 0,
+     "consegna": false,
+     "musica": "",
+     "p0": [
+      1.0,
+      1.0,
+      -2.8
+     ],
+     "m0": [
+      0,
+      0.8,
+      3
+     ],
+     "inserto": {
+      "tipo": "carta",
+      "carta": "art3"
+     }
+    },
+    {
+     "da": "cs_intro_035",
+     "taglio": "",
+     "fov0": 45,
+     "fov1": 0,
+     "segui": "bambino",
+     "ease": "dolce",
+     "scossa": 0,
+     "consegna": false,
+     "musica": "",
+     "p0": [
+      1.0,
+      1.0,
+      -2.8
+     ],
+     "m0": [
+      0,
+      0.8,
+      3
+     ],
+     "inserto": {
+      "tipo": "carta",
+      "carta": "art2_31_34"
+     }
+    },
+    {
+     "da": "cs_intro_036",
+     "taglio": "",
+     "fov0": 45,
+     "fov1": 0,
+     "segui": "",
+     "ease": "dolce",
+     "scossa": 0,
+     "consegna": false,
+     "musica": "",
+     "inserto": {
+      "tipo": "pezzi",
+      "parti": [
+       {
+        "id": "piano",
+        "forma": "cubo",
+        "materiale": "legno",
+        "colore": "#5a3d26",
+        "x": 0,
+        "y": 0.38,
+        "z": 0,
+        "rx": 0,
+        "ry": 0,
+        "rz": 0,
+        "sx": 1.1,
+        "sy": 0.04,
+        "sz": 0.7,
+        "testo": "",
+        "dimensione": 0.05,
+        "modello": ""
+       },
+       {
+        "id": "gamba0",
+        "forma": "cubo",
+        "materiale": "legno",
+        "colore": "#4a3220",
+        "x": -0.5,
+        "y": 0.18,
+        "z": -0.28,
+        "rx": 0,
+        "ry": 0,
+        "rz": 0,
+        "sx": 0.05,
+        "sy": 0.36,
+        "sz": 0.05,
+        "testo": "",
+        "dimensione": 0.05,
+        "modello": ""
+       },
+       {
+        "id": "gamba1",
+        "forma": "cubo",
+        "materiale": "legno",
+        "colore": "#4a3220",
+        "x": 0.5,
+        "y": 0.18,
+        "z": -0.28,
+        "rx": 0,
+        "ry": 0,
+        "rz": 0,
+        "sx": 0.05,
+        "sy": 0.36,
+        "sz": 0.05,
+        "testo": "",
+        "dimensione": 0.05,
+        "modello": ""
+       },
+       {
+        "id": "gamba2",
+        "forma": "cubo",
+        "materiale": "legno",
+        "colore": "#4a3220",
+        "x": -0.5,
+        "y": 0.18,
+        "z": 0.28,
+        "rx": 0,
+        "ry": 0,
+        "rz": 0,
+        "sx": 0.05,
+        "sy": 0.36,
+        "sz": 0.05,
+        "testo": "",
+        "dimensione": 0.05,
+        "modello": ""
+       },
+       {
+        "id": "gamba3",
+        "forma": "cubo",
+        "materiale": "legno",
+        "colore": "#4a3220",
+        "x": 0.5,
+        "y": 0.18,
+        "z": 0.28,
+        "rx": 0,
+        "ry": 0,
+        "rz": 0,
+        "sx": 0.05,
+        "sy": 0.36,
+        "sz": 0.05,
+        "testo": "",
+        "dimensione": 0.05,
+        "modello": ""
+       },
+       {
+        "id": "piatto0",
+        "forma": "cilindro",
+        "materiale": "gesso",
+        "colore": "#d8d2c4",
+        "x": -0.33,
+        "y": 0.41,
+        "z": -0.12,
+        "rx": 0,
+        "ry": 0,
+        "rz": 0,
+        "sx": 0.2,
+        "sy": 0.012,
+        "sz": 0.2,
+        "testo": "",
+        "dimensione": 0.05,
+        "modello": ""
+       },
+       {
+        "id": "piatto1",
+        "forma": "cilindro",
+        "materiale": "gesso",
+        "colore": "#d8d2c4",
+        "x": 0.0,
+        "y": 0.41,
+        "z": -0.12,
+        "rx": 0,
+        "ry": 0,
+        "rz": 0,
+        "sx": 0.2,
+        "sy": 0.012,
+        "sz": 0.2,
+        "testo": "",
+        "dimensione": 0.05,
+        "modello": ""
+       },
+       {
+        "id": "piatto2",
+        "forma": "cilindro",
+        "materiale": "gesso",
+        "colore": "#d8d2c4",
+        "x": 0.33,
+        "y": 0.41,
+        "z": -0.12,
+        "rx": 0,
+        "ry": 0,
+        "rz": 0,
+        "sx": 0.2,
+        "sy": 0.012,
+        "sz": 0.2,
+        "testo": "",
+        "dimensione": 0.05,
+        "modello": ""
+       },
+       {
+        "id": "piatto_in_piu",
+        "forma": "cilindro",
+        "materiale": "gesso",
+        "colore": "#e6dfd0",
+        "x": 0.0,
+        "y": 0.41,
+        "z": 0.14,
+        "rx": 0,
+        "ry": 0,
+        "rz": 0,
+        "sx": 0.2,
+        "sy": 0.012,
+        "sz": 0.2,
+        "testo": "",
+        "dimensione": 0.05,
+        "modello": ""
+       },
+       {
+        "id": "pane",
+        "forma": "sfera",
+        "materiale": "cuoio",
+        "colore": "#9a6a35",
+        "x": 0.0,
+        "y": 0.45,
+        "z": 0.14,
+        "rx": 0,
+        "ry": 0,
+        "rz": 0,
+        "sx": 0.13,
+        "sy": 0.07,
+        "sz": 0.1,
+        "testo": "",
+        "dimensione": 0.05,
+        "modello": ""
+       },
+       {
+        "id": "candela",
+        "forma": "cilindro",
+        "materiale": "cera",
+        "colore": "#e8dcc0",
+        "x": 0.42,
+        "y": 0.47,
+        "z": 0.2,
+        "rx": 0,
+        "ry": 0,
+        "rz": 0,
+        "sx": 0.035,
+        "sy": 0.12,
+        "sz": 0.035,
+        "testo": "",
+        "dimensione": 0.05,
+        "modello": ""
+       },
+       {
+        "id": "brocca",
+        "forma": "cilindro",
+        "materiale": "gesso",
+        "colore": "#c9b89a",
+        "x": -0.42,
+        "y": 0.5,
+        "z": 0.2,
+        "rx": 0,
+        "ry": 0,
+        "rz": 0,
+        "sx": 0.1,
+        "sy": 0.22,
+        "sz": 0.1,
+        "testo": "",
+        "dimensione": 0.05,
+        "modello": ""
+       }
+      ],
+      "distanza": 0.95,
+      "giraAlSecondo": 7,
+      "inclina": 24,
+      "alto": 0.25,
+      "fov": 32,
+      "luce": "lampada"
+     }
+    },
+    {
+     "da": "cs_intro_037",
+     "taglio": "",
+     "fov0": 42,
+     "fov1": 0,
+     "segui": "bambino",
+     "ease": "dolce",
+     "scossa": 0,
+     "consegna": false,
+     "musica": "",
+     "p0": [
+      1.3,
+      1.0,
+      -2.7
+     ],
+     "p1": [
+      1.0,
+      0.95,
+      -2.1
+     ],
+     "m0": [
+      0,
+      0.75,
+      1.0
+     ],
+     "m1": [
+      0,
+      0.75,
+      1.0
+     ]
+    }
+   ]
+  },
+  {
+   "id": "c7_porta",
+   "scena": "10_Hub_Vicolo",
+   "stile": "fade",
+   "musica": "tema_amerigo_solo",
+   "tinta": "#7A93B020",
+   "inquadrature": [
+    {
+     "da": "",
+     "taglio": "",
+     "fov0": 46,
+     "fov1": 0,
+     "segui": "adulto",
+     "ease": "dolce",
+     "scossa": 0,
+     "consegna": false,
+     "musica": "",
+     "p0": [
+      0.9,
+      1.75,
+      -2.6
+     ],
+     "p1": [
+      0.55,
+      1.7,
+      -2.1
+     ],
+     "m0": [
+      0,
+      1.7,
+      3.2
+     ],
+     "m1": [
+      0,
+      1.7,
+      3.2
+     ],
+     "attore": {
+      "presente": true,
+      "yaw": 270,
+      "percorso": [],
+      "velocita": 0,
+      "nascondi": false,
+      "pos": [
+       -2.2,
+       -2.0
+      ]
+     }
+    },
+    {
+     "da": "cs_intro_040",
+     "taglio": "",
+     "fov0": 52,
+     "fov1": 46,
+     "segui": "",
+     "ease": "dolce",
+     "scossa": 0,
+     "consegna": false,
+     "musica": "",
+     "p0": [
+      0.0,
+      2.2,
+      -9.0
+     ],
+     "p1": [
+      0.3,
+      1.9,
+      -8.4
+     ],
+     "m0": [
+      5.0,
+      6.3,
+      -11.4
+     ],
+     "m1": [
+      5.4,
+      6.7,
+      -11.4
+     ],
+     "attore": {
+      "presente": true,
+      "yaw": 9999,
+      "percorso": [],
+      "velocita": 0,
+      "nascondi": true
+     }
+    },
+    {
+     "da": "cs_intro_041",
+     "taglio": "",
+     "fov0": 45,
+     "fov1": 0,
+     "segui": "",
+     "ease": "dolce",
+     "scossa": 0,
+     "consegna": true,
+     "musica": "-",
+     "attore": {
+      "presente": true,
+      "yaw": 270,
+      "percorso": [],
+      "velocita": 0,
+      "nascondi": false,
+      "pos": [
+       -2.2,
+       -2.0
+      ]
+     }
+    }
+   ]
+  }
+ ],
+ "finale": {
+  "scena": "10_Hub_Vicolo",
+  "pos": [
+   -2.2,
+   -2.0
+  ],
+  "yaw": 270
+ }
+}
