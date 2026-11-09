@@ -256,7 +256,8 @@ namespace TrenoBambini.Puzzles
         {
             var rd = def.ruote ?? new RuotaDef();
             int n = Mathf.Max(1, rd.n);
-            var mat = MondoFab.Mat("ottone", rd.colore);
+            // ottone vero (texture con patina) se c'e', altrimenti il materiale da codice
+            var mat = Resources.Load<Material>("Materiali/Enigmi/ME_Ottone") ?? MondoFab.Mat("ottone", rd.colore);
             var matRib = MondoFab.Mat("metallo", "#2b2824");
             for (int i = 0; i < n; i++)
             {
@@ -276,7 +277,8 @@ namespace TrenoBambini.Puzzles
                 var tm = t.AddComponent<TextMeshPro>();
                 tm.text = "0";
                 tm.fontSize = rd.raggio * 14f;
-                tm.fontStyle = FontStyles.Bold;
+                var fStampa = MondoFab.Font("");
+                if (fStampa != null) tm.font = fStampa; else tm.fontStyle = FontStyles.Bold; // cifre incise da stampa d'epoca
                 tm.color = new Color(0.09f, 0.06f, 0.03f);
                 tm.alignment = TextAlignmentOptions.Center;
                 tm.rectTransform.sizeDelta = new Vector2(rd.larghezza * 1.5f, rd.raggio * 1.6f);

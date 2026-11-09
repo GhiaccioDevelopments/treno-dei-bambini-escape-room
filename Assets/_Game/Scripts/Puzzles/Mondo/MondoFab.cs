@@ -17,7 +17,7 @@ namespace TrenoBambini.Puzzles
         static Shader lit;
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
-        static void Reset() { cache.Clear(); textures.Clear(); lit = null; }
+        static void Reset() { cache.Clear(); textures.Clear(); lit = null; tinte.Clear(); fonts.Clear(); }
 
         struct Prop { public Color col; public float smooth, metal; public string tex; public Prop(Color c, float s, float m, string t) { col = c; smooth = s; metal = m; tex = t; } }
 
@@ -126,7 +126,50 @@ namespace TrenoBambini.Puzzles
             return GameObject.CreatePrimitive(t);
         }
 
-        /// <summary>Istanzia un modello vero di Resources/Modelli/Enigmi, senza collider e con il materiale dato su tutte le mesh. Null se il modello manca (resta la primitiva).</summary>
+        static readonly Dictionary<string, Material> tinte = new Dictionary<string, Material>();
+        static readonly Dictionary<string, TMP_FontAsset> fonts = new Dictionary<string, TMP_FontAsset>();
+
+        /// <summary>Caratteri d'epoca (Resources/Fonts): "" = stampa (Old Standard), "mano" = scrittura a mano (Cedarville Cursive). Null = font predefinito di TMP.</summary>
+        public static TMP_FontAsset Font(string tipo)
+        {
+            string k = tipo == "mano" ? "Fonts/Mano SDF" : "Fonts/Stampa SDF";
+            TMP_FontAsset f;
+            if (!fonts.TryGetValue(k, out f) || f == null) { f = Resources.Load<TMP_FontAsset>(k); fonts[k] = f; }
+            return f;
+        }
+
+        static void Carattere(TextMeshPro tm, string tipo)
+        {
+            var f = Font(tipo);
+            if (f != null) tm.font = f;
+        }
+
+        /// <summary>
+        /// Materiale di uno slot del modello: ME_*/MX_* sono materiali propri con texture (restano), MT_* si tingono col colore della parte
+        /// (copia in cache per colore), tutto il resto prende il materiale della parte.
+        /// </summary>
+        static Material Slot(Material proprio, Material parte)
+        {
+            if (proprio == null) return parte;
+            string n = proprio.name;
+            if (n.StartsWith("ME_") || n.StartsWith("MX_")) return proprio;
+            if (n.StartsWith("MT_") && parte != null)
+            {
+                var c = parte.HasProperty("_BaseColor") ? parte.GetColor("_BaseColor") : Color.white;
+                string key = n + "|" + ColorUtility.ToHtmlStringRGB(c);
+                Material m;
+                if (!tinte.TryGetValue(key, out m) || m == null)
+                {
+                    m = new Material(proprio) { name = n + "_" + ColorUtility.ToHtmlStringRGB(c) };
+                    m.SetColor("_BaseColor", c);
+                    tinte[key] = m;
+                }
+                return m;
+            }
+            return parte;
+        }
+
+        /// <summary>Istanzia un modello vero di Resources/Modelli/Enigmi, senza collider. Null se il modello manca (resta la primitiva).</summary>
         public static GameObject Modello(string nome, Transform parent, Material mat, Vector3 pos, Vector3 rot, Vector3 scala)
         {
             if (string.IsNullOrEmpty(nome)) return null;
@@ -137,9 +180,22 @@ namespace TrenoBambini.Puzzles
             g.transform.localPosition = pos;
             g.transform.localRotation = Quaternion.Euler(rot);
             g.transform.localScale = scala;
-            foreach (var r in g.GetComponentsInChildren<Renderer>()) r.sharedMaterial = mat;
+            foreach (var r in g.GetComponentsInChildren<Renderer>())
+            {
+                var ms = r.sharedMaterials;
+                for (int i = 0; i < ms.Length; i++) ms[i] = Slot(ms[i], mat);
+                r.sharedMaterials = ms;
+            }
             foreach (var c in g.GetComponentsInChildren<Collider>()) Object.Destroy(c);
             return g;
+        }
+
+        /// <summary>Modello della parte: misura vera (msx..) e centro (mox..) se dati, altrimenti riempie la scatola della parte. 'scala' = scala del GameObject della parte.</summary>
+        static GameObject ModelloParte(ParteDef d, Transform go, Material mat, Vector3 scala)
+        {
+            float sx = Mathf.Max(1e-4f, Mathf.Abs(scala.x)), sy = Mathf.Max(1e-4f, Mathf.Abs(scala.y)), sz = Mathf.Max(1e-4f, Mathf.Abs(scala.z));
+            var dim = new Vector3(d.msx > 0f ? d.msx : d.sx, d.msy > 0f ? d.msy : d.sy, d.msz > 0f ? d.msz : d.sz);
+            return Modello(d.modello, go, mat, new Vector3(d.mox / sx, d.moy / sy, d.moz / sz), Vector3.zero, new Vector3(dim.x / sx, dim.y / sy, dim.z / sz));
         }
 
         /// <summary>Costruisce un singolo pezzo come figlio di parent. Con colliders = true il pezzo cliccabile ha il collider per i raggi.</summary>
@@ -151,6 +207,7 @@ namespace TrenoBambini.Puzzles
             {
                 go = new GameObject(d.id);
                 var tm = go.AddComponent<TextMeshPro>();
+                Carattere(tm, d.font);
                 tm.text = d.testo ?? "";
                 tm.fontSize = Mathf.Max(0.1f, d.dimensione * 10f);
                 tm.color = Hex(d.colore, new Color(0.17f, 0.12f, 0.08f));
@@ -181,6 +238,7 @@ namespace TrenoBambini.Puzzles
                     var bcv = go.AddComponent<BoxCollider>();
                     bcv.size = new Vector3(d.sx, d.sy, d.sz);
                 }
+                if (!string.IsNullOrEmpty(d.modello)) ModelloParte(d, go.transform, Mat(d.materiale, d.colore), Vector3.one); // gruppo con il suo modello vero
                 return go;
             }
 
@@ -193,7 +251,7 @@ namespace TrenoBambini.Puzzles
             go.transform.localScale = new Vector3(d.sx, d.sy, d.sz);
             var matParte = Mat(d.materiale, d.colore);
             go.GetComponent<Renderer>().sharedMaterial = matParte;
-            if (!string.IsNullOrEmpty(d.modello) && Modello(d.modello, go.transform, matParte, Vector3.zero, Vector3.zero, Vector3.one) != null)
+            if (!string.IsNullOrEmpty(d.modello) && ModelloParte(d, go.transform, matParte, go.transform.localScale) != null)
                 go.GetComponent<Renderer>().enabled = false; // al posto del cubo si vede il modello (il cubo resta come collider)
             var c = go.GetComponent<Collider>();
             if (c != null && !(colliders && d.clic)) Object.Destroy(c);
@@ -202,6 +260,7 @@ namespace TrenoBambini.Puzzles
                 // scritta sulla faccia frontale (-z)
                 var tg = new GameObject("Scritta");
                 var tm = tg.AddComponent<TextMeshPro>();
+                Carattere(tm, d.font);
                 tm.text = d.testo;
                 tm.fontSize = Mathf.Max(0.1f, d.dimensione * 10f);
                 tm.color = new Color(0.17f, 0.12f, 0.08f);
@@ -245,6 +304,12 @@ namespace TrenoBambini.Puzzles
             var mT = Mat(tomaia, cT);
             var mSuola = st == "matita" ? mT : Mat("cuoio", st == "risuolate" ? "#b07a45" : "#1c120b");
             var mLucido = st == "lucide" ? Mat("vetro", "#0e0b09") : mT;
+            if (st == "matita" && Modello("segno_matita", root.transform, mT, new Vector3(0f, 0.065f, 0f), Vector3.zero, new Vector3(0.29f, 0.13f, 1f)) != null)
+            {
+                // scarpetta disegnata a matita sulla carta (decal), non una scarpa vera
+                if (colliders && d.clic) { var bm = root.AddComponent<BoxCollider>(); bm.center = new Vector3(0f, 0.065f, 0f); bm.size = new Vector3(0.3f, 0.13f, 0.02f); }
+                return root;
+            }
 
             Part(root, PrimitiveType.Cube, "suola", new Vector3(0f, 0.012f, 0f), new Vector3(0.29f, 0.025f, 0.1f), mSuola);
             if (st == "zoccoli")

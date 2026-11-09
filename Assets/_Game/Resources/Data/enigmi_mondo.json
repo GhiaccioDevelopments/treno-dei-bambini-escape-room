@@ -94,14 +94,20 @@
      "sx": 0.36,
      "sy": 0.5,
      "sz": 0.05,
-     "modello": "panno",
+     "modello": "panno_tela",
      "clic": true,
      "azione": "errore",
-     "msg": "Una toppa di tela grigia, cucita da altre mani. Cerca la toppa a quadri, quella della tua salopette."
+     "msg": "Una toppa di tela grigia, cucita da altre mani. Cerca la toppa a quadri, quella della tua salopette.",
+     "msx": 0.3503,
+     "msy": 0.5021,
+     "msz": 0.0572,
+     "mox": 0.0042,
+     "moy": -0.001,
+     "moz": 0.0023
     },
     {
      "id": "toppa_panno_1",
-     "forma": "cubo",
+     "forma": "vuoto",
      "materiale": "stoffa",
      "colore": "#6f6f68",
      "x": -2.06,
@@ -121,14 +127,20 @@
      "sx": 0.36,
      "sy": 0.5,
      "sz": 0.05,
-     "modello": "panno",
+     "modello": "panno_quadri",
      "clic": true,
      "azione": "segna",
-     "msg": "La toppa a quadri: è la stessa della tua salopette di bambino."
+     "msg": "La toppa a quadri: è la stessa della tua salopette di bambino.",
+     "msx": 0.3431,
+     "msy": 0.5034,
+     "msz": 0.0787,
+     "mox": -0.0027,
+     "moy": -0.0016,
+     "moz": 0.0067
     },
     {
      "id": "toppa_panno_2",
-     "forma": "cubo",
+     "forma": "vuoto",
      "materiale": "quadri",
      "colore": "#9a4a34",
      "x": -1.13,
@@ -148,14 +160,20 @@
      "sx": 0.36,
      "sy": 0.5,
      "sz": 0.05,
-     "modello": "panno",
+     "modello": "panno_tela",
      "clic": true,
      "azione": "errore",
-     "msg": "Una toppa di tela grigia, cucita da altre mani. Cerca la toppa a quadri, quella della tua salopette."
+     "msg": "Una toppa di tela grigia, cucita da altre mani. Cerca la toppa a quadri, quella della tua salopette.",
+     "msx": 0.3503,
+     "msy": 0.5021,
+     "msz": 0.0572,
+     "mox": 0.0042,
+     "moy": -0.001,
+     "moz": 0.0023
     },
     {
      "id": "toppa_panno_3",
-     "forma": "cubo",
+     "forma": "vuoto",
      "materiale": "stoffa",
      "colore": "#6f6f68",
      "x": -0.46,
@@ -175,14 +193,20 @@
      "sx": 0.36,
      "sy": 0.5,
      "sz": 0.05,
-     "modello": "panno",
+     "modello": "panno_quadri",
      "clic": true,
      "azione": "segna",
-     "msg": "La toppa a quadri: è la stessa della tua salopette di bambino."
+     "msg": "La toppa a quadri: è la stessa della tua salopette di bambino.",
+     "msx": 0.3431,
+     "msy": 0.5034,
+     "msz": 0.0787,
+     "mox": -0.0027,
+     "moy": -0.0016,
+     "moz": 0.0067
     },
     {
      "id": "toppa_panno_4",
-     "forma": "cubo",
+     "forma": "vuoto",
      "materiale": "quadri",
      "colore": "#9a4a34",
      "x": 0.47000000000000003,
@@ -202,14 +226,20 @@
      "sx": 0.36,
      "sy": 0.5,
      "sz": 0.05,
-     "modello": "panno",
+     "modello": "panno_tela",
      "clic": true,
      "azione": "errore",
-     "msg": "Una toppa di tela grigia, cucita da altre mani. Cerca la toppa a quadri, quella della tua salopette."
+     "msg": "Una toppa di tela grigia, cucita da altre mani. Cerca la toppa a quadri, quella della tua salopette.",
+     "msx": 0.3503,
+     "msy": 0.5021,
+     "msz": 0.0572,
+     "mox": 0.0042,
+     "moy": -0.001,
+     "moz": 0.0023
     },
     {
      "id": "toppa_panno_5",
-     "forma": "cubo",
+     "forma": "vuoto",
      "materiale": "stoffa",
      "colore": "#6f6f68",
      "x": 1.14,
@@ -229,14 +259,20 @@
      "sx": 0.36,
      "sy": 0.5,
      "sz": 0.05,
-     "modello": "panno",
+     "modello": "panno_quadri",
      "clic": true,
      "azione": "segna",
-     "msg": "La toppa a quadri: è la stessa della tua salopette di bambino."
+     "msg": "La toppa a quadri: è la stessa della tua salopette di bambino.",
+     "msx": 0.3431,
+     "msy": 0.5034,
+     "msz": 0.0787,
+     "mox": -0.0027,
+     "moy": -0.0016,
+     "moz": 0.0067
     },
     {
      "id": "toppa_panno_6",
-     "forma": "cubo",
+     "forma": "vuoto",
      "materiale": "quadri",
      "colore": "#9a4a34",
      "x": 2.07,
@@ -253,9 +289,10 @@
      "colore": "#6b5a3e",
      "x": -2.12,
      "z": -0.01,
-     "sx": 0.025,
-     "sy": 0.07,
-     "sz": 0.02
+     "sx": 0.0135,
+     "sy": 0.072,
+     "sz": 0.024,
+     "modello": "molletta"
     },
     {
      "id": "molletta_b0",
@@ -264,9 +301,10 @@
      "colore": "#6b5a3e",
      "x": -1.88,
      "z": -0.01,
-     "sx": 0.025,
-     "sy": 0.07,
-     "sz": 0.02
+     "sx": 0.0135,
+     "sy": 0.072,
+     "sz": 0.024,
+     "modello": "molletta"
     },
     {
      "id": "molletta_1",
@@ -275,9 +313,10 @@
      "colore": "#6b5a3e",
      "x": -1.3199999999999998,
      "z": -0.01,
-     "sx": 0.025,
-     "sy": 0.07,
-     "sz": 0.02
+     "sx": 0.0135,
+     "sy": 0.072,
+     "sz": 0.024,
+     "modello": "molletta"
     },
     {
      "id": "molletta_b1",
@@ -286,9 +325,10 @@
      "colore": "#6b5a3e",
      "x": -1.08,
      "z": -0.01,
-     "sx": 0.025,
-     "sy": 0.07,
-     "sz": 0.02
+     "sx": 0.0135,
+     "sy": 0.072,
+     "sz": 0.024,
+     "modello": "molletta"
     },
     {
      "id": "molletta_2",
@@ -297,9 +337,10 @@
      "colore": "#6b5a3e",
      "x": -0.52,
      "z": -0.01,
-     "sx": 0.025,
-     "sy": 0.07,
-     "sz": 0.02
+     "sx": 0.0135,
+     "sy": 0.072,
+     "sz": 0.024,
+     "modello": "molletta"
     },
     {
      "id": "molletta_b2",
@@ -308,9 +349,10 @@
      "colore": "#6b5a3e",
      "x": -0.28,
      "z": -0.01,
-     "sx": 0.025,
-     "sy": 0.07,
-     "sz": 0.02
+     "sx": 0.0135,
+     "sy": 0.072,
+     "sz": 0.024,
+     "modello": "molletta"
     },
     {
      "id": "molletta_3",
@@ -319,9 +361,10 @@
      "colore": "#6b5a3e",
      "x": 0.28,
      "z": -0.01,
-     "sx": 0.025,
-     "sy": 0.07,
-     "sz": 0.02
+     "sx": 0.0135,
+     "sy": 0.072,
+     "sz": 0.024,
+     "modello": "molletta"
     },
     {
      "id": "molletta_b3",
@@ -330,9 +373,10 @@
      "colore": "#6b5a3e",
      "x": 0.52,
      "z": -0.01,
-     "sx": 0.025,
-     "sy": 0.07,
-     "sz": 0.02
+     "sx": 0.0135,
+     "sy": 0.072,
+     "sz": 0.024,
+     "modello": "molletta"
     },
     {
      "id": "molletta_4",
@@ -341,9 +385,10 @@
      "colore": "#6b5a3e",
      "x": 1.08,
      "z": -0.01,
-     "sx": 0.025,
-     "sy": 0.07,
-     "sz": 0.02
+     "sx": 0.0135,
+     "sy": 0.072,
+     "sz": 0.024,
+     "modello": "molletta"
     },
     {
      "id": "molletta_b4",
@@ -352,9 +397,10 @@
      "colore": "#6b5a3e",
      "x": 1.3199999999999998,
      "z": -0.01,
-     "sx": 0.025,
-     "sy": 0.07,
-     "sz": 0.02
+     "sx": 0.0135,
+     "sy": 0.072,
+     "sz": 0.024,
+     "modello": "molletta"
     },
     {
      "id": "molletta_5",
@@ -363,9 +409,10 @@
      "colore": "#6b5a3e",
      "x": 1.88,
      "z": -0.01,
-     "sx": 0.025,
-     "sy": 0.07,
-     "sz": 0.02
+     "sx": 0.0135,
+     "sy": 0.072,
+     "sz": 0.024,
+     "modello": "molletta"
     },
     {
      "id": "molletta_b5",
@@ -374,9 +421,10 @@
      "colore": "#6b5a3e",
      "x": 2.12,
      "z": -0.01,
-     "sx": 0.025,
-     "sy": 0.07,
-     "sz": 0.02
+     "sx": 0.0135,
+     "sy": 0.072,
+     "sz": 0.024,
+     "modello": "molletta"
     },
     {
      "id": "porta_verde",
@@ -455,13 +503,17 @@
      "forma": "cubo",
      "materiale": "legno",
      "colore": "#3e2a1a",
-     "sx": 0.72,
-     "sy": 0.52,
-     "sz": 0.03
+     "sx": 0.84,
+     "sy": 0.817,
+     "sz": 0.205,
+     "modello": "edicola",
+     "x": 0.0,
+     "y": 0.0915,
+     "z": -0.0875
     },
     {
      "id": "velluto",
-     "forma": "cubo",
+     "forma": "vuoto",
      "materiale": "stoffa",
      "colore": "#4a1d1d",
      "z": -0.02,
@@ -482,7 +534,13 @@
      "modello": "exvoto_cuore",
      "clic": true,
      "azione": "leggi",
-     "msg": "Un cuore d'argento: un ex-voto per una grazia al cuore."
+     "msg": "Un cuore d'argento: un ex-voto per una grazia al cuore.",
+     "msx": 0.0882,
+     "msy": 0.1,
+     "msz": 0.0078,
+     "mox": 0.0,
+     "moy": 0.0,
+     "moz": 0.0161
     },
     {
      "id": "occhio",
@@ -496,7 +554,14 @@
      "sz": 0.02,
      "clic": true,
      "azione": "leggi",
-     "msg": "Un occhio d'argento: ringrazia per una vista tornata."
+     "msg": "Un occhio d'argento: ringrazia per una vista tornata.",
+     "modello": "exvoto_occhi",
+     "msx": 0.11,
+     "msy": 0.06,
+     "msz": 0.0057,
+     "mox": 0.0,
+     "moy": 0.0,
+     "moz": 0.0171
     },
     {
      "id": "mano",
@@ -510,7 +575,14 @@
      "sz": 0.012,
      "clic": true,
      "azione": "leggi",
-     "msg": "Una mano d'argento: una mano guarita."
+     "msg": "Una mano d'argento: una mano guarita.",
+     "modello": "exvoto_mano",
+     "msx": 0.0542,
+     "msy": 0.09,
+     "msz": 0.0058,
+     "mox": -0.0054,
+     "moy": 0.0,
+     "moz": 0.0171
     },
     {
      "id": "gamba",
@@ -524,7 +596,14 @@
      "sz": 0.014,
      "clic": true,
      "azione": "leggi",
-     "msg": "Una gamba d'argento: una gamba che ha ripreso a camminare."
+     "msg": "Una gamba d'argento: una gamba che ha ripreso a camminare.",
+     "modello": "exvoto_gamba",
+     "msx": 0.0369,
+     "msy": 0.1,
+     "msz": 0.0057,
+     "mox": -0.0015,
+     "moy": 0.0,
+     "moz": 0.0171
     },
     {
      "id": "piede",
@@ -547,15 +626,18 @@
      "id": "piede_pianta",
      "forma": "cubo",
      "materiale": "argento",
-     "sx": 0.11,
+     "sx": 0.0917,
      "sy": 0.2,
-     "sz": 0.035,
+     "sz": 0.0088,
      "modello": "exvoto_piede",
-     "genitore": "piede"
+     "genitore": "piede",
+     "x": 0.0031,
+     "y": 0.0,
+     "z": 0.0106
     },
     {
      "id": "piede_dorso",
-     "forma": "cubo",
+     "forma": "vuoto",
      "materiale": "argento",
      "colore": "#9a9a94",
      "z": 0.02,
@@ -838,14 +920,20 @@
      "valore": 4,
      "evento": "raddrizza",
      "msg": "Ecco, ora sta dritta. In basso il fermaglio del fondo sembra allentato.",
-     "dopo": "linguetta"
+     "dopo": "linguetta",
+     "msx": 0.36,
+     "msy": 0.46,
+     "msz": 0.1198,
+     "mox": 0.0,
+     "moy": 0.0,
+     "moz": 0.0314
     },
     {
      "id": "passepartout",
      "forma": "cubo",
      "materiale": "carta",
      "colore": "#cdbf9f",
-     "z": -0.018,
+     "z": -0.012,
      "sx": 0.29,
      "sy": 0.39,
      "sz": 0.008,
@@ -856,15 +944,16 @@
      "forma": "cubo",
      "materiale": "carta",
      "colore": "#7b6a52",
-     "z": -0.024,
+     "z": -0.0165,
      "sx": 0.22,
      "sy": 0.3,
      "sz": 0.004,
-     "genitore": "telaio"
+     "genitore": "telaio",
+     "modello": "fotografia"
     },
     {
      "id": "mamma_c",
-     "forma": "capsula",
+     "forma": "vuoto",
      "materiale": "stoffa",
      "colore": "#2a2118",
      "x": -0.045,
@@ -877,7 +966,7 @@
     },
     {
      "id": "mamma_t",
-     "forma": "sfera",
+     "forma": "vuoto",
      "materiale": "cuoio",
      "colore": "#3a2e24",
      "x": -0.045,
@@ -890,7 +979,7 @@
     },
     {
      "id": "bimbo_c",
-     "forma": "capsula",
+     "forma": "vuoto",
      "materiale": "stoffa",
      "colore": "#3a2f25",
      "x": 0.05,
@@ -903,7 +992,7 @@
     },
     {
      "id": "bimbo_t",
-     "forma": "sfera",
+     "forma": "vuoto",
      "materiale": "cuoio",
      "colore": "#4a3a2c",
      "x": 0.05,
@@ -1112,9 +1201,13 @@
      "forma": "cubo",
      "materiale": "carta",
      "colore": "#d3c49a",
-     "sx": 0.44,
-     "sy": 0.46,
-     "sz": 0.012
+     "sx": 0.45,
+     "sy": 0.85,
+     "sz": 0.0154,
+     "modello": "calendario",
+     "x": 0.0,
+     "y": 0.195,
+     "z": 0.0007
     },
     {
      "id": "intestazione",
@@ -1423,7 +1516,8 @@
      "z": -0.012,
      "sx": 0.46,
      "sy": 0.16,
-     "sz": 0.02
+     "sz": 0.02,
+     "modello": "placca_ottone"
     },
     {
      "id": "etichetta",
@@ -1520,23 +1614,27 @@
      "materiale": "metallo",
      "colore": "#6e6a5a",
      "y": 0.05,
-     "sx": 0.3,
+     "sx": 0.302,
      "sy": 0.1,
-     "sz": 0.2
+     "sz": 0.2098,
+     "modello": "cassetta_corpo",
+     "x": 0.0,
+     "z": -0.0039
     },
     {
      "id": "coperchio",
      "forma": "cubo",
      "materiale": "metallo",
      "colore": "#7a7664",
-     "y": 0.115,
+     "y": 0.116,
      "sx": 0.31,
-     "sy": 0.03,
-     "sz": 0.21
+     "sy": 0.032,
+     "sz": 0.21,
+     "modello": "cassetta_coperchio"
     },
     {
      "id": "bordo",
-     "forma": "cubo",
+     "forma": "vuoto",
      "materiale": "metallo",
      "colore": "#55513f",
      "y": 0.1,
@@ -1549,13 +1647,14 @@
      "id": "targhetta",
      "forma": "testo",
      "materiale": "legno",
-     "colore": "#2b2418",
+     "colore": "#3d3833",
      "y": 0.118,
-     "z": -0.108,
+     "z": -0.1065,
      "sx": 0.28,
      "sy": 0.025,
      "testo": "per le scarpe",
-     "dimensione": 0.016
+     "dimensione": 0.021,
+     "font": "mano"
     },
     {
      "id": "scatto",
@@ -1584,10 +1683,11 @@
      "z": 0.1,
      "rx": -100,
      "sx": 0.31,
-     "sy": 0.012,
-     "sz": 0.2,
+     "sy": 0.032,
+     "sz": 0.21,
      "gruppo": "aperta",
-     "nascosta": true
+     "nascosta": true,
+     "modello": "cassetta_coperchio"
     },
     {
      "id": "velluto",
@@ -1766,13 +1866,17 @@
      "forma": "cubo",
      "materiale": "legno",
      "colore": "#4a2f1b",
-     "y": 0.21,
-     "sy": 0.42,
-     "sz": 0.5
+     "y": 0.257,
+     "sy": 0.526,
+     "sz": 0.548,
+     "modello": "baule_corpo",
+     "sx": 1.08,
+     "x": 0.0,
+     "z": -0.005
     },
     {
      "id": "fascia_a",
-     "forma": "cubo",
+     "forma": "vuoto",
      "materiale": "metallo",
      "colore": "#3a3631",
      "x": -0.36,
@@ -1783,7 +1887,7 @@
     },
     {
      "id": "fascia_b",
-     "forma": "cubo",
+     "forma": "vuoto",
      "materiale": "metallo",
      "colore": "#3a3631",
      "x": 0.36,
@@ -1797,10 +1901,13 @@
      "forma": "cubo",
      "materiale": "legno",
      "colore": "#553822",
-     "y": 0.47,
-     "sx": 1.04,
-     "sy": 0.1,
-     "sz": 0.54
+     "y": 0.561,
+     "sx": 1.016,
+     "sy": 0.142,
+     "sz": 0.534,
+     "modello": "baule_coperchio",
+     "x": 0.0,
+     "z": 0.001
     },
     {
      "id": "serratura",
@@ -1817,11 +1924,18 @@
      "richiede": "chiavetta_baule",
      "evento": "apri",
      "dopo": "-coperchio,g:aperto",
-     "msg": "La chiavetta gira: il coperchio si solleva."
+     "msg": "La chiavetta gira: il coperchio si solleva.",
+     "modello": "serratura_baule",
+     "msx": 0.07,
+     "msy": 0.09,
+     "msz": 0.016,
+     "mox": 0,
+     "moy": 0,
+     "moz": 0
     },
     {
      "id": "interno",
-     "forma": "cubo",
+     "forma": "vuoto",
      "materiale": "legno",
      "colore": "#2a1a10",
      "y": 0.425,
@@ -1836,14 +1950,16 @@
      "forma": "cubo",
      "materiale": "legno",
      "colore": "#553822",
-     "y": 0.62,
-     "z": 0.3,
-     "rx": -100,
-     "sx": 1.04,
-     "sy": 0.08,
-     "sz": 0.54,
+     "y": 0.7679,
+     "z": 0.3454,
+     "rx": 100,
+     "sx": 1.016,
+     "sy": 0.142,
+     "sz": 0.534,
      "gruppo": "aperto",
-     "nascosta": true
+     "nascosta": true,
+     "modello": "baule_coperchio",
+     "x": 0.0
     },
     {
      "id": "coperta",
@@ -1860,7 +1976,14 @@
      "azione": "rivela",
      "evento": "togli_coperta",
      "dopo": "g:fondo",
-     "msg": "La coperta buona, piegata con cura. Sotto, il fondo del baule sembra troppo alto."
+     "msg": "La coperta buona, piegata con cura. Sotto, il fondo del baule sembra troppo alto.",
+     "modello": "coperta",
+     "msx": 0.931,
+     "msy": 0.0947,
+     "msz": 0.4,
+     "mox": 0,
+     "moy": 0.012,
+     "moz": 0
     },
     {
      "id": "fondo",
@@ -1872,7 +1995,8 @@
      "sy": 0.02,
      "sz": 0.4,
      "gruppo": "fondo",
-     "nascosta": true
+     "nascosta": true,
+     "modello": "baule_fondo"
     },
     {
      "id": "asse_croce",
@@ -1899,11 +2023,12 @@
      "sx": 0.24,
      "sy": 0.03,
      "sz": 0.38,
-     "genitore": "asse_croce"
+     "genitore": "asse_croce",
+     "modello": "asse_croce"
     },
     {
      "id": "asse_croce_a",
-     "forma": "cubo",
+     "forma": "vuoto",
      "materiale": "metallo",
      "colore": "#2a1a10",
      "y": 0.017,
@@ -1914,7 +2039,7 @@
     },
     {
      "id": "asse_croce_b",
-     "forma": "cubo",
+     "forma": "vuoto",
      "materiale": "metallo",
      "colore": "#2a1a10",
      "y": 0.017,
@@ -1947,11 +2072,12 @@
      "sx": 0.24,
      "sy": 0.03,
      "sz": 0.38,
-     "genitore": "asse_treno"
+     "genitore": "asse_treno",
+     "modello": "asse_treno"
     },
     {
      "id": "asse_treno_c",
-     "forma": "cubo",
+     "forma": "vuoto",
      "materiale": "metallo",
      "colore": "#2a1a10",
      "y": 0.017,
@@ -1962,7 +2088,7 @@
     },
     {
      "id": "asse_treno_r1",
-     "forma": "cilindro",
+     "forma": "vuoto",
      "materiale": "metallo",
      "colore": "#2a1a10",
      "x": -0.05,
@@ -1975,7 +2101,7 @@
     },
     {
      "id": "asse_treno_r2",
-     "forma": "cilindro",
+     "forma": "vuoto",
      "materiale": "metallo",
      "colore": "#2a1a10",
      "x": 0.05,
@@ -1988,7 +2114,7 @@
     },
     {
      "id": "asse_treno_f",
-     "forma": "cilindro",
+     "forma": "vuoto",
      "materiale": "metallo",
      "colore": "#2a1a10",
      "x": 0.07,
@@ -2024,11 +2150,12 @@
      "sx": 0.24,
      "sy": 0.03,
      "sz": 0.38,
-     "genitore": "asse_scarpa"
+     "genitore": "asse_scarpa",
+     "modello": "asse_scarpa"
     },
     {
      "id": "asse_scarpa_s",
-     "forma": "scarpa",
+     "forma": "vuoto",
      "materiale": "",
      "colore": "#2a1a10",
      "x": -0.06,
@@ -2055,7 +2182,14 @@
      "azione": "rivela",
      "evento": "apri_scatolina",
      "dopo": "-scatolina,g:scarpe",
-     "msg": "Una scatolina avvolta in un panno: dentro, un paio di scarpe vecchie e curate."
+     "msg": "Una scatolina avvolta in un panno: dentro, un paio di scarpe vecchie e curate.",
+     "modello": "scatolina",
+     "msx": 0.346,
+     "msy": 0.162,
+     "msz": 0.226,
+     "mox": 0.0,
+     "moy": 0.008,
+     "moz": 0.0
     },
     {
      "id": "scarpe_prendi",

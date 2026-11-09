@@ -121,6 +121,9 @@ namespace TrenoBambini.Data
         public string richiede = "";          // oggetto necessario per l'azione (inventario attivo)
         public string produce = "";           // oggetto ottenuto con l'azione
         public string modello = "";          // modello vero (Resources/Modelli/Enigmi/<nome>, normalizzato in un cubo unitario) al posto della primitiva: collider e misure restano quelli della parte
+        public float msx, msy, msz;           // misura vera del modello (m); 0 = quella della parte (il collider resta sx,sy,sz)
+        public float mox, moy, moz;           // centro del modello rispetto al centro della parte (m, assi della parte)
+        public string font = "";              // scritte: "" = caratteri da stampa d'epoca, "mano" = scrittura a mano (matita, gesso)
         public string genitore = "";          // id di un altro pezzo: questo ne diventa figlio (posizione locale rispetto al genitore)
         public string bersaglio = "";          // id del pezzo su cui agisce gira/ruota/muovi (vuoto = questo)
         public string quando = "";             // il pezzo compare quando questo evento e' accettato ("risolto" = a enigma risolto)

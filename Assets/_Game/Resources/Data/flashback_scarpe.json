@@ -118,7 +118,8 @@
      "sx": 0.8,
      "sy": 0.22,
      "testo": "calzolaio · muratore · lavandaia\nreduce · signora · impiegato",
-     "dimensione": 0.035
+     "dimensione": 0.035,
+     "font": "mano"
     }
    ],
    "domande": [
@@ -282,7 +283,8 @@
      "y": -0.1,
      "sx": 1.75,
      "sy": 0.04,
-     "sz": 0.28
+     "sz": 0.28,
+     "modello": "piano_banco"
     },
     {
      "id": "schiena",
@@ -335,7 +337,8 @@
      "sy": 0.04,
      "testo": "per zoccoli",
      "dimensione": 0.02,
-     "genitore": "forma_zoccolo"
+     "genitore": "forma_zoccolo",
+     "font": "mano"
     },
     {
      "id": "calz_forma_zoccolo",
@@ -389,7 +392,8 @@
      "sy": 0.04,
      "testo": "alta, da scarponi",
      "dimensione": 0.02,
-     "genitore": "forma_scarpone"
+     "genitore": "forma_scarpone",
+     "font": "mano"
     },
     {
      "id": "calz_forma_scarpone",
@@ -442,7 +446,8 @@
      "sy": 0.04,
      "testo": "col tacco",
      "dimensione": 0.02,
-     "genitore": "forma_tacco"
+     "genitore": "forma_tacco",
+     "font": "mano"
     },
     {
      "id": "calz_forma_tacco",
@@ -496,7 +501,8 @@
      "sy": 0.04,
      "testo": "da rattoppare",
      "dimensione": 0.02,
-     "genitore": "forma_cartone"
+     "genitore": "forma_cartone",
+     "font": "mano"
     },
     {
      "id": "calz_forma_cartone",
@@ -550,7 +556,8 @@
      "sy": 0.04,
      "testo": "la più piccola",
      "dimensione": 0.02,
-     "genitore": "forma_piccola"
+     "genitore": "forma_piccola",
+     "font": "mano"
     },
     {
      "id": "calz_forma_piccola",
@@ -606,7 +613,8 @@
      "y": 0.45,
      "sx": 1.2,
      "sy": 0.9,
-     "sz": 0.55
+     "sz": 0.55,
+     "modello": "banco_calzolaio"
     },
     {
      "id": "piano",
@@ -616,7 +624,8 @@
      "y": 0.91,
      "sx": 1.26,
      "sy": 0.04,
-     "sz": 0.6
+     "sz": 0.6,
+     "modello": "piano_banco"
     },
     {
      "id": "cassetto",
@@ -633,11 +642,18 @@
      "valore": 0.0,
      "evento": "cassetto",
      "asse": "-z",
-     "msg": "Il cassetto del banco: sotto, il doppio fondo con i documenti."
+     "msg": "Il cassetto del banco: sotto, il doppio fondo con i documenti.",
+     "modello": "cassetto",
+     "msx": 0.5,
+     "msy": 0.2,
+     "msz": 0.061,
+     "mox": 0.0,
+     "moy": 0.0,
+     "moz": -0.0105
     },
     {
      "id": "pomello",
-     "forma": "sfera",
+     "forma": "vuoto",
      "materiale": "ottone",
      "y": 0.7,
      "z": -0.315,
@@ -655,12 +671,14 @@
      "z": -0.1,
      "ry": 25,
      "sx": 0.22,
-     "sy": 0.03,
-     "sz": 0.03
+     "sy": 0.096,
+     "sz": 0.03,
+     "modello": "martello",
+     "rx": 90
     },
     {
      "id": "martello_t",
-     "forma": "cubo",
+     "forma": "vuoto",
      "materiale": "metallo",
      "x": 0.44,
      "y": 0.97,
@@ -681,7 +699,14 @@
      "ry": -15,
      "sx": 0.3,
      "sy": 0.012,
-     "sz": 0.2
+     "sz": 0.2,
+     "modello": "pelle",
+     "msx": 0.3257,
+     "msy": 0.004,
+     "msz": 0.2091,
+     "mox": 0,
+     "moy": 0,
+     "moz": 0
     }
    ],
    "documenti": [
@@ -1062,7 +1087,13 @@
      "sx": 0.32,
      "sy": 0.38,
      "sz": 0.1,
-     "modello": "lucchetto"
+     "modello": "lucchetto",
+     "msx": 0.32,
+     "msy": 0.469,
+     "msz": 0.107,
+     "mox": 0.0,
+     "moy": -0.0055,
+     "moz": -0.0015
     },
     {
      "id": "scatto",
