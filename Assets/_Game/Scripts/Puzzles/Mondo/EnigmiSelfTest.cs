@@ -120,7 +120,7 @@ namespace TrenoBambini.Core
             yield return new WaitForEndOfFrame();
             var tex = ScreenCapture.CaptureScreenshotAsTexture();
             if (tex == null) yield break;
-            var rt = RenderTexture.GetTemporary(1280, 720, 0, RenderTextureFormat.ARGB32);
+            var rt = RenderTexture.GetTemporary(1280, 720, 0, RenderTextureFormat.ARGB32, RenderTextureReadWrite.Linear); // lineare: la cattura e' gia' in sRGB, un RT sRGB la codificherebbe due volte (colori slavati)
             Graphics.Blit(tex, rt);
             var prev = RenderTexture.active;
             RenderTexture.active = rt;

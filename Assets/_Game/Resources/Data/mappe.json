@@ -14,13 +14,10 @@
     "nessunObiettivo": "Per ora qui non c'è altro da fare.",
     "obiettivoNascosto": "Guardati intorno: se ti serve una mano, premi Indizio in un enigma e la pianta ti indicherà dove andare.",
     "capitoloFinito": "Il ricordo delle scarpe è tornato a casa con te. Il resto del viaggio ti aspetta più avanti.",
-    "tuoiPassi": "Sei qui",
     "aiuto": "M o Esc: chiudi la pianta",
     "aiutoTouch": "Tocca Chiudi per tornare al gioco",
     "aiutoSpento": "L'aiuto della mappa è su «Esploratore»: la pianta mostra solo i nomi dei vicoli e dove ti trovi.",
     "nord": "N",
-    "viaFmt": "{0}",
-    "luogoChiuso": "",
     "legenda": [
       {
         "glifo": "tu",
@@ -1024,6 +1021,7 @@
     {
       "id": "ob_bucato",
       "testo": "Trova la tua porta tra i panni stesi",
+      "capitolo": "flashback_scarpe",
       "completo": [
         "enigma_bucato"
       ],
@@ -1039,6 +1037,7 @@
     {
       "id": "ob_exvoto",
       "testo": "Cerca la chiave nell'edicola votiva",
+      "capitolo": "flashback_scarpe",
       "completo": [
         "enigma_exvoto"
       ],
@@ -1054,6 +1053,7 @@
     {
       "id": "ob_foto",
       "testo": "Guarda la fotografia storta",
+      "capitolo": "flashback_scarpe",
       "completo": [
         "enigma_foto"
       ],
@@ -1075,6 +1075,7 @@
     {
       "id": "ob_calendario",
       "testo": "Esamina il calendario del '46",
+      "capitolo": "flashback_scarpe",
       "completo": [
         "enigma_calendario"
       ],
@@ -1096,6 +1097,7 @@
     {
       "id": "ob_cassetta",
       "testo": "Apri la cassetta di latta",
+      "capitolo": "flashback_scarpe",
       "completo": [
         "enigma_cassetta"
       ],
@@ -1117,6 +1119,7 @@
     {
       "id": "ob_baule",
       "testo": "Apri il baule dell'alcova",
+      "capitolo": "flashback_scarpe",
       "completo": [
         "enigma_baule"
       ],
@@ -1138,6 +1141,7 @@
     {
       "id": "ob_passanti",
       "testo": "Guarda le scarpe di chi passa",
+      "capitolo": "flashback_scarpe",
       "completo": [
         "enigma_passanti"
       ],
@@ -1147,12 +1151,25 @@
           "x": -2.4,
           "z": -23.0,
           "testo": "Guarda le scarpe di chi passa"
+        },
+        {
+          "scena": "20_Int_BassoAntonietta",
+          "x": -4.0,
+          "z": 4.5,
+          "testo": "Riprendi le scarpe nel baule"
+        },
+        {
+          "scena": "10_Hub_Vicolo",
+          "x": -9.1,
+          "z": -2.0,
+          "testo": "Torna al basso di Antonietta"
         }
       ]
     },
     {
       "id": "ob_nascosto",
       "testo": "Cerca le scarpe nel baule del calzolaio",
+      "capitolo": "flashback_scarpe",
       "completo": [
         "enigma_nascosto"
       ],
@@ -1162,12 +1179,25 @@
           "x": -8.6,
           "z": -1.5,
           "testo": "Cerca le scarpe nel baule del calzolaio"
+        },
+        {
+          "scena": "20_Int_BassoAntonietta",
+          "x": -4.0,
+          "z": 4.5,
+          "testo": "Riprendi le scarpe nel baule"
+        },
+        {
+          "scena": "10_Hub_Vicolo",
+          "x": -9.1,
+          "z": -2.0,
+          "testo": "Torna al basso di Antonietta"
         }
       ]
     },
     {
       "id": "ob_quiz",
       "testo": "Leggi la cassetta dei diritti",
+      "capitolo": "flashback_scarpe",
       "completo": [
         "enigma_quiz"
       ],
@@ -1177,12 +1207,25 @@
           "x": -7.6,
           "z": -4.6,
           "testo": "Leggi la cassetta dei diritti"
+        },
+        {
+          "scena": "20_Int_BassoAntonietta",
+          "x": -4.0,
+          "z": 4.5,
+          "testo": "Riprendi le scarpe nel baule"
+        },
+        {
+          "scena": "10_Hub_Vicolo",
+          "x": -9.1,
+          "z": -2.0,
+          "testo": "Torna al basso di Antonietta"
         }
       ]
     },
     {
       "id": "ob_ordina",
       "testo": "Rimetti in ordine il calendario della memoria",
+      "capitolo": "flashback_scarpe",
       "completo": [
         "enigma_ordina"
       ],
@@ -1192,12 +1235,25 @@
           "x": 3.1,
           "z": -0.5,
           "testo": "Rimetti in ordine il calendario della memoria"
+        },
+        {
+          "scena": "20_Int_BassoAntonietta",
+          "x": -4.0,
+          "z": 4.5,
+          "testo": "Riprendi le scarpe nel baule"
+        },
+        {
+          "scena": "10_Hub_Vicolo",
+          "x": -9.1,
+          "z": -2.0,
+          "testo": "Torna al basso di Antonietta"
         }
       ]
     },
     {
       "id": "ob_lucchetto",
       "testo": "Apri il lucchetto dell'uscita",
+      "capitolo": "flashback_scarpe",
       "completo": [
         "enigma_lucchetto"
       ],
@@ -1207,6 +1263,18 @@
           "x": 0.0,
           "z": 35.3,
           "testo": "Apri il lucchetto dell'uscita"
+        },
+        {
+          "scena": "20_Int_BassoAntonietta",
+          "x": -4.0,
+          "z": 4.5,
+          "testo": "Riprendi le scarpe nel baule"
+        },
+        {
+          "scena": "10_Hub_Vicolo",
+          "x": -9.1,
+          "z": -2.0,
+          "testo": "Torna al basso di Antonietta"
         }
       ]
     }

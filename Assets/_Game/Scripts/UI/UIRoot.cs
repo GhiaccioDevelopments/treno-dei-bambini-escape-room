@@ -625,7 +625,7 @@ namespace TrenoBambini.UI
             }
 
             var kb = Keyboard.current;
-            if (kb == null) return;
+            if (kb == null) { UpdateSoloGamepad(); return; }
 
             // dialogo semplice: E/Spazio/Invio completa la scrittura, poi chiude (con piccola pausa per non riusare lo stesso tasto)
             if (dialogCurrent != null)
@@ -661,6 +661,19 @@ namespace TrenoBambini.UI
             if (kb.iKey.wasPressedThisFrame || kb.tabKey.wasPressedThisFrame) ToggleInventory();
             else if (kb.pKey.wasPressedThisFrame) TogglePause();
             else if (kb.escapeKey.wasPressedThisFrame && Time.unscaledTime >= ignoreEscUntil) TogglePause();
+        }
+
+        /// <summary>R019: senza tastiera (solo gamepad) Select apre e chiude la mappa grande e B la chiude.</summary>
+        void UpdateSoloGamepad()
+        {
+            if (menuScene || Cutscene.IsPlaying || Fader.Busy || dialogCurrent != null || lastModalPopFrame == Time.frameCount) return;
+            bool premuta = mappaAction != null && mappaAction.WasPressedThisFrame();
+            var gp = Gamepad.current;
+            if (PiantaGrande != null && PiantaGrande.IsOpen)
+            {
+                if (premuta || (gp != null && gp.buttonEast.wasPressedThisFrame)) PiantaGrande.Hide();
+            }
+            else if (premuta) ToggleMappa();
         }
 
         // ---------------------------------------------------------------- fps bassi => effetti ridotti

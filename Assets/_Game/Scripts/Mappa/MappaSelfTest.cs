@@ -84,7 +84,7 @@ namespace TrenoBambini.Mappa
             kb = InputSystem.AddDevice<Keyboard>("MappaTestKb");
             ms = InputSystem.AddDevice<Mouse>("MappaTestMouse");
             foreach (var d in InputSystem.devices) if (d != kb && d != ms) InputSystem.DisableDevice(d);
-            InputSystem.onDeviceChange += (d, ch) => { if ((ch == InputDeviceChange.Added || ch == InputDeviceChange.Reconnected || ch == InputDeviceChange.Enabled) && d != kb && d != ms) InputSystem.DisableDevice(d); };
+            InputSystem.onDeviceChange += (d, ch) => { if ((ch == InputDeviceChange.Added || ch == InputDeviceChange.Reconnected || ch == InputDeviceChange.Enabled) && d != kb && d != ms && !d.name.StartsWith("MappaTest")) InputSystem.DisableDevice(d); };
 
             bool fine = false;
             try { StartCoroutine(Giro(() => fine = true)); } catch (Exception e) { Log("ERRORE " + e); }
@@ -126,7 +126,7 @@ namespace TrenoBambini.Mappa
             yield return new WaitForEndOfFrame();
             var tex = ScreenCapture.CaptureScreenshotAsTexture();
             if (tex == null) yield break;
-            var rt = RenderTexture.GetTemporary(1280, 720, 0, RenderTextureFormat.ARGB32);
+            var rt = RenderTexture.GetTemporary(1280, 720, 0, RenderTextureFormat.ARGB32, RenderTextureReadWrite.Linear); // lineare: la cattura e' gia' in sRGB, un RT sRGB la codificherebbe due volte (colori slavati)
             Graphics.Blit(tex, rt);
             var prev = RenderTexture.active;
             RenderTexture.active = rt;
@@ -242,6 +242,12 @@ namespace TrenoBambini.Mappa
                 foreach (var t in o.completo) if (!(MondoStato.Trova("mondo/" + t) != null || MondoStato.Trova("flashback_scarpe/" + t) != null)) tokenOk = false;
                 Check("obiettivo " + o.id + ": il gettone di completamento e' un enigma vero", tokenOk);
                 Check("obiettivo " + o.id + ": ha almeno un punto e un testo", o.punti.Count > 0 && !string.IsNullOrEmpty(o.testo));
+                Check("obiettivo " + o.id + ": appartiene a un capitolo (dato in mappe.json)", !string.IsNullOrEmpty(o.capitolo), o.capitolo);
+                if (o.punti.Exists(x => x.scena == Ricordo))
+                {
+                    Check("obiettivo " + o.id + ": se esci dal ricordo ha un punto nel basso", o.punti.Exists(x => x.scena == Basso && !string.IsNullOrEmpty(x.testo)));
+                    Check("obiettivo " + o.id + ": se esci dal ricordo ha la porta del basso nell'hub", o.punti.Exists(x => x.scena == Hub && !string.IsNullOrEmpty(x.testo)));
+                }
             }
 
             // ---------- nuova partita
@@ -301,6 +307,11 @@ namespace TrenoBambini.Mappa
             yield return Attendi(0.8f);
             ControllaSegno("bucato", p, true);
             Check("bucato: la targa dice Largo Sant'Anna dei Panni o il vico", !string.IsNullOrEmpty(mm.NomeStrada), mm.NomeStrada);
+            yield return Porta(p.x, p.z);
+            yield return Attendi(0.6f);
+            Check("arrivati sul punto: la X si spegne (raggioArrivo)", !mm.CroceVisibile && !mm.FrecciaBordoVisibile);
+            yield return Porta(0f, -2f);
+            yield return Attendi(0.6f);
             yield return Foto("minimappa_hub_guidata_vicino");
 
             // mappa grande dell'hub: intera e ingrandita attorno ad Amerigo
@@ -346,6 +357,7 @@ namespace TrenoBambini.Mappa
             yield return Attendi(0.8f);
             Check("basso: la targa dice la stanza", mm.NomeStrada == "La stanza", mm.NomeStrada);
             ControllaSegno("fotografia (nella stanza)", p, true);
+            yield return Attendi(4.0f); // i telegrammi dell'ingresso spariscono
             yield return Foto("minimappa_basso");
 
             string[] seq = { "enigma_foto", "enigma_calendario", "enigma_cassetta", "enigma_baule" };
@@ -363,6 +375,15 @@ namespace TrenoBambini.Mappa
                     if (pp != null) { yield return Porta(0f, 0.5f); yield return Attendi(0.4f); ControllaSegno("basso " + dopo[i], pp, true); }
                 }
             }
+
+            // il baule e' aperto ma il ricordo non e' ancora iniziato: nel basso l'obiettivo e' ancora il primo passo del ricordo e la X sta sul baule
+            Obiettivo("baule aperto, ancora nel basso", "ob_passanti");
+            var pb = Obiettivi.Punto(Obiettivi.Corrente(), Basso);
+            Check("basso: la X sta sul baule con il testo 'Riprendi le scarpe nel baule'", pb != null && Mathf.Abs(pb.x - -4f) < 0.3f && Mathf.Abs(pb.z - 4.5f) < 0.3f && pb.testo == "Riprendi le scarpe nel baule", pb != null ? pb.testo : "null");
+            yield return Porta(0f, 0.5f);
+            yield return Attendi(0.6f);
+            ControllaSegno("basso, passo del ricordo", pb, true);
+            Check("hub: lo stesso passo manda alla porta del basso", Obiettivi.Punto(Obiettivi.Corrente(), Hub) != null);
 
             // ---------- ricordo
             GameManager.I.StartFlashback("scarpe");
@@ -413,6 +434,47 @@ namespace TrenoBambini.Mappa
             yield return Tap(Key.M);
             yield return Attendi(0.6f);
 
+            // ---------- solo gamepad: Select apre e chiude la mappa, B la chiude (nessuna tastiera collegata)
+            var pad = InputSystem.AddDevice<Gamepad>("MappaTestPad");
+            InputSystem.EnableDevice(pad);
+            foreach (var d in new System.Collections.Generic.List<InputDevice>(InputSystem.devices)) if (d is Keyboard) InputSystem.RemoveDevice(d);
+            yield return null; yield return null;
+            Check("senza tastiera: Keyboard.current e' nullo", Keyboard.current == null);
+            InputSystem.QueueStateEvent(pad, new GamepadState(GamepadButton.Select)); yield return null; yield return null;
+            InputSystem.QueueStateEvent(pad, new GamepadState()); yield return null; yield return null;
+            yield return Attendi(0.8f);
+            Check("solo gamepad: Select apre la mappa grande", UIRoot.I.PiantaGrande.IsOpen);
+            InputSystem.QueueStateEvent(pad, new GamepadState(GamepadButton.East)); yield return null; yield return null;
+            InputSystem.QueueStateEvent(pad, new GamepadState()); yield return null; yield return null;
+            yield return Attendi(0.8f);
+            Check("solo gamepad: B chiude la mappa grande", !UIRoot.I.PiantaGrande.IsOpen);
+            InputSystem.QueueStateEvent(pad, new GamepadState(GamepadButton.Select)); yield return null; yield return null;
+            InputSystem.QueueStateEvent(pad, new GamepadState()); yield return null; yield return null;
+            yield return Attendi(0.8f);
+            InputSystem.QueueStateEvent(pad, new GamepadState(GamepadButton.Select)); yield return null; yield return null;
+            InputSystem.QueueStateEvent(pad, new GamepadState()); yield return null; yield return null;
+            yield return Attendi(0.8f);
+            Check("solo gamepad: Select riaperto e richiuso", !UIRoot.I.PiantaGrande.IsOpen);
+            InputSystem.RemoveDevice(pad);
+            kb = InputSystem.AddDevice<Keyboard>("MappaTestKb2");
+            InputSystem.EnableDevice(kb);
+            yield return null; yield return null;
+
+            // ---------- il biglietto degli enigmi sta accanto alla minimappa, o all'angolo se non c'e'
+            var bigl = UIRoot.I.HudLayer.Find("Biglietto");
+            Check("biglietto trovato", bigl != null);
+            if (bigl != null)
+            {
+                yield return Attendi(1.2f);
+                var br = (RectTransform)bigl;
+                Check("biglietto: con la minimappa sta alla sua destra", br.anchoredPosition.x > 200f, br.anchoredPosition.x.ToString("0", Inv));
+                save.minimappaNascosta = true;
+                yield return Attendi(1.2f);
+                Check("biglietto: senza minimappa torna all'angolo", br.anchoredPosition.x < 40f, br.anchoredPosition.x.ToString("0", Inv));
+                save.minimappaNascosta = false;
+                yield return Attendi(0.8f);
+            }
+
             // ---------- nord fisso e minimappa spenta
             save.nordFisso = true;
             yield return Attendi(0.6f);
@@ -434,6 +496,7 @@ namespace TrenoBambini.Mappa
             UIRoot.I.Settings.ShowScheda("Gioco");
             yield return Attendi(0.9f);
             Check("Impostazioni: la scheda Gioco si apre", UIRoot.I.Settings.IsOpen);
+            Check("Impostazioni > Gioco: 'Ripristina predefiniti' non c'e' (vale solo per la grafica)", FindButton("Ripristina predefiniti") == null);
             yield return Foto("impostazioni_gioco");
             var righe = FindButtonsConTesto("›");
             Check("Impostazioni > Gioco: tre righe con frecce (aiuto, minimappa, nord)", righe >= 3, righe + " frecce");
@@ -458,6 +521,12 @@ namespace TrenoBambini.Mappa
             yield return ScenaPronta(Hub);
             Check("Nuova partita conserva le preferenze della mappa", GameManager.I.Save.aiutoMappa == 2 && GameManager.I.Save.nordFisso && GameManager.I.Save.minimappaNascosta);
             Obiettivo("nuova partita", "ob_bucato");
+            // salvataggio vecchio: scarpe nell'inventario e ricordo completato, ma senza i gettoni degli enigmi
+            var sv = GameManager.I.Save;
+            sv.inventario.Add("scarpe"); sv.flashbackCompletati.Add("flashback_scarpe");
+            Check("salvataggio vecchio: senza gettoni l'obiettivo non riparte dal bucato", Obiettivi.Corrente() == null, Id());
+            sv.inventario.Remove("scarpe"); sv.flashbackCompletati.Remove("flashback_scarpe");
+            Obiettivo("dopo aver tolto il ricordo completato", "ob_bucato");
             GameManager.I.Save.aiutoMappa = Obiettivi.Normale; GameManager.I.Save.nordFisso = false; GameManager.I.Save.minimappaNascosta = false;
         }
 

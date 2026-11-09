@@ -34,8 +34,16 @@ namespace TrenoBambini.Mappa
         public static ObiettivoDef Corrente()
         {
             var l = GameData.Mappe.obiettivi;
-            for (int i = 0; i < l.Count; i++) if (!Completo(l[i])) return l[i];
+            for (int i = 0; i < l.Count; i++) if (!ChiusoDalCapitolo(l[i]) && !Completo(l[i])) return l[i];
             return null;
+        }
+
+        /// <summary>Il capitolo del passo e' gia' rivissuto (anche in un salvataggio vecchio, senza i gettoni degli enigmi): il passo non e' piu' un obiettivo.</summary>
+        public static bool ChiusoDalCapitolo(ObiettivoDef o)
+        {
+            if (o == null || string.IsNullOrEmpty(o.capitolo)) return false;
+            var s = Save;
+            return s != null && s.flashbackCompletati != null && s.flashbackCompletati.Contains(o.capitolo);
         }
 
         public static bool Completo(ObiettivoDef o)

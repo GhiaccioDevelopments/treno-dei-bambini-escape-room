@@ -15,7 +15,19 @@ namespace TrenoBambini.UI
         static readonly string[] Roman = { "I", "II", "III", "IV", "V", "VI", "VII", "VIII" };
 
         /// <summary>R019: il biglietto sta a destra della minimappa (alta 216 px, a 16 px dal bordo).</summary>
-        const float TicketX = 246f;
+        const float TicketAccanto = 246f, TicketSolo = 16f;
+        float animaFino;
+
+        /// <summary>X del biglietto: accanto alla minimappa quando c'e', altrimenti all'angolo.</summary>
+        static float TicketX { get { var m = TrenoBambini.Mappa.MinimappaHud.I; return m != null && m.Visibile ? TicketAccanto : TicketSolo; } }
+
+        void Update()
+        {
+            if (!shown || ticket == null || Time.unscaledTime < animaFino) return;
+            var p = ticket.anchoredPosition;
+            float x = Mathf.MoveTowards(p.x, TicketX, 1200f * Time.unscaledDeltaTime);
+            if (!Mathf.Approximately(x, p.x)) ticket.anchoredPosition = new Vector2(x, p.y);
+        }
 
         RectTransform ticket;
         TextMeshProUGUI extraLabel;
@@ -106,6 +118,7 @@ namespace TrenoBambini.UI
                 punched = Mathf.Min(solved, holes.Count);
                 ticket.anchoredPosition = new Vector2(UITheme.ReduceEffects ? TicketX : -420f, -16f);
                 UITween.Cancel(ticket);
+                animaFino = Time.unscaledTime + 0.9f;
                 UITween.Move(ticket, new Vector2(TicketX, -16f), 0.45f, Ease.OutCubic, null, 0.25f);
             }
             else if (solved < punched)

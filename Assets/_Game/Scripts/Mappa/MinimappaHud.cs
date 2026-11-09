@@ -28,11 +28,18 @@ namespace TrenoBambini.Mappa
             get
             {
 #if UNITY_EDITOR || DEBUG
-                foreach (var a in System.Environment.GetCommandLineArgs()) if (a == "-senzaminimappa") return true;
-#endif
+                if (!senzaLetto)
+                {
+                    senzaLetto = true;
+                    foreach (var a in System.Environment.GetCommandLineArgs()) if (a == "-senzaminimappa") senza = true;
+                }
+                return senza;
+#else
                 return false;
+#endif
             }
         }
+        static bool senzaLetto, senza;
 
         const float Diametro = 216f, DiamMaschera = 188f, Raggio = DiamMaschera * 0.5f;
 
@@ -252,7 +259,13 @@ namespace TrenoBambini.Mappa
 
             Vector2 v = MappaUi.Ruota(new Vector2(punto.x - p.x, punto.z - p.z) * scala, yaw);
             float pulsa = UITheme.ReduceEffects ? 1f : 1f + 0.10f * Mathf.Sin(Time.unscaledTime * 3.2f);
-            if (v.magnitude <= Raggio - 14f)
+            float arrivo = GameData.Mappe.parametri.raggioArrivo;
+            if (arrivo > 0f && new Vector2(punto.x - p.x, punto.z - p.z).magnitude < arrivo)
+            {
+                // arrivato: la X si spegne (la riga resta finche' non si compie il passo)
+                croce.gameObject.SetActive(false); bordo.gameObject.SetActive(false);
+            }
+            else if (v.magnitude <= Raggio - 14f)
             {
                 croce.gameObject.SetActive(true); bordo.gameObject.SetActive(false);
                 croce.rectTransform.anchoredPosition = v;

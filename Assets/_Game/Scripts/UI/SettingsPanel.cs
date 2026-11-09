@@ -27,6 +27,7 @@ namespace TrenoBambini.UI
         readonly List<Riga> righe = new List<Riga>();
         string gruppo = "Generale";
         bool built;
+        GameObject ripristinaBtn;   // vale solo per la grafica: nella scheda Gioco resta nascosto
 
         /// <summary>Una riga del menu: etichetta, spiegazione, controllo a frecce.</summary>
         sealed class Riga
@@ -112,6 +113,7 @@ namespace TrenoBambini.UI
 
             // piede
             var reset = UIFactory.MakeButton(card.rectTransform, "Ripristina predefiniti", OnRipristina, new Vector2(380f, 60f), ButtonStyle.Tag, 25f);
+            ripristinaBtn = reset.gameObject;
             UIFactory.Place((RectTransform)reset.transform, new Vector2(0f, 0f), new Vector2(0f, 0f), new Vector2(48f, 20f), new Vector2(380f, 60f));
             var close = UIFactory.MakeButton(card.rectTransform, "Chiudi", Hide, new Vector2(300f, 60f), ButtonStyle.Seal, 28f, true);
             UIFactory.Place((RectTransform)close.transform, new Vector2(1f, 0f), new Vector2(1f, 0f), new Vector2(-48f, 20f), new Vector2(300f, 60f));
@@ -149,6 +151,7 @@ namespace TrenoBambini.UI
             content.anchoredPosition = Vector2.zero;
             AggiornaValori();
             AggiornaSchede();
+            if (ripristinaBtn != null) ripristinaBtn.SetActive(gruppo != "Gioco");
         }
 
         void RigaPreset()

@@ -324,8 +324,8 @@ namespace TrenoBambini.Data
     public class MappaTesti
     {
         public string titoloGrande = "Pianta", pulsante = "Mappa", chiudi = "Chiudi", legendaTitolo = "Legenda", obiettivoTitolo = "Prossimo obiettivo";
-        public string nessunObiettivo = "", obiettivoNascosto = "", capitoloFinito = "", tuoiPassi = "", aiuto = "", aiutoTouch = "", nord = "N";
-        public string aiutoSpento = "", viaFmt = "{0}", luogoChiuso = "";
+        public string nessunObiettivo = "", obiettivoNascosto = "", capitoloFinito = "", aiuto = "", aiutoTouch = "", nord = "N";
+        public string aiutoSpento = "";
         public List<MappaLegendaVoce> legenda = new List<MappaLegendaVoce>();
     }
 
@@ -362,6 +362,7 @@ namespace TrenoBambini.Data
     public class ObiettivoDef
     {
         public string id, testo;
+        public string capitolo;   // id del flashback del capitolo (es. "flashback_scarpe"): se e' tra i flashback completati il passo non e' piu' un obiettivo
         public List<string> completo = new List<string>();
         public List<ObiettivoPuntoDef> punti = new List<ObiettivoPuntoDef>();
     }
@@ -370,7 +371,6 @@ namespace TrenoBambini.Data
     [Serializable]
     public class UiMappaImp
     {
-        public string scheda = "Gioco";
         public string aiutoNome = "Aiuto della mappa", aiutoSpiega = "";
         public string guidata = "Guidata", normale = "Normale", esploratore = "Esploratore";
         public string minimappaNome = "Minimappa", minimappaSpiega = "", nordFissoNome = "Nord in alto", nordFissoSpiega = "";
