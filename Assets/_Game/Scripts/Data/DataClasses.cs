@@ -275,6 +275,7 @@ namespace TrenoBambini.Data
         public UiInventario inventario = new UiInventario();
         public UiHud hud = new UiHud();
         public UiEnigmiImp enigmiImp = new UiEnigmiImp();
+        public UiMappaImp mappaImp = new UiMappaImp();
 
         /// <summary>Dopo il caricamento: rimette i valori di ripiego dove il JSON ha messo null (un blocco o una lista mancanti non devono far crollare la UI).</summary>
         public UiMenuFile Normalizza()
@@ -288,6 +289,7 @@ namespace TrenoBambini.Data
             if (crediti.squadra == null) crediti.squadra = new List<string>();
             if (hud == null) hud = d.hud;
             if (enigmiImp == null) enigmiImp = d.enigmiImp;
+            if (mappaImp == null) mappaImp = d.mappaImp;
             if (inventario == null) inventario = d.inventario;
             if (inventario.sezioni == null || inventario.sezioni.Count != 4) inventario.sezioni = d.inventario.sezioni;
             if (inventario.quaderno == null) inventario.quaderno = d.inventario.quaderno;
@@ -295,6 +297,86 @@ namespace TrenoBambini.Data
             return this;
         }
     }
+    // ---------------------------------------------------------------- R019: minimappa e obiettivi (mappe.json)
+    [Serializable]
+    public class MappeFile
+    {
+        public MappaParametri parametri = new MappaParametri();
+        public MappaTesti testi = new MappaTesti();
+        public List<MappaScenaDef> scene = new List<MappaScenaDef>();
+        public List<ObiettivoDef> obiettivi = new List<ObiettivoDef>();
+    }
+
+    /// <summary>Numeri di funzionamento (non testi): tempi e raggi.</summary>
+    [Serializable]
+    public class MappaParametri
+    {
+        public float minutiSenzaProgressi = 3f;   // modalita' Normale: dopo tanti minuti senza progressi l'obiettivo compare
+        public float raggioNome = 14f;            // le etichette dei vicoli compaiono entro questa distanza (m)
+        public float raggioArrivo = 2.2f;         // sotto questa distanza la X dell'obiettivo si "spegne"
+        public float raggioVista = 20f;           // metri visibili intorno al giocatore nella minimappa, se la scena non lo dice
+    }
+
+    [Serializable] public class MappaLegendaVoce { public string glifo, testo; }
+
+    /// <summary>Testi della minimappa, della mappa grande e delle righe dell'obiettivo (mai nel codice).</summary>
+    [Serializable]
+    public class MappaTesti
+    {
+        public string titoloGrande = "Pianta", pulsante = "Mappa", chiudi = "Chiudi", legendaTitolo = "Legenda", obiettivoTitolo = "Prossimo obiettivo";
+        public string nessunObiettivo = "", obiettivoNascosto = "", capitoloFinito = "", tuoiPassi = "", aiuto = "", aiutoTouch = "", nord = "N";
+        public string aiutoSpento = "", viaFmt = "{0}", luogoChiuso = "";
+        public List<MappaLegendaVoce> legenda = new List<MappaLegendaVoce>();
+    }
+
+    [Serializable] public class MappaRett { public float x0, x1, z0, z1; }
+    [Serializable] public class MappaXZ { public float x, z; }
+
+    /// <summary>Una strada, un vicolo, una piazza: nome, zone (rettangoli nel mondo) e punti dove scrivere il nome sulla pianta.</summary>
+    [Serializable]
+    public class StradaDef
+    {
+        public string id, nome, tipo;   // tipo: principale | vicolo | largo | rampa | cortile
+        public List<MappaRett> zone = new List<MappaRett>();
+        public List<MappaXZ> ancore = new List<MappaXZ>();
+    }
+
+    /// <summary>Punto d'interesse disegnato sulla pianta: glifo = porta | fontana | edicola | pozzo | lavatoio | uscita | stazione | bottega.</summary>
+    [Serializable] public class MappaPuntoDef { public string id, glifo, nome; public float x, z; }
+
+    [Serializable]
+    public class MappaScenaDef
+    {
+        public string scena, titolo, tema;   // tema: normale | ricordo (look seppia)
+        public float ax0, az0, ax1, az1, ppm = 8f;   // area coperta dalla pianta (scritta dal generatore) e pixel per metro
+        public float raggio;                 // metri visibili intorno al giocatore nella minimappa (0 = valore dei parametri)
+        public List<StradaDef> strade = new List<StradaDef>();
+        public List<MappaPuntoDef> punti = new List<MappaPuntoDef>();
+    }
+
+    /// <summary>Dove portare il giocatore per un obiettivo, scena per scena (nella scena sbagliata si indica la porta da prendere).</summary>
+    [Serializable] public class ObiettivoPuntoDef { public string scena, testo; public float x, z; }
+
+    /// <summary>Un passo della storia: finche' non ha tutti i gettoni di "completo" e' il prossimo obiettivo (il primo incompleto della lista).</summary>
+    [Serializable]
+    public class ObiettivoDef
+    {
+        public string id, testo;
+        public List<string> completo = new List<string>();
+        public List<ObiettivoPuntoDef> punti = new List<ObiettivoPuntoDef>();
+    }
+
+    /// <summary>Testi delle righe di Impostazioni &gt; Gioco legate alla minimappa (ui_menu.json, blocco mappaImp).</summary>
+    [Serializable]
+    public class UiMappaImp
+    {
+        public string scheda = "Gioco";
+        public string aiutoNome = "Aiuto della mappa", aiutoSpiega = "";
+        public string guidata = "Guidata", normale = "Normale", esploratore = "Esploratore";
+        public string minimappaNome = "Minimappa", minimappaSpiega = "", nordFissoNome = "Nord in alto", nordFissoSpiega = "";
+        public string si = "Si", no = "No";
+    }
+
     [Serializable] public class CreditoVoce { public string asset, tipo, autore, licenza; }
     [Serializable] public class CreditiFile { public List<CreditoVoce> voci = new List<CreditoVoce>(); }
 }

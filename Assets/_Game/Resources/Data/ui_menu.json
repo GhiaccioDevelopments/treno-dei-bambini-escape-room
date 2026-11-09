@@ -112,7 +112,7 @@
     },
     "mappa": {
       "titolo": "Mappa",
-      "testo": "La mappa del quartiere non è ancora disponibile: arriverà con un prossimo aggiornamento."
+      "testo": "Premi M (o il pulsante Mappa in alto) per aprire la pianta del quartiere: i nomi dei vicoli, i luoghi e il prossimo passo."
     }
   },
   "enigmiImp": {
@@ -120,6 +120,20 @@
     "semplificatiSpiega": "Gli enigmi si risolvono con pannelli piatti invece della vista ravvicinata in 3D. Utile alla LIM e a chi preferisce comandi più semplici.",
     "evidenziaNome": "Evidenzia oggetti interattivi",
     "evidenziaSpiega": "Un brillio leggero sugli oggetti da esaminare negli enigmi. Spento di default: di norma si riconoscono dalla luce e dal messaggio «Esamina».",
+    "si": "Sì",
+    "no": "No"
+  },
+  "mappaImp": {
+    "scheda": "Gioco",
+    "aiutoNome": "Aiuto della mappa",
+    "aiutoSpiega": "Guidata: il prossimo obiettivo è sempre segnato. Normale: compare dopo qualche minuto senza progressi o quando chiedi un Indizio. Esploratore: solo i nomi dei vicoli e dove ti trovi.",
+    "guidata": "Guidata",
+    "normale": "Normale",
+    "esploratore": "Esploratore",
+    "minimappaNome": "Minimappa",
+    "minimappaSpiega": "La piccola pianta d'epoca in alto a sinistra. Spenta, resta la pianta grande con il tasto M.",
+    "nordFissoNome": "Nord sempre in alto",
+    "nordFissoSpiega": "Con «No» la pianta ruota insieme alla camera, così davanti a te è sempre in alto.",
     "si": "Sì",
     "no": "No"
   }

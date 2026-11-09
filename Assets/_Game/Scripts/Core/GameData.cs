@@ -17,14 +17,42 @@ namespace TrenoBambini.Core
         static List<EnigmaDef> enigmiMondo;
         static List<NascostoDef> oggettiEnigma;
         static EnigmiTesti testiEnigmi;
+        static MappeFile mappe;
         static readonly Dictionary<string, FlashbackDef> flashbacks = new Dictionary<string, FlashbackDef>();
         static readonly Dictionary<string, CutsceneDef> cutscenes = new Dictionary<string, CutsceneDef>();
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         static void ResetStatics()
         {
-            luoghi = null; oggetti = null; personaggi = null; audio = null; uiMenu = null; crediti = null; enigmiMondo = null; oggettiEnigma = null; testiEnigmi = null;
+            luoghi = null; oggetti = null; personaggi = null; audio = null; uiMenu = null; crediti = null; enigmiMondo = null; oggettiEnigma = null; testiEnigmi = null; mappe = null;
             flashbacks.Clear(); cutscenes.Clear();
+        }
+
+        /// <summary>R019: minimappa, nomi dei vicoli e obiettivi (mappe.json). Mai null.</summary>
+        public static MappeFile Mappe
+        {
+            get
+            {
+                if (mappe == null)
+                {
+                    mappe = LoadJson<MappeFile>("mappe") ?? new MappeFile();
+                    if (mappe.scene == null) mappe.scene = new List<MappaScenaDef>();
+                    if (mappe.obiettivi == null) mappe.obiettivi = new List<ObiettivoDef>();
+                    if (mappe.parametri == null) mappe.parametri = new MappaParametri();
+                    if (mappe.testi == null) mappe.testi = new MappaTesti();
+                    if (mappe.testi.legenda == null) mappe.testi.legenda = new List<MappaLegendaVoce>();
+                }
+                return mappe;
+            }
+        }
+
+        /// <summary>Descrizione della pianta di una scena (null se la scena non ne ha una).</summary>
+        public static MappaScenaDef MappaScena(string scena)
+        {
+            if (string.IsNullOrEmpty(scena)) return null;
+            var l = Mappe.scene;
+            for (int i = 0; i < l.Count; i++) if (l[i].scena == scena) return l[i];
+            return null;
         }
 
         /// <summary>R023: testi di menu iniziale e inventario (ui_menu.json).</summary>

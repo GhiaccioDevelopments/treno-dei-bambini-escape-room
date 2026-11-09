@@ -39,7 +39,7 @@ Protagonista: Amerigo Speranza, Napoli 1946.
   `Assets/_Game/Resources/Data/`. Il codice non contiene testi narrativi.
 - **Mai** immagini, musiche o dialoghi presi dal film/libro: dialoghi originali.
 - Didattica non punitiva: errore = feedback gentile + spiegazione + riprova; pulsante Indizio sempre presente.
-- Input: nuovo Input System. Tastiera (WASD/frecce, E interagisci, I inventario, Esc pausa), mouse per
+- Input: nuovo Input System. Tastiera (WASD/frecce, E interagisci, I inventario, M mappa grande, Esc pausa; gamepad: Select = mappa), mouse per
   ruotare la camera; touch: joystick virtuale + pulsanti a schermo (LIM/Chromebook).
 - Salvataggio: PlayerPrefs (chiave `treno_save`, JSON).
 - Lingua del gioco, dei commit e della documentazione: italiano.
@@ -92,6 +92,7 @@ Assets/_Game/
   Scripts/Puzzles    EscapeRoomController, PuzzleBase + Quiz/Lucchetto/Nascosto/Ordina/Abbina (pannelli 2D, anche versione semplificata)
   Scripts/Puzzles/Mondo  R009/R020: EnigmaMondo (oggetto d'epoca nel mondo), EsaminaView (vista ravvicinata 3D), MondoFab (pezzi da primitive), MondoStato, EnigmiSelfTest
   Scripts/Dialogue   CutscenePlayer, VoiceLibrary
+  Scripts/Mappa      R019: MinimappaHud (in alto a sinistra), MappaGrande (tasto M), Obiettivi (prossimo passo dallo stato del gioco), MappaUi, MappaArt, MappaSelfTest
   Scripts/UI         UIRoot (UI costruita da codice), Inventario, Pausa, Titolo, Dialog box, Toast
   Scripts/Data       classi serializzabili che rispecchiano i JSON
   Editor/            generatori sprite/tileset, costruttore scene, export CSV, build WebGL
@@ -130,6 +131,13 @@ Namespace: `TrenoBambini.<Area>` (es. `TrenoBambini.Core`).
   santini, calendario, insegne, letti dai generatori editor; mai nel codice). `gruppo`: quartiere | basso | ricordo (quale scena li usa); `tipo`: manifesto (testo a righe su carta,
   la prima e' il titolo) | insegna (una riga su tavola dipinta); `chiave` diventa il materiale `MP_<chiave>`; `w`,`h` dimensione texture in pixel; `seed` per macchie e consumo;
   colori 0..1. Lettere ammesse: A-Z, 0-9 e . , ' - ! ? : /
+- `mappe.json` (R019, minimappa e obiettivi; le piante JPG stanno in `Resources/Mappe/<scena>.jpg` e le genera **Treno > Mappa > Genera piante**, che riscrive anche `ax0,az0,ax1,az1,ppm`):
+  `{ parametri{minutiSenzaProgressi, raggioNome, raggioArrivo, raggioVista}, testi{titoloGrande, pulsante, chiudi, legendaTitolo, obiettivoTitolo, nessunObiettivo, obiettivoNascosto, capitoloFinito, aiuto, aiutoTouch, aiutoSpento, nord, legenda[{glifo,testo}]},
+  scene: [ {scena, titolo, tema: normale|ricordo, ax0,az0,ax1,az1,ppm, raggio (m visibili nella minimappa), strade[{id, nome, tipo: principale|vicolo|largo|rampa|cortile|stanza, zone[{x0,x1,z0,z1}], ancore[{x,z}]}], punti[{id, glifo: porta|fontana|edicola|pozzo|lavatoio|uscita|stazione|bottega, nome, x, z}]} ],
+  obiettivi: [ {id, testo, completo[] (gettoni di MondoStato: l'obiettivo corrente e' il primo con almeno un gettone mancante), punti[{scena, x, z, testo}] (dove andare scena per scena: nella scena sbagliata si indica la porta)} ] }`.
+  `strade[].zone` = rettangoli nel mondo (l'ultima strada della lista che contiene il giocatore da' il nome alla targa); `ancore` = dove scrivere il nome sulla pianta (compare entro `raggioNome` metri).
+  Nomi: veri per le strade principali (Via Roma già Toledo nel 1946, Vico Lungo Gelso, Via Speranzella, Via Concordia, Via Portacarrese a Montecalvario, Piazza Montecalvario), inventati ma verificati su OpenStreetMap (nessuna corrispondenza) per i vicoletti.
+  Aiuto della mappa in `SaveData`: `aiutoMappa` (0 Guidata, 1 Normale = default, 2 Esploratore), `minimappaNascosta`, `nordFisso`; testi delle righe in `ui_menu.json` (blocco `mappaImp`, scheda Impostazioni > Gioco).
 - `audio.json`: `{ scene: [ {scena, musica, ambiente[], sparsi[], intervallo[min,max], superficie: pietra|legno|ovattato} ],
   eventi: [ {id, stinger, sfx} ], volumi: {musica, ambiente, effetti, voci, duckingMusica, duckingAmbiente} }`
   - Gli id sono nomi di file in `Assets/Audio/{Musica,Ambienti,Effetti}` (menu **Treno > Audio > Aggiorna libreria**); se manca il file

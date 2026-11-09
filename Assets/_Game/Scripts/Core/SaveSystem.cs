@@ -25,6 +25,10 @@ namespace TrenoBambini.Core
         public bool enigmiSemplificati;                          // R009: pannelli 2D al posto delle viste ravvicinate (LIM, accessibilita')
         public bool evidenziaInterattivi;                        // R009: brillio leggero sugli oggetti da esaminare (spento di default)
         public float tempoGioco; // R023: secondi giocati (anteprima di Continua)
+        // R019: minimappa. aiutoMappa: 0 = Guidata (obiettivo sempre segnato), 1 = Normale (dopo qualche minuto senza progressi o con Indizio), 2 = Esploratore (nessun obiettivo)
+        public int aiutoMappa = 1;
+        public bool minimappaNascosta;   // true = minimappa spenta (la mappa grande col tasto M resta)
+        public bool nordFisso;           // true = la pianta non ruota con la camera
     }
 
     /// <summary>Salvataggio su PlayerPrefs (chiave treno_save, JSON).</summary>

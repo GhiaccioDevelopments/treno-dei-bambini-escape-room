@@ -160,6 +160,7 @@ namespace TrenoBambini.Core
                 save.effettiRidotti = vecchio.effettiRidotti;
                 save.visualeTastoDestro = vecchio.visualeTastoDestro;
                 save.enigmiSemplificati = vecchio.enigmiSemplificati; save.evidenziaInterattivi = vecchio.evidenziaInterattivi;
+                save.aiutoMappa = vecchio.aiutoMappa; save.minimappaNascosta = vecchio.minimappaNascosta; save.nordFisso = vecchio.nordFisso;
             }
             save.scena = SceneHub;
             save.spawn = "inizio";
