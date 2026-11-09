@@ -32,7 +32,7 @@ namespace TrenoBambini.Data
     [Serializable]
     public class FilmatoTesti
     {
-        public string saltaTitolo = "", rivedi = "", continuaFilmato = "", indizio = "", erroreTitolo = "", erroreTesto = "", piantaTitolo = "", piantaNota = "";
+        public string saltaTitolo = "", indizio = "", erroreTitolo = "", erroreTesto = "", piantaTitolo = "", piantaNota = "";
         public string latta = "", quaderno = "";
     }
 
@@ -58,6 +58,7 @@ namespace TrenoBambini.Data
     public class FilmatoCapitolo
     {
         public string id, scena, stile = "fade";    // stile della transizione per ENTRARE nel capitolo: fade | ricordo
+        public string look = "";                     // "ricordo" = look del ricordo (seppia, vignetta, grana) anche in una scena del presente, senza pioggia
         public string musica = "";                   // id musica (audio.json/AudioLibrary); "-" = nessuna musica, "" = quella della scena
         public string tinta = "";                    // "#RRGGBBAA" sopra la scena (look del presente piu' freddo, ricordo che si scalda)
         public string tintaFine = "";                // se presente la tinta passa lentamente a questo colore durante il capitolo
@@ -109,6 +110,7 @@ namespace TrenoBambini.Data
         public string errore = "";        // "si": biglietto gentile dell'errore
         public string croce = "";         // pianta: "si" = croce dell'obiettivo a matita
         public string scena = "";         // pianta: scena (Resources/Mappe/<scena>.jpg)
+        public string minimappa = "";     // "si": mentre dura si vede la minimappa vera in alto a sinistra
         public bool piccola;              // pianta: si rimpicciolisce in alto a sinistra come la minimappa
     }
 

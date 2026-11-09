@@ -22,6 +22,10 @@
       "etichetta": "Impostazioni"
     },
     {
+      "id": "filmato",
+      "etichetta": "Rivedi il filmato iniziale"
+    },
+    {
       "id": "crediti",
       "etichetta": "Crediti"
     },

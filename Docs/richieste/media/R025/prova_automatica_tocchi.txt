@@ -1,15 +1,17 @@
 ﻿Inizio prova filmato. Modo: con tocchi. Salvataggio presente: True
 PASS il filmato e' disponibile (copione e regia caricati)
-PASS cutscene_intro ha 41 battute cs_intro_001..041 e 7 capitoli  [41 battute, 7 capitoli]
+PASS cutscene_intro ha 36 battute cs_intro_001..036 e 7 capitoli  [36 battute, 7 capitoli]
 PASS amerigo_adulto in personaggi.json
 PASS alla Nuova partita il filmato parte da solo
-PASS il filmato arriva alla fine (non saltato)  [tempo 346 s]
-PASS tutte le 41 battute sono andate in onda  [41/41]
+PASS il filmato arriva alla fine (non saltato)  [tempo 269 s]
+DURATA misurata (dalla Nuova partita alla fine, con tocchi): 269 s = 4:28
+PASS la voce 'Rivedi il filmato iniziale' e' nel menu principale
+PASS tutte le 36 battute sono andate in onda  [36/36]
 PASS tutti i 7 capitoli sono andati in onda  [visti 7]
 PASS il filmato usa sia il presente (hub) sia il ricordo (30_FB_Scarpe)
 PASS targhetta controlli 'salta' mostrata
 PASS targhetta controlli 'muovi' mostrata
-PASS targhetta controlli 'guarda' mostrata
+PASS targhetta controlli 'muovi_guarda' mostrata
 PASS targhetta controlli 'interagisci' mostrata
 PASS targhetta controlli 'inventario' mostrata
 PASS targhetta controlli 'mappa' mostrata
@@ -30,16 +32,16 @@ PASS filmato completo: HUD visibile
 PASS filmato completo: salvataggio con filmato visto
 FPS (preset Alta, 1280x720, NVIDIA GeForce RTX 4060 Ti):
 capitolo;frame;fps_medi;fps_1pct_low;max_ms
-1;9324;208.2;62.9;94.8
-2;11321;235.7;76.9;30.2
-3;16904;243.3;61.7;51.9
-4;12054;272.1;78.6;24.9
-5;10368;259.6;78.2;34.9
-6;14294;238.1;89.8;42.2
-7;7035;253.7;109.9;19.7
-tutto;81300;243.2;72.7;94.8
+1;12985;390.4;79.4;33.6
+2;15916;380.2;50.5;79.7
+3;16866;362.3;90.5;22.4
+4;17560;447.0;103.3;22.0
+5;13165;437.6;94.8;23.5
+6;15037;319.3;71.6;29.7
+7;9714;409.4;103.2;16.2
+tutto;101243;386.6;75.9;79.7
 
-PASS FPS medi del filmato >= 60 (preset Alta)  [243 fps]
+PASS FPS medi del filmato >= 60 (preset Alta)  [387 fps]
 PASS nuova partita: il filmato riparte e arriva al secondo capitolo  [capitolo 1]
 PASS un tocco breve di Esc non salta il filmato
 PASS tenendo premuto Esc il filmato si salta
@@ -66,4 +68,11 @@ PASS dispositivo = touch in modalita' touch  [touch]
 PASS dopo il filmato rivisto il giocatore torna dov'era  [distanza 0,00 m]
 PASS dopo il filmato rivisto il gioco e' libero
 PASS rivedere il filmato non cambia il salvataggio (scena e flag)
-Fine prova: 56 PASS, 0 FAIL
+PASS Rivedi dal basso: il filmato parte
+PASS Rivedi dal basso + salto: si torna nel basso, al punto di prima  [scena 20_Int_BassoAntonietta, distanza 0,00 m]
+PASS Rivedi dal basso: il salvataggio resta nel basso e il gioco e' libero  [save.scena 20_Int_BassoAntonietta, blocchi: ]
+PASS guardiano: un regista bloccato chiude il filmato da solo (entro ~10 s)
+PASS guardiano: dopo la chiusura forzata il gioco e' libero e la HUD c'e'  [blocchi: ]
+PASS Rivedi dal menu principale: il filmato parte
+PASS Rivedi dal menu principale + salto: si torna al titolo  [scena 10_Hub_Vicolo]
+Fine prova: 64 PASS, 0 FAIL

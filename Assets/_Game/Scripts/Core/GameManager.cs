@@ -180,7 +180,24 @@ namespace TrenoBambini.Core
         {
             foreach (var a in System.Environment.GetCommandLineArgs()) if (a == "-senzafilmato") return false;
             var d = GameData.Cutscene("intro");
-            return d != null && d.battute != null && d.battute.Count > 0 && GameData.Filmato.capitoli.Count > 0;
+            var f = GameData.Filmato;
+            if (d == null || d.battute == null || d.battute.Count == 0 || f.capitoli.Count == 0) return false;
+            // ogni capitolo deve avere una scena, almeno un'inquadratura e almeno una battuta; ogni inquadratura (dopo la prima) cita una battuta che esiste
+            for (int i = 0; i < f.capitoli.Count; i++)
+            {
+                var c = f.capitoli[i];
+                if (string.IsNullOrEmpty(c.scena) || c.inquadrature == null || c.inquadrature.Count == 0 || i >= d.capitoli.Count) return false;
+                bool haBattute = false;
+                foreach (var b in d.battute) if (b != null && b.capitolo == d.capitoli[i].id) { haBattute = true; break; }
+                if (!haBattute) return false;
+                for (int k = 1; k < c.inquadrature.Count; k++)
+                {
+                    bool trovata = false;
+                    foreach (var b in d.battute) if (b != null && b.id == c.inquadrature[k].da) { trovata = true; break; }
+                    if (!trovata) return false;
+                }
+            }
+            return true;
         }
 
         /// <summary>R025: rivedi il filmato iniziale dalla pausa (o altrove). Alla fine il giocatore torna dov'era.</summary>
@@ -198,13 +215,22 @@ namespace TrenoBambini.Core
             string spawn = string.IsNullOrEmpty(s.spawn) ? "inizio" : s.spawn;
             if (!Application.CanStreamedLevelBeLoaded(scena)) { scena = SceneHub; spawn = "inizio"; }
             ResetBlocks();
+            // R025: un salvataggio senza filmato visto e senza alcun progresso (partita iniziata prima del filmato o chiusa subito) rivede l'introduzione
+            if (!s.filmatoVisto && SenzaProgressi(s) && UIRoot.I != null && UIRoot.I.Filmato != null && !UIRoot.I.Filmato.IsPlaying && FilmatoDisponibile())
+            { UIRoot.I.Filmato.Avvia(false, null); return; }
             SceneLoader.I.Load(scena, spawn);
+        }
+
+        static bool SenzaProgressi(SaveData s)
+        {
+            return s.inventario.Count == 0 && s.flashbackCompletati.Count == 0 && s.enigmiRisolti.Count == 0 && s.oggettiEnigma.Count == 0 && s.cutsceneViste.Count == 0;
         }
 
         /// <summary>Chiamato dallo SceneLoader a scena caricata: memorizza dove si trova il giocatore.</summary>
         public void OnSceneEntered(string scena, string spawn)
         {
             if (IsMenuScene(scena)) return;
+            if (TrenoBambini.Dialogue.FilmatoIniziale.InCorso) return; // R025: il filmato (o "Rivedi") non deve mai lasciare il salvataggio in un ricordo
             var s = Save;
             s.scena = scena;
             if (!string.IsNullOrEmpty(spawn)) s.spawn = spawn;

@@ -98,6 +98,30 @@ namespace TrenoBambini.UI
         bool clickRefusedShown;
         float ignoreEscUntil;
         static bool comandiMostrati;
+        /// <summary>R025: dopo il filmato (che spiega i comandi) niente telegramma dei comandi in questa sessione.</summary>
+        public static void SegnaComandiMostrati() { comandiMostrati = true; }
+
+        bool soloMinimappa;
+        readonly System.Collections.Generic.List<GameObject> hudNascosti = new System.Collections.Generic.List<GameObject>();
+
+        /// <summary>R025: durante il filmato mostra solo la minimappa vera (il resto della HUD resta spento).</summary>
+        public void MostraSoloMinimappa(bool on)
+        {
+            if (soloMinimappa == on) return;
+            soloMinimappa = on;
+            if (on)
+            {
+                hudNascosti.Clear();
+                var mm = Minimappa != null ? Minimappa.transform.parent : null;
+                foreach (Transform c in HudLayer)
+                    if (c != null && c != Minimappa.transform && c.gameObject.activeSelf) { hudNascosti.Add(c.gameObject); c.gameObject.SetActive(false); }
+            }
+            else
+            {
+                foreach (var g in hudNascosti) if (g != null) g.SetActive(true);
+                hudNascosti.Clear();
+            }
+        }
         RectTransform joystickRoot;
 
         /// <summary>Testo dei comandi (pausa ▸ Comandi e toast d'inizio partita).</summary>
@@ -607,7 +631,7 @@ namespace TrenoBambini.UI
             UpdateInteractButton();
             UpdateClickCard();
 
-            bool showHud = !menuScene && !Cutscene.IsPlaying && !FilmatoIniziale.InCorso;
+            bool showHud = !menuScene && !Cutscene.IsPlaying && (!FilmatoIniziale.InCorso || soloMinimappa);
             if (HudLayer.gameObject.activeSelf != showHud)
             {
                 HudLayer.gameObject.SetActive(showHud);

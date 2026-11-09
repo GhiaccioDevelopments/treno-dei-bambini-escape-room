@@ -19,7 +19,7 @@ namespace TrenoBambini.EditorTools
         const string Mats = "Assets/Art/Materials";
         const string TexDecal = "Assets/Art/Textures/Decal";
 
-        static Material Particelle(string nome)
+        static Material Particelle(string nome, bool sfumaVicino = false)
         {
             string path = Mats + "/" + nome + ".mat";
             var m = AssetDatabase.LoadAssetAtPath<Material>(path);
@@ -30,8 +30,30 @@ namespace TrenoBambini.EditorTools
             m.SetOverrideTag("RenderType", "Transparent");
             m.SetColor("_BaseColor", Color.white);
             m.renderQueue = 3000;
+            if (sfumaVicino) CameraFading(m);
             EditorUtility.SetDirty(m);
             return m;
+        }
+
+        /// <summary>R025: Camera Fading di URP sulle particelle di pioggia: le gocce piu' vicine di 0,8 m alla camera spariscono e fino a 4 m sfumano (niente strisce bianche gigantesche nei primi piani).</summary>
+        public static void CameraFading(Material m)
+        {
+            m.SetFloat("_CameraFadingEnabled", 1f);
+            m.SetFloat("_CameraNearFadeDistance", 0.8f);
+            m.SetFloat("_CameraFarFadeDistance", 4.0f);
+            m.SetVector("_CameraFadeParams", new Vector4(0.8f, 1f / 3.2f, 0f, 0f));
+            m.EnableKeyword("_FADING_ON");
+        }
+
+        [MenuItem("Treno/Meteo/Camera Fading sulla pioggia")]
+        public static void ApplicaCameraFading()
+        {
+            var m = AssetDatabase.LoadAssetAtPath<Material>(Mats + "/M_Pioggia.mat");
+            if (m == null) { Debug.LogWarning("[Meteo] M_Pioggia non trovato"); return; }
+            CameraFading(m);
+            EditorUtility.SetDirty(m);
+            AssetDatabase.SaveAssets();
+            Debug.Log("[Meteo] Camera Fading acceso su M_Pioggia (near 0,8 m, far 4 m)");
         }
 
         static Material Pozzanghera()
@@ -79,7 +101,7 @@ namespace TrenoBambini.EditorTools
             if (name != "10_Hub_Vicolo" && name != "20_Int_BassoAntonietta" && name != "30_FB_Scarpe") return;
             var go = new GameObject("Meteo");
             var mc = go.AddComponent<MeteoController>();
-            mc.materialePioggia = Particelle("M_Pioggia");
+            mc.materialePioggia = Particelle("M_Pioggia", true);
             mc.materialeSpruzzo = Particelle("M_Spruzzo");
             mc.materialePozzanghera = Pozzanghera();
             mc.suoloBagnato = AssetDatabase.LoadAssetAtPath<Material>(Mats + "/M_BasoliLavica_Bagnato.mat");

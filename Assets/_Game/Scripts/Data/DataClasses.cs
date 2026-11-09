@@ -280,6 +280,7 @@ namespace TrenoBambini.Data
         {
             new UiVoce { id = "continua", etichetta = "Continua" }, new UiVoce { id = "nuova", etichetta = "Nuova partita" },
             new UiVoce { id = "ricordi", etichetta = "Ricordi" }, new UiVoce { id = "impostazioni", etichetta = "Impostazioni" },
+            new UiVoce { id = "filmato", etichetta = "Rivedi il filmato iniziale" },
             new UiVoce { id = "crediti", etichetta = "Crediti" }, new UiVoce { id = "esci", etichetta = "Esci" }
         };
         public UiAnteprima anteprima = new UiAnteprima();

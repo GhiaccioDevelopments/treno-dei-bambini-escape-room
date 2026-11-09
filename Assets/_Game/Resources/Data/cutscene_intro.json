@@ -2,7 +2,7 @@
   "id": "intro",
   "titolo": "Il ritorno",
   "sfondo": "cs_vicolo",
-  "durataStimata": 298.4,
+  "durataStimata": 256.9,
   "obiettivoFinale": "ob_bucato",
   "personaggiNuovi": [
     {
@@ -17,11 +17,11 @@
       "id": "c1_ritorno",
       "titolo": "1. Il ritorno",
       "epoca": "presente",
-      "durata": 42.1,
-      "pausaSenzaTesto": 5,
+      "durata": 32.4,
+      "pausaSenzaTesto": 2,
       "battute": [
         "cs_intro_001",
-        "cs_intro_006"
+        "cs_intro_005"
       ],
       "regia": {
         "luogo": "la strada grande ai piedi dei Quartieri (nella pianta del 1946 è Via Roma; nel 1994 si chiamerebbe di nuovo Via Toledo, nome ripristinato nel 1980: in voce non nominarla), poi le rampe dei Quartieri fino allo slargo del basso (10_Hub_Vicolo)",
@@ -35,11 +35,11 @@
       "id": "c2_1946",
       "titolo": "2. Napoli, 1946",
       "epoca": "ricordo",
-      "durata": 41.8,
-      "pausaSenzaTesto": 3,
+      "durata": 39.8,
+      "pausaSenzaTesto": 1,
       "battute": [
-        "cs_intro_007",
-        "cs_intro_012"
+        "cs_intro_006",
+        "cs_intro_011"
       ],
       "regia": {
         "luogo": "lo stesso vicolo nel 1946 (30_FB_Scarpe): gradino, fontanella, porta del basso",
@@ -53,11 +53,11 @@
       "id": "c3_treni",
       "titolo": "3. I treni dei bambini",
       "epoca": "ricordo",
-      "durata": 63.1,
-      "pausaSenzaTesto": 3,
+      "durata": 50.1,
+      "pausaSenzaTesto": 1,
       "battute": [
-        "cs_intro_013",
-        "cs_intro_021"
+        "cs_intro_012",
+        "cs_intro_018"
       ],
       "regia": {
         "luogo": "vicolo 1946, i manifesti incollati al muro; davanti alla sede del Comitato; inserto finale di binari e vapore (stazione, anche solo come piano stretto)",
@@ -71,11 +71,11 @@
       "id": "c4_oggetti",
       "titolo": "4. Le cose di Antonietta",
       "epoca": "presente",
-      "durata": 38.9,
-      "pausaSenzaTesto": 2,
+      "durata": 37.9,
+      "pausaSenzaTesto": 1,
       "battute": [
-        "cs_intro_022",
-        "cs_intro_026"
+        "cs_intro_019",
+        "cs_intro_023"
       ],
       "regia": {
         "luogo": "ritorno nel vicolo sotto la pioggia; inserti come ricordi lampo degli oggetti (scarpe, latta, quaderno) su fondo scuro",
@@ -89,11 +89,11 @@
       "id": "c5_strada",
       "titolo": "5. Se perdi la strada",
       "epoca": "presente",
-      "durata": 35.5,
-      "pausaSenzaTesto": 2,
+      "durata": 28.3,
+      "pausaSenzaTesto": 1,
       "battute": [
-        "cs_intro_027",
-        "cs_intro_031"
+        "cs_intro_024",
+        "cs_intro_027"
       ],
       "regia": {
         "luogo": "vicolo dall'alto: la camera sale sopra i panni stesi e i tetti, poi la vista si appiattisce e diventa la pianta disegnata (Resources/Mappe/10_Hub_Vicolo.jpg)",
@@ -107,29 +107,29 @@
       "id": "c6_perche",
       "titolo": "6. Perché ricordare",
       "epoca": "ricordo",
-      "durata": 54.8,
-      "pausaSenzaTesto": 3,
+      "durata": 48.2,
+      "pausaSenzaTesto": 1,
       "battute": [
-        "cs_intro_032",
-        "cs_intro_038"
+        "cs_intro_028",
+        "cs_intro_033"
       ],
       "regia": {
-        "luogo": "sequenza di quadri seppia: bambini in fila con i cartellini, una scheda elettorale del 1946 (inserto), una pagina stampata della Costituzione (1948), una tavola apparecchiata in una cucina del Nord",
+        "luogo": "l'hub (10_Hub_Vicolo) col look del ricordo, senza pioggia: la strada vuota, poi fogli d'epoca come inserti (scheda elettorale del 1946, articoli della Costituzione); nessun cambio di scena",
         "luce": "seppia che a poco a poco si scalda verso colori naturali sull'ultima battuta",
         "camera": "inquadrature fisse con lentissimo avvicinamento (effetto Ken Burns in 3D)",
         "musica": "il tema completo del violino, una volta sola, senza enfasi",
-        "note": "date e articoli solo dalla voce narrante o da Amerigo adulto: i personaggi del 1946 non citano la Costituzione"
+        "note": "date e articoli solo dalla voce narrante o da Amerigo adulto: i personaggi del 1946 non citano la Costituzione; le voci di Antonietta, Tommasino e Maddalena (capitoli 2 e 3) sono fuori campo su dettagli: non esistono i loro modelli"
       }
     },
     {
       "id": "c7_porta",
       "titolo": "7. La porta",
       "epoca": "presente",
-      "durata": 22.2,
-      "pausaSenzaTesto": 4,
+      "durata": 20.2,
+      "pausaSenzaTesto": 2,
       "battute": [
-        "cs_intro_039",
-        "cs_intro_041"
+        "cs_intro_034",
+        "cs_intro_036"
       ],
       "regia": {
         "luogo": "slargo del basso nel 10_Hub_Vicolo: porte simili, panni stesi con le toppe, punto di spawn del giocatore",
@@ -213,23 +213,6 @@
       "id": "cs_intro_005",
       "capitolo": "c1_ritorno",
       "personaggio": "amerigo_adulto",
-      "testo": "Il basso di mia madre. Una stanza sola sulla strada: lì si cucinava, si dormiva, si viveva.",
-      "emozione": "malinconica",
-      "audio": "",
-      "azione": "",
-      "sfondo": "",
-      "posizione": "sx",
-      "controllo": "",
-      "durata": 6.7,
-      "regia": {
-        "inquadratura": "porta chiusa del basso, acqua che cola dall'architrave",
-        "epoca": "presente"
-      }
-    },
-    {
-      "id": "cs_intro_006",
-      "capitolo": "c1_ritorno",
-      "personaggio": "amerigo_adulto",
       "testo": "Prima di aprire quella porta, devo ricordarmi chi ero.",
       "emozione": "decisa",
       "audio": "",
@@ -244,7 +227,7 @@
       }
     },
     {
-      "id": "cs_intro_007",
+      "id": "cs_intro_006",
       "capitolo": "c2_1946",
       "personaggio": "narratore",
       "testo": "Napoli, autunno 1946. La guerra è finita da poco, ma nei vicoli sono rimasti la fame e il freddo.",
@@ -261,7 +244,7 @@
       }
     },
     {
-      "id": "cs_intro_008",
+      "id": "cs_intro_007",
       "capitolo": "c2_1946",
       "personaggio": "narratore",
       "testo": "Amerigo ha sette anni. Niente scarpe, una salopette piena di toppe, e due occhi che contano tutto.",
@@ -278,7 +261,7 @@
       }
     },
     {
-      "id": "cs_intro_009",
+      "id": "cs_intro_008",
       "capitolo": "c2_1946",
       "personaggio": "amerigo",
       "testo": "Ventitré gradini, quattro lumini, tre gatti. E scarpe buone, oggi, ne sono passate due paia.",
@@ -295,7 +278,7 @@
       }
     },
     {
-      "id": "cs_intro_010",
+      "id": "cs_intro_009",
       "capitolo": "c2_1946",
       "personaggio": "tommasino",
       "testo": "Amerì, la vuoi smettere di contare? Tanto i numeri non si mangiano.",
@@ -312,7 +295,7 @@
       }
     },
     {
-      "id": "cs_intro_011",
+      "id": "cs_intro_010",
       "capitolo": "c2_1946",
       "personaggio": "antonietta",
       "testo": "Amerigo! Dentro, che fa scuro. E i piedi te li lavi prima di salire sul letto.",
@@ -329,7 +312,7 @@
       }
     },
     {
-      "id": "cs_intro_012",
+      "id": "cs_intro_011",
       "capitolo": "c2_1946",
       "personaggio": "narratore",
       "testo": "Antonietta non sa leggere e parla poco. L'affetto lo mette nei rammendi, nel pane diviso a metà.",
@@ -346,41 +329,24 @@
       }
     },
     {
-      "id": "cs_intro_013",
+      "id": "cs_intro_012",
       "capitolo": "c3_treni",
       "personaggio": "narratore",
-      "testo": "Un giorno, nel quartiere, compaiono manifesti nuovi: partono treni per il Nord, per i bambini poveri.",
+      "testo": "Compaiono manifesti: treni per il Nord, per i bambini poveri. Lassù li aspettano un letto caldo, la scuola, un piatto ogni giorno.",
       "emozione": "neutra",
       "audio": "",
       "azione": "",
       "sfondo": "cs_ricordo",
       "posizione": "sx",
       "controllo": "",
-      "durata": 7.3,
+      "durata": 9.3,
       "regia": {
         "inquadratura": "panoramica sui manifesti incollati, carta fresca sopra quella vecchia",
         "epoca": "ricordo"
       }
     },
     {
-      "id": "cs_intro_014",
-      "capitolo": "c3_treni",
-      "personaggio": "narratore",
-      "testo": "Lassù ci sono famiglie pronte ad accoglierli per un inverno: un letto caldo, la scuola, un piatto ogni giorno.",
-      "emozione": "neutra",
-      "audio": "",
-      "azione": "",
-      "sfondo": "",
-      "posizione": "sx",
-      "controllo": "",
-      "durata": 7.9,
-      "regia": {
-        "inquadratura": "inserto: una cucina di campagna, la stufa accesa (ricordo immaginato, sfocato)",
-        "epoca": "ricordo"
-      }
-    },
-    {
-      "id": "cs_intro_015",
+      "id": "cs_intro_013",
       "capitolo": "c3_treni",
       "personaggio": "maddalena",
       "testo": "Non è carità, signo'. È gente che lavora e divide quello che ha. Con i vostri figli.",
@@ -397,7 +363,7 @@
       }
     },
     {
-      "id": "cs_intro_016",
+      "id": "cs_intro_014",
       "capitolo": "c3_treni",
       "personaggio": "narratore",
       "testo": "Ma nei vicoli la paura corre più veloce dei treni. Si dice che quei bambini non torneranno.",
@@ -414,7 +380,7 @@
       }
     },
     {
-      "id": "cs_intro_017",
+      "id": "cs_intro_015",
       "capitolo": "c3_treni",
       "personaggio": "maddalena",
       "testo": "Le chiacchiere non hanno mai sfamato nessuno. Venite al Comitato: guardate le carte, fate domande.",
@@ -431,7 +397,7 @@
       }
     },
     {
-      "id": "cs_intro_018",
+      "id": "cs_intro_016",
       "capitolo": "c3_treni",
       "personaggio": "antonietta",
       "testo": "E chi me lo dice, a me, che me lo ridate?",
@@ -448,41 +414,24 @@
       }
     },
     {
-      "id": "cs_intro_019",
+      "id": "cs_intro_017",
       "capitolo": "c3_treni",
       "personaggio": "narratore",
-      "testo": "Tra il 1945 e il 1952, circa settantamila bambini del Sud e del Centro furono ospitati da famiglie del Centro-Nord.",
+      "testo": "Tra il 1945 e il 1952, circa settantamila bambini del Sud furono ospitati da famiglie del Centro-Nord; da Napoli, circa diecimila.",
       "emozione": "neutra",
       "audio": "",
       "azione": "",
       "sfondo": "",
       "posizione": "sx",
       "controllo": "",
-      "durata": 8.3,
+      "durata": 9.3,
       "regia": {
-        "inquadratura": "binario, vapore, una fila di cappotti piccoli vista da lontano",
+        "inquadratura": "foglio d'epoca con i numeri dei treni dei bambini",
         "epoca": "ricordo"
       }
     },
     {
-      "id": "cs_intro_020",
-      "capitolo": "c3_treni",
-      "personaggio": "narratore",
-      "testo": "Da Napoli, tra il Natale del '46 e l'estate del '47, ne partirono circa diecimila.",
-      "emozione": "neutra",
-      "audio": "",
-      "azione": "",
-      "sfondo": "",
-      "posizione": "sx",
-      "controllo": "",
-      "durata": 6.1,
-      "regia": {
-        "inquadratura": "cartellini con i nomi che oscillano al vento",
-        "epoca": "ricordo"
-      }
-    },
-    {
-      "id": "cs_intro_021",
+      "id": "cs_intro_018",
       "capitolo": "c3_treni",
       "personaggio": "amerigo_adulto",
       "testo": "Su uno di quei treni c'ero anch'io. Il resto, adesso, me lo devono raccontare le cose di mia madre.",
@@ -499,7 +448,7 @@
       }
     },
     {
-      "id": "cs_intro_022",
+      "id": "cs_intro_019",
       "capitolo": "c4_oggetti",
       "personaggio": "amerigo_adulto",
       "testo": "Mia madre non buttava via niente. Ogni cosa che teneva aveva un motivo, anche se non lo diceva.",
@@ -516,7 +465,7 @@
       }
     },
     {
-      "id": "cs_intro_023",
+      "id": "cs_intro_020",
       "capitolo": "c4_oggetti",
       "personaggio": "narratore",
       "testo": "Ritrova gli oggetti di Antonietta. Ognuno apre un ricordo: il 1946, vissuto di nuovo con i piedi di Amerigo.",
@@ -533,7 +482,7 @@
       }
     },
     {
-      "id": "cs_intro_024",
+      "id": "cs_intro_021",
       "capitolo": "c4_oggetti",
       "personaggio": "narratore",
       "testo": "Avvicinati a ciò che ti incuriosisce e prendilo in mano: le cose di casa parlano a chi le guarda.",
@@ -550,7 +499,7 @@
       }
     },
     {
-      "id": "cs_intro_025",
+      "id": "cs_intro_022",
       "capitolo": "c4_oggetti",
       "personaggio": "narratore",
       "testo": "Dentro ogni ricordo ti aspettano enigmi: lucchetti, date, documenti, cose da rimettere in ordine.",
@@ -567,7 +516,7 @@
       }
     },
     {
-      "id": "cs_intro_026",
+      "id": "cs_intro_023",
       "capitolo": "c4_oggetti",
       "personaggio": "amerigo_adulto",
       "testo": "Quello che trovo lo metto nella latta, come faceva lei coi bottoni. Quello che capisco, lo scrivo nel quaderno.",
@@ -584,31 +533,14 @@
       }
     },
     {
-      "id": "cs_intro_027",
-      "capitolo": "c5_strada",
-      "personaggio": "amerigo_adulto",
-      "testo": "Qui i vicoli si somigliano tutti. Da bambino li conoscevo a memoria, adesso non più.",
-      "emozione": "pensierosa",
-      "audio": "",
-      "azione": "",
-      "sfondo": "cs_vicolo",
-      "posizione": "sx",
-      "controllo": "guarda",
-      "durata": 6.2,
-      "regia": {
-        "inquadratura": "la camera sale sopra i panni stesi e i tetti bagnati",
-        "epoca": "presente"
-      }
-    },
-    {
-      "id": "cs_intro_028",
+      "id": "cs_intro_024",
       "capitolo": "c5_strada",
       "personaggio": "narratore",
       "testo": "In un angolo hai una piccola pianta del quartiere. Ti dice dove sei e come si chiama la strada.",
       "emozione": "neutra",
       "audio": "",
       "azione": "",
-      "sfondo": "",
+      "sfondo": "cs_vicolo",
       "posizione": "sx",
       "controllo": "",
       "durata": 6.9,
@@ -618,7 +550,7 @@
       }
     },
     {
-      "id": "cs_intro_029",
+      "id": "cs_intro_025",
       "capitolo": "c5_strada",
       "personaggio": "narratore",
       "testo": "Quando non sai più dove andare, sulla pianta compare una croce: è il tuo prossimo passo.",
@@ -635,7 +567,7 @@
       }
     },
     {
-      "id": "cs_intro_030",
+      "id": "cs_intro_026",
       "capitolo": "c5_strada",
       "personaggio": "narratore",
       "testo": "In ogni enigma c'è un Indizio. Chiederlo non è barare: nel vicolo, chi è in difficoltà bussa al vicino.",
@@ -652,7 +584,7 @@
       }
     },
     {
-      "id": "cs_intro_031",
+      "id": "cs_intro_027",
       "capitolo": "c5_strada",
       "personaggio": "narratore",
       "testo": "E se sbagli, nessuno ti punisce. Il ricordo ti spiega perché, e aspetta che tu riprovi.",
@@ -669,7 +601,7 @@
       }
     },
     {
-      "id": "cs_intro_032",
+      "id": "cs_intro_028",
       "capitolo": "c6_perche",
       "personaggio": "narratore",
       "testo": "Nel 1946, per un bambino povero, mangiare ogni giorno, curarsi, andare a scuola non era affatto scontato.",
@@ -681,12 +613,12 @@
       "controllo": "",
       "durata": 7.6,
       "regia": {
-        "inquadratura": "bambini in fila, cappotti troppo grandi, cartellini al collo",
+        "inquadratura": "la strada vuota in seppia, senza pioggia",
         "epoca": "ricordo"
       }
     },
     {
-      "id": "cs_intro_033",
+      "id": "cs_intro_029",
       "capitolo": "c6_perche",
       "personaggio": "narratore",
       "testo": "Quell'anno, il 2 giugno, donne e uomini votarono insieme: nacque la Repubblica e fu eletta l'Assemblea Costituente.",
@@ -698,12 +630,12 @@
       "controllo": "",
       "durata": 8.3,
       "regia": {
-        "inquadratura": "inserto: una scheda elettorale del 1946, una matita copiativa",
+        "inquadratura": "inserto: foglio d'epoca del 2 giugno 1946",
         "epoca": "ricordo"
       }
     },
     {
-      "id": "cs_intro_034",
+      "id": "cs_intro_030",
       "capitolo": "c6_perche",
       "personaggio": "narratore",
       "testo": "Dal 1948 la Costituzione chiede alla Repubblica di togliere gli ostacoli che rendono le persone disuguali.",
@@ -720,41 +652,24 @@
       }
     },
     {
-      "id": "cs_intro_035",
+      "id": "cs_intro_031",
       "capitolo": "c6_perche",
       "personaggio": "narratore",
-      "testo": "Protegge l'infanzia, apre la scuola a tutti, e chiede a ciascuno un dovere di solidarietà.",
+      "testo": "Protegge l'infanzia, apre la scuola a tutti. I treni dei bambini vennero prima di quelle parole: famiglie e associazioni le misero in pratica.",
       "emozione": "neutra",
       "audio": "",
       "azione": "",
       "sfondo": "",
       "posizione": "sx",
       "controllo": "",
-      "durata": 6.6,
+      "durata": 10.1,
       "regia": {
-        "inquadratura": "articoli 31, 34 e 2 che scorrono, senza leggerli tutti",
+        "inquadratura": "articoli 2, 31 e 34; poi un posto in piu' a tavola, solo suggerito",
         "epoca": "ricordo"
       }
     },
     {
-      "id": "cs_intro_036",
-      "capitolo": "c6_perche",
-      "personaggio": "narratore",
-      "testo": "I treni dei bambini vennero prima di quelle parole: associazioni, partiti e famiglie comuni le misero in pratica.",
-      "emozione": "neutra",
-      "audio": "",
-      "azione": "",
-      "sfondo": "",
-      "posizione": "sx",
-      "controllo": "",
-      "durata": 8.1,
-      "regia": {
-        "inquadratura": "una tavola del Nord apparecchiata per un bambino in più",
-        "epoca": "ricordo"
-      }
-    },
-    {
-      "id": "cs_intro_037",
+      "id": "cs_intro_032",
       "capitolo": "c6_perche",
       "personaggio": "amerigo_adulto",
       "testo": "Per me i diritti hanno avuto prima una faccia, un letto, un piatto caldo. Le parole sono venute dopo.",
@@ -771,7 +686,7 @@
       }
     },
     {
-      "id": "cs_intro_038",
+      "id": "cs_intro_033",
       "capitolo": "c6_perche",
       "personaggio": "narratore",
       "testo": "Ricordare serve anche a chiedersi: chi resta indietro oggi? E chi gli tende la mano?",
@@ -788,7 +703,7 @@
       }
     },
     {
-      "id": "cs_intro_039",
+      "id": "cs_intro_034",
       "capitolo": "c7_porta",
       "personaggio": "amerigo_adulto",
       "testo": "Eccomi. Il vicolo, la pioggia... e tutte queste porte uguali. Qual era la nostra?",
@@ -805,7 +720,7 @@
       }
     },
     {
-      "id": "cs_intro_040",
+      "id": "cs_intro_035",
       "capitolo": "c7_porta",
       "personaggio": "amerigo_adulto",
       "testo": "Mamma stendeva i panni sopra la porta. E le toppe le cuciva sempre uguali a quelle della mia salopette.",
@@ -822,7 +737,7 @@
       }
     },
     {
-      "id": "cs_intro_041",
+      "id": "cs_intro_036",
       "capitolo": "c7_porta",
       "personaggio": "narratore",
       "testo": "Il primo ricordo comincia qui, tra i panni stesi. Tocca a te.",
@@ -831,7 +746,7 @@
       "azione": "",
       "sfondo": "",
       "posizione": "sx",
-      "controllo": "muovi",
+      "controllo": "muovi_guarda",
       "durata": 4.7,
       "regia": {
         "inquadratura": "la camera diventa la camera di gioco; compaiono minimappa, X dell'obiettivo e 'Trova la tua porta tra i panni stesi'",

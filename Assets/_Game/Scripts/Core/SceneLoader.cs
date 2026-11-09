@@ -60,7 +60,19 @@ namespace TrenoBambini.Core
             PlacePlayer(spawnId);
             GameManager.I.OnSceneEntered(scena, spawnId);
             yield return null;
-            if (preRivela != null) yield return preRivela();
+            if (preRivela != null)
+            {
+                // eseguita a mano: se la preparazione va in errore la transizione si chiude comunque (mai IsLoading bloccato)
+                IEnumerator pr = null;
+                try { pr = preRivela(); } catch (System.Exception e) { Debug.LogException(e); }
+                while (pr != null)
+                {
+                    bool avanti;
+                    try { avanti = pr.MoveNext(); } catch (System.Exception e) { Debug.LogException(e); break; }
+                    if (!avanti) break;
+                    yield return pr.Current;
+                }
+            }
 
             if (fader != null) yield return fader.In(stile);
             GameManager.I.PopBlock("caricamento");

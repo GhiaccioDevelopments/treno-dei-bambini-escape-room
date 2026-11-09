@@ -30,7 +30,7 @@ namespace TrenoBambini.Dialogue
         public static bool InCorso { get; private set; }
         public bool IsPlaying { get { return InCorso; } }
         const string IdCutscene = "intro";
-        const float AltezzaBande = 56f;
+        const float AltezzaBande = 72f;
 
         // ---- stato leggibile dalle prove
         public int CapitoloIndice { get; private set; } = -1;
@@ -49,6 +49,7 @@ namespace TrenoBambini.Dialogue
         public float Tenuta { get { return tenuta; } }
         public bool TargaSaltaVisibile { get { return saltaGruppo != null && saltaGruppo.alpha > 0.3f; } }
         public bool ConsegnaFatta { get; private set; }
+        public bool MinimappaVeraVisibile { get { return minimappaVera; } }
         public bool BattutaInCorso { get; private set; }
         public float InizioBattuta { get; private set; }
 
@@ -85,6 +86,12 @@ namespace TrenoBambini.Dialogue
         float tenuta, ultimoInput = -100f;
         float guardiaFinoA;
         Vector3 shakeOff;
+        float ultimoTick;                // guardiano: ultimo istante in cui il regista ha fatto un passo
+        bool bloccoSimulato, chiusuraForzata, fogSalvata, fogOriginale, tintaSpenta;
+        public bool ChiusuraForzata { get { return chiusuraForzata; } }
+        /// <summary>Solo per le prove: finge che il regista si blocchi (il guardiano deve chiudere il filmato da solo).</summary>
+        public void SimulaBlocco() { bloccoSimulato = true; }
+        void Tick() { if (!bloccoSimulato) ultimoTick = Time.unscaledTime; }
 
         // rivedi: dove tornare
         string retScena, retSpawn;
@@ -135,31 +142,24 @@ namespace TrenoBambini.Dialogue
             ritrattoGruppo = rp.gameObject.AddComponent<CanvasGroup>();
             ritrattoGruppo.alpha = 0f;
 
-            // sottotitoli: lettera su carta con targhetta d'ottone del nome
-            var box = UIFactory.MakePaper(view, "Sottotitolo", new Color(1f, 1f, 1f, 0.96f), false);
-            subBox = box.rectTransform;
-            UIFactory.Place(subBox, new Vector2(0.5f, 0f), new Vector2(0.5f, 0f), new Vector2(0f, AltezzaBande + 18f), new Vector2(900f, 132f));
-            subGruppo = box.gameObject.AddComponent<CanvasGroup>();
+            // sottotitoli: striscia sottile nella banda nera in basso (massimo 2 righe), nome del personaggio in ottone davanti al testo
+            subBox = UIFactory.NewRect("Sottotitolo", view);
+            UIFactory.Place(subBox, new Vector2(0.5f, 0f), new Vector2(0.5f, 0f), Vector2.zero, new Vector2(1180f, AltezzaBande));
+            subGruppo = subBox.gameObject.AddComponent<CanvasGroup>();
             subGruppo.alpha = 0f;
-            var plate = UIFactory.MakePanel(subBox, "Targhetta", Color.white, false);
-            plate.sprite = UIArt.Brass(); plate.type = Image.Type.Sliced;
-            plate.rectTransform.anchorMin = plate.rectTransform.anchorMax = new Vector2(0f, 1f);
-            plate.rectTransform.pivot = new Vector2(0f, 0.5f);
-            plate.rectTransform.anchoredPosition = new Vector2(26f, 0f);
-            plate.rectTransform.sizeDelta = new Vector2(280f, 44f);
-            nomeLbl = UIFactory.MakeText(plate.rectTransform, "", 24, UIFactory.Inchiostro, TextAlignmentOptions.Center, FontStyles.Bold);
-            UIFactory.Stretch(nomeLbl.rectTransform, 12f, 2f, 12f, 2f);
-            nomeLbl.enableAutoSizing = true; nomeLbl.fontSizeMin = 14; nomeLbl.fontSizeMax = 24;
-            targhettaNome = plate.gameObject;
-            testoLbl = UIFactory.MakeText(subBox, "", 26, UIFactory.Inchiostro, TextAlignmentOptions.TopLeft);
-            UIFactory.Stretch(testoLbl.rectTransform, 34f, 14f, 34f, 30f);
-            testoLbl.enableAutoSizing = true; testoLbl.fontSizeMin = 16; testoLbl.fontSizeMax = 26;
+            nomeLbl = UIFactory.MakeText(subBox, "", 12, UITheme.OttoneLuce, TextAlignmentOptions.Center);
+            nomeLbl.gameObject.SetActive(false);
+            targhettaNome = nomeLbl.gameObject;
+            testoLbl = UIFactory.MakeText(subBox, "", 25, UITheme.CartaChiara, TextAlignmentOptions.Center);
+            UIFactory.Stretch(testoLbl.rectTransform, 0f, 2f, 0f, 2f);
+            testoLbl.enableAutoSizing = true; testoLbl.fontSizeMin = 17; testoLbl.fontSizeMax = 25;
+            testoLbl.overflowMode = TextOverflowModes.Truncate;
 
             // targhetta dei controlli (etichetta di carta d'epoca, piccola, in basso a destra sopra i sottotitoli)
             var ct = UIFactory.MakePanel(view, "TarghettaControlli", Color.white, false);
             ct.sprite = UIArt.Tag(); ct.type = Image.Type.Sliced;
             ctrlRt = ct.rectTransform;
-            UIFactory.Place(ctrlRt, new Vector2(0.5f, 0f), new Vector2(1f, 0f), new Vector2(450f, AltezzaBande + 160f), new Vector2(380f, 74f));
+            UIFactory.Place(ctrlRt, new Vector2(1f, 0f), new Vector2(1f, 0f), new Vector2(-34f, AltezzaBande + 14f), new Vector2(380f, 70f));
             ctrlGruppo = ct.gameObject.AddComponent<CanvasGroup>();
             ctrlGruppo.alpha = 0f;
             ctrlTitolo = UIFactory.MakeText(ctrlRt, "", 19, UITheme.Ceralacca, TextAlignmentOptions.Left, FontStyles.Bold | FontStyles.Italic);
@@ -242,14 +242,14 @@ namespace TrenoBambini.Dialogue
             // pulsante Indizio evidenziato (finto: solo da guardare)
             var ib = UIFactory.MakeButton(view, "Indizio", () => { }, new Vector2(240f, 70f), ButtonStyle.Brass, 30f, true);
             indizioRt = (RectTransform)ib.transform;
-            UIFactory.Place(indizioRt, new Vector2(0.5f, 0f), new Vector2(0.5f, 0f), new Vector2(0f, AltezzaBande + 190f), new Vector2(240f, 70f));
+            UIFactory.Place(indizioRt, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(330f, 10f), new Vector2(240f, 70f));
             indizioGruppo = ib.gameObject.AddComponent<CanvasGroup>();
             indizioGruppo.alpha = 0f;
 
             // biglietto gentile dell'errore
             var eb = UIFactory.MakePaper(view, "Errore", Color.white, false);
             erroreRt = eb.rectTransform;
-            UIFactory.Place(erroreRt, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(0f, 90f), new Vector2(620f, 190f));
+            UIFactory.Place(erroreRt, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(0f, 120f), new Vector2(620f, 170f));
             erroreGruppo = eb.gameObject.AddComponent<CanvasGroup>();
             erroreGruppo.alpha = 0f;
             erroreTit = UIFactory.MakeText(erroreRt, "", 30, UITheme.Ceralacca, TextAlignmentOptions.Center, FontStyles.Bold);
@@ -272,7 +272,9 @@ namespace TrenoBambini.Dialogue
         {
             InCorso = true; Concluso = false; Saltato = false; ConsegnaFatta = false; ModoRivedi = rivedi;
             BattuteMostrate = 0; CapitoliVisti = 0; CapitoloIndice = -1; BattutaId = ""; ControlloMostrato = "";
-            skip = false; tenuta = 0f;
+            skip = false; tenuta = 0f; chiusuraForzata = false; bloccoSimulato = false;
+            ultimoTick = Time.unscaledTime;
+            UIRoot.SegnaComandiMostrati(); // niente telegramma dei comandi dopo il filmato: li ha appena spiegati
             var gm = GameManager.I;
             gm.PushBlock("filmato");
             if (UIRoot.I != null) UIRoot.I.HidePrompt();
@@ -294,6 +296,7 @@ namespace TrenoBambini.Dialogue
                 CapitoliVisti = ci + 1;
             }
             Saltato = skip;
+            if (chiusuraForzata) yield break; // il guardiano ha gia' chiuso tutto
             yield return Chiudi(rivedi);
 
             if (!rivedi)
@@ -319,6 +322,7 @@ namespace TrenoBambini.Dialogue
             var p = GameObject.FindGameObjectWithTag("Player");
             if (p != null) { retPos = p.transform.position; retYaw = p.transform.eulerAngles.y; retValido = true; }
             retScena = SceneManager.GetActiveScene().name;
+            if (GameManager.MenuBackdrop || GameManager.IsMenuScene(retScena)) { retScena = GameManager.SceneTitolo; retSpawn = ""; retValido = false; }
         }
 
         // ================================================================== capitolo
@@ -338,27 +342,29 @@ namespace TrenoBambini.Dialogue
 
             // scena
             bool cambia = ScenaDa(cap.scena);
+            PreparatoOk = false;
             if (cambia)
             {
                 var stile = cap.stile == "ricordo" ? TransitionStyle.Ricordo : TransitionStyle.Fade;
                 SceneLoader.I.Load(cap.scena, "inizio", stile, () => PreparaScena(ci, durate));
                 float g = 0f;
-                while ((SceneLoader.I.IsLoading || g < 0.1f) && g < 120f) { g += Time.unscaledDeltaTime; yield return null; }
+                while ((SceneLoader.I.IsLoading || g < 0.1f) && g < 120f) { g += Time.unscaledDeltaTime; Tick(); yield return null; }
             }
             else
             {
-                yield return FadeNero(1f, 0.8f);
+                yield return FadeNero(1f, 0.5f);
                 yield return PreparaScena(ci, durate);
             }
             if (!PreparatoOk) { skip = true; yield break; }
+            if (skip) yield break;
 
             // titolo del capitolo e dissolvenza in apertura
             if (cd != null && !string.IsNullOrEmpty(cd.titolo)) MostraTitolo(cd.titolo);
-            yield return FadeNero(0f, 1.0f);
+            yield return FadeNero(0f, 0.7f);
 
             // pre-roll senza testo: la camera si muove gia'
             float t = 0f;
-            while (t < pausa && !skip) { t += Time.unscaledDeltaTime; yield return null; }
+            while (t < pausa && !skip) { t += Time.unscaledDeltaTime; Tick(); yield return null; }
 
             int shotCorrente = 0;
             for (int li = 0; li < righe.Count && !skip; li++)
@@ -368,7 +374,7 @@ namespace TrenoBambini.Dialogue
                 if (s > 0 && s != shotCorrente)
                 {
                     shotCorrente = s;
-                    yield return CambiaInquadratura(shots[s], durate[s]);
+                    CambiaInquadratura(shots[s], durate[s]);
                 }
                 ProgressoTinta(li, righe.Count);
                 yield return Battuta(b, righe, li);
@@ -383,7 +389,7 @@ namespace TrenoBambini.Dialogue
             if (ci < F.capitoli.Count - 1 && !skip)
             {
                 string prossima = F.capitoli[ci + 1].scena;
-                if (prossima == cap.scena) { yield return FadeNero(1f, 0.8f); ChiudiStudio(); }
+                if (prossima == cap.scena) { yield return FadeNero(1f, 0.5f); ChiudiStudio(); }
             }
             else if (!skip)
             {
@@ -445,6 +451,10 @@ namespace TrenoBambini.Dialogue
             var cap = F.capitoli[ci];
             ImpostaTinta(cap, durate);
             Musica(cap.musica, 1.5f);
+            bool ricordoLook = cap.look == "ricordo" || SceneManager.GetActiveScene().name.Contains("_FB_");
+            if (UIRoot.I != null && UIRoot.I.Fader != null) UIRoot.I.Fader.SetFlashbackLook(ricordoLook);
+            var meteoCtl = FindAnyObjectByType<TrenoBambini.World.MeteoController>();
+            if (meteoCtl != null) meteoCtl.Sospendi(cap.look == "ricordo"); // nel ricordo seppia dell'hub non piove
             yield return null;
             AvviaInquadratura(cap.inquadrature[0], durate[0]);
             yield return null;
@@ -500,9 +510,13 @@ namespace TrenoBambini.Dialogue
             Musica(s.musica, 2f);
             ImpostaAttore(s.attore);
             if (s.consegna) { Consegna(); return; }
+            bool conMini = s.inserto != null && s.inserto.minimappa == "si";
+            if (conMini != minimappaVera) StartCoroutine(MinimappaVera(conMini)); // prima degli inserti dello studio, che escono subito
             if (s.inserto != null && s.inserto.tipo == "pezzi")
             {
                 studio.Apri(s.inserto, cam);
+                tinta.enabled = false; tintaSpenta = true;                      // lo studio ha il suo fondale scuro: niente velo di tinta
+                fogOriginale = RenderSettings.fog; fogSalvata = true; RenderSettings.fog = false; // e niente nebbia davanti agli oggetti
                 if (s.inserto.indizio == "si") StartCoroutine(MostraIndizio(durata));
                 if (s.inserto.errore == "si") StartCoroutine(MostraErrore(durata));
                 camRoutine = StartCoroutine(AnimaStudio());
@@ -514,15 +528,19 @@ namespace TrenoBambini.Dialogue
             camRoutine = StartCoroutine(AnimaCamera(s, Mathf.Max(1f, durata)));
         }
 
-        IEnumerator CambiaInquadratura(FilmatoInquadratura s, float durata)
+        /// <summary>Stacco netto (default, sempre per gli inserti); la dissolvenza e' solo tra luoghi e si sovrappone all'inizio della battuta.</summary>
+        void CambiaInquadratura(FilmatoInquadratura s, float durata)
         {
-            bool stacco = s.taglio == "stacco";
-            // la tinta dell'inserto o della scena non cambia: solo un taglio morbido
-            if (!stacco) yield return FadeNero(1f, 0.3f);
-            SpegniSottotitoli();
+            if (s.taglio != "dissolvenza" || s.inserto != null && s.inserto.tipo != "") { AvviaInquadratura(s, durata); return; }
+            StartCoroutine(Dissolvi(s, durata));
+        }
+
+        IEnumerator Dissolvi(FilmatoInquadratura s, float durata)
+        {
+            yield return FadeNero(1f, 0.18f);
             AvviaInquadratura(s, durata);
             yield return null;
-            if (!stacco) yield return FadeNero(0f, 0.45f);
+            yield return FadeNero(0f, 0.4f);
         }
 
         IEnumerator AnimaStudio()
@@ -589,14 +607,16 @@ namespace TrenoBambini.Dialogue
             else ImpostaVelocitaAnim(0f);
         }
 
+        static readonly RaycastHit[] bufferSuolo = new RaycastHit[24];
+
         float Suolo(float x, float z, float yDef)
         {
-            Physics.SyncTransforms();
             // il suolo e' il piu' alto fra i selciati e i pavimenti sotto il punto (i tetti e i balconi non contano), anche se piu' in alto di dove era Amerigo
-            var hits = Physics.RaycastAll(new Vector3(x, yDef + 8f, z), Vector3.down, 40f, ~0, QueryTriggerInteraction.Ignore);
+            int n = Physics.RaycastNonAlloc(new Vector3(x, yDef + 8f, z), Vector3.down, bufferSuolo, 40f, ~0, QueryTriggerInteraction.Ignore);
             float best = float.NegativeInfinity, bestAny = float.NegativeInfinity;
-            foreach (var h in hits)
+            for (int i = 0; i < n; i++)
             {
+                var h = bufferSuolo[i];
                 if (h.collider.transform.IsChildOf(player) || h.normal.y < 0.5f) continue;
                 if (h.point.y > yDef + 4f) continue;
                 if (h.point.y > bestAny) bestAny = h.point.y;
@@ -608,6 +628,7 @@ namespace TrenoBambini.Dialogue
 
         void Piazza(float x, float z, float yaw)
         {
+            Physics.SyncTransforms(); // una volta per posizionamento (non a ogni frame del cammino)
             var p = new Vector3(x, player.position.y, z);
             p.y = Suolo(x, z, player.position.y);
             player.position = p;
@@ -690,11 +711,8 @@ namespace TrenoBambini.Dialogue
             string nome = pd != null ? pd.nome : (narratore ? "" : b.personaggio);
             Color col = UIFactory.Accento;
             if (pd != null) col = Hex(pd.colore, col);
-            nomeLbl.text = nome;
-            nomeLbl.color = Color.Lerp(col, UIFactory.Inchiostro, 0.6f);
-            targhettaNome.SetActive(!narratore && !string.IsNullOrEmpty(nome));
             testoLbl.fontStyle = narratore ? FontStyles.Italic : FontStyles.Normal;
-            testoLbl.text = b.testo ?? "";
+            testoLbl.text = (!narratore && !string.IsNullOrEmpty(nome) ? "<color=#E2C48A><b>" + nome.ToUpperInvariant() + "</b></color>  " : "") + (b.testo ?? "");
             testoLbl.maxVisibleCharacters = 0;
             testoLbl.ForceMeshUpdate();
             int totale = testoLbl.textInfo.characterCount;
@@ -719,7 +737,7 @@ namespace TrenoBambini.Dialogue
             guardiaFinoA = inizio + par.guardiaSecondi;
             float finoA = clip != null ? inizio + clip.length + 0.4f : inizio + Mathf.Max(2f, b.durata);
 
-            float mostrati = 0f; float nextKey = 0f;
+            float mostrati = 0f;
             bool completo = false;
             while (!skip)
             {
@@ -727,10 +745,10 @@ namespace TrenoBambini.Dialogue
                 {
                     mostrati += par.velocitaTesto * Time.unscaledDeltaTime;
                     int vis = Mathf.Min(totale, Mathf.FloorToInt(mostrati));
-                    if (vis != testoLbl.maxVisibleCharacters && Time.unscaledTime >= nextKey && clip == null) { nextKey = Time.unscaledTime + 0.08f; UISfx.Play(Sfx.TypeKey, 0.15f, 0.12f); }
                     testoLbl.maxVisibleCharacters = vis;
                     if (vis >= totale) { completo = true; testoLbl.maxVisibleCharacters = 99999; }
                 }
+                Tick();
                 bool tap = Time.unscaledTime >= guardiaFinoA && TapPremuto();
                 if (tap)
                 {
@@ -764,7 +782,7 @@ namespace TrenoBambini.Dialogue
         IEnumerator AspettaSec(float s)
         {
             float t = 0f;
-            while (t < s && !skip) { t += Time.unscaledDeltaTime; yield return null; }
+            while (t < s && !skip) { t += Time.unscaledDeltaTime; Tick(); yield return null; }
         }
 
         // ---- dissolvenze e titolo
@@ -775,6 +793,7 @@ namespace TrenoBambini.Dialogue
             for (float t = 0f; t < dur; t += Time.unscaledDeltaTime)
             {
                 nero.color = new Color(0f, 0f, 0f, Mathf.Lerp(da, a, Mathf.SmoothStep(0f, 1f, t / dur)));
+                Tick();
                 yield return null;
             }
             nero.color = new Color(0f, 0f, 0f, a);
@@ -865,14 +884,53 @@ namespace TrenoBambini.Dialogue
             if (id == "salta") { ultimoInput = Time.unscaledTime; return; } // la targhetta del salto e' quella in alto a destra
             ctrlTitolo.text = c.titolo;
             RiempiTasti(ctrlTasti, Tasti(c, disp));
+            AdattaTarghetta(c.titolo, Tasti(c, disp));
             UITween.Alpha(ctrlGruppo, 1f, 0.35f);
             if (id == "salta") ultimoInput = Time.unscaledTime;
+        }
+
+        /// <summary>La targhetta e' larga quanto il suo contenuto (titolo o fila di tasti, il piu' largo).</summary>
+        void AdattaTarghetta(string titolo, List<string> tasti)
+        {
+            ctrlTitolo.ForceMeshUpdate();
+            float wTasti = 0f;
+            foreach (RectTransform k in ctrlTasti) wTasti += k.sizeDelta.x + 6f;
+            float w = Mathf.Max(ctrlTitolo.preferredWidth, wTasti) + 34f;
+            ctrlRt.sizeDelta = new Vector2(Mathf.Clamp(w, 120f, 560f), ctrlRt.sizeDelta.y);
+            ctrlTitolo.rectTransform.sizeDelta = new Vector2(ctrlRt.sizeDelta.x - 20f, 24f);
+            ctrlTasti.sizeDelta = new Vector2(ctrlRt.sizeDelta.x - 20f, 40f);
         }
 
         void NascondiControllo()
         {
             ControlloMostrato = "";
             UITween.Alpha(ctrlGruppo, 0f, 0.25f);
+        }
+
+        /// <summary>Rete di sicurezza: ferma ogni coroutine del filmato e rimette il gioco in mano al giocatore (scena, camera, input, interfaccia).</summary>
+        void ForzaChiusura()
+        {
+            chiusuraForzata = true;
+            Debug.LogWarning("Filmato: il regista si e' fermato, chiusura forzata.");
+            StopAllCoroutines();
+            if (AudioManager.I != null) AudioManager.I.StopVoice();
+            ChiudiStudio(); NascondiInserti(); RipristinaStudioLuce();
+            tinta.color = new Color(0f, 0f, 0f, 0f);
+            nero.color = new Color(0f, 0f, 0f, 0f);
+            subGruppo.alpha = 0f; ritrattoGruppo.alpha = 0f; ctrlGruppo.alpha = 0f; titoloGruppo.alpha = 0f;
+            UIRoot.I.MostraSoloMinimappa(false);
+            TrovaScenaSenzaCamera();
+            if (player != null)
+            {
+                string scenaOra = SceneManager.GetActiveScene().name;
+                if (ModoRivedi && retValido && scenaOra == retScena) { player.position = retPos; player.rotation = Quaternion.Euler(0f, retYaw, 0f); }
+                else if (!ModoRivedi && F.finale.pos != null && F.finale.pos.Length >= 2 && scenaOra == F.finale.scena) Piazza(F.finale.pos[0], F.finale.pos[1], F.finale.yaw);
+            }
+            SistemaFine(ModoRivedi, true);
+            Saltato = true; Concluso = true;
+            view.gameObject.SetActive(false);
+            InCorso = false;
+            if (GameManager.I != null) GameManager.I.PopBlock("filmato");
         }
 
         void AggiornaTestoSalta()
@@ -909,6 +967,9 @@ namespace TrenoBambini.Dialogue
         {
             if (!InCorso) return;
             float dt = Time.unscaledDeltaTime;
+            // guardiano: se il regista non fa un passo da 10 s (e non si sta caricando una scena) il filmato si chiude da solo e rende il gioco
+            if (SceneLoader.I != null && SceneLoader.I.IsLoading && !bloccoSimulato) ultimoTick = Time.unscaledTime;
+            if (!chiusuraForzata && Time.unscaledTime - ultimoTick > 10f) ForzaChiusura();
             AggiornaDispositivo();
             bool premuto = TastoSaltaPremuto();
             if (premuto)
@@ -934,7 +995,17 @@ namespace TrenoBambini.Dialogue
             velo.color = new Color(velo.color.r, velo.color.g, velo.color.b, 0f);
         }
 
-        void ChiudiStudio() { if (studio != null && studio.Aperto) studio.Chiudi(); }
+        void ChiudiStudio()
+        {
+            if (studio != null && studio.Aperto) studio.Chiudi();
+            RipristinaStudioLuce();
+        }
+
+        void RipristinaStudioLuce()
+        {
+            if (tintaSpenta) { tinta.enabled = true; tintaSpenta = false; }
+            if (fogSalvata) { RenderSettings.fog = fogOriginale; fogSalvata = false; }
+        }
 
         FilmatoCarta TrovaCarta(string id)
         {
@@ -949,6 +1020,7 @@ namespace TrenoBambini.Dialogue
             cartaTitolo.text = c.titolo;
             cartaCorpo.text = string.Join("\n", c.righe);
             cartaRt.sizeDelta = new Vector2(c.larghezza, c.altezza);
+            cartaRt.anchoredPosition = new Vector2(0f, 22f);
             cartaRt.localRotation = Quaternion.Euler(0f, 0f, c.inclina);
             cartaImg.color = c.stile == "scheda" ? new Color(0.95f, 0.9f, 0.78f, 1f) : Color.white;
             float a = 0f;
@@ -957,7 +1029,7 @@ namespace TrenoBambini.Dialogue
             {
                 a = Mathf.Clamp01(t / 0.8f) * (1f - Mathf.Clamp01((t - (durata - 0.6f)) / 0.6f));
                 cartaGruppo.alpha = a;
-                cartaRt.localScale = Vector3.one * Mathf.Lerp(0.94f, 1.04f, t / durata);
+                cartaRt.localScale = Vector3.one * Mathf.Lerp(0.78f, 0.86f, t / durata);
                 yield return null;
             }
             cartaGruppo.alpha = 0f;
@@ -973,7 +1045,7 @@ namespace TrenoBambini.Dialogue
             piantaTit.text = F.testi.piantaTitolo;
             piantaCroce.gameObject.SetActive(false);
             piantaRt.anchorMin = piantaRt.anchorMax = new Vector2(0.5f, 0.5f); piantaRt.pivot = new Vector2(0.5f, 0.5f);
-            piantaRt.anchoredPosition = new Vector2(0f, 10f); piantaRt.localScale = Vector3.one * 0.92f;
+            piantaRt.anchoredPosition = new Vector2(0f, 14f); piantaRt.localScale = Vector3.one * 0.7f;
             // la croce dell'obiettivo (nella scena corrente)
             var ob = Obiettivi.Corrente();
             var punto = ob != null ? Obiettivi.Punto(ob, scena) : null;
@@ -991,7 +1063,7 @@ namespace TrenoBambini.Dialogue
             {
                 float a = Mathf.Clamp01(t / 1.2f) * (1f - Mathf.Clamp01((t - (durata - 0.8f)) / 0.8f));
                 piantaGruppo.alpha = a;
-                piantaRt.localScale = Vector3.one * Mathf.Lerp(0.92f, 1.0f, Mathf.SmoothStep(0f, 1f, t / durata));
+                piantaRt.localScale = Vector3.one * Mathf.Lerp(0.7f, 0.78f, Mathf.SmoothStep(0f, 1f, t / durata));
                 if (croce && t >= tCroce && !piantaCroce.gameObject.activeSelf)
                 {
                     piantaCroce.gameObject.SetActive(true);
@@ -1002,6 +1074,29 @@ namespace TrenoBambini.Dialogue
                 yield return null;
             }
             piantaGruppo.alpha = 0f;
+        }
+
+        bool minimappaVera;
+
+        /// <summary>Mentre la voce nomina la minimappa si vede quella vera, in alto a sinistra (la banda in alto si ritira per lasciarle posto).</summary>
+        IEnumerator MinimappaVera(bool on)
+        {
+            minimappaVera = on;
+            if (on)
+            {
+                // il giocatore e' nello slargo: la X di ob_bucato si vede
+                if (player != null && F.finale.pos != null && F.finale.pos.Length >= 2) { var mod = player.Find(ThirdPersonController.ModelloName); if (mod != null) mod.gameObject.SetActive(false); Piazza(F.finale.pos[0] - 1.2f, F.finale.pos[1], F.finale.yaw); }
+                Obiettivi.Forza(60f);
+                UITween.Move(barSu, new Vector2(0f, AltezzaBande), 0.4f, Ease.InCubic);
+                UIRoot.I.MostraSoloMinimappa(true);
+            }
+            else
+            {
+                UIRoot.I.MostraSoloMinimappa(false);
+                if (!ModoRivedi) Obiettivi.SpegniForzatura();
+                UITween.Move(barSu, Vector2.zero, 0.4f, Ease.OutCubic);
+            }
+            yield return null;
         }
 
         IEnumerator MostraIndizio(float durata)
@@ -1048,10 +1143,11 @@ namespace TrenoBambini.Dialogue
         {
             // se si sta ancora caricando una scena (saltato durante una transizione) si aspetta: un secondo caricamento verrebbe ignorato
             float guardiaCarico = 0f;
-            while (SceneLoader.I != null && SceneLoader.I.IsLoading && guardiaCarico < 60f) { guardiaCarico += Time.unscaledDeltaTime; yield return null; }
+            while (SceneLoader.I != null && SceneLoader.I.IsLoading && guardiaCarico < 60f) { guardiaCarico += Time.unscaledDeltaTime; Tick(); yield return null; }
             if (camRoutine != null) { StopCoroutine(camRoutine); camRoutine = null; }
             if (attoreRoutine != null) { StopCoroutine(attoreRoutine); attoreRoutine = null; }
             SpegniSottotitoli();
+            if (minimappaVera) { minimappaVera = false; UIRoot.I.MostraSoloMinimappa(false); }
             if (AudioManager.I != null) AudioManager.I.StopVoice();
             if (tintaRoutine != null) { StopCoroutine(tintaRoutine); tintaRoutine = null; }
             ChiudiStudio();
@@ -1067,7 +1163,7 @@ namespace TrenoBambini.Dialogue
                 {
                     SceneLoader.I.Load(destinazione, rivedi ? retSpawn : "inizio", TransitionStyle.Fade, () => PreparaFinale(rivedi, true));
                     float g = 0f;
-                    while ((SceneLoader.I.IsLoading || g < 0.1f) && g < 120f) { g += Time.unscaledDeltaTime; yield return null; }
+                    while ((SceneLoader.I.IsLoading || g < 0.1f) && g < 120f) { g += Time.unscaledDeltaTime; Tick(); yield return null; }
                 }
                 else
                 {
@@ -1087,7 +1183,7 @@ namespace TrenoBambini.Dialogue
             yield return ChiudiInterfaccia();
         }
 
-        IEnumerator AspettaSecFisso(float s) { float t = 0f; while (t < s) { t += Time.unscaledDeltaTime; yield return null; } }
+        IEnumerator AspettaSecFisso(float s) { float t = 0f; while (t < s) { t += Time.unscaledDeltaTime; Tick(); yield return null; } }
 
         /// <summary>Rimette il giocatore al suo posto (finale del filmato, oppure il punto di prima se lo si e' rivisto da pausa) e gli ridà il controllo.</summary>
         IEnumerator PreparaFinale(bool rivedi, bool coperto)
@@ -1152,6 +1248,9 @@ namespace TrenoBambini.Dialogue
             if (rig != null && riposiziona) rig.Snap();
             if (brain != null && brain == brainAgganciato) brain.DefaultBlend = blendOrig;
             if (vcam != null) { Destroy(vcam.gameObject); vcam = null; }
+            var meteoFine = FindAnyObjectByType<TrenoBambini.World.MeteoController>();
+            if (meteoFine != null) meteoFine.Sospendi(false);
+            if (UIRoot.I != null && UIRoot.I.Fader != null) UIRoot.I.Fader.SetFlashbackLook(SceneManager.GetActiveScene().name.Contains("_FB_"));
             var gm = GameManager.I;
             var s = gm.Save;
             if (rivedi) { s.scena = retScena; s.spawn = retSpawn; }

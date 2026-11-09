@@ -174,7 +174,7 @@ namespace TrenoBambini.Dialogue
             GraphicsPresets.Apply(2, false); // Alta
             Check("il filmato e' disponibile (copione e regia caricati)", GameManager.FilmatoDisponibile());
             var def = GameData.Cutscene("intro");
-            Check("cutscene_intro ha 41 battute cs_intro_001..041 e 7 capitoli", def != null && def.battute.Count == 41 && def.capitoli.Count == 7 && GameData.Filmato.capitoli.Count == 7,
+            Check("cutscene_intro ha 36 battute cs_intro_001..036 e 7 capitoli", def != null && def.battute.Count == 36 && def.capitoli.Count == 7 && GameData.Filmato.capitoli.Count == 7,
                 def != null ? def.battute.Count + " battute, " + def.capitoli.Count + " capitoli" : "null");
             Check("amerigo_adulto in personaggi.json", GameData.Personaggio("amerigo_adulto") != null && GameData.Personaggio("amerigo_adulto").colore == "#5A4A3C");
 
@@ -189,7 +189,7 @@ namespace TrenoBambini.Dialogue
             var scene = new HashSet<string>();
             bool targaSalta = false, sottotitoliOk = true, hudNascosto = true, pausaChiusa = true, tastiera = true, inserto = false;
             var frame = new List<float>(); var frameCap = new Dictionary<int, List<float>>();
-            int scatti = 0; string ultima = ""; float tBatt = 0f; bool fotoFatta = false; float ultimaFoto = -10f;
+            float hudAttivoT = 0f; int scatti = 0; string ultima = ""; float tBatt = 0f; bool fotoFatta = false; float ultimaFoto = -10f;
             float inizio = Time.unscaledTime;
             while (FilmatoIniziale.InCorso && Time.unscaledTime - inizio < (naturale ? 800f : 400f))
             {
@@ -211,7 +211,8 @@ namespace TrenoBambini.Dialogue
                     if (UIRoot.I.Pause.IsOpen) { pausaChiusa = false; UIRoot.I.Pause.Hide(); }
                 }
                 var hud = UIRoot.I.HudLayer;
-                if (hud != null && hud.gameObject.activeSelf) hudNascosto = false;
+                if (hud != null && hud.gameObject.activeSelf && !f.MinimappaVeraVisibile) { hudAttivoT += Time.unscaledDeltaTime; if (hudAttivoT > 0.5f) hudNascosto = false; } // solo la minimappa vera puo' comparire (capitolo 5)
+                else hudAttivoT = 0f;
                 if (!SceneLoader.I.IsLoading && Time.unscaledTime - ultimaFoto > 0.6f)
                 {
                     float dt = Time.unscaledDeltaTime; frame.Add(dt);
@@ -234,11 +235,15 @@ namespace TrenoBambini.Dialogue
                 yield return null;
             }
             yield return Attendi(1.0f);
-            Check("il filmato arriva alla fine (non saltato)", Film.Concluso && !Film.Saltato, "tempo " + (Time.unscaledTime - inizio).ToString("0") + " s");
-            Check("tutte le 41 battute sono andate in onda", viste.Count == 41, viste.Count + "/41");
+            float durataFilm = Time.unscaledTime - inizio;
+            Check("il filmato arriva alla fine (non saltato)", Film.Concluso && !Film.Saltato, "tempo " + durataFilm.ToString("0") + " s");
+            Log("DURATA misurata (dalla Nuova partita alla fine, " + (naturale ? "a tempo di lettura" : "con tocchi") + "): " + durataFilm.ToString("0") + " s = " + ((int)durataFilm / 60) + ":" + ((int)durataFilm % 60).ToString("00"));
+            if (naturale) Check("durata a tempo di lettura <= 5:00", durataFilm <= 300f, durataFilm.ToString("0") + " s");
+            Check("la voce 'Rivedi il filmato iniziale' e' nel menu principale", GameData.UiMenu.voci.Exists(v => v.id == "filmato" && !string.IsNullOrEmpty(v.etichetta)));
+            Check("tutte le 36 battute sono andate in onda", viste.Count == 36, viste.Count + "/36");
             Check("tutti i 7 capitoli sono andati in onda", capitoli.Contains(6) && Film.CapitoliVisti == 7, "visti " + Film.CapitoliVisti);
             Check("il filmato usa sia il presente (hub) sia il ricordo (30_FB_Scarpe)", scene.Contains(Hub) && scene.Contains("30_FB_Scarpe"));
-            foreach (var c in new[] { "salta", "muovi", "guarda", "interagisci", "inventario", "mappa", "indizio" })
+            foreach (var c in new[] { "salta", "muovi", "muovi_guarda", "interagisci", "inventario", "mappa", "indizio" })
                 Check("targhetta controlli '" + c + "' mostrata", controlli.Contains(c));
             Check("targhetta 'tieni premuto per saltare' visibile all'inizio", targaSalta);
             Check("le targhette sono scritte per tastiera+mouse (nessun gamepad/touch collegato)", tastiera);
@@ -303,6 +308,72 @@ namespace TrenoBambini.Dialogue
             Check("dopo il filmato rivisto il gioco e' libero", !GameManager.I.InputBlocked && p != null && p.enabled);
             Check("rivedere il filmato non cambia il salvataggio (scena e flag)", GameManager.I.Save.scena == Hub && GameManager.I.Save.filmatoVisto);
             yield return Foto("rivisto_dopo");
+
+            // ---- 5) rivedi dal basso (20_Int) e salto durante il Rivedi: si torna nel basso, dove si era
+            SceneLoader.I.Load("20_Int_BassoAntonietta", "inizio");
+            yield return Attendi(1.0f);
+            float tb = 0f;
+            while (tb < 30f && (SceneLoader.I.IsLoading || SceneManager.GetActiveScene().name != "20_Int_BassoAntonietta")) { tb += Time.unscaledDeltaTime; yield return null; }
+            yield return Attendi(2.0f);
+            p = Giocatore();
+            Vector3 posBasso = p != null ? p.transform.position : Vector3.zero;
+            GameManager.I.SaveGame();
+            UIRoot.I.TogglePause();
+            yield return Attendi(1.0f);
+            voce = null;
+            foreach (var b in FindObjectsByType<UnityEngine.UI.Button>(FindObjectsInactive.Include))
+            {
+                var tx = b.GetComponentInChildren<TMPro.TextMeshProUGUI>(true);
+                if (tx != null && tx.text == GameData.UiMenu.filmato.rivedi) { voce = b; break; }
+            }
+            if (voce != null) voce.onClick.Invoke();
+            yield return AttendiFilm(true, 10f);
+            Check("Rivedi dal basso: il filmato parte", FilmatoIniziale.InCorso && Film.ModoRivedi);
+            tt = 0f;
+            while (tt < 60f && Film.CapitoloIndice < 1) { tt += Time.unscaledDeltaTime; yield return null; }
+            yield return Attendi(1.5f);
+            yield return Tieni(Key.Escape, 1.6f);
+            yield return AttendiFilm(false, 30f);
+            yield return Attendi(2.0f);
+            p = Giocatore();
+            float distBasso = p != null ? Vector3.Distance(p.transform.position, posBasso) : 999f;
+            Check("Rivedi dal basso + salto: si torna nel basso, al punto di prima", SceneManager.GetActiveScene().name == "20_Int_BassoAntonietta" && distBasso < 0.5f && Film.Saltato,
+                "scena " + SceneManager.GetActiveScene().name + ", distanza " + distBasso.ToString("0.00") + " m");
+            Check("Rivedi dal basso: il salvataggio resta nel basso e il gioco e' libero", GameManager.I.Save.scena == "20_Int_BassoAntonietta" && !GameManager.I.InputBlocked && p != null && p.enabled,
+                "save.scena " + GameManager.I.Save.scena + ", blocchi: " + GameManager.I.BlockReasons);
+
+            // ---- 6) guardiano: se il regista si blocca il filmato si chiude da solo e rende il gioco
+            SceneLoader.I.Load(Hub, "inizio");
+            tb = 0f;
+            while (tb < 30f && (SceneLoader.I.IsLoading || SceneManager.GetActiveScene().name != Hub)) { tb += Time.unscaledDeltaTime; yield return null; }
+            yield return Attendi(2.0f);
+            GameManager.I.RivediFilmato();
+            yield return AttendiFilm(true, 10f);
+            yield return Attendi(6f);
+            Film.SimulaBlocco();
+            yield return AttendiFilm(false, 25f);
+            yield return Attendi(1.5f);
+            p = Giocatore();
+            Check("guardiano: un regista bloccato chiude il filmato da solo (entro ~10 s)", Film.ChiusuraForzata && !FilmatoIniziale.InCorso);
+            Check("guardiano: dopo la chiusura forzata il gioco e' libero e la HUD c'e'", !GameManager.I.InputBlocked && p != null && p.enabled && UIRoot.I.HudLayer.gameObject.activeSelf && SceneManager.GetActiveScene().name == Hub,
+                "blocchi: " + GameManager.I.BlockReasons);
+
+            // ---- 7) rivedi dal menu principale: si torna al titolo
+            SceneLoader.I.Load(GameManager.SceneTitolo, null);
+            tb = 0f;
+            while (tb < 30f && (SceneLoader.I.IsLoading || SceneManager.GetActiveScene().name != GameManager.SceneTitolo)) { tb += Time.unscaledDeltaTime; yield return null; }
+            yield return Attendi(3.0f);
+            GameManager.I.RivediFilmato();
+            yield return AttendiFilm(true, 10f);
+            Check("Rivedi dal menu principale: il filmato parte", FilmatoIniziale.InCorso && Film.ModoRivedi);
+            yield return Attendi(4f);
+            yield return Tieni(Key.Escape, 1.6f);
+            yield return AttendiFilm(false, 40f);
+            tb = 0f;
+            while (tb < 30f && (SceneLoader.I.IsLoading || GameManager.MenuBackdrop && false)) { tb += Time.unscaledDeltaTime; yield return null; }
+            yield return Attendi(2.0f);
+            Check("Rivedi dal menu principale + salto: si torna al titolo", (GameManager.IsMenuScene(SceneManager.GetActiveScene().name) || GameManager.MenuBackdrop) && UIRoot.I.MenuScene && !FilmatoIniziale.InCorso && Film.Saltato,
+                "scena " + SceneManager.GetActiveScene().name);
             fine();
         }
 

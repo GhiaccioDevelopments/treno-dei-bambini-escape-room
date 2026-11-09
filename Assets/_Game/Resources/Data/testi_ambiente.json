@@ -677,6 +677,32 @@
         0.07,
         0.05
       ]
+    },
+    {
+      "chiave": "Treni",
+      "gruppo": "ricordo",
+      "tipo": "manifesto",
+      "w": 256,
+      "h": 384,
+      "seed": 11,
+      "righe": [
+        "TRENI PER",
+        "IL NORD",
+        "",
+        "BAMBINI DI NAPOLI",
+        "ISCRIZIONI AL",
+        "COMITATO"
+      ],
+      "carta": [
+        0.88,
+        0.8,
+        0.62
+      ],
+      "inchiostro": [
+        0.1,
+        0.08,
+        0.06
+      ]
     }
   ]
 }
