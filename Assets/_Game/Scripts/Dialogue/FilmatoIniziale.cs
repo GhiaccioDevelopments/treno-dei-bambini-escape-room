@@ -1119,6 +1119,10 @@ namespace TrenoBambini.Dialogue
             cc = p != null ? p.GetComponent<CharacterController>() : null;
             pint = p != null ? p.GetComponent<PlayerInteractor>() : null;
             rig = FindAnyObjectByType<CameraRig>();
+            // il CharacterController annullerebbe lo spostamento: si spegne finche' Amerigo non e' al suo posto (lo riaccende SistemaFine)
+            if (tpc != null) tpc.enabled = false;
+            if (pint != null) pint.enabled = false;
+            if (cc != null) cc.enabled = false;
             if (vcam != null) { Destroy(vcam.gameObject); vcam = null; }
             AggancioBrain();
         }
