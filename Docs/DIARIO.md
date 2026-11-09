@@ -5,6 +5,18 @@ Regole d'uso: vedi la sezione "Diario e lavoro su più PC" in `CLAUDE.md`.
 
 ---
 
+## 2026-11-09 – PC casa – Nuove richieste R024–R029 e regola dei 2 minuti
+**Branch:** richiesta/R019-minimappa-vicoli · **Ultimo commit:** 8847569 (+ questa voce)
+### Fatto
+- Aperte 6 richieste in bozza: **R024** scarpe invisibili nel livello 2 del ricordo (PR #26), **R025** filmato iniziale doppiato (PR #27),
+  **R026** enigmi più chiari con biglietto "cosa fare / cosa ottieni" (PR #28), **R027** trofei (PR #29),
+  **R028** pulsante altoparlante del Narratore + lista file da registrare con Audacity (PR #30), **R029** ottimizzazione totale (PR #31).
+### Decisioni
+- Coda: R019 → R024 → R025 → ricordi (R011, R012–R016) → R026 → R027 → R028 → R029 (ottimizzazione per ultima).
+- `CLAUDE.md`: se l'utente non risponde a una domanda entro 2 minuti si va avanti con l'opzione raccomandata.
+### Prossimi passi
+- Chiudere R019 (in prova), poi R024.
+
 ## 2026-11-08 – PC casa – R022, R017, R018, R007 (con R021) integrate, gioco online aggiornato
 **Branch:** feature/upgrade-realistico · **Ultimo commit:** 38a2796 (+ questa voce) · **gh-pages:** e88ad1b
 ### Fatto

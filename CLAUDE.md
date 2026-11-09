@@ -43,6 +43,9 @@ Protagonista: Amerigo Speranza, Napoli 1946.
   ruotare la camera; touch: joystick virtuale + pulsanti a schermo (LIM/Chromebook).
 - Salvataggio: PlayerPrefs (chiave `treno_save`, JSON).
 - Lingua del gioco, dei commit e della documentazione: italiano.
+- **Domande all'utente** (decisione 2026-11-09): sempre a pannello con un'opzione "(Recommended)". Se entro **2 minuti** l'utente
+  non risponde nemmeno alla prima domanda, andare avanti prendendo come risposta l'opzione raccomandata (scriverlo in chat e nel
+  Rapporto della richiesta, così l'utente può correggerla dopo). Vale per tutte le domande, da menu o no.
 
 ## Stile visivo e prestazioni (Fase 2)
 - Tono **serio, realistico, cinematografico** (riferimento d'atmosfera: The Last of Us), mai cartoon.
