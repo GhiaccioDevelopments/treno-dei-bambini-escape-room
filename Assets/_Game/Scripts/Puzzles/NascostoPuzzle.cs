@@ -69,16 +69,16 @@ namespace TrenoBambini.Puzzles
                 var n = d.oggetti[i];
                 if (MondoStato.Ha(n.id)) { found++; continue; } // gia' nella borsa (partita ripresa)
                 // R024: modello vero (calz_<stile>), un po' piu' grande del vero per riconoscerlo da lontano; il fascio di luce lo fa notare senza aloni colorati
-                var go = MondoFab.Scarpa(new ParteDef { id = "Nascosto_" + n.id, testo = n.modello, x = n.x, y = n.y, z = n.z, ry = 20f * i + 15f, sx = 1.4f, sy = 1.4f, sz = 1.4f }, transform, false);
+                var go = MondoFab.Scarpa(new ParteDef { id = "Nascosto_" + n.id, testo = n.modello, x = n.x, y = n.y, z = n.z, rx = n.rx, ry = 20f * i + 15f, colore = n.colore, sx = 1.4f, sy = 1.4f, sz = 1.4f }, transform, false);
                 go.transform.position = new Vector3(n.x, n.y, n.z);
                 var bc = go.AddComponent<BoxCollider>();
                 bc.isTrigger = true; // non blocca il player
                 bc.center = new Vector3(0f, 0.06f, 0f); bc.size = new Vector3(0.5f, 0.25f, 0.35f);
                 var lg = new GameObject("Luce");
                 lg.transform.SetParent(go.transform, false);
-                lg.transform.position = go.transform.position + new Vector3(0.15f, 1.3f, -0.4f);
+                lg.transform.position = go.transform.position + new Vector3(0.15f, 1.1f, -0.4f);
                 var luce = lg.AddComponent<Light>();
-                luce.type = LightType.Point; luce.range = 4f; luce.intensity = 8f; luce.shadows = LightShadows.None;
+                luce.type = LightType.Point; luce.range = 2.8f; luce.intensity = 8f; luce.shadows = LightShadows.None;
                 luce.color = new Color(1f, 0.86f, 0.62f); // calda, come un raggio di sole tra i palazzi
                 lg.AddComponent<LuceCalzatura>().luce = luce;
                 var h = go.AddComponent<HiddenItem>();

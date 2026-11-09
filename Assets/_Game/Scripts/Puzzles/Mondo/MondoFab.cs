@@ -295,15 +295,15 @@ namespace TrenoBambini.Puzzles
                 {
                     case "lucide": cT = "#16110e"; break;
                     case "chiodate": cT = "#4a3320"; break;
-                    case "militari": cT = "#5a4630"; break;
-                    case "tacchi": cT = "#6a2a30"; break;
+                    case "militari": cT = "#3a3022"; break;
+                    case "tacchi": cT = "#2a1714"; break;
                     case "risuolate": cT = "#5a3a22"; break;
-                    case "cartone": cT = "#7a5f3e"; break;
+                    case "cartone": cT = "#6a5a40"; break;
                     default: cT = "#3a2616"; break;
                 }
             }
             if (st == "zoccoli") { tomaia = "legno"; cT = string.IsNullOrEmpty(d.colore) ? "#6b4a2b" : d.colore; }
-            if (st == "pezze") { tomaia = "stoffa"; cT = string.IsNullOrEmpty(d.colore) ? "#7c6a50" : d.colore; }
+            if (st == "pezze") { tomaia = "stoffa"; cT = string.IsNullOrEmpty(d.colore) ? "#6d6252" : d.colore; }
             if (st == "matita") { tomaia = "gesso"; cT = string.IsNullOrEmpty(d.colore) ? "#55534f" : d.colore; }
             var mT = Mat(tomaia, cT);
             var mSuola = st == "matita" ? mT : Mat("cuoio", st == "risuolate" ? "#b07a45" : "#1c120b");
@@ -382,16 +382,16 @@ namespace TrenoBambini.Puzzles
             return root;
         }
 
-        /// <summary>Lunghezza vera (m) del modello della calzatura per lo stile dato; 0 = nessun modello dedicato (stile da primitive o dalla scarpa R023).</summary>
+        /// <summary>Lunghezza (m) del modello (misura x dei FBX in modelli_misure.json) della calzatura per lo stile dato; 0 = nessun modello dedicato (stile da primitive o dalla scarpa R023).</summary>
         public static float LunghezzaCalzatura(string stile)
         {
             switch (stile)
             {
-                case "zoccoli": return 0.28f;
-                case "militari": return 0.31f;
-                case "cartone": return 0.28f;
-                case "tacchi": return 0.26f;
-                case "pezze": return 0.34f;
+                case "zoccoli": return 0.275f;
+                case "militari": return 0.306f;
+                case "cartone": return 0.356f;
+                case "tacchi": return 0.248f;
+                case "pezze": return 0.247f;
                 default: return 0f;
             }
         }

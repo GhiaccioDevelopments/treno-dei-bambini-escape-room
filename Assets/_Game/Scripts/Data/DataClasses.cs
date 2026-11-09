@@ -157,6 +157,8 @@ namespace TrenoBambini.Data
         public string id; public string nome; public string descrizione;
         public float x; public float y; public float z;
         public string modello;
+        public float rx;        // R024: inclinazione attorno all'asse lungo (gradi): 0 = in piedi, ~75 = abbandonata su un fianco
+        public string colore;   // R024: colore del cuoio (vuoto = predefinito dello stile)
     }
 
     [Serializable] public class EventoDef { public string testo; public string data; }

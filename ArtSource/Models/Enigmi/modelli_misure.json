@@ -151,9 +151,9 @@
  },
  "calz_cartone": {
   "centro": [
-   0.005,
-   0.0075,
-   -0.0295
+   0.0006,
+   0.0421,
+   0.0274
   ],
   "materiali": [
    "ME_Cartone",
@@ -164,18 +164,18 @@
    "MT_Cuoio"
   ],
   "misura": [
-   0.28,
-   0.1457,
-   0.1246
+   0.3562,
+   0.1082,
+   0.1588
   ],
-  "triangoli": 916,
+  "triangoli": 872,
   "triangoli_lod1": 0
  },
  "calz_militari": {
   "centro": [
    -0.003,
-   0.0269,
-   0.0884
+   0.0941,
+   -0.0002
   ],
   "materiali": [
    "ME_Fango",
@@ -186,17 +186,17 @@
   ],
   "misura": [
    0.306,
-   0.1473,
-   0.2015
+   0.1878,
+   0.1142
   ],
   "triangoli": 1488,
   "triangoli_lod1": 0
  },
  "calz_pezze": {
   "centro": [
-   0.0007,
-   0.0414,
-   -0.0159
+   0.0458,
+   0.0535,
+   0.0025
   ],
   "materiali": [
    "ME_Fango",
@@ -204,30 +204,31 @@
    "MT_Panno"
   ],
   "misura": [
-   0.3461,
-   0.0747,
-   0.3113
+   0.2466,
+   0.107,
+   0.2909
   ],
-  "triangoli": 1484,
+  "triangoli": 1060,
   "triangoli_lod1": 0
  },
  "calz_tacchi": {
   "centro": [
-   0.0015,
-   0.0355,
-   -0.0536
+   0.002,
+   0.0666,
+   0.0
   ],
   "materiali": [
+   "ME_CuoioCinghia",
    "ME_Interno",
    "ME_Suola",
    "MT_Cuoio"
   ],
   "misura": [
-   0.249,
-   0.1118,
-   0.1264
+   0.248,
+   0.1333,
+   0.08
   ],
-  "triangoli": 700,
+  "triangoli": 796,
   "triangoli_lod1": 0
  },
  "calz_zoccoli": {

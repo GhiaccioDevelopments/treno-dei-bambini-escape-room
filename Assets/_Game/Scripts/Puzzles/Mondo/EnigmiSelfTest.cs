@@ -327,7 +327,7 @@ namespace TrenoBambini.Core
         }
 
         [Serializable] class SoloParti { public List<SoloEnigma> enigmi; }
-        [Serializable] class SoloEnigma { public List<TrenoBambini.Data.ParteDef> parti; public List<TrenoBambini.Data.NascostoDef> oggetti; }
+        [Serializable] class SoloEnigma { public string tipo; public List<TrenoBambini.Data.ParteDef> parti; public List<TrenoBambini.Data.NascostoDef> oggetti; }
 
         /// <summary>Ogni "modello" usato dalle parti (enigmi_mondo.json e flashback_*.json) deve caricarsi da Resources/Modelli/Enigmi.</summary>
         void ControllaModelli()
@@ -343,8 +343,16 @@ namespace TrenoBambini.Core
                     if (e != null && e.parti != null)
                         foreach (var p in e.parti) if (p != null && !string.IsNullOrEmpty(p.modello)) nomi.Add(p.modello);
                     // R024: ogni calzatura da raccogliere (enigma "nascosto") ha il suo modello calz_<stile>; senza, comparirebbe un segnaposto di primitive
-                    if (e != null && e.oggetti != null)
-                        foreach (var o in e.oggetti) if (o != null && MondoFab.LunghezzaCalzatura((o.modello ?? "").ToLowerInvariant()) > 0f) nomi.Add("calz_" + o.modello.ToLowerInvariant());
+                    if (e != null && e.oggetti != null && (e.tipo ?? "").ToLowerInvariant() == "nascosto")
+                        foreach (var o in e.oggetti)
+                        {
+                            if (o == null) continue;
+                            string st = (o.modello ?? "").ToLowerInvariant();
+                            bool calz = MondoFab.LunghezzaCalzatura(st) > 0f;
+                            if (calz) nomi.Add("calz_" + st);
+                            // nessuna ricaduta silenziosa: lo stile deve essere una calzatura nota oppure un modello vero che si carica
+                            Check("oggetto nascosto " + o.id + ": modello '" + st + "' dedicato", calz || (st != "" && Resources.Load<GameObject>("Modelli/Enigmi/" + st) != null));
+                        }
                 }
             }
             Check("modelli degli enigmi trovati nei JSON", nomi.Count > 0, nomi.Count.ToString());
@@ -762,13 +770,32 @@ namespace TrenoBambini.Core
         {
             string id = "enigma_nascosto";
             var e = Trova(id);
-            e.Interact();   // parte la ricerca delle cinque calzature
+            // R024: tutti gli enigmi "nascosto" del ricordo caricato: ognuno si avvia e i suoi raccoglibili passano i controlli
+            string scena = SceneManager.GetActiveScene().name;
+            int nascosti = 0;
+            foreach (var en in new List<EnigmaMondo>(EnigmaMondo.Tutti))
+            {
+                if (en == null || en.def == null || (en.def.tipo ?? "").ToLowerInvariant() != "nascosto" || en.gameObject.scene.name != scena) continue;
+                nascosti++;
+                if (en.def.richiede != null) foreach (var r in en.def.richiede) MondoStato.Dai(r);
+                en.Interact();   // parte la ricerca degli oggetti da trovare
+                yield return Attendi(0.8f);
+                yield return ChiudiMessaggi();
+                var suoi = new List<HiddenItem>();
+                foreach (var h in FindObjectsByType<HiddenItem>(FindObjectsInactive.Exclude))
+                    if (h != null && h.item != null && en.def.oggetti.Exists(o => o.id == h.item.id)) suoi.Add(h);
+                Check(en.def.id + ": oggetti da trovare creati", suoi.Count == en.def.oggetti.Count - ContaGia(en.def), suoi.Count + "/" + en.def.oggetti.Count);
+                yield return ControllaRaccoglibili(en.def.id, suoi);
+            }
+            Check("ricordo: almeno un enigma nascosto controllato", nascosti > 0, nascosti.ToString());
+            e.Interact();
             yield return Attendi(0.8f);
             yield return ChiudiMessaggi();
-            var items = new List<HiddenItem>(FindObjectsByType<HiddenItem>(FindObjectsInactive.Exclude));
+            var items = new List<HiddenItem>();
+            foreach (var h in FindObjectsByType<HiddenItem>(FindObjectsInactive.Exclude))
+                if (h != null && h.item != null && e.def.oggetti.Exists(o => o.id == h.item.id)) items.Add(h);
             Check(id + ": cinque calzature da trovare nella strada", items.Count == 5, items.Count.ToString());
             yield return Foto(id + "_ricerca");
-            yield return ControllaRaccoglibili(id, items);
             foreach (var h in items) { if (h != null) h.Interact(); yield return Attendi(0.3f); }
             yield return Attendi(0.5f);
             yield return ChiudiMessaggi();
@@ -793,10 +820,19 @@ namespace TrenoBambini.Core
             Check(id + ": produce la seconda cifra", MondoStato.Ha("cifra_9a"));
         }
 
+        static int ContaGia(EnigmaDef d)
+        {
+            int n = 0;
+            foreach (var o in d.oggetti) if (MondoStato.Ha(o.id)) n++;
+            return n;
+        }
+
         /// <summary>
         /// R024: ogni raccoglibile di un enigma "nascosto" deve vedersi e potersi raggiungere: renderer attivi con materiale, bounds non nulli,
-        /// sopra il pavimento (nessun solido sotto che lo copra: il suo fondo non e' sotto il suolo) e fuori dai collider dei muri/oggetti.
-        /// Scatta anche una foto ravvicinata di ognuno (id_raccoglibile_nome.jpg).
+        /// appoggiato al pavimento (ne' sotto, ne' sospeso: il raggio verso il basso dal suo fondo trova un solido entro 5 cm), origine fuori dai solidi,
+        /// niente solido che lo copra subito sopra, fuori dai collider dei muri e, soprattutto, VISIBILE dalla camera di gioco a ~4 m:
+        /// dimensione minima a schermo e pixel che cambiano davvero rispetto al selciato (render con e senza l'oggetto, stessa luce).
+        /// Scatta anche una foto ravvicinata di ognuno (id_raccoglibile_nome.jpg) e una dalla distanza di gioco (id_distanza_nome.jpg).
         /// </summary>
         IEnumerator ControllaRaccoglibili(string id, List<HiddenItem> items)
         {
@@ -818,11 +854,19 @@ namespace TrenoBambini.Core
                 Check(n + ": renderer attivi", rs.Length > 0 && attivi == rs.Length && tuttiAcceso && senzaMat == 0, rs.Length + " renderer, " + attivi + " attivi, " + senzaMat + " senza materiale");
                 Check(n + ": bounds non nulli", !primo && b.size.x > 0.05f && b.size.y > 0.02f && b.size.z > 0.03f, b.size.ToString("F3"));
 
-                // pavimento: un solido (collider non trigger) sotto o a contatto del fondo; nessun solido sopra che lo copra in modo pieno
+                // appoggiato: l'origine del raggio (mezzo metro sopra il fondo) non sta dentro un solido e il primo solido sotto e' entro 5 cm dal fondo (ne' sotto il suolo, ne' sospeso)
                 float fondo = b.min.y;
+                var org = new Vector3(b.center.x, fondo + 0.5f, b.center.z);
+                bool dentro0 = Physics.CheckSphere(org, 0.03f, ~0, QueryTriggerInteraction.Ignore);
                 RaycastHit hit;
-                bool suolo = Physics.Raycast(new Vector3(b.center.x, fondo + 0.3f, b.center.z), Vector3.down, out hit, 3f, ~0, QueryTriggerInteraction.Ignore);
-                Check(n + ": sopra il pavimento", suolo && fondo >= hit.point.y - 0.05f, suolo ? "suolo y=" + hit.point.y.ToString("F2") + " fondo y=" + fondo.ToString("F2") : "nessun suolo sotto");
+                bool suolo = Physics.Raycast(org, Vector3.down, out hit, 3f, ~0, QueryTriggerInteraction.Ignore);
+                float dy = suolo ? fondo - hit.point.y : 99f;
+                Check(n + ": appoggiato al pavimento o all'appoggio (ne' sotto ne' sospeso)", !dentro0 && suolo && Mathf.Abs(dy) <= 0.05f,
+                    suolo ? "sotto: " + hit.collider.name + " y=" + hit.point.y.ToString("F2") + " fondo y=" + fondo.ToString("F2") : "nessun solido sotto");
+
+                // niente solido che lo copra subito sopra
+                bool coperto = Physics.Raycast(new Vector3(b.center.x, b.max.y + 0.01f, b.center.z), Vector3.up, 0.25f, ~0, QueryTriggerInteraction.Ignore);
+                Check(n + ": nessun solido lo copre", !coperto);
 
                 // niente collider solidi che entrino nel volume (ristretto di 2 cm) tranne chi sta sotto il fondo (suolo, appoggio)
                 var ristretto = new Vector3(Mathf.Max(0.01f, b.extents.x - 0.02f), Mathf.Max(0.01f, b.extents.y - 0.02f), Mathf.Max(0.01f, b.extents.z - 0.02f));
@@ -835,12 +879,95 @@ namespace TrenoBambini.Core
                 }
                 Check(n + ": fuori dai collider dei muri", dentro.Count == 0, string.Join(",", dentro));
 
+                // visibilita' dalla camera di gioco a ~4 m (quello che mancava nel difetto originale)
+                yield return Visibile(id, n, h, rs, b);
+
                 // foto ravvicinata dall'alto-davanti
                 Vector3 da = b.center + new Vector3(0.5f, 0.6f, -0.9f);
                 RaycastHit lh;
                 if (Physics.Linecast(b.center, da, out lh, ~0, QueryTriggerInteraction.Ignore)) da = b.center + new Vector3(0f, 1.4f, 0.01f);
                 yield return Scatta(id + "_raccoglibile_" + h.item.id, da, b.center, 50f);
             }
+        }
+
+        const float DistGioco = 4f;      // m dalla camera all'oggetto
+        const float PixelMinimi = 40f;   // lato lungo dell'oggetto a schermo (a 4 m con 1280x720)
+        const int PixelDiversi = 250;    // pixel che cambiano rispetto al selciato togliendo l'oggetto (stessa luce)
+
+        IEnumerator Visibile(string id, string n, HiddenItem h, Renderer[] rs, Bounds b)
+        {
+            float fov = Camera.main != null ? Camera.main.fieldOfView : 50f;
+            Vector3 cen = b.center;
+            Vector3 pos = Vector3.zero; bool trovato = false;
+            foreach (float oriz in new[] { 3.6f, 2.8f, 4.4f, 2.0f })
+                for (int k = 0; k < 8 && !trovato; k++)
+                {
+                    Vector3 dir = Quaternion.Euler(0f, 45f * k, 0f) * Vector3.forward;
+                    Vector3 p = cen + dir * oriz + Vector3.up * 1.7f;
+                    if (Physics.CheckSphere(p, 0.25f, ~0, QueryTriggerInteraction.Ignore)) continue;
+                    if (Physics.Linecast(cen + Vector3.up * 0.15f, p, ~0, QueryTriggerInteraction.Ignore)) continue;
+                    pos = p; trovato = true;
+                }
+            Check(n + ": punto di vista libero a ~4 m", trovato);
+            if (!trovato) yield break;
+
+            var go = new GameObject("VisibileCam");
+            var cam = go.AddComponent<Camera>();
+            cam.fieldOfView = fov; cam.nearClipPlane = 0.05f; cam.farClipPlane = 200f;
+            cam.transform.position = pos; cam.transform.LookAt(cen);
+            cam.GetUniversalAdditionalCameraData().renderPostProcessing = false;   // niente grana casuale tra i due render
+            var rt = new RenderTexture(1280, 720, 24, RenderTextureFormat.ARGB32);
+            cam.targetTexture = rt;
+            yield return new WaitForEndOfFrame();
+            var con = Leggi(cam, rt);
+            foreach (var r in rs) r.enabled = false;
+            var senza = Leggi(cam, rt);
+            foreach (var r in rs) r.enabled = true;
+
+            // rettangolo dell'oggetto a schermo
+            float x0 = 1e9f, y0 = 1e9f, x1 = -1e9f, y1 = -1e9f;
+            for (int i = 0; i < 8; i++)
+            {
+                var c = b.center + Vector3.Scale(b.extents, new Vector3((i & 1) == 0 ? -1 : 1, (i & 2) == 0 ? -1 : 1, (i & 4) == 0 ? -1 : 1));
+                var sp = cam.WorldToScreenPoint(c);
+                x0 = Mathf.Min(x0, sp.x); x1 = Mathf.Max(x1, sp.x); y0 = Mathf.Min(y0, sp.y); y1 = Mathf.Max(y1, sp.y);
+            }
+            float lato = Mathf.Max(x1 - x0, y1 - y0);
+            int ix0 = Mathf.Clamp((int)x0, 0, 1279), ix1 = Mathf.Clamp((int)x1, 0, 1279), iy0 = Mathf.Clamp((int)y0, 0, 719), iy1 = Mathf.Clamp((int)y1, 0, 719);
+            int diversi = 0;
+            for (int y = iy0; y <= iy1; y++)
+                for (int x = ix0; x <= ix1; x++)
+                {
+                    var a = con[y * 1280 + x]; var c2 = senza[y * 1280 + x];
+                    float la = (0.299f * a.r + 0.587f * a.g + 0.114f * a.b) / 255f, lb = (0.299f * c2.r + 0.587f * c2.g + 0.114f * c2.b) / 255f;
+                    if (Mathf.Abs(la - lb) > 0.06f) diversi++;
+                }
+            Log("  visibilita' " + n + " distanza=" + Vector3.Distance(pos, cen).ToString("F1") + " lato=" + lato.ToString("F0") + "px pixel diversi=" + diversi);
+            Check(n + ": a ~4 m misura almeno " + PixelMinimi + " px a schermo", lato >= PixelMinimi, lato.ToString("F0") + " px");
+            Check(n + ": a ~4 m si distingue dal selciato (>= " + PixelDiversi + " pixel diversi)", diversi >= PixelDiversi, diversi + " pixel");
+            // foto dalla distanza di gioco
+            File.WriteAllBytes(Path.Combine(dir, id + "_distanza_" + h.item.id + ".jpg"), ImmagineDa(con).EncodeToJPG(82));
+            rt.Release(); Destroy(rt); Destroy(go);
+            yield return null;
+        }
+
+        Color32[] Leggi(Camera cam, RenderTexture rt)
+        {
+            cam.Render();
+            var prev = RenderTexture.active; RenderTexture.active = rt;
+            var t = new Texture2D(1280, 720, TextureFormat.RGB24, false);
+            t.ReadPixels(new Rect(0, 0, 1280, 720), 0, 0); t.Apply();
+            RenderTexture.active = prev;
+            var px = t.GetPixels32();
+            Destroy(t);
+            return px;
+        }
+
+        Texture2D ImmagineDa(Color32[] px)
+        {
+            var t = new Texture2D(1280, 720, TextureFormat.RGB24, false);
+            t.SetPixels32(px); t.Apply();
+            return t;
         }
 
         IEnumerator Documenti()
