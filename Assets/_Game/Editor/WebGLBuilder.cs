@@ -204,6 +204,17 @@ namespace TrenoBambini.EditorTools
                 return s;
             }
 
+            // R019: le piante della minimappa (inchiostro e tratteggio sottile) restano a piena risoluzione e senza crunch; i glifi restano come sono
+            if (path.Contains("/Resources/Mappe/"))
+            {
+                s.maxTextureSize = 1024;
+                if (path.EndsWith(".png")) return s;
+                s.format = TextureImporterFormat.DXT1;
+                s.crunchedCompression = false;
+                s.compressionQuality = 50;
+                return s;
+            }
+
             if (normal)
             {
                 s.maxTextureSize = 512;

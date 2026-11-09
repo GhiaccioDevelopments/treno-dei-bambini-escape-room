@@ -205,7 +205,10 @@ namespace TrenoBambini.Mappa
         // ---------------------------------------------------------------- zoom e trascinamento
         void CambiaZoom(float f)
         {
-            zoom = Mathf.Clamp(zoom * f, 1f, 4.5f);
+            float nuovo = Mathf.Clamp(zoom * f, 1f, 4.5f);
+            // il primo ingrandimento parte da dove sta il giocatore
+            if (zoom <= 1.001f && nuovo > 1.001f && giocatore != null) fuoco = new Vector2(giocatore.transform.position.x, giocatore.transform.position.z);
+            zoom = nuovo;
             LimitaFuoco();
         }
 

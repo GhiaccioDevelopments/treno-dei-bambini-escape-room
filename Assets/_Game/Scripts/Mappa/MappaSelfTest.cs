@@ -303,6 +303,19 @@ namespace TrenoBambini.Mappa
             Check("bucato: la targa dice Largo Sant'Anna dei Panni o il vico", !string.IsNullOrEmpty(mm.NomeStrada), mm.NomeStrada);
             yield return Foto("minimappa_hub_guidata_vicino");
 
+            // mappa grande dell'hub: intera e ingrandita attorno ad Amerigo
+            yield return Tap(Key.M);
+            yield return Attendi(1.0f);
+            Check("hub: il tasto M apre la mappa grande", UIRoot.I.PiantaGrande.IsOpen);
+            Check("hub: la mappa grande ha i nomi e la X dell'obiettivo", UIRoot.I.PiantaGrande.EtichetteVisibili > 3 && UIRoot.I.PiantaGrande.CroceVisibile, UIRoot.I.PiantaGrande.EtichetteVisibili + "/" + UIRoot.I.PiantaGrande.EtichetteTotali + " etichette");
+            yield return Foto("mappa_grande_hub");
+            var piuH = FindButton("+");
+            if (piuH != null) { piuH.onClick.Invoke(); piuH.onClick.Invoke(); piuH.onClick.Invoke(); yield return Attendi(0.8f); }
+            Check("hub: ingrandita mostra piu' nomi dei vicoli vicini", UIRoot.I.PiantaGrande.Zoom > 2f && UIRoot.I.PiantaGrande.EtichetteVisibili > 1, UIRoot.I.PiantaGrande.EtichetteVisibili + " etichette a zoom " + UIRoot.I.PiantaGrande.Zoom.ToString("0.0", Inv));
+            yield return Foto("mappa_grande_hub_zoom");
+            yield return Tap(Key.M);
+            yield return Attendi(0.8f);
+
             Completa("mondo/enigma_bucato");
             Obiettivo("dopo il bucato", "ob_exvoto");
             Check("dopo il bucato: il segno si e' spostato (prima c'era il bucato, ora l'ex-voto)", Obiettivi.Punto(Obiettivi.Corrente(), Hub).z > 30f);
