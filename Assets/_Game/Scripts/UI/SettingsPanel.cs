@@ -141,6 +141,7 @@ namespace TrenoBambini.UI
                 };
                 righe.Add(r);
             }
+            if (gruppo == "Gioco") RigheMappa();
             if (gruppo == "Accessibilità") { RigaEffettiRidotti(); RigheEnigmi(); }
             float y = 0f;
             foreach (var r in righe) { CostruisciRiga(r, y); y += RowH + 4f; }
@@ -188,6 +189,32 @@ namespace TrenoBambini.UI
                 spiega = GameData.UiMenu.enigmiImp.evidenziaSpiega,
                 testo = () => TrenoBambini.Core.GameManager.I != null && TrenoBambini.Core.GameManager.I.Save.evidenziaInterattivi ? GameData.UiMenu.enigmiImp.si : GameData.UiMenu.enigmiImp.no,
                 passo = dir => { var g = TrenoBambini.Core.GameManager.I; if (g != null) { g.Save.evidenziaInterattivi = !g.Save.evidenziaInterattivi; g.SaveGame(); } }
+            });
+        }
+
+        /// <summary>R019: aiuto della mappa (Guidata / Normale / Esploratore), minimappa accesa o spenta, nord fisso. Testi in ui_menu.json (mappaImp).</summary>
+        void RigheMappa()
+        {
+            var T = GameData.UiMenu.mappaImp;
+            Func<SaveData> sd = () => TrenoBambini.Core.GameManager.I != null ? TrenoBambini.Core.GameManager.I.Save : null;
+            Action salva = () => { if (TrenoBambini.Core.GameManager.I != null) TrenoBambini.Core.GameManager.I.SaveGame(); };
+            righe.Add(new Riga
+            {
+                nome = T.aiutoNome, spiega = T.aiutoSpiega,
+                testo = () => { var s = sd(); int a = s != null ? s.aiutoMappa : 1; return a == 0 ? T.guidata : (a == 2 ? T.esploratore : T.normale); },
+                passo = dir => { var s = sd(); if (s == null) return; s.aiutoMappa = ((s.aiutoMappa + dir) % 3 + 3) % 3; salva(); }
+            });
+            righe.Add(new Riga
+            {
+                nome = T.minimappaNome, spiega = T.minimappaSpiega,
+                testo = () => { var s = sd(); return s != null && s.minimappaNascosta ? T.no : T.si; },
+                passo = dir => { var s = sd(); if (s == null) return; s.minimappaNascosta = !s.minimappaNascosta; salva(); }
+            });
+            righe.Add(new Riga
+            {
+                nome = T.nordFissoNome, spiega = T.nordFissoSpiega,
+                testo = () => { var s = sd(); return s != null && s.nordFisso ? T.si : T.no; },
+                passo = dir => { var s = sd(); if (s == null) return; s.nordFisso = !s.nordFisso; salva(); }
             });
         }
 

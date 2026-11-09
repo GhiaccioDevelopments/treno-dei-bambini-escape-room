@@ -101,6 +101,7 @@ namespace TrenoBambini.Puzzles
         /// <summary>Riletta della consegna con un indizio (richiamata dalla postazione).</summary>
         public void ShowHint()
         {
+            TrenoBambini.Mappa.Obiettivi.RivelaIndizio(); // R019
             if (UIRoot.I == null) return;
             string t = def.consegna ?? "";
             if (def.indizi != null && def.indizi.Count > 0)

@@ -261,6 +261,7 @@ namespace TrenoBambini.Puzzles
         // ---------------------------------------------------------------- indizi / chiusura
         void ShowHint()
         {
+            TrenoBambini.Mappa.Obiettivi.RivelaIndizio(); // R019
             if (def.indizi == null || def.indizi.Count == 0)
             {
                 Info("Per questo enigma non ci sono indizi: rileggi con calma la consegna.");

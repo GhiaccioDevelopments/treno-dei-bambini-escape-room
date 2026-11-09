@@ -989,6 +989,7 @@ namespace TrenoBambini.Puzzles
         public void Indizio()
         {
             if (solved) return;
+            TrenoBambini.Mappa.Obiettivi.RivelaIndizio(); // R019: con l'aiuto "Normale" chiedere un indizio fa comparire l'obiettivo sulla mappa
             if (def.indizi == null || def.indizi.Count == 0) { Info(T.nessunIndizio); return; }
             hintLevel = Mathf.Min(hintLevel + 1, def.indizi.Count);
             UISfx.Play(Sfx.Sparkle, 0.4f);
