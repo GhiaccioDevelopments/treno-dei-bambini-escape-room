@@ -245,6 +245,10 @@ namespace TrenoBambini.EditorTools
             AssetDatabase.CreateAsset(fa, dest);
             fa.atlasTextures[0].name = fa.name + " Atlas";
             AssetDatabase.AddObjectToAsset(fa.atlasTextures[0], fa);
+            // atlante statico: non serve leggibile in memoria (si rigenera da questo menu, partendo dal TTF)
+            var so = new SerializedObject(fa.atlasTextures[0]);
+            var rd = so.FindProperty("m_IsReadable");
+            if (rd != null) { rd.boolValue = false; so.ApplyModifiedPropertiesWithoutUndo(); }
             fa.material.name = fa.name + " Material";
             AssetDatabase.AddObjectToAsset(fa.material, fa);
             EditorUtility.SetDirty(fa);

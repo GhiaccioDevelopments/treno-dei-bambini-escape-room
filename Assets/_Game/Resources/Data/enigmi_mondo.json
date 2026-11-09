@@ -1524,12 +1524,12 @@
      "forma": "testo",
      "materiale": "legno",
      "colore": "#2b1c0c",
-     "y": -0.2,
-     "z": -0.008,
-     "sx": 0.4,
+     "y": -0.25,
+     "z": -0.0235,
+     "sx": 0.36,
      "sy": 0.03,
      "testo": "QUANTE SCARPETTE PER MESE?",
-     "dimensione": 0.018
+     "dimensione": 0.014
     },
     {
      "id": "scatto",
@@ -1576,7 +1576,7 @@
     "Viene dal calendario della cucina.",
     "4 - 2 - 3 - 1."
    ],
-   "spiegazione": "La cassetta si apre: pochi soldi messi da parte «per le scarpe» e una chiavetta. Antonietta conservava poco, ma lo conservava per Amerigo.",
+   "spiegazione": "La cassetta si apre: pochi soldi messi da parte per le scarpe e una chiavetta. Sul coperchio, al posto di una scritta, Antonietta aveva disegnato a matita una scarpetta: non sapeva scrivere, ma sapeva farsi capire. Conservava poco, ma lo conservava per Amerigo.",
    "erroreMsg": "Non è questo, ma non preoccuparti: guarda meglio e riprova.",
    "scena": "20_Int_BassoAntonietta",
    "meccanismo": "ruote",
@@ -1601,7 +1601,7 @@
    ],
    "bloccatoMsg": "La cassetta ha una combinazione a quattro cifre. Ti manca il numero: forse lo trovi sul calendario della cucina.",
    "scheda": "Per le famiglie povere ogni lira messa da parte contava. La Costituzione impegna la Repubblica ad agevolare con misure economiche la formazione della famiglia e a proteggere maternità, infanzia e gioventù (art. 31).",
-   "appunto": "Nella cassetta di latta: pochi soldi «per le scarpe» e la chiavetta del baule.",
+   "appunto": "Nella cassetta di latta con la scarpetta disegnata sul coperchio: pochi soldi per le scarpe e la chiavetta del baule.",
    "soluzione": [
     "scatto",
     "prendi_chiavetta"
@@ -1645,16 +1645,16 @@
     },
     {
      "id": "targhetta",
-     "forma": "testo",
-     "materiale": "legno",
-     "colore": "#3d3833",
-     "y": 0.118,
-     "z": -0.1065,
-     "sx": 0.28,
-     "sy": 0.025,
-     "testo": "per le scarpe",
-     "dimensione": 0.021,
-     "font": "mano"
+     "forma": "scarpa",
+     "colore": "#55534f",
+     "y": 0.1069,
+     "z": -0.1068,
+     "sx": 0.17,
+     "sy": 0.17,
+     "testo": "matita",
+     "materiale": "",
+     "sz": 0.1,
+     "x": 0.0
     },
     {
      "id": "scatto",
@@ -1714,7 +1714,7 @@
      "nascosta": true,
      "clic": true,
      "azione": "leggi",
-     "msg": "Pochi soldi, messi da parte uno alla volta, con la scritta «per le scarpe»."
+     "msg": "Pochi soldi, messi da parte uno alla volta. Sull'etichetta del coperchio c'era una scarpetta disegnata a matita: erano per le scarpe."
     },
     {
      "id": "moneta_1",

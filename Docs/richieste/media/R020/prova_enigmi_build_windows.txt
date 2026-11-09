@@ -1,5 +1,37 @@
 ﻿Inizio prova enigmi. Salvataggio presente: True
 PASS GameManager pronto
+PASS modelli degli enigmi trovati nei JSON  [31]
+PASS modello asse_croce caricabile da Resources/Modelli/Enigmi
+PASS modello asse_scarpa caricabile da Resources/Modelli/Enigmi
+PASS modello asse_treno caricabile da Resources/Modelli/Enigmi
+PASS modello banco_calzolaio caricabile da Resources/Modelli/Enigmi
+PASS modello baule_coperchio caricabile da Resources/Modelli/Enigmi
+PASS modello baule_corpo caricabile da Resources/Modelli/Enigmi
+PASS modello baule_fondo caricabile da Resources/Modelli/Enigmi
+PASS modello calendario caricabile da Resources/Modelli/Enigmi
+PASS modello cassetta_coperchio caricabile da Resources/Modelli/Enigmi
+PASS modello cassetta_corpo caricabile da Resources/Modelli/Enigmi
+PASS modello cassetto caricabile da Resources/Modelli/Enigmi
+PASS modello coperta caricabile da Resources/Modelli/Enigmi
+PASS modello cornice caricabile da Resources/Modelli/Enigmi
+PASS modello edicola caricabile da Resources/Modelli/Enigmi
+PASS modello exvoto_cuore caricabile da Resources/Modelli/Enigmi
+PASS modello exvoto_gamba caricabile da Resources/Modelli/Enigmi
+PASS modello exvoto_mano caricabile da Resources/Modelli/Enigmi
+PASS modello exvoto_occhi caricabile da Resources/Modelli/Enigmi
+PASS modello exvoto_piede caricabile da Resources/Modelli/Enigmi
+PASS modello forma_legno caricabile da Resources/Modelli/Enigmi
+PASS modello fotografia caricabile da Resources/Modelli/Enigmi
+PASS modello lucchetto caricabile da Resources/Modelli/Enigmi
+PASS modello martello caricabile da Resources/Modelli/Enigmi
+PASS modello molletta caricabile da Resources/Modelli/Enigmi
+PASS modello panno_quadri caricabile da Resources/Modelli/Enigmi
+PASS modello panno_tela caricabile da Resources/Modelli/Enigmi
+PASS modello pelle caricabile da Resources/Modelli/Enigmi
+PASS modello piano_banco caricabile da Resources/Modelli/Enigmi
+PASS modello placca_ottone caricabile da Resources/Modelli/Enigmi
+PASS modello scatolina caricabile da Resources/Modelli/Enigmi
+PASS modello serratura_baule caricabile da Resources/Modelli/Enigmi
 PASS hub caricato
 PASS hub: nessun materiale rotto (magenta/viola)  [0 ]
 PASS hub: porta del basso trovata
@@ -159,4 +191,4 @@ PASS enigma_lucchetto: salvato come risolto
 PASS enigma_lucchetto: vista chiusa
 PASS save vecchio: il ricordo si puo' finire (uscita aperta)  [Esci dal ricordo]
 --- Enigmi risolti nel salvataggio: flashback_scarpe/enigma_quiz, flashback_scarpe/enigma_nascosto, flashback_scarpe/enigma_passanti, flashback_scarpe/enigma_ordina, flashback_scarpe/enigma_lucchetto
-Fine prova: 157 PASS, 0 FAIL
+Fine prova: 189 PASS, 0 FAIL

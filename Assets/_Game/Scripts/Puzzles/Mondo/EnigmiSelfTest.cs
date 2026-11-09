@@ -232,6 +232,7 @@ namespace TrenoBambini.Core
         {
             yield return Attendi(3f);
             Check("GameManager pronto", GameManager.I != null && SceneLoader.I != null);
+            ControllaModelli();
             PlayerPrefs.DeleteKey("treno_save");
             if (FotoRichiesta()) { yield return FotoMondo(); yield break; }
             GameManager.I.NewGame();
@@ -323,6 +324,27 @@ namespace TrenoBambini.Core
 
             // ---------------- tabella finale
             Log("--- Enigmi risolti nel salvataggio: " + string.Join(", ", GameManager.I.Save.enigmiRisolti));
+        }
+
+        [Serializable] class SoloParti { public List<SoloEnigma> enigmi; }
+        [Serializable] class SoloEnigma { public List<TrenoBambini.Data.ParteDef> parti; }
+
+        /// <summary>Ogni "modello" usato dalle parti (enigmi_mondo.json e flashback_*.json) deve caricarsi da Resources/Modelli/Enigmi.</summary>
+        void ControllaModelli()
+        {
+            var nomi = new SortedSet<string>();
+            foreach (var ta in Resources.LoadAll<TextAsset>("Data"))
+            {
+                if (ta.name != "enigmi_mondo" && !ta.name.StartsWith("flashback_")) continue;
+                var w = JsonUtility.FromJson<SoloParti>(ta.text);   // solo le parti: "modello" degli oggetti nascosti e' un'altra cosa (stile di scarpa)
+                if (w == null || w.enigmi == null) continue;
+                foreach (var e in w.enigmi)
+                    if (e != null && e.parti != null)
+                        foreach (var p in e.parti) if (p != null && !string.IsNullOrEmpty(p.modello)) nomi.Add(p.modello);
+            }
+            Check("modelli degli enigmi trovati nei JSON", nomi.Count > 0, nomi.Count.ToString());
+            foreach (var n in nomi)
+                Check("modello " + n + " caricabile da Resources/Modelli/Enigmi", Resources.Load<GameObject>("Modelli/Enigmi/" + n) != null);
         }
 
         // ------------------------------------------------------------------ foto degli oggetti nel mondo (posizionamento)

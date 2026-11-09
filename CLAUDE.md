@@ -66,6 +66,7 @@ Protagonista: Amerigo Speranza, Napoli 1946.
 - Fonti affidabili, licenza adatta a un progetto scolastico pubblicato online: **CC0 preferito**,
   CC-BY ammesso con attribuzione. NC/ND o licenze dubbie: segnalarle all'utente
   e non usarle senza il suo ok esplicito.
+- Font: ammessi anche SIL OFL 1.1 (ok dell'utente 2026-11-09), con il testo della licenza accanto al file e la riga in CREDITS.md.
 - Ogni asset usato va annotato in **`CREDITS.md`** (origine, autore, licenza, modifiche).
 - Ogni candidato: importato, screenshot con la luce del gioco, valutazione qualità/epoca/peso
   (poligoni, texture); confronti mostrati all'utente, scarti motivati. Se manca qualcosa di

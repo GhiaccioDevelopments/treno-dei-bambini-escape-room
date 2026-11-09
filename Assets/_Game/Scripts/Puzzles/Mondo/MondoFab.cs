@@ -169,7 +169,11 @@ namespace TrenoBambini.Puzzles
             return parte;
         }
 
-        /// <summary>Istanzia un modello vero di Resources/Modelli/Enigmi, senza collider. Null se il modello manca (resta la primitiva).</summary>
+        /// <summary>
+        /// Istanzia un modello vero di Resources/Modelli/Enigmi, senza collider. Ritorna null se il prefab non esiste: allora chi chiama lascia visibile
+        /// la propria forma di base (cubo, cilindro... della parte, o le scarpe da primitive), che e' solo un segnaposto. EnigmiSelfTest controlla che
+        /// tutti i modelli citati nei JSON si carichino, quindi nel gioco questo caso non deve capitare.
+        /// </summary>
         public static GameObject Modello(string nome, Transform parent, Material mat, Vector3 pos, Vector3 rot, Vector3 scala)
         {
             if (string.IsNullOrEmpty(nome)) return null;
