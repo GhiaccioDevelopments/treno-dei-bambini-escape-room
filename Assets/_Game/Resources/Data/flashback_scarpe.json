@@ -1,182 +1,1120 @@
 {
-  "id": "flashback_scarpe",
-  "oggetto": "scarpe",
-  "titolo": "Il gioco delle scarpe",
-  "scena": "30_FB_Scarpe",
-  "introduzione": "Chiudi gli occhi e senti il freddo della pietra sotto i piedi nudi. Sei di nuovo nel vicolo, bambino, seduto sul gradino. Scarpe non ne hai, e forse per questo le conosci tutte: come ogni pomeriggio guardi in basso e indovini il mestiere di chi passa dalle scarpe che porta. Ognuna racconta una vita, e tu ne vorresti una tua. Prova a mettere insieme i pezzi del ricordo.",
-  "conclusione": "Il ricordo si dissolve piano. Indovinare il lavoro dalle scarpe degli altri era un gioco, ma sotto c'era una domanda seria: chi ha diritto a un paio di scarpe, a un pasto, a una scuola, a un futuro? Allora un bambino scalzo poteva solo desiderarlo. La Repubblica ha poi scritto la sua risposta nella Costituzione, e tocca a ciascuno di noi darle vita.",
-  "enigmi": [
+ "id": "flashback_scarpe",
+ "oggetto": "scarpe",
+ "titolo": "Il gioco delle scarpe",
+ "scena": "30_FB_Scarpe",
+ "introduzione": "Chiudi gli occhi e senti il freddo della pietra sotto i piedi nudi. Sei di nuovo nel vicolo, bambino, seduto sul gradino. Scarpe non ne hai, e forse per questo le conosci tutte: come ogni pomeriggio guardi in basso e indovini il mestiere di chi passa dalle scarpe che porta. Ognuna racconta una vita, e tu ne vorresti una tua. Prova a mettere insieme i pezzi del ricordo.",
+ "conclusione": "Il ricordo si dissolve piano. Indovinare il lavoro dalle scarpe degli altri era un gioco, ma sotto c'era una domanda seria: chi ha diritto a un paio di scarpe, a un pasto, a una scuola, a un futuro? Allora un bambino scalzo poteva solo desiderarlo. La Repubblica ha poi scritto la sua risposta nella Costituzione, e tocca a ciascuno di noi darle vita.",
+ "enigmi": [
+  {
+   "id": "enigma_passanti",
+   "tipo": "oggetto",
+   "titolo": "Le scarpe dei passanti",
+   "consegna": "Seduto sul gradino, bambino scalzo, guardi solo in basso. Dalle scarpe di chi passa indovini il mestiere: dai a ogni paio il suo lavoro (tocca un paio per cambiare). Confermi a gruppi di tre.",
+   "temaCivico": "Disuguaglianze e lavoro (Costituzione, artt. 3 e 4)",
+   "indizi": [
+    "Guarda le suole, i chiodi, il fango: ogni mestiere lascia un segno.",
+    "Chi ripara le scarpe degli altri porta suole nuove di cuoio chiaro, rifatte da sé.",
+    "Chiodate e bianche di calce: muratore. Zoccoli: lavandaia. Scarponi alti: reduce. Tacco: signora. Lucide e sottili: impiegato. Suole nuove: calzolaio."
+   ],
+   "spiegazione": "Ogni paio di scarpe raccontava una vita: la calce dei muratori, il legno fradicio delle lavandaie, gli scarponi dei soldati tornati, il tacco delle signore. Chi riparava le scarpe degli altri portava suole rifatte a mano. Amerigo le conosceva tutte, e ne desiderava un paio tutto suo.",
+   "erroreMsg": "Non è questo, ma non preoccuparti: guarda meglio e riprova.",
+   "meccanismo": "deduzione",
+   "x": -2.4,
+   "y": 0.0,
+   "z": -23.0,
+   "yaw": 0,
+   "scala": 1.35,
+   "sostituisce": "PalloneStracci",
+   "prompt": "il gradino con i nomi dei mestieri",
+   "inclina": 26,
+   "passanti": [
     {
-      "id": "enigma_quiz",
-      "tipo": "quiz",
-      "titolo": "La cassetta dei diritti",
-      "consegna": "Sulla cassetta di legno c'è una scritta sbiadita. Rispondi alle tre domande per aprirla. Ricorda bene una data: ti servirà più avanti.",
-      "temaCivico": "Diritti dell'infanzia: Convenzione ONU e Costituzione italiana",
-      "indizi": [
-        "Pensa a quali testi proteggono i bambini: uno è internazionale, l'altro è la nostra Costituzione.",
-        "L'articolo 3 parla di uguaglianza; l'articolo 31 parla di famiglia, maternità e infanzia.",
-        "La Convenzione ONU sui diritti dell'infanzia è stata adottata alla fine degli anni Ottanta."
-      ],
-      "spiegazione": "Amerigo non conosceva i suoi diritti, ma li viveva negati ogni giorno: piedi scalzi anche d'inverno, poco cibo, poca scuola. La Costituzione del 1948 e la Convenzione ONU del 1989 hanno trasformato quei bisogni in diritti riconosciuti: non più un desiderio da bambino, ma un dovere della comunità.",
-      "erroreMsg": "Non è questa, ma sei sulla strada giusta. Leggi di nuovo con calma e riprova.",
-      "x": -5.5,
-      "y": 0.0,
-      "z": -4.5,
-      "modello": "cassetta",
-      "codice": "",
-      "domande": [
-        {
-          "testo": "In che anno l'Assemblea generale delle Nazioni Unite ha adottato la Convenzione sui diritti dell'infanzia e dell'adolescenza?",
-          "opzioni": ["1948", "1989", "1991", "2001"],
-          "corretta": 1,
-          "spiegazione": "La Convenzione ONU è stata adottata il 20 novembre 1989 e l'Italia l'ha ratificata nel 1991 (legge 176). Ricorda l'anno 1989: ti servirà per il lucchetto.",
-          "erroreMsg": "Quasi. Una delle date indicate riguarda la ratifica italiana, un'altra la Dichiarazione universale dei diritti umani. Riprova."
-        },
-        {
-          "testo": "Quale articolo della Costituzione italiana afferma che la Repubblica protegge la maternità, l'infanzia e la gioventù?",
-          "opzioni": ["Articolo 1", "Articolo 3", "Articolo 21", "Articolo 31"],
-          "corretta": 3,
-          "spiegazione": "L'articolo 31 impegna la Repubblica ad agevolare la formazione della famiglia e a proteggere maternità, infanzia e gioventù, favorendo gli istituti necessari a tale scopo.",
-          "erroreMsg": "Non è quello. Pensa all'articolo che parla di famiglia e di sostegno a madri e bambini."
-        },
-        {
-          "testo": "Secondo l'articolo 3, comma 2, che cosa deve fare la Repubblica?",
-          "opzioni": [
-            "Rimuovere gli ostacoli economici e sociali che limitano l'uguaglianza dei cittadini",
-            "Garantire a tutti lo stesso stipendio",
-            "Vietare ogni forma di proprietà privata",
-            "Lasciare che ognuno si arrangi da solo"
-          ],
-          "corretta": 0,
-          "spiegazione": "L'articolo 3, comma 2, assegna alla Repubblica il compito di rimuovere gli ostacoli di ordine economico e sociale che, limitando di fatto libertà ed eguaglianza, impediscono il pieno sviluppo della persona. È l'uguaglianza sostanziale.",
-          "erroreMsg": "Rileggi con attenzione: la Costituzione non promette uguali stipendi, ma chiede di rimuovere gli ostacoli che impediscono pari opportunità."
-        }
-      ],
-      "oggetti": [],
-      "eventi": [],
-      "coppie": []
+     "id": "p1",
+     "nome": "Il signore elegante",
+     "stile": "lucide",
+     "mestiere": "Impiegato",
+     "descrizione": "Scarpe nere e lucide, suole sottili e senza un granello di polvere."
     },
     {
-      "id": "enigma_nascosto",
-      "tipo": "nascosto",
-      "titolo": "Il baule delle scarpe",
-      "consegna": "Amerigo, scalzo, conosce a memoria le scarpe del vicolo: ognuna racconta una storia. Cerca nella stanza le cinque cose che i passanti portano ai piedi e leggi che cosa dicono di chi le porta.",
-      "temaCivico": "Disuguaglianze sociali e dignità della persona",
-      "indizi": [
-        "Guarda in basso, vicino ai muri e negli angoli: le scarpe stanno per terra.",
-        "Non sono tutte contro le pareti: una è nascosta non lontano dal centro della stanza.",
-        "Avvicinati a ogni oggetto sospetto e premi E per esaminarlo."
-      ],
-      "spiegazione": "Le cinque calzature mostrano un Paese diviso: c'è chi ha scarpe buone, chi le ripara con il cartone, chi porta gli zoccoli, chi si lega pezze ai piedi e chi, come Amerigo, cammina scalzo. Per la Costituzione nessuno deve restare indietro per la condizione in cui nasce: la dignità spetta a tutti, anche a chi non ha niente ai piedi.",
-      "erroreMsg": "Per ora non le hai trovate tutte. Continua a cercare con calma, sono sparse per la stanza.",
-      "x": 0.0,
-      "y": 0.0,
-      "z": -18.0,
-      "modello": "baule",
-      "codice": "",
-      "domande": [],
-      "oggetti": [
-        {
-          "id": "scarpa_cartone",
-          "nome": "Scarpa con suola di cartone",
-          "descrizione": "Una scarpa con un pezzo di cartone infilato dentro per coprire il buco. Basta una pozzanghera per rovinarla: è la scarpa di chi non può permettersi il calzolaio.",
-          "x": -12.5,
-          "y": 0.0,
-          "z": 18.6,
-          "modello": "scarpa"
-        },
-        {
-          "id": "zoccolo_legno",
-          "nome": "Zoccolo di legno",
-          "descrizione": "Uno zoccolo di legno rumoroso, tipico di chi lavorava duro e consumava poco. Fa male ai piedi, ma dura una vita ed è tutto quello che c'è.",
-          "x": -7.0,
-          "y": 0.0,
-          "z": -7.2,
-          "modello": "zoccolo"
-        },
-        {
-          "id": "scarpone_soldato",
-          "nome": "Scarpone del soldato tornato",
-          "descrizione": "Uno scarpone militare ancora sporco di fango lontano. Un uomo è tornato dalla guerra con quello solo ai piedi: tanti non sono tornati affatto.",
-          "x": 12.0,
-          "y": 0.0,
-          "z": 8.6,
-          "modello": "scarpa"
-        },
-        {
-          "id": "scarpa_signora",
-          "nome": "Scarpa da signora",
-          "descrizione": "Una scarpa elegante, con il tacco lucido. Per qualcuno la guerra non aveva tolto tutto: nello stesso vicolo passano vite molto diverse.",
-          "x": 6.2,
-          "y": 0.9,
-          "z": 34.3,
-          "modello": "scarpa"
-        },
-        {
-          "id": "pezze_piedi",
-          "nome": "Pezze per i piedi",
-          "descrizione": "Strisce di stoffa legate attorno ai piedi al posto delle scarpe. Per chi non ha niente, anche una pezza è un riparo dal freddo; Amerigo spesso non ha nemmeno quella. Da questi piedi, nel suo gioco, non si indovina nessun mestiere: ma dietro c'è sempre una persona.",
-          "x": 14.2,
-          "y": 0.0,
-          "z": -17.6,
-          "modello": "zoccolo"
-        }
-      ],
-      "eventi": [],
-      "coppie": []
+     "id": "p2",
+     "nome": "L'uomo con la calce",
+     "stile": "chiodate",
+     "mestiere": "Muratore",
+     "descrizione": "Suole piene di chiodi e la punta bianca di calce."
     },
     {
-      "id": "enigma_ordina",
-      "tipo": "ordina",
-      "titolo": "Il calendario della memoria",
-      "consegna": "Sul calendario sono scritti sei eventi che hanno cambiato l'Italia. Mettili in ordine, dal più antico al più recente.",
-      "temaCivico": "Dalla guerra alla Repubblica: la nascita della Costituzione",
-      "indizi": [
-        "Parti dalla guerra: l'armistizio e la liberazione vengono prima del voto.",
-        "Il voto del 2 giugno 1946 precede la Costituzione, che è entrata in vigore nel 1948.",
-        "I treni dei bambini partono in un inverno dopo il referendum, ma prima della Costituzione."
-      ],
-      "spiegazione": "Dalla caduta del fascismo alla Repubblica passano pochi anni di fame e ricostruzione. Il 2 giugno 1946 per la prima volta le donne votano a livello nazionale (alle amministrative di marzo avevano già votato), e il 1° gennaio 1948 entra in vigore la Costituzione. In mezzo ci sono i bambini del Sud ospitati dalle famiglie del Nord.",
-      "erroreMsg": "Non è ancora l'ordine giusto. Il pulsante Verifica ti dice quante carte sono al posto giusto: riprova.",
-      "x": 4.5,
-      "y": 0.9,
-      "z": 29.0,
-      "modello": "calendario",
-      "codice": "",
-      "domande": [],
-      "oggetti": [],
-      "eventi": [
-        { "testo": "Armistizio e inizio dell'occupazione tedesca", "data": "8 settembre 1943" },
-        { "testo": "Le Quattro giornate di Napoli: il popolo si ribella", "data": "27-30 settembre 1943" },
-        { "testo": "La Liberazione dell'Italia dal nazifascismo", "data": "25 aprile 1945" },
-        { "testo": "Referendum Monarchia-Repubblica e prima volta delle donne al voto nazionale", "data": "2 giugno 1946" },
-        { "testo": "Partono da Napoli i treni dei bambini verso il Nord", "data": "inverno 1946-47" },
-        { "testo": "Entra in vigore la Costituzione della Repubblica", "data": "1° gennaio 1948" }
-      ],
-      "coppie": []
+     "id": "p3",
+     "nome": "La donna con il cesto",
+     "stile": "zoccoli",
+     "mestiere": "Lavandaia",
+     "descrizione": "Zoccoli di legno, scuri e fradici d'acqua e sapone."
     },
     {
-      "id": "enigma_lucchetto",
-      "tipo": "lucchetto",
-      "titolo": "Il lucchetto dell'uscita",
-      "consegna": "La porta del ricordo è chiusa con un lucchetto a quattro cifre. Il codice è l'anno in cui l'ONU adottò la Convenzione sui diritti dell'infanzia: te lo diceva la prima domanda della cassetta.",
-      "temaCivico": "Diritti dell'infanzia: la Convenzione ONU del 1989",
-      "indizi": [
-        "Ripensa alla cassetta: una domanda chiedeva l'anno della Convenzione ONU.",
-        "Non è l'anno della Dichiarazione universale dei diritti umani (1948), ma uno degli anni Ottanta.",
-        "È l'anno in cui cadde il Muro di Berlino, e finisce per 9."
-      ],
-      "spiegazione": "Nel 1989 l'ONU ha riconosciuto per la prima volta, in un trattato vincolante, che i bambini sono titolari di diritti: salute, istruzione, gioco, protezione. L'Italia l'ha ratificata nel 1991. Quello che Amerigo, scalzo sul gradino, poteva solo sognare è oggi scritto nero su bianco.",
-      "erroreMsg": "Il lucchetto non si apre. Ricorda la data della Convenzione ONU: se serve, usa l'indizio.",
-      "x": 14.0,
-      "y": 0.0,
-      "z": -14.0,
-      "modello": "lucchetto",
-      "codice": "1989",
-      "domande": [],
-      "oggetti": [],
-      "eventi": [],
-      "coppie": []
+     "id": "p4",
+     "nome": "L'uomo con il cappotto verde",
+     "stile": "militari",
+     "mestiere": "Reduce",
+     "descrizione": "Scarponi alti e allacciati: scarponi militari, ancora segnati dal fango lontano."
+    },
+    {
+     "id": "p5",
+     "nome": "La signora del palazzo",
+     "stile": "tacchi",
+     "mestiere": "Signora",
+     "descrizione": "Scarpe scure con il tacco, pulite e curate."
+    },
+    {
+     "id": "p6",
+     "nome": "L'uomo con il grembiule",
+     "stile": "risuolate",
+     "mestiere": "Calzolaio",
+     "descrizione": "Scarpe vecchie ma con suole nuove di cuoio chiaro, rifatte con cura, e le dita nere di pece."
     }
-  ]
+   ],
+   "mestieri": [
+    "Muratore",
+    "Signora",
+    "Reduce",
+    "Lavandaia",
+    "Calzolaio",
+    "Impiegato"
+   ],
+   "scheda": "Nel dopoguerra le scarpe dicevano molto sulla condizione di una persona. La Repubblica riconosce a tutti i cittadini il diritto al lavoro (art. 4) e si impegna a rimuovere gli ostacoli che limitano l'uguaglianza (art. 3).",
+   "appunto": "Il calzolaio è l'uomo con le suole nuove. Sulla suola, a gesso, il numero 1.",
+   "produce": [
+    "calzolaio_riconosciuto",
+    "cifra_1"
+   ],
+   "parti": [
+    {
+     "id": "gradino",
+     "forma": "cubo",
+     "materiale": "pietra",
+     "colore": "#6b645a",
+     "y": 0.12,
+     "sx": 0.9,
+     "sy": 0.24,
+     "sz": 0.4
+    },
+    {
+     "id": "gradino_sopra",
+     "forma": "cubo",
+     "materiale": "pietra",
+     "colore": "#7a7367",
+     "y": 0.245,
+     "z": 0.01,
+     "sx": 0.94,
+     "sy": 0.03,
+     "sz": 0.42
+    },
+    {
+     "id": "gesso",
+     "forma": "testo",
+     "materiale": "legno",
+     "colore": "#8a8578",
+     "y": 0.13,
+     "z": -0.202,
+     "sx": 0.8,
+     "sy": 0.22,
+     "testo": "calzolaio · muratore · lavandaia\nreduce · signora · impiegato",
+     "dimensione": 0.035,
+     "font": "mano"
+    }
+   ],
+   "domande": [
+    {
+     "testo": "Suole piene di chiodi e punta bianca di calce: di chi sono le scarpe?",
+     "opzioni": [
+      "Di un muratore",
+      "Di una signora",
+      "Di un impiegato",
+      "Di un calzolaio"
+     ],
+     "corretta": 0,
+     "spiegazione": "La calce è il segno dei muratori.",
+     "erroreMsg": "Pensa a chi lavora con i mattoni."
+    },
+    {
+     "testo": "Zoccoli di legno fradici d'acqua e sapone: di chi sono?",
+     "opzioni": [
+      "Di una lavandaia",
+      "Di un impiegato",
+      "Di un reduce",
+      "Di una signora"
+     ],
+     "corretta": 0,
+     "spiegazione": "Chi lava i panni ha sempre i piedi bagnati.",
+     "erroreMsg": "Pensa all'acqua."
+    },
+    {
+     "testo": "Vecchie scarpe, ma con suole nuove di cuoio chiaro rifatte a mano: di chi sono?",
+     "opzioni": [
+      "Di un calzolaio",
+      "Di un muratore",
+      "Di una lavandaia",
+      "Di una signora"
+     ],
+     "corretta": 0,
+     "spiegazione": "Chi ripara le scarpe degli altri sa farsi bene le sue.",
+     "erroreMsg": "Chi sa rifare le suole?"
+    }
+   ]
+  },
+  {
+   "id": "enigma_nascosto",
+   "tipo": "nascosto",
+   "titolo": "Il baule delle scarpe",
+   "consegna": "Il calzolaio ha lasciato le forme di legno su una mensola. Riporta le cinque cose che i passanti portano ai piedi e provale sulle forme giuste. Cerca nella strada: ognuna racconta una storia.",
+   "temaCivico": "Disuguaglianze sociali e dignità della persona",
+   "indizi": [
+    "Guarda in basso, vicino ai muri e negli angoli: le scarpe stanno per terra.",
+    "Una è nascosta non lontano dal centro della strada. Avvicinati agli oggetti sospetti e premi E.",
+    "Con tutte e cinque in mano, provale sulle forme: la forma e l'etichetta dicono quale va dove."
+   ],
+   "spiegazione": "Le cinque calzature mostrano un Paese diviso: c'è chi ha scarpe buone, chi le ripara con il cartone, chi porta gli zoccoli, chi si lega pezze ai piedi e chi, come Amerigo, cammina scalzo. Per la Costituzione nessuno deve restare indietro per la condizione in cui nasce: la dignità spetta a tutti, anche a chi non ha niente ai piedi.",
+   "erroreMsg": "Per ora non le hai trovate tutte. Continua a cercare con calma, sono sparse per la stanza.",
+   "x": -8.55,
+   "y": 1.0,
+   "z": -1.5,
+   "modello": "baule",
+   "codice": "",
+   "domande": [
+    {
+     "testo": "A quale forma va lo zoccolo di legno?",
+     "opzioni": [
+      "A quella senza tacco, per zoccoli",
+      "A quella col tacco",
+      "A quella alta degli scarponi",
+      "A nessuna"
+     ],
+     "corretta": 0,
+     "spiegazione": "Lo zoccolo è largo e senza tacco.",
+     "erroreMsg": "Guarda l'etichetta."
+    },
+    {
+     "testo": "Le pezze per i piedi: a quale forma vanno?",
+     "opzioni": [
+      "A nessuna: non sono scarpe",
+      "A quella da zoccoli",
+      "A quella col tacco",
+      "A quella da rattoppare"
+     ],
+     "corretta": 0,
+     "spiegazione": "Chi non ha scarpe non ha nemmeno la sua forma.",
+     "erroreMsg": "Pensa a chi non ha niente ai piedi."
+    }
+   ],
+   "oggetti": [
+    {
+     "id": "scarpa_cartone",
+     "nome": "Scarpa con suola di cartone",
+     "descrizione": "Una scarpa con un pezzo di cartone infilato dentro per coprire il buco. Basta una pozzanghera per rovinarla: è la scarpa di chi non può permettersi il calzolaio.",
+     "x": -12.5,
+     "y": 0.0,
+     "z": 18.6,
+     "modello": "cartone"
+    },
+    {
+     "id": "zoccolo_legno",
+     "nome": "Zoccolo di legno",
+     "descrizione": "Uno zoccolo di legno rumoroso, tipico di chi lavorava duro e consumava poco. Fa male ai piedi, ma dura una vita ed è tutto quello che c'è.",
+     "x": -7.0,
+     "y": 0.0,
+     "z": -7.2,
+     "modello": "zoccoli"
+    },
+    {
+     "id": "scarpone_soldato",
+     "nome": "Scarpone del soldato tornato",
+     "descrizione": "Uno scarpone militare ancora sporco di fango lontano. Un uomo è tornato dalla guerra con quello solo ai piedi: tanti non sono tornati affatto.",
+     "x": 12.0,
+     "y": 0.0,
+     "z": 8.6,
+     "modello": "militari"
+    },
+    {
+     "id": "scarpa_signora",
+     "nome": "Scarpa da signora",
+     "descrizione": "Una scarpa elegante, con il tacco lucido. Per qualcuno la guerra non aveva tolto tutto: nello stesso vicolo passano vite molto diverse.",
+     "x": 6.2,
+     "y": 0.9,
+     "z": 34.3,
+     "modello": "tacchi"
+    },
+    {
+     "id": "pezze_piedi",
+     "nome": "Pezze per i piedi",
+     "descrizione": "Strisce di stoffa legate attorno ai piedi al posto delle scarpe. Per chi non ha niente, anche una pezza è un riparo dal freddo; Amerigo spesso non ha nemmeno quella. Da questi piedi, nel suo gioco, non si indovina nessun mestiere: ma dietro c'è sempre una persona.",
+     "x": 14.2,
+     "y": 0.0,
+     "z": -17.6,
+     "modello": "pezze"
+    }
+   ],
+   "eventi": [],
+   "coppie": [],
+   "meccanismo": "oggetto",
+   "yaw": -90,
+   "prompt": "le forme di legno del calzolaio",
+   "richiede": [
+    "calzolaio_riconosciuto"
+   ],
+   "bloccatoMsg": "Non hai ancora capito chi è il calzolaio. Guarda le scarpe di chi passa dal gradino.",
+   "scheda": "Le pezze non entravano in nessuna forma: chi non aveva scarpe non aveva nemmeno quel posto sulla mensola. La dignità spetta a tutti, anche a chi non ha niente ai piedi.",
+   "appunto": "Sulla forma più piccola, a matita: «Amerigo» e il numero 9.",
+   "produce": [
+    "cifra_9a"
+   ],
+   "soluzione": [
+    "forma_zoccolo",
+    "forma_scarpone",
+    "forma_tacco",
+    "forma_cartone",
+    "forma_piccola"
+   ],
+   "inclina": 10,
+   "parti": [
+    {
+     "id": "mensola",
+     "forma": "cubo",
+     "materiale": "legno",
+     "colore": "#4a3220",
+     "y": -0.1,
+     "sx": 1.75,
+     "sy": 0.04,
+     "sz": 0.28,
+     "modello": "piano_banco"
+    },
+    {
+     "id": "schiena",
+     "forma": "cubo",
+     "materiale": "legno",
+     "colore": "#3a2616",
+     "y": 0.1,
+     "z": 0.12,
+     "sx": 1.75,
+     "sy": 0.45,
+     "sz": 0.03
+    },
+    {
+     "id": "forma_zoccolo",
+     "forma": "vuoto",
+     "materiale": "legno",
+     "x": -0.6,
+     "y": -0.04,
+     "z": -0.02,
+     "sx": 0.26,
+     "sy": 0.2,
+     "sz": 0.2,
+     "clic": true,
+     "azione": "usa",
+     "richiede": "zoccolo_legno",
+     "evento": "forma_zoccolo",
+     "dopo": "calz_forma_zoccolo",
+     "msg": "Lo zoccolo ci sta: forma larga e senza tacco, per le scarpe di legno."
+    },
+    {
+     "id": "forma_zoccolo_l",
+     "forma": "cubo",
+     "materiale": "legno",
+     "colore": "#a67c52",
+     "y": 0.02,
+     "sx": 0.22999999999999998,
+     "sy": 0.1,
+     "sz": 0.09,
+     "modello": "forma_legno",
+     "genitore": "forma_zoccolo"
+    },
+    {
+     "id": "forma_zoccolo_e",
+     "forma": "testo",
+     "materiale": "legno",
+     "colore": "#e6e1d2",
+     "y": -0.075,
+     "z": -0.108,
+     "sx": 0.28,
+     "sy": 0.04,
+     "testo": "per zoccoli",
+     "dimensione": 0.02,
+     "genitore": "forma_zoccolo",
+     "font": "mano"
+    },
+    {
+     "id": "calz_forma_zoccolo",
+     "forma": "scarpa",
+     "materiale": "",
+     "y": 0.045,
+     "sx": 0.7,
+     "sy": 0.7,
+     "sz": 0.7,
+     "testo": "zoccoli",
+     "genitore": "forma_zoccolo",
+     "nascosta": true
+    },
+    {
+     "id": "forma_scarpone",
+     "forma": "vuoto",
+     "materiale": "legno",
+     "x": -0.3,
+     "y": -0.04,
+     "z": -0.02,
+     "sx": 0.26,
+     "sy": 0.2,
+     "sz": 0.2,
+     "clic": true,
+     "azione": "usa",
+     "richiede": "scarpone_soldato",
+     "evento": "forma_scarpone",
+     "dopo": "calz_forma_scarpone",
+     "msg": "Lo scarpone ci sta: la forma è alta, fatta per gli scarponi."
+    },
+    {
+     "id": "forma_scarpone_l",
+     "forma": "cubo",
+     "materiale": "legno",
+     "colore": "#a67c52",
+     "y": 0.02,
+     "sx": 0.253,
+     "sy": 0.16,
+     "sz": 0.09,
+     "modello": "forma_legno",
+     "genitore": "forma_scarpone"
+    },
+    {
+     "id": "forma_scarpone_e",
+     "forma": "testo",
+     "materiale": "legno",
+     "colore": "#e6e1d2",
+     "y": -0.075,
+     "z": -0.108,
+     "sx": 0.28,
+     "sy": 0.04,
+     "testo": "alta, da scarponi",
+     "dimensione": 0.02,
+     "genitore": "forma_scarpone",
+     "font": "mano"
+    },
+    {
+     "id": "calz_forma_scarpone",
+     "forma": "scarpa",
+     "materiale": "",
+     "y": 0.045,
+     "sx": 0.7,
+     "sy": 0.7,
+     "sz": 0.7,
+     "testo": "militari",
+     "genitore": "forma_scarpone",
+     "nascosta": true
+    },
+    {
+     "id": "forma_tacco",
+     "forma": "vuoto",
+     "materiale": "legno",
+     "y": -0.04,
+     "z": -0.02,
+     "sx": 0.26,
+     "sy": 0.2,
+     "sz": 0.2,
+     "clic": true,
+     "azione": "usa",
+     "richiede": "scarpa_signora",
+     "evento": "forma_tacco",
+     "dopo": "calz_forma_tacco",
+     "msg": "La scarpa da signora ci sta: la forma ha il tallone alzato."
+    },
+    {
+     "id": "forma_tacco_l",
+     "forma": "cubo",
+     "materiale": "legno",
+     "colore": "#a67c52",
+     "y": 0.02,
+     "sx": 0.22999999999999998,
+     "sy": 0.1,
+     "sz": 0.09,
+     "modello": "forma_legno",
+     "genitore": "forma_tacco"
+    },
+    {
+     "id": "forma_tacco_e",
+     "forma": "testo",
+     "materiale": "legno",
+     "colore": "#e6e1d2",
+     "y": -0.075,
+     "z": -0.108,
+     "sx": 0.28,
+     "sy": 0.04,
+     "testo": "col tacco",
+     "dimensione": 0.02,
+     "genitore": "forma_tacco",
+     "font": "mano"
+    },
+    {
+     "id": "calz_forma_tacco",
+     "forma": "scarpa",
+     "materiale": "",
+     "y": 0.045,
+     "sx": 0.7,
+     "sy": 0.7,
+     "sz": 0.7,
+     "testo": "tacchi",
+     "genitore": "forma_tacco",
+     "nascosta": true
+    },
+    {
+     "id": "forma_cartone",
+     "forma": "vuoto",
+     "materiale": "legno",
+     "x": 0.3,
+     "y": -0.04,
+     "z": -0.02,
+     "sx": 0.26,
+     "sy": 0.2,
+     "sz": 0.2,
+     "clic": true,
+     "azione": "usa",
+     "richiede": "scarpa_cartone",
+     "evento": "forma_cartone",
+     "dopo": "calz_forma_cartone",
+     "msg": "La scarpa col cartone ci sta: la forma è stretta e consumata, da rattoppare."
+    },
+    {
+     "id": "forma_cartone_l",
+     "forma": "cubo",
+     "materiale": "legno",
+     "colore": "#a67c52",
+     "y": 0.02,
+     "sx": 0.207,
+     "sy": 0.1,
+     "sz": 0.09,
+     "modello": "forma_legno",
+     "genitore": "forma_cartone"
+    },
+    {
+     "id": "forma_cartone_e",
+     "forma": "testo",
+     "materiale": "legno",
+     "colore": "#e6e1d2",
+     "y": -0.075,
+     "z": -0.108,
+     "sx": 0.28,
+     "sy": 0.04,
+     "testo": "da rattoppare",
+     "dimensione": 0.02,
+     "genitore": "forma_cartone",
+     "font": "mano"
+    },
+    {
+     "id": "calz_forma_cartone",
+     "forma": "scarpa",
+     "materiale": "",
+     "y": 0.045,
+     "sx": 0.7,
+     "sy": 0.7,
+     "sz": 0.7,
+     "testo": "cartone",
+     "genitore": "forma_cartone",
+     "nascosta": true
+    },
+    {
+     "id": "forma_piccola",
+     "forma": "vuoto",
+     "materiale": "legno",
+     "x": 0.6,
+     "y": -0.04,
+     "z": -0.02,
+     "sx": 0.26,
+     "sy": 0.2,
+     "sz": 0.2,
+     "clic": true,
+     "azione": "usa",
+     "richiede": "pezze_piedi",
+     "evento": "forma_piccola",
+     "dopo": "calz_forma_piccola",
+     "msg": "Le pezze non entrano in nessuna forma: non sono scarpe. Sulla forma più piccola, a matita: «Amerigo» e il numero 9."
+    },
+    {
+     "id": "forma_piccola_l",
+     "forma": "cubo",
+     "materiale": "legno",
+     "colore": "#a67c52",
+     "y": 0.02,
+     "sx": 0.13799999999999998,
+     "sy": 0.1,
+     "sz": 0.09,
+     "modello": "forma_legno",
+     "genitore": "forma_piccola"
+    },
+    {
+     "id": "forma_piccola_e",
+     "forma": "testo",
+     "materiale": "legno",
+     "colore": "#e6e1d2",
+     "y": -0.075,
+     "z": -0.108,
+     "sx": 0.28,
+     "sy": 0.04,
+     "testo": "la più piccola",
+     "dimensione": 0.02,
+     "genitore": "forma_piccola",
+     "font": "mano"
+    },
+    {
+     "id": "calz_forma_piccola",
+     "forma": "scarpa",
+     "materiale": "",
+     "y": 0.045,
+     "sx": 0.7,
+     "sy": 0.7,
+     "sz": 0.7,
+     "testo": "pezze",
+     "genitore": "forma_piccola",
+     "nascosta": true
+    }
+   ],
+   "scala": 1,
+   "completoMsg": "Portale ora alle forme del calzolaio: vediamo a chi calzano."
+  },
+  {
+   "id": "enigma_quiz",
+   "tipo": "oggetto",
+   "titolo": "La cassetta dei diritti",
+   "consegna": "Nel cassetto a doppio fondo del banco, tre documenti: un avviso del Comitato, il registro dei lavori del calzolaio, una pagina di quaderno. Rispondi alle domande toccando la riga giusta.",
+   "temaCivico": "Diritti dell'infanzia: Convenzione ONU e Costituzione italiana",
+   "indizi": [
+    "Leggi con calma: la risposta è scritta in una delle righe dei fogli.",
+    "Ogni domanda ha una riga che la risolve, in un solo foglio.",
+    "Il foglio giusto è quello che parla di ciò che si chiede: avviso, registro o quaderno."
+   ],
+   "spiegazione": "Amerigo non conosceva i suoi diritti, ma li viveva negati ogni giorno: piedi scalzi anche d'inverno, poco cibo, poca scuola. Nei fogli del calzolaio c'è già l'idea di una comunità che si prende cura dei bambini.",
+   "erroreMsg": "Non è questo, ma non preoccuparti: guarda meglio e riprova.",
+   "meccanismo": "documenti",
+   "x": -7.6,
+   "y": 0.0,
+   "z": -4.6,
+   "yaw": 0,
+   "prompt": "il banco del calzolaio",
+   "richiede": [
+    "enigma_nascosto"
+   ],
+   "bloccatoMsg": "Il banco del calzolaio è chiuso: prima riporta le scarpe alle forme sulla mensola.",
+   "scheda": "Quei bisogni sono poi diventati diritti: la Costituzione del 1948 protegge l'infanzia (art. 31) e rimuove gli ostacoli che limitano l'uguaglianza (art. 3); la Convenzione ONU sui diritti dell'infanzia è stata adottata il 20 novembre 1989 e ratificata dall'Italia nel 1991.",
+   "appunto": "Sul margine del quaderno di scuola, cerchiato: 8.",
+   "produce": [
+    "cifra_8"
+   ],
+   "inclina": 10,
+   "parti": [
+    {
+     "id": "banco",
+     "forma": "cubo",
+     "materiale": "legno",
+     "colore": "#5a3d26",
+     "y": 0.45,
+     "sx": 1.2,
+     "sy": 0.9,
+     "sz": 0.55,
+     "modello": "banco_calzolaio"
+    },
+    {
+     "id": "piano",
+     "forma": "cubo",
+     "materiale": "legno",
+     "colore": "#6b4a2e",
+     "y": 0.91,
+     "sx": 1.26,
+     "sy": 0.04,
+     "sz": 0.6,
+     "modello": "piano_banco"
+    },
+    {
+     "id": "cassetto",
+     "forma": "cubo",
+     "materiale": "legno",
+     "colore": "#4a3220",
+     "y": 0.7,
+     "z": -0.285,
+     "sx": 0.5,
+     "sy": 0.2,
+     "sz": 0.04,
+     "clic": true,
+     "azione": "muovi",
+     "valore": 0.0,
+     "evento": "cassetto",
+     "asse": "-z",
+     "msg": "Il cassetto del banco: sotto, il doppio fondo con i documenti.",
+     "modello": "cassetto",
+     "msx": 0.5,
+     "msy": 0.2,
+     "msz": 0.061,
+     "mox": 0.0,
+     "moy": 0.0,
+     "moz": -0.0105
+    },
+    {
+     "id": "pomello",
+     "forma": "vuoto",
+     "materiale": "ottone",
+     "y": 0.7,
+     "z": -0.315,
+     "sx": 0.04,
+     "sy": 0.04,
+     "sz": 0.04
+    },
+    {
+     "id": "martello",
+     "forma": "cubo",
+     "materiale": "legno",
+     "colore": "#3a2a1a",
+     "x": 0.35,
+     "y": 0.95,
+     "z": -0.1,
+     "ry": 25,
+     "sx": 0.22,
+     "sy": 0.096,
+     "sz": 0.03,
+     "modello": "martello",
+     "rx": 90
+    },
+    {
+     "id": "martello_t",
+     "forma": "vuoto",
+     "materiale": "metallo",
+     "x": 0.44,
+     "y": 0.97,
+     "z": -0.07,
+     "ry": 25,
+     "sx": 0.06,
+     "sy": 0.06,
+     "sz": 0.04
+    },
+    {
+     "id": "pelle",
+     "forma": "cubo",
+     "materiale": "cuoio",
+     "colore": "#6a4528",
+     "x": -0.3,
+     "y": 0.935,
+     "z": 0.05,
+     "ry": -15,
+     "sx": 0.3,
+     "sy": 0.012,
+     "sz": 0.2,
+     "modello": "pelle",
+     "msx": 0.3257,
+     "msy": 0.004,
+     "msz": 0.2091,
+     "mox": 0,
+     "moy": 0,
+     "moz": 0
+    }
+   ],
+   "documenti": [
+    {
+     "id": "avviso",
+     "titolo": "AVVISO DEL COMITATO",
+     "righe": [
+      "I bambini che partono ricevono scarpe, cappotto e un pasto caldo.",
+      "Le famiglie del Nord li accolgono per i mesi freddi.",
+      "Nessuna famiglia paga: il viaggio lo organizza il Comitato.",
+      "Le iscrizioni si fanno presso le volontarie del quartiere."
+     ]
+    },
+    {
+     "id": "registro",
+     "titolo": "REGISTRO DEL CALZOLAIO",
+     "righe": [
+      "Risuolatura per la vedova Esposito: paga a primavera.",
+      "Tacco per il muratore: a credito, paga il sabato.",
+      "Pezza di cuoio per un bambino del vicolo: gratis.",
+      "Zoccoli della lavandaia: rimessi a nuovo, saldo a Natale."
+     ]
+    },
+    {
+     "id": "quaderno",
+     "titolo": "QUADERNO DI SCUOLA",
+     "righe": [
+      "Compito: scrivi che cosa serve a un bambino per crescere.",
+      "Un paio di scarpe, un pasto caldo, un banco a scuola.",
+      "Tutti i bambini dovrebbero avere le stesse cose, anche i poveri.",
+      "(In margine, cerchiato dalla maestra: 8)"
+     ]
+    }
+   ],
+   "domande": [
+    {
+     "testo": "Che cosa ricevono i bambini che partono per i mesi freddi?",
+     "opzioni": [
+      "Scarpe, cappotto e un pasto caldo",
+      "Una somma di denaro",
+      "Un lavoro",
+      "Niente"
+     ],
+     "corretta": 0,
+     "documento": "avviso",
+     "riga": 0,
+     "spiegazione": "Il Comitato dava ai bambini scarpe, cappotto e un pasto caldo.",
+     "erroreMsg": "Non è questa riga. Cerca nell'avviso del Comitato quello che ricevono i bambini."
+    },
+    {
+     "testo": "Chi paga il viaggio dei bambini?",
+     "opzioni": [
+      "Il Comitato lo organizza: le famiglie non pagano",
+      "Le famiglie dei bambini",
+      "I bambini stessi",
+      "Nessuno"
+     ],
+     "corretta": 0,
+     "documento": "avviso",
+     "riga": 2,
+     "spiegazione": "Il viaggio era organizzato dal Comitato: nessuna famiglia pagava.",
+     "erroreMsg": "Rileggi l'avviso: dice chi organizza il viaggio e chi non paga."
+    },
+    {
+     "testo": "Quale riga del registro mostra un aiuto dato senza chiedere nulla in cambio?",
+     "opzioni": [
+      "Una pezza di cuoio per un bambino: gratis",
+      "Il tacco a credito per il muratore",
+      "La risuolatura della vedova",
+      "Gli zoccoli della lavandaia"
+     ],
+     "corretta": 0,
+     "documento": "registro",
+     "riga": 2,
+     "spiegazione": "«Gratis» significa senza pagare: un gesto di solidarietà verso un bambino.",
+     "erroreMsg": "Cerca nel registro la riga in cui non si paga nulla."
+    }
+   ],
+   "scala": 1
+  },
+  {
+   "id": "enigma_ordina",
+   "tipo": "ordina",
+   "titolo": "Il calendario della memoria",
+   "consegna": "Sul muro del barbiere sono appesi sei ritagli di giornale con fatti che hanno cambiato l'Italia. Mettili in ordine, dal più antico al più recente, trascinandoli.",
+   "temaCivico": "Dalla guerra alla Repubblica: la nascita della Costituzione",
+   "indizi": [
+    "Parti dalla guerra: l'armistizio e la liberazione vengono prima del voto.",
+    "Il voto è il 2 e 3 giugno 1946; poi si riunisce l'Assemblea Costituente.",
+    "Dopo la prima seduta della Costituente (25 giugno) viene eletto il capo provvisorio dello Stato (28 giugno)."
+   ],
+   "spiegazione": "Dalla guerra alla Repubblica: l'armistizio e le Quattro giornate di Napoli, la Liberazione, il voto del 2 e 3 giugno 1946, la prima seduta dell'Assemblea Costituente e, pochi giorni dopo, De Nicola capo provvisorio dello Stato. Sono i fatti che i giornali raccontavano nell'autunno del 1946.",
+   "erroreMsg": "Non è ancora l'ordine giusto. Il pulsante Verifica ti dice quante carte sono al posto giusto: riprova.",
+   "x": 3.1,
+   "y": 1.6,
+   "z": -0.5,
+   "modello": "calendario",
+   "codice": "",
+   "domande": [],
+   "oggetti": [],
+   "eventi": [
+    {
+     "testo": "Armistizio e inizio dell'occupazione tedesca",
+     "data": "8 settembre 1943"
+    },
+    {
+     "testo": "Le Quattro giornate di Napoli: il popolo si ribella",
+     "data": "27-30 settembre 1943"
+    },
+    {
+     "testo": "La Liberazione dell'Italia dal nazifascismo",
+     "data": "25 aprile 1945"
+    },
+    {
+     "testo": "Referendum Monarchia-Repubblica e Assemblea Costituente: per la prima volta votano anche le donne a livello nazionale",
+     "data": "2-3 giugno 1946"
+    },
+    {
+     "testo": "Prima seduta dell'Assemblea Costituente",
+     "data": "25 giugno 1946"
+    },
+    {
+     "testo": "Enrico De Nicola eletto capo provvisorio dello Stato",
+     "data": "28 giugno 1946"
+    }
+   ],
+   "coppie": [],
+   "meccanismo": "ordina",
+   "yaw": 90,
+   "prompt": "i ritagli di giornale del barbiere",
+   "richiede": [
+    "enigma_passanti"
+   ],
+   "bloccatoMsg": "Il barbiere ha da fare. Prima capisci chi è il calzolaio, poi torna a guardare i ritagli.",
+   "appunto": "Sull'ultimo ritaglio, cerchiata: 9.",
+   "produce": [
+    "cifra_9b"
+   ],
+   "parti": [
+    {
+     "id": "pannello",
+     "forma": "cubo",
+     "materiale": "legno",
+     "colore": "#4a3623",
+     "sy": 0.7,
+     "sz": 0.03
+    },
+    {
+     "id": "ritaglio_0",
+     "forma": "cubo",
+     "materiale": "carta",
+     "colore": "#d3c7a6",
+     "x": -0.33,
+     "y": 0.17,
+     "z": -0.02,
+     "rz": -2.096282983264869,
+     "sx": 0.28,
+     "sy": 0.28,
+     "sz": 0.004
+    },
+    {
+     "id": "riga_0",
+     "forma": "cubo",
+     "materiale": "gesso",
+     "colore": "#6b604a",
+     "x": -0.33,
+     "y": 0.17,
+     "z": -0.024,
+     "sx": 0.22,
+     "sy": 0.012,
+     "sz": 0.002
+    },
+    {
+     "id": "ritaglio_1",
+     "forma": "cubo",
+     "materiale": "carta",
+     "colore": "#d3c7a6",
+     "y": 0.17,
+     "z": -0.02,
+     "rz": 0.35383380236761486,
+     "sx": 0.28,
+     "sy": 0.28,
+     "sz": 0.004
+    },
+    {
+     "id": "riga_1",
+     "forma": "cubo",
+     "materiale": "gesso",
+     "colore": "#6b604a",
+     "y": 0.17,
+     "z": -0.024,
+     "sx": 0.22,
+     "sy": 0.012,
+     "sz": 0.002
+    },
+    {
+     "id": "ritaglio_2",
+     "forma": "cubo",
+     "materiale": "carta",
+     "colore": "#d3c7a6",
+     "x": 0.33,
+     "y": 0.17,
+     "z": -0.02,
+     "rz": -1.040358667615366,
+     "sx": 0.28,
+     "sy": 0.28,
+     "sz": 0.004
+    },
+    {
+     "id": "riga_2",
+     "forma": "cubo",
+     "materiale": "gesso",
+     "colore": "#6b604a",
+     "x": 0.33,
+     "y": 0.17,
+     "z": -0.024,
+     "sx": 0.22,
+     "sy": 0.012,
+     "sz": 0.002
+    },
+    {
+     "id": "ritaglio_3",
+     "forma": "cubo",
+     "materiale": "carta",
+     "colore": "#d3c7a6",
+     "x": -0.33,
+     "y": -0.17,
+     "z": -0.02,
+     "rz": 0.8313603087695558,
+     "sx": 0.28,
+     "sy": 0.28,
+     "sz": 0.004
+    },
+    {
+     "id": "riga_3",
+     "forma": "cubo",
+     "materiale": "gesso",
+     "colore": "#6b604a",
+     "x": -0.33,
+     "y": -0.17,
+     "z": -0.024,
+     "sx": 0.22,
+     "sy": 0.012,
+     "sz": 0.002
+    },
+    {
+     "id": "ritaglio_4",
+     "forma": "cubo",
+     "materiale": "carta",
+     "colore": "#d3c7a6",
+     "y": -0.17,
+     "z": -0.02,
+     "rz": 1.0057624328644321,
+     "sx": 0.28,
+     "sy": 0.28,
+     "sz": 0.004
+    },
+    {
+     "id": "riga_4",
+     "forma": "cubo",
+     "materiale": "gesso",
+     "colore": "#6b604a",
+     "y": -0.17,
+     "z": -0.024,
+     "sx": 0.22,
+     "sy": 0.012,
+     "sz": 0.002
+    },
+    {
+     "id": "ritaglio_5",
+     "forma": "cubo",
+     "materiale": "carta",
+     "colore": "#d3c7a6",
+     "x": 0.33,
+     "y": -0.17,
+     "z": -0.02,
+     "rz": -3.475769126081495,
+     "sx": 0.28,
+     "sy": 0.28,
+     "sz": 0.004
+    },
+    {
+     "id": "riga_5",
+     "forma": "cubo",
+     "materiale": "gesso",
+     "colore": "#6b604a",
+     "x": 0.33,
+     "y": -0.17,
+     "z": -0.024,
+     "sx": 0.22,
+     "sy": 0.012,
+     "sz": 0.002
+    }
+   ],
+   "inclina": 0,
+   "soluzione": [],
+   "scheda": "Dalla caduta del fascismo alla Repubblica passano pochi anni di fame e ricostruzione. Mettere in fila gli eventi aiuta a capire come si è arrivati alla Costituzione, entrata in vigore il 1° gennaio 1948.",
+   "scala": 1
+  },
+  {
+   "id": "enigma_lucchetto",
+   "tipo": "lucchetto",
+   "titolo": "Il lucchetto dell'uscita",
+   "consegna": "La porta del ricordo è chiusa con un lucchetto a quattro rotelle. Le quattro cifre le hai raccolte lungo la strada: gesso, matita, margine di un quaderno, un ritaglio. Rimettile in ordine.",
+   "temaCivico": "Diritti dell'infanzia: la Convenzione ONU del 1989",
+   "indizi": [
+    "Le cifre sono quelle del quaderno, nell'ordine in cui le hai trovate.",
+    "Il numero è un anno: uno degli ultimi del Novecento, finisce per 9.",
+    "1 - 9 - 8 - 9."
+   ],
+   "spiegazione": "Nel 1989 l'ONU ha riconosciuto per la prima volta, in un trattato vincolante, che i bambini sono titolari di diritti: salute, istruzione, gioco, protezione. L'Italia l'ha ratificata nel 1991. Quello che Amerigo, scalzo sul gradino, poteva solo sognare è oggi scritto nero su bianco.",
+   "erroreMsg": "Il lucchetto non si apre. Ricorda la data della Convenzione ONU: se serve, usa l'indizio.",
+   "x": 0.0,
+   "y": 1.15,
+   "z": 35.3,
+   "modello": "lucchetto",
+   "codice": "1989",
+   "domande": [
+    {
+     "testo": "Quale numero apre il lucchetto?",
+     "opzioni": [
+      "1989",
+      "1948",
+      "1946",
+      "2001"
+     ],
+     "corretta": 0,
+     "spiegazione": "Le cifre raccolte 1-9-8-9 compongono l'anno 1989, quello della Convenzione ONU sui diritti dell'infanzia.",
+     "erroreMsg": "Rimetti in ordine le quattro cifre."
+    }
+   ],
+   "oggetti": [],
+   "eventi": [],
+   "coppie": [],
+   "meccanismo": "ruote",
+   "yaw": 0,
+   "prompt": "il lucchetto della porta luminosa",
+   "ruote": {
+    "n": 4,
+    "x": 0.0,
+    "y": 0.0,
+    "z": -0.07,
+    "passo": 0.07,
+    "larghezza": 0.05,
+    "raggio": 0.036,
+    "colore": "#9b7a35"
+   },
+   "richiede": [
+    "cifra_1",
+    "cifra_9a",
+    "cifra_8",
+    "cifra_9b"
+   ],
+   "bloccatoMsg": "Il lucchetto ha quattro rotelle e tu non hai ancora tutte le cifre. Controlla il quaderno: ne mancano.",
+   "appunto": "Il lucchetto si apre con 1989.",
+   "soluzione": [
+    "scatto"
+   ],
+   "inclina": 5,
+   "parti": [
+    {
+     "id": "staffa",
+     "forma": "cubo",
+     "materiale": "metallo",
+     "colore": "#3a3631",
+     "y": 0.1,
+     "z": 0.02,
+     "sx": 0.28,
+     "sy": 0.06,
+     "sz": 0.03
+    },
+    {
+     "id": "corpo",
+     "forma": "cubo",
+     "materiale": "ottone",
+     "colore": "#8a6a2c",
+     "y": 0.08,
+     "sx": 0.32,
+     "sy": 0.38,
+     "sz": 0.1,
+     "modello": "lucchetto",
+     "msx": 0.32,
+     "msy": 0.469,
+     "msz": 0.107,
+     "mox": 0.0,
+     "moy": -0.0055,
+     "moz": -0.0015
+    },
+    {
+     "id": "scatto",
+     "forma": "cilindro",
+     "materiale": "ottone",
+     "colore": "#c9a24a",
+     "x": 0.13,
+     "y": -0.06,
+     "z": -0.045,
+     "rx": 90,
+     "sx": 0.03,
+     "sy": 0.012,
+     "sz": 0.03,
+     "clic": true,
+     "azione": "verifica",
+     "evento": "scatto",
+     "msg": "Clic! Il lucchetto si apre."
+    }
+   ],
+   "scala": 1,
+   "scheda": "Nel 1989 l'ONU adottò la Convenzione sui diritti dell'infanzia e dell'adolescenza (20 novembre), ratificata dall'Italia nel 1991: ciò che Amerigo, scalzo sul gradino, poteva solo sognare è oggi un diritto scritto."
+  }
+ ]
 }

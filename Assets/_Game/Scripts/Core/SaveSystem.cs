@@ -21,6 +21,9 @@ namespace TrenoBambini.Core
         public bool effettiRidotti; // R001: UI senza tremolii/particelle (accessibilità o PC lento)
         // R005: true = la visuale gira solo tenendo premuto il tasto destro (cursore libero); false = muovendo il mouse (cursore bloccato)
         public bool visualeTastoDestro;
+        public List<string> oggettiEnigma = new List<string>(); // R020: oggetti/indizi ottenuti negli enigmi del mondo
+        public bool enigmiSemplificati;                          // R009: pannelli 2D al posto delle viste ravvicinate (LIM, accessibilita')
+        public bool evidenziaInterattivi;                        // R009: brillio leggero sugli oggetti da esaminare (spento di default)
         public float tempoGioco; // R023: secondi giocati (anteprima di Continua)
     }
 
@@ -43,11 +46,13 @@ namespace TrenoBambini.Core
             if (d.inventario == null) d.inventario = new List<string>();
             if (d.flashbackCompletati == null) d.flashbackCompletati = new List<string>();
             if (d.enigmiRisolti == null) d.enigmiRisolti = new List<string>();
+            if (d.oggettiEnigma == null) d.oggettiEnigma = new List<string>();
             if (d.cutsceneViste == null) d.cutsceneViste = new List<string>();
             if (d.scena == null) d.scena = "";
             if (d.spawn == null) d.spawn = "";
             if (d.ritornoScena == null) d.ritornoScena = "";
             if (d.ritornoSpawn == null) d.ritornoSpawn = "";
+            TrenoBambini.Puzzles.MondoStato.Migra(d); // R020: gettoni mancanti dei salvataggi vecchi
             return d;
         }
 

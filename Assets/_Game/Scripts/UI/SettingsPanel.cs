@@ -141,7 +141,7 @@ namespace TrenoBambini.UI
                 };
                 righe.Add(r);
             }
-            if (gruppo == "Accessibilità") RigaEffettiRidotti();
+            if (gruppo == "Accessibilità") { RigaEffettiRidotti(); RigheEnigmi(); }
             float y = 0f;
             foreach (var r in righe) { CostruisciRiga(r, y); y += RowH + 4f; }
             content.sizeDelta = new Vector2(-24f, y + 8f);
@@ -169,6 +169,25 @@ namespace TrenoBambini.UI
                         return;
                     }
                 }
+            });
+        }
+
+        /// <summary>R009: "Enigmi semplificati" (pannelli 2D, utile alla LIM e per l'accessibilita') e "Evidenzia oggetti interattivi" (brillio leggero, spento di default).</summary>
+        void RigheEnigmi()
+        {
+            righe.Insert(1, new Riga
+            {
+                nome = GameData.UiMenu.enigmiImp.semplificatiNome,
+                spiega = GameData.UiMenu.enigmiImp.semplificatiSpiega,
+                testo = () => TrenoBambini.Core.GameManager.I != null && TrenoBambini.Core.GameManager.I.Save.enigmiSemplificati ? GameData.UiMenu.enigmiImp.si : GameData.UiMenu.enigmiImp.no,
+                passo = dir => { var g = TrenoBambini.Core.GameManager.I; if (g != null) { g.Save.enigmiSemplificati = !g.Save.enigmiSemplificati; g.SaveGame(); } }
+            });
+            righe.Insert(2, new Riga
+            {
+                nome = GameData.UiMenu.enigmiImp.evidenziaNome,
+                spiega = GameData.UiMenu.enigmiImp.evidenziaSpiega,
+                testo = () => TrenoBambini.Core.GameManager.I != null && TrenoBambini.Core.GameManager.I.Save.evidenziaInterattivi ? GameData.UiMenu.enigmiImp.si : GameData.UiMenu.enigmiImp.no,
+                passo = dir => { var g = TrenoBambini.Core.GameManager.I; if (g != null) { g.Save.evidenziaInterattivi = !g.Save.evidenziaInterattivi; g.SaveGame(); } }
             });
         }
 

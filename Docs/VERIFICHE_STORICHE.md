@@ -84,3 +84,15 @@ Regola per chi scrive i testi: i fatti "incerti" non vanno scritti come fatti; u
 - Durata e orari del viaggio: libro di Giovanni Rinaldi, *C'ero anch'io su quel treno* (testimonianze), archivio della Camera del Lavoro di Modena.
 - Cartiere e stracci nel dopoguerra: storia della carta in Italia (Fabriano, Toscolano), Museo del Tessuto di Prato.
 - Nome di ogni strada nel 1946: stradario comunale di Napoli o IGM 1:25.000 d'epoca.
+
+## 7. Ritagli del barbiere e scheda dell'ex-voto (R020, verifica dell'8 novembre 2026)
+
+| Punto | Esito | Fonte | Nota per chi scrive |
+|---|---|---|---|
+| Prima seduta dell'Assemblea Costituente: 25 giugno 1946 | **Confermato** | [Camera dei deputati, mostra Costituente](https://documenti.camera.it/leg19/ufficio-stampa/80costituente/La-Mostra-in-breve.pdf) | Usato nel ritaglio |
+| Enrico De Nicola eletto capo provvisorio dello Stato: 28 giugno 1946 | **Confermato** (piu' fonti) | stessa fonte; [Studio Cataldi](https://www.studiocataldi.it/articoli/46524-la-missione-di-21-costituenti-via-per-cariche-al-femminile.asp) | Usato nel ritaglio |
+| Elezioni amministrative del 10 marzo 1946 come "primo voto delle donne" | **Incerto** (le fonti si contraddicono su cosa fece il decreto del 10 marzo e su dove si voto' per primi) | [AGI](https://www.agi.it/cultura/news/2026-03-08/10-marzo-1946-voto-donne-35953141/), [Il Post](https://www.ilpost.it/2016/05/30/le-ragazze-del-46/) | **Non usato.** Resta valido solo "2-3 giugno 1946: per la prima volta votano le donne a livello nazionale" |
+| Ex-voto: oggetto offerto a Dio, alla Madonna o a un santo in segno di gratitudine per una grazia ricevuta, anche a forma di parte del corpo (anche di cera) | **Confermato** | [Beweb, CEI](https://www.beweb.chiesacattolica.it/glossary/entry/295/Ex-voto), [Avvenire](https://www.avvenire.it/rubriche/soggetti/lex-voto_96682) | Le fonti lette non confermano gli ex-voto *d'argento*: nella scheda e' detto che "nel gioco sono d'argento" (scelta nostra, [GIOCO]) |
+| Cure gratuite agli indigenti, art. 32 Costituzione | **Confermato** (fatto standard) | testo della Costituzione | Solo nella scheda civica |
+
+Ritagli di `enigma_ordina` (solo fatti fino all'estate del 1946): 8 settembre 1943, 27-30 settembre 1943, 25 aprile 1945, 2-3 giugno 1946, 25 giugno 1946, 28 giugno 1946. La Costituzione del 1948 compare solo nella scheda civica.

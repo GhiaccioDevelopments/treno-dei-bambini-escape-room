@@ -411,22 +411,40 @@ namespace TrenoBambini.UI
             Intestazione(quadernoContent, T.quaderno.appunti);
             var appunti = new StringBuilder();
             var indizi = new StringBuilder();
+            // R020: enigmi del mondo (hub e basso) e dei ricordi
+            var tutti = new List<KeyValuePair<string, EnigmaDef>>();
+            foreach (var em in GameData.EnigmiMondo) tutti.Add(new KeyValuePair<string, EnigmaDef>("mondo/" + em.id, em));
             foreach (var o in GameData.Oggetti)
             {
                 if (string.IsNullOrEmpty(o.flashback)) continue;
                 var f = GameData.Flashback(o.flashback);
                 if (f == null) continue;
-                foreach (var e in f.enigmi)
+                foreach (var e in f.enigmi) tutti.Add(new KeyValuePair<string, EnigmaDef>(f.id + "/" + e.id, e));
+            }
+            foreach (var kv in tutti)
+            {
+                var e = kv.Value;
+                if (save == null || !save.enigmiRisolti.Contains(kv.Key)) continue;
+                string nota = !string.IsNullOrEmpty(e.appunto) ? e.appunto : e.spiegazione;
+                if (!string.IsNullOrEmpty(nota)) appunti.Append("<b>").Append(e.titolo).Append("</b>\n").Append(nota).Append("\n\n");
+                if (e.indizi != null && e.indizi.Count > 0)
                 {
-                    if (save == null || !save.enigmiRisolti.Contains(f.id + "/" + e.id)) continue;
-                    if (!string.IsNullOrEmpty(e.spiegazione)) appunti.Append("<b>").Append(e.titolo).Append("</b>\n").Append(e.spiegazione).Append("\n\n");
-                    if (e.indizi != null && e.indizi.Count > 0)
-                    {
-                        indizi.Append("<b>").Append(e.titolo).Append("</b>\n");
-                        foreach (var i in e.indizi) indizi.Append("- ").Append(i).Append('\n');
-                        indizi.Append('\n');
-                    }
+                    indizi.Append("<b>").Append(e.titolo).Append("</b>\n");
+                    foreach (var i in e.indizi) indizi.Append("- ").Append(i).Append('\n');
+                    indizi.Append('\n');
                 }
+            }
+            // oggetti e cifre ottenuti negli enigmi (chiavi, cartoncini, forme, cifre del lucchetto)
+            if (save != null && save.oggettiEnigma.Count > 0)
+            {
+                var avuti = new StringBuilder();
+                foreach (var t in save.oggettiEnigma)
+                {
+                    string dsc = TrenoBambini.Puzzles.MondoStato.Descrizione(t);
+                    if (string.IsNullOrEmpty(dsc)) continue;
+                    avuti.Append("- <b>").Append(TrenoBambini.Puzzles.MondoStato.Nome(t)).Append("</b>: ").Append(dsc).Append('\n');
+                }
+                if (avuti.Length > 0) appunti.Append("<b>Trovati finora</b>\n").Append(avuti.ToString().TrimEnd()).Append("\n\n");
             }
             if (appunti.Length > 0) Riga(quadernoContent, appunti.ToString().TrimEnd());
             else NotaVuota(quadernoContent, T.quaderno.appuntiVuoto);
