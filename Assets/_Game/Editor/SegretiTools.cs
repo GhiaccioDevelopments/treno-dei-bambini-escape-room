@@ -23,6 +23,7 @@ namespace TrenoBambini.EditorTools
             { "10_Hub_Vicolo", "Docs/richieste/media/R006/punti_segreti_hub.md" },
             { "20_Int_BassoAntonietta", "Docs/richieste/media/R006/punti_segreti_basso.md" },
             { "30_FB_Scarpe", "Docs/richieste/media/R006/punti_segreti_flashback.md" },
+            { "40_FB_Stracci", "Docs/richieste/media/R012/punti_segreti_stracci.md" },
         };
 
         static Dictionary<string, Vector3> Punti(string scena)

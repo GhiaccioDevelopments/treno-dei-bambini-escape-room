@@ -40,6 +40,7 @@ namespace TrenoBambini.EditorTools
             new Cfg { scena = "10_Hub_Vicolo", tema = "normale", margine = 10f, ppm = 8f },
             new Cfg { scena = "20_Int_BassoAntonietta", tema = "normale", arredo = true, margine = 3f, ppm = 24f },
             new Cfg { scena = "30_FB_Scarpe", tema = "ricordo", margine = 10f, ppm = 8f },
+            new Cfg { scena = "40_FB_Stracci", tema = "ricordo", margine = 10f, ppm = 8f },
         };
 
         struct Rett { public float x0, x1, z0, z1, top, bottom; public string nome; }

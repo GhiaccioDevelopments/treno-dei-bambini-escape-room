@@ -36,6 +36,7 @@ namespace TrenoBambini.EditorTools
             int problemi = 0;
             problemi += Scena(sb, "20_Int_BassoAntonietta", "ingresso", 0.28f, 1.75f);
             problemi += Scena(sb, "30_FB_Scarpe", "inizio", 0.2f, 1.0f);
+            problemi += Scena(sb, "40_FB_Stracci", "inizio", 0.2f, 1.0f);
             problemi += Scena(sb, "10_Hub_Vicolo", "inizio", 0.28f, 1.75f);
             sb.AppendLine();
             sb.AppendLine("TOTALE problemi: " + problemi);
@@ -109,9 +110,9 @@ namespace TrenoBambini.EditorTools
             foreach (var ip in Object.FindObjectsByType<ItemPickup>(FindObjectsInactive.Exclude)) { var c = ip.GetComponent<Collider>(); if (c != null) bers.Add(new Bersaglio { nome = "Oggetto " + ip.oggettoId, box = c.bounds }); }
             foreach (var ex in Object.FindObjectsByType<EscapeExit>(FindObjectsInactive.Exclude)) { var c = ex.GetComponent<Collider>(); if (c != null) bers.Add(new Bersaglio { nome = "Uscita", box = c.bounds }); }
             foreach (var s in Object.FindObjectsByType<SpawnPoint>(FindObjectsInactive.Include)) bers.Add(new Bersaglio { nome = "Spawn " + s.id, pos = s.transform.position, punto = true });
-            if (nome == "30_FB_Scarpe")
+            if (nome == "30_FB_Scarpe" || nome == "40_FB_Stracci")
             {
-                var json = Resources.Load<TextAsset>("Data/flashback_scarpe");
+                var json = Resources.Load<TextAsset>(nome == "30_FB_Scarpe" ? "Data/flashback_scarpe" : "Data/flashback_stracci");
                 if (json != null)
                 {
                     var fb = JsonUtility.FromJson<TrenoBambini.Data.FlashbackDef>(json.text);

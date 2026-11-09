@@ -113,7 +113,7 @@ namespace TrenoBambini.EditorTools
         public static void AddDecals(Scene scene, string name)
         {
             foreach (var root in scene.GetRootGameObjects()) if (root.name == "Decal_Muri") Object.DestroyImmediate(root);
-            if (name != "10_Hub_Vicolo" && name != "30_FB_Scarpe") return;
+            if (name != "10_Hub_Vicolo" && name != "30_FB_Scarpe" && name != "40_FB_Stracci") return;
             var mA = Decal("M_DecalUmido", "DecalUmido.png");
             var mB = Decal("M_DecalMacchie", "DecalMacchie.png");
             if (mA == null || mB == null) return;
