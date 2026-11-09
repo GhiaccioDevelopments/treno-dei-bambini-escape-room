@@ -73,6 +73,7 @@ namespace TrenoBambini.Puzzles
             if (i < 0) return null;
             string gruppo = chiave.Substring(0, i), id = chiave.Substring(i + 1);
             if (gruppo == "mondo") { foreach (var e in GameData.EnigmiMondo) if (e.id == id) return e; return null; }
+            if (gruppo == "segreti") { foreach (var e in GameData.Segreti.enigmi) if (e.id == id) return e; return null; } // R011
             var f = GameData.Flashback(gruppo);
             if (f == null) return null;
             foreach (var e in f.enigmi) if (e.id == id) return e;

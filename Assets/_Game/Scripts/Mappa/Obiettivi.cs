@@ -92,7 +92,7 @@ namespace TrenoBambini.Mappa
         public static void SpegniForzatura() { forzatoFino = -1f; }
 
         /// <summary>Premuto Indizio in un enigma: in modalita' Normale l'obiettivo compare subito.</summary>
-        public static void RivelaIndizio() { rivelato = true; }
+        public static void RivelaIndizio() { rivelato = true; TrenoBambini.Segreti.SegretiStato.AiutoLieve(); } // R011: a stanza completata l'Indizio accenna ai segreti
 
         /// <summary>Secondi passati senza progressi (solo gioco attivo): serve alle prove.</summary>
         public static float FermoSecondi { get { return fermoSecondi; } }

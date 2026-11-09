@@ -93,6 +93,9 @@ namespace TrenoBambini.Data
         public List<DocumentoDef> documenti = new List<DocumentoDef>();
         public string sostituisce;           // nomi (separati da virgola) di oggetti gia' presenti nella scena da nascondere perche' l'enigma li rimpiazza
         public float inclina = 8f;           // inclinazione iniziale della camera nella vista ravvicinata (gradi)
+        public string punto;                 // R011: nome del punto nei rapporti R006 (vedi segreti.json); dx,dy,dz = spostamento dal punto
+        public float dx, dy, dz;
+        public string segreto;               // R011: id del segreto che si trova risolvendo questo enigma
         public string completoMsg;           // nascosto: testo aggiunto quando tutti gli oggetti sono trovati
         public string finale;                // se valorizzato (nella scena l'oggetto-ricordo con questo id resta nascosto finche' l'enigma non e' risolto), alla soluzione parte il ricordo di questo oggetto (es. "scarpe")
     }

@@ -19,13 +19,14 @@ namespace TrenoBambini.Core
         static List<NascostoDef> oggettiEnigma;
         static EnigmiTesti testiEnigmi;
         static MappeFile mappe;
+        static SegretiFile segreti;
         static readonly Dictionary<string, FlashbackDef> flashbacks = new Dictionary<string, FlashbackDef>();
         static readonly Dictionary<string, CutsceneDef> cutscenes = new Dictionary<string, CutsceneDef>();
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         static void ResetStatics()
         {
-            luoghi = null; oggetti = null; personaggi = null; audio = null; uiMenu = null; crediti = null; enigmiMondo = null; oggettiEnigma = null; testiEnigmi = null; mappe = null;
+            luoghi = null; oggetti = null; personaggi = null; audio = null; uiMenu = null; crediti = null; enigmiMondo = null; oggettiEnigma = null; testiEnigmi = null; mappe = null; segreti = null;
             flashbacks.Clear(); cutscenes.Clear();
         }
 
@@ -44,6 +45,27 @@ namespace TrenoBambini.Core
                     if (mappe.testi.legenda == null) mappe.testi.legenda = new List<MappaLegendaVoce>();
                 }
                 return mappe;
+            }
+        }
+
+        /// <summary>R011: segreti, collezionabili, enigmi segreti ed easter egg (segreti.json). Mai null.</summary>
+        public static SegretiFile Segreti
+        {
+            get
+            {
+                if (segreti == null)
+                {
+                    segreti = LoadJson<SegretiFile>("segreti") ?? new SegretiFile();
+                    if (segreti.testi == null) segreti.testi = new SegretiTesti();
+                    if (segreti.stanze == null) segreti.stanze = new List<StanzaSegretiDef>();
+                    if (segreti.segreti == null) segreti.segreti = new List<SegretoDef>();
+                    if (segreti.pezzi == null) segreti.pezzi = new List<SegretoPezzoDef>();
+                    if (segreti.enigmi == null) segreti.enigmi = new List<EnigmaDef>();
+                    if (segreti.campane == null) segreti.campane = new List<CampanaDef>();
+                    if (segreti.uova == null) segreti.uova = new List<UovoDef>();
+                    if (segreti.gettoni == null) segreti.gettoni = new List<NascostoDef>();
+                }
+                return segreti;
             }
         }
 
@@ -100,6 +122,7 @@ namespace TrenoBambini.Core
                     oggettiEnigma = new List<NascostoDef>();
                     var f = LoadJson<EnigmiMondoFile>("enigmi_mondo");
                     if (f != null && f.oggetti != null) oggettiEnigma.AddRange(f.oggetti);
+                    oggettiEnigma.AddRange(Segreti.gettoni); // R011: biglietti e indizi dei segreti
                     foreach (var o in Oggetti)
                     {
                         if (string.IsNullOrEmpty(o.flashback)) continue;

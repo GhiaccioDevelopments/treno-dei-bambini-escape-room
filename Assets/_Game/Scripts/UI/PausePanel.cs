@@ -17,6 +17,7 @@ namespace TrenoBambini.UI
         PanelFx fx;
         Slider volume, music, ambient, effects, voices;
         Button lookBtn;
+        TextMeshProUGUI segretiTxt; // R011: contatore dei segreti, solo qui (mai nell'HUD)
         const float ItemH = 42f, RowH = 32f;
 
         void Awake()
@@ -31,7 +32,7 @@ namespace TrenoBambini.UI
             // copertina + pagina
             var cover = UIFactory.MakePanel(veil.rectTransform, "Copertina", Color.white, true);
             cover.sprite = UIArt.Cover(); cover.type = Image.Type.Sliced;
-            UIFactory.Place(cover.rectTransform, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(640f, 690f));
+            UIFactory.Place(cover.rectTransform, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(640f, 720f));
             fx.card = cover.rectTransform;
             var page = UIFactory.MakePanel(cover.rectTransform, "Pagina", Color.white, false);
             page.sprite = UIArt.Notebook(); page.type = Image.Type.Sliced;
@@ -59,6 +60,8 @@ namespace TrenoBambini.UI
 
             var title = UIFactory.MakeText(content, "Pausa", 42, UITheme.InchiostroBlu, TextAlignmentOptions.Center, FontStyles.Bold | FontStyles.Italic);
             Add(title, 440f, 50f);
+            segretiTxt = UIFactory.MakeText(content, "", 22, new Color(UITheme.InchiostroBlu.r, UITheme.InchiostroBlu.g, UITheme.InchiostroBlu.b, 0.8f), TextAlignmentOptions.Center, FontStyles.Italic);
+            Add(segretiTxt, 440f, 26f);
             Add(Item(content, "Riprendi", Hide), 440f, ItemH);
             Add(Item(content, GameData.UiMenu.hud.latta, () => { if (UIRoot.I != null) UIRoot.I.Inventory.Show(); }), 440f, ItemH);
 
@@ -121,6 +124,9 @@ namespace TrenoBambini.UI
             voices.SetValueWithoutNotify(am != null ? am.GetChannel(AudioChannel.Voci) : 1f);
             if (am != null) am.Music.SetPaused(true); // la musica scende al 30% senza fermarsi
             RefreshLookLabel();
+            string rs = TrenoBambini.Segreti.SegretiStato.RigaPausa();
+            segretiTxt.text = rs;
+            segretiTxt.gameObject.SetActive(!string.IsNullOrEmpty(rs));
             transform.SetAsLastSibling();
             fx.Show();
         }
