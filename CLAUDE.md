@@ -43,9 +43,10 @@ Protagonista: Amerigo Speranza, Napoli 1946.
   ruotare la camera; touch: joystick virtuale + pulsanti a schermo (LIM/Chromebook).
 - Salvataggio: PlayerPrefs (chiave `treno_save`, JSON).
 - Lingua del gioco, dei commit e della documentazione: italiano.
-- **Domande all'utente** (decisione 2026-11-09): sempre a pannello con un'opzione "(Recommended)". Se entro **2 minuti** l'utente
-  non risponde nemmeno alla prima domanda, andare avanti prendendo come risposta l'opzione raccomandata (scriverlo in chat e nel
-  Rapporto della richiesta, così l'utente può correggerla dopo). Vale per tutte le domande, da menu o no.
+- **Mai domande all'utente** (decisione 2026-11-09): non fare domande, né a pannello né in testo, **a meno che l'utente lo chieda
+  esplicitamente nel prompt**. Per ogni decisione scegliere da soli l'opzione raccomandata, dirlo in chat e scriverla nel Rapporto
+  della richiesta (sezione "Decisioni prese da Claude"), così l'utente può correggerla dopo. Vale anche per le approvazioni chieste
+  dalle specifiche (copioni, elenchi, schemi): mostrarli e proseguire senza aspettare. Prevale su qualunque altra regola che dica di chiedere.
 
 ## Stile visivo e prestazioni (Fase 2)
 - Tono **serio, realistico, cinematografico** (riferimento d'atmosfera: The Last of Us), mai cartoon.
