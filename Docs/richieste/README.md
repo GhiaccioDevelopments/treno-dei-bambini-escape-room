@@ -57,7 +57,7 @@ MCP for Unity) le implementa. Le due sessioni non si parlano: comunicano **solo 
 | R022 | Corsa corretta: personaggio dritto, gamba sinistra | integrata in `feature/upgrade-realistico` (7/11), PR #24 |
 | R023 | Menu iniziale e inventario rifatti, al livello dei giochi più belli | integrata (2026-11-08): menu col vicolo vivo, latta + quaderno, PR #25 |
 | R024 | Le scarpe da raccogliere nel ricordo (livello 2) sono invisibili | integrata (2026-11-09): 5 calzature vere, self-test raccoglibili, 241 PASS in build, online su gh-pages de33510, PR #26 |
-| R025 | Filmato iniziale della nuova partita, doppiato dall'utente | aperta, PR #27 (dopo R024) |
+| R025 | Filmato iniziale della nuova partita, doppiato dall'utente | integrata (2026-11-09): filmato a 7 capitoli, 36 battute cs_intro, 4:38, 65 PASS in build, PR #27 (voci da registrare con R028) |
 | R026 | Enigmi più belli e più chiari: cosa fare e cosa si ottiene | aperta, PR #28 (dopo R011 e R012–R016) |
 | R027 | Trofei (achievement) e missioni secondarie | aperta, PR #29 (dopo R026) |
 | R028 | Pulsante altoparlante sotto i dialoghi del Narratore, lista dei file da doppiare | aperta, PR #30 (penultima) |
