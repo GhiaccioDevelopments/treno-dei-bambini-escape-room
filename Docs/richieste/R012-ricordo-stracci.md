@@ -58,4 +58,36 @@ nell'ordine della storia. **Regole comuni a tutte e cinque** (scritte qui e rich
 Schema approvato dall'utente: sviluppo autorizzato.
 
 ## Rapporto
-_(da compilare a fine lavoro)_
+
+**Stato: sviluppo quasi completo, NON chiuso.** La connessione MCP di Unity e' caduta durante la prova finale (regola di progetto: fermarsi). Restano le voci elencate in "Da completare".
+
+### Fatto
+- Scena `40_FB_Stracci` generata da `SceneBuilderStracci.cs` (Treno > Scene > Costruisci ricordo Stracci, inclusa in "Costruisci tutte le scene"): 1350 m2 calpestabili, 15 zone senza caricamenti (largo d'ingresso, vico, scala, vico alto, largo e soglia della bottega, bottega interna con soffitto a travi e lanterne, vico dei panni, cortile del bucato, lotto di macerie, vico e cortile dei carrettieri, scala e terrazzino, passaggio alto = scorciatoia ad anello). Aggiunta alle Build Settings, al look (profilo ricordo), alle verifiche R017/R018/raggiungibilita', alla pianta (MappaBuilder) e al benchmark.
+- Cinque enigmi (`flashback_stracci.json`, generato da `ArtSource/Stracci/genera_flashback_stracci.py`): S1 il giro degli stracci (raccolta di 10 pezzi nel vicolo + esame del tessuto), S2 le ceste (inventario attivo con elenco di oggetti), S3 la bilancia che sbaglia, S4 il conto con le monete, S5 il muro dei mestieri a tre colonne. Indizi a tre livelli, errori gentili, versione "Enigmi semplificati" (quiz), schede civiche.
+- Tre meccanismi nuovi, in `EsaminaViewStracci.cs`: esame del tessuto (controluce, filo, spessore), bilancia a piatti con pesi e chiodo sotto il piatto, pagamento con monete sul banco; piu' l'abbinamento a tre colonne.
+- Cutscene `cutscene_stracci` (19 battute `cs_stracci_001..019`, capitoli ingresso e chiusura), nuovi personaggi `capa_e_fierro` e `donna_vicolo` in `personaggi.json`, oggetto `stracci`, fagotto d'ingresso creato a runtime nel cortile del basso (dopo Le scarpe), `sede_partito` sbloccata dagli stracci, obiettivi e pianta in `mappe.json`, audio.
+- Segreti R011 (da `genera_segreti.py`): enigma segreto del carretto (cassetto sotto il sedile aprendo girando la ruota) e 5 collezionabili (tappo a corona, bottone militare, ritaglio di giornale, carta da gioco, biglia).
+- Prova automatica `StraccTest` (flag `-straccitest`): prima esecuzione 76 PASS / 6 FAIL (i 6 erano errori della prova e un bug di `Registra`, gia' corretti); la seconda esecuzione ha mostrato una regressione (tessuti), corretta nel codice, **non rieseguita** per la caduta di MCP.
+
+### Decisioni prese da Claude
+- Ingresso e chiusura nello stesso file `cutscene_stracci.json` con campo `capitolo` (non due file): cosi' resta un unico ID `cs_stracci_NNN` per il doppiaggio.
+- Il fagotto compare a runtime da `oggetti.json` (campo `ingresso`) invece di ricostruire la scena del basso: nessun bake in piu', nessun rischio per le lightmap esistenti.
+- `sede_partito` non ha ancora una scena: `luoghi.json` ha il nuovo campo `sbloccatoDa`; la porta, sbloccata, mostra un messaggio ("si apre piu' avanti").
+- Prezzi (lana 40, cotone 20, lino 25 lire al chilo), pesi delle ceste (1300, 800, 600 g) e il totale (83 lire) sono INVENTATI [GIOCO] e dichiarati nella scheda. Il chiodo falsa la bilancia di 150 g.
+- Scheda stracci → lana rigenerata/carta: resta generica (nessuna fonte certa su fabbriche e prezzi), dichiarato nel testo. Il limite di 16 anni per lavorare (legge 977/1967) e' citato nel "dietro le quinte" del segreto: da ricontrollare con una fonte.
+- Mappatura mestiere → diritto del muro dei mestieri (lustrascarpe-art. 34, acquaiolo-ONU art. 32, venditore ambulante-art. 37, raccoglitore di stracci-art. 31) scelta come didattica e dichiarata "didattica" nella scheda.
+- Nomi di vie e cortili della pianta (Vico degli Stracci, Vico dei Panni, ecc.) inventati e NON verificati su OpenStreetMap (non c'era connessione di verifica in questa sessione).
+- Capa 'e fierro ha una battuta in cui ammette la vergogna per il chiodo, ma resta "in fondo buono" (D2).
+
+### Da completare (richiede Unity/MCP)
+- Rieseguire `-straccitest` (in particolare tessuti dopo la correzione di `Registra`) e `-enigmitest`/`-segretitest` per le regressioni.
+- Compilare le modifiche a `EsaminaView.cs` e rigenerare le texture dei pezzi (Treno > Segreti > Genera texture dei pezzi) per `RitaglioStracci`.
+- Personaggio 3D di Capa 'e fierro e suo ritratto per la cutscene (il punto `Npc_CapaEFierro` e' gia' nella scena); donne del vicolo e Tommasino come voci fuori campo/ritratto.
+- Un solo bake delle luci per la scena, FPS per preset (Alta e Bassa), screenshot e GIF in `Docs/richieste/media/R012/`.
+- Verifiche Treno > Verifica > Superfici e buchi / Camera / Raggiungibilita' sulla nuova scena, e ritocco estetico della bottega (mucchi di stracci e ferri sono ancora blocchi semplici).
+
+### Criteri di accettazione
+- [x] Schema approvato dall'utente prima dello sviluppo.
+- [ ] Capitolo giocabile dall'inizio alla fine, salvataggio compreso, con almeno un meccanismo nuovo (la prova automatica ha completato tutto il flusso nella prima esecuzione; da riconfermare dopo le correzioni).
+- [ ] Coerenza con TRAMA.md, testi originali, ID battute, console pulita, FPS per preset.
+- [ ] Video/GIF in `Docs/richieste/media/R012/`.

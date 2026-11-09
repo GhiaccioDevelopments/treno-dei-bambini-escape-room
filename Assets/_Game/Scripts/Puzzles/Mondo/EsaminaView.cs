@@ -941,6 +941,8 @@ namespace TrenoBambini.Puzzles
             var sol = def.soluzione ?? new List<string>();
             if (!def.ordinata || (prog < sol.Count && ev == sol[prog])) RivelaQuando(ev);
             string mec = Meccanismo(def);
+            if (sol.Count == 0 && (mec == "monete" || mec == "colonne")) return; // R012: si risolvono solo con Paga / Conferma, mai con un evento dei pezzi
+            if (sol.Count == 0 && mec == "tessuti") { if (ev == "deduzione") Solved(); return; } // R012: come la deduzione, ma le prove non risolvono
             if (sol.Count == 0 && (mec == "deduzione" || mec == "documenti" || mec == "ruote")) { if (ev == "deduzione" || ev == "documenti") { Solved(); } return; }
             if (def.ordinata)
             {
