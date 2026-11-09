@@ -20,6 +20,18 @@ namespace TrenoBambini.Puzzles
         }
     }
 
+    /// <summary>Respiro lentissimo della luce che sfiora una calzatura da trovare (nessun alone, solo luce vera sul selciato).</summary>
+    public class LuceCalzatura : MonoBehaviour
+    {
+        public Light luce;
+        float fase;
+        void Start() { fase = UnityEngine.Random.value * 6.28f; }
+        void Update()
+        {
+            if (luce != null) luce.intensity = 7.4f + 1.2f * Mathf.Sin(Time.time * 1.1f + fase);
+        }
+    }
+
     /// <summary>Enigma "nascosto": spawna gli oggetti da trovare, conta i ritrovamenti, mostra la descrizione di ciascuno.</summary>
     public class NascostoPuzzle : MonoBehaviour
     {
@@ -56,11 +68,19 @@ namespace TrenoBambini.Puzzles
             {
                 var n = d.oggetti[i];
                 if (MondoStato.Ha(n.id)) { found++; continue; } // gia' nella borsa (partita ripresa)
-                var go = MondoFab.Scarpa(new ParteDef { id = "Nascosto_" + n.id, testo = n.modello, x = n.x, y = n.y, z = n.z, ry = 20f * i + 15f, sx = 1.15f, sy = 1.15f, sz = 1.15f }, transform, false);
+                // R024: modello vero (calz_<stile>), un po' piu' grande del vero per riconoscerlo da lontano; il fascio di luce lo fa notare senza aloni colorati
+                var go = MondoFab.Scarpa(new ParteDef { id = "Nascosto_" + n.id, testo = n.modello, x = n.x, y = n.y, z = n.z, ry = 20f * i + 15f, sx = 1.4f, sy = 1.4f, sz = 1.4f }, transform, false);
                 go.transform.position = new Vector3(n.x, n.y, n.z);
                 var bc = go.AddComponent<BoxCollider>();
                 bc.isTrigger = true; // non blocca il player
-                bc.center = new Vector3(0f, 0.06f, 0f); bc.size = new Vector3(0.4f, 0.2f, 0.25f);
+                bc.center = new Vector3(0f, 0.06f, 0f); bc.size = new Vector3(0.5f, 0.25f, 0.35f);
+                var lg = new GameObject("Luce");
+                lg.transform.SetParent(go.transform, false);
+                lg.transform.position = go.transform.position + new Vector3(0.15f, 1.3f, -0.4f);
+                var luce = lg.AddComponent<Light>();
+                luce.type = LightType.Point; luce.range = 4f; luce.intensity = 8f; luce.shadows = LightShadows.None;
+                luce.color = new Color(1f, 0.86f, 0.62f); // calda, come un raggio di sole tra i palazzi
+                lg.AddComponent<LuceCalzatura>().luce = luce;
                 var h = go.AddComponent<HiddenItem>();
                 h.item = n;
                 h.owner = this;

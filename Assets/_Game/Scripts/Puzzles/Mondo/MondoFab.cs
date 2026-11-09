@@ -295,15 +295,15 @@ namespace TrenoBambini.Puzzles
                 {
                     case "lucide": cT = "#16110e"; break;
                     case "chiodate": cT = "#4a3320"; break;
-                    case "militari": cT = "#3a3022"; break;
-                    case "tacchi": cT = "#2a1714"; break;
+                    case "militari": cT = "#5a4630"; break;
+                    case "tacchi": cT = "#6a2a30"; break;
                     case "risuolate": cT = "#5a3a22"; break;
-                    case "cartone": cT = "#6a5a40"; break;
+                    case "cartone": cT = "#7a5f3e"; break;
                     default: cT = "#3a2616"; break;
                 }
             }
             if (st == "zoccoli") { tomaia = "legno"; cT = string.IsNullOrEmpty(d.colore) ? "#6b4a2b" : d.colore; }
-            if (st == "pezze") { tomaia = "stoffa"; cT = string.IsNullOrEmpty(d.colore) ? "#6d6252" : d.colore; }
+            if (st == "pezze") { tomaia = "stoffa"; cT = string.IsNullOrEmpty(d.colore) ? "#7c6a50" : d.colore; }
             if (st == "matita") { tomaia = "gesso"; cT = string.IsNullOrEmpty(d.colore) ? "#55534f" : d.colore; }
             var mT = Mat(tomaia, cT);
             var mSuola = st == "matita" ? mT : Mat("cuoio", st == "risuolate" ? "#b07a45" : "#1c120b");
@@ -313,6 +313,24 @@ namespace TrenoBambini.Puzzles
                 // scarpetta disegnata a matita sulla carta (decal), non una scarpa vera
                 if (colliders && d.clic) { var bm = root.AddComponent<BoxCollider>(); bm.center = new Vector3(0f, 0.065f, 0f); bm.size = new Vector3(0.3f, 0.13f, 0.02f); }
                 return root;
+            }
+
+            // R024: le cinque calzature da raccogliere hanno un modello vero ciascuna (Resources/Modelli/Enigmi/calz_<stile>), appoggiato a terra
+            float lungCalz = LunghezzaCalzatura(st);
+            if (lungCalz > 0f)
+            {
+                var mc = Modello("calz_" + st, root.transform, mT, Vector3.zero, Vector3.zero, Vector3.one * lungCalz);
+                if (mc != null)
+                {
+                    AppoggiaATerra(mc, root.transform);
+                    if (colliders && d.clic)
+                    {
+                        var bcc = root.AddComponent<BoxCollider>();
+                        bcc.center = new Vector3(0f, 0.06f, 0f);
+                        bcc.size = new Vector3(0.3f, 0.13f, 0.11f);
+                    }
+                    return root;
+                }
             }
 
             Part(root, PrimitiveType.Cube, "suola", new Vector3(0f, 0.012f, 0f), new Vector3(0.29f, 0.025f, 0.1f), mSuola);
@@ -362,6 +380,33 @@ namespace TrenoBambini.Puzzles
                 bc.size = new Vector3(0.3f, 0.13f, 0.11f);
             }
             return root;
+        }
+
+        /// <summary>Lunghezza vera (m) del modello della calzatura per lo stile dato; 0 = nessun modello dedicato (stile da primitive o dalla scarpa R023).</summary>
+        public static float LunghezzaCalzatura(string stile)
+        {
+            switch (stile)
+            {
+                case "zoccoli": return 0.28f;
+                case "militari": return 0.31f;
+                case "cartone": return 0.28f;
+                case "tacchi": return 0.26f;
+                case "pezze": return 0.34f;
+                default: return 0f;
+            }
+        }
+
+        /// <summary>Porta il modello con il fondo sul piano della radice e il centro sopra la sua posizione (i modelli sono centrati nel loro cubo).</summary>
+        static void AppoggiaATerra(GameObject modello, Transform radice)
+        {
+            bool primo = true; Bounds b = new Bounds();
+            foreach (var r in modello.GetComponentsInChildren<Renderer>())
+            {
+                if (primo) { b = r.bounds; primo = false; } else b.Encapsulate(r.bounds);
+            }
+            if (primo) return;
+            var p = radice.position;
+            modello.transform.position += new Vector3(p.x - b.center.x, p.y - b.min.y, p.z - b.center.z);
         }
 
         static GameObject Part(GameObject root, PrimitiveType t, string name, Vector3 pos, Vector3 scale, Material m)

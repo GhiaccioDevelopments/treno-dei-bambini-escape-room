@@ -327,7 +327,7 @@ namespace TrenoBambini.Core
         }
 
         [Serializable] class SoloParti { public List<SoloEnigma> enigmi; }
-        [Serializable] class SoloEnigma { public List<TrenoBambini.Data.ParteDef> parti; }
+        [Serializable] class SoloEnigma { public List<TrenoBambini.Data.ParteDef> parti; public List<TrenoBambini.Data.NascostoDef> oggetti; }
 
         /// <summary>Ogni "modello" usato dalle parti (enigmi_mondo.json e flashback_*.json) deve caricarsi da Resources/Modelli/Enigmi.</summary>
         void ControllaModelli()
@@ -339,8 +339,13 @@ namespace TrenoBambini.Core
                 var w = JsonUtility.FromJson<SoloParti>(ta.text);   // solo le parti: "modello" degli oggetti nascosti e' un'altra cosa (stile di scarpa)
                 if (w == null || w.enigmi == null) continue;
                 foreach (var e in w.enigmi)
+                {
                     if (e != null && e.parti != null)
                         foreach (var p in e.parti) if (p != null && !string.IsNullOrEmpty(p.modello)) nomi.Add(p.modello);
+                    // R024: ogni calzatura da raccogliere (enigma "nascosto") ha il suo modello calz_<stile>; senza, comparirebbe un segnaposto di primitive
+                    if (e != null && e.oggetti != null)
+                        foreach (var o in e.oggetti) if (o != null && MondoFab.LunghezzaCalzatura((o.modello ?? "").ToLowerInvariant()) > 0f) nomi.Add("calz_" + o.modello.ToLowerInvariant());
+                }
             }
             Check("modelli degli enigmi trovati nei JSON", nomi.Count > 0, nomi.Count.ToString());
             foreach (var n in nomi)
@@ -763,6 +768,7 @@ namespace TrenoBambini.Core
             var items = new List<HiddenItem>(FindObjectsByType<HiddenItem>(FindObjectsInactive.Exclude));
             Check(id + ": cinque calzature da trovare nella strada", items.Count == 5, items.Count.ToString());
             yield return Foto(id + "_ricerca");
+            yield return ControllaRaccoglibili(id, items);
             foreach (var h in items) { if (h != null) h.Interact(); yield return Attendi(0.3f); }
             yield return Attendi(0.5f);
             yield return ChiudiMessaggi();
@@ -785,6 +791,56 @@ namespace TrenoBambini.Core
             }
             yield return Concludi(id, "flashback_scarpe/" + id);
             Check(id + ": produce la seconda cifra", MondoStato.Ha("cifra_9a"));
+        }
+
+        /// <summary>
+        /// R024: ogni raccoglibile di un enigma "nascosto" deve vedersi e potersi raggiungere: renderer attivi con materiale, bounds non nulli,
+        /// sopra il pavimento (nessun solido sotto che lo copra: il suo fondo non e' sotto il suolo) e fuori dai collider dei muri/oggetti.
+        /// Scatta anche una foto ravvicinata di ognuno (id_raccoglibile_nome.jpg).
+        /// </summary>
+        IEnumerator ControllaRaccoglibili(string id, List<HiddenItem> items)
+        {
+            foreach (var h in items)
+            {
+                if (h == null || h.item == null) continue;
+                string n = id + "/" + h.item.id;
+                var rs = h.GetComponentsInChildren<Renderer>(false);
+                int attivi = 0, senzaMat = 0; bool tuttiAcceso = true;
+                Bounds b = new Bounds(h.transform.position, Vector3.zero); bool primo = true;
+                foreach (var r in rs)
+                {
+                    if (r.enabled && r.gameObject.activeInHierarchy) attivi++; else tuttiAcceso = false;
+                    var ms2 = r.sharedMaterials;
+                    if (ms2 == null || ms2.Length == 0 || ms2[0] == null) senzaMat++;
+                    if (primo) { b = r.bounds; primo = false; } else b.Encapsulate(r.bounds);
+                }
+                Log("  raccoglibile " + n + " pos=" + h.transform.position.ToString("F2") + " renderer=" + rs.Length + " attivi=" + attivi + " bounds=" + b.size.ToString("F3") + " min.y=" + b.min.y.ToString("F2"));
+                Check(n + ": renderer attivi", rs.Length > 0 && attivi == rs.Length && tuttiAcceso && senzaMat == 0, rs.Length + " renderer, " + attivi + " attivi, " + senzaMat + " senza materiale");
+                Check(n + ": bounds non nulli", !primo && b.size.x > 0.05f && b.size.y > 0.02f && b.size.z > 0.03f, b.size.ToString("F3"));
+
+                // pavimento: un solido (collider non trigger) sotto o a contatto del fondo; nessun solido sopra che lo copra in modo pieno
+                float fondo = b.min.y;
+                RaycastHit hit;
+                bool suolo = Physics.Raycast(new Vector3(b.center.x, fondo + 0.3f, b.center.z), Vector3.down, out hit, 3f, ~0, QueryTriggerInteraction.Ignore);
+                Check(n + ": sopra il pavimento", suolo && fondo >= hit.point.y - 0.05f, suolo ? "suolo y=" + hit.point.y.ToString("F2") + " fondo y=" + fondo.ToString("F2") : "nessun suolo sotto");
+
+                // niente collider solidi che entrino nel volume (ristretto di 2 cm) tranne chi sta sotto il fondo (suolo, appoggio)
+                var ristretto = new Vector3(Mathf.Max(0.01f, b.extents.x - 0.02f), Mathf.Max(0.01f, b.extents.y - 0.02f), Mathf.Max(0.01f, b.extents.z - 0.02f));
+                var dentro = new List<string>();
+                foreach (var c in Physics.OverlapBox(b.center, ristretto, Quaternion.identity, ~0, QueryTriggerInteraction.Ignore))
+                {
+                    if (c.transform.IsChildOf(h.transform)) continue;
+                    if (c.bounds.max.y <= fondo + 0.06f) continue;   // suolo o appoggio sotto l'oggetto
+                    dentro.Add(c.name);
+                }
+                Check(n + ": fuori dai collider dei muri", dentro.Count == 0, string.Join(",", dentro));
+
+                // foto ravvicinata dall'alto-davanti
+                Vector3 da = b.center + new Vector3(0.5f, 0.6f, -0.9f);
+                RaycastHit lh;
+                if (Physics.Linecast(b.center, da, out lh, ~0, QueryTriggerInteraction.Ignore)) da = b.center + new Vector3(0f, 1.4f, 0.01f);
+                yield return Scatta(id + "_raccoglibile_" + h.item.id, da, b.center, 50f);
+            }
         }
 
         IEnumerator Documenti()
