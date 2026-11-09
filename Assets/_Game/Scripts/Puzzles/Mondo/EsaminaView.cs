@@ -20,7 +20,7 @@ namespace TrenoBambini.Puzzles
     /// Meccanismi: oggetto (azioni sui pezzi e sequenza di eventi), ruote (lucchetto/calendario a cifre), deduzione (scarpe dei passanti), documenti (leggere e indicare la riga).
     /// Errore = messaggio gentile e riprova; Indizio a tre livelli; Esc per uscire. Con tastiera: Tab sceglie la parte, Invio la usa, frecce ruotano.
     /// </summary>
-    public class EsaminaView : MonoBehaviour
+    public partial class EsaminaView : MonoBehaviour
     {
         public static EsaminaView Current { get; private set; }
 
@@ -119,6 +119,7 @@ namespace TrenoBambini.Puzzles
             string mec = Meccanismo(def);
             if (mec == "ruote") BuildRuote();
             if (mec == "deduzione") BuildDeduzione();
+            BuildStracci(mec); // R012: tessuti, bilancia, monete
 
             // luci: una calda dall'alto a sinistra e una di riempimento, solo per questa vista
             var lk = new GameObject("Luce");
@@ -249,6 +250,7 @@ namespace TrenoBambini.Puzzles
             string mec = Meccanismo(def);
             if (mec == "deduzione") BuildDeduzioneUi();
             if (mec == "documenti") BuildDocumentiUi();
+            BuildStracciUi(mec); // R012
         }
 
         // ------------------------------------------------------------------ ruote
@@ -506,6 +508,7 @@ namespace TrenoBambini.Puzzles
                 if (!docs && kb.upArrowKey.isPressed) pitch = Mathf.Clamp(pitch + 50f * Time.unscaledDeltaTime, -35f, 45f);
                 if (!docs && kb.downArrowKey.isPressed) pitch = Mathf.Clamp(pitch - 50f * Time.unscaledDeltaTime, -35f, 45f);
                 if (!docs && kb.tabKey.wasPressedThisFrame) CiclaFocus(kb.shiftKey.isPressed ? -1 : 1);
+                if (!solved && kb.cKey.wasPressedThisFrame) ConfermaStracci();
                 bool invio = kb.enterKey.wasPressedThisFrame || kb.numpadEnterKey.wasPressedThisFrame || kb.spaceKey.wasPressedThisFrame;
                 if (solved) { if (invio && actionBtn.gameObject.activeSelf) { Finito(); return; } }
                 else if (Meccanismo(def) == "documenti")
@@ -710,6 +713,7 @@ namespace TrenoBambini.Puzzles
         void Usa(Run r, RaycastHit hit)
         {
             var d = r.d;
+            if (UsaStracci(r)) return; // R012: strumenti del tessuto, pesi, monete
             if (d.azione == "ruota_cifra")
             {
                 int dir = 1;
@@ -733,14 +737,14 @@ namespace TrenoBambini.Puzzles
             if (!string.IsNullOrEmpty(d.richiede))
             {
                 // inventario attivo: serve l'oggetto giusto in mano
-                if (!MondoStato.Ha(d.richiede))
+                if (!HaUno(d.richiede))
                 {
                     Info(!string.IsNullOrEmpty(d.msg) ? d.msg : T.serveQualcosa);
                     return;
                 }
-                if (inMano != d.richiede)
+                if (!Accetta(d.richiede, inMano))
                 {
-                    if (!string.IsNullOrEmpty(inMano) && d.azione == "usa") { Wrong(string.Format(T.nonCalzaNome, MondoStato.Nome(inMano))); return; }
+                    if (!string.IsNullOrEmpty(inMano) && d.azione == "usa") { Wrong(!string.IsNullOrEmpty(d.errore) ? d.errore : string.Format(T.nonCalzaNome, MondoStato.Nome(inMano))); return; }
                     if (string.IsNullOrEmpty(inMano) && d.azione == "usa") { Info(T.prendiPrimaGiusto); return; }
                 }
             }
@@ -829,15 +833,16 @@ namespace TrenoBambini.Puzzles
                     Registra(Ev(d));
                     break;
                 case "usa":
-                    if (!string.IsNullOrEmpty(d.richiede) && inMano != d.richiede) { Wrong(T.nonCalza); break; }
+                    if (!string.IsNullOrEmpty(d.richiede) && !Accetta(d.richiede, inMano)) { Wrong(!string.IsNullOrEmpty(d.errore) ? d.errore : T.nonCalza); break; }
                     UISfx.Play(Sfx.Chime, 0.4f);
-                    if (!string.IsNullOrEmpty(d.richiede) && d.richiede == inMano) { fatti.Add("usato_" + d.richiede); }
+                    string usato = inMano;
+                    if (!string.IsNullOrEmpty(d.richiede) && !string.IsNullOrEmpty(inMano)) { fatti.Add("usato_" + inMano); }
                     inMano = null;
                     AggiornaMano();
                     Info(string.IsNullOrEmpty(d.msg) ? T.calza : d.msg);
                     Rivela(d.dopo, true);
                     r.stato = true;
-                    Registra(Ev(d));
+                    Registra(d.richiede != null && d.richiede.Contains(",") ? Ev(d) + ":" + usato : Ev(d)); // elenco di oggetti: un evento per ciascuno
                     break;
                 case "verifica":
                     if (Codice() == (def.codice ?? "")) { Info(string.IsNullOrEmpty(d.msg) ? T.lucchettoApre : d.msg); Rivela(d.dopo, true); Registra(Ev(d)); }
@@ -1004,10 +1009,16 @@ namespace TrenoBambini.Puzzles
             var candidati = new List<string>();
             foreach (var kv in run)
             {
-                var rq = kv.Value.d.richiede;
-                if (!string.IsNullOrEmpty(rq) && MondoStato.Ha(rq) && !candidati.Contains(rq) && !fatti.Contains("usato_" + rq)) candidati.Add(rq);
+                var rq0 = kv.Value.d.richiede;
+                if (string.IsNullOrEmpty(rq0)) continue;
+                foreach (var rq1 in rq0.Split(','))
+                {
+                    var rq = rq1.Trim();
+                    if (rq.Length > 0 && MondoStato.Ha(rq) && !candidati.Contains(rq) && !fatti.Contains("usato_" + rq)) candidati.Add(rq);
+                }
             }
             candidati.Sort();
+            if (candidati.Count > MaxMano) candidati.RemoveRange(MaxMano, candidati.Count - MaxMano); // R012: con molti pezzi (le ceste) se ne mostrano pochi alla volta
             manoLabel.text = candidati.Count > 0 ? T.manoLabel : "";
             foreach (var tok in candidati)
             {

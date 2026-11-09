@@ -68,6 +68,22 @@
         50
       ],
       "superficie": "ovattato"
+    },
+    {
+      "scena": "40_FB_Stracci",
+      "musica": "tema_amerigo_ricordo",
+      "ambiente": [
+        "ricordo_tono"
+      ],
+      "sparsi": [
+        "carretto",
+        "panni"
+      ],
+      "intervallo": [
+        10,
+        28
+      ],
+      "superficie": "ovattato"
     }
   ],
   "eventi": [

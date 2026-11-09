@@ -37,6 +37,18 @@
       "nome": "Narratore",
       "ritratto": "narratore",
       "colore": "#6B4E2E"
+    },
+    {
+      "id": "capa_e_fierro",
+      "nome": "Capa 'e fierro",
+      "ritratto": "capa_e_fierro",
+      "colore": "#6E5A3A"
+    },
+    {
+      "id": "donna_vicolo",
+      "nome": "Una donna del vicolo",
+      "ritratto": "",
+      "colore": "#8C5A4A"
     }
   ]
 }

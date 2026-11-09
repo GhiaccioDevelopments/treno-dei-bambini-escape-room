@@ -69,11 +69,26 @@ namespace TrenoBambini.Puzzles
                 var n = d.oggetti[i];
                 if (MondoStato.Ha(n.id)) { found++; continue; } // gia' nella borsa (partita ripresa)
                 // R024: modello vero (calz_<stile>), un po' piu' grande del vero per riconoscerlo da lontano; il fascio di luce lo fa notare senza aloni colorati
-                var go = MondoFab.Scarpa(new ParteDef { id = "Nascosto_" + n.id, testo = n.modello, x = n.x, y = n.y, z = n.z, rx = n.rx, ry = 20f * i + 15f, colore = n.colore, sx = 1.4f, sy = 1.4f, sz = 1.4f }, transform, false);
-                go.transform.position = new Vector3(n.x, n.y, n.z);
+                GameObject go;
+                bool straccio = !string.IsNullOrEmpty(n.modello) && n.modello.StartsWith("straccio");
+                if (straccio)
+                {
+                    // R012: pezzo di stoffa gettato a terra (due falde sovrapposte, colore del tessuto), piu' grande del vero per riconoscerlo da lontano
+                    go = new GameObject("Nascosto_" + n.id);
+                    go.transform.SetParent(transform, false);
+                    go.transform.position = new Vector3(n.x, n.y, n.z);
+                    go.transform.rotation = Quaternion.Euler(0f, 37f * i + 10f, 0f);
+                    MondoFab.Pezzo(new ParteDef { id = "falda_a", forma = "cubo", materiale = "stoffa", colore = n.colore, x = 0f, y = 0.015f, z = 0f, ry = 0f, sx = 0.5f, sy = 0.03f, sz = 0.38f }, go.transform, false);
+                    MondoFab.Pezzo(new ParteDef { id = "falda_b", forma = "cubo", materiale = "stoffa", colore = n.colore, x = 0.06f, y = 0.04f, z = 0.03f, ry = 24f, rz = 4f, sx = 0.36f, sy = 0.03f, sz = 0.3f }, go.transform, false);
+                }
+                else
+                {
+                    go = MondoFab.Scarpa(new ParteDef { id = "Nascosto_" + n.id, testo = n.modello, x = n.x, y = n.y, z = n.z, rx = n.rx, ry = 20f * i + 15f, colore = n.colore, sx = 1.4f, sy = 1.4f, sz = 1.4f }, transform, false);
+                    go.transform.position = new Vector3(n.x, n.y, n.z);
+                }
                 var bc = go.AddComponent<BoxCollider>();
                 bc.isTrigger = true; // non blocca il player
-                bc.center = new Vector3(0f, 0.06f, 0f); bc.size = new Vector3(0.5f, 0.25f, 0.35f);
+                bc.center = new Vector3(0f, 0.06f, 0f); bc.size = straccio ? new Vector3(0.6f, 0.25f, 0.5f) : new Vector3(0.5f, 0.25f, 0.35f);
                 var lg = new GameObject("Luce");
                 lg.transform.SetParent(go.transform, false);
                 lg.transform.position = go.transform.position + new Vector3(0.15f, 1.1f, -0.4f);

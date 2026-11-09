@@ -270,6 +270,13 @@ namespace TrenoBambini.Core
                 s.ritornoSpawn = "oggetto_" + oggettoId;
             }
             SaveGame();
+            // R012: cutscene d'ingresso (una volta sola, mai quando si rivive il ricordo); la chiusura e' "cutscene" e parte al ritorno
+            if (!Rivivendo && o != null && !string.IsNullOrEmpty(o.cutsceneIngresso) && UIRoot.I != null && UIRoot.I.Cutscene != null && !s.cutsceneViste.Contains(o.cutsceneIngresso + "#ingresso"))
+            {
+                string scenaF = f.scena;
+                UIRoot.I.Cutscene.Play(o.cutsceneIngresso, () => SceneLoader.I.Load(scenaF, "inizio", TransitionStyle.Ricordo), "ingresso");
+                return;
+            }
             SceneLoader.I.Load(f.scena, "inizio", TransitionStyle.Ricordo);
         }
 
@@ -286,7 +293,7 @@ namespace TrenoBambini.Core
 
             string cutsceneId = o != null ? o.cutscene : null;
             if (!string.IsNullOrEmpty(cutsceneId) && UIRoot.I != null && UIRoot.I.Cutscene != null)
-                UIRoot.I.Cutscene.Play(cutsceneId, ReturnFromFlashback);
+                UIRoot.I.Cutscene.Play(cutsceneId, ReturnFromFlashback, string.IsNullOrEmpty(o.cutsceneIngresso) ? null : "chiusura");
             else
                 ReturnFromFlashback();
         }

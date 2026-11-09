@@ -16,6 +16,8 @@ namespace TrenoBambini.Data
         public string aperturaMsg;      // R020: messaggio la prima volta che la porta si apre con i gettoni
         public string bypassOggetto;    // R020: se questo oggetto e' gia' nell'inventario la porta non chiede i gettoni (salvataggi avanzati)
         public bool aperto;
+        public string sbloccatoDa;      // R012: id di un oggetto: se e' nella latta il luogo risulta sbloccato (anche senza scena: si mostra sbloccatoMsg)
+        public string sbloccatoMsg;     // R012: messaggio quando il luogo e' sbloccato ma la sua scena non esiste ancora
     }
 
     [Serializable] public class OggettiFile { public List<OggettoDef> oggetti = new List<OggettoDef>(); }
@@ -25,6 +27,18 @@ namespace TrenoBambini.Data
         public string id; public string nome; public string descrizione; public string significato;
         public string temaCivico; public string icona; public string flashback; public string cutscene; public string luogo;
         public string modello; // R023: prefab in Resources/Modelli/<modello> mostrato in 3D nella latta (vuoto = solo l'icona)
+        public string cutsceneIngresso; // R012: cutscene (id) che parte prima di entrare nel ricordo (non quando lo si rivive)
+        public IngressoDef ingresso;    // R012: oggetto d'ingresso creato a runtime in una scena (es. il fagotto di stracci nel cortile del basso)
+    }
+
+    /// <summary>R012: oggetto-ricordo che compare in una scena gia' costruita (nessuna ricostruzione della scena): pezzi di primitive come negli enigmi.</summary>
+    [Serializable]
+    public class IngressoDef
+    {
+        public string scena; public float x, y, z, yaw = 0f;
+        public string richiedeFlashback;  // l'oggetto compare solo dopo che questo flashback e' stato completato
+        public string prompt;
+        public List<ParteDef> parti = new List<ParteDef>();
     }
 
     [Serializable] public class PersonaggiFile { public List<PersonaggioDef> personaggi = new List<PersonaggioDef>(); }
@@ -97,6 +111,10 @@ namespace TrenoBambini.Data
         public float dx, dy, dz;
         public string segreto;               // R011: id del segreto che si trova risolvendo questo enigma
         public string completoMsg;           // nascosto: testo aggiunto quando tutti gli oggetti sono trovati
+        public List<string> strumenti = new List<string>();   // R012 tessuti: etichette dei quattro strumenti (controluce, filo, spessore, etichetta); monete: [pulsante]
+        public List<string> diritti = new List<string>();     // R012 colonne: terza colonna (i diritti di oggi)
+        public List<RigaTreDef> righe = new List<RigaTreDef>(); // R012 colonne: oggetto, mestiere e diritto giusti per ogni riga
+        public float squilibrio;             // R012 bilancia: grammi in piu' sul piatto sinistro finche' il chiodo e' sotto il piatto
         public string finale;                // se valorizzato (nella scena l'oggetto-ricordo con questo id resta nascosto finche' l'enigma non e' risolto), alla soluzione parte il ricordo di questo oggetto (es. "scarpe")
     }
 
@@ -130,6 +148,7 @@ namespace TrenoBambini.Data
         public string font = "";              // scritte: "" = caratteri da stampa d'epoca, "mano" = scrittura a mano (matita, gesso)
         public string genitore = "";          // id di un altro pezzo: questo ne diventa figlio (posizione locale rispetto al genitore)
         public string bersaglio = "";          // id del pezzo su cui agisce gira/ruota/muovi (vuoto = questo)
+        public string errore = "";             // R012: messaggio gentile se l'oggetto in mano non e' quello giusto (usa con elenco di oggetti in richiede)
         public string quando = "";             // il pezzo compare quando questo evento e' accettato ("risolto" = a enigma risolto)
     }
 
@@ -143,7 +162,10 @@ namespace TrenoBambini.Data
         public string mestiere;   // soluzione (uno dei mestieri dell'enigma)
         public string colore = "#3b2d22";
         public string abito = "#5a4a3a";
+        public string controluce, filo, spessore; // R012 tessuti: che cosa si vede/sente con ciascuna prova
     }
+
+    [Serializable] public class RigaTreDef { public string oggetto, mestiere, diritto, nota; }
 
     [Serializable] public class DocumentoDef { public string id, titolo; public List<string> righe = new List<string>(); }
 
