@@ -51,7 +51,7 @@
 
 ## 6. Criteri di accettazione
 - [x] Minimappa d'epoca in alto a sinistra in hub, basso e flashback, con i nomi delle strade.
-- [x] Il prossimo punto da interagire è segnato correttamente lungo tutto il capitolo "Le scarpe" (prova completa: `-mappatest`, 175 PASS).
+- [x] Il prossimo punto da interagire è segnato correttamente lungo tutto il capitolo "Le scarpe" (prova completa: `-mappatest`, 212 PASS).
 - [x] Tasto M (e pulsante touch) per la mappa grande; modalità di aiuto e interruttore nelle Impostazioni.
 - [x] Testi solo in JSON; schema aggiornato in CLAUDE.md; console pulita; nessun calo di FPS in Windows (misurato). **WebGL non costruita né misurata** (su richiesta): da provare alla prossima build.
 
@@ -75,7 +75,7 @@
 - Schema `mappe.json` documentato in `CLAUDE.md`; crediti in `CREDITS.md`; l'override texture WebGL non tocca le piante (`WebGLBuilder`: restano a 1024 px, senza crunch).
 
 ### Prove
-- **`-mappatest`** (nuovo, `Scripts/Mappa/MappaSelfTest.cs`, solo editor e build di sviluppo): **175 PASS, 0 FAIL** sulla build Windows di sviluppo (log in `media/R019/prova_mappa_build_windows.txt`; "4 URP assets included in build"). Percorre il capitolo: a ogni tappa (bucato, ex-voto, foto, calendario, cassetta, baule, passanti, nascosto, quiz, ordina, lucchetto, capitolo finito) controlla l'obiettivo corrente, il punto nella scena giusta (nell'hub dopo l'ex-voto è la porta del basso), la X vicina o la freccia sul bordo lontano, la riga, la targa della strada; le tre modalità di aiuto (Normale: nascosto, Indizio, 3 minuti, azzeramento al progresso); M apre/chiude, Esc chiude senza aprire la pausa; zoom; nord fisso; minimappa spenta; Impostazioni > Gioco; salvataggio e vecchi salvataggi; dati (area, immagini, glifi, ogni gettone di `completo` è un enigma vero).
+- **`-mappatest`** (nuovo, `Scripts/Mappa/MappaSelfTest.cs`, solo editor e build di sviluppo): **212 PASS, 0 FAIL** sulla build Windows di sviluppo (log in `media/R019/prova_mappa_build_windows.txt`; "4 URP assets included in build"). Percorre il capitolo: a ogni tappa (bucato, ex-voto, foto, calendario, cassetta, baule, passanti, nascosto, quiz, ordina, lucchetto, capitolo finito) controlla l'obiettivo corrente, il punto nella scena giusta (nell'hub dopo l'ex-voto è la porta del basso), la X vicina o la freccia sul bordo lontano, la riga, la targa della strada; le tre modalità di aiuto (Normale: nascosto, Indizio, 3 minuti, azzeramento al progresso); M apre/chiude, Esc chiude senza aprire la pausa; zoom; nord fisso; minimappa spenta; Impostazioni > Gioco; salvataggio e vecchi salvataggi; dati (area, immagini, glifi, ogni gettone di `completo` è un enigma vero).
 - **`-enigmitest`**: **189 PASS, 0 FAIL** sulla stessa build (con la minimappa).
 - **`-menutest`**: **31 PASS, 0 FAIL** (dopo aver rimesso un salvataggio neutro nell'archivio della build: vedi Note di metodo).
 - Console dell'editor pulita dopo ogni passo.
@@ -84,6 +84,17 @@
 
 ### Screenshot (`media/R019/`, 1280x720 JPG)
 `minimappa_hub_normale` (obiettivo nascosto) · `minimappa_hub_guidata_lontano` (freccia sul bordo) · `minimappa_hub_guidata_vicino` (X rossa) · `minimappa_basso` · `minimappa_ricordo` · `mappa_grande_hub` · `mappa_grande_hub_zoom` · `mappa_grande_basso` · `mappa_grande_ricordo` · `impostazioni_gioco`.
+
+### Correzioni dalla review (2026-11-09)
+- **Salvataggi vecchi**: `ObiettivoDef.capitolo` (dato in `mappe.json`, es. `flashback_scarpe`): se il flashback e' in `flashbackCompletati` il passo non e' piu' un obiettivo, anche senza i gettoni degli enigmi. `Obiettivi.Corrente()` torna null e la mappa dice che il capitolo e' finito. Nessun id nel codice. Prova: scarpe nell'inventario + ricordo completato senza gettoni -> nessun obiettivo.
+- **Passi del ricordo fuori dal ricordo**: `ob_passanti`, `ob_nascosto`, `ob_quiz`, `ob_ordina`, `ob_lucchetto` hanno ora un punto nel basso (X sul baule, "Riprendi le scarpe nel baule") e nell'hub (porta del basso). Prova sul passo dopo l'apertura del baule.
+- **Screenshot slavati**: la cattura veniva ricodificata in sRGB due volte (Blit in un RenderTexture sRGB). Ora il RT e' `RenderTextureReadWrite.Linear` in `MappaSelfTest` e in `EnigmiSelfTest` (stesso difetto; `MenuSelfTest` usa `CaptureScreenshot` e non ce l'ha). Tutti gli screenshot R019 rifatti dalla build Windows e riguardati: colori giusti, minimappa leggibile.
+- **Solo gamepad**: senza tastiera Select apre/chiude la mappa e B la chiude (`UIRoot.UpdateSoloGamepad`). Prova con tastiere rimosse e un gamepad virtuale.
+- `-senzaminimappa` letto una volta sola (cache statica).
+- `raggioArrivo` ora e' usato: arrivati sul punto la X si spegne (prova). Tolti i testi inutilizzati `tuoiPassi`, `viaFmt`, `luogoChiuso` e `mappaImp.scheda`; il nome della scheda "Gioco" resta nel codice come quello delle altre schede (i nomi sono in `GraphicsOptions.Gruppi`, riscriverli per tutte esula da R019).
+- **Biglietto degli enigmi**: sta accanto alla minimappa, torna all'angolo se la minimappa e' spenta o la scena non ha pianta (prova).
+- **"Ripristina predefiniti"** nascosto nella scheda Gioco (vale solo per la grafica; prova).
+- Prove sulla build Windows rifatta (4 URP assets): `-mappatest` 212 PASS, `-enigmitest` 189 PASS, `-menutest` 31 PASS.
 
 ### Scostamenti
 - I **nomi dei vicoli sono scritti in orizzontale** sui cartellini, non lungo l'andamento delle strade (sulla pianta che ruota restano leggibili). Compaiono vicino al giocatore (minimappa) o tutti, se c'è posto (mappa grande, con zoom).

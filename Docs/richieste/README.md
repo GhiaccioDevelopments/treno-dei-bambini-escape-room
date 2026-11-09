@@ -51,7 +51,7 @@ MCP for Unity) le implementa. Le due sessioni non si parlano: comunicano **solo 
 | R016 | Il finale nel 1994 | aperta, PR #18 (dopo R015) |
 | R017 | Mappe pulite: niente sfarfallii né buchi sul vuoto | integrata in `feature/upgrade-realistico` (7/11), PR #19 |
 | R018 | Telecamera robusta: mai dentro gli edifici né sul vuoto | integrata in `feature/upgrade-realistico` (8/11), PR #20 |
-| R019 | Minimappa d'epoca con prossimo obiettivo e nomi dei vicoli | implementata su `richiesta/R019-minimappa-vicoli` (2026-11-09): 175 PASS in build, PR #21, in prova |
+| R019 | Minimappa d'epoca con prossimo obiettivo e nomi dei vicoli | implementata su `richiesta/R019-minimappa-vicoli` (2026-11-09): 212 PASS in build, PR #21, in prova |
 | R020 | Enigmi d'autore in ogni stanza (quadri, codici, trama) | integrata (2026-11-09): enigmi nel mondo, modelli veri, 189 PASS in build, PR #22 |
 | R021 | Grafica realistica con identità unica (pellicola neorealista) | fusa in R007 e integrata (8/11), PR #23 chiusa |
 | R022 | Corsa corretta: personaggio dritto, gamba sinistra | integrata in `feature/upgrade-realistico` (7/11), PR #24 |
