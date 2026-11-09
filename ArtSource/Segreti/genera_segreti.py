@@ -86,15 +86,11 @@ def segreto(id, scena, tipo, nome, scheda, ordine, punto, ricompensa="", dx=0, d
 
 # ----------------------------------------------------------------------------- modelli dei collezionabili (primitive, pochissimi poligoni)
 def cartolina():
-    return [parte("cartone", "cubo", "carta", "#d6c8a2", 0, 0.003, 0, 0.15, 0.004, 0.10),
-            parte("mare", "cubo", "carta", "#6d8791", 0, 0.0056, 0.004, 0.125, 0.0016, 0.07),
-            parte("vulcano", "cubo", "carta", "#4a4038", 0.02, 0.0066, 0.01, 0.03, 0.0016, 0.03, ry=45)]
+    return [parte("cartone", "cubo", "tex:cartolina", "", 0, 0.003, 0, 0.15, 0.004, 0.10)]
 
 
 def carta_napoletana():
-    return [parte("carta", "cubo", "carta", "#e6d9b4", 0, 0.002, 0, 0.075, 0.003, 0.125),
-            parte("denaro", "cilindro", "ottone", "#c79b32", 0, 0.0045, 0, 0.04, 0.0012, 0.04),
-            testo_piano("sette", "7", 0.03, 0, 0.0055, -0.045, "#7a2a20", 0.05, 0.04)]
+    return [parte("carta", "cubo", "tex:settebello", "", 0, 0.002, 0, 0.075, 0.003, 0.125)]
 
 
 def trottola():
@@ -105,16 +101,11 @@ def trottola():
 
 
 def banconota_am():
-    return [parte("biglietto", "cubo", "carta", "#b7c29a", 0, 0.002, 0, 0.16, 0.003, 0.075),
-            parte("bordo", "cubo", "carta", "#8f9a76", 0, 0.0035, 0, 0.145, 0.001, 0.06),
-            testo_piano("taglio", "10 LIRE", 0.012, 0, 0.005, 0, "#2f3a24", 0.13, 0.05, font="")]
+    return [parte("biglietto", "cubo", "tex:amlire", "", 0, 0.002, 0, 0.16, 0.003, 0.075)]
 
 
 def ritaglio():
-    righe = "PARTONO I BAMBINI\n16 dicembre 1945: il primo treno..."
-    return [parte("foglio", "cubo", "carta", "#cdbf9b", 0, 0.002, 0, 0.12, 0.003, 0.16, ry=8),
-            testo_piano("titolo", "PARTONO I BAMBINI", 0.0095, 0, 0.0045, 0.05, "#2a2218", 0.11, 0.03, font=""),
-            parte("colonna", "cubo", "carta", "#8f836a", 0, 0.004, -0.02, 0.095, 0.0008, 0.07)]
+    return [parte("foglio", "cubo", "tex:ritaglio", "", 0, 0.002, 0, 0.12, 0.003, 0.15, ry=8)]
 
 
 def santino():
@@ -130,8 +121,11 @@ def ditale():
 
 
 def bottone_ferro(col="#585858"):
-    return [parte("disco", "cilindro", "metallo", col, 0, 0.004, 0, 0.032, 0.004, 0.032),
-            parte("incavo", "cilindro", "metallo", "#2c2c2c", 0, 0.0082, 0, 0.02, 0.0006, 0.02)]
+    p = [parte("disco", "cilindro", "metallo", col, 0, 0.004, 0, 0.032, 0.004, 0.032),
+         parte("rilievo", "cilindro", "metallo", "#6a6a6a", 0, 0.0085, 0, 0.026, 0.0012, 0.026)]
+    for i, (fx, fz) in enumerate(((-0.0045, -0.0045), (0.0045, -0.0045), (-0.0045, 0.0045), (0.0045, 0.0045))):
+        p.append(parte("foro%d" % i, "cilindro", "metallo", "#1c1c1c", fx, 0.0099, fz, 0.0042, 0.0004, 0.0042))
+    return p
 
 
 def biglia():
@@ -152,8 +146,7 @@ def pallone_stracci():
 
 
 def biglietto_spesa():
-    return [parte("foglio", "cubo", "carta", "#d4c59e", 0, 0.002, 0, 0.10, 0.003, 0.14, ry=-6),
-            testo_piano("lista", "SCARPE\n6 - 7 - 8\nCOLOMBA\nPEPPINO", 0.007, 0, 0.0042, 0, "#3a3a46", 0.09, 0.12)]
+    return [parte("foglio", "cubo", "tex:listaspesa", "", 0, 0.002, 0, 0.10, 0.003, 0.125, ry=-6)]
 
 
 def uovo_paglia():
@@ -167,6 +160,25 @@ def materassino():
     return [parte("rotolo", "cilindro", "stoffa", "#8d7b5d", 0, 0.1, 0, 0.2, 0.3, 0.2, rz=90),
             parte("fascia1", "cilindro", "stoffa", "#5a4a38", -0.1, 0.1, 0, 0.206, 0.012, 0.206, rz=90),
             parte("fascia2", "cilindro", "stoffa", "#5a4a38", 0.1, 0.1, 0, 0.206, 0.012, 0.206, rz=90)]
+
+
+def nicchia():
+    """Fondo di tufo con filari di mattoni, ombra finta in alto e ai lati, stipiti e architrave di pietra."""
+    p = [parte("fondo", "cubo", "pietra", "#8a7358", 0.0, 0.55, 0.0, 0.04, 1.1, 0.8)]
+    for i in range(7):  # filari
+        p.append(parte("filare%d" % i, "cubo", "pietra", "#5a4733", -0.022, 0.08 + i * 0.15, 0.0, 0.006, 0.012, 0.8))
+        for k in range(3):  # giunti verticali sfalsati
+            p.append(parte("giunto%d_%d" % (i, k), "cubo", "pietra", "#5a4733", -0.022, 0.155 + i * 0.15, -0.28 + k * 0.28 + (0.14 if i % 2 else 0), 0.006, 0.14, 0.012))
+    p += [parte("ombra_alto", "cubo", "pietra", "#241a12", -0.026, 1.02, 0.0, 0.008, 0.16, 0.8),
+          parte("ombra_sx", "cubo", "pietra", "#2a1e15", -0.026, 0.5, -0.33, 0.008, 1.0, 0.14),
+          parte("ombra_dx", "cubo", "pietra", "#2a1e15", -0.026, 0.5, 0.33, 0.008, 1.0, 0.14),
+          parte("stipite_a", "cubo", "pietra", "#8a7a64", 0.0, 0.55, -0.42, 0.07, 1.14, 0.06),
+          parte("stipite_b", "cubo", "pietra", "#8a7a64", 0.0, 0.55, 0.42, 0.07, 1.14, 0.06),
+          parte("architrave", "cubo", "pietra", "#8a7a64", 0.0, 1.12, 0.0, 0.07, 0.06, 0.92)]
+    return p
+
+
+NICCHIA = nicchia()
 
 
 def graffi():
@@ -190,16 +202,8 @@ GRAFFI = graffi()
 
 
 def biglietto(simbolo):
-    p = [parte("carta", "cubo", "carta", "#d9ca9f", 0, 0.002, 0, 0.12, 0.003, 0.08)]
-    if simbolo == "scarpa":
-        p.append(parte("segno", "scarpa", "", "#3a2c20", -0.01, 0.0045, 0, 0.2, 0.2, 0.2, testo="lucide", ry=0))
-    elif simbolo == "mela":
-        p.append(parte("segno", "sfera", "stoffa", "#9c2f26", 0, 0.012, 0, 0.032, 0.03, 0.032))
-        p.append(parte("picciolo", "cilindro", "legno", "#3a2c1c", 0, 0.03, 0, 0.004, 0.006, 0.004))
-    else:
-        p.append(parte("segno", "cubo", "metallo", "#262626", 0, 0.01, 0, 0.07, 0.014, 0.022))
-        p.append(parte("camino", "cilindro", "metallo", "#262626", -0.024, 0.026, 0, 0.012, 0.01, 0.012))
-    return p
+    nome = {"scarpa": "bigliettoscarpa", "mela": "bigliettomela", "treno": "bigliettotreno"}[simbolo]
+    return [parte("carta", "cubo", "tex:" + nome, "", 0, 0.002, 0, 0.12, 0.003, 0.09)]
 
 
 # ----------------------------------------------------------------------------- testi
@@ -266,7 +270,7 @@ SEGRETI += [
             4, "Pozzo del cortile C1"),
     segreto("hub_amlire", HUB, "collezionabile", "Una banconota AM-lire",
             "Dal 1943 le truppe alleate misero in circolazione in Italia banconote proprie, le AM-lire (Allied Military Currency). Nel Sud circolavano "
-            "insieme alle lire italiane. Ripiegata in una nicchia: qualcuno nascondeva i risparmi dove poteva.",
+            "insieme alle lire italiane. Il fregio è fitto di rosoni e righe sottili, e non porta nessuna cifra leggibile. Ripiegata in una nicchia: qualcuno nascondeva i risparmi dove poteva.",
             5, "Sotto il grande arco"),
     segreto("hub_ritaglio", HUB, "collezionabile", "Ritaglio: partono i bambini",
             "Un ritaglio scritto alla maniera dei giornali di allora (il testo è nostro): racconta il primo convoglio del 16 dicembre 1945, da Milano a Reggio Emilia, "
@@ -286,17 +290,16 @@ PEZZI += [
     pezzo("bigl_mela", HUB, "Edicola piccola (traversa T5)", biglietto("mela"), "indizio", prompt="Un biglietto fra i fiori", titolo="Un biglietto fra i fiori", appoggio="fisso", dx=-0.25, dy=1.203, dz=-1.0,
           msg="Un biglietto piegato in quattro, nascosto dietro il lumino. Sopra, una mela disegnata a carboncino e due righe:\n\n«POI LA MELA\nrossa sul davanzale.»",
           scala=1.5, raggio=0.4),
-    pezzo("bigl_treno", HUB, "Edicola votiva grande", biglietto("treno"), "indizio", prompt="Un biglietto fra i fiori", titolo="Un biglietto fra i fiori", appoggio="fisso", dx=-0.5, dy=0.978, dz=-0.95,
-          msg="Un biglietto piegato in quattro, sotto i fiori ai piedi della Madonna. Sopra, un trenino disegnato a carboncino e due righe:\n\n«E ALLA FINE IL TRENO\nche parte all'alba.»",
+    pezzo("bigl_treno", HUB, "Edicola votiva grande", biglietto("treno"), "indizio", prompt="Un biglietto fra i fiori", titolo="Un biglietto fra i fiori", appoggio="suolo", dx=-0.25, dy=0.0, dz=-1.6,
+          msg="Un biglietto piegato in quattro, caduto fra i fiori secchi ai piedi dell'edicola grande. Sopra, un trenino disegnato a carboncino e due righe:\n\n«E ALLA FINE IL TRENO\nche parte all'alba.»",
           scala=1.5, raggio=0.4),
     pezzo("hub_cartolina", HUB, "Valigie dimenticate al largo della stazione", cartolina(), "raccogli", "hub_cartolina", "Una cartolina", dx=0.3, scala=1.6),
     pezzo("hub_settebello", HUB, "Tavolo da gioco del cortile C3", carta_napoletana(), "raccogli", "hub_settebello", "Una carta per terra", dx=0.2, scala=1.8, raggio=0.4),
-    pezzo("hub_trottola", HUB, "Pozzo del cortile C1", trottola(), "raccogli", "hub_trottola", "Una trottola", dx=0.55, scala=1.5),
+    pezzo("hub_trottola", HUB, "Pozzo del cortile C1", trottola(), "raccogli", "hub_trottola", "Una trottola", dx=1.05, scala=1.5),
     pezzo("hub_amlire", HUB, "Sotto il grande arco", banconota_am(), "raccogli", "hub_amlire", "Una banconota ripiegata", dx=-0.4, scala=1.6),
     pezzo("hub_ritaglio", HUB, "Dietro le macerie del lotto", ritaglio(), "raccogli", "hub_ritaglio", "Un ritaglio di giornale", dx=-1.5, dz=3.8, scala=1.6,
           msg="PARTONO I BAMBINI\n\nIl 16 dicembre 1945 un treno carico di bambini lascia Milano e arriva a Reggio Emilia: sono circa 1.800. "
-              "È il primo dei «treni della felicità». Negli anni seguenti circa 70.000 bambini del Sud e del Centro viaggeranno verso le famiglie del Nord. "
-              "A Napoli un Comitato per la salvezza dei bambini lavora per preparare le partenze."),
+              "È il primo dei «treni della felicità». A Napoli un Comitato per la salvezza dei bambini prepara le partenze."),
 ]
 ENIGMI.append({
     "id": "enigma_portella", "tipo": "oggetto", "titolo": "La portella del sottoscala", "meccanismo": "oggetto", "scena": HUB, "segreto": "hub_edicole",
@@ -363,23 +366,20 @@ SEGRETI += [
 PEZZI += [
     pezzo("basso_santino", BASSO, "Retro della tenda dell'alcova", santino(), "raccogli", "basso_santino", "Un santino appuntato", appoggio="fisso", dx=-0.35, dy=0.15, dz=-0.165, rx=-90, scala=1.8, raggio=0.45),
     pezzo("basso_mattonella", BASSO, "Mattonella sconnessa sotto il tavolo",
-          [parte("lastra", "cubo", "pietra", "#8a4a2e", 0, 0.008, 0, 0.30, 0.016, 0.30, ry=2)],
+          [parte("sporco", "cubo", "pietra", "#241812", 0, 0.002, 0, 0.318, 0.004, 0.318, ry=2),
+           parte("lastra", "cubo", "pietra", "#6e3428", 0, 0.007, 0, 0.30, 0.008, 0.30, ry=2),
+           parte("crepa", "cubo", "pietra", "#2c1c16", 0.03, 0.0115, 0.02, 0.1, 0.001, 0.004, ry=35)],
           "apri", "", "Una mattonella sollevata", msg="La mattonella è sciolta: sotto c'è una piccola cavità.", raggio=0.4, appoggio="suolo"),
     pezzo("basso_ditale", BASSO, "Mattonella sconnessa sotto il tavolo", ditale(), "raccogli", "basso_ditale", "Un ditale", appare=["basso_mattonella"], scala=1.8, raggio=0.4),
     pezzo("basso_bottone", BASSO, "Pentole appese della cucina", bottone_ferro(), "raccogli", "basso_bottone", "Un bottone sotto le pentole", dx=-0.25, dy=-1.6, dz=0.85, scala=1.8, raggio=0.4),
     pezzo("basso_biglia", BASSO, "Lavatoio del cortile", biglia(), "raccogli", "basso_biglia", "Una biglia", dx=-0.15, dy=-0.5, dz=-1.45, scala=1.8, raggio=0.4),
     # graffi a semicerchio sul pavimento, davanti alla credenza: la credenza e' stata spostata tante volte
     pezzo("basso_graffi", BASSO, "Credenza della stanza principale", GRAFFI, "decoro", dy=-1.0, appoggio="suolo"),
-    pezzo("basso_nicchia", BASSO, "Credenza della stanza principale",
-          [parte("fondo", "cubo", "pietra", "#15110d", 0.0, 0.55, 0.0, 0.04, 1.1, 0.8),
-           parte("stipite_a", "cubo", "pietra", "#8a7a64", 0.0, 0.55, -0.42, 0.07, 1.14, 0.06),
-           parte("stipite_b", "cubo", "pietra", "#8a7a64", 0.0, 0.55, 0.42, 0.07, 1.14, 0.06),
-           parte("architrave", "cubo", "pietra", "#8a7a64", 0.0, 1.12, 0.0, 0.07, 0.06, 0.92)],
-          "decoro", dx=-0.17, dy=-1.0, dz=0.2, appoggio="fisso", appare=["enigma_ripostiglio"]),
+    pezzo("basso_nicchia", BASSO, "Credenza della stanza principale", NICCHIA, "decoro", dx=-0.17, dy=-1.0, dz=0.2, appoggio="fisso", appare=["enigma_ripostiglio"]),
     pezzo("basso_materassino", BASSO, "Credenza della stanza principale", materassino(), "lettura", "", "Un materassino arrotolato", titolo="Il materassino",
           msg="Un materassino di crine, arrotolato e legato con lo spago, nascosto dietro la credenza. D'estate, quando nel basso faceva troppo caldo, Amerigo dormiva qui, "
               "in questo cantuccio di muro fresco. (Un'invenzione del gioco: il resto è storia vera.)",
-          dx=0.0, dy=-0.997, dz=0.25, appoggio="fisso", appare=["enigma_ripostiglio"], raggio=0.6),
+          dx=0.0, dy=-0.997, dz=0.25, appoggio="fisso", appare=["enigma_ripostiglio"], raggio=0.35),
     pezzo("basso_credenza_scorre", BASSO, "Credenza della stanza principale", [], "decoro", dx=0, dz=0, appoggio="fisso",
           scorri="enigma_ripostiglio", slide=(0.0, 0.0, -0.8), altro="Credenza,LampadaCredenza,FiammaLampada,SvegliaRotta"),
 ]
@@ -387,7 +387,7 @@ ENIGMI.append({
     "id": "enigma_ripostiglio", "tipo": "oggetto", "titolo": "I piatti della credenza", "meccanismo": "oggetto", "scena": BASSO, "segreto": "basso_ripostiglio",
     "consegna": "Sulla parete, fra il calendario e l'angolo, una mensola con tre piatti in piedi. Sul pavimento, davanti alla credenza, graffi a semicerchio: qualcuno l'ha spostata molte volte.",
     "temaCivico": "Le case dei bassi: come si viveva, e cosa si custodiva",
-    "punto": "Credenza della stanza principale", "dx": -0.17, "dy": 0.45, "dz": 1.55, "yaw": -90, "scala": 1.0, "distanza": 1.3, "inclina": 8,
+    "punto": "Credenza della stanza principale", "dx": -0.17, "dy": 0.45, "dz": 1.67, "yaw": -90, "scala": 1.0, "distanza": 1.3, "inclina": 8,
     "prompt": "i piatti sulla mensola", "soluzione": ["piatto_1", "piatto_2", "piatto_3", "leva"], "ordinata": False,
     "bloccatoMsg": "", "erroreMsg": "Niente da fare: il legno non si muove. Guarda meglio.", "indizi": [],
     "spiegazione": "Dietro i piatti il fondo della mensola è finto. Una leva di ferro, e un colpo secco: la credenza scivola via lungo i graffi e lascia scoperto un ripostiglio murato. "
@@ -395,21 +395,24 @@ ENIGMI.append({
     "scheda": "Nei bassi ogni angolo serviva: il ripostiglio murato racconta la fatica di far stare in poco spazio un'intera famiglia e quello che si voleva tenere al sicuro.",
     "appunto": "Un ripostiglio murato dietro la credenza: il materassino dove dormiva Amerigo d'estate.",
     "parti": [
-        parte("mensola", "cubo", "legno", "#4b3828", 0.0, -0.01, -0.06, 0.68, 0.03, 0.14),
-        parte("staffa_a", "cubo", "legno", "#3a2c20", -0.28, -0.05, -0.04, 0.03, 0.08, 0.1),
-        parte("staffa_b", "cubo", "legno", "#3a2c20", 0.28, -0.05, -0.04, 0.03, 0.08, 0.1),
-        parte("fondo", "cubo", "legno", "#3a2c20", 0.0, 0.25, 0.02, 0.68, 0.5, 0.02),
-        parte("asse_finta", "cubo", "legno", "#46362a", 0.0, 0.25, 0.008, 0.2, 0.46, 0.008),
+        parte("mensola", "cubo", "legno", "#4b3828", 0.0, -0.01, -0.06, 0.5, 0.03, 0.14),
+        parte("staffa_a", "cubo", "legno", "#3a2c20", -0.2, -0.05, -0.04, 0.03, 0.08, 0.1),
+        parte("staffa_b", "cubo", "legno", "#3a2c20", 0.2, -0.05, -0.04, 0.03, 0.08, 0.1),
+        parte("fondo", "cubo", "legno", "#3a2c20", 0.0, 0.25, 0.02, 0.5, 0.5, 0.02),
+        parte("asse_finta", "cubo", "legno", "#46362a", 0.0, 0.25, 0.008, 0.16, 0.46, 0.008),
         parte("gesso_croce", "cubo", "gesso", "#cfc7b0", 0.0, 0.25, 0.002, 0.05, 0.004, 0.003),
-        parte("piatto_1", "vuoto", "", "", -0.21, 0.1, -0.06, 0.18, 0.03, 0.18, rx=80, clic=True, azione="nascondi", evento="piatto_1", msg="Un piatto d'altri tempi, scheggiato sul bordo. Dietro, il legno suona un po' vuoto."),
-        parte("disco_1", "cilindro", "gesso", "#d9d6c8", 0.0, 0.0, 0.0, 0.18, 0.012, 0.18, genitore="piatto_1"),
-        parte("anello_1", "cilindro", "stoffa", "#3f5f86", 0.0, -0.007, 0.0, 0.12, 0.004, 0.12, genitore="piatto_1"),
-        parte("piatto_2", "vuoto", "", "", 0.0, 0.1, -0.06, 0.18, 0.03, 0.18, rx=80, clic=True, azione="nascondi", evento="piatto_2", msg="Anche questo è scheggiato. Pesa poco."),
-        parte("disco_2", "cilindro", "gesso", "#d9d6c8", 0.0, 0.0, 0.0, 0.18, 0.012, 0.18, genitore="piatto_2"),
-        parte("anello_2", "cilindro", "stoffa", "#3f5f86", 0.0, -0.007, 0.0, 0.12, 0.004, 0.12, genitore="piatto_2"),
-        parte("piatto_3", "vuoto", "", "", 0.21, 0.1, -0.06, 0.18, 0.03, 0.18, rx=80, clic=True, azione="nascondi", evento="piatto_3", msg="Ora la parete dietro è libera: c'è un'asse che sembra di un altro legno."),
-        parte("disco_3", "cilindro", "gesso", "#d9d6c8", 0.0, 0.0, 0.0, 0.18, 0.012, 0.18, genitore="piatto_3"),
-        parte("anello_3", "cilindro", "stoffa", "#3f5f86", 0.0, -0.007, 0.0, 0.12, 0.004, 0.12, genitore="piatto_3"),
+        parte("piatto_1", "vuoto", "", "", -0.155, 0.1, -0.06, 0.15, 0.03, 0.15, rx=80, clic=True, azione="nascondi", evento="piatto_1", msg="Un piatto d'altri tempi, scheggiato sul bordo. Dietro, il legno suona un po' vuoto."),
+        parte("bordo_1", "cilindro", "stoffa", "#3a5578", 0.0, 0.003, 0.0, 0.162, 0.006, 0.162, genitore="piatto_1"),
+        parte("disco_1", "cilindro", "gesso", "#d9d6c8", 0.0, 0.0, 0.0, 0.15, 0.012, 0.15, genitore="piatto_1"),
+        parte("anello_1", "cilindro", "stoffa", "#3f5f86", 0.0, -0.007, 0.0, 0.1, 0.004, 0.1, genitore="piatto_1"),
+        parte("piatto_2", "vuoto", "", "", 0.0, 0.1, -0.06, 0.15, 0.03, 0.15, rx=80, clic=True, azione="nascondi", evento="piatto_2", msg="Anche questo è scheggiato. Pesa poco."),
+        parte("bordo_2", "cilindro", "stoffa", "#3a5578", 0.0, 0.003, 0.0, 0.162, 0.006, 0.162, genitore="piatto_2"),
+        parte("disco_2", "cilindro", "gesso", "#d9d6c8", 0.0, 0.0, 0.0, 0.15, 0.012, 0.15, genitore="piatto_2"),
+        parte("anello_2", "cilindro", "stoffa", "#3f5f86", 0.0, -0.007, 0.0, 0.1, 0.004, 0.1, genitore="piatto_2"),
+        parte("piatto_3", "vuoto", "", "", 0.155, 0.1, -0.06, 0.15, 0.03, 0.15, rx=80, clic=True, azione="nascondi", evento="piatto_3", msg="Ora la parete dietro è libera: c'è un'asse che sembra di un altro legno."),
+        parte("bordo_3", "cilindro", "stoffa", "#3a5578", 0.0, 0.003, 0.0, 0.162, 0.006, 0.162, genitore="piatto_3"),
+        parte("disco_3", "cilindro", "gesso", "#d9d6c8", 0.0, 0.0, 0.0, 0.15, 0.012, 0.15, genitore="piatto_3"),
+        parte("anello_3", "cilindro", "stoffa", "#3f5f86", 0.0, -0.007, 0.0, 0.1, 0.004, 0.1, genitore="piatto_3"),
         parte("leva", "cilindro", "metallo", "#2d2a27", 0.0, 0.25, -0.02, 0.03, 0.05, 0.03, rx=90, clic=True, azione="gira", evento="leva", asse="y", nascosta=True, quando="piatto_3",
               msg="La leva cede con un colpo secco. Si sente la credenza muoversi, di là."),
     ],
@@ -451,8 +454,17 @@ PEZZI += [
     pezzo("ric_lista", RIC, "Cassa di frutta del fruttivendolo", biglietto_spesa(), "raccogli", "ric_lista", "Un biglietto sotto la verdura", appoggio="fisso", dy=0.225, scala=1.7, raggio=0.4),
     pezzo("ric_uovo", RIC, "Gabbie delle galline", uovo_paglia(), "raccogli", "ric_uovo", "Un uovo sotto la paglia", scala=1.5, raggio=0.4),
     pezzo("ric_bottone", RIC, "Manichino del sarto", moneta("#d2a93e", 0.026), "raccogli", "ric_bottone", "Un bottone dorato", appoggio="fisso", dx=0.28, dy=-0.4, dz=-0.15, rz=-90, scala=1.8, raggio=0.4),
+    pezzo("ric_cavita", RIC, "Fontanella della piazzetta",
+          [parte("buio", "cubo", "pietra", "#15130f", 0.0, 0.004, 0.0, 0.40, 0.008, 0.30),
+           parte("orlo_a", "cubo", "pietra", "#5a5347", 0.0, 0.012, -0.155, 0.43, 0.02, 0.025),
+           parte("orlo_b", "cubo", "pietra", "#5a5347", 0.0, 0.012, 0.155, 0.43, 0.02, 0.025),
+           parte("orlo_c", "cubo", "pietra", "#5a5347", -0.205, 0.012, 0.0, 0.025, 0.02, 0.28),
+           parte("orlo_d", "cubo", "pietra", "#5a5347", 0.205, 0.012, 0.0, 0.025, 0.02, 0.28)],
+          "decoro", appoggio="fisso", dy=0.0, dz=-1.6),
     pezzo("ric_pietra", RIC, "Fontanella della piazzetta",
-          [parte("pietra", "cubo", "pietra", "#6f675a", 0.0, 0.06, 0.0, 0.36, 0.12, 0.26, ry=3)],
+          [parte("pietra", "cubo", "pietra", "#6f675a", 0.0, 0.06, 0.0, 0.36, 0.10, 0.26, ry=3),
+           parte("smusso", "cubo", "pietra", "#7d7567", 0.0, 0.112, 0.0, 0.33, 0.014, 0.23, ry=3),
+           parte("segno", "cubo", "gesso", "#b9b3a2", 0.04, 0.121, 0.02, 0.07, 0.002, 0.006, ry=3)],
           "decoro", appoggio="fisso", dy=0.0, dz=-1.6, scorri="campana_ok", slide=(0.5, 0.0, 0.0)),
     pezzo("ric_soldo", RIC, "Fontanella della piazzetta", moneta("#9a6a3a", 0.034), "raccogli", "ric_campana_soldo", "Un soldo nella cavità", appoggio="fisso", dz=-1.6, dy=0.005,
           appare=["campana_ok"], scala=1.8, raggio=0.45, msg="Il soldo che Tommasino aveva promesso ad Amerigo. (Un'invenzione del gioco.)", titolo="Il soldo promesso"),

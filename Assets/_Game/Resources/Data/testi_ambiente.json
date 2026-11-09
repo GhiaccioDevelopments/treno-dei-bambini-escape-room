@@ -703,6 +703,191 @@
         0.08,
         0.06
       ]
+    },
+    {
+      "chiave": "Ritaglio",
+      "gruppo": "segreti",
+      "tipo": "ritaglio",
+      "w": 256,
+      "h": 320,
+      "seed": 11,
+      "righe": [
+        "PARTONO I BAMBINI",
+        "16 DICEMBRE 1945",
+        "UN TRENO CARICO",
+        "DI BAMBINI LASCIA",
+        "MILANO E ARRIVA",
+        "A REGGIO EMILIA.",
+        "SONO CIRCA 1800",
+        "I PICCOLI VIAG-",
+        "GIATORI, ACCOLTI",
+        "DA FAMIGLIE.",
+        "A NAPOLI UN",
+        "COMITATO PER LA",
+        "SALVEZZA DEI",
+        "BAMBINI PREPARA",
+        "LE PARTENZE:",
+        "LISTE, VISITE,",
+        "VESTITI CALDI."
+      ],
+      "carta": [
+        0.84,
+        0.79,
+        0.62
+      ],
+      "inchiostro": [
+        0.12,
+        0.1,
+        0.08
+      ]
+    },
+    {
+      "chiave": "Cartolina",
+      "gruppo": "segreti",
+      "tipo": "cartolina",
+      "w": 256,
+      "h": 160,
+      "seed": 12,
+      "righe": [
+        "NAPOLI"
+      ],
+      "carta": [
+        0.86,
+        0.77,
+        0.58
+      ],
+      "inchiostro": [
+        0.27,
+        0.18,
+        0.1
+      ]
+    },
+    {
+      "chiave": "AmLire",
+      "gruppo": "segreti",
+      "tipo": "amlire",
+      "w": 256,
+      "h": 112,
+      "seed": 13,
+      "righe": [
+        "AM LIRE",
+        "ALLIED MILITARY CURRENCY"
+      ],
+      "carta": [
+        0.66,
+        0.74,
+        0.58
+      ],
+      "inchiostro": [
+        0.16,
+        0.27,
+        0.17
+      ]
+    },
+    {
+      "chiave": "Settebello",
+      "gruppo": "segreti",
+      "tipo": "settebello",
+      "w": 96,
+      "h": 160,
+      "seed": 14,
+      "righe": [
+        "7"
+      ],
+      "carta": [
+        0.86,
+        0.8,
+        0.65
+      ],
+      "inchiostro": [
+        0.5,
+        0.13,
+        0.1
+      ]
+    },
+    {
+      "chiave": "BigliettoScarpa",
+      "gruppo": "segreti",
+      "tipo": "biglietto_scarpa",
+      "w": 128,
+      "h": 96,
+      "seed": 15,
+      "righe": [],
+      "carta": [
+        0.82,
+        0.74,
+        0.58
+      ],
+      "inchiostro": [
+        0.13,
+        0.12,
+        0.11
+      ]
+    },
+    {
+      "chiave": "BigliettoMela",
+      "gruppo": "segreti",
+      "tipo": "biglietto_mela",
+      "w": 128,
+      "h": 96,
+      "seed": 16,
+      "righe": [],
+      "carta": [
+        0.82,
+        0.74,
+        0.58
+      ],
+      "inchiostro": [
+        0.13,
+        0.12,
+        0.11
+      ]
+    },
+    {
+      "chiave": "BigliettoTreno",
+      "gruppo": "segreti",
+      "tipo": "biglietto_treno",
+      "w": 128,
+      "h": 96,
+      "seed": 17,
+      "righe": [],
+      "carta": [
+        0.82,
+        0.74,
+        0.58
+      ],
+      "inchiostro": [
+        0.13,
+        0.12,
+        0.11
+      ]
+    },
+    {
+      "chiave": "ListaSpesa",
+      "gruppo": "segreti",
+      "tipo": "lista",
+      "w": 128,
+      "h": 160,
+      "seed": 18,
+      "righe": [
+        "SCARPE",
+        "6 - 7 - 8",
+        "COLOMBA",
+        "PEPPINO",
+        "NUNZIA",
+        "4 PAIA",
+        "(ANCHE USATE)"
+      ],
+      "carta": [
+        0.8,
+        0.76,
+        0.62
+      ],
+      "inchiostro": [
+        0.2,
+        0.2,
+        0.28
+      ]
     }
   ]
 }
