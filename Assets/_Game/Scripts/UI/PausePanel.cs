@@ -32,7 +32,7 @@ namespace TrenoBambini.UI
             // copertina + pagina
             var cover = UIFactory.MakePanel(veil.rectTransform, "Copertina", Color.white, true);
             cover.sprite = UIArt.Cover(); cover.type = Image.Type.Sliced;
-            UIFactory.Place(cover.rectTransform, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(640f, 720f));
+            UIFactory.Place(cover.rectTransform, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(640f, 690f));
             fx.card = cover.rectTransform;
             var page = UIFactory.MakePanel(cover.rectTransform, "Pagina", Color.white, false);
             page.sprite = UIArt.Notebook(); page.type = Image.Type.Sliced;
@@ -55,13 +55,13 @@ namespace TrenoBambini.UI
 
             var content = UIFactory.NewRect("Voci", pr);
             UIFactory.Stretch(content, 90f, 20f, 20f, 20f);
-            var vl = UIFactory.AddVLayout(content.gameObject, 5f);
+            var vl = UIFactory.AddVLayout(content.gameObject, 2f);
             vl.padding = new RectOffset(0, 0, 4, 4);
 
             var title = UIFactory.MakeText(content, "Pausa", 42, UITheme.InchiostroBlu, TextAlignmentOptions.Center, FontStyles.Bold | FontStyles.Italic);
             Add(title, 440f, 50f);
             segretiTxt = UIFactory.MakeText(content, "", 22, new Color(UITheme.InchiostroBlu.r, UITheme.InchiostroBlu.g, UITheme.InchiostroBlu.b, 0.8f), TextAlignmentOptions.Center, FontStyles.Italic);
-            Add(segretiTxt, 440f, 26f);
+            Add(segretiTxt, 440f, 24f);
             Add(Item(content, "Riprendi", Hide), 440f, ItemH);
             Add(Item(content, GameData.UiMenu.hud.latta, () => { if (UIRoot.I != null) UIRoot.I.Inventory.Show(); }), 440f, ItemH);
 

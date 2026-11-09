@@ -242,6 +242,7 @@ namespace TrenoBambini.Data
     {
         public string titolo = "Ricordi", bloccato = "Ricordo da trovare", bloccatoNota = "Si apre quando ritrovi l'oggetto giusto.";
         public string luogo = "Dove", rivissuto = "Rivissuto", nessuno = "Nessun ricordo.", indietro = "Indietro";
+        public string rivivi = "", riviviNonQui = ""; // R011: rientrare in un ricordo gia' completato (per i segreti)
     }
     [Serializable]
     public class UiCrediti { public string titolo = "Crediti", intro = "", assetTitolo = "Asset esterni e licenze", indietro = "Indietro"; public List<string> squadra = new List<string>(); }

@@ -105,6 +105,12 @@ namespace TrenoBambini.Puzzles
             m.SetFloat("_Metallic", p.metal);
             var tex = Tex(p.tex);
             if (tex != null) m.SetTexture("_BaseMap", tex);
+            // R011: "tex:<nome>" = texture disegnata (Resources/Texture/Segreti/<nome>.png, generata da Treno > Segreti > Genera texture dei pezzi)
+            if (!string.IsNullOrEmpty(materiale) && materiale.StartsWith("tex:", System.StringComparison.Ordinal))
+            {
+                var dis = Resources.Load<Texture2D>("Texture/Segreti/" + materiale.Substring(4));
+                if (dis != null) { m.SetTexture("_BaseMap", dis); m.SetColor("_BaseColor", string.IsNullOrEmpty(colore) ? Color.white : c); m.SetFloat("_Smoothness", 0.1f); m.SetFloat("_Metallic", 0f); }
+            }
             m.EnableKeyword("_EMISSION");
             cache[key] = m;
             return m;

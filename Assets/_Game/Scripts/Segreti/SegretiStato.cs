@@ -43,14 +43,14 @@ namespace TrenoBambini.Segreti
         }
 
         /// <summary>Segna un segreto come trovato (idempotente). Ritorna true se e' nuovo. Salva e controlla il premio "tutti i segreti".</summary>
-        public static bool Trova(string id)
+        public static bool Trova(string id, bool salva = true)
         {
             var s = Save;
             if (s == null || string.IsNullOrEmpty(id) || s.segretiTrovati.Contains(id)) return false;
             s.segretiTrovati.Add(id);
             if (Totale() > 0 && Trovati() >= Totale() && !s.segretiFlag.Contains("segreti_tutti"))
                 s.segretiFlag.Add("segreti_tutti"); // D1: R016 legge questo flag per la scena extra nel finale (vedi ImpostaFlag/Flag)
-            GameManager.I.SaveGame();
+            if (salva) GameManager.I.SaveGame();
             return true;
         }
 
@@ -63,6 +63,31 @@ namespace TrenoBambini.Segreti
         }
         public static int Totale(string scena) { int n = 0; foreach (var d in F.segreti) if (d.scena == scena) n++; return n; }
         public static int Trovati(string scena) { int n = 0; foreach (var d in F.segreti) if (d.scena == scena && Trovato(d.id)) n++; return n; }
+
+        static HashSet<string> gettoniSegreti;
+
+        /// <summary>I gettoni dei segreti (biglietti, numero del graffito, passi degli enigmi segreti, pezzi): non sono progressi della storia.</summary>
+        public static bool GettoneSegreto(string t)
+        {
+            if (gettoniSegreti == null)
+            {
+                gettoniSegreti = new HashSet<string>();
+                foreach (var p in F.pezzi) { gettoniSegreti.Add(p.id); foreach (var x in p.produce) gettoniSegreti.Add(x); }
+                foreach (var e in F.enigmi) { gettoniSegreti.Add(e.id); foreach (var x in e.produce) gettoniSegreti.Add(x); }
+                foreach (var c in F.campane) gettoniSegreti.Add(c.produce);
+                foreach (var g in F.gettoni) gettoniSegreti.Add(g.id);
+            }
+            return gettoniSegreti.Contains(t);
+        }
+
+        /// <summary>Numero di gettoni e di enigmi risolti che contano per la storia (senza i segreti): serve alla firma dei progressi di Obiettivi.</summary>
+        public static int ProgressiStoria(SaveData s, out int enigmi)
+        {
+            int g = 0; enigmi = 0;
+            foreach (var t in s.oggettiEnigma) if (!GettoneSegreto(t)) g++;
+            foreach (var k in s.enigmiRisolti) if (!k.StartsWith("segreti/", StringComparison.Ordinal)) enigmi++;
+            return g;
+        }
 
         // ------------------------------------------------------------------ flag per gli agganci dei capitoli futuri
         public static bool Flag(string nome)
@@ -86,10 +111,10 @@ namespace TrenoBambini.Segreti
             if (string.IsNullOrEmpty(c)) return true;
             var s = Save;
             if (s == null) return false;
-            if (c.StartsWith("fb:")) return s.flashbackCompletati.Contains(c.Substring(3));
-            if (c.StartsWith("ris:")) return s.enigmiRisolti.Contains(c.Substring(4));
-            if (c.StartsWith("flag:")) return s.segretiFlag.Contains(c.Substring(5));
-            if (c.StartsWith("segreto:")) return s.segretiTrovati.Contains(c.Substring(8));
+            if (c.StartsWith("fb:", StringComparison.Ordinal)) return s.flashbackCompletati.Contains(c.Substring(3));
+            if (c.StartsWith("ris:", StringComparison.Ordinal)) return s.enigmiRisolti.Contains(c.Substring(4));
+            if (c.StartsWith("flag:", StringComparison.Ordinal)) return s.segretiFlag.Contains(c.Substring(5));
+            if (c.StartsWith("segreto:", StringComparison.Ordinal)) return s.segretiTrovati.Contains(c.Substring(8));
             return MondoStato.Ha(c);
         }
 

@@ -151,6 +151,7 @@ namespace TrenoBambini.Core
 
         public void NewGame()
         {
+            Rivivendo = false;
             var vecchio = Save;
             save = new SaveData();
             save.volume = AudioListener.volume;
@@ -210,6 +211,7 @@ namespace TrenoBambini.Core
 
         public void Continue()
         {
+            Rivivendo = false;
             var s = Save;
             string scena = string.IsNullOrEmpty(s.scena) ? SceneHub : s.scena;
             string spawn = string.IsNullOrEmpty(s.spawn) ? "inizio" : s.spawn;
@@ -238,12 +240,25 @@ namespace TrenoBambini.Core
         }
 
         // ---------- flashback ----------
+        /// <summary>R011: true mentre si rivive un ricordo gia' completato (dalla latta): niente cutscene, niente "nuovo oggetto", gli enigmi principali restano com'erano.</summary>
+        public bool Rivivendo { get; private set; }
+
+        /// <summary>Rientra in un ricordo gia' completato (per trovare i segreti rimasti). Il rientro e' sempre nella scena da cui si parte.</summary>
+        public void RivediRicordo(string oggettoId)
+        {
+            var o = GameData.Oggetto(oggettoId);
+            if (o == null || !Save.flashbackCompletati.Contains(o.flashback)) return;
+            Rivivendo = true;
+            StartFlashback(oggettoId);
+        }
+
         public void StartFlashback(string oggettoId)
         {
             var o = GameData.Oggetto(oggettoId);
             FlashbackDef f = o != null ? GameData.Flashback(o.flashback) : GameData.Flashback("flashback_" + oggettoId);
             if (f == null || string.IsNullOrEmpty(f.scena))
             {
+                Rivivendo = false;
                 Debug.LogWarning("Flashback non disponibile per l'oggetto: " + oggettoId);
                 if (UIRoot.I != null) UIRoot.I.Toast("Questo ricordo non è ancora disponibile.");
                 return;
@@ -260,6 +275,7 @@ namespace TrenoBambini.Core
 
         public void CompleteFlashback(string oggettoId)
         {
+            if (Rivivendo) { Rivivendo = false; ReturnFromFlashback(); return; } // rientro senza effetti collaterali
             var s = Save;
             var o = GameData.Oggetto(oggettoId);
             if (!s.inventario.Contains(oggettoId)) s.inventario.Add(oggettoId);

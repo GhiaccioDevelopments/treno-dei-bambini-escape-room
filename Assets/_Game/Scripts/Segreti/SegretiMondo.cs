@@ -52,11 +52,13 @@ namespace TrenoBambini.Segreti
                 if (e.scena != sc.name) continue;
                 var ee = e;
                 var em = EnigmaMondo.Crea(ee, "segreti/" + ee.id, root());
+                em.segreto = true;
                 em.alRisolto = x => AlRisolto(ee);
                 MondoSpawner.Sostituisci(sc, ee.sostituisce);
             }
-            foreach (var c in f.campane) if (c.scena == sc.name && !MondoStato.Ha(c.produce)) CampanaGesso.Crea(c, root());
+            foreach (var c in f.campane) if (c.scena == sc.name) CampanaGesso.Crea(c, root()); // il disegno resta visibile; se gia' risolta la logica e' spenta
             foreach (var u in f.uova) if (u.scena == sc.name) UovoSegreto.Crea(u, root());
+            if (f.stanze.Exists(s => s.scena == sc.name)) root().gameObject.AddComponent<SegretiMonitor>();
         }
 
         /// <summary>Un enigma segreto risolto: segna il segreto, mostra la pagina "dietro le quinte".</summary>
@@ -91,6 +93,31 @@ namespace TrenoBambini.Segreti
         }
     }
 
+    /// <summary>
+    /// Ogni secondo controlla se la stanza principale e' appena risultata completa e se resta almeno un segreto: allora, una volta sola per stanza,
+    /// mostra con un toast discreto "In questa stanza c'e' ancora qualcosa..." (l'Indizio da solo non basta: a stanza completata gli enigmi sono tutti risolti).
+    /// Nel ricordo scatta quando si apre l'uscita (tutti gli enigmi risolti).
+    /// </summary>
+    public class SegretiMonitor : MonoBehaviour
+    {
+        float t = 1.5f;
+
+        void Update()
+        {
+            t -= Time.unscaledDeltaTime;
+            if (t > 0f) return;
+            t = 1f;
+            var gm = GameManager.I;
+            if (gm == null || gm.InputBlocked || UIRoot.I == null) return;
+            string scena = gameObject.scene.name;
+            string flag = "aiuto_" + scena;
+            if (SegretiStato.Flag(flag) || !SegretiStato.StanzaCompleta(scena) || SegretiStato.Trovati(scena) >= SegretiStato.Totale(scena)) return;
+            SegretiStato.ImpostaFlag(flag);
+            var testo = GameData.Segreti.testi.aiutoLieve;
+            if (!string.IsNullOrEmpty(testo)) UIRoot.I.Toast(testo, 5f);
+        }
+    }
+
     /// <summary>Un pezzo di mondo dei segreti: si raccoglie, si legge, si apre o e' solo un decoro. Compare e sparisce secondo le condizioni del JSON.</summary>
     public class SegretoPezzo : Interactable
     {
@@ -115,13 +142,14 @@ namespace TrenoBambini.Segreti
         }
 
         public override bool CanInteract { get { return def != null && def.ruolo != "decoro" && Visibile; } }
+        public override float Penalita { get { return 0.45f; } }
 
         public static SegretoPezzo Crea(SegretoPezzoDef d, Transform parent)
         {
             var go = new GameObject("Segreto_" + d.id);
             go.transform.SetParent(parent, false);
             Vector3 p = new Vector3(d.x, d.y, d.z);
-            if ((d.appoggio ?? "suolo") == "suolo") p = SegretiSpawner.SulSuolo(p, 0.5f) + new Vector3(0f, d.dy > 0f ? 0f : 0f, 0f);
+            if ((d.appoggio ?? "suolo") == "suolo") p = SegretiSpawner.SulSuolo(p, 0.5f) + Vector3.up * 0.012f; // sopra i decalcomanie di terra e macerie (1 cm)
             go.transform.position = p;
             go.transform.rotation = Quaternion.Euler(d.rx, d.yaw, d.rz);
             go.transform.localScale = Vector3.one * (d.scala > 0f ? d.scala : 1f);
@@ -131,6 +159,12 @@ namespace TrenoBambini.Segreti
             MondoFab.Oggetto(pseudo, v.transform, false);
             foreach (var pt in d.parti)
                 if (pt.nascosta) { var t = v.transform.Find(pt.id); if (t != null) t.gameObject.SetActive(false); }
+            // i pezzi piccoli (< 10 cm) non proiettano ombra: costerebbero un passaggio d'ombra per niente
+            foreach (var r in v.GetComponentsInChildren<Renderer>(true))
+            {
+                var bb = r.bounds;
+                if (Mathf.Max(bb.size.x, Mathf.Max(bb.size.y, bb.size.z)) < 0.10f) r.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+            }
             var e = go.AddComponent<SegretoPezzo>();
             e.def = d; e.visuale = v; e.pos0 = p;
             e.slide = new Vector3(d.sx, d.sy, d.sz);
@@ -165,16 +199,11 @@ namespace TrenoBambini.Segreti
                 {
                     if (!cerca.Contains(t.name) || t.IsChildOf(transform)) continue;
                     if (Vector3.Distance(new Vector3(t.position.x, 0f, t.position.z), new Vector3(pos0.x, 0f, pos0.z)) > 3f) continue;
-                    // niente figli di un oggetto gia' elencato (si muoverebbero due volte)
+                    // niente figli di un oggetto gia' elencato (si muoverebbero due volte): il confronto e' con gli originali in lista
                     bool figlio = false;
                     foreach (var o in altri) if (t.IsChildOf(o)) figlio = true;
                     if (figlio) continue;
-                    // il mobile di scena e' static (batching, luce cotta): non si muove. Si lascia la copia identica, non batchata, e si spegne l'originale.
-                    var copia = UnityEngine.Object.Instantiate(t.gameObject, t.parent);
-                    copia.name = t.name + "_Mobile";
-                    copia.transform.SetPositionAndRotation(t.position, t.rotation);
-                    t.gameObject.SetActive(false);
-                    altri.Add(copia.transform); altriPos0.Add(copia.transform.position);
+                    altri.Add(t); altriPos0.Add(t.position);
                 }
         }
 
@@ -253,7 +282,7 @@ namespace TrenoBambini.Segreti
                 default: // raccogli
                     MondoStato.Dai(def.id);
                     Prendi();
-                    bool nuovo = sg != null && SegretiStato.Trova(def.segreto);
+                    bool nuovo = sg != null && SegretiStato.Trova(def.segreto, false); // salva una volta sola, in fondo
                     if (UIRoot.I != null)
                     {
                         string testo = sg != null ? sg.scheda : def.msg;
@@ -290,7 +319,7 @@ namespace TrenoBambini.Segreti
         Transform pg;
         int prog, corrente = -1, ultimo = -1;
         float da, ultimoMsg = -99f;
-        bool fatto;
+        public bool fatto; // risolta (anche in una partita precedente): resta il disegno, la logica e' spenta
 
         public static CampanaGesso Crea(CampanaDef d, Transform parent)
         {
@@ -310,6 +339,7 @@ namespace TrenoBambini.Segreti
             }
             var e = go.AddComponent<CampanaGesso>();
             e.def = d;
+            e.fatto = MondoStato.Ha(d.produce);
             return e;
         }
 

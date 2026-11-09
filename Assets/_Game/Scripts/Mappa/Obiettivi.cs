@@ -104,7 +104,9 @@ namespace TrenoBambini.Mappa
         {
             var s = Save;
             if (s == null) return -1;
-            return s.oggettiEnigma.Count * 1009 + s.enigmiRisolti.Count * 31 + s.inventario.Count * 7 + s.flashbackCompletati.Count;
+            int enigmi;
+            int gettoni = TrenoBambini.Segreti.SegretiStato.ProgressiStoria(s, out enigmi); // R011: i segreti non azzerano l'attesa dell'obiettivo
+            return gettoni * 1009 + enigmi * 31 + s.inventario.Count * 7 + s.flashbackCompletati.Count;
         }
 
         /// <summary>Da chiamare ogni frame di gioco: ogni progresso (gettone, enigma, oggetto, ricordo) azzera l'attesa e nasconde di nuovo l'obiettivo.</summary>
