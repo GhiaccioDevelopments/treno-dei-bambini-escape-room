@@ -426,11 +426,22 @@ namespace TrenoBambini.Segreti
             if (!trovata) yield break;
 
             // il PlayerInteractor lo propone: ci si mette sulla cella percorribile piu' vicina, rivolti verso il pezzo
-            Teleporta(cella, centro);
-            yield return Attendi(0.35f);
+            // si prova dalla cella piu' vicina e, se un interattore principale sta piu' vicino (i segreti cedono il passo), dalle prossime piu' vicine entro 1,3 m
             var pi = PlayerInteractor.Active;
-            bool proposto = pi != null && pi.Current == p;
-            Check(n + ": il giocatore vicino lo vede proposto (prompt di interazione)", proposto, pi != null && pi.Current != null ? "propone " + pi.Current.name : "nessun prompt");
+            var candidate = new List<Vector3>();
+            foreach (var c in g.celle)
+                if (Mathf.Abs(c.y - cella.y) < 0.5f && new Vector2(c.x - centro.x, c.z - centro.z).magnitude <= 1.3f) candidate.Add(c);
+            candidate.Sort((x1, x2) => new Vector2(x1.x - centro.x, x1.z - centro.z).sqrMagnitude.CompareTo(new Vector2(x2.x - centro.x, x2.z - centro.z).sqrMagnitude));
+            if (candidate.Count == 0) candidate.Add(cella);
+            bool proposto = false; string chi = "nessun prompt";
+            for (int k = 0; k < candidate.Count && k < 14 && !proposto; k += Mathf.Max(1, candidate.Count / 14))
+            {
+                Teleporta(candidate[k], centro);
+                yield return Attendi(0.3f);
+                proposto = pi != null && pi.Current == p;
+                if (!proposto && pi != null && pi.Current != null) chi = "propone " + pi.Current.name;
+            }
+            Check(n + ": il giocatore vicino lo vede proposto (prompt di interazione)", proposto, chi);
 
             // visibile: dalle celle entro 3 m con linea libera, il lato lungo a schermo (FOV 50, 1280x720, occhio a 1,6 m) e' almeno 25 px
             float migliore = 0f; Vector3 occhioMigliore = Vector3.zero;
@@ -449,10 +460,13 @@ namespace TrenoBambini.Segreti
             if (migliore > 0f)
             {
                 // per i pezzi bassi la ripresa scende vicino al pezzo (sotto un tavolo si vede solo guardando di sbieco)
-                if ((d.appoggio ?? "suolo") == "suolo" && occhioMigliore.y > centro.y + 0.55f) occhioMigliore.y = centro.y + 0.55f;
-                Vector3 da = occhioMigliore + (occhioMigliore - centro).normalized * (giocatoreAdulto ? 0.9f : 0.6f);
+                // ripresa "da camera di gioco": a circa un metro dal pezzo, dal lato della cella, un po' sopra e rivolta verso di lui
+                Vector3 orizz = new Vector3(occhioMigliore.x - centro.x, 0f, occhioMigliore.z - centro.z);
+                orizz = orizz.sqrMagnitude > 0.01f ? orizz.normalized : Vector3.back;
+                float dist1 = giocatoreAdulto ? 1.15f : 0.9f;
+                Vector3 da = centro + orizz * dist1 + Vector3.up * 0.7f;
                 RaycastHit bh;
-                if (Physics.Linecast(centro, da, out bh, ~0, QueryTriggerInteraction.Ignore)) da = occhioMigliore;
+                if (Physics.Linecast(centro + Vector3.up * 0.05f, da, out bh, ~0, QueryTriggerInteraction.Ignore) && Struttura(bh.collider)) da = centro + orizz * 0.7f + Vector3.up * 0.5f;
                 yield return Scatta("pezzo_" + n, da, centro, 50f);
             }
         }
@@ -480,6 +494,8 @@ namespace TrenoBambini.Segreti
             yield return Indizio();
             yield return UovaDiPasqua();
             yield return NienteBlocca();
+            yield return AiutoAutomatico();
+            yield return RiviviIlRicordo();
             Log("--- Segreti trovati: " + string.Join(", ", GameManager.I.Save.segretiTrovati));
         }
 
@@ -563,7 +579,7 @@ namespace TrenoBambini.Segreti
                 if (root.name == "SegretiMondo")
                 {
                     foreach (var r in root.GetComponentsInChildren<Renderer>(true)) rend++;
-                    foreach (var mf in root.GetComponentsInChildren<MeshFilter>(true)) if (mf.sharedMesh != null) tri += mf.sharedMesh.triangles.Length / 3;
+                    foreach (var mf in root.GetComponentsInChildren<MeshFilter>(true)) if (mf.sharedMesh != null) tri += (int)(mf.sharedMesh.GetIndexCount(0) / 3);
                     luci += root.GetComponentsInChildren<Light>(true).Length;
                 }
             Log("  peso dei segreti in " + scena + ": " + rend + " renderer, ~" + tri + " triangoli, " + luci + " luci dinamiche");
@@ -600,6 +616,7 @@ namespace TrenoBambini.Segreti
         IEnumerator StanzaHub()
         {
             Log("=== Hub ===");
+            yield return InterattoriPrincipali("hub prima");
             var pezzi = PezziScena();
             Check("hub: pezzi dei segreti creati", pezzi.Count >= 8, pezzi.Count + " pezzi");
             yield return ControllaEPrendi(GameManager.SceneHub, true, new[] { "bigl_scarpa", "bigl_mela", "bigl_treno", "hub_cartolina", "hub_settebello", "hub_trottola", "hub_amlire", "hub_ritaglio" });
@@ -661,6 +678,7 @@ namespace TrenoBambini.Segreti
             yield return Attendi(1.0f);
             yield return ChiudiMessaggi();
             Check("hub: enigma segreto salvato e segreto trovato", MondoStato.Risolto("segreti/enigma_portella") && SegretiStato.Trovato("hub_edicole"));
+            yield return InterattoriPrincipali("hub dopo");
             Check("hub: sei segreti su sei", SegretiStato.Trovati(GameManager.SceneHub) == SegretiStato.Totale(GameManager.SceneHub), SegretiStato.Trovati(GameManager.SceneHub) + "/" + SegretiStato.Totale(GameManager.SceneHub));
             // l'oggetto ricompensa: il quaderno mostra scheda e dietro le quinte
             var voci = SegretiStato.VociQuaderno();
@@ -676,6 +694,25 @@ namespace TrenoBambini.Segreti
             yield return Vai("20_Int_BassoAntonietta", "ingresso");
             var pezzi = PezziScena();
             Check("basso: pezzi dei segreti creati", pezzi.Count >= 7, pezzi.Count + " pezzi");
+            // nessun bagliore automatico sugli enigmi segreti: ne' con "evidenzia interattivi" ne' dopo 150 s senza progressi
+            {
+                var sv = GameManager.I.Save;
+                bool evid = sv.evidenziaInterattivi; float up = EnigmaMondo.UltimoProgresso;
+                sv.evidenziaInterattivi = true;
+                yield return Attendi(1.0f);
+                var normale = Enigma("enigma_foto"); var segr = Enigma("enigma_ripostiglio");
+                Check("basso: con 'evidenzia interattivi' brilla l'enigma normale e non quello segreto", normale != null && segr != null && normale.GetComponent<Glow>().on && !segr.GetComponent<Glow>().on);
+                sv.evidenziaInterattivi = false;
+                float soglia = EnigmaMondo.SogliaBagliore;
+                EnigmaMondo.SogliaBagliore = 0.2f;          // "150 s senza progressi" accorciati per la prova
+                EnigmaMondo.UltimoProgresso = Mathf.Max(0.001f, Time.time - 5f);
+                yield return Attendi(1.0f);
+                Check("basso: dopo i secondi senza progressi brilla l'enigma normale e non quello segreto", normale != null && segr != null && normale.GetComponent<Glow>().on && !segr.GetComponent<Glow>().on);
+                EnigmaMondo.SogliaBagliore = soglia;
+                EnigmaMondo.UltimoProgresso = up;
+                yield return Attendi(0.6f);
+            }
+            yield return InterattoriPrincipali("basso prima");
             yield return ControllaEPrendi("20_Int_BassoAntonietta", true, new[] { "basso_graffi", "basso_santino", "basso_mattonella", "basso_bottone", "basso_biglia" });
             // la mattonella: si solleva e compare il ditale
             var dit = Pezzo("basso_ditale");
@@ -742,6 +779,7 @@ namespace TrenoBambini.Segreti
                 yield return Foto("basso_materassino_msg");
                 yield return ChiudiMessaggi();
             }
+            yield return InterattoriPrincipali("basso dopo (credenza spostata)");
             Check("basso: cinque segreti su cinque", SegretiStato.Trovati("20_Int_BassoAntonietta") == SegretiStato.Totale("20_Int_BassoAntonietta"), SegretiStato.Trovati("20_Int_BassoAntonietta") + "/" + SegretiStato.Totale("20_Int_BassoAntonietta"));
         }
 
@@ -849,7 +887,8 @@ namespace TrenoBambini.Segreti
             GameManager.I.Continue();
             yield return ScenaPronta("30_FB_Scarpe");
             Check("ricaricato: i collezionabili gia' trovati non riappaiono", PezziScena().FindAll(p => p.def.ruolo == "raccogli" && p.Visibile).Count == 0);
-            Check("ricaricato: la campana gia' risolta non e' piu' un enigma", FindAnyObjectByType<CampanaGesso>() == null);
+            var campR = FindAnyObjectByType<CampanaGesso>();
+            Check("ricaricato: la campana gia' risolta resta disegnata ma la sua logica e' spenta", campR != null && campR.fatto && campR.GetComponentsInChildren<Renderer>().Length > 10);
             // pagina Segreti del quaderno: apre davvero il quaderno e fotografa
             var voci = SegretiStato.VociQuaderno();
             Check("quaderno: una voce per stanza", voci.Count == 3, voci.Count.ToString());
@@ -983,8 +1022,142 @@ namespace TrenoBambini.Segreti
             Door porta = null;
             yield return ScenaPronta(GameManager.SceneHub);
             foreach (var d in FindObjectsByType<Door>(FindObjectsInactive.Include)) if (d.luogoId == "basso_antonietta") porta = d;
-            Check("storia: le porte non chiedono segreti", porta != null);
+            Check("storia: la porta del basso esiste", porta != null);
+            if (porta != null)
+            {
+                var luogo = GameData.Luogo("basso_antonietta");
+                bool segreto = false; foreach (var r in luogo.richiede) if (SegretiStato.GettoneSegreto(r)) segreto = true;
+                Check("storia: la porta del basso non chiede alcun segreto", !segreto);
+                porta.Interact();
+                yield return ScenaPronta("20_Int_BassoAntonietta");
+                Check("storia: senza aver toccato un segreto la porta si apre davvero sul basso", SceneManager.GetActiveScene().name == "20_Int_BassoAntonietta");
+                yield return Vai(GameManager.SceneHub, "inizio");
+            }
             Check("storia: nessun segreto nel salvataggio", s.segretiTrovati.Count == 0 && !s.segretiFlag.Contains("segreti_tutti"));
+        }
+
+        // ------------------------------------------------------------------ gli interattori principali restano raggiungibili e proposti
+        readonly Dictionary<string, HashSet<string>> irraggiungibiliPrima = new Dictionary<string, HashSet<string>>();
+
+        IEnumerator InterattoriPrincipali(string quando)
+        {
+            string scena = SceneManager.GetActiveScene().name;
+            bool adulto = !scena.Contains("_FB_");
+            var g = Percorribile(adulto ? 0.28f : 0.2f, adulto ? 1.75f : 1.0f);
+            var l = new List<Interactable>();
+            foreach (var e in EnigmaMondo.Tutti) if (e != null && !e.segreto && e.gameObject.scene.name == scena) l.Add(e);
+            foreach (var d in FindObjectsByType<Door>(FindObjectsInactive.Exclude)) l.Add(d);
+            foreach (var ip in FindObjectsByType<ItemPickup>(FindObjectsInactive.Exclude)) l.Add(ip);
+            int ok2 = 0, male = 0; string quali = "";
+            string scenaChiave = scena;
+            bool dopo = quando.Contains("dopo");
+            HashSet<string> base0; irraggiungibiliPrima.TryGetValue(scenaChiave, out base0);
+            if (!dopo) irraggiungibiliPrima[scenaChiave] = new HashSet<string>();
+            foreach (var it in l)
+            {
+                var col = it.GetComponentInChildren<Collider>();
+                Vector3 p = col != null ? col.bounds.center : it.transform.position;
+                Vector3 cella; float dist;
+                bool trovata = Vicina(g, new Vector3(p.x, it.transform.position.y, p.z), 3f, out cella, out dist);
+                if (!trovata || dist > 1.5f)
+                {
+                    // gia' fuori portata prima dei segreti (non e' colpa loro): si registra e si confronta nel "dopo"
+                    if (!dopo) { irraggiungibiliPrima[scenaChiave].Add(it.name); Log("  (gia' non raggiungibile a piedi senza i segreti: " + it.name + ", a " + dist.ToString("F1") + " m)"); }
+                    else if (base0 == null || !base0.Contains(it.name)) { male++; quali += it.name + "(a " + dist.ToString("F1") + " m) "; }
+                    continue;
+                }
+                Teleporta(cella, p);
+                yield return Attendi(0.3f);
+                var pi = PlayerInteractor.Active;
+                bool propone = pi != null && pi.Current != null && !(pi.Current is SegretoPezzo) && (pi.Current == it || pi.Current is Interactable);
+                if (propone) ok2++; else { male++; quali += it.name + "(propone " + (pi != null && pi.Current != null ? pi.Current.name : "nulla") + ") "; }
+            }
+            Check("interattori principali (" + quando + "): quelli raggiungibili restano proposti, nessuno coperto da un segreto", l.Count > 0 && male == 0, ok2 + "/" + l.Count + " " + quali);
+        }
+
+        // ------------------------------------------------------------------ l'aiuto lieve compare da solo
+        IEnumerator AiutoAutomatico()
+        {
+            Log("=== Aiuto lieve automatico ===");
+            var s = GameManager.I.Save;
+            GameManager.I.ResetBlocks();   // la cutscene del capitolo di prova non e' stata scorsa: si libera il gioco come farebbe il giocatore
+            s.segretiFlag.RemoveAll(f => f.StartsWith("aiuto_", StringComparison.Ordinal));
+            // hub: la stanza principale e' completa (capitolo finito) e nessun segreto trovato
+            yield return Vai(GameManager.SceneHub, "inizio");
+            yield return Attendi(3.5f);
+            Check("aiuto automatico: a stanza completa e segreti da trovare compare da solo, senza premere Indizio", ToastContiene(F.testi.aiutoLieve) && s.segretiFlag.Contains("aiuto_" + GameManager.SceneHub));
+            yield return Foto("aiuto_automatico_hub");
+            yield return Attendi(7f);
+            yield return Vai(GameManager.SceneHub, "inizio");
+            yield return Attendi(4f);
+            Check("aiuto automatico: una volta sola per stanza", !ToastContiene(F.testi.aiutoLieve));
+            // ricordo: all'apertura dell'uscita (tutti gli enigmi risolti)
+            yield return Vai("30_FB_Scarpe", "inizio");
+            yield return Attendi(3.5f);
+            Check("aiuto automatico nel ricordo: compare con l'uscita aperta", ToastContiene(F.testi.aiutoLieve) && s.segretiFlag.Contains("aiuto_30_FB_Scarpe"));
+            // stanza non completa: tace
+            s.segretiFlag.RemoveAll(f => f.StartsWith("aiuto_", StringComparison.Ordinal));
+            var salvaFb = new List<string>(s.flashbackCompletati); s.flashbackCompletati.Clear();
+            yield return Vai(GameManager.SceneHub, "inizio");
+            yield return Attendi(3.5f);
+            Check("aiuto automatico: a stanza non completa tace", !ToastContiene(F.testi.aiutoLieve) && !s.segretiFlag.Contains("aiuto_" + GameManager.SceneHub));
+            s.flashbackCompletati.AddRange(salvaFb);
+        }
+
+        // ------------------------------------------------------------------ Rivivi il ricordo dalla latta
+        IEnumerator RiviviIlRicordo()
+        {
+            Log("=== Rivivi il ricordo ===");
+            var gm = GameManager.I; var s = gm.Save;
+            gm.ResetBlocks();
+            var pend = typeof(UIRoot).GetField("pendingNewItem", BindingFlags.NonPublic | BindingFlags.Instance);
+            if (pend != null) pend.SetValue(UIRoot.I, null);   // l'oggetto del capitolo finito poco fa non conta: si guarda che il rientro non ne metta in coda altri
+            yield return Vai(GameManager.SceneHub, "inizio");
+            // snapshot dello stato degli enigmi principali e dei progressi
+            var risolti = new List<string>(); foreach (var k in s.enigmiRisolti) if (!k.StartsWith("segreti/", StringComparison.Ordinal)) risolti.Add(k);
+            int token = 0; foreach (var t in s.oggettiEnigma) if (!SegretiStato.GettoneSegreto(t)) token++;
+            int cut = s.cutsceneViste.Count, inv = s.inventario.Count, fbn = s.flashbackCompletati.Count;
+            int trovatiPrima = SegretiStato.Trovati("30_FB_Scarpe");
+            var ui = UIRoot.I;
+            ui.Inventory.Show();
+            yield return Attendi(1.0f);
+            var m = typeof(InventoryPanel).GetMethod("VaiA", BindingFlags.NonPublic | BindingFlags.Instance);
+            var tipoPag = typeof(InventoryPanel).GetNestedType("Pagina", BindingFlags.NonPublic);
+            m.Invoke(ui.Inventory, new object[] { Enum.Parse(tipoPag, "Ricordi"), false });
+            yield return Attendi(0.8f);
+            Button bt = null;
+            foreach (var b in FindObjectsByType<Button>(FindObjectsInactive.Exclude)) if (b.name == "Rivivi_scarpe" && b.gameObject.activeInHierarchy) bt = b;
+            Check("rivivi: la scheda Ricordi della latta ha il pulsante per il ricordo completato", bt != null);
+            yield return Foto("ricordi_rivivi");
+            if (bt == null) yield break;
+            bt.onClick.Invoke();
+            yield return ScenaPronta("30_FB_Scarpe");
+            Check("rivivi: si rientra nel ricordo", SceneManager.GetActiveScene().name == "30_FB_Scarpe" && gm.Rivivendo);
+            Check("rivivi: gli enigmi principali del ricordo restano risolti", s.enigmiRisolti.Contains("flashback_scarpe/enigma_lucchetto") && s.enigmiRisolti.Contains("flashback_scarpe/enigma_quiz"));
+            var uscita = FindAnyObjectByType<EscapeExit>();
+            Check("rivivi: l'uscita e' aperta", uscita != null && uscita.GetPrompt() == "Esci dal ricordo");
+            yield return Foto("rivivi_ricordo");
+            // un segreto rimasto si raccoglie
+            var g2 = Percorribile(0.2f, 1.0f);
+            var pz = Pezzo("ric_moneta");
+            Vector3 cc; float dd;
+            if (pz != null && Vicina(g2, pz.transform.position, 3f, out cc, out dd)) { Teleporta(cc, pz.transform.position); yield return Attendi(0.4f); }
+            yield return Prendi("ric_moneta", true);
+            Check("rivivi: raccolto un segreto del ricordo", SegretiStato.Trovati("30_FB_Scarpe") == trovatiPrima + 1);
+            // uscita senza effetti collaterali
+            Vector3 c2; float d2;
+            if (uscita != null && Vicina(g2, uscita.transform.position, 3f, out c2, out d2)) { Teleporta(c2, uscita.transform.position); yield return Attendi(0.4f); }
+            if (uscita != null) uscita.Interact();
+            yield return Attendi(0.8f);
+            yield return ChiudiMessaggi();
+            yield return ScenaPronta(GameManager.SceneHub);
+            Check("rivivi: si torna al vicolo", SceneManager.GetActiveScene().name == GameManager.SceneHub && !gm.Rivivendo);
+            var risolti2 = new List<string>(); foreach (var k in s.enigmiRisolti) if (!k.StartsWith("segreti/", StringComparison.Ordinal)) risolti2.Add(k);
+            int token2 = 0; foreach (var t in s.oggettiEnigma) if (!SegretiStato.GettoneSegreto(t)) token2++;
+            Check("rivivi: stato degli enigmi principali invariato", risolti.Count == risolti2.Count && token == token2, risolti.Count + "->" + risolti2.Count + ", " + token + "->" + token2);
+            Check("rivivi: niente cutscene ne' oggetto nuovo ne' progressi extra", s.cutsceneViste.Count == cut && s.inventario.Count == inv && s.flashbackCompletati.Count == fbn);
+            Check("rivivi: nessuna animazione 'nuovo oggetto' in coda", pend == null || string.IsNullOrEmpty(pend.GetValue(UIRoot.I) as string));
+            Check("rivivi: ritorno e salvataggio puliti (nessun ritorno pendente)", string.IsNullOrEmpty(s.ritornoScena));
         }
 
         // ------------------------------------------------------------------ foto di posizionamento
