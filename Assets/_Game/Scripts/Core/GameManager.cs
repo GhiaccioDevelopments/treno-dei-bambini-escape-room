@@ -108,6 +108,7 @@ namespace TrenoBambini.Core
                 || (ui.Pause != null && ui.Pause.IsOpen)
                 || (ui.Inventory != null && ui.Inventory.IsOpen)
                 || (ui.Cutscene != null && ui.Cutscene.IsPlaying)
+                || TrenoBambini.Dialogue.FilmatoIniziale.InCorso
                 || (ui.Fader != null && ui.Fader.Busy);
             if (owner) { orphanSince = -1f; return; }
             if (orphanSince < 0f) { orphanSince = Time.unscaledTime; return; }
@@ -166,7 +167,28 @@ namespace TrenoBambini.Core
             save.spawn = "inizio";
             SaveSystem.Save(save);
             ResetBlocks();
-            SceneLoader.I.Load(SceneHub, "inizio");
+            // R025: alla nuova partita parte il filmato iniziale (salvabile e saltabile); finito, il giocatore e' nell'hub con il primo obiettivo
+            var ui = UIRoot.I;
+            if (ui != null && ui.Filmato != null && !ui.Filmato.IsPlaying && FilmatoDisponibile())
+                ui.Filmato.Avvia(false, null);
+            else
+                SceneLoader.I.Load(SceneHub, "inizio");
+        }
+
+        /// <summary>R025: il filmato iniziale esiste (copione e regia) ed e' attivo (flag -senzafilmato nelle prove di prestazioni lo spegne).</summary>
+        public static bool FilmatoDisponibile()
+        {
+            foreach (var a in System.Environment.GetCommandLineArgs()) if (a == "-senzafilmato") return false;
+            var d = GameData.Cutscene("intro");
+            return d != null && d.battute != null && d.battute.Count > 0 && GameData.Filmato.capitoli.Count > 0;
+        }
+
+        /// <summary>R025: rivedi il filmato iniziale dalla pausa (o altrove). Alla fine il giocatore torna dov'era.</summary>
+        public void RivediFilmato()
+        {
+            var ui = UIRoot.I;
+            if (ui == null || ui.Filmato == null || ui.Filmato.IsPlaying || !FilmatoDisponibile()) return;
+            ui.Filmato.Avvia(true, null);
         }
 
         public void Continue()

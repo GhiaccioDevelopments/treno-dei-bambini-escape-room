@@ -34,6 +34,8 @@ namespace TrenoBambini.UI
         public RectTransform FlightLayer { get; private set; }
         public Fader Fader { get; private set; }
         public CutscenePlayer Cutscene { get; private set; }
+        /// <summary>R025: filmato iniziale della nuova partita.</summary>
+        public FilmatoIniziale Filmato { get; private set; }
         public InventoryPanel Inventory { get; private set; }
         public PausePanel Pause { get; private set; }
         public SettingsPanel Settings { get; private set; }
@@ -154,6 +156,8 @@ namespace TrenoBambini.UI
 
             var cgo = UIFactory.NewRect("CutscenePlayer", CutsceneLayer);
             Cutscene = cgo.gameObject.AddComponent<CutscenePlayer>();
+            var fgo2 = UIFactory.NewRect("Filmato", CutsceneLayer);
+            Filmato = fgo2.gameObject.AddComponent<FilmatoIniziale>();
 
             BuildHud();
             toasts = ToastStack.Create(ToastLayer);
@@ -559,7 +563,7 @@ namespace TrenoBambini.UI
         {
             get
             {
-                return !menuScene && modalCount == 0 && !Cutscene.IsPlaying && !Fader.Busy
+                return !menuScene && modalCount == 0 && !Cutscene.IsPlaying && !FilmatoIniziale.InCorso && !Fader.Busy
                     && !(SceneLoader.I != null && SceneLoader.I.IsLoading);
             }
         }
@@ -603,7 +607,7 @@ namespace TrenoBambini.UI
             UpdateInteractButton();
             UpdateClickCard();
 
-            bool showHud = !menuScene && !Cutscene.IsPlaying;
+            bool showHud = !menuScene && !Cutscene.IsPlaying && !FilmatoIniziale.InCorso;
             if (HudLayer.gameObject.activeSelf != showHud)
             {
                 HudLayer.gameObject.SetActive(showHud);
@@ -645,7 +649,7 @@ namespace TrenoBambini.UI
                 if (kb.escapeKey.wasPressedThisFrame || (gpad != null && gpad.buttonEast.wasPressedThisFrame)) { Settings.Hide(); return; }
             }
 
-            if (menuScene || Cutscene.IsPlaying || Fader.Busy || lastModalPopFrame == Time.frameCount) return;
+            if (menuScene || Cutscene.IsPlaying || FilmatoIniziale.InCorso || Fader.Busy || lastModalPopFrame == Time.frameCount) return;
             MaybeShowComandiToast();
 
             // R019: la mappa grande si chiude con M, Esc o B; si apre con M (o Select del gamepad)
@@ -666,7 +670,7 @@ namespace TrenoBambini.UI
         /// <summary>R019: senza tastiera (solo gamepad) Select apre e chiude la mappa grande e B la chiude.</summary>
         void UpdateSoloGamepad()
         {
-            if (menuScene || Cutscene.IsPlaying || Fader.Busy || dialogCurrent != null || lastModalPopFrame == Time.frameCount) return;
+            if (menuScene || Cutscene.IsPlaying || FilmatoIniziale.InCorso || Fader.Busy || dialogCurrent != null || lastModalPopFrame == Time.frameCount) return;
             bool premuta = mappaAction != null && mappaAction.WasPressedThisFrame();
             var gp = Gamepad.current;
             if (PiantaGrande != null && PiantaGrande.IsOpen)

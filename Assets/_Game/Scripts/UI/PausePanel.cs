@@ -1,6 +1,7 @@
 using TMPro;
 using TrenoBambini.Audio;
 using TrenoBambini.Core;
+using TrenoBambini.Data;
 using TrenoBambini.UI.Fx;
 using UnityEngine;
 using UnityEngine.UI;
@@ -74,6 +75,7 @@ namespace TrenoBambini.UI
             Add(Item(content, "Comandi", OnComandi), 440f, ItemH);
             lookBtn = Item(content, "", OnToggleLook);
             Add(lookBtn, 440f, ItemH);
+            Add(Item(content, GameData.UiMenu.filmato.rivedi, OnRivediFilmato), 440f, ItemH);
             Add(Item(content, "Salva", OnSave), 440f, ItemH);
             Add(Item(content, "Torna al titolo", OnTitle), 440f, ItemH);
 
@@ -164,6 +166,19 @@ namespace TrenoBambini.UI
         {
             if (UIRoot.I == null) return;
             UIRoot.I.ShowMessage("Comandi", UIRoot.ComandiTesto(!CursorManager.MouseLookMode), null);
+        }
+
+        /// <summary>R025: rivedi il filmato iniziale (non dentro un ricordo: li' si tornerebbe al vicolo e si perderebbe il filo).</summary>
+        void OnRivediFilmato()
+        {
+            if (UIRoot.I == null || GameManager.I == null) return;
+            if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name.Contains("_FB_"))
+            {
+                UIRoot.I.Toast(GameData.UiMenu.filmato.nonQui);
+                return;
+            }
+            Hide();
+            GameManager.I.RivediFilmato();
         }
 
         void OnSave()

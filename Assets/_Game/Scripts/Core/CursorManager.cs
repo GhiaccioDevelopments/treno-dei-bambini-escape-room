@@ -107,6 +107,7 @@ namespace TrenoBambini.Core
                 || (ui.Pause != null && ui.Pause.IsOpen)
                 || (ui.Inventory != null && ui.Inventory.IsOpen)
                 || (ui.Cutscene != null && ui.Cutscene.IsPlaying)
+                || TrenoBambini.Dialogue.FilmatoIniziale.InCorso
                 || (ui.Fader != null && ui.Fader.Busy);
             Exploring = gm != null && !gm.InputBlocked && !loading && !menus;
 

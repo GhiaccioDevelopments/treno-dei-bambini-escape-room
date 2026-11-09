@@ -50,7 +50,7 @@ namespace TrenoBambini.Puzzles
 
             // attende un frame: fader e SceneLoader finiscono di sistemare la scena
             yield return null;
-            if (solvedCount == 0 && UIRoot.I != null && !string.IsNullOrEmpty(flashback.introduzione))
+            if (solvedCount == 0 && UIRoot.I != null && !TrenoBambini.Dialogue.FilmatoIniziale.InCorso && !string.IsNullOrEmpty(flashback.introduzione))
                 UIRoot.I.ShowMessage(flashback.titolo, flashback.introduzione, null);
         }
 

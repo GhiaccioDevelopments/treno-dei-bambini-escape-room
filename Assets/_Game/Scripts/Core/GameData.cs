@@ -13,6 +13,7 @@ namespace TrenoBambini.Core
         static List<PersonaggioDef> personaggi;
         static AudioFile audio;
         static UiMenuFile uiMenu;
+        static FilmatoFile filmato;
         static CreditiFile crediti;
         static List<EnigmaDef> enigmiMondo;
         static List<NascostoDef> oggettiEnigma;
@@ -194,6 +195,12 @@ namespace TrenoBambini.Core
             if (d == null) Debug.LogWarning("Flashback non trovato: " + id);
             flashbacks[id] = d;
             return d;
+        }
+
+        /// <summary>R025: regia del filmato iniziale (filmato_intro.json). Mai null.</summary>
+        public static FilmatoFile Filmato
+        {
+            get { if (filmato == null) filmato = LoadJson<FilmatoFile>("filmato_intro") ?? new FilmatoFile(); return filmato; }
         }
 
         public static CutsceneDef Cutscene(string id)

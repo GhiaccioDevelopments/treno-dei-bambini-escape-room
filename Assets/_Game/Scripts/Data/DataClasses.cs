@@ -33,6 +33,7 @@ namespace TrenoBambini.Data
     {
         public string id; public string nome; public string ritratto;
         public string colore; // "#RRGGBB"
+        public string nomeCopione; // R025: nome nel copione CSV del doppiaggio (vuoto = nome)
     }
 
     [Serializable] public class EnigmiMondoFile { public List<EnigmaDef> enigmi = new List<EnigmaDef>(); public List<NascostoDef> oggetti = new List<NascostoDef>(); public EnigmiTesti testi = new EnigmiTesti(); }
@@ -169,7 +170,13 @@ namespace TrenoBambini.Data
     {
         public string id; public string titolo; public string sfondo;
         public List<BattutaDef> battute = new List<BattutaDef>();
+        public List<CapitoloDef> capitoli = new List<CapitoloDef>(); // R025: capitoli del filmato (solo cutscene_intro)
+        public float durataStimata; public string obiettivoFinale;
     }
+
+    /// <summary>R025: capitolo del filmato iniziale: primo e ultimo id battuta. La regia e' in filmato_intro.json.</summary>
+    [Serializable]
+    public class CapitoloDef { public string id, titolo, epoca; public float durata, pausaSenzaTesto; public List<string> battute = new List<string>(); }
 
     [Serializable]
     public class BattutaDef
@@ -177,6 +184,8 @@ namespace TrenoBambini.Data
         public string id; public string personaggio; public string testo; public string emozione; public string audio;
         public string azione; public string sfondo;
         public string posizione; // "sx" | "dx"
+        public string capitolo, controllo; // R025: capitolo del filmato e targhetta dei controlli (salta, muovi, guarda, interagisci, inventario, mappa, indizio)
+        public float durata;               // R025: secondi di lettura senza audio
     }
 
     // ---- audio.json (R002): quale musica e quale ambiente suonano in ogni scena, eventi e volumi di base ----
@@ -260,6 +269,9 @@ namespace TrenoBambini.Data
     [Serializable] public class UiHud { public string latta = "Latta"; }
     [Serializable]
     public class UiEnigmiImp { public string semplificatiNome = "", semplificatiSpiega = "", evidenziaNome = "", evidenziaSpiega = "", si = "Si", no = "No"; }
+    /// <summary>R025: voce "Rivedi il filmato iniziale" della pausa.</summary>
+    [Serializable]
+    public class UiFilmatoMenu { public string rivedi = "Rivedi il filmato iniziale", nonQui = "Il filmato si rivede dal vicolo o da casa, non dentro un ricordo."; }
     [Serializable]
     public class UiMenuFile
     {
@@ -278,6 +290,7 @@ namespace TrenoBambini.Data
         public UiHud hud = new UiHud();
         public UiEnigmiImp enigmiImp = new UiEnigmiImp();
         public UiMappaImp mappaImp = new UiMappaImp();
+        public UiFilmatoMenu filmato = new UiFilmatoMenu();
 
         /// <summary>Dopo il caricamento: rimette i valori di ripiego dove il JSON ha messo null (un blocco o una lista mancanti non devono far crollare la UI).</summary>
         public UiMenuFile Normalizza()
@@ -292,6 +305,7 @@ namespace TrenoBambini.Data
             if (hud == null) hud = d.hud;
             if (enigmiImp == null) enigmiImp = d.enigmiImp;
             if (mappaImp == null) mappaImp = d.mappaImp;
+            if (filmato == null) filmato = d.filmato;
             if (inventario == null) inventario = d.inventario;
             if (inventario.sezioni == null || inventario.sezioni.Count != 4) inventario.sezioni = d.inventario.sezioni;
             if (inventario.quaderno == null) inventario.quaderno = d.inventario.quaderno;

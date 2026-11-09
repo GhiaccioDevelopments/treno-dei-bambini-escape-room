@@ -17,7 +17,11 @@ namespace TrenoBambini.Core
         void Awake() { I = this; }
         void OnDestroy() { if (I == this) I = null; }
 
-        public void Load(string scena, string spawnId, TransitionStyle stile = TransitionStyle.Fade)
+        /// <summary>
+        /// preRivela (R025, filmato iniziale): coroutine eseguita a scena caricata e giocatore posizionato, PRIMA che la transizione riveli la scena
+        /// (serve a sistemare la camera mentre lo schermo e' ancora coperto).
+        /// </summary>
+        public void Load(string scena, string spawnId, TransitionStyle stile = TransitionStyle.Fade, System.Func<IEnumerator> preRivela = null)
         {
             if (IsLoading) return;
             if (string.IsNullOrEmpty(scena) || !Application.CanStreamedLevelBeLoaded(scena))
@@ -26,10 +30,10 @@ namespace TrenoBambini.Core
                 if (UIRoot.I != null) UIRoot.I.Toast("Questo luogo non è ancora raggiungibile.");
                 return;
             }
-            StartCoroutine(LoadRoutine(scena, spawnId, stile));
+            StartCoroutine(LoadRoutine(scena, spawnId, stile, preRivela));
         }
 
-        IEnumerator LoadRoutine(string scena, string spawnId, TransitionStyle stile)
+        IEnumerator LoadRoutine(string scena, string spawnId, TransitionStyle stile, System.Func<IEnumerator> preRivela)
         {
             IsLoading = true;
             GameManager.I.PushBlock("caricamento");
@@ -56,6 +60,7 @@ namespace TrenoBambini.Core
             PlacePlayer(spawnId);
             GameManager.I.OnSceneEntered(scena, spawnId);
             yield return null;
+            if (preRivela != null) yield return preRivela();
 
             if (fader != null) yield return fader.In(stile);
             GameManager.I.PopBlock("caricamento");

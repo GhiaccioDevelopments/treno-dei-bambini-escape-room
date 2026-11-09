@@ -19,9 +19,10 @@ namespace TrenoBambini.Mappa
         static int firma = -1;
         static float fermoSecondi;
         static bool rivelato;
+        static float forzatoFino = -1f;
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
-        static void Reset() { firma = -1; fermoSecondi = 0f; rivelato = false; }
+        static void Reset() { firma = -1; fermoSecondi = 0f; rivelato = false; forzatoFino = -1f; }
 
         static SaveData Save { get { return GameManager.I != null ? GameManager.I.Save : null; } }
 
@@ -80,10 +81,15 @@ namespace TrenoBambini.Mappa
                     case Guidata: return true;
                     case Esploratore: return false;
                     default:
-                        return rivelato || fermoSecondi >= GameData.Mappe.parametri.minutiSenzaProgressi * 60f;
+                        return Forzato || rivelato || fermoSecondi >= GameData.Mappe.parametri.minutiSenzaProgressi * 60f;
                 }
         }
         }
+
+        /// <summary>R025: dopo il filmato iniziale la X del primo obiettivo resta visibile per un po' anche in aiuto Normale (non in Esploratore).</summary>
+        public static bool Forzato { get { return Time.unscaledTime < forzatoFino; } }
+        public static void Forza(float secondi) { forzatoFino = Time.unscaledTime + Mathf.Max(0f, secondi); }
+        public static void SpegniForzatura() { forzatoFino = -1f; }
 
         /// <summary>Premuto Indizio in un enigma: in modalita' Normale l'obiettivo compare subito.</summary>
         public static void RivelaIndizio() { rivelato = true; }

@@ -135,5 +135,9 @@
     "nordFissoSpiega": "Con «No» la pianta ruota insieme alla camera, così davanti a te è sempre in alto.",
     "si": "Sì",
     "no": "No"
+  },
+  "filmato": {
+    "rivedi": "Rivedi il filmato iniziale",
+    "nonQui": "Il filmato si rivede dal vicolo o da casa, non dentro un ricordo."
   }
 }
