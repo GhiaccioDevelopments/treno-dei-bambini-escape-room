@@ -5,6 +5,24 @@ Regole d'uso: vedi la sezione "Diario e lavoro su più PC" in `CLAUDE.md`.
 
 ---
 
+## 2026-11-09 – PC casa – R019, R024, R025, R011 integrate e online; R012 Stracci a metà
+**Branch:** richiesta/R012-ricordo-stracci · **Ultimo commit:** 6836263 (+ questa voce) · **feature:** 3030250 · **gh-pages:** 715b01d
+### Fatto
+- **R019** minimappa integrata in `feature/upgrade-realistico`.
+- **R024** scarpe invisibili: causa = calzature piccole e grigie come il selciato. 5 modelli `calz_*` veri, luce che le sfiora, controllo `ControllaRaccoglibili` nel self-test (241 PASS).
+- **R025** filmato iniziale: copione di 36 battute `cs_intro_*` (4:38), 7 capitoli in-engine, si salta tenendo premuto, Rivedi da Pausa e menu, 65 PASS. Personaggio `amerigo_adulto`, `nomeCopione` nel CSV.
+- **R011** segreti: 3 enigmi segreti + 14 collezionabili, pagina Segreti nel quaderno, aiuto lieve automatico, "Rivivi il ricordo" dalla latta, 351 PASS.
+- Build WebGL pubblicata dopo ogni richiesta (ultima 715b01d). PR #26 e #27 chiuse.
+### Decisioni
+- Mai domande: copione R025 mostrato e sviluppato subito; correzioni di review applicate senza attendere.
+### Problemi aperti
+- **R012 non chiusa**: MCP di Unity caduto durante le prove. L'ultima correzione (EsaminaView.Registra) non è ancora compilata; mancano personaggio 3D di Capa 'e fierro, bake, FPS, foto, -enigmitest/-segretitest. Elenco completo nel Rapporto della R012.
+- R025: primo piano dei piedi scuro (sembra un adulto), striscia di pioggia residua vicino alla camera.
+- Hub: `Porta_stazione` non raggiungibile a piedi (da sistemare con R014).
+- Modifiche locali non committate (.mat rigenerati, Settings/Quality, .meta texture segreti): rumore di Unity, non lavoro.
+### Prossimi passi
+- Riavviare il server MCP, finire R012 (prove, personaggio, bake), review, merge, WebGL; poi R013.
+
 ## 2026-11-09 – PC casa – Nuove richieste R024–R029 e regola dei 2 minuti
 **Branch:** richiesta/R019-minimappa-vicoli · **Ultimo commit:** 8847569 (+ questa voce)
 ### Fatto
