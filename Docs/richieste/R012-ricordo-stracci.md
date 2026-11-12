@@ -59,7 +59,7 @@ Schema approvato dall'utente: sviluppo autorizzato.
 
 ## Rapporto
 
-**Stato: sviluppo quasi completo, NON chiuso.** La connessione MCP di Unity e' caduta durante la prova finale (regola di progetto: fermarsi). Restano le voci elencate in "Da completare".
+**Stato: codice completo, da provare in Unity (2026-11-12).** La connessione MCP di Unity e' caduta durante la prova finale (regola di progetto: fermarsi). Restano le voci elencate in "Da completare".
 
 ### Fatto
 - Scena `40_FB_Stracci` generata da `SceneBuilderStracci.cs` (Treno > Scene > Costruisci ricordo Stracci, inclusa in "Costruisci tutte le scene"): 1350 m2 calpestabili, 15 zone senza caricamenti (largo d'ingresso, vico, scala, vico alto, largo e soglia della bottega, bottega interna con soffitto a travi e lanterne, vico dei panni, cortile del bucato, lotto di macerie, vico e cortile dei carrettieri, scala e terrazzino, passaggio alto = scorciatoia ad anello). Aggiunta alle Build Settings, al look (profilo ricordo), alle verifiche R017/R018/raggiungibilita', alla pianta (MappaBuilder) e al benchmark.
@@ -85,6 +85,27 @@ Schema approvato dall'utente: sviluppo autorizzato.
 - Personaggio 3D di Capa 'e fierro e suo ritratto per la cutscene (il punto `Npc_CapaEFierro` e' gia' nella scena); donne del vicolo e Tommasino come voci fuori campo/ritratto.
 - Un solo bake delle luci per la scena, FPS per preset (Alta e Bassa), screenshot e GIF in `Docs/richieste/media/R012/`.
 - Verifiche Treno > Verifica > Superfici e buchi / Camera / Raggiungibilita' sulla nuova scena, e ritocco estetico della bottega (mucchi di stracci e ferri sono ancora blocchi semplici).
+
+### Sessione 2026-11-12 (PC scuola, SENZA Unity ne' MCP: codice scritto a mano, NON compilato, NON testato)
+- Rilettura del codice R012 (EsaminaViewStracci, StraccTest, EsaminaView con la correzione di `Registra`, IngressoRicordo, SceneBuilderStracci, GameManager, CutscenePlayer, Door, NascostoPuzzle, DataClasses): tipi, firme e namespace controllati contro i file esistenti, nessun errore di compilazione trovato. La correzione dei tessuti in `Registra` (le prove non risolvono; risolve solo la conferma delle etichette, evento `deduzione`) e' coerente con `StraccTest` (S1).
+- Corretti: (1) nei tessuti, girando un'etichetta compariva "Che mestiere fa?" (testo della deduzione delle scarpe): ora solo la descrizione del pezzo; (2) l'elenco delle categorie dei tessuti era intitolato "Mestieri": ora usa l'etichetta dello strumento dal JSON; (3) col gamepad Paga (monete) e Conferma (colonne) non erano raggiungibili: ora il tasto Nord li conferma.
+- Bottega: mucchi di stracci e ferri vecchi non piu' solo blocchi: panni d'epoca di traverso, sacchi, ceste, ruote di carro, telaio di branda, bicicletta sul fianco, secchio e pentola (`DettagliMucchio`, `DettagliFerri`, seme casuale separato: il resto della scena non cambia). Senza collider (resta quello della base).
+- Capa 'e fierro: `ArtSource/Characters/makehuman/genera_capa_e_fierro_makehuman.py` (gemello di quello di Amerigo: ~50 anni, robusto, testa grossa con capelli grigi corti, tuta da robivecchi scurita e rattoppata, scarpe consumate; personaggio originale); materiali in `prepara_materiali_amerigo.py`. In Unity: menu **Treno > Personaggi > Importa Capa 'e fierro MakeHuman** (prefab `Assets/Art/Characters/CapaEFierroMH/`) e figura sul punto `Npc_CapaEFierro` con collider; se il prefab non c'e' la scena mette un segnaposto di primitive e lo scrive nel log.
+- Ritratto a cartone `Sprites/ritratti/capa_e_fierro.png`: menu **Treno > Personaggi > Genera ritratto Capa 'e fierro** (rigenera solo quello).
+
+### Da fare a casa con Unity (in quest'ordine)
+1. Aprire il progetto, attendere la compilazione: **console senza errori** (se ce ne sono, riguardano i file di questa sessione: EsaminaView.cs, SceneBuilderStracci.cs, PersonaggiMakeHumanBuilder.cs, ArtGenerator.cs).
+2. MakeHuman: doppio clic su `ArtSource/Characters/makehuman/1_prepara_materiali.bat`, poi in MakeHuman Utilities > Scripting > `genera_capa_e_fierro_makehuman.py` > Execute. Controllare il log (avvisi su modificatori/asset mancanti) e gli screenshot in `Capa_e_fierro/screenshot/`; **mandarli all'utente** (regola: personaggi nuovi approvati con screenshot). Committare `.mhm`, `.fbx`, `textures/` come per Amerigo (LFS).
+3. Unity: **Treno > Personaggi > Importa Capa 'e fierro MakeHuman**. Verificare nel log: avatar valido, nessun "mesh ... senza materiale" (se compare, correggere i nomi degli slot in `MhCapa`), offset dei piedi; misurare l'altezza del prefab (~1,70 m, altrimenti ritoccare `Scala`).
+4. **Treno > Personaggi > Genera ritratto Capa 'e fierro**; guardare il ritratto in una battuta della cutscene.
+5. **Treno > Segreti > Genera texture dei pezzi** (per `RitaglioStracci`).
+6. **Treno > Scene > Costruisci ricordo Stracci**; guardare la bottega (panni sui mucchi: i modelli sono fatti per stare appesi, controllare che sdraiati di ~80 gradi stiano bene; Capa 'e fierro accanto al banco senza compenetrare il tavolo; collezionabile del mucchio di destra ancora visibile).
+7. Verifiche sulla scena: **Treno > Verifica > Compenetrazioni**, **Superfici e buchi**, **Camera**, **Raggiungibilita'**.
+8. Un solo **bake** delle luci di `40_FB_Stracci`.
+9. Prove automatiche: `-straccitest` (atteso 0 FAIL, in particolare S1 tessuti), poi `-enigmitest` e `-segretitest` per le regressioni (EsaminaView e NascostoPuzzle sono condivisi).
+10. FPS per preset Alta e Bassa nella scena (benchmark), screenshot e GIF in `Docs/richieste/media/R012/`.
+11. Prova a mano col gamepad di monete (Paga) e muro dei mestieri (Conferma) con il tasto Nord.
+12. Aggiornare questo Rapporto, spuntare i criteri e la riga nel README.
 
 ### Criteri di accettazione
 - [x] Schema approvato dall'utente prima dello sviluppo.
