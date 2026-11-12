@@ -142,9 +142,16 @@ namespace TrenoBambini.Dialogue
             return img;
         }
 
-        public void Play(string cutsceneId, Action onDone)
+        /// <summary>R012: capitolo = solo le battute con quel campo "capitolo" (es. "ingresso" e "chiusura" di cutscene_stracci); vuoto = tutte.</summary>
+        public void Play(string cutsceneId, Action onDone, string capitolo = null)
         {
             var def = GameData.Cutscene(cutsceneId);
+            if (def != null && !string.IsNullOrEmpty(capitolo))
+            {
+                var parte = new CutsceneDef { id = def.id + "#" + capitolo, titolo = def.titolo, sfondo = def.sfondo };
+                foreach (var b in def.battute) if (b != null && b.capitolo == capitolo) parte.battute.Add(b);
+                def = parte;
+            }
             if (IsPlaying || def == null || def.battute == null || def.battute.Count == 0)
             {
                 if (IsPlaying) Debug.LogWarning("Cutscene già in corso, ignoro: " + cutsceneId);

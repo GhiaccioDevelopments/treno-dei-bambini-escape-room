@@ -1,0 +1,79 @@
+﻿Inizio prova filmato. Modo: naturale (a tempo di lettura). Salvataggio presente: True
+PASS il filmato e' disponibile (copione e regia caricati)
+PASS cutscene_intro ha 36 battute cs_intro_001..036 e 7 capitoli  [36 battute, 7 capitoli]
+PASS amerigo_adulto in personaggi.json
+PASS alla Nuova partita il filmato parte da solo
+PASS il filmato arriva alla fine (non saltato)  [tempo 278 s]
+DURATA misurata (dalla Nuova partita alla fine, a tempo di lettura): 278 s = 4:38
+PASS durata a tempo di lettura <= 5:00  [278 s]
+PASS la voce 'Rivedi il filmato iniziale' e' nel menu principale
+PASS tutte le 36 battute sono andate in onda  [36/36]
+PASS tutti i 7 capitoli sono andati in onda  [visti 7]
+PASS il filmato usa sia il presente (hub) sia il ricordo (30_FB_Scarpe)
+PASS targhetta controlli 'salta' mostrata
+PASS targhetta controlli 'muovi' mostrata
+PASS targhetta controlli 'muovi_guarda' mostrata
+PASS targhetta controlli 'interagisci' mostrata
+PASS targhetta controlli 'inventario' mostrata
+PASS targhetta controlli 'mappa' mostrata
+PASS targhetta controlli 'indizio' mostrata
+PASS targhetta 'tieni premuto per saltare' visibile all'inizio
+PASS le targhette sono scritte per tastiera+mouse (nessun gamepad/touch collegato)
+PASS almeno un inserto in studio (pezzi 3D) e' andato in onda
+PASS durante il filmato la HUD e' nascosta e la pausa non si apre
+PASS sottotitoli sempre visibili durante le battute
+PASS filmato completo: scena = hub
+PASS filmato completo: controllo al giocatore (input libero, movimento attivo)  [blocchi: ]
+PASS filmato completo: il giocatore e' a terra e il suo CharacterController e' acceso
+PASS filmato completo: Amerigo e' nello slargo del basso (finale)  [distanza 0,0 m]
+PASS filmato completo: primo obiettivo = ob_bucato  [ob_bucato]
+PASS filmato completo: X dell'obiettivo forzata visibile anche in aiuto Normale
+PASS filmato completo: minimappa con la X di ob_bucato e la riga dell'obiettivo  [croce=True testo='Guarda i panni stesi: ti ricorderanno la porta']
+PASS filmato completo: HUD visibile
+PASS filmato completo: salvataggio con filmato visto
+FPS (preset Alta, 1280x720, NVIDIA GeForce RTX 4060 Ti):
+capitolo;frame;fps_medi;fps_1pct_low;max_ms
+1;18122;586.2;257.3;5.7
+2;27425;714.0;247.1;18.1
+3;36171;756.4;262.5;13.8
+4;34245;927.8;204.2;11.5
+5;23386;843.3;176.2;10.8
+6;27293;582.9;173.1;16.1
+7;14541;661.9;159.8;16.6
+tutto;181183;723.1;203.3;18.1
+
+PASS FPS medi del filmato >= 60 (preset Alta)  [723 fps]
+PASS nuova partita: il filmato riparte e arriva al secondo capitolo  [capitolo 1]
+PASS un tocco breve di Esc non salta il filmato
+PASS tenendo premuto Esc il filmato si salta
+PASS filmato saltato: scena = hub
+PASS filmato saltato: controllo al giocatore (input libero, movimento attivo)  [blocchi: ]
+PASS filmato saltato: il giocatore e' a terra e il suo CharacterController e' acceso
+PASS filmato saltato: Amerigo e' nello slargo del basso (finale)  [distanza 0,0 m]
+PASS filmato saltato: primo obiettivo = ob_bucato  [ob_bucato]
+PASS filmato saltato: X dell'obiettivo forzata visibile anche in aiuto Normale
+PASS filmato saltato: minimappa con la X di ob_bucato e la riga dell'obiettivo  [croce=True testo='Guarda i panni stesi: ti ricorderanno la porta']
+PASS filmato saltato: HUD visibile
+PASS filmato saltato: salvataggio con filmato visto
+PASS Continua con un salvataggio esistente: il filmato non riparte
+PASS la pausa si apre in gioco
+PASS la pausa ha la voce 'Rivedi il filmato iniziale'
+PASS 'Rivedi il filmato iniziale' fa partire il filmato
+PASS targhette: tastiera = W A S D  [W A S D]
+PASS targhette: gamepad = Leva sinistra  [Leva sinistra]
+PASS targhette: touch = Joystick a sinistra  [Joystick a sinistra]
+PASS dispositivo = tastiera dopo un tasto  [tastiera]
+PASS dispositivo = gamepad dopo l'uso del gamepad  [gamepad]
+PASS dispositivo torna a tastiera con un tasto  [tastiera]
+PASS dispositivo = touch in modalita' touch  [touch]
+PASS dopo il filmato rivisto il giocatore torna dov'era  [distanza 0,00 m]
+PASS dopo il filmato rivisto il gioco e' libero
+PASS rivedere il filmato non cambia il salvataggio (scena e flag)
+PASS Rivedi dal basso: il filmato parte
+PASS Rivedi dal basso + salto: si torna nel basso, al punto di prima  [scena 20_Int_BassoAntonietta, distanza 0,00 m]
+PASS Rivedi dal basso: il salvataggio resta nel basso e il gioco e' libero  [save.scena 20_Int_BassoAntonietta, blocchi: ]
+PASS guardiano: un regista bloccato chiude il filmato da solo (entro ~10 s)
+PASS guardiano: dopo la chiusura forzata il gioco e' libero e la HUD c'e'  [blocchi: ]
+PASS Rivedi dal menu principale: il filmato parte
+PASS Rivedi dal menu principale + salto: si torna al titolo  [scena 10_Hub_Vicolo]
+Fine prova: 65 PASS, 0 FAIL

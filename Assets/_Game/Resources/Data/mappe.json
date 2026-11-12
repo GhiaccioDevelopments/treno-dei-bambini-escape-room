@@ -1,0 +1,1736 @@
+{
+  "parametri": {
+    "minutiSenzaProgressi": 3,
+    "raggioNome": 14,
+    "raggioArrivo": 2.2,
+    "raggioVista": 20
+  },
+  "testi": {
+    "titoloGrande": "Pianta del quartiere",
+    "pulsante": "Mappa",
+    "chiudi": "Chiudi",
+    "legendaTitolo": "Segni sulla pianta",
+    "obiettivoTitolo": "Da fare adesso",
+    "nessunObiettivo": "Per ora qui non c'è altro da fare.",
+    "obiettivoNascosto": "Guardati intorno: se ti serve una mano, premi Indizio in un enigma e la pianta ti indicherà dove andare.",
+    "capitoloFinito": "Il ricordo delle scarpe è tornato a casa con te. Il resto del viaggio ti aspetta più avanti.",
+    "aiuto": "M o Esc: chiudi la pianta",
+    "aiutoTouch": "Tocca Chiudi per tornare al gioco",
+    "aiutoSpento": "L'aiuto della mappa è su «Esploratore»: la pianta mostra solo i nomi dei vicoli e dove ti trovi.",
+    "nord": "N",
+    "legenda": [
+      {
+        "glifo": "tu",
+        "testo": "Tu"
+      },
+      {
+        "glifo": "obiettivo",
+        "testo": "Prossimo obiettivo"
+      },
+      {
+        "glifo": "porta",
+        "testo": "Porta"
+      },
+      {
+        "glifo": "bottega",
+        "testo": "Bottega"
+      },
+      {
+        "glifo": "fontana",
+        "testo": "Fontana"
+      },
+      {
+        "glifo": "edicola",
+        "testo": "Edicola votiva"
+      },
+      {
+        "glifo": "pozzo",
+        "testo": "Pozzo"
+      },
+      {
+        "glifo": "lavatoio",
+        "testo": "Lavatoio"
+      },
+      {
+        "glifo": "uscita",
+        "testo": "Uscita"
+      },
+      {
+        "glifo": "stazione",
+        "testo": "Stazione"
+      }
+    ]
+  },
+  "scene": [
+    {
+      "scena": "10_Hub_Vicolo",
+      "titolo": "Napoli, il quartiere",
+      "tema": "normale",
+      "ax0": -42,
+      "az0": -57,
+      "ax1": 43,
+      "az1": 70,
+      "ppm": 8,
+      "raggio": 20,
+      "strade": [
+        {
+          "id": "largo_fontanella",
+          "nome": "Largo della Fontanella",
+          "tipo": "largo",
+          "zone": [
+            {
+              "x0": -10,
+              "x1": 10,
+              "z0": -44,
+              "z1": -28
+            }
+          ],
+          "ancore": [
+            {
+              "x": 0,
+              "z": -40
+            }
+          ]
+        },
+        {
+          "id": "lungo_gelso",
+          "nome": "Vico Lungo Gelso",
+          "tipo": "principale",
+          "zone": [
+            {
+              "x0": -3,
+              "x1": 3,
+              "z0": -28,
+              "z1": -8
+            },
+            {
+              "x0": -3,
+              "x1": 3,
+              "z0": -5,
+              "z1": 9
+            },
+            {
+              "x0": -3,
+              "x1": 3,
+              "z0": 12,
+              "z1": 26
+            }
+          ],
+          "ancore": [
+            {
+              "x": 0,
+              "z": -18
+            },
+            {
+              "x": 0,
+              "z": 2
+            },
+            {
+              "x": 0,
+              "z": 19
+            }
+          ]
+        },
+        {
+          "id": "panni_stesi",
+          "nome": "Vico dei Panni Stesi",
+          "tipo": "vicolo",
+          "zone": [
+            {
+              "x0": -25,
+              "x1": -21,
+              "z0": -25,
+              "z1": -20
+            },
+            {
+              "x0": -25,
+              "x1": -21,
+              "z0": -16,
+              "z1": -6
+            },
+            {
+              "x0": -25,
+              "x1": -21,
+              "z0": -6,
+              "z1": -3
+            },
+            {
+              "x0": -25,
+              "x1": -21,
+              "z0": -3,
+              "z1": 4
+            }
+          ],
+          "ancore": [
+            {
+              "x": -23,
+              "z": -11
+            },
+            {
+              "x": -23,
+              "z": 0
+            }
+          ]
+        },
+        {
+          "id": "tre_lumi",
+          "nome": "Vico Tre Lumi",
+          "tipo": "vicolo",
+          "zone": [
+            {
+              "x0": -29,
+              "x1": -3,
+              "z0": -20,
+              "z1": -16
+            }
+          ],
+          "ancore": [
+            {
+              "x": -14,
+              "z": -18
+            }
+          ]
+        },
+        {
+          "id": "cortile_lavatoio",
+          "nome": "Cortile del Lavatoio",
+          "tipo": "cortile",
+          "zone": [
+            {
+              "x0": -29,
+              "x1": -17,
+              "z0": -35,
+              "z1": -25
+            }
+          ],
+          "ancore": [
+            {
+              "x": -23,
+              "z": -30
+            }
+          ]
+        },
+        {
+          "id": "supportico_lanterna",
+          "nome": "Supportico Cieco della Lanterna",
+          "tipo": "vicolo",
+          "zone": [
+            {
+              "x0": -29,
+              "x1": -25,
+              "z0": -12,
+              "z1": -8
+            }
+          ],
+          "ancore": [
+            {
+              "x": -26,
+              "z": -10
+            }
+          ]
+        },
+        {
+          "id": "cappella_scura",
+          "nome": "Vico Cappella Scura",
+          "tipo": "vicolo",
+          "zone": [
+            {
+              "x0": -29,
+              "x1": -3,
+              "z0": 4,
+              "z1": 8
+            }
+          ],
+          "ancore": [
+            {
+              "x": -16,
+              "z": 6
+            }
+          ]
+        },
+        {
+          "id": "supportico_cancello",
+          "nome": "Supportico del Cancello",
+          "tipo": "vicolo",
+          "zone": [
+            {
+              "x0": -29,
+              "x1": -3,
+              "z0": 14,
+              "z1": 18
+            },
+            {
+              "x0": -19,
+              "x1": -15,
+              "z0": 18,
+              "z1": 22
+            }
+          ],
+          "ancore": [
+            {
+              "x": -16,
+              "z": 16
+            }
+          ]
+        },
+        {
+          "id": "cortile_terrazzino",
+          "nome": "Cortile del Terrazzino",
+          "tipo": "cortile",
+          "zone": [
+            {
+              "x0": -25,
+              "x1": -13,
+              "z0": 22,
+              "z1": 32
+            }
+          ],
+          "ancore": [
+            {
+              "x": -19,
+              "z": 27
+            }
+          ]
+        },
+        {
+          "id": "scalzacani",
+          "nome": "Vico Scalzacani",
+          "tipo": "vicolo",
+          "zone": [
+            {
+              "x0": 3,
+              "x1": 29,
+              "z0": -14,
+              "z1": -10
+            }
+          ],
+          "ancore": [
+            {
+              "x": 15,
+              "z": -12
+            }
+          ]
+        },
+        {
+          "id": "palazzo_crollato",
+          "nome": "Largo del Palazzo Crollato",
+          "tipo": "largo",
+          "zone": [
+            {
+              "x0": 11,
+              "x1": 27,
+              "z0": -24,
+              "z1": -14
+            }
+          ],
+          "ancore": [
+            {
+              "x": 19,
+              "z": -19
+            }
+          ]
+        },
+        {
+          "id": "speranzella",
+          "nome": "Via Speranzella",
+          "tipo": "principale",
+          "zone": [
+            {
+              "x0": 17,
+              "x1": 21,
+              "z0": -10,
+              "z1": -1
+            },
+            {
+              "x0": 17,
+              "x1": 21,
+              "z0": 3,
+              "z1": 33
+            }
+          ],
+          "ancore": [
+            {
+              "x": 19,
+              "z": -5
+            },
+            {
+              "x": 19,
+              "z": 10
+            },
+            {
+              "x": 19,
+              "z": 25
+            }
+          ]
+        },
+        {
+          "id": "sette_spiriti",
+          "nome": "Vico Sette Spiriti",
+          "tipo": "vicolo",
+          "zone": [
+            {
+              "x0": 3,
+              "x1": 29,
+              "z0": -1,
+              "z1": 3
+            }
+          ],
+          "ancore": [
+            {
+              "x": 10,
+              "z": 1
+            }
+          ]
+        },
+        {
+          "id": "concordia",
+          "nome": "Via Concordia",
+          "tipo": "principale",
+          "zone": [
+            {
+              "x0": 3,
+              "x1": 29,
+              "z0": 14,
+              "z1": 18
+            }
+          ],
+          "ancore": [
+            {
+              "x": 9,
+              "z": 16
+            }
+          ]
+        },
+        {
+          "id": "supportico_casse",
+          "nome": "Supportico delle Casse",
+          "tipo": "vicolo",
+          "zone": [
+            {
+              "x0": 21,
+              "x1": 27,
+              "z0": 22,
+              "z1": 26
+            }
+          ],
+          "ancore": [
+            {
+              "x": 24,
+              "z": 24
+            }
+          ]
+        },
+        {
+          "id": "portacarrese",
+          "nome": "Via Portacarrese a Montecalvario",
+          "tipo": "principale",
+          "zone": [
+            {
+              "x0": 8,
+              "x1": 29,
+              "z0": 33,
+              "z1": 37
+            }
+          ],
+          "ancore": [
+            {
+              "x": 18,
+              "z": 35
+            }
+          ]
+        },
+        {
+          "id": "madonna_illuminata",
+          "nome": "Largo della Madonna Illuminata",
+          "tipo": "largo",
+          "zone": [
+            {
+              "x0": -8,
+              "x1": 8,
+              "z0": 29,
+              "z1": 45
+            }
+          ],
+          "ancore": [
+            {
+              "x": 0,
+              "z": 41
+            }
+          ]
+        },
+        {
+          "id": "montecalvario",
+          "nome": "Piazza Montecalvario",
+          "tipo": "largo",
+          "zone": [
+            {
+              "x0": -6,
+              "x1": 6,
+              "z0": 48,
+              "z1": 56
+            }
+          ],
+          "ancore": [
+            {
+              "x": 0,
+              "z": 52
+            }
+          ]
+        },
+        {
+          "id": "via_roma",
+          "nome": "Via Roma (già Toledo)",
+          "tipo": "principale",
+          "zone": [
+            {
+              "x0": -6,
+              "x1": 6,
+              "z0": 56,
+              "z1": 62
+            }
+          ],
+          "ancore": [
+            {
+              "x": 0,
+              "z": 59
+            }
+          ]
+        },
+        {
+          "id": "sant_anna",
+          "nome": "Largo Sant'Anna dei Panni",
+          "tipo": "largo",
+          "zone": [
+            {
+              "x0": -9,
+              "x1": -3,
+              "z0": -4,
+              "z1": 0
+            }
+          ],
+          "ancore": [
+            {
+              "x": -6,
+              "z": -2
+            }
+          ]
+        },
+        {
+          "id": "rampa_cantari",
+          "nome": "Rampa dei Cantari",
+          "tipo": "rampa",
+          "zone": [
+            {
+              "x0": -3,
+              "x1": 3,
+              "z0": -8,
+              "z1": -5
+            }
+          ],
+          "ancore": [
+            {
+              "x": 0,
+              "z": -6.5
+            }
+          ]
+        },
+        {
+          "id": "madonnella",
+          "nome": "Gradini della Madonnella",
+          "tipo": "rampa",
+          "zone": [
+            {
+              "x0": -3,
+              "x1": 3,
+              "z0": 9,
+              "z1": 12
+            }
+          ],
+          "ancore": [
+            {
+              "x": 0,
+              "z": 10.5
+            }
+          ]
+        },
+        {
+          "id": "tre_scalini",
+          "nome": "Rampa Tre Scalini",
+          "tipo": "rampa",
+          "zone": [
+            {
+              "x0": -3,
+              "x1": 3,
+              "z0": 26,
+              "z1": 29
+            }
+          ],
+          "ancore": [
+            {
+              "x": 0,
+              "z": 27.5
+            }
+          ]
+        },
+        {
+          "id": "capitano",
+          "nome": "Rampa del Capitano",
+          "tipo": "rampa",
+          "zone": [
+            {
+              "x0": -3,
+              "x1": 3,
+              "z0": 45,
+              "z1": 48
+            }
+          ],
+          "ancore": [
+            {
+              "x": 0,
+              "z": 46.5
+            }
+          ]
+        }
+      ],
+      "punti": [
+        {
+          "id": "porta_basso",
+          "glifo": "porta",
+          "nome": "Il basso di Antonietta",
+          "x": -9.1,
+          "z": -2.0
+        },
+        {
+          "id": "porta_stazione",
+          "glifo": "stazione",
+          "nome": "La stazione",
+          "x": 0.0,
+          "z": 55.6
+        },
+        {
+          "id": "porta_comitato",
+          "glifo": "porta",
+          "nome": "La sede del Comitato",
+          "x": 28.7,
+          "z": 1.0
+        },
+        {
+          "id": "porta_capa",
+          "glifo": "porta",
+          "nome": "La bottega di Capa 'e fierro",
+          "x": -28.7,
+          "z": 6.0
+        },
+        {
+          "id": "porta_stracci",
+          "glifo": "porta",
+          "nome": "Il vicolo degli stracci",
+          "x": 6.0,
+          "z": -43.7
+        },
+        {
+          "id": "fontana",
+          "glifo": "fontana",
+          "nome": "Fontanella",
+          "x": 0.0,
+          "z": -35.0
+        },
+        {
+          "id": "pozzo",
+          "glifo": "pozzo",
+          "nome": "Pozzo",
+          "x": -21.0,
+          "z": -30.5
+        },
+        {
+          "id": "lavatoio",
+          "glifo": "lavatoio",
+          "nome": "Lavatoio",
+          "x": -27.4,
+          "z": -30.0
+        },
+        {
+          "id": "edicola_t3",
+          "glifo": "edicola",
+          "nome": "Edicola votiva",
+          "x": -14.0,
+          "z": 7.8
+        },
+        {
+          "id": "edicola_t5",
+          "glifo": "edicola",
+          "nome": "Edicola votiva",
+          "x": 12.0,
+          "z": 14.2
+        },
+        {
+          "id": "edicola_grande",
+          "glifo": "edicola",
+          "nome": "La grande edicola",
+          "x": -7.0,
+          "z": 37.0
+        },
+        {
+          "id": "bottega_luce",
+          "glifo": "bottega",
+          "nome": "Bottega",
+          "x": 7.0,
+          "z": -27.4
+        }
+      ]
+    },
+    {
+      "scena": "20_Int_BassoAntonietta",
+      "titolo": "Il basso di Antonietta",
+      "tema": "normale",
+      "ax0": -8,
+      "az0": -6,
+      "ax1": 10,
+      "az1": 18,
+      "ppm": 24,
+      "raggio": 8,
+      "strade": [
+        {
+          "id": "stanza",
+          "nome": "La stanza",
+          "tipo": "stanza",
+          "zone": [
+            {
+              "x0": -4.5,
+              "x1": 4.5,
+              "z0": -2.5,
+              "z1": 3.5
+            }
+          ],
+          "ancore": [
+            {
+              "x": 0,
+              "z": 0.5
+            }
+          ]
+        },
+        {
+          "id": "alcova",
+          "nome": "L'alcova",
+          "tipo": "stanza",
+          "zone": [
+            {
+              "x0": -4.5,
+              "x1": -1.5,
+              "z0": 3.8,
+              "z1": 7.8
+            }
+          ],
+          "ancore": [
+            {
+              "x": -3,
+              "z": 5.8
+            }
+          ]
+        },
+        {
+          "id": "cucina",
+          "nome": "La cucina",
+          "tipo": "stanza",
+          "zone": [
+            {
+              "x0": 1.5,
+              "x1": 4.5,
+              "z0": 3.8,
+              "z1": 7.8
+            }
+          ],
+          "ancore": [
+            {
+              "x": 3,
+              "z": 5.8
+            }
+          ]
+        },
+        {
+          "id": "cortile",
+          "nome": "Il cortile",
+          "tipo": "cortile",
+          "zone": [
+            {
+              "x0": 1.2,
+              "x1": 6.3,
+              "z0": 8.1,
+              "z1": 14.1
+            }
+          ],
+          "ancore": [
+            {
+              "x": 3.7,
+              "z": 11
+            }
+          ]
+        }
+      ],
+      "punti": [
+        {
+          "id": "uscita",
+          "glifo": "uscita",
+          "nome": "Uscita sul vicolo",
+          "x": 0.0,
+          "z": -2.2
+        }
+      ]
+    },
+    {
+      "scena": "30_FB_Scarpe",
+      "titolo": "La stessa strada, nel 1946",
+      "tema": "ricordo",
+      "ax0": -29,
+      "az0": -45,
+      "ax1": 33,
+      "az1": 51,
+      "ppm": 8,
+      "raggio": 20,
+      "strade": [
+        {
+          "id": "largo_fontanella",
+          "nome": "Largo della Fontanella",
+          "tipo": "largo",
+          "zone": [
+            {
+              "x0": -6.3,
+              "x1": 6.3,
+              "z0": -32.3,
+              "z1": -22
+            }
+          ],
+          "ancore": [
+            {
+              "x": 0,
+              "z": -27
+            }
+          ]
+        },
+        {
+          "id": "lungo_gelso",
+          "nome": "Vico Lungo Gelso",
+          "tipo": "principale",
+          "zone": [
+            {
+              "x0": -3,
+              "x1": 3,
+              "z0": -22,
+              "z1": 22
+            }
+          ],
+          "ancore": [
+            {
+              "x": 0,
+              "z": -12
+            },
+            {
+              "x": 0,
+              "z": 8
+            }
+          ]
+        },
+        {
+          "id": "sant_anna",
+          "nome": "Largo Sant'Anna dei Panni",
+          "tipo": "largo",
+          "zone": [
+            {
+              "x0": -9.3,
+              "x1": -3,
+              "z0": -8.3,
+              "z1": 0.3
+            }
+          ],
+          "ancore": [
+            {
+              "x": -6,
+              "z": -5
+            }
+          ]
+        },
+        {
+          "id": "supportico_cancello",
+          "nome": "Supportico del Cancello",
+          "tipo": "vicolo",
+          "zone": [
+            {
+              "x0": -16.3,
+              "x1": -3,
+              "z0": 15.7,
+              "z1": 20.3
+            }
+          ],
+          "ancore": [
+            {
+              "x": -10,
+              "z": 18
+            }
+          ]
+        },
+        {
+          "id": "sette_spiriti",
+          "nome": "Vico Sette Spiriti",
+          "tipo": "vicolo",
+          "zone": [
+            {
+              "x0": 3,
+              "x1": 16.3,
+              "z0": 5.7,
+              "z1": 10.3
+            }
+          ],
+          "ancore": [
+            {
+              "x": 10,
+              "z": 8
+            }
+          ]
+        },
+        {
+          "id": "scalzacani",
+          "nome": "Vico Scalzacani",
+          "tipo": "vicolo",
+          "zone": [
+            {
+              "x0": 3,
+              "x1": 9,
+              "z0": -16.3,
+              "z1": -11.7
+            }
+          ],
+          "ancore": [
+            {
+              "x": 6,
+              "z": -14
+            }
+          ]
+        },
+        {
+          "id": "cortile_lavatoio",
+          "nome": "Cortile del Lavatoio",
+          "tipo": "cortile",
+          "zone": [
+            {
+              "x0": 9,
+              "x1": 19.3,
+              "z0": -20.3,
+              "z1": -8.7
+            }
+          ],
+          "ancore": [
+            {
+              "x": 14,
+              "z": -15
+            }
+          ]
+        },
+        {
+          "id": "madonna_illuminata",
+          "nome": "Largo della Madonna Illuminata",
+          "tipo": "largo",
+          "zone": [
+            {
+              "x0": -8.3,
+              "x1": 8.3,
+              "z0": 25,
+              "z1": 37.3
+            }
+          ],
+          "ancore": [
+            {
+              "x": 0,
+              "z": 28
+            }
+          ]
+        },
+        {
+          "id": "tre_scalini",
+          "nome": "Rampa Tre Scalini",
+          "tipo": "rampa",
+          "zone": [
+            {
+              "x0": -3,
+              "x1": 3,
+              "z0": 22,
+              "z1": 25
+            }
+          ],
+          "ancore": [
+            {
+              "x": 0,
+              "z": 23.5
+            }
+          ]
+        }
+      ],
+      "punti": [
+        {
+          "id": "fontana",
+          "glifo": "fontana",
+          "nome": "Fontanella",
+          "x": -1.0,
+          "z": 32.0
+        },
+        {
+          "id": "pozzo",
+          "glifo": "pozzo",
+          "nome": "Pozzo",
+          "x": 17.4,
+          "z": -10.9
+        },
+        {
+          "id": "lavatoio",
+          "glifo": "lavatoio",
+          "nome": "Lavatoio",
+          "x": 18.4,
+          "z": -17.5
+        },
+        {
+          "id": "edicola_1",
+          "glifo": "edicola",
+          "nome": "Edicola votiva",
+          "x": 10.0,
+          "z": 9.8
+        },
+        {
+          "id": "edicola_2",
+          "glifo": "edicola",
+          "nome": "Edicola votiva",
+          "x": -9.0,
+          "z": 19.8
+        },
+        {
+          "id": "calzolaio",
+          "glifo": "bottega",
+          "nome": "Il calzolaio",
+          "x": -8.0,
+          "z": -3.9
+        },
+        {
+          "id": "uscita",
+          "glifo": "uscita",
+          "nome": "Uscita",
+          "x": 0.0,
+          "z": 35.5
+        }
+      ]
+    },
+    {
+      "scena": "40_FB_Stracci",
+      "titolo": "Il vicolo degli stracci, nel 1946",
+      "tema": "ricordo",
+      "ax0": -33,
+      "az0": -37,
+      "ax1": 33,
+      "az1": 55,
+      "ppm": 8,
+      "raggio": 20,
+      "strade": [
+        {
+          "id": "largo_stracci",
+          "nome": "Largo degli Stracci",
+          "tipo": "largo",
+          "zone": [
+            {
+              "x0": -6,
+              "x1": 6,
+              "z0": -30,
+              "z1": -22
+            }
+          ],
+          "ancore": [
+            {
+              "x": 0,
+              "z": -26
+            }
+          ]
+        },
+        {
+          "id": "vico_stracci",
+          "nome": "Vico degli Stracci",
+          "tipo": "vicolo",
+          "zone": [
+            {
+              "x0": -3,
+              "x1": 3,
+              "z0": -22,
+              "z1": 12
+            }
+          ],
+          "ancore": [
+            {
+              "x": 0,
+              "z": -3
+            }
+          ]
+        },
+        {
+          "id": "scala_carraio",
+          "nome": "Scalinata del Carraio",
+          "tipo": "rampa",
+          "zone": [
+            {
+              "x0": -3,
+              "x1": 3,
+              "z0": 12,
+              "z1": 15
+            }
+          ],
+          "ancore": [
+            {
+              "x": 0,
+              "z": 13.5
+            }
+          ]
+        },
+        {
+          "id": "vico_alto",
+          "nome": "Vico Alto",
+          "tipo": "vicolo",
+          "zone": [
+            {
+              "x0": -3,
+              "x1": 3,
+              "z0": 15,
+              "z1": 24
+            }
+          ],
+          "ancore": [
+            {
+              "x": 0,
+              "z": 19.5
+            }
+          ]
+        },
+        {
+          "id": "largo_bottega",
+          "nome": "Largo della Bottega",
+          "tipo": "largo",
+          "zone": [
+            {
+              "x0": -6,
+              "x1": 6,
+              "z0": 24,
+              "z1": 32
+            }
+          ],
+          "ancore": [
+            {
+              "x": 0,
+              "z": 28
+            }
+          ]
+        },
+        {
+          "id": "soglia_bottega",
+          "nome": "Soglia della bottega",
+          "tipo": "vicolo",
+          "zone": [
+            {
+              "x0": -1.75,
+              "x1": 1.75,
+              "z0": 32,
+              "z1": 35
+            }
+          ],
+          "ancore": [
+            {
+              "x": 0,
+              "z": 33.5
+            }
+          ]
+        },
+        {
+          "id": "bottega",
+          "nome": "La bottega di Capa 'e fierro",
+          "tipo": "stanza",
+          "zone": [
+            {
+              "x0": -8,
+              "x1": 8,
+              "z0": 35,
+              "z1": 48
+            }
+          ],
+          "ancore": [
+            {
+              "x": 0,
+              "z": 41.5
+            }
+          ]
+        },
+        {
+          "id": "vico_panni",
+          "nome": "Vico dei Panni",
+          "tipo": "vicolo",
+          "zone": [
+            {
+              "x0": -16,
+              "x1": -3,
+              "z0": -9,
+              "z1": -5
+            }
+          ],
+          "ancore": [
+            {
+              "x": -9.5,
+              "z": -7
+            }
+          ]
+        },
+        {
+          "id": "cortile_bucato",
+          "nome": "Cortile del Bucato",
+          "tipo": "cortile",
+          "zone": [
+            {
+              "x0": -26,
+              "x1": -16,
+              "z0": -14,
+              "z1": -1
+            }
+          ],
+          "ancore": [
+            {
+              "x": -21,
+              "z": -7.5
+            }
+          ]
+        },
+        {
+          "id": "lotto_macerie",
+          "nome": "Il Lotto delle Macerie",
+          "tipo": "largo",
+          "zone": [
+            {
+              "x0": 3,
+              "x1": 15,
+              "z0": -20,
+              "z1": -8
+            }
+          ],
+          "ancore": [
+            {
+              "x": 9,
+              "z": -14
+            }
+          ]
+        },
+        {
+          "id": "vico_carrettieri",
+          "nome": "Vico dei Carrettieri",
+          "tipo": "vicolo",
+          "zone": [
+            {
+              "x0": 3,
+              "x1": 14,
+              "z0": 4,
+              "z1": 8
+            }
+          ],
+          "ancore": [
+            {
+              "x": 8.5,
+              "z": 6
+            }
+          ]
+        },
+        {
+          "id": "cortile_carrettieri",
+          "nome": "Cortile dei Carrettieri",
+          "tipo": "cortile",
+          "zone": [
+            {
+              "x0": 14,
+              "x1": 24,
+              "z0": -2,
+              "z1": 12
+            }
+          ],
+          "ancore": [
+            {
+              "x": 19,
+              "z": 5
+            }
+          ]
+        },
+        {
+          "id": "scala_terrazzo",
+          "nome": "Scala del Terrazzino",
+          "tipo": "rampa",
+          "zone": [
+            {
+              "x0": 18,
+              "x1": 22,
+              "z0": 12,
+              "z1": 15
+            }
+          ],
+          "ancore": [
+            {
+              "x": 20,
+              "z": 13.5
+            }
+          ]
+        },
+        {
+          "id": "terrazzino",
+          "nome": "Il Terrazzino",
+          "tipo": "cortile",
+          "zone": [
+            {
+              "x0": 14,
+              "x1": 26,
+              "z0": 15,
+              "z1": 23
+            }
+          ],
+          "ancore": [
+            {
+              "x": 20,
+              "z": 19
+            }
+          ]
+        },
+        {
+          "id": "passaggio_alto",
+          "nome": "Passaggio Alto",
+          "tipo": "vicolo",
+          "zone": [
+            {
+              "x0": 3,
+              "x1": 14,
+              "z0": 17,
+              "z1": 21
+            }
+          ],
+          "ancore": [
+            {
+              "x": 8.5,
+              "z": 19
+            }
+          ]
+        }
+      ],
+      "punti": [
+        {
+          "id": "uscita",
+          "glifo": "uscita",
+          "nome": "Porta della bottega",
+          "x": 5.8,
+          "z": 47.0
+        },
+        {
+          "id": "bottega",
+          "glifo": "bottega",
+          "nome": "Bottega di Capa 'e fierro",
+          "x": 0.0,
+          "z": 34.0
+        }
+      ]
+    }
+  ],
+  "obiettivi": [
+    {
+      "id": "ob_bucato",
+      "testo": "Trova la tua porta tra i panni stesi",
+      "capitolo": "flashback_scarpe",
+      "completo": [
+        "enigma_bucato"
+      ],
+      "punti": [
+        {
+          "scena": "10_Hub_Vicolo",
+          "x": -6,
+          "z": -2,
+          "testo": "Guarda i panni stesi: ti ricorderanno la porta"
+        }
+      ]
+    },
+    {
+      "id": "ob_exvoto",
+      "testo": "Cerca la chiave nell'edicola votiva",
+      "capitolo": "flashback_scarpe",
+      "completo": [
+        "enigma_exvoto"
+      ],
+      "punti": [
+        {
+          "scena": "10_Hub_Vicolo",
+          "x": -7.3,
+          "z": 37,
+          "testo": "Cerca la chiave nell'edicola votiva"
+        }
+      ]
+    },
+    {
+      "id": "ob_foto",
+      "testo": "Guarda la fotografia storta",
+      "capitolo": "flashback_scarpe",
+      "completo": [
+        "enigma_foto"
+      ],
+      "punti": [
+        {
+          "scena": "20_Int_BassoAntonietta",
+          "x": -4.5,
+          "z": 1.5,
+          "testo": "Guarda la fotografia storta"
+        },
+        {
+          "scena": "10_Hub_Vicolo",
+          "x": -9.1,
+          "z": -2.0,
+          "testo": "Torna al basso di Antonietta"
+        }
+      ]
+    },
+    {
+      "id": "ob_calendario",
+      "testo": "Esamina il calendario del '46",
+      "capitolo": "flashback_scarpe",
+      "completo": [
+        "enigma_calendario"
+      ],
+      "punti": [
+        {
+          "scena": "20_Int_BassoAntonietta",
+          "x": -4.5,
+          "z": 2.5,
+          "testo": "Esamina il calendario del '46"
+        },
+        {
+          "scena": "10_Hub_Vicolo",
+          "x": -9.1,
+          "z": -2.0,
+          "testo": "Torna al basso di Antonietta"
+        }
+      ]
+    },
+    {
+      "id": "ob_cassetta",
+      "testo": "Apri la cassetta di latta",
+      "capitolo": "flashback_scarpe",
+      "completo": [
+        "enigma_cassetta"
+      ],
+      "punti": [
+        {
+          "scena": "20_Int_BassoAntonietta",
+          "x": 0.6,
+          "z": 3.2,
+          "testo": "Apri la cassetta di latta"
+        },
+        {
+          "scena": "10_Hub_Vicolo",
+          "x": -9.1,
+          "z": -2.0,
+          "testo": "Torna al basso di Antonietta"
+        }
+      ]
+    },
+    {
+      "id": "ob_baule",
+      "testo": "Apri il baule dell'alcova",
+      "capitolo": "flashback_scarpe",
+      "completo": [
+        "enigma_baule"
+      ],
+      "punti": [
+        {
+          "scena": "20_Int_BassoAntonietta",
+          "x": -4.0,
+          "z": 4.5,
+          "testo": "Apri il baule dell'alcova"
+        },
+        {
+          "scena": "10_Hub_Vicolo",
+          "x": -9.1,
+          "z": -2.0,
+          "testo": "Torna al basso di Antonietta"
+        }
+      ]
+    },
+    {
+      "id": "ob_passanti",
+      "testo": "Guarda le scarpe di chi passa",
+      "capitolo": "flashback_scarpe",
+      "completo": [
+        "enigma_passanti"
+      ],
+      "punti": [
+        {
+          "scena": "30_FB_Scarpe",
+          "x": -2.4,
+          "z": -23.0,
+          "testo": "Guarda le scarpe di chi passa"
+        },
+        {
+          "scena": "20_Int_BassoAntonietta",
+          "x": -4.0,
+          "z": 4.5,
+          "testo": "Riprendi le scarpe nel baule"
+        },
+        {
+          "scena": "10_Hub_Vicolo",
+          "x": -9.1,
+          "z": -2.0,
+          "testo": "Torna al basso di Antonietta"
+        }
+      ]
+    },
+    {
+      "id": "ob_nascosto",
+      "testo": "Cerca le scarpe nel baule del calzolaio",
+      "capitolo": "flashback_scarpe",
+      "completo": [
+        "enigma_nascosto"
+      ],
+      "punti": [
+        {
+          "scena": "30_FB_Scarpe",
+          "x": -8.6,
+          "z": -1.5,
+          "testo": "Cerca le scarpe nel baule del calzolaio"
+        },
+        {
+          "scena": "20_Int_BassoAntonietta",
+          "x": -4.0,
+          "z": 4.5,
+          "testo": "Riprendi le scarpe nel baule"
+        },
+        {
+          "scena": "10_Hub_Vicolo",
+          "x": -9.1,
+          "z": -2.0,
+          "testo": "Torna al basso di Antonietta"
+        }
+      ]
+    },
+    {
+      "id": "ob_quiz",
+      "testo": "Leggi la cassetta dei diritti",
+      "capitolo": "flashback_scarpe",
+      "completo": [
+        "enigma_quiz"
+      ],
+      "punti": [
+        {
+          "scena": "30_FB_Scarpe",
+          "x": -7.6,
+          "z": -4.6,
+          "testo": "Leggi la cassetta dei diritti"
+        },
+        {
+          "scena": "20_Int_BassoAntonietta",
+          "x": -4.0,
+          "z": 4.5,
+          "testo": "Riprendi le scarpe nel baule"
+        },
+        {
+          "scena": "10_Hub_Vicolo",
+          "x": -9.1,
+          "z": -2.0,
+          "testo": "Torna al basso di Antonietta"
+        }
+      ]
+    },
+    {
+      "id": "ob_ordina",
+      "testo": "Rimetti in ordine il calendario della memoria",
+      "capitolo": "flashback_scarpe",
+      "completo": [
+        "enigma_ordina"
+      ],
+      "punti": [
+        {
+          "scena": "30_FB_Scarpe",
+          "x": 3.1,
+          "z": -0.5,
+          "testo": "Rimetti in ordine il calendario della memoria"
+        },
+        {
+          "scena": "20_Int_BassoAntonietta",
+          "x": -4.0,
+          "z": 4.5,
+          "testo": "Riprendi le scarpe nel baule"
+        },
+        {
+          "scena": "10_Hub_Vicolo",
+          "x": -9.1,
+          "z": -2.0,
+          "testo": "Torna al basso di Antonietta"
+        }
+      ]
+    },
+    {
+      "id": "ob_lucchetto",
+      "testo": "Apri il lucchetto dell'uscita",
+      "capitolo": "flashback_scarpe",
+      "completo": [
+        "enigma_lucchetto"
+      ],
+      "punti": [
+        {
+          "scena": "30_FB_Scarpe",
+          "x": 0.0,
+          "z": 35.3,
+          "testo": "Apri il lucchetto dell'uscita"
+        },
+        {
+          "scena": "20_Int_BassoAntonietta",
+          "x": -4.0,
+          "z": 4.5,
+          "testo": "Riprendi le scarpe nel baule"
+        },
+        {
+          "scena": "10_Hub_Vicolo",
+          "x": -9.1,
+          "z": -2.0,
+          "testo": "Torna al basso di Antonietta"
+        }
+      ]
+    },
+    {
+      "id": "ob_stracci_giro",
+      "testo": "Raccogli gli stracci nel vicolo",
+      "capitolo": "flashback_stracci",
+      "completo": [
+        "enigma_giro"
+      ],
+      "punti": [
+        {
+          "scena": "40_FB_Stracci",
+          "x": -4.0,
+          "z": -25.4,
+          "testo": "Guarda e prova gli stracci al banco, poi cercane altri nel vicolo"
+        },
+        {
+          "scena": "20_Int_BassoAntonietta",
+          "x": 3.7,
+          "z": 10.3,
+          "testo": "Esamina il fagotto di stracci nel cortile"
+        },
+        {
+          "scena": "10_Hub_Vicolo",
+          "x": -9.1,
+          "z": -2.0,
+          "testo": "Torna al basso di Antonietta"
+        }
+      ]
+    },
+    {
+      "id": "ob_stracci_ceste",
+      "testo": "Smista gli stracci nelle ceste",
+      "capitolo": "flashback_stracci",
+      "completo": [
+        "enigma_ceste"
+      ],
+      "punti": [
+        {
+          "scena": "40_FB_Stracci",
+          "x": -6.6,
+          "z": 41.0,
+          "testo": "Metti ogni straccio nella sua cesta"
+        },
+        {
+          "scena": "20_Int_BassoAntonietta",
+          "x": 3.7,
+          "z": 10.3,
+          "testo": "Esamina il fagotto di stracci nel cortile"
+        },
+        {
+          "scena": "10_Hub_Vicolo",
+          "x": -9.1,
+          "z": -2.0,
+          "testo": "Torna al basso di Antonietta"
+        }
+      ]
+    },
+    {
+      "id": "ob_stracci_bilancia",
+      "testo": "Pesa le ceste sulla bilancia",
+      "capitolo": "flashback_stracci",
+      "completo": [
+        "enigma_bilancia"
+      ],
+      "punti": [
+        {
+          "scena": "40_FB_Stracci",
+          "x": 6.6,
+          "z": 39.6,
+          "testo": "La bilancia di Capa 'e fierro pende: guarda bene"
+        },
+        {
+          "scena": "20_Int_BassoAntonietta",
+          "x": 3.7,
+          "z": 10.3,
+          "testo": "Esamina il fagotto di stracci nel cortile"
+        },
+        {
+          "scena": "10_Hub_Vicolo",
+          "x": -9.1,
+          "z": -2.0,
+          "testo": "Torna al basso di Antonietta"
+        }
+      ]
+    },
+    {
+      "id": "ob_stracci_conto",
+      "testo": "Fai il conto e riscuoti",
+      "capitolo": "flashback_stracci",
+      "completo": [
+        "enigma_conto"
+      ],
+      "punti": [
+        {
+          "scena": "40_FB_Stracci",
+          "x": 6.6,
+          "z": 43.6,
+          "testo": "Leggi il registro e conta le monete"
+        },
+        {
+          "scena": "20_Int_BassoAntonietta",
+          "x": 3.7,
+          "z": 10.3,
+          "testo": "Esamina il fagotto di stracci nel cortile"
+        },
+        {
+          "scena": "10_Hub_Vicolo",
+          "x": -9.1,
+          "z": -2.0,
+          "testo": "Torna al basso di Antonietta"
+        }
+      ]
+    },
+    {
+      "id": "ob_stracci_mestieri",
+      "testo": "Guarda il muro dei mestieri",
+      "capitolo": "flashback_stracci",
+      "completo": [
+        "enigma_mestieri"
+      ],
+      "punti": [
+        {
+          "scena": "40_FB_Stracci",
+          "x": -1.0,
+          "z": 47.0,
+          "testo": "Abbina gli attrezzi ai mestieri e ai diritti"
+        },
+        {
+          "scena": "20_Int_BassoAntonietta",
+          "x": 3.7,
+          "z": 10.3,
+          "testo": "Esamina il fagotto di stracci nel cortile"
+        },
+        {
+          "scena": "10_Hub_Vicolo",
+          "x": -9.1,
+          "z": -2.0,
+          "testo": "Torna al basso di Antonietta"
+        }
+      ]
+    }
+  ]
+}

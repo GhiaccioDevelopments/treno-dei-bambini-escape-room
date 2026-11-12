@@ -1,9 +1,54 @@
 {
   "personaggi": [
-    { "id": "amerigo", "nome": "Amerigo", "ritratto": "amerigo", "colore": "#C2703D" },
-    { "id": "antonietta", "nome": "Antonietta", "ritratto": "antonietta", "colore": "#8C3B2A" },
-    { "id": "tommasino", "nome": "Tommasino", "ritratto": "tommasino", "colore": "#D9A441" },
-    { "id": "maddalena", "nome": "Maddalena", "ritratto": "maddalena", "colore": "#B5483A" },
-    { "id": "narratore", "nome": "Narratore", "ritratto": "narratore", "colore": "#6B4E2E" }
+    {
+      "id": "amerigo",
+      "nome": "Amerigo",
+      "ritratto": "amerigo",
+      "colore": "#C2703D",
+      "nomeCopione": "Amerigo bambino"
+    },
+    {
+      "id": "amerigo_adulto",
+      "nome": "Amerigo",
+      "ritratto": "amerigo_adulto",
+      "colore": "#5A4A3C",
+      "nomeCopione": "Amerigo adulto"
+    },
+    {
+      "id": "antonietta",
+      "nome": "Antonietta",
+      "ritratto": "antonietta",
+      "colore": "#8C3B2A"
+    },
+    {
+      "id": "tommasino",
+      "nome": "Tommasino",
+      "ritratto": "tommasino",
+      "colore": "#D9A441"
+    },
+    {
+      "id": "maddalena",
+      "nome": "Maddalena",
+      "ritratto": "maddalena",
+      "colore": "#B5483A"
+    },
+    {
+      "id": "narratore",
+      "nome": "Narratore",
+      "ritratto": "narratore",
+      "colore": "#6B4E2E"
+    },
+    {
+      "id": "capa_e_fierro",
+      "nome": "Capa 'e fierro",
+      "ritratto": "capa_e_fierro",
+      "colore": "#6E5A3A"
+    },
+    {
+      "id": "donna_vicolo",
+      "nome": "Una donna del vicolo",
+      "ritratto": "",
+      "colore": "#8C5A4A"
+    }
   ]
 }

@@ -1,0 +1,147 @@
+{
+  "titolo1": "Il treno",
+  "titolo2": "dei bambini",
+  "sottotitolo": "Napoli, 1946",
+  "premiUnTasto": "Premi un tasto",
+  "aiutoMenu": "Frecce o W/S: scegli   Invio: conferma   Esc: indietro",
+  "voci": [
+    {
+      "id": "continua",
+      "etichetta": "Continua"
+    },
+    {
+      "id": "nuova",
+      "etichetta": "Nuova partita"
+    },
+    {
+      "id": "ricordi",
+      "etichetta": "Ricordi"
+    },
+    {
+      "id": "impostazioni",
+      "etichetta": "Impostazioni"
+    },
+    {
+      "id": "filmato",
+      "etichetta": "Rivedi il filmato iniziale"
+    },
+    {
+      "id": "crediti",
+      "etichetta": "Crediti"
+    },
+    {
+      "id": "esci",
+      "etichetta": "Esci"
+    }
+  ],
+  "anteprima": {
+    "intestazione": "Ultima partita",
+    "oggetto1": "1 oggetto nella latta",
+    "oggetti": "{0} oggetti nella latta",
+    "nessunOggetto": "La latta è ancora vuota",
+    "tempo1": "1 minuto di gioco",
+    "tempo": "{0} minuti di gioco",
+    "tempoPoco": "meno di un minuto di gioco"
+  },
+  "conferma": {
+    "timbro": "ATTENZIONE",
+    "titolo": "Nuova partita",
+    "testo": "Esiste già un salvataggio. Se ricominci, verrà cancellato. Vuoi continuare?",
+    "si": "Sì, ricomincia",
+    "no": "Annulla"
+  },
+  "ricordi": {
+    "titolo": "Ricordi",
+    "bloccato": "Ricordo da trovare",
+    "bloccatoNota": "Si apre quando ritrovi l'oggetto giusto.",
+    "luogo": "Dove",
+    "rivissuto": "Rivissuto",
+    "nessuno": "Non hai ancora rivissuto nessun ricordo.",
+    "rivivi": "Rivivi il ricordo", "riviviNonQui": "Si può rivivere un ricordo solo dal vicolo o dal basso, non da dentro un altro ricordo.", "indietro": "Indietro"
+  },
+  "crediti": {
+    "titolo": "Crediti",
+    "intro": "Il treno dei bambini - Escape room. Gioco educativo di Educazione Civica ispirato al romanzo di Viola Ardone (2019) e al film di Cristina Comencini (2024). Personaggi, dialoghi e grafica originali.",
+    "squadra": [
+      "Sviluppo principale: Thomas Rosania, Luca Arduini",
+      "Collaboratori: Zaim Halili, Renis Caushi"
+    ],
+    "assetTitolo": "Asset esterni e licenze",
+    "indietro": "Indietro"
+  },
+  "hud": {
+    "latta": "Latta"
+  },
+  "inventario": {
+    "titoloLatta": "La latta",
+    "sezioni": [
+      {
+        "id": "oggetti",
+        "etichetta": "Oggetti"
+      },
+      {
+        "id": "ricordi",
+        "etichetta": "Ricordi"
+      },
+      {
+        "id": "quaderno",
+        "etichetta": "Quaderno"
+      },
+      {
+        "id": "mappa",
+        "etichetta": "Mappa"
+      }
+    ],
+    "aiuto": "Trascina per girare l'oggetto   Q/E: cambia pagina   Frecce: oggetti   Esc: chiudi",
+    "aiutoTouch": "Trascina per girare l'oggetto   Tocca le linguette per cambiare pagina",
+    "etichettaTema": "Educazione civica",
+    "daTrovare": "Da trovare",
+    "latta": "Nella latta",
+    "chiudi": "Chiudi",
+    "ricordoStato": "Rivissuto",
+    "ricordoDaFare": "Da rivivere",
+    "ricordiVuoto": "Nessun ricordo ancora: ritrova un oggetto per aprirne uno.",
+    "etichettaRicordo": "Ricordo",
+    "cercaVicino": "Un ricordo ancora da trovare: cerca vicino a {0}.",
+    "cercaGenerico": "Un ricordo ancora da trovare.",
+    "latteVuota": "La latta è vuota. Esplora il vicolo e cerca gli oggetti che custodiscono i ricordi.",
+    "ricordoNonDisponibile": "Ricordo non ancora disponibile.",
+    "quaderno": {
+      "appunti": "Appunti",
+      "appuntiVuoto": "Risolvi gli enigmi dei ricordi: le note si scrivono qui.",
+      "indizi": "Indizi",
+      "indiziVuoto": "Gli indizi che trovi restano segnati in questa pagina.",
+      "segreti": "Segreti",
+      "segretiVuoto": "Nessun segreto ancora trovato. Cerca nei vicoli: qualcosa è nascosto."
+    },
+    "mappa": {
+      "titolo": "Mappa",
+      "testo": "Premi M (o il pulsante Mappa in alto) per aprire la pianta del quartiere: i nomi dei vicoli, i luoghi e il prossimo passo."
+    }
+  },
+  "enigmiImp": {
+    "semplificatiNome": "Enigmi semplificati",
+    "semplificatiSpiega": "Gli enigmi si risolvono con pannelli piatti invece della vista ravvicinata in 3D. Utile alla LIM e a chi preferisce comandi più semplici.",
+    "evidenziaNome": "Evidenzia oggetti interattivi",
+    "evidenziaSpiega": "Un brillio leggero sugli oggetti da esaminare negli enigmi. Spento di default: di norma si riconoscono dalla luce e dal messaggio «Esamina».",
+    "si": "Sì",
+    "no": "No"
+  },
+  "mappaImp": {
+    "aiutoNome": "Aiuto della mappa",
+    "aiutoSpiega": "Guidata: il prossimo obiettivo è sempre segnato. Normale: compare dopo qualche minuto senza progressi o quando chiedi un Indizio. Esploratore: solo i nomi dei vicoli e dove ti trovi.",
+    "guidata": "Guidata",
+    "normale": "Normale",
+    "esploratore": "Esploratore",
+    "minimappaNome": "Minimappa",
+    "minimappaSpiega": "La piccola pianta d'epoca in alto a sinistra. Spenta, resta la pianta grande con il tasto M.",
+    "nordFissoNome": "Nord sempre in alto",
+    "nordFissoSpiega": "Con «No» la pianta ruota insieme alla camera, così davanti a te è sempre in alto.",
+    "si": "Sì",
+    "no": "No"
+  },
+  "filmato": {
+    "rivedi": "Rivedi il filmato iniziale",
+    "nonQui": "Il filmato si rivede dal vicolo o da casa, non dentro un ricordo."
+  }
+}

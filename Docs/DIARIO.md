@@ -5,6 +5,101 @@ Regole d'uso: vedi la sezione "Diario e lavoro su più PC" in `CLAUDE.md`.
 
 ---
 
+## 2026-11-09 – PC casa – R019, R024, R025, R011 integrate e online; R012 Stracci a metà
+**Branch:** richiesta/R012-ricordo-stracci · **Ultimo commit:** 6836263 (+ questa voce) · **feature:** 3030250 · **gh-pages:** 715b01d
+### Fatto
+- **R019** minimappa integrata in `feature/upgrade-realistico`.
+- **R024** scarpe invisibili: causa = calzature piccole e grigie come il selciato. 5 modelli `calz_*` veri, luce che le sfiora, controllo `ControllaRaccoglibili` nel self-test (241 PASS).
+- **R025** filmato iniziale: copione di 36 battute `cs_intro_*` (4:38), 7 capitoli in-engine, si salta tenendo premuto, Rivedi da Pausa e menu, 65 PASS. Personaggio `amerigo_adulto`, `nomeCopione` nel CSV.
+- **R011** segreti: 3 enigmi segreti + 14 collezionabili, pagina Segreti nel quaderno, aiuto lieve automatico, "Rivivi il ricordo" dalla latta, 351 PASS.
+- Build WebGL pubblicata dopo ogni richiesta (ultima 715b01d). PR #26 e #27 chiuse.
+### Decisioni
+- Mai domande: copione R025 mostrato e sviluppato subito; correzioni di review applicate senza attendere.
+### Problemi aperti
+- **R012 non chiusa**: MCP di Unity caduto durante le prove. L'ultima correzione (EsaminaView.Registra) non è ancora compilata; mancano personaggio 3D di Capa 'e fierro, bake, FPS, foto, -enigmitest/-segretitest. Elenco completo nel Rapporto della R012.
+- R025: primo piano dei piedi scuro (sembra un adulto), striscia di pioggia residua vicino alla camera.
+- Hub: `Porta_stazione` non raggiungibile a piedi (da sistemare con R014).
+- Modifiche locali non committate (.mat rigenerati, Settings/Quality, .meta texture segreti): rumore di Unity, non lavoro.
+### Prossimi passi
+- Riavviare il server MCP, finire R012 (prove, personaggio, bake), review, merge, WebGL; poi R013.
+
+## 2026-11-09 – PC casa – Nuove richieste R024–R029 e regola dei 2 minuti
+**Branch:** richiesta/R019-minimappa-vicoli · **Ultimo commit:** 8847569 (+ questa voce)
+### Fatto
+- Aperte 6 richieste in bozza: **R024** scarpe invisibili nel livello 2 del ricordo (PR #26), **R025** filmato iniziale doppiato (PR #27),
+  **R026** enigmi più chiari con biglietto "cosa fare / cosa ottieni" (PR #28), **R027** trofei (PR #29),
+  **R028** pulsante altoparlante del Narratore + lista file da registrare con Audacity (PR #30), **R029** ottimizzazione totale (PR #31).
+### Decisioni
+- Coda: R019 → R024 → R025 → ricordi (R011, R012–R016) → R026 → R027 → R028 → R029 (ottimizzazione per ultima).
+- `CLAUDE.md`: se l'utente non risponde a una domanda entro 2 minuti si va avanti con l'opzione raccomandata.
+### Prossimi passi
+- Chiudere R019 (in prova), poi R024.
+
+## 2026-11-08 – PC casa – R022, R017, R018, R007 (con R021) integrate, gioco online aggiornato
+**Branch:** feature/upgrade-realistico · **Ultimo commit:** 38a2796 (+ questa voce) · **gh-pages:** e88ad1b
+### Fatto
+- **R022 corsa** (PR #24): causa = posa di riferimento della clip presa dal fotogramma 0 (busto inclinato di 30°, piede destro ribaltato). Clip riesportata con Blender headless (`ArtSource/Characters/riesporta_clip_gerarchia.py`) e menu **Treno ▸ Personaggi ▸ Applica importer clip Amerigo**. Corsa simmetrica e dritta per adulto e bambino, approvata dall'utente.
+- **R017 mappe pulite** (PR #19): strumento **Treno ▸ Verifica ▸ Superfici e buchi**, profili a 12 mm (tengono anche su WebGL), giunti chiusi, piano di sicurezza e kill-plane con ritorno allo spawn. Superfici sovrapposte visibili: da 244 a 1 (preesistente, nel Titolo). Buchi: 0.
+- **R018 telecamera** (PR #20): `CameraGuard`, profili camera per stanza, prova **Treno ▸ Verifica ▸ Camera** (10.044 pose, 0 errori). Regola: esterni = la camera si avvicina; interni del basso = i muri tra camera e Amerigo si dissolvono; soffitti e pavimenti sempre solidi; inclinazione massima 50°.
+- **R007 + R021 grafica** (PR #9, #23 chiusa): look "pellicola neorealista" (grana, alone, curva da stampa; ricordi in seppia con tremolio, polvere e graffi rari; profilo 1994 pronto), 20 modelli 3D veri (CC0/CC-BY in CREDITS.md o fatti in Blender), panni stesi vissuti, decal di umidità, manifesti del referendum, puntelli. Pioggia nell'hub e nel cortile del basso (`meteo` in luoghi.json), basoli bagnati e pozzanghere, audio ovattato negli interni. Benchmark (`-benchmark`): Alta da 620 a 950 FPS su RTX 4060 Ti.
+- Nuova richiesta **R023** (PR #25): menu iniziale e inventario rifatti (dopo R008).
+- Schemi di R020, R011 e R012–R016 approvati dall'utente (15 decisioni); verifiche storiche in `Docs/VERIFICHE_STORICHE.md`; nomi dei vicoli di R019 proposti (Via Roma già Toledo, Vico Lungo Gelso, Speranzella…).
+- Build WebGL (58 MB) pubblicata su gh-pages: si carica fino al titolo.
+### Decisioni
+- Interni con muri che si dissolvono; pentole di rame; R021 fusa in R007; peso LFS da ridurre (texture 1K, lightmap ridotte, un bake per tappa).
+### Problemi aperti
+- **LFS ~816 MB su 1 GB**: avvisare l'utente prima di superare 850 MB.
+- WebGL misurato a 24 FPS solo sul titolo in Chrome automatizzato: da rimisurare su un PC vero (obiettivo 30).
+- Non fatti in R007: piperno e basoli fotogrammetrici, scrostature a più strati, tuoni, gocce da soffitto e grondaie; decal assenti su Bassa/WebGL; uccellini molto semplici.
+- Da provare dall'utente: pioggia in movimento, piedi e passi della corsa, scatti della camera, crash intermittente dei decal di URP cambiando preset (corretto con l'instancing, da tenere d'occhio).
+- Merge di `feature/upgrade-realistico` su `main` e tag v0.2: dopo la prova dell'utente.
+### Prossimi passi
+- Prova dell'utente, poi R008 → R023 → R009+R020 (con R010) → R019 → R011 → R012…R016.
+## 2026-11-07 – PC casa – Schemi di enigmi e capitoli approvati
+**Branch:** feature/upgrade-realistico · **Ultimo commit:** 00bc800 (questa voce è nel commit successivo)
+### Fatto
+- Approvati gli schemi R020 (+R010 assorbita), R011, R012, R013, R014, R015, R016. Ogni schema è in `Docs/richieste/schemi/` sul proprio branch, con le correzioni del lead e le decisioni dell'utente applicate: non restano alternative aperte.
+- Ogni spec ha la sezione "Schema approvato (2026-11-07)": sviluppo autorizzato.
+- R010: nota che rimanda a R020 (la correzione sul quiz 1948/1989 vale anche lì).
+- TRAMA §7.1: nota sulla decisione "Napoli della memoria".
+### Decisioni
+- D1: Napoli della memoria. Hub e basso hanno l'aspetto del 1946 e si giocano con Amerigo adulto; il 1994 vero solo in R016.
+- D2: passanti del ricordo come figure intere MakeHuman, ferme e velate.
+- D3: R011, premio per chi trova tutti i segreti = una scena in più nel finale.
+- D4: R011, ritagli di giornale = testi nostri su fatti verificati.
+- D5: R012, una sola scena (vicolo degli stracci + bottega di Capa 'e fierro).
+- D6: R012, la bilancia è starata per caso; Capa 'e fierro resta "in fondo buono".
+- D7: R013, vicolo delle voci = variante sera/pioggia del set "Le scarpe".
+- D8: R013, frasi del volantino giudicate per chiarezza e verificabilità, mai per la parte politica.
+- D9: R014, stazione generica ispirata alla vecchia stazione di Napoli.
+- D10: R014, stazione e vagone entrambi giocabili.
+- D11: R015, una sola scena a Modena.
+- D12: R015, oggetto del capitolo = lo spartito di Alcide; il violino si ritrova solo in R016.
+- D13: R016, segno di Antonietta nella custodia = ritaglio di un concerto di Amerigo.
+- D14: R016, Carmine = breve presenza con modello semplice.
+- D15: LFS: si va avanti; fermarsi e avvisare l'utente prima del push che porterebbe LFS oltre 850 MB.
+### Problemi aperti
+- R022 è ferma: Unity non risponde a MCP.
+- Fatti storici da verificare prima dei testi definitivi: simboli sulla scheda del referendum, tagli di monete 1946, linea ferroviaria Napoli–Modena nel 1946, filiera degli stracci.
+### Prossimi passi
+- In ordine: R022 → R017 → R018 → R007 tappe 2-5 con R021 → R008 → R009 + R020 (+R010) → R019 → R011 → R012…R016.
+
+## 2026-11-07 – PC casa – Nuove richieste R017–R022
+**Branch:** feature/upgrade-realistico · **Ultimo commit:** 1af2cc3
+### Fatto
+- Aperte 6 richieste in bozza verso `feature/upgrade-realistico`: R017 mappe senza sfarfallii né buchi sul vuoto (#19),
+  R018 telecamera che non attraversa gli edifici (#20), R019 minimappa d'epoca con obiettivo e nomi dei vicoli (#21),
+  R020 enigmi d'autore legati alla trama, via i blocchi viola (#22), R021 grafica realistica con identità "pellicola neorealista" (#23),
+  R022 corsa storta, gamba sinistra tesa (#24).
+### Decisioni
+- R020 è il contenuto del sistema di R009 e assorbe R010; R021 alza l'asticella di R007 (dopo o dentro le sue tappe 2-5).
+- Ordine consigliato dopo R007 tappa 1: R022 (veloce) → R017 → R018 → R020 (con R009) → R019 → R021.
+### Problemi aperti
+- R019: nomi dei vicoli veri o inventati, da chiedere all'utente. R020 e R021: schema enigmi e identità visiva da approvare prima dello sviluppo.
+- R007 in corso su `richiesta/R007-grafica-realistica-pioggia` (tappa 1 fatta).
+### Prossimi passi
+- Chiudere R007 o la sua tappa in corso, poi le nuove richieste nell'ordine sopra.
+
 ## 2026-11-06 – PC casa – Nuove richieste R006–R010, chiusa R003
 **Branch:** feature/upgrade-realistico · **Ultimo commit:** fdeaedc
 ### Fatto
@@ -12,8 +107,11 @@ Regole d'uso: vedi la sezione "Diario e lavoro su più PC" in `CLAUDE.md`.
 - Aperte 5 richieste in bozza verso `feature/upgrade-realistico`: R006 mappe grandi + compenetrazioni (#8),
   R007 grafica realistica con pioggia (#9), R008 impostazioni grafiche dettagliate (#10),
   R009 enigmi dentro il mondo senza oggetti viola (#11), R010 ridisegno enigmi "Le scarpe" (#12).
+- Aperte altre 6 richieste: R011 easter egg e segreti in ogni stanza (#13); capitoli nuovi, uno per PR:
+  R012 Stracci (#14, contiene le regole comuni), R013 Volantino (#15), R014 Cappotto (#16), R015 Violino (#17), R016 Finale 1994 (#18).
 ### Decisioni
-- Ordine: R006 → R007 → R008, poi R009 → R010. R010 va approvata dall'utente (schema della catena) prima di svilupparla.
+- L'utente dà l'ok a sviluppare tutti gli altri oggetti/capitoli (annotato in CLAUDE.md).
+- Ordine: R006 → R007 → R008, poi R009 → R010 → R011, poi i capitoli R012 → R016. R010 va approvata dall'utente (schema della catena) prima di svilupparla.
 ### Problemi aperti
 - Bug del movimento nel gioco online ancora da confermare dall'utente.
 ### Prossimi passi

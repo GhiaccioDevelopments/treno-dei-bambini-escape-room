@@ -1,0 +1,194 @@
+﻿Inizio prova enigmi. Salvataggio presente: True
+PASS GameManager pronto
+PASS modelli degli enigmi trovati nei JSON  [31]
+PASS modello asse_croce caricabile da Resources/Modelli/Enigmi
+PASS modello asse_scarpa caricabile da Resources/Modelli/Enigmi
+PASS modello asse_treno caricabile da Resources/Modelli/Enigmi
+PASS modello banco_calzolaio caricabile da Resources/Modelli/Enigmi
+PASS modello baule_coperchio caricabile da Resources/Modelli/Enigmi
+PASS modello baule_corpo caricabile da Resources/Modelli/Enigmi
+PASS modello baule_fondo caricabile da Resources/Modelli/Enigmi
+PASS modello calendario caricabile da Resources/Modelli/Enigmi
+PASS modello cassetta_coperchio caricabile da Resources/Modelli/Enigmi
+PASS modello cassetta_corpo caricabile da Resources/Modelli/Enigmi
+PASS modello cassetto caricabile da Resources/Modelli/Enigmi
+PASS modello coperta caricabile da Resources/Modelli/Enigmi
+PASS modello cornice caricabile da Resources/Modelli/Enigmi
+PASS modello edicola caricabile da Resources/Modelli/Enigmi
+PASS modello exvoto_cuore caricabile da Resources/Modelli/Enigmi
+PASS modello exvoto_gamba caricabile da Resources/Modelli/Enigmi
+PASS modello exvoto_mano caricabile da Resources/Modelli/Enigmi
+PASS modello exvoto_occhi caricabile da Resources/Modelli/Enigmi
+PASS modello exvoto_piede caricabile da Resources/Modelli/Enigmi
+PASS modello forma_legno caricabile da Resources/Modelli/Enigmi
+PASS modello fotografia caricabile da Resources/Modelli/Enigmi
+PASS modello lucchetto caricabile da Resources/Modelli/Enigmi
+PASS modello martello caricabile da Resources/Modelli/Enigmi
+PASS modello molletta caricabile da Resources/Modelli/Enigmi
+PASS modello panno_quadri caricabile da Resources/Modelli/Enigmi
+PASS modello panno_tela caricabile da Resources/Modelli/Enigmi
+PASS modello pelle caricabile da Resources/Modelli/Enigmi
+PASS modello piano_banco caricabile da Resources/Modelli/Enigmi
+PASS modello placca_ottone caricabile da Resources/Modelli/Enigmi
+PASS modello scatolina caricabile da Resources/Modelli/Enigmi
+PASS modello serratura_baule caricabile da Resources/Modelli/Enigmi
+PASS hub caricato
+PASS hub: nessun materiale rotto (magenta/viola)  [0 ]
+PASS hub: porta del basso trovata
+PASS hub: la porta del basso e' chiusa all'inizio
+PASS enigma_bucato: oggetto presente nel mondo
+PASS enigma_bucato: vista ravvicinata aperta
+PASS enigma_bucato: un panno senza toppa a quadri da' un errore gentile  [Una toppa di tela grigia, cucita da altre mani. Cerca la toppa a quadri, quella della tua salopette.]
+PASS enigma_bucato: tre indizi a livelli  [livello 3]
+PASS enigma_bucato: soluzione riconosciuta
+PASS enigma_bucato: salvato come risolto
+PASS enigma_bucato: vista chiusa
+PASS enigma_bucato: produce la porta trovata
+PASS enigma_exvoto: oggetto presente nel mondo
+PASS enigma_exvoto: un ex-voto sbagliato spiega e fa riprovare  [Un cuore d'argento: un ex-voto per una grazia al cuore.]
+PASS enigma_exvoto: tre indizi a livelli  [livello 3]
+PASS enigma_exvoto: soluzione riconosciuta
+PASS enigma_exvoto: salvato come risolto
+PASS enigma_exvoto: vista chiusa
+PASS enigma_exvoto: la chiave e' nella borsa
+PASS enigma_manifesti: oggetto presente nel mondo
+PASS enigma_manifesti: tre indizi a livelli  [livello 3]
+PASS enigma_manifesti: soluzione riconosciuta
+PASS enigma_manifesti: salvato come risolto
+PASS enigma_manifesti: vista chiusa
+PASS hub: con porta e chiave la porta si apre sul basso
+PASS basso: nessun materiale rotto (magenta/viola)  [0 ]
+PASS basso: le scarpe non sono ancora toccabili
+PASS enigma_calendario: con i requisiti mancanti non si apre e dice una frase gentile
+PASS enigma_cassetta: con i requisiti mancanti non si apre e dice una frase gentile
+PASS enigma_baule: con i requisiti mancanti non si apre e dice una frase gentile
+PASS enigma_foto: oggetto presente nel mondo
+PASS enigma_foto: tre indizi a livelli  [livello 3]
+PASS enigma_foto: soluzione riconosciuta
+PASS enigma_foto: salvato come risolto
+PASS enigma_foto: vista chiusa
+PASS enigma_foto: il cartoncino e' nella borsa
+PASS enigma_calendario: oggetto presente nel mondo
+PASS enigma_calendario: clic sopra la rotella aumenta la cifra  [0000 -> 1000]
+PASS enigma_calendario: codice sbagliato = messaggio gentile, si puo' riprovare  [Non è questo, ma non preoccuparti: guarda meglio e riprova.]
+PASS enigma_calendario: tre indizi a livelli  [livello 3]
+PASS enigma_calendario: soluzione riconosciuta
+PASS enigma_calendario: salvato come risolto
+PASS enigma_calendario: vista chiusa
+PASS enigma_cassetta: oggetto presente nel mondo
+PASS enigma_cassetta: codice sbagliato = riprova  [Non è questo, ma non preoccuparti: guarda meglio e riprova.]
+PASS enigma_cassetta: tre indizi a livelli  [livello 3]
+PASS enigma_cassetta: soluzione riconosciuta
+PASS enigma_cassetta: salvato come risolto
+PASS enigma_cassetta: vista chiusa
+PASS enigma_cassetta: la chiavetta e' nella borsa
+PASS enigma_baule: oggetto presente nel mondo
+PASS enigma_baule: la chiavetta apre la serratura
+PASS enigma_baule: tre indizi a livelli  [livello 3]
+PASS enigma_baule: assi nell'ordine sbagliato = le assi tornano su e si riprova  [Non è l'ordine giusto: le assi tornano su. Guarda di nuovo il cartoncino e riprova.]
+PASS enigma_baule: con le assi giuste compare la scatolina
+PASS enigma_baule: soluzione riconosciuta
+PASS enigma_baule: il baule avvia il ricordo delle scarpe
+PASS enigma_baule: salvato come risolto
+PASS ricordo: nessun materiale rotto (magenta/viola)  [0 ]
+PASS ricordo: nessun marcatore PuzzleStation
+PASS enigma_nascosto: con i requisiti mancanti non si apre e dice una frase gentile
+PASS enigma_passanti: oggetto presente nel mondo
+PASS enigma_passanti: toccando un paio compare la descrizione  [Scarpe nere e lucide, suole sottili e senza un granello di polvere. Che mestiere fa?]
+PASS enigma_passanti: risposte sbagliate = feedback a gruppi di tre e si riprova  [Non tutte, ma ci sei vicino (gruppo 1: 1 giuste su 3; gruppo 2: 0 giuste su 3). Guarda meglio suole, chiodi, fango: le scarpe raccontano. Riprova!]
+PASS enigma_passanti: tre indizi a livelli  [livello 3]
+PASS enigma_passanti: soluzione riconosciuta
+PASS enigma_passanti: salvato come risolto
+PASS enigma_passanti: vista chiusa
+PASS enigma_passanti: produce calzolaio e prima cifra
+PASS enigma_nascosto: cinque calzature da trovare nella strada  [5]
+PASS enigma_nascosto: le cinque calzature sono nella borsa
+PASS enigma_nascosto: un oggetto sulla forma sbagliata 'non calza'  [Non calza: Scarpone del soldato tornato non è per questo. Guarda meglio la forma e riprova.]
+PASS enigma_nascosto: tre indizi a livelli  [livello 3]
+PASS enigma_nascosto: soluzione riconosciuta
+PASS enigma_nascosto: salvato come risolto
+PASS enigma_nascosto: vista chiusa
+PASS enigma_nascosto: produce la seconda cifra
+PASS enigma_quiz: oggetto presente nel mondo
+PASS enigma_quiz: le righe dei fogli si scorrono da tastiera
+PASS enigma_quiz: riga sbagliata = messaggio gentile  [Non è questa riga. Cerca nell'avviso del Comitato quello che ricevono i bambini.]
+PASS enigma_quiz: tre indizi a livelli  [livello 3]
+PASS enigma_quiz: soluzione riconosciuta
+PASS enigma_quiz: salvato come risolto
+PASS enigma_quiz: vista chiusa
+PASS enigma_quiz: produce la terza cifra
+PASS enigma_ordina: le carte si trascinano nel pannello
+PASS enigma_ordina: salvato come risolto
+PASS enigma_ordina: produce la quarta cifra
+PASS enigma_lucchetto: oggetto presente nel mondo
+PASS enigma_lucchetto: codice sbagliato = riprova  [Il lucchetto non si apre. Ricorda la data della Convenzione ONU: se serve, usa l'indizio.]
+PASS enigma_lucchetto: tre indizi a livelli  [livello 3]
+PASS enigma_lucchetto: soluzione riconosciuta
+PASS enigma_lucchetto: salvato come risolto
+PASS enigma_lucchetto: vista chiusa
+PASS ricordo: l'uscita e' aperta dopo i cinque enigmi  [Esci dal ricordo]
+PASS salvataggio: tutti gli enigmi del mondo e del ricordo risolti  [12 risolti]
+PASS salvataggio: gettoni degli enigmi salvati
+PASS ricaricato: gli enigmi restano risolti  [Già esaminato: il lucchetto della porta luminosa]
+PASS semplificato: il lucchetto si apre come pannello 2D e non come vista 3D
+=== Corsa completa in modalita' semplificata ===
+PASS enigma_bucato: presente (semplificato)
+PASS enigma_bucato: si apre un pannello 2D e non la vista 3D
+PASS enigma_bucato: risolto in modalita' semplificata e salvato
+PASS enigma_exvoto: presente (semplificato)
+PASS enigma_exvoto: si apre un pannello 2D e non la vista 3D
+PASS enigma_exvoto: risolto in modalita' semplificata e salvato
+PASS semplificato: i gettoni delle parti (chiave) arrivano lo stesso
+PASS semplificato: la porta si apre e si entra nel basso
+PASS enigma_foto: presente (semplificato)
+PASS enigma_foto: si apre un pannello 2D e non la vista 3D
+PASS enigma_foto: risolto in modalita' semplificata e salvato
+PASS enigma_calendario: presente (semplificato)
+PASS enigma_calendario: si apre un pannello 2D e non la vista 3D
+PASS enigma_calendario: risolto in modalita' semplificata e salvato
+PASS enigma_cassetta: presente (semplificato)
+PASS enigma_cassetta: si apre un pannello 2D e non la vista 3D
+PASS enigma_cassetta: risolto in modalita' semplificata e salvato
+PASS semplificato: cartoncino e chiavetta ottenuti senza la vista 3D
+PASS enigma_baule: presente (semplificato)
+PASS enigma_baule: si apre un pannello 2D e non la vista 3D
+PASS enigma_baule: risolto in modalita' semplificata e salvato
+PASS semplificato: il baule avvia il ricordo
+PASS enigma_passanti: presente (semplificato)
+PASS enigma_passanti: si apre un pannello 2D e non la vista 3D
+PASS enigma_passanti: risolto in modalita' semplificata e salvato
+PASS enigma_nascosto: presente (semplificato)
+PASS enigma_nascosto: si apre un pannello 2D e non la vista 3D
+PASS enigma_nascosto: risolto in modalita' semplificata e salvato
+PASS enigma_quiz: presente (semplificato)
+PASS enigma_quiz: si apre un pannello 2D e non la vista 3D
+PASS enigma_quiz: risolto in modalita' semplificata e salvato
+PASS enigma_ordina: presente (semplificato)
+PASS enigma_ordina: si apre un pannello 2D e non la vista 3D
+PASS enigma_ordina: risolto in modalita' semplificata e salvato
+PASS enigma_lucchetto: presente (semplificato)
+PASS enigma_lucchetto: si apre un pannello 2D e non la vista 3D
+PASS enigma_lucchetto: risolto in modalita' semplificata e salvato
+PASS semplificato: l'uscita si apre dopo i cinque enigmi  [Esci dal ricordo]
+=== Salvataggio vecchio a meta' ricordo ===
+PASS save vecchio: migrato (cifre e oggetti dei due enigmi gia' risolti)
+PASS enigma_passanti: oggetto presente nel mondo
+PASS enigma_passanti: toccando un paio compare la descrizione  [Scarpe nere e lucide, suole sottili e senza un granello di polvere. Che mestiere fa?]
+PASS enigma_passanti: risposte sbagliate = feedback a gruppi di tre e si riprova  [Non tutte, ma ci sei vicino (gruppo 1: 1 giuste su 3; gruppo 2: 0 giuste su 3). Guarda meglio suole, chiodi, fango: le scarpe raccontano. Riprova!]
+PASS enigma_passanti: tre indizi a livelli  [livello 3]
+PASS enigma_passanti: soluzione riconosciuta
+PASS enigma_passanti: salvato come risolto
+PASS enigma_passanti: vista chiusa
+PASS enigma_passanti: produce calzolaio e prima cifra
+PASS enigma_ordina: le carte si trascinano nel pannello
+PASS enigma_ordina: salvato come risolto
+PASS enigma_ordina: produce la quarta cifra
+PASS enigma_lucchetto: oggetto presente nel mondo
+PASS enigma_lucchetto: codice sbagliato = riprova  [Il lucchetto non si apre. Ricorda la data della Convenzione ONU: se serve, usa l'indizio.]
+PASS enigma_lucchetto: tre indizi a livelli  [livello 3]
+PASS enigma_lucchetto: soluzione riconosciuta
+PASS enigma_lucchetto: salvato come risolto
+PASS enigma_lucchetto: vista chiusa
+PASS save vecchio: il ricordo si puo' finire (uscita aperta)  [Esci dal ricordo]
+--- Enigmi risolti nel salvataggio: flashback_scarpe/enigma_quiz, flashback_scarpe/enigma_nascosto, flashback_scarpe/enigma_passanti, flashback_scarpe/enigma_ordina, flashback_scarpe/enigma_lucchetto
+Fine prova: 189 PASS, 0 FAIL

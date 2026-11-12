@@ -21,6 +21,18 @@ namespace TrenoBambini.Core
         public bool effettiRidotti; // R001: UI senza tremolii/particelle (accessibilità o PC lento)
         // R005: true = la visuale gira solo tenendo premuto il tasto destro (cursore libero); false = muovendo il mouse (cursore bloccato)
         public bool visualeTastoDestro;
+        public List<string> oggettiEnigma = new List<string>(); // R020: oggetti/indizi ottenuti negli enigmi del mondo
+        public bool enigmiSemplificati;                          // R009: pannelli 2D al posto delle viste ravvicinate (LIM, accessibilita')
+        public bool evidenziaInterattivi;                        // R009: brillio leggero sugli oggetti da esaminare (spento di default)
+        public float tempoGioco; // R023: secondi giocati (anteprima di Continua)
+        // R019: minimappa. aiutoMappa: 0 = Guidata (obiettivo sempre segnato), 1 = Normale (dopo qualche minuto senza progressi o con Indizio), 2 = Esploratore (nessun obiettivo)
+        public int aiutoMappa = 1;
+        public bool minimappaNascosta;   // true = minimappa spenta (la mappa grande col tasto M resta)
+        public bool nordFisso;           // true = la pianta non ruota con la camera
+        public bool filmatoVisto;        // R025: il filmato iniziale e' stato visto (o saltato) in questa partita
+        // R011: segreti. I salvataggi vecchi non li hanno: restano vuoti.
+        public List<string> segretiTrovati = new List<string>();  // id dei segreti trovati (collezionabili ed enigmi segreti)
+        public List<string> segretiFlag = new List<string>();      // flag di gioco per gli agganci futuri: "finale_visto", "segreti_tutti", ...
     }
 
     /// <summary>Salvataggio su PlayerPrefs (chiave treno_save, JSON).</summary>
@@ -42,11 +54,15 @@ namespace TrenoBambini.Core
             if (d.inventario == null) d.inventario = new List<string>();
             if (d.flashbackCompletati == null) d.flashbackCompletati = new List<string>();
             if (d.enigmiRisolti == null) d.enigmiRisolti = new List<string>();
+            if (d.oggettiEnigma == null) d.oggettiEnigma = new List<string>();
             if (d.cutsceneViste == null) d.cutsceneViste = new List<string>();
+            if (d.segretiTrovati == null) d.segretiTrovati = new List<string>();
+            if (d.segretiFlag == null) d.segretiFlag = new List<string>();
             if (d.scena == null) d.scena = "";
             if (d.spawn == null) d.spawn = "";
             if (d.ritornoScena == null) d.ritornoScena = "";
             if (d.ritornoSpawn == null) d.ritornoSpawn = "";
+            TrenoBambini.Puzzles.MondoStato.Migra(d); // R020: gettoni mancanti dei salvataggi vecchi
             return d;
         }
 
