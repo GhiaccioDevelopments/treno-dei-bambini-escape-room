@@ -1329,6 +1329,302 @@
           "z": 34.0
         }
       ]
+    },
+    {
+      "scena": "50_FB_Volantino",
+      "titolo": "La stessa strada, una sera del 1946",
+      "tema": "ricordo",
+      "ax0": -29,
+      "az0": -45,
+      "ax1": 33,
+      "az1": 68,
+      "ppm": 8,
+      "raggio": 20,
+      "strade": [
+        {
+          "id": "largo_fontanella",
+          "nome": "Largo della Fontanella",
+          "tipo": "largo",
+          "zone": [
+            {
+              "x0": -6.3,
+              "x1": 6.3,
+              "z0": -32.3,
+              "z1": -22
+            }
+          ],
+          "ancore": [
+            {
+              "x": 0,
+              "z": -27
+            }
+          ]
+        },
+        {
+          "id": "lungo_gelso",
+          "nome": "Vico Lungo Gelso",
+          "tipo": "principale",
+          "zone": [
+            {
+              "x0": -3,
+              "x1": 3,
+              "z0": -22,
+              "z1": 22
+            }
+          ],
+          "ancore": [
+            {
+              "x": 0,
+              "z": -12
+            },
+            {
+              "x": 0,
+              "z": 8
+            }
+          ]
+        },
+        {
+          "id": "sant_anna",
+          "nome": "Largo Sant'Anna dei Panni",
+          "tipo": "largo",
+          "zone": [
+            {
+              "x0": -9.3,
+              "x1": -3,
+              "z0": -8.3,
+              "z1": 0.3
+            }
+          ],
+          "ancore": [
+            {
+              "x": -6,
+              "z": -5
+            }
+          ]
+        },
+        {
+          "id": "supportico_cancello",
+          "nome": "Supportico del Cancello",
+          "tipo": "vicolo",
+          "zone": [
+            {
+              "x0": -16.3,
+              "x1": -3,
+              "z0": 15.7,
+              "z1": 20.3
+            }
+          ],
+          "ancore": [
+            {
+              "x": -10,
+              "z": 18
+            }
+          ]
+        },
+        {
+          "id": "sette_spiriti",
+          "nome": "Vico Sette Spiriti",
+          "tipo": "vicolo",
+          "zone": [
+            {
+              "x0": 3,
+              "x1": 16.3,
+              "z0": 5.7,
+              "z1": 10.3
+            }
+          ],
+          "ancore": [
+            {
+              "x": 10,
+              "z": 8
+            }
+          ]
+        },
+        {
+          "id": "scalzacani",
+          "nome": "Vico Scalzacani",
+          "tipo": "vicolo",
+          "zone": [
+            {
+              "x0": 3,
+              "x1": 9,
+              "z0": -16.3,
+              "z1": -11.7
+            }
+          ],
+          "ancore": [
+            {
+              "x": 6,
+              "z": -14
+            }
+          ]
+        },
+        {
+          "id": "cortile_lavatoio",
+          "nome": "Cortile del Lavatoio",
+          "tipo": "cortile",
+          "zone": [
+            {
+              "x0": 9,
+              "x1": 19.3,
+              "z0": -20.3,
+              "z1": -8.7
+            }
+          ],
+          "ancore": [
+            {
+              "x": 14,
+              "z": -15
+            }
+          ]
+        },
+        {
+          "id": "madonna_illuminata",
+          "nome": "Largo della Madonna Illuminata",
+          "tipo": "largo",
+          "zone": [
+            {
+              "x0": -8.3,
+              "x1": 8.3,
+              "z0": 25,
+              "z1": 37.3
+            }
+          ],
+          "ancore": [
+            {
+              "x": 0,
+              "z": 28
+            }
+          ]
+        },
+        {
+          "id": "tre_scalini",
+          "nome": "Rampa Tre Scalini",
+          "tipo": "rampa",
+          "zone": [
+            {
+              "x0": -3,
+              "x1": 3,
+              "z0": 22,
+              "z1": 25
+            }
+          ],
+          "ancore": [
+            {
+              "x": 0,
+              "z": 23.5
+            }
+          ]
+        },
+        {
+          "id": "soglia_sede",
+          "nome": "Soglia della sede",
+          "tipo": "vicolo",
+          "zone": [
+            {
+              "x0": -1.75,
+              "x1": 1.75,
+              "z0": 37,
+              "z1": 40
+            }
+          ],
+          "ancore": [
+            {
+              "x": 0,
+              "z": 38.5
+            }
+          ]
+        },
+        {
+          "id": "sala_comitato",
+          "nome": "La sala del Comitato",
+          "tipo": "stanza",
+          "zone": [
+            {
+              "x0": -8,
+              "x1": 8,
+              "z0": 40,
+              "z1": 50
+            }
+          ],
+          "ancore": [
+            {
+              "x": 0,
+              "z": 47
+            }
+          ]
+        },
+        {
+          "id": "stanza_registri",
+          "nome": "La stanza dei registri",
+          "tipo": "stanza",
+          "zone": [
+            {
+              "x0": -8,
+              "x1": 8,
+              "z0": 50,
+              "z1": 60
+            }
+          ],
+          "ancore": [
+            {
+              "x": 0,
+              "z": 58
+            }
+          ]
+        }
+      ],
+      "punti": [
+        {
+          "id": "fontana",
+          "glifo": "fontana",
+          "nome": "Fontanella",
+          "x": -1.0,
+          "z": 32.0
+        },
+        {
+          "id": "pozzo",
+          "glifo": "pozzo",
+          "nome": "Pozzo",
+          "x": 17.4,
+          "z": -10.9
+        },
+        {
+          "id": "lavatoio",
+          "glifo": "lavatoio",
+          "nome": "Lavatoio",
+          "x": 18.4,
+          "z": -17.5
+        },
+        {
+          "id": "edicola_1",
+          "glifo": "edicola",
+          "nome": "Edicola votiva",
+          "x": 10.0,
+          "z": 9.8
+        },
+        {
+          "id": "edicola_2",
+          "glifo": "edicola",
+          "nome": "Edicola votiva",
+          "x": -9.0,
+          "z": 19.8
+        },
+        {
+          "id": "sede",
+          "glifo": "porta",
+          "nome": "Sede del Comitato",
+          "x": 0.0,
+          "z": 38.5
+        },
+        {
+          "id": "uscita",
+          "glifo": "uscita",
+          "nome": "Porta sul retro",
+          "x": 5.0,
+          "z": 59.5
+        }
+      ]
     }
   ],
   "obiettivi": [
@@ -1723,6 +2019,146 @@
           "x": 3.7,
           "z": 10.3,
           "testo": "Esamina il fagotto di stracci nel cortile"
+        },
+        {
+          "scena": "10_Hub_Vicolo",
+          "x": -9.1,
+          "z": -2.0,
+          "testo": "Torna al basso di Antonietta"
+        }
+      ]
+    },
+    {
+      "id": "ob_volantino_voci",
+      "testo": "Ascolta le voci del vicolo",
+      "capitolo": "flashback_volantino",
+      "completo": [
+        "enigma_voci"
+      ],
+      "punti": [
+        {
+          "scena": "50_FB_Volantino",
+          "x": -3.6,
+          "z": -25.5,
+          "testo": "Ascolta le voci sotto i balconi e al lavatoio, poi rileggile nel quaderno"
+        },
+        {
+          "scena": "20_Int_BassoAntonietta",
+          "x": -4.0,
+          "z": 1.9,
+          "testo": "Esamina il foglio piegato sulla credenza"
+        },
+        {
+          "scena": "10_Hub_Vicolo",
+          "x": -9.1,
+          "z": -2.0,
+          "testo": "Torna al basso di Antonietta"
+        }
+      ]
+    },
+    {
+      "id": "ob_volantino_bacheca",
+      "testo": "Collega le voci alle prove",
+      "capitolo": "flashback_volantino",
+      "completo": [
+        "enigma_bacheca"
+      ],
+      "punti": [
+        {
+          "scena": "50_FB_Volantino",
+          "x": -7.0,
+          "z": 45.0,
+          "testo": "La bacheca della sede: ogni voce ha un foglio che le risponde"
+        },
+        {
+          "scena": "20_Int_BassoAntonietta",
+          "x": -4.0,
+          "z": 1.9,
+          "testo": "Esamina il foglio piegato sulla credenza"
+        },
+        {
+          "scena": "10_Hub_Vicolo",
+          "x": -9.1,
+          "z": -2.0,
+          "testo": "Torna al basso di Antonietta"
+        }
+      ]
+    },
+    {
+      "id": "ob_volantino_ciclostile",
+      "testo": "Stampa il volantino",
+      "capitolo": "flashback_volantino",
+      "completo": [
+        "enigma_ciclostile"
+      ],
+      "punti": [
+        {
+          "scena": "50_FB_Volantino",
+          "x": 6.0,
+          "z": 44.5,
+          "testo": "Il ciclostile: tre frasi chiare, poi matrice, inchiostro, manovella"
+        },
+        {
+          "scena": "20_Int_BassoAntonietta",
+          "x": -4.0,
+          "z": 1.9,
+          "testo": "Esamina il foglio piegato sulla credenza"
+        },
+        {
+          "scena": "10_Hub_Vicolo",
+          "x": -9.1,
+          "z": -2.0,
+          "testo": "Torna al basso di Antonietta"
+        }
+      ]
+    },
+    {
+      "id": "ob_volantino_ruoli",
+      "testo": "Chi fa che cosa",
+      "capitolo": "flashback_volantino",
+      "completo": [
+        "enigma_ruoli"
+      ],
+      "punti": [
+        {
+          "scena": "50_FB_Volantino",
+          "x": 0.0,
+          "z": 44.3,
+          "testo": "Il tavolo dell'accoglienza: a chi serve ogni cosa?"
+        },
+        {
+          "scena": "20_Int_BassoAntonietta",
+          "x": -4.0,
+          "z": 1.9,
+          "testo": "Esamina il foglio piegato sulla credenza"
+        },
+        {
+          "scena": "10_Hub_Vicolo",
+          "x": -9.1,
+          "z": -2.0,
+          "testo": "Torna al basso di Antonietta"
+        }
+      ]
+    },
+    {
+      "id": "ob_volantino_timbro",
+      "testo": "Timbra le date",
+      "capitolo": "flashback_volantino",
+      "completo": [
+        "enigma_timbro"
+      ],
+      "punti": [
+        {
+          "scena": "50_FB_Volantino",
+          "x": 0.0,
+          "z": 55.2,
+          "testo": "Il datario nella stanza dei registri: le date in ordine"
+        },
+        {
+          "scena": "20_Int_BassoAntonietta",
+          "x": -4.0,
+          "z": 1.9,
+          "testo": "Esamina il foglio piegato sulla credenza"
         },
         {
           "scena": "10_Hub_Vicolo",

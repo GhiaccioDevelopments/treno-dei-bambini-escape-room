@@ -91,6 +91,74 @@
           }
         ]
       }
+    },
+    {
+      "id": "volantino",
+      "nome": "Il volantino del treno",
+      "descrizione": "Un foglio ciclostilato, ingiallito e piegato in quattro: «Treni per i bambini». Sul retro, una piccola linea del tempo timbrata e una croce a matita al posto di una firma.",
+      "significato": "Antonietta non sapeva leggere, eppure quel foglio l'ha conservato per tutta la vita. Nel vicolo correvano voci spaventose sui treni dei bambini; il volantino rispondeva con tre cose che chiunque poteva controllare. Per Amerigo è il ricordo della prima volta che una prova ha battuto una paura.",
+      "temaCivico": "Dicerie e fonti, libertà di parola e di stampa (art. 21), associazioni e partiti (artt. 18 e 49), voto alle donne (2 giugno 1946; oggi artt. 3 e 48 della Costituzione).",
+      "icona": "scarpe",
+      "flashback": "flashback_volantino",
+      "cutscene": "cutscene_volantino",
+      "cutsceneIngresso": "cutscene_volantino",
+      "luogo": "basso_antonietta",
+      "ingresso": {
+        "scena": "20_Int_BassoAntonietta",
+        "x": -3.98,
+        "y": 0.965,
+        "z": 1.98,
+        "yaw": 80,
+        "richiedeFlashback": "flashback_stracci",
+        "prompt": "Esamina: un foglio piegato sulla credenza",
+        "parti": [
+          {
+            "id": "foglio",
+            "forma": "cubo",
+            "materiale": "carta",
+            "colore": "#cbb98a",
+            "y": 0.004,
+            "sx": 0.16,
+            "sy": 0.008,
+            "sz": 0.11
+          },
+          {
+            "id": "piega",
+            "forma": "cubo",
+            "materiale": "carta",
+            "colore": "#a8966c",
+            "y": 0.0085,
+            "sx": 0.16,
+            "sy": 0.001,
+            "sz": 0.004
+          },
+          {
+            "id": "angolo",
+            "forma": "cubo",
+            "materiale": "carta",
+            "colore": "#d8c89c",
+            "x": 0.05,
+            "y": 0.009,
+            "z": 0.03,
+            "ry": 35,
+            "sx": 0.05,
+            "sy": 0.002,
+            "sz": 0.04
+          },
+          {
+            "id": "timbro",
+            "forma": "cubo",
+            "materiale": "carta",
+            "colore": "#7a1f1a",
+            "x": -0.045,
+            "y": 0.0088,
+            "z": -0.025,
+            "sx": 0.035,
+            "sy": 0.0006,
+            "sz": 0.02
+          }
+        ]
+      }
     }
   ]
 }

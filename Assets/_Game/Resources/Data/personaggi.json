@@ -49,6 +49,18 @@
       "nome": "Una donna del vicolo",
       "ritratto": "",
       "colore": "#8C5A4A"
+    },
+    {
+      "id": "pachiochia",
+      "nome": "La Pachiochia",
+      "ritratto": "",
+      "colore": "#4A4038"
+    },
+    {
+      "id": "madre_vicolo",
+      "nome": "Una madre del vicolo",
+      "ritratto": "",
+      "colore": "#7A5A48"
     }
   ]
 }

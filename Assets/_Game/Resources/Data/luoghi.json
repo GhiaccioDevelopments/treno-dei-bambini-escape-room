@@ -33,9 +33,9 @@
       "scena": "",
       "spawn": "",
       "aperto": false,
-      "descrizione": "La sede del Comitato, dove le volontarie organizzano l'accoglienza dei bambini. Nel quartiere si dicono molte cose strane su chi la frequenta. Si aprirà più avanti.",
+      "descrizione": "La sede del Comitato, dove le volontarie organizzano l'accoglienza dei bambini: tavoli, un ciclostile, una bacheca piena di fogli. Nel quartiere si dicono molte cose strane su chi la frequenta. Oggi ci si entra solo nel ricordo del volantino.",
       "sbloccatoDa": "stracci",
-      "sbloccatoMsg": "Dagli stracci hai imparato dove cercare: la sede del Comitato è il prossimo posto da visitare, ma oggi la porta è ancora chiusa. Ne riparleremo più avanti."
+      "sbloccatoMsg": "La porta della sede è chiusa. Ma Antonietta un foglio del Comitato l'aveva conservato: cercalo nella credenza del basso."
     },
     {
       "id": "stazione",
@@ -43,7 +43,9 @@
       "scena": "",
       "spawn": "",
       "aperto": false,
-      "descrizione": "Binari, fumo e saluti lunghi: da qui partono i treni diretti verso il Nord. Si aprirà più avanti nella storia."
+      "descrizione": "Binari, fumo e saluti lunghi: da qui partono i treni diretti verso il Nord. Si aprirà più avanti nella storia.",
+      "sbloccatoDa": "volantino",
+      "sbloccatoMsg": "Il volantino parlava dei treni: la stazione è il prossimo posto da visitare, ma per ora il cancello resta chiuso. Si aprirà più avanti."
     },
     {
       "id": "vicolo_stracci",
@@ -79,6 +81,15 @@
       "aperto": false,
       "descrizione": "Il vicolo degli stracci e la bottega di Capa 'e fierro nel 1946: polvere, panni stesi e luce di lampada a petrolio.",
       "meteo": "sereno"
+    },
+    {
+      "id": "ricordo_volantino",
+      "nome": "Il ricordo del volantino",
+      "scena": "50_FB_Volantino",
+      "spawn": "",
+      "aperto": false,
+      "descrizione": "La stessa strada del ricordo delle scarpe, ma di sera e sotto la pioggia: voci dalle finestre e, in fondo al largo, la sede del Comitato con la luce accesa.",
+      "meteo": "pioggia"
     }
   ]
 }

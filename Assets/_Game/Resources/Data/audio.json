@@ -84,6 +84,23 @@
         28
       ],
       "superficie": "ovattato"
+    },
+    {
+      "scena": "50_FB_Volantino",
+      "musica": "tema_amerigo_ricordo",
+      "ambiente": [
+        "ricordo_tono",
+        "pioggia"
+      ],
+      "sparsi": [
+        "finestra",
+        "panni"
+      ],
+      "intervallo": [
+        12,
+        30
+      ],
+      "superficie": "ovattato"
     }
   ],
   "eventi": [
@@ -131,6 +148,11 @@
       "id": "cambio_scena",
       "stinger": "",
       "sfx": ""
+    },
+    {
+      "id": "voce_vicolo",
+      "stinger": "",
+      "sfx": "finestra"
     }
   ],
   "volumi": {

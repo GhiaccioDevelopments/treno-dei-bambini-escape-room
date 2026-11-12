@@ -1,0 +1,249 @@
+{
+  "id": "cutscene_volantino",
+  "titolo": "Il volantino del treno",
+  "sfondo": "cs_vicolo",
+  "battute": [
+    {
+      "id": "cs_volantino_001",
+      "personaggio": "amerigo_adulto",
+      "testo": "Un foglio piegato in quattro, giallo come un limone dimenticato. Lo teneva fra i piatti buoni.",
+      "emozione": "pensierosa",
+      "audio": "",
+      "azione": "dissolvenza",
+      "sfondo": "cs_basso",
+      "posizione": "sx",
+      "capitolo": "ingresso"
+    },
+    {
+      "id": "cs_volantino_002",
+      "personaggio": "amerigo_adulto",
+      "testo": "Mia madre non sapeva leggere. Eppure questo foglio non l'ha mai buttato.",
+      "emozione": "pensierosa",
+      "audio": "",
+      "azione": "",
+      "sfondo": "",
+      "posizione": "sx",
+      "capitolo": "ingresso"
+    },
+    {
+      "id": "cs_volantino_003",
+      "personaggio": "narratore",
+      "testo": "Napoli, autunno 1946. È sera e piove fino. Antonietta attraversa il vicolo con Amerigo per mano.",
+      "emozione": "neutra",
+      "audio": "",
+      "azione": "dissolvenza",
+      "sfondo": "cs_vicolo",
+      "posizione": "sx",
+      "capitolo": "ingresso"
+    },
+    {
+      "id": "cs_volantino_004",
+      "personaggio": "antonietta",
+      "testo": "Cammina e non guardare le finestre. La gente parla, e la gente non sa niente.",
+      "emozione": "decisa",
+      "audio": "",
+      "azione": "entra_dx",
+      "sfondo": "",
+      "posizione": "dx",
+      "capitolo": "ingresso"
+    },
+    {
+      "id": "cs_volantino_005",
+      "personaggio": "amerigo",
+      "testo": "E che dicono, mammà?",
+      "emozione": "neutra",
+      "audio": "",
+      "azione": "entra_sx",
+      "sfondo": "",
+      "posizione": "sx",
+      "capitolo": "ingresso"
+    },
+    {
+      "id": "cs_volantino_006",
+      "personaggio": "antonietta",
+      "testo": "Dicono. Basta questo. Tu stammi vicino e leggimi le carte che ci danno.",
+      "emozione": "neutra",
+      "audio": "",
+      "azione": "",
+      "sfondo": "",
+      "posizione": "dx",
+      "capitolo": "ingresso"
+    },
+    {
+      "id": "cs_volantino_007",
+      "personaggio": "amerigo",
+      "testo": "Io so leggere tutto, mammà. Quasi tutto. Le lettere grandi di sicuro.",
+      "emozione": "felice",
+      "audio": "",
+      "azione": "",
+      "sfondo": "",
+      "posizione": "sx",
+      "capitolo": "ingresso"
+    },
+    {
+      "id": "cs_volantino_008",
+      "personaggio": "narratore",
+      "testo": "Amerigo conosce le lettere dei manifesti e poco altro. Ma stasera ha deciso che sa leggere, e nessuno glielo toglie dalla testa.",
+      "emozione": "neutra",
+      "audio": "",
+      "azione": "",
+      "sfondo": "",
+      "posizione": "sx",
+      "capitolo": "ingresso"
+    },
+    {
+      "id": "cs_volantino_009",
+      "personaggio": "narratore",
+      "testo": "Prima della sede del Comitato bisogna passare sotto i balconi. E dai balconi, la sera, scendono le voci.",
+      "emozione": "neutra",
+      "audio": "",
+      "azione": "",
+      "sfondo": "",
+      "posizione": "sx",
+      "capitolo": "ingresso"
+    },
+    {
+      "id": "cs_volantino_010",
+      "personaggio": "maddalena",
+      "testo": "Questo è per voi, signora Antonietta. Ci sono scritte tre cose, e tutte e tre le potete controllare.",
+      "emozione": "decisa",
+      "audio": "",
+      "azione": "dissolvenza",
+      "sfondo": "cs_ricordo",
+      "posizione": "dx",
+      "capitolo": "chiusura"
+    },
+    {
+      "id": "cs_volantino_011",
+      "personaggio": "antonietta",
+      "testo": "Io le carte non le so leggere. Me lo legge lui.",
+      "emozione": "neutra",
+      "audio": "",
+      "azione": "entra_sx",
+      "sfondo": "",
+      "posizione": "sx",
+      "capitolo": "chiusura"
+    },
+    {
+      "id": "cs_volantino_012",
+      "personaggio": "amerigo",
+      "testo": "C'è scritto... treni per i bambini. E la visita del dottore. E quando si torna.",
+      "emozione": "felice",
+      "audio": "",
+      "azione": "",
+      "sfondo": "",
+      "posizione": "sx",
+      "capitolo": "chiusura"
+    },
+    {
+      "id": "cs_volantino_013",
+      "personaggio": "maddalena",
+      "testo": "Ha letto bene. Non dovete credere a me: le lettere delle famiglie sono qua, venite a vederle quando volete.",
+      "emozione": "felice",
+      "audio": "",
+      "azione": "",
+      "sfondo": "",
+      "posizione": "dx",
+      "capitolo": "chiusura"
+    },
+    {
+      "id": "cs_volantino_014",
+      "personaggio": "pachiochia",
+      "testo": "Belle parole. Le parole non costano niente. Quei bambini non li rivedete più, ve lo dico io.",
+      "emozione": "triste",
+      "audio": "",
+      "azione": "entra_dx",
+      "sfondo": "",
+      "posizione": "dx",
+      "capitolo": "chiusura"
+    },
+    {
+      "id": "cs_volantino_015",
+      "personaggio": "madre_vicolo",
+      "testo": "Il registro l'ho visto con questi occhi, Pachiò. C'è scritto quando tornano. E la cartolina di quel bambino viene dall'Emilia, non dall'altro mondo.",
+      "emozione": "decisa",
+      "audio": "",
+      "azione": "",
+      "sfondo": "",
+      "posizione": "sx",
+      "capitolo": "chiusura"
+    },
+    {
+      "id": "cs_volantino_016",
+      "personaggio": "pachiochia",
+      "testo": "Eh, vedremo. Io però la notte non dormo, per quelle creature.",
+      "emozione": "triste",
+      "audio": "",
+      "azione": "",
+      "sfondo": "",
+      "posizione": "dx",
+      "capitolo": "chiusura"
+    },
+    {
+      "id": "cs_volantino_017",
+      "personaggio": "maddalena",
+      "testo": "Nemmeno io, signora. Per questo li voglio vedere partire con le scarpe ai piedi e tornare con le guance rosse.",
+      "emozione": "neutra",
+      "audio": "",
+      "azione": "",
+      "sfondo": "",
+      "posizione": "dx",
+      "capitolo": "chiusura"
+    },
+    {
+      "id": "cs_volantino_018",
+      "personaggio": "narratore",
+      "testo": "Antonietta prende la matita. Non sa scrivere il suo nome: sul registro traccia una croce, lenta e decisa.",
+      "emozione": "neutra",
+      "audio": "",
+      "azione": "",
+      "sfondo": "",
+      "posizione": "sx",
+      "capitolo": "chiusura"
+    },
+    {
+      "id": "cs_volantino_019",
+      "personaggio": "antonietta",
+      "testo": "Una croce vale quanto un nome?",
+      "emozione": "neutra",
+      "audio": "",
+      "azione": "",
+      "sfondo": "",
+      "posizione": "sx",
+      "capitolo": "chiusura"
+    },
+    {
+      "id": "cs_volantino_020",
+      "personaggio": "maddalena",
+      "testo": "Vale quanto una firma. Ed è la vostra.",
+      "emozione": "felice",
+      "audio": "",
+      "azione": "",
+      "sfondo": "",
+      "posizione": "dx",
+      "capitolo": "chiusura"
+    },
+    {
+      "id": "cs_volantino_021",
+      "personaggio": "amerigo_adulto",
+      "testo": "Quella croce l'ho rivista mille volte. Era la firma più lunga che mia madre abbia mai fatto.",
+      "emozione": "pensierosa",
+      "audio": "",
+      "azione": "dissolvenza",
+      "sfondo": "cs_basso",
+      "posizione": "sx",
+      "capitolo": "chiusura"
+    },
+    {
+      "id": "cs_volantino_022",
+      "personaggio": "narratore",
+      "testo": "Le voci correvano più veloci dei treni. Ma una prova che chiunque può controllare, prima o poi, le raggiunge.",
+      "emozione": "decisa",
+      "audio": "",
+      "azione": "",
+      "sfondo": "",
+      "posizione": "sx",
+      "capitolo": "chiusura"
+    }
+  ]
+}
