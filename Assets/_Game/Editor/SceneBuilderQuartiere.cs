@@ -249,6 +249,8 @@ namespace TrenoBambini.EditorTools
             {
                 case "cortile": return "M_PavimentoBattuto";
                 case "macerie": return "M_TerraPolverosa";
+                case "stazione": return "M_PavimentoPiastreGrandi"; // R014: atrio e banchine della stazione
+                case "legno": return "M_AssiConsunte";          // R014: pavimento della carrozza
                 default: return "M_BasoliLavica";
             }
         }

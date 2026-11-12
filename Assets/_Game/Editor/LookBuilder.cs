@@ -42,7 +42,7 @@ namespace TrenoBambini.EditorTools
 
         const int LutSize = 32;
 
-        static readonly string[] LookScenes = { "10_Hub_Vicolo", "20_Int_BassoAntonietta", "30_FB_Scarpe", "40_FB_Stracci", "50_FB_Volantino" };
+        static readonly string[] LookScenes = { "10_Hub_Vicolo", "20_Int_BassoAntonietta", "30_FB_Scarpe", "40_FB_Stracci", "50_FB_Volantino", "60_FB_Stazione", "61_FB_Vagone" };
         const string LookRoot = "Look";
         const string LookLightName = "Look_Luce";
 
@@ -214,7 +214,7 @@ namespace TrenoBambini.EditorTools
 
         static VolumeProfile ProfileFor(string n)
         {
-            string p = (n == "30_FB_Scarpe" || n == "40_FB_Stracci" || n == "50_FB_Volantino") ? ProfFlash : n == "20_Int_BassoAntonietta" ? ProfBasso : ProfEpoca;
+            string p = (n == "30_FB_Scarpe" || n == "40_FB_Stracci" || n == "50_FB_Volantino" || n == "60_FB_Stazione" || n == "61_FB_Vagone") ? ProfFlash : n == "20_Int_BassoAntonietta" ? ProfBasso : ProfEpoca;
             return AssetDatabase.LoadAssetAtPath<VolumeProfile>(p);
         }
 
@@ -697,6 +697,8 @@ namespace TrenoBambini.EditorTools
                 case "30_FB_Scarpe": res = 3f; maxSize = 1024; break;
                 case "40_FB_Stracci": res = 2.5f; maxSize = 1024; break; // R012: LFS vicino al limite, lightmap ridotte
                 case "50_FB_Volantino": res = 2.5f; maxSize = 1024; break; // R013: come Stracci (LFS)
+                case "60_FB_Stazione": res = 2f; maxSize = 1024; break; // R014: stazione grande, lightmap leggere (LFS)
+                case "61_FB_Vagone": res = 6f; maxSize = 512; break;    // R014: interno piccolo
                 default: res = 4f; maxSize = 1024; break;
             }
         }
@@ -932,6 +934,27 @@ namespace TrenoBambini.EditorTools
                     AddLampLights("LuceBottega", Cct(2200f), 4.0f, 8f);
                     AddLampLights("LuceBasso", Cct(2300f), 3.0f, 6.5f);
                     probeMin = new Vector3(-17f, 0.4f, -33f); probeMax = new Vector3(20f, 4.4f, 60f); probeStep = 3.6f;
+                    break;
+                case "60_FB_Stazione":
+                    // R014: mattina d'inverno in una grande stazione: luce fredda e bassa dal lucernario e dalla testata aperta, fumo grigio (nebbia),
+                    // lampade appese calde. Cielo coperto come l'hub.
+                    exterior = true;
+                    SetSun(sun, new Color(0.86f, 0.88f, 0.92f), 1.2f, new Vector3(28f, -24f, 0f), 0.5f);
+                    SetSkyAmbient(1.3f);
+                    bg = new Color(0.52f, 0.52f, 0.50f);
+                    SetFog(0.022f, bg);
+                    AddLampLights("LuceLampione", Cct(2500f), 4.0f, 10f);
+                    probeMin = new Vector3(-14f, 0.4f, -15f); probeMax = new Vector3(14f, 5f, 44f); probeStep = 4f;
+                    break;
+                case "61_FB_Vagone":
+                    // R014: interno stretto della carrozza: pomeriggio dai finestrini (il sole e' Mixed: PaesaggioTreno lo porta verso la notte), lanterne calde.
+                    SetSun(sun, new Color(1f, 0.86f, 0.66f), 1.6f, new Vector3(20f, 70f, 0f), 0.6f);
+                    SetSkyAmbient(1.4f);
+                    bg = new Color(0.6f, 0.58f, 0.52f);
+                    SetFog(0.008f, bg);
+                    AddLampLights("LuceBottega", Cct(2300f), 1.6f, 4.5f);
+                    probeMin = new Vector3(-1.2f, 0.4f, -2.2f); probeMax = new Vector3(1.2f, 2.2f, 20.2f); probeStep = 1.2f;
+                    probesSky = false;
                     break;
                 default: // 30_FB_Scarpe: ricordo 1946, sole basso dorato, ombre lunghe, nessuna pioggia
                     // R007: sole basso (altezza ~22 gradi) lungo l'asse della via, caldo e luminoso; cielo procedurale al tramonto
