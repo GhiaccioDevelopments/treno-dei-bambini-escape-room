@@ -5,6 +5,20 @@ Regole d'uso: vedi la sezione "Diario e lavoro su più PC" in `CLAUDE.md`.
 
 ---
 
+## 2026-11-12 – PC scuola – R012 chiusa lato codice, R013 e R014 scritte, Capa 'e fierro in MakeHuman
+**Branch:** richiesta/R015-ricordo-violino (contiene R012+R013+R014) · nessuno di questi branch e' stato compilato: a scuola niente Unity
+### Fatto
+- **R012 Stracci**: review del codice, correzioni (testi dei tessuti, gamepad su monete/muro), bottega abbellita, Capa 'e fierro (script MakeHuman, import Unity, ritratto). Branch `richiesta/R012-ricordo-stracci`.
+- **R013 Volantino**: scena `50_FB_Volantino` da builder, 5 enigmi, `cs_volantino_001..022`, segreti, `-volantinotest`. Branch `richiesta/R013-ricordo-volantino`.
+- **R014 Cappotto**: scene `60_FB_Stazione` e `61_FB_Vagone`, 5 enigmi, `cs_cappotto_001..022`, segreti, `-cappottotest`, porta della stazione nell'hub corretta. Branch `richiesta/R014-ricordo-cappotto`.
+- **Capa 'e fierro (MakeHuman)**: abito nuovo (giacca di fustagno, camicia a righe, pantaloni di lana, shoes04), testa rasata dipinta sulla pelle, barba, sopracciglia folte (eyebrow012), 54 anni. Modello in `ArtSource/Characters/makehuman/Capa_e_fierro/` = penultima versione (prima di barba/sopracciglia).
+### Problemi aperti
+- Tutto il codice di R012-R014 e' NON compilato e NON provato: checklist "Da fare a casa con Unity" nel Rapporto di ogni richiesta.
+- Capa 'e fierro: rilanciare `genera_capa_e_fierro_makehuman.py` (materiali gia' aggiornati) e approvare gli screenshot.
+- R015 Violino: solo il merge di R014, lavoro non iniziato.
+### Prossimi passi (PC casa)
+- Compilare e provare R012 → R013 → R014 nell'ordine dei Rapporti; poi R015, R016, R026–R029.
+
 ## 2026-11-12 – PC scuola – R014 "Il cappotto" scritto senza Unity
 **Branch:** richiesta/R014-ricordo-cappotto (con dentro R013 e R012) · **Ultimo commit:** vedi `git log`
 ### Fatto
