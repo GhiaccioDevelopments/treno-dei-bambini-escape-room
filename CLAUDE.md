@@ -89,7 +89,7 @@ Protagonista: Amerigo Speranza, Napoli 1946.
 ## Struttura
 ```
 Assets/_Game/
-  Scenes/            00_Boot, 01_Titolo, 10_Hub_Vicolo, 20_Int_BassoAntonietta, 30_FB_Scarpe, 40_FB_Stracci (R012: vicolo degli stracci + bottega di Capa 'e fierro, un'unica scena; Treno > Scene > Costruisci ricordo Stracci), 50_FB_Volantino (R013: vicolo delle voci = set de "Le scarpe" di sera con la pioggia + sede del Comitato; Treno > Scene > Costruisci ricordo Volantino)
+  Scenes/            00_Boot, 01_Titolo, 10_Hub_Vicolo, 20_Int_BassoAntonietta, 30_FB_Scarpe, 40_FB_Stracci (R012: vicolo degli stracci + bottega di Capa 'e fierro, un'unica scena; Treno > Scene > Costruisci ricordo Stracci), 50_FB_Volantino (R013: vicolo delle voci = set de "Le scarpe" di sera con la pioggia + sede del Comitato; Treno > Scene > Costruisci ricordo Volantino), 60_FB_Stazione + 61_FB_Vagone (R014: un ricordo su due scene, enigmi con campo "scena"; Treno > Scene > Costruisci ricordo Cappotto)
   Scripts/Core       GameManager, SaveSystem, SceneLoader, Transition, GameData (loader JSON)
   Scripts/Player     ThirdPersonController (CharacterController), CameraRig (Cinemachine 3), WallFader, PlayerInteractor
   Scripts/World      Interactable, Door, ItemPickup (avvia flashback), IngressoRicordo (R012: oggetti-ricordo creati a runtime da oggetti.json, campo ingresso), Glow (emissione pulsante)

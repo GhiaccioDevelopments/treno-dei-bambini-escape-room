@@ -5,6 +5,18 @@ Regole d'uso: vedi la sezione "Diario e lavoro su più PC" in `CLAUDE.md`.
 
 ---
 
+## 2026-11-12 – PC scuola – R014 "Il cappotto" scritto senza Unity
+**Branch:** richiesta/R014-ricordo-cappotto (con dentro R013 e R012) · **Ultimo commit:** vedi `git log`
+### Fatto
+- Scene `60_FB_Stazione` (stazione generica, D9) e `61_FB_Vagone` (carrozza 214 con il paesaggio che scorre), entrambe giocabili (D10), da `SceneBuilderCappotto.cs`.
+- 5 enigmi con 4 meccanismi nuovi (cartellini su figure vive, cappotti per taglia, finestrino in movimento, dialoghi a scelta), cutscene `cs_cappotto_001..022`,
+  cappottino dietro la porta del basso, Modena sbloccata, segreti R011, prova `-cappottotest`.
+- Hub: `Porta_stazione` con il pivot sulla parete (le prove la misuravano a quota 0).
+### Problemi aperti
+- Niente compilato né provato: lista nel Rapporto di R014 (prima R012 e R013).
+### Prossimi passi
+- A casa: compilare, costruire le scene, verifiche, bake, `-cappottotest`; poi R015.
+
 ## 2026-11-12 – PC scuola – R013 "Il volantino del treno" scritto senza Unity
 **Branch:** richiesta/R013-ricordo-volantino (con dentro R012) · **Ultimo commit:** vedi `git log` (voce scritta prima del push)
 ### Fatto
