@@ -85,6 +85,18 @@ namespace TrenoBambini.UI
             return t;
         }
 
+        /// <summary>
+        /// Rifa subito il layout e le mesh dei testi sotto <paramref name="root"/>. I testi con ridimensionamento automatico creati mentre il pannello e' ancora
+        /// spento (o prima che il layout abbia dato loro un'altezza) restavano a una riga sola, piccola e tagliata: serve chiamarlo con il pannello attivo.
+        /// </summary>
+        public static void RefreshText(RectTransform root)
+        {
+            if (root == null || !root.gameObject.activeInHierarchy) return;
+            Canvas.ForceUpdateCanvases();
+            LayoutRebuilder.ForceRebuildLayoutImmediate(root);
+            foreach (var t in root.GetComponentsInChildren<TextMeshProUGUI>(false)) t.ForceMeshUpdate();
+        }
+
         static bool Near(Color a, Color b)
         {
             return Mathf.Abs(a.r - b.r) + Mathf.Abs(a.g - b.g) + Mathf.Abs(a.b - b.b) < 0.02f;

@@ -9,7 +9,156 @@
       "icona": "scarpe",
       "flashback": "flashback_scarpe",
       "cutscene": "cutscene_scarpe",
-      "luogo": "basso_antonietta"
+      "luogo": "basso_antonietta",
+      "modello": "scarpe"
+    },
+    {
+      "id": "stracci",
+      "nome": "Gli stracci",
+      "descrizione": "Un fagotto di stracci legato con lo spago. Per Amerigo bambino erano il modo di portare a casa un soldo: li raccoglieva per le case e li portava a Capa 'e fierro, che li pesava e li pagava.",
+      "significato": "Amerigo ha sette anni e il suo lavoro è un sacco troppo grande per lui. Gli stracci non valgono niente per chi li butta e valgono qualcosa per chi li ricicla: così si campava nel dopoguerra, con il riuso e i piccoli scambi, e molti bambini davano una mano alla famiglia. Il soldo guadagnato è un orgoglio e anche un peso.",
+      "temaCivico": "Lavoro minorile ed economia di sopravvivenza: oggi la Costituzione (art. 37: età minima e tutela dei minori; art. 34: scuola; art. 31: protezione dell'infanzia) e la Convenzione ONU sui diritti dell'infanzia (1989, art. 32) proteggono i bambini dallo sfruttamento.",
+      "icona": "scarpe",
+      "flashback": "flashback_stracci",
+      "cutscene": "cutscene_stracci",
+      "cutsceneIngresso": "cutscene_stracci",
+      "luogo": "basso_antonietta",
+      "ingresso": {
+        "scena": "20_Int_BassoAntonietta",
+        "x": 3.7,
+        "y": 0.0,
+        "z": 10.3,
+        "yaw": 20,
+        "richiedeFlashback": "flashback_scarpe",
+        "prompt": "Esamina: il fagotto di stracci",
+        "parti": [
+          {
+            "id": "straccio_a",
+            "forma": "cubo",
+            "materiale": "stoffa",
+            "colore": "#8a7a58",
+            "y": 0.1,
+            "sx": 0.5,
+            "sy": 0.2,
+            "sz": 0.38
+          },
+          {
+            "id": "straccio_b",
+            "forma": "cubo",
+            "materiale": "stoffa",
+            "colore": "#6b5642",
+            "x": 0.06,
+            "y": 0.24,
+            "z": 0.02,
+            "ry": 24,
+            "sx": 0.38,
+            "sy": 0.12,
+            "sz": 0.3
+          },
+          {
+            "id": "straccio_c",
+            "forma": "cubo",
+            "materiale": "stoffa",
+            "colore": "#a8584a",
+            "x": -0.1,
+            "y": 0.2,
+            "z": -0.1,
+            "ry": -18,
+            "sx": 0.22,
+            "sy": 0.08,
+            "sz": 0.2
+          },
+          {
+            "id": "spago_a",
+            "forma": "cubo",
+            "materiale": "stoffa",
+            "colore": "#cbb98a",
+            "y": 0.17,
+            "sx": 0.54,
+            "sy": 0.012,
+            "sz": 0.012
+          },
+          {
+            "id": "spago_b",
+            "forma": "cubo",
+            "materiale": "stoffa",
+            "colore": "#cbb98a",
+            "x": 0.05,
+            "y": 0.15,
+            "sx": 0.012,
+            "sy": 0.012,
+            "sz": 0.42
+          }
+        ]
+      }
+    },
+    {
+      "id": "volantino",
+      "nome": "Il volantino del treno",
+      "descrizione": "Un foglio ciclostilato, ingiallito e piegato in quattro: «Treni per i bambini». Sul retro, una piccola linea del tempo timbrata e una croce a matita al posto di una firma.",
+      "significato": "Antonietta non sapeva leggere, eppure quel foglio l'ha conservato per tutta la vita. Nel vicolo correvano voci spaventose sui treni dei bambini; il volantino rispondeva con tre cose che chiunque poteva controllare. Per Amerigo è il ricordo della prima volta che una prova ha battuto una paura.",
+      "temaCivico": "Dicerie e fonti, libertà di parola e di stampa (art. 21), associazioni e partiti (artt. 18 e 49), voto alle donne (2 giugno 1946; oggi artt. 3 e 48 della Costituzione).",
+      "icona": "scarpe",
+      "flashback": "flashback_volantino",
+      "cutscene": "cutscene_volantino",
+      "cutsceneIngresso": "cutscene_volantino",
+      "luogo": "basso_antonietta",
+      "ingresso": {
+        "scena": "20_Int_BassoAntonietta",
+        "x": -3.98,
+        "y": 0.965,
+        "z": 1.98,
+        "yaw": 80,
+        "richiedeFlashback": "flashback_stracci",
+        "prompt": "Esamina: un foglio piegato sulla credenza",
+        "parti": [
+          {
+            "id": "foglio",
+            "forma": "cubo",
+            "materiale": "carta",
+            "colore": "#cbb98a",
+            "y": 0.004,
+            "sx": 0.16,
+            "sy": 0.008,
+            "sz": 0.11
+          },
+          {
+            "id": "piega",
+            "forma": "cubo",
+            "materiale": "carta",
+            "colore": "#a8966c",
+            "y": 0.0085,
+            "sx": 0.16,
+            "sy": 0.001,
+            "sz": 0.004
+          },
+          {
+            "id": "angolo",
+            "forma": "cubo",
+            "materiale": "carta",
+            "colore": "#d8c89c",
+            "x": 0.05,
+            "y": 0.009,
+            "z": 0.03,
+            "ry": 35,
+            "sx": 0.05,
+            "sy": 0.002,
+            "sz": 0.04
+          },
+          {
+            "id": "timbro",
+            "forma": "cubo",
+            "materiale": "carta",
+            "colore": "#7a1f1a",
+            "x": -0.045,
+            "y": 0.0088,
+            "z": -0.025,
+            "sx": 0.035,
+            "sy": 0.0006,
+            "sz": 0.02
+          }
+        ]
+      }
     }
   ]
 }

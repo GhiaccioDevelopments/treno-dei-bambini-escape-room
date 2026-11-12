@@ -1,0 +1,26 @@
+{
+ "nome": "MadonnaStatuetta",
+ "cartella": "MadonnaStatuetta",
+ "sorgente": "Madonna",
+ "materiali": [
+  "material0"
+ ],
+ "tri": [
+  4999,
+  2499,
+  1248
+ ],
+ "tri_originali": 9561,
+ "dim": [
+  0.254,
+  0.436,
+  0.9
+ ],
+ "texture": {
+  "material0": {
+   "albedo": "material0_albedo.jpg",
+   "normal": "material0_normal.jpg",
+   "levigatezza": 0.25
+  }
+ }
+}

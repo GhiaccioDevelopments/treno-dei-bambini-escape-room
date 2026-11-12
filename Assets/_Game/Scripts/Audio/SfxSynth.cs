@@ -20,7 +20,7 @@ namespace TrenoBambini.Audio
             "porta_apri", "porta_chiudi", "porta_chiusa", "raccolta", "trovato", "ricordo_brilla",
             "proiettore_avvio", "proiettore_stop", "violino_sale", "treno_fischio",
             "campane", "gabbiani", "carretto", "venditore", "bambini", "pendolo", "sedia", "pentola", "panni", "finestra",
-            "vicolo_brusio", "vento_mare", "interno_silenzio", "ricordo_tono", "stazione_vapore"
+            "vicolo_brusio", "vento_mare", "interno_silenzio", "ricordo_tono", "stazione_vapore", "pioggia", "pioggia_ovattata"
         };
 
         public static bool Has(string id) { return Array.IndexOf(AllIds, id) >= 0; }
@@ -394,6 +394,28 @@ namespace TrenoBambini.Audio
                         Synth.Scale(street, 0.02f);
                         Synth.Add(x, street, 0f, 1f);
                         return Synth.MakeLoop(x, 1.5f);
+                    }
+                case "pioggia":
+                    {   // R007 t4: pioggia costante: sibilo diffuso + scroscio piu' basso, con lenta variazione di intensita'
+                        x = Synth.Noise(14f, rng, 1f);
+                        Synth.BandPass(x, 1800f, 9000f);
+                        Synth.Envelope(x, t => 0.15f * (0.85f + 0.15f * Sin(t, 0.13f)));
+                        var scroscio = Synth.Noise(14f, rng, 1f);
+                        Synth.BandPass(scroscio, 400f, 1600f);
+                        Synth.Envelope(scroscio, t => 0.07f * (0.7f + 0.3f * Sin(t, 0.31f)));
+                        Synth.Add(x, scroscio, 0f, 1f);
+                        for (int i = 0; i < 60; i++)
+                            Synth.Add(x, Fill(0.03f, t => rng.Signed() * Mathf.Exp(-t / 0.004f) * 0.18f), rng.Range(0f, 13.5f), 1f);
+                        return Synth.MakeLoop(x, 2f);
+                    }
+                case "pioggia_ovattata":
+                    {   // la pioggia sentita da dentro: tutto sotto i 900 Hz, piu' piano, con qualche goccia sul tetto
+                        x = Synth.Noise(14f, rng, 1f);
+                        Synth.LowPass(x, 900f);
+                        Synth.Envelope(x, t => 0.11f * (0.85f + 0.15f * Sin(t, 0.11f)));
+                        for (int i = 0; i < 18; i++)
+                            Synth.Add(x, Fill(0.05f, t => Sin(t, 180f) * Mathf.Exp(-t / 0.012f) * 0.12f), rng.Range(0f, 13.5f), 1f);
+                        return Synth.MakeLoop(x, 2f);
                     }
                 case "ricordo_tono":
                     {

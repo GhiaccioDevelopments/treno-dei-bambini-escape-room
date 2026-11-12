@@ -17,7 +17,11 @@ namespace TrenoBambini.Core
         void Awake() { I = this; }
         void OnDestroy() { if (I == this) I = null; }
 
-        public void Load(string scena, string spawnId, TransitionStyle stile = TransitionStyle.Fade)
+        /// <summary>
+        /// preRivela (R025, filmato iniziale): coroutine eseguita a scena caricata e giocatore posizionato, PRIMA che la transizione riveli la scena
+        /// (serve a sistemare la camera mentre lo schermo e' ancora coperto).
+        /// </summary>
+        public void Load(string scena, string spawnId, TransitionStyle stile = TransitionStyle.Fade, System.Func<IEnumerator> preRivela = null)
         {
             if (IsLoading) return;
             if (string.IsNullOrEmpty(scena) || !Application.CanStreamedLevelBeLoaded(scena))
@@ -26,10 +30,10 @@ namespace TrenoBambini.Core
                 if (UIRoot.I != null) UIRoot.I.Toast("Questo luogo non è ancora raggiungibile.");
                 return;
             }
-            StartCoroutine(LoadRoutine(scena, spawnId, stile));
+            StartCoroutine(LoadRoutine(scena, spawnId, stile, preRivela));
         }
 
-        IEnumerator LoadRoutine(string scena, string spawnId, TransitionStyle stile)
+        IEnumerator LoadRoutine(string scena, string spawnId, TransitionStyle stile, System.Func<IEnumerator> preRivela)
         {
             IsLoading = true;
             GameManager.I.PushBlock("caricamento");
@@ -41,6 +45,12 @@ namespace TrenoBambini.Core
             else AudioManager.Fire("cambio_scena");
 
             if (fader != null) yield return fader.Out(stile);
+            if (GameManager.MenuBackdrop) yield return MenuBackdrop.Congeda(); // R023: schermo nero, il vicolo del menu si scarica prima del caricamento vero
+            // i decal escono dal DecalEntityManager di URP uno alla volta, prima che la scena sparisca: scaricare la scena con i decal ancora attivi
+            // faceva andare in crash il DecalDrawSystem (player Windows, preset con decal)
+            foreach (var d in FindObjectsByType<UnityEngine.Rendering.Universal.DecalProjector>(FindObjectsInactive.Exclude)) d.enabled = false;
+            yield return null; yield return null;
+            GameManager.MenuBackdrop = false; // R023: da qui lo sfondo del menu non conta piu' (niente pellicola del menu nella scena che arriva)
             if (UIRoot.I != null) { UIRoot.I.HidePrompt(); UIRoot.I.SetHudCounter(""); }
 
             var op = SceneManager.LoadSceneAsync(scena);
@@ -50,6 +60,19 @@ namespace TrenoBambini.Core
             PlacePlayer(spawnId);
             GameManager.I.OnSceneEntered(scena, spawnId);
             yield return null;
+            if (preRivela != null)
+            {
+                // eseguita a mano: se la preparazione va in errore la transizione si chiude comunque (mai IsLoading bloccato)
+                IEnumerator pr = null;
+                try { pr = preRivela(); } catch (System.Exception e) { Debug.LogException(e); }
+                while (pr != null)
+                {
+                    bool avanti;
+                    try { avanti = pr.MoveNext(); } catch (System.Exception e) { Debug.LogException(e); break; }
+                    if (!avanti) break;
+                    yield return pr.Current;
+                }
+            }
 
             if (fader != null) yield return fader.In(stile);
             GameManager.I.PopBlock("caricamento");

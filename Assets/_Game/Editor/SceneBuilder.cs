@@ -23,7 +23,7 @@ namespace TrenoBambini.EditorTools
         const string ScenesFolder = "Assets/_Game/Scenes";
         static readonly string[] SceneNames =
         {
-            "00_Boot", "01_Titolo", "10_Hub_Vicolo", "20_Int_BassoAntonietta", "30_FB_Scarpe"
+            "00_Boot", "01_Titolo", "10_Hub_Vicolo", "20_Int_BassoAntonietta", "30_FB_Scarpe", "40_FB_Stracci", "50_FB_Volantino"
         };
 
         static readonly Dictionary<string, Material> matCache = new Dictionary<string, Material>();
@@ -53,6 +53,10 @@ namespace TrenoBambini.EditorTools
                 BuildBasso();
                 EditorUtility.DisplayProgressBar("Costruisci scene", SceneNames[4], 0.85f);
                 BuildFlashback();
+                EditorUtility.DisplayProgressBar("Costruisci scene", SceneNames[5], 0.92f);
+                BuildFlashbackStracci(); // R012
+                EditorUtility.DisplayProgressBar("Costruisci scene", SceneNames[6], 0.94f);
+                BuildFlashbackVolantino(); // R013
 
                 SetBuildSettings();
                 AssetDatabase.SaveAssets();
@@ -64,7 +68,7 @@ namespace TrenoBambini.EditorTools
                 Debug.LogWarning("[SceneBuilder] Luci da rifare: Treno ▸ Look ▸ Bake luci di tutte le scene");
                 EditorSceneManager.OpenScene(ScenePath(SceneNames[0]), OpenSceneMode.Single);
                 ReportKit();
-                Debug.Log("[SceneBuilder] Costruite le 5 scene e aggiornati i Build Settings.");
+                Debug.Log("[SceneBuilder] Costruite le 7 scene e aggiornati i Build Settings.");
             }
             finally
             {
@@ -296,49 +300,28 @@ namespace TrenoBambini.EditorTools
 
         // ------------------------------------------------------------------ 01_Titolo
 
+        /// <summary>
+        /// R023: la scena del titolo e' solo la camera e la schermata (TitleScreen): lo sfondo vivo e' il vicolo dell'hub, caricato in additivo a runtime
+        /// (MenuBackdrop). Niente diorama, niente luci o probe da cuocere: nessun bake.
+        /// </summary>
         static void BuildTitolo()
         {
             var scene = NewScene();
-            kitScene = "Titolo"; kitIndex = 0;
-            var r = new System.Random(1946);
-            doorWallPoints.Clear();
-            Ambient(new Color(0.80f, 0.72f, 0.58f), new Color(0.56f, 0.48f, 0.38f), new Color(0.30f, 0.25f, 0.19f));
-            Sun(new Color(1f, 0.90f, 0.72f), 1.1f, new Vector3(48f, -28f, 0f));
-
-            var env = new GameObject("Diorama").transform;
-            Street("Selciato", env, -4.5f, 4.5f, -7f, 7f, 0.15f);
-
-            Building(env, -1, 1.6f, -7f, -1f, 2.5f, 3, "Tufo", r, 1.8f);
-            Building(env, -1, 1.6f, -1f, 2.5f, 2.5f, 4, "Intonaco", r, 1.8f);
-            Building(env, -1, 1.6f, 2.5f, 7f, 2.5f, 3, "TufoScuro", r, 1.8f);
-            Building(env, 1, 1.6f, -7f, 0.5f, 2.5f, 4, "Intonaco", r, 1.8f);
-            Building(env, 1, 1.6f, 0.5f, 7f, 2.5f, 3, "Tufo", r, 1.8f);
-            Ground("FondoVicolo", env, new Vector3(-4f, 0f, 7f), new Vector3(4f, 10f, 8f), "M_IntonacoRustico05", 2.5f);
-
-            // porta e scarpe
-            Box("PortaDiorama", env, new Vector3(1.5f, 1.0f, -3f), new Vector3(0.2f, 2.0f, 1.0f), "Legno");
-            Box("PortaDiorama", env, new Vector3(-1.5f, 1.0f, 1.5f), new Vector3(0.2f, 2.0f, 1.0f), "Legno");
-            Clothesline(env, r, -4.5f, 5.6f, 5.2f, -1.55f, 1.55f, 4);
-            Clothesline(env, r, -0.5f, 6.4f, 6.8f, -1.55f, 1.55f, 3);
-            Clothesline(env, r, 3.5f, 5.2f, 5.0f, -1.55f, 1.55f, 4);
-            Clothesline(env, r, 5.5f, 7.0f, 6.6f, -1.55f, 1.55f, 3);
-            Lamp(env, new Vector3(1.2f, 0f, -1.5f));
-            Cart(env, new Vector3(-0.9f, 0f, 4.2f));
-            Bucket(env, new Vector3(1.2f, 0f, 2.2f));
-            Rubble(env, r, new Vector3(0.6f, 0f, 5.8f), 6, 0.6f);
-            SetStatic(env.gameObject);
-
-            // Amerigo di spalle nel diorama (solo scenografia)
-            var am = new GameObject("AmerigoDiorama").transform;
-            am.position = new Vector3(0f, 0f, -2.2f);
-            BuildAmerigoModel(am);
-
-            var cam = MakeCamera("Main Camera", new Vector3(0f, 2.3f, -9.5f), Quaternion.identity, new Color(0.90f, 0.80f, 0.60f), true);
-            cam.fieldOfView = 42f;
-            cam.transform.LookAt(new Vector3(0f, 3.2f, 0f));
-
+            Ambient(Color.black, Color.black, Color.black);
+            // sfondo nero caldo: si vede solo per il primo fotogramma, prima che lo sfondo vivo sia pronto
+            MakeCamera("Main Camera", new Vector3(0f, 1f, -10f), Quaternion.identity, new Color(0.04f, 0.025f, 0.015f), true);
             new GameObject("TitleScreen").AddComponent<TitleScreen>();
             SaveScene(scene, "01_Titolo");
+        }
+
+        [MenuItem("Treno/Scene/Ricostruisci solo il Titolo")]
+        public static void RicostruisciTitolo()
+        {
+            if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) return;
+            BuildTitolo();
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+            Debug.Log("[SceneBuilder] Ricostruita 01_Titolo (camera + TitleScreen).");
         }
 
     }

@@ -11,6 +11,8 @@ namespace TrenoBambini.World
         public string prompt;
         public virtual bool CanInteract { get { return true; } }
         public virtual string GetPrompt() { return prompt; }
+        /// <summary>R011: distanza aggiunta nella scelta del prompt piu' vicino: i segreti cedono il passo agli interattori principali.</summary>
+        public virtual float Penalita { get { return 0f; } }
         /// <summary>Oggetto speciale (es. ricordo da vivere): il prompt ha bordo dorato e scintille.</summary>
         public virtual bool IsSpecial { get { return false; } }
 

@@ -55,6 +55,9 @@ namespace TrenoBambini.Core
 
         void OnDestroy() { if (I == this) I = null; }
 
+        /// <summary>R023: vero mentre il menu iniziale mostra il vicolo dell'hub come sfondo (la scena hub e' caricata in additivo, ma e' ancora il menu).</summary>
+        public static bool MenuBackdrop;
+
         public static bool IsMenuScene(string sceneName)
         {
             return sceneName == SceneBoot || sceneName == SceneTitolo;
@@ -97,6 +100,7 @@ namespace TrenoBambini.Core
         /// </summary>
         void Update()
         {
+            ContaTempo();
             if (blockers <= 0) { orphanSince = -1f; return; }
             var ui = UIRoot.I;
             bool owner = (SceneLoader.I != null && SceneLoader.I.IsLoading)
@@ -104,6 +108,7 @@ namespace TrenoBambini.Core
                 || (ui.Pause != null && ui.Pause.IsOpen)
                 || (ui.Inventory != null && ui.Inventory.IsOpen)
                 || (ui.Cutscene != null && ui.Cutscene.IsPlaying)
+                || TrenoBambini.Dialogue.FilmatoIniziale.InCorso
                 || (ui.Fader != null && ui.Fader.Busy);
             if (owner) { orphanSince = -1f; return; }
             if (orphanSince < 0f) { orphanSince = Time.unscaledTime; return; }
@@ -114,11 +119,39 @@ namespace TrenoBambini.Core
             }
         }
 
+        // ---------- tempo di gioco ----------
+        float ultimoSalvataggioTempo;
+
+        /// <summary>Tempo giocato: conta solo in partita (non nei menu, non con pausa, inventario o impostazioni aperti) e lo salva ogni 30 s.</summary>
+        void ContaTempo()
+        {
+            if (MenuBackdrop || IsMenuScene(SceneManager.GetActiveScene().name) || !SaveSystem.Exists()) return;
+            var ui = UIRoot.I;
+            bool inPausa = ui != null && ((ui.Pause != null && ui.Pause.IsOpen) || (ui.Inventory != null && ui.Inventory.IsOpen) || (ui.Settings != null && ui.Settings.IsOpen));
+            if (inPausa || Time.timeScale <= 0f) return;
+            Save.tempoGioco += Time.unscaledDeltaTime;
+            if (Time.unscaledTime - ultimoSalvataggioTempo > 30f) SalvaTempo();
+        }
+
+        /// <summary>Scrive il salvataggio solo se esiste gia' e si e' in partita (dal titolo non si crea un salvataggio vuoto).</summary>
+        void SalvaTempo()
+        {
+            ultimoSalvataggioTempo = Time.unscaledTime;
+            if (save == null || MenuBackdrop || IsMenuScene(SceneManager.GetActiveScene().name) || !SaveSystem.Exists()) return;
+            SaveSystem.Save(save);
+        }
+
+        // chiusura del programma, app in secondo piano (mobile) o scheda del browser nascosta (WebGL): il tempo non va perso
+        void OnApplicationQuit() { SalvaTempo(); }
+        void OnApplicationPause(bool inPausa) { if (inPausa) SalvaTempo(); }
+        void OnApplicationFocus(bool fuoco) { if (!fuoco) SalvaTempo(); }
+
         // ---------- salvataggio ----------
         public void SaveGame() { SaveSystem.Save(Save); }
 
         public void NewGame()
         {
+            Rivivendo = false;
             var vecchio = Save;
             save = new SaveData();
             save.volume = AudioListener.volume;
@@ -128,28 +161,78 @@ namespace TrenoBambini.Core
                 save.volEffetti = vecchio.volEffetti; save.volVoci = vecchio.volVoci;
                 save.effettiRidotti = vecchio.effettiRidotti;
                 save.visualeTastoDestro = vecchio.visualeTastoDestro;
+                save.enigmiSemplificati = vecchio.enigmiSemplificati; save.evidenziaInterattivi = vecchio.evidenziaInterattivi;
+                save.aiutoMappa = vecchio.aiutoMappa; save.minimappaNascosta = vecchio.minimappaNascosta; save.nordFisso = vecchio.nordFisso;
             }
             save.scena = SceneHub;
             save.spawn = "inizio";
             SaveSystem.Save(save);
             ResetBlocks();
-            SceneLoader.I.Load(SceneHub, "inizio");
+            // R025: alla nuova partita parte il filmato iniziale (salvabile e saltabile); finito, il giocatore e' nell'hub con il primo obiettivo
+            var ui = UIRoot.I;
+            if (ui != null && ui.Filmato != null && !ui.Filmato.IsPlaying && FilmatoDisponibile())
+                ui.Filmato.Avvia(false, null);
+            else
+                SceneLoader.I.Load(SceneHub, "inizio");
+        }
+
+        /// <summary>R025: il filmato iniziale esiste (copione e regia) ed e' attivo (flag -senzafilmato nelle prove di prestazioni lo spegne).</summary>
+        public static bool FilmatoDisponibile()
+        {
+            foreach (var a in System.Environment.GetCommandLineArgs()) if (a == "-senzafilmato") return false;
+            var d = GameData.Cutscene("intro");
+            var f = GameData.Filmato;
+            if (d == null || d.battute == null || d.battute.Count == 0 || f.capitoli.Count == 0) return false;
+            // ogni capitolo deve avere una scena, almeno un'inquadratura e almeno una battuta; ogni inquadratura (dopo la prima) cita una battuta che esiste
+            for (int i = 0; i < f.capitoli.Count; i++)
+            {
+                var c = f.capitoli[i];
+                if (string.IsNullOrEmpty(c.scena) || c.inquadrature == null || c.inquadrature.Count == 0 || i >= d.capitoli.Count) return false;
+                bool haBattute = false;
+                foreach (var b in d.battute) if (b != null && b.capitolo == d.capitoli[i].id) { haBattute = true; break; }
+                if (!haBattute) return false;
+                for (int k = 1; k < c.inquadrature.Count; k++)
+                {
+                    bool trovata = false;
+                    foreach (var b in d.battute) if (b != null && b.id == c.inquadrature[k].da) { trovata = true; break; }
+                    if (!trovata) return false;
+                }
+            }
+            return true;
+        }
+
+        /// <summary>R025: rivedi il filmato iniziale dalla pausa (o altrove). Alla fine il giocatore torna dov'era.</summary>
+        public void RivediFilmato()
+        {
+            var ui = UIRoot.I;
+            if (ui == null || ui.Filmato == null || ui.Filmato.IsPlaying || !FilmatoDisponibile()) return;
+            ui.Filmato.Avvia(true, null);
         }
 
         public void Continue()
         {
+            Rivivendo = false;
             var s = Save;
             string scena = string.IsNullOrEmpty(s.scena) ? SceneHub : s.scena;
             string spawn = string.IsNullOrEmpty(s.spawn) ? "inizio" : s.spawn;
             if (!Application.CanStreamedLevelBeLoaded(scena)) { scena = SceneHub; spawn = "inizio"; }
             ResetBlocks();
+            // R025: un salvataggio senza filmato visto e senza alcun progresso (partita iniziata prima del filmato o chiusa subito) rivede l'introduzione
+            if (!s.filmatoVisto && SenzaProgressi(s) && UIRoot.I != null && UIRoot.I.Filmato != null && !UIRoot.I.Filmato.IsPlaying && FilmatoDisponibile())
+            { UIRoot.I.Filmato.Avvia(false, null); return; }
             SceneLoader.I.Load(scena, spawn);
+        }
+
+        static bool SenzaProgressi(SaveData s)
+        {
+            return s.inventario.Count == 0 && s.flashbackCompletati.Count == 0 && s.enigmiRisolti.Count == 0 && s.oggettiEnigma.Count == 0 && s.cutsceneViste.Count == 0;
         }
 
         /// <summary>Chiamato dallo SceneLoader a scena caricata: memorizza dove si trova il giocatore.</summary>
         public void OnSceneEntered(string scena, string spawn)
         {
             if (IsMenuScene(scena)) return;
+            if (TrenoBambini.Dialogue.FilmatoIniziale.InCorso) return; // R025: il filmato (o "Rivedi") non deve mai lasciare il salvataggio in un ricordo
             var s = Save;
             s.scena = scena;
             if (!string.IsNullOrEmpty(spawn)) s.spawn = spawn;
@@ -157,12 +240,25 @@ namespace TrenoBambini.Core
         }
 
         // ---------- flashback ----------
+        /// <summary>R011: true mentre si rivive un ricordo gia' completato (dalla latta): niente cutscene, niente "nuovo oggetto", gli enigmi principali restano com'erano.</summary>
+        public bool Rivivendo { get; private set; }
+
+        /// <summary>Rientra in un ricordo gia' completato (per trovare i segreti rimasti). Il rientro e' sempre nella scena da cui si parte.</summary>
+        public void RivediRicordo(string oggettoId)
+        {
+            var o = GameData.Oggetto(oggettoId);
+            if (o == null || !Save.flashbackCompletati.Contains(o.flashback)) return;
+            Rivivendo = true;
+            StartFlashback(oggettoId);
+        }
+
         public void StartFlashback(string oggettoId)
         {
             var o = GameData.Oggetto(oggettoId);
             FlashbackDef f = o != null ? GameData.Flashback(o.flashback) : GameData.Flashback("flashback_" + oggettoId);
             if (f == null || string.IsNullOrEmpty(f.scena))
             {
+                Rivivendo = false;
                 Debug.LogWarning("Flashback non disponibile per l'oggetto: " + oggettoId);
                 if (UIRoot.I != null) UIRoot.I.Toast("Questo ricordo non è ancora disponibile.");
                 return;
@@ -174,11 +270,19 @@ namespace TrenoBambini.Core
                 s.ritornoSpawn = "oggetto_" + oggettoId;
             }
             SaveGame();
+            // R012: cutscene d'ingresso (una volta sola, mai quando si rivive il ricordo); la chiusura e' "cutscene" e parte al ritorno
+            if (!Rivivendo && o != null && !string.IsNullOrEmpty(o.cutsceneIngresso) && UIRoot.I != null && UIRoot.I.Cutscene != null && !s.cutsceneViste.Contains(o.cutsceneIngresso + "#ingresso"))
+            {
+                string scenaF = f.scena;
+                UIRoot.I.Cutscene.Play(o.cutsceneIngresso, () => SceneLoader.I.Load(scenaF, "inizio", TransitionStyle.Ricordo), "ingresso");
+                return;
+            }
             SceneLoader.I.Load(f.scena, "inizio", TransitionStyle.Ricordo);
         }
 
         public void CompleteFlashback(string oggettoId)
         {
+            if (Rivivendo) { Rivivendo = false; ReturnFromFlashback(); return; } // rientro senza effetti collaterali
             var s = Save;
             var o = GameData.Oggetto(oggettoId);
             if (!s.inventario.Contains(oggettoId)) s.inventario.Add(oggettoId);
@@ -189,7 +293,7 @@ namespace TrenoBambini.Core
 
             string cutsceneId = o != null ? o.cutscene : null;
             if (!string.IsNullOrEmpty(cutsceneId) && UIRoot.I != null && UIRoot.I.Cutscene != null)
-                UIRoot.I.Cutscene.Play(cutsceneId, ReturnFromFlashback);
+                UIRoot.I.Cutscene.Play(cutsceneId, ReturnFromFlashback, string.IsNullOrEmpty(o.cutsceneIngresso) ? null : "chiusura");
             else
                 ReturnFromFlashback();
         }

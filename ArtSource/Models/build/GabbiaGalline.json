@@ -1,0 +1,39 @@
+{
+ "nome": "GabbiaGalline",
+ "cartella": "GabbiaGalline",
+ "sorgente": "",
+ "materiali": [
+  "LegnoGabbia",
+  "FerroGabbia"
+ ],
+ "tri": [
+  772,
+  386,
+  192
+ ],
+ "tri_originali": 772,
+ "dim": [
+  0.86,
+  0.61,
+  0.825
+ ],
+ "piatti": {
+  "FerroGabbia": {
+   "colore": [
+    0.1,
+    0.1,
+    0.11
+   ],
+   "metallico": 0.85,
+   "levig": 0.35
+  }
+ },
+ "texture": {
+  "LegnoGabbia": {
+   "albedo": "LegnoGabbia_albedo.jpg",
+   "normal": "LegnoGabbia_normal.jpg",
+   "mask": "LegnoGabbia_mask.png",
+   "levigatezza": 0.3
+  }
+ }
+}

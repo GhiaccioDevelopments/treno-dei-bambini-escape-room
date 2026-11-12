@@ -45,6 +45,7 @@ namespace TrenoBambini.EditorTools
             shoeMesh = null;
             ArtGenerator.EnsureFolder(KitBuilder.Folder);
             kitIndex = 0; kitMeshes = 0; kitTris = 0; propCount = 0;
+            facadeCache.Clear();
         }
 
         static void ReportKit()
@@ -64,7 +65,7 @@ namespace TrenoBambini.EditorTools
             switch (name)
             {
                 case "Tessuto1": return TintedMat("M_TessutoLino", "M_Panno_Terracotta", new Color(0.78f, 0.46f, 0.36f));
-                case "Tessuto2": return TintedMat("M_TessutoLino", "M_Panno_Azzurro", new Color(0.52f, 0.63f, 0.72f));
+                case "Tessuto2": return AssetDatabase.LoadAssetAtPath<Material>("Assets/Art/Materials/M_TendaLino.mat"); // R007 t3B: tela di lino grezza (texture della radio), non piu' blu piatto
                 case "Tessuto3": return AssetDatabase.LoadAssetAtPath<Material>("Assets/Art/Materials/M_TessutoLino.mat");
                 case "Cuoio": return TintedMat("M_TessutoIuta", "M_Cuoio_Scarpe", new Color(0.34f, 0.22f, 0.14f));
                 case "PannoBianco": return TintedMat("M_TessutoLino", "M_Panno_Bianco", new Color(0.85f, 0.82f, 0.74f));
@@ -77,6 +78,14 @@ namespace TrenoBambini.EditorTools
                 case "InsegnaRossa": return TintedMat("M_LegnoDipintoBlu", "M_Insegna_Rossa", new Color(1f, 0.38f, 0.3f));
                 case "InsegnaBlu": return TintedMat("M_LegnoDipintoBlu", "M_Insegna_Blu", new Color(1f, 1f, 1f));
                 case "InsegnaCrema": return TintedMat("M_TessutoLino", "M_Insegna_Crema", new Color(0.95f, 0.88f, 0.7f));
+                // R006: intonaci del quartiere (tinte desaturate, d'epoca) e fogliame
+                case "IntonacoOcra": return TintedMat("M_IntonacoRustico05", "M_Intonaco_Ocra", new Color(1.0f, 0.84f, 0.52f));
+                case "IntonacoRosa": return TintedMat("M_IntonacoRustico05", "M_Intonaco_Rosa", new Color(1.0f, 0.78f, 0.7f));
+                case "IntonacoVerde": return TintedMat("M_IntonacoRustico05", "M_Intonaco_Verde", new Color(0.76f, 0.84f, 0.68f));
+                case "IntonacoAzzurro": return TintedMat("M_IntonacoRustico05", "M_Intonaco_Azzurro", new Color(0.72f, 0.8f, 0.9f));
+                case "IntonacoGrigio": return TintedMat("M_IntonacoMattoni", "M_Intonaco_Grigio", new Color(0.8f, 0.8f, 0.78f));
+                case "Foglia": return TintedMat("M_TessutoLino", "M_Foglia", new Color(0.28f, 0.46f, 0.2f));
+                case "Paglia": return TintedMat("M_CestaVimini", "M_Paglia", new Color(1.1f, 1.0f, 0.75f));
             }
             return null;
         }
@@ -133,19 +142,39 @@ namespace TrenoBambini.EditorTools
 
         // ------------------------------------------------------------------ modelli FBX
 
-        static GameObject Model(string model, Transform parent, Vector3 pos, float yaw, float scale = 1f, bool collider = true, string objName = null)
+        /// <summary>R006: quota del terreno in (x,z) per gli ambienti con dislivelli (hub); null = piano a quota 0.</summary>
+        static System.Func<float, float, float> quotaTerreno;
+
+        static bool ATerra(Vector3 pos)
         {
-            var asset = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Art/Models/" + model + "/" + model + ".fbx");
+            float g = quotaTerreno != null ? quotaTerreno(pos.x, pos.z) : 0f;
+            return pos.y - g <= 0.05f;
+        }
+
+        static GameObject Model(string model, Transform parent, Vector3 pos, float yaw, float scale = 1f, bool collider = true, string objName = null, float cull = 0.02f)
+        {
+            return ModelloIst(model, parent, pos, yaw, Vector3.one * scale, collider, objName, cull);
+        }
+
+        /// <summary>
+        /// Istanzia un modello FBX. "Nome" = Assets/Art/Models/Nome/Nome.fbx; "Cartella/File.ext" = percorso esplicito sotto Assets/Art/Models.
+        /// R007 t2: i modelli con LOD0/1/2 (nomi *_LOD0..2) mantengono i tre livelli (soglie 0,40 / 0,15 / culling); gli altri hanno un solo livello.
+        /// Collider: un unico BoxCollider sul volume del modello (R018: niente oggetti senza collider dove prima c'era).
+        /// </summary>
+        static GameObject ModelloIst(string model, Transform parent, Vector3 pos, float yaw, Vector3 scale, bool collider, string objName, float cull)
+        {
+            string path = model.Contains("/") ? "Assets/Art/Models/" + model : "Assets/Art/Models/" + model + "/" + model + ".fbx";
+            var asset = AssetDatabase.LoadAssetAtPath<GameObject>(path);
             if (asset == null)
             {
-                Debug.LogError("[SceneBuilder] Modello mancante: " + model);
+                Debug.LogError("[SceneBuilder] Modello mancante: " + path);
                 return new GameObject(objName ?? model);
             }
             var go = (GameObject)PrefabUtility.InstantiatePrefab(asset, parent);
-            go.name = objName ?? model;
+            go.name = objName ?? System.IO.Path.GetFileNameWithoutExtension(model);
             go.transform.localPosition = pos;
             go.transform.localRotation = Quaternion.Euler(0f, yaw, 0f);
-            go.transform.localScale = Vector3.one * scale;
+            go.transform.localScale = scale;
 
             var rs = go.GetComponentsInChildren<Renderer>();
             if (collider)
@@ -170,15 +199,48 @@ namespace TrenoBambini.EditorTools
                     bc.size = b.size;
                 }
             }
-            // LOD: i modelli sono a un solo livello, quindi LOD0 completo e culling sotto il 2% dello schermo
-            var lg = go.AddComponent<LODGroup>();
-            lg.SetLODs(new[] { new LOD(0.02f, rs) });
+            var lg = go.GetComponent<LODGroup>();
+            if (lg == null) lg = go.AddComponent<LODGroup>();
+            var liv = new System.Collections.Generic.List<Renderer>[3];
+            for (int i = 0; i < 3; i++) liv[i] = new System.Collections.Generic.List<Renderer>();
+            bool conLod = false;
+            foreach (var r in rs)
+            {
+                int k = r.name.EndsWith("_LOD1") ? 1 : r.name.EndsWith("_LOD2") ? 2 : 0;
+                if (k > 0) conLod = true;
+                liv[k].Add(r);
+            }
+            if (conLod && liv[1].Count > 0)
+            {
+                var lods = new System.Collections.Generic.List<LOD> { new LOD(0.40f, liv[0].ToArray()), new LOD(liv[2].Count > 0 ? 0.15f : cull, liv[1].ToArray()) };
+                if (liv[2].Count > 0) lods.Add(new LOD(cull, liv[2].ToArray()));
+                lg.SetLODs(lods.ToArray());
+            }
+            else lg.SetLODs(new[] { new LOD(cull, rs) });
             lg.RecalculateBounds();
             propCount++;
+            if (ATerra(pos)) RegistraMobile(go); // appoggiato a terra: a fine costruzione si allontana da muri e altri oggetti
             return go;
         }
 
         // ------------------------------------------------------------------ pareti con aperture
+
+        /// <summary>R017: aggancio (m) delle cornici nelle aperture e rientro dei profili alle testate dei moduli. 1,2 cm: con depth a 24 bit e senza Z invertito (WebGL) 4 mm tremolano a distanza.</summary>
+        const float Riporto = 0.012f;
+
+        /// <summary>
+        /// R017: profilo in pietra lungo la parete. Alle testate del modulo il corpo principale rientra di Riporto e una linguetta piu' bassa
+        /// (rientrata di 3 cm sul fronte, 5 cm in fondo al modulo, e di 4 mm sopra e sotto: le linguette dei due moduli non sono complanari) lo prolunga dentro il profilo del modulo vicino: il giunto non resta aperto
+        /// e le facce visibili dei due moduli non si sovrappongono.
+        /// </summary>
+        static void Trim(KitBuilder kb, WallFrame fr, float len, float u0, float u1, float d0, float d1, float y0, float y1, int sub, float tile, int skip)
+        {
+            bool ini = u0 <= 0.001f, fine = u1 >= len - 0.001f;
+            float a = ini ? Riporto : u0, b = fine ? len - Riporto : u1;
+            fr.Box(kb, a, b, d0, d1, y0, y1, sub, tile, skip);
+            if (ini) fr.Box(kb, -0.03f, Riporto + 0.01f, d0 + 0.0213f, d1, y0 + 0.004f, y1 - 0.004f, sub, tile, 8 | 16 | 32);
+            if (fine) fr.Box(kb, len - Riporto - 0.01f, len + 0.03f, d0 + 0.0455f, d1, y0 + 0.004f, y1 - 0.004f, sub, tile, 8 | 16 | 32);
+        }
 
         static void ShellPieces(KitBuilder kb, WallFrame fr, float len, float y0, float y1, float thick, List<WallOpening> ops,
                                 int sub, float tile, bool skipBottom, bool skipTop, bool skipBack = true)
@@ -210,22 +272,94 @@ namespace TrenoBambini.EditorTools
             return string.IsNullOrEmpty(wallMat) ? "M_IntonacoRustico05" : wallMat;
         }
 
+        // vero se un punto "da liberare" (lampione, edicola, ancoraggio di un filo) sta entro 1.9 m in pianta dal punto di parete dato
+        static bool BalconeBloccato(Vector3 puntoSuParete)
+        {
+            foreach (var b in noBalcone)
+            {
+                var d = new Vector2(b.x - puntoSuParete.x, b.z - puntoSuParete.z);
+                if (d.magnitude < 1.9f) return true;
+            }
+            return false;
+        }
+
+        /// <summary>R006: opzioni del modulo di facciata riusabile (quartiere). Con opt != null la facciata si costruisce nel sistema locale
+        /// (origine nel punto della facciata, lungo +x, fronte verso -z) e la mesh e' condivisa tra tutte le istanze con la stessa chiave.</summary>
+        internal sealed class FacadeOpt
+        {
+            public string key;          // nome stabile dell'asset mesh
+            public int seed;
+            public int balconyMask;     // piani (bit) che ammettono balconi
+            public int doorKind;        // 0 = nessuna porta generica, 1 = porta chiusa, 2 = basso aperto, 3 = portone sbarrato, 4 = cancello
+            public int interior;        // variante dell'interno del basso aperto
+            public bool cieco;          // nessuna finestra al piano terra
+            public int col;             // R017: fascia di quota (0..n): i profili orizzontali si alzano di col * PassoFascia rispetto ai moduli vicini
+        }
+
+        /// <summary>R017: passo (m) tra le quote dei profili orizzontali di moduli vicini (12 mm: regge il depth a 24 bit di WebGL).</summary>
+        internal const float PassoFascia = 0.012f;
+
+        sealed class FacadeCache { public Mesh m0, m1; public Vector3 bcc, bcs; }
+        static readonly Dictionary<string, FacadeCache> facadeCache = new Dictionary<string, FacadeCache>();
+
+        static GameObject FacadeInstance(Transform parent, string name, string[] subs, string plaster, FacadeCache c)
+        {
+            var root = new GameObject(name);
+            root.transform.SetParent(parent, false);
+            var g0 = MeshObject(root.transform, "LOD0", c.m0, subs, false);
+            var g1 = MeshObject(root.transform, "LOD1", c.m1, new[] { plaster, "Finestra" }, false);
+            var lg = root.AddComponent<LODGroup>();
+            lg.SetLODs(new[]
+            {
+                new LOD(0.42f, new Renderer[] { g0.GetComponent<Renderer>() }),   // LOD aggressivi (R006): le facciate lontane passano subito al livello semplice
+                new LOD(0.02f, new Renderer[] { g1.GetComponent<Renderer>() })
+            });
+            lg.RecalculateBounds();
+            var bc = root.AddComponent<BoxCollider>();
+            bc.center = c.bcc; bc.size = c.bcs;
+            return root;
+        }
+
         static GameObject Facade(Transform parent, string name, WallFrame fr, float len, float depth, int floors, string plaster,
-                                 System.Random r, float bay, List<float> doorU)
+                                 System.Random r, float bay, List<float> doorU, FacadeOpt opt = null)
         {
             string[] subs = { plaster, "M_ArenariaBlocchi", "M_LegnoVernicePelata", "Finestra", "M_FerroRuggine02", "M_LegnoDipintoBlu", "M_CoppiArgilla" };
+            FacadeCache cached;
+            if (opt != null && facadeCache.TryGetValue(opt.key, out cached)) return FacadeInstance(parent, name, subs, plaster, cached);
+            if (opt != null) r = new System.Random(opt.seed);
             var kb = new KitBuilder(subs);
+            kb.SubFisso = 0;
+            float ofs = opt != null ? opt.col * PassoFascia : 0f;
+            kb.ProteggiTestate(fr.AxisU, fr.AxisU == 0 ? fr.W(0, 0, 0).x : fr.W(0, 0, 0).z, fr.AxisU == 0 ? fr.W(len, 0, 0).x : fr.W(len, 0, 0).z);
             var lod = new KitBuilder(plaster, "Finestra");
             float h = floors * 3f;
             const float T = 0.45f;
+            int dk = opt != null ? opt.doorKind : 0;
+            float doorW = dk == 3 ? 2.4f : dk == 4 ? 2.0f : dk == 2 ? 1.7f : 1.3f;
+            float doorH = dk == 3 ? 2.9f : 2.4f;
+            float pocketDepth = 2.2f;
+            float pu0 = 0f, pu1 = 0f;
+            bool pocket = (dk == 2 || dk == 4) && doorU.Count > 0;
+            if (pocket) { pu0 = doorU[0] - doorW * 0.5f; pu1 = doorU[0] + doorW * 0.5f; }
 
             // volumi: corpo (dietro il guscio), tetto, parapetto, cornicione
-            fr.Box(kb, 0, len, T, depth, 0, h, SWall, TileWall, 4 | 16 | 32);
+            if (!pocket) fr.Box(kb, 0, len, T, depth, 0, h, SWall, TileWall, 4 | 16 | 32);
+            else
+            {
+                float ph = 2.7f, pd = Mathf.Min(T + pocketDepth, depth - 0.3f);
+                fr.Box(kb, 0, pu0, T, depth, 0, h, SWall, TileWall, 4 | 16 | 32);
+                fr.Box(kb, pu1, len, T, depth, 0, h, SWall, TileWall, 4 | 16 | 32);
+                fr.Box(kb, pu0, pu1, pd, depth, 0, h, SWall, TileWall, 16 | 32);
+                fr.Box(kb, pu0, pu1, T, pd, ph, h, SWall, TileWall, 4 | 32);
+                fr.Box(kb, pu0, pu1, 0f, pd, -0.2f, 0.04f, SStone, TileStone, 16 | 1 | 2); // pavimento dell'interno
+                PocketInterior(kb, fr, pu0, pu1, T, pd, dk == 4 ? -1 : opt.interior);
+            }
             fr.Box(kb, 0, len, 0.35f, depth, h, h + 0.06f, SRoof, 1.5f, 16);
             fr.Box(kb, 0, len, 0f, 0.35f, h, h + 0.6f, SWall, TileWall, 16);
-            fr.Box(kb, -0.02f, len + 0.02f, -0.06f, 0.41f, h + 0.6f, h + 0.68f, SStone, TileStone, 16);
-            fr.Box(kb, 0, len, -0.3f, 0.1f, h - 0.28f, h, SStone, TileStone, 0);
-            fr.Box(kb, 0, len, -0.18f, 0.1f, h - 0.42f, h - 0.28f, SStone, TileStone, 0);
+            Trim(kb, fr, len, 0f, len, -0.06f, 0.41f, h + 0.6f + ofs, h + 0.68f + ofs, SStone, TileStone, 16);
+            // i profili in pietra rientrano di 4 mm alle testate del modulo: le loro facce non sono complanari a quelle del guscio
+            Trim(kb, fr, len, 0f, len, -0.3f, 0.1f, h - 0.28f + ofs, h + ofs, SStone, TileStone, 0);
+            Trim(kb, fr, len, 0f, len, -0.18f, 0.1f, h - 0.42f + ofs, h - 0.28f + ofs, SStone, TileStone, 0);
             // LOD1: guscio unico + parapetto
             fr.Box(lod, 0, len, 0, depth, 0, h, 0, TileWall, 16 | 32);
             fr.Box(lod, 0, len, 0f, 0.35f, h, h + 0.6f, 0, TileWall, 16);
@@ -245,17 +379,20 @@ namespace TrenoBambini.EditorTools
                     if (f == 0)
                     {
                         bool nearDoor = false;
-                        foreach (var du in doorU) if (Mathf.Abs(du - c) < 1.45f) nearDoor = true;
+                        foreach (var du in doorU) if (Mathf.Abs(du - c) < (opt != null ? doorW * 0.5f + 0.8f : 1.45f)) nearDoor = true;
                         if (nearDoor) continue;
+                        if (opt != null && opt.cieco) continue;
                     }
                     if (c < 0.9f || c > len - 0.9f) continue;
                     bool bal = f >= 1 && r.NextDouble() < 0.22;
+                    if (opt == null && bal && BalconeBloccato(fr.W(c, 0f, 0f))) bal = false; // il balcone (sporge 78 cm) andrebbe a incastrarsi con lampioni, edicole o fili
+                    if (opt != null && bal && ((opt.balconyMask >> f) & 1) == 0) bal = false;
                     float y0 = f * 3f + (bal ? 0.28f : 1.1f);
                     var op = new WallOpening(c, 0.95f, y0, f * 3f + 2.55f);
                     ops.Add(op);
                     if (bal) balconies.Add(f * 100000L + Mathf.RoundToInt(c * 100f));
                 }
-                if (f == 0) foreach (var du in doorU) ops.Add(new WallOpening(du, 1.3f, 0f, 2.4f, true));
+                if (f == 0) foreach (var du in doorU) ops.Add(new WallOpening(du, doorW, 0f, doorH, true));
                 perFloor[f] = ops;
             }
 
@@ -263,7 +400,7 @@ namespace TrenoBambini.EditorTools
             {
                 float y0 = f * 3f, y1 = y0 + 3f;
                 var ops = perFloor[f];
-                ShellPieces(kb, fr, len, y0, y1, T, new List<WallOpening>(ops), SWall, TileWall, true, f < floors - 1);
+                ShellPieces(kb, fr, len, y0, y1, T, new List<WallOpening>(ops), SWall, TileWall, true, true); // la faccia superiore dell'ultimo piano e' sempre coperta da parapetto e tetto
 
                 foreach (var o in ops)
                 {
@@ -271,14 +408,17 @@ namespace TrenoBambini.EditorTools
                     if (o.door)
                     {
                         // cornice in pietra + stipite in legno + soglia
-                        fr.Box(kb, o.U0 - 0.16f, o.U0, -0.06f, 0.3f, 0f, o.y1 + 0.02f, SStone, TileStone, 16);
-                        fr.Box(kb, o.U1, o.U1 + 0.16f, -0.06f, 0.3f, 0f, o.y1 + 0.02f, SStone, TileStone, 16);
-                        fr.Box(kb, o.U0 - 0.16f, o.U1 + 0.16f, -0.09f, 0.3f, o.y1, o.y1 + 0.2f, SStone, TileStone, 0);
-                        fr.Box(kb, o.U0 - 0.1f, o.U1 + 0.1f, -0.3f, 0f, 0f, 0.12f, SStone, TileStone, 16);
+                        fr.Box(kb, o.U0 - 0.16f, o.U0 + Riporto, -0.06f, 0.3f, 0f, o.y1 + 0.02f, SStone, TileStone, 16);
+                        fr.Box(kb, o.U1 - Riporto, o.U1 + 0.16f, -0.06f, 0.3f, 0f, o.y1 + 0.02f, SStone, TileStone, 16);
+                        fr.Box(kb, o.U0 - 0.16f, o.U1 + 0.16f, -0.09f, 0.3f, o.y1 - Riporto, o.y1 + 0.2f, SStone, TileStone, 0);
+                        fr.Box(kb, o.U0 - 0.1f, o.U1 + 0.1f, -0.3f, 0f, -0.1f, 0.12f, SStone, TileStone, 16);
                         fr.Box(kb, o.U0, o.U0 + 0.1f, 0.08f, 0.3f, 0f, o.y1, SWood, TileWood, 16);
                         fr.Box(kb, o.U1 - 0.1f, o.U1, 0.08f, 0.3f, 0f, o.y1, SWood, TileWood, 16);
                         fr.Box(kb, o.U0, o.U1, 0.08f, 0.3f, o.y1 - 0.1f, o.y1, SWood, TileWood, 0);
-                        fr.Box(kb, o.U0, o.U1, 0.2f, 0.24f, 0f, o.y1, SGlass, 2f, 0);
+                        if (dk == 0) fr.Box(kb, o.U0, o.U1, 0.245f, 0.28f, 0f, o.y1, SGlass, 2f, 0); // dietro il battente (che occupa 0,14-0,24): niente facce complanari
+                        else if (dk == 1) DoorLeafBoxes(kb, fr, o.U0, o.U1, o.y1, false);
+                        else if (dk == 3) DoorLeafBoxes(kb, fr, o.U0, o.U1, o.y1, true);
+                        else if (dk == 4) GateBars(kb, fr, o.U0, o.U1, o.y1);
                         fr.Box(lod, o.U0, o.U1, -0.01f, 0.0f, 0f, o.y1, 1, 2f, 0);
                         continue;
                     }
@@ -292,12 +432,12 @@ namespace TrenoBambini.EditorTools
                     fr.Box(kb, o.U1 - 0.05f, o.U1, 0.14f, 0.3f, o.y0, o.y1, SWood, TileWood, 0);
                     fr.Box(lod, o.U0, o.U1, -0.01f, 0.0f, o.y0, o.y1, 1, 2f, 0);
                     // cornice in pietra
-                    fr.Box(kb, o.U0 - 0.13f, o.U1 + 0.13f, -0.06f, 0.2f, o.y1, o.y1 + 0.15f, SStone, TileStone, 0);
-                    fr.Box(kb, o.U0 - 0.1f, o.U0, -0.04f, 0.2f, o.y0, o.y1, SStone, TileStone, 0);
-                    fr.Box(kb, o.U1, o.U1 + 0.1f, -0.04f, 0.2f, o.y0, o.y1, SStone, TileStone, 0);
+                    fr.Box(kb, o.U0 - 0.13f, o.U1 + 0.13f, -0.06f, 0.2f, o.y1 - Riporto, o.y1 + 0.15f, SStone, TileStone, 0);
+                    fr.Box(kb, o.U0 - 0.1f, o.U0 + Riporto, -0.04f, 0.2f, o.y0, o.y1, SStone, TileStone, 0);
+                    fr.Box(kb, o.U1 - Riporto, o.U1 + 0.1f, -0.04f, 0.2f, o.y0, o.y1, SStone, TileStone, 0);
                     if (!bal)
                     {
-                        fr.Box(kb, o.U0 - 0.1f, o.U1 + 0.1f, -0.15f, 0.2f, o.y0 - 0.08f, o.y0, SStone, TileStone, 0);
+                        fr.Box(kb, o.U0 - 0.1f, o.U1 + 0.1f, -0.15f, 0.2f, o.y0 - 0.08f, o.y0 + Riporto, SStone, TileStone, 0);
                     }
                     else
                     {
@@ -346,11 +486,12 @@ namespace TrenoBambini.EditorTools
             if (len > cursor) gaps.Add(new Vector2(cursor, len));
             foreach (var g in gaps)
             {
-                fr.Box(kb, g.x, g.y, -0.06f, T, 0f, 0.9f, SStone, TileStone, 8 | 16);
-                fr.Box(kb, g.x, g.y, -0.1f, T, 0.9f, 0.96f, SStone, TileStone, 8 | 16);
+                // lo zoccolo scende sotto il suolo (-30 cm): la fascia di quota dei moduli non lascia fessure alla base
+                Trim(kb, fr, len, g.x, g.y, -0.06f, T, -0.3f, 0.93f + ofs, SStone, TileStone, 8 | 16); // 0,93: non coincide con la sommita' dei gradini (multipli di 15 cm)
+                Trim(kb, fr, len, g.x, g.y, -0.1f, T, 0.93f + ofs, 0.99f + ofs, SStone, TileStone, 8 | 16);
             }
             for (int f = 1; f < floors; f++)
-                fr.Box(kb, 0, len, -0.05f, 0.1f, f * 3f - 0.08f, f * 3f + 0.08f, SStone, TileStone, 0);
+                Trim(kb, fr, len, 0f, len, -0.05f, 0.1f, f * 3f - 0.08f + ofs, f * 3f + 0.08f + ofs, SStone, TileStone, 0);
 
             // comignoli
             if (depth > 2.4f)
@@ -366,6 +507,16 @@ namespace TrenoBambini.EditorTools
             }
 
             // oggetto di scena: radice, LOD0, LOD1, collider unico del corpo
+            if (opt != null)
+            {
+                var c = new FacadeCache();
+                c.m0 = kb.Build(opt.key);
+                c.m1 = lod.Build(opt.key + "_LOD1");
+                fr.Bounds(0, len, 0, depth, 0, h, out c.bcc, out c.bcs);
+                facadeCache[opt.key] = c;
+                kitMeshes++; kitTris += c.m0.triangles.Length / 3;
+                return FacadeInstance(parent, name, subs, plaster, c);
+            }
             var root = new GameObject(name);
             root.transform.SetParent(parent, false);
             var m0 = kb.Build(KitName(name));
@@ -384,6 +535,63 @@ namespace TrenoBambini.EditorTools
             var bc = root.AddComponent<BoxCollider>();
             bc.center = bcc; bc.size = bcs;
             return root;
+        }
+
+        // battente in legno (porta chiusa o portone con assi e traverse) dentro il vano
+        static void DoorLeafBoxes(KitBuilder kb, WallFrame fr, float u0, float u1, float y1, bool portone)
+        {
+            fr.Box(kb, u0, u1, 0.12f, 0.24f, 0f, y1, SWood, TileWood, 16);
+            if (portone)
+            {
+                for (float u = u0 + 0.35f; u < u1 - 0.2f; u += 0.5f) fr.Box(kb, u, u + 0.03f, 0.07f, 0.12f, 0.05f, y1 - 0.05f, SWood, TileWood, 0);
+                fr.Box(kb, u0 + 0.05f, u1 - 0.05f, 0.05f, 0.12f, 0.55f, 0.7f, SIron, 1f, 0);
+                fr.Box(kb, u0 + 0.05f, u1 - 0.05f, 0.05f, 0.12f, y1 - 0.8f, y1 - 0.65f, SIron, 1f, 0);
+                fr.Box(kb, (u0 + u1) * 0.5f - 0.02f, (u0 + u1) * 0.5f + 0.02f, 0.05f, 0.12f, 0.05f, y1 - 0.05f, SIron, 1f, 0);
+            }
+            else
+            {
+                fr.Box(kb, u0 + 0.14f, u1 - 0.14f, 0.09f, 0.12f, 0.2f, y1 * 0.42f, SWood, TileWood, 0);
+                fr.Box(kb, u0 + 0.14f, u1 - 0.14f, 0.09f, 0.12f, y1 * 0.5f, y1 - 0.15f, SWood, TileWood, 0);
+                fr.Box(kb, u1 - 0.24f, u1 - 0.12f, 0.06f, 0.12f, 1.0f, 1.2f, SIron, 1f, 0);
+            }
+        }
+
+        // cancello in ferro: montanti e traverse, dietro si vede il buio
+        static void GateBars(KitBuilder kb, WallFrame fr, float u0, float u1, float y1)
+        {
+            for (float u = u0 + 0.08f; u < u1; u += 0.14f) fr.Box(kb, u - 0.012f, u + 0.012f, 0.2f, 0.224f, 0f, y1, SIron, 1f, 16);
+            fr.Box(kb, u0, u1, 0.19f, 0.23f, 0.25f, 0.32f, SIron, 1f, 0);
+            fr.Box(kb, u0, u1, 0.19f, 0.23f, y1 * 0.5f, y1 * 0.5f + 0.07f, SIron, 1f, 0);
+            fr.Box(kb, u0, u1, 0.19f, 0.23f, y1 - 0.12f, y1 - 0.05f, SIron, 1f, 0);
+        }
+
+        // interno accennato di un basso aperto (tutto dentro la mesh della facciata: nessun oggetto separato da far compenetrare)
+        static void PocketInterior(KitBuilder kb, WallFrame fr, float u0, float u1, float dIn, float dBack, int variant)
+        {
+            if (variant < 0) return; // cancello: solo il buio
+            if (variant == 0)
+            {   // tavolo con due sgabelli e scaffale con sacchi
+                fr.Box(kb, u0 + 0.25f, u0 + 0.25f + 0.8f, dIn + 0.4f, dIn + 1.0f, 0.74f, 0.79f, SWood, TileWood, 0);
+                foreach (var dx in new[] { 0.28f, 0.72f }) foreach (var dz in new[] { 0.45f, 0.95f })
+                    fr.Box(kb, u0 + dx - 0.03f, u0 + dx + 0.03f, dIn + dz - 0.03f, dIn + dz + 0.03f, 0f, 0.74f, SWood, TileWood, 16);
+                fr.Box(kb, u1 - 0.85f, u1 - 0.1f, dBack - 0.35f, dBack, 0f, 1.7f, SWood, TileWood, 16);
+                fr.Box(kb, u1 - 0.8f, u1 - 0.15f, dBack - 0.3f, dBack - 0.02f, 0.9f, 1.1f, SPaint, TileWood, 0);
+            }
+            else if (variant == 1)
+            {   // letto addossato alla parete di fondo e comodino
+                fr.Box(kb, u0 + 0.1f, u0 + 1.0f, dBack - 1.9f, dBack - 0.05f, 0.32f, 0.38f, SWood, TileWood, 0);
+                fr.Box(kb, u0 + 0.1f, u0 + 1.0f, dBack - 1.9f, dBack - 1.8f, 0f, 0.8f, SWood, TileWood, 16);
+                fr.Box(kb, u0 + 0.12f, u0 + 0.98f, dBack - 1.78f, dBack - 0.07f, 0.38f, 0.52f, SPaint, TileWood, 0);
+                fr.Box(kb, u1 - 0.55f, u1 - 0.1f, dBack - 0.5f, dBack - 0.05f, 0f, 0.55f, SWood, TileWood, 16);
+            }
+            else
+            {   // bottega: bancone, ripiani e botte
+                fr.Box(kb, u0 + 0.1f, u1 - 0.1f, dIn + 0.45f, dIn + 0.9f, 0f, 0.95f, SWood, TileWood, 16);
+                fr.Box(kb, u0 + 0.05f, u1 - 0.05f, dIn + 0.4f, dIn + 0.95f, 0.95f, 1.0f, SStone, TileStone, 0);
+                fr.Box(kb, u0 + 0.05f, u1 - 0.05f, dBack - 0.3f, dBack, 0.9f, 0.95f, SWood, TileWood, 0);
+                fr.Box(kb, u0 + 0.05f, u1 - 0.05f, dBack - 0.3f, dBack, 1.5f, 1.55f, SWood, TileWood, 0);
+                fr.Box(kb, u0 + 0.05f, u0 + 0.9f, dBack - 0.9f, dBack - 0.1f, 0f, 0.9f, SPaint, TileWood, 16);
+            }
         }
 
         // wrapper con la vecchia firma: edificio lungo z con facciata verso il vicolo
@@ -449,24 +657,55 @@ namespace TrenoBambini.EditorTools
 
         // ------------------------------------------------------------------ props esterni
 
-        static void Rubble(Transform parent, System.Random r, Vector3 center, int count, float radius)
+        // pezzi di ogni cumulo di macerie: si riposano sul pavimento o sui pezzi sotto (AssestaMacerie) dopo lo spostamento automatico
+        static readonly List<List<GameObject>> cumuli = new List<List<GameObject>>();
+        static readonly List<GameObject> travi = new List<GameObject>();
+
+        static void Rubble(Transform parent, System.Random r, Vector3 center, int count, float radius, float maxScale = 2.0f)
         {
             Ground("TerraMacerie", parent, center + new Vector3(-radius * 1.8f, 0.001f, -radius * 1.8f), center + new Vector3(radius * 1.8f, 0.014f, radius * 1.8f),
                 "M_TerraPolverosa", 1.5f, false);
+            var pezzi = new List<GameObject>();
             for (int i = 0; i < count; i++)
             {
-                float s = 1.0f + (float)r.NextDouble() * 1.0f;
+                float s = 1.0f + (float)r.NextDouble() * (maxScale - 1.0f);
                 var off = new Vector3((float)(r.NextDouble() * 2 - 1) * radius, 0f, (float)(r.NextDouble() * 2 - 1) * radius);
-                float stack = i > count / 2 ? 0.3f : 0f;
-                var go = Model("Macerie_Mattoni", parent, center + off + new Vector3(0f, stack, 0f), (float)r.NextDouble() * 360f, s, true, "Macerie");
+                var go = Model("Macerie_Mattoni", parent, center + off, (float)r.NextDouble() * 360f, s, true, "Macerie");
                 go.transform.localRotation = Quaternion.Euler((float)r.NextDouble() * 12f, go.transform.localEulerAngles.y, (float)r.NextDouble() * 12f);
+                pezzi.Add(go);
             }
-            Box("TraveSpezzata", parent, center + new Vector3(0.2f, 0.6f, 0.1f), new Vector3(0.14f, 0.14f, 1.8f), "M_AssiStagionate", new Vector3(18f, 35f, 8f));
+            cumuli.Add(pezzi);
+            var trave = Box("TraveSpezzata", parent, center + new Vector3(0.2f, 0.6f, 0.1f), new Vector3(0.14f, 0.14f, 1.8f), "M_AssiStagionate", new Vector3(18f, 35f, 8f));
+            travi.Add(trave);
+        }
+
+        // dopo lo spostamento automatico: ogni pezzo si posa sul pavimento o sul pezzo sotto (mai sotto terra, mai in aria); la trave si appoggia sul cumulo
+        static void AssestaMacerie()
+        {
+            for (int k = 0; k < cumuli.Count; k++)
+            {
+                var posati = new List<GameObject>();
+                int n = 0;
+                foreach (var g in cumuli[k])
+                {
+                    PosaSuCumulo(g, posati, n++ >= cumuli[k].Count / 2); // la seconda meta' dei pezzi si impila sui primi
+                    posati.Add(g);
+                }
+                if (k < travi.Count && travi[k] != null && posati.Count > 0)
+                {
+                    float top = 0f;
+                    foreach (var g in posati) top = Mathf.Max(top, BoundsDi(g).max.y);
+                    var b = BoundsDi(travi[k]);
+                    travi[k].transform.position += Vector3.up * (top - 0.3f - b.min.y); // la trave affonda nel cumulo
+                }
+            }
+            cumuli.Clear();
+            travi.Clear();
         }
 
         static void Cart(Transform parent, Vector3 pos)
         {
-            Model("Carretto_Filip", parent, pos, 90f, 1.15f, true, "Carretto");
+            Model("Carretto_Filip", parent, pos, 90f, 1.05f, true, "Carretto"); // R007 t2: 1,05 (era 1,15) per non incastrarsi tra facciata e tavolini
         }
 
         static void Bucket(Transform parent, Vector3 pos)
@@ -476,6 +715,7 @@ namespace TrenoBambini.EditorTools
 
         static void Lamp(Transform parent, Vector3 pos)
         {
+            noBalcone.Add(pos);
             var go = Model("LampioneStrada_Pixie", parent, pos, 0f, 1.25f, true, "Lampione");
             var l = new GameObject("LuceLampione");
             l.transform.SetParent(go.transform, false);
@@ -496,6 +736,7 @@ namespace TrenoBambini.EditorTools
         // edicola votiva sul muro; normal = verso il vicolo
         static void Shrine(Transform parent, Vector3 wallPoint, Vector3 normal)
         {
+            noBalcone.Add(wallPoint);
             var fr = new WallFrame(wallPoint, Vector3.Cross(Vector3.up, normal), normal);
             var kb = new KitBuilder("M_ArenariaBlocchi", "M_LegnoDipintoBlu");
             fr.Box(kb, -0.58f, -0.4f, -0.14f, 0f, 1.2f, 2.7f, 0, TileStone, 0);
@@ -507,113 +748,13 @@ namespace TrenoBambini.EditorTools
             fr.Box(kb, -0.4f, 0.4f, -0.04f, -0.01f, 1.2f, 2.7f, 1, 1f, 0);
             var mesh = kb.Build(KitName("Edicola"));
             MeshObject(parent, "Edicola", mesh, new[] { "M_ArenariaBlocchi", "M_LegnoDipintoBlu" }, true);
-            Prim(PrimitiveType.Capsule, "EdicolaStatuetta", parent, fr.W(-0.05f, -0.12f, 1.6f), new Vector3(0.12f, 0.22f, 0.12f), "Cera", null, false);
+            // R007 t2: statuetta della Madonna (modello vero, 0,9 m) scalata a 0,45 m per le edicole piccole; la base appoggia sul ripiano a 1,38 m
+            Model("MadonnaStatuetta", parent, fr.W(-0.05f, -0.17f, 1.38f), Mathf.Atan2(fr.n.x, fr.n.z) * Mathf.Rad2Deg, 0.5f, false, "EdicolaStatuetta");
             Model("Candela", parent, fr.W(0.32f, -0.2f, 1.2f), 0f, 1.0f, false, "EdicolaCandela");
             Prim(PrimitiveType.Sphere, "EdicolaLumino", parent, fr.W(0.32f, -0.2f, 1.33f), new Vector3(0.05f, 0.08f, 0.05f), "Glow", null, false);
         }
 
         // ------------------------------------------------------------------ 10_Hub_Vicolo
-
-        static float HubInnerLeft(float z) { return (z >= -6f && z <= 2f) ? 5f : 3.5f; }
-        static float HubInnerRight(float z) { return (z >= 8f && z <= 14f) ? 5f : 3.5f; }
-
-        static void BuildHub()
-        {
-            var scene = NewScene();
-            kitScene = "Hub"; kitIndex = 0;
-            var r = new System.Random(1946);
-            doorWallPoints.Clear();
-            Ambient(new Color(0.78f, 0.70f, 0.58f), new Color(0.55f, 0.47f, 0.38f), new Color(0.30f, 0.24f, 0.18f));
-            Sun(new Color(1f, 0.90f, 0.72f), 1.0f, new Vector3(52f, -32f, 0f));
-            RenderSettings.fog = true;
-            RenderSettings.fogMode = FogMode.Linear;
-            RenderSettings.fogColor = new Color(0.85f, 0.76f, 0.60f);
-            RenderSettings.fogStartDistance = 28f;
-            RenderSettings.fogEndDistance = 80f;
-
-            var env = new GameObject("Ambiente").transform;
-            var porte = new GameObject("Porte").transform;
-            var spawns = new GameObject("SpawnPoints").transform;
-
-            // selciato in basoli di lava e canaletta centrale
-            Street("Selciato", env, -7f, 7f, -25f, 25f, 0.22f);
-
-            // porte (registrate prima delle case, che aprono i varchi)
-            var basso = MakeDoor(porte, env, "basso_antonietta", new Vector3(-5f, 0f, -2f), Vector3.right, "InsegnaRossa");
-            basso.targetScene = "20_Int_BassoAntonietta";
-            basso.targetSpawn = "ingresso";
-            MakeDoor(porte, env, "casa_capa_e_fierro", new Vector3(3.5f, 0f, -9f), Vector3.left, "InsegnaBlu");
-            MakeDoor(porte, env, "sede_partito", new Vector3(5f, 0f, 11f), Vector3.left, "InsegnaRossa");
-            MakeDoor(porte, env, "stazione", new Vector3(0f, 0f, 20f), Vector3.back, "InsegnaCrema");
-            MakeDoor(porte, env, "vicolo_stracci", new Vector3(0f, 0f, -20f), Vector3.forward, "InsegnaBlu");
-
-            // case lato sinistro
-            Building(env, -1, 3.5f, -24f, -6f, 6f, 3, "Tufo", r, 2.6f);
-            Building(env, -1, 5.0f, -6f, 2f, 6f, 2, "Intonaco", r, 2.6f);
-            Building(env, -1, 3.5f, 2f, 10f, 6f, 4, "TufoScuro", r, 2.6f);
-            Building(env, -1, 3.5f, 10f, 18f, 6f, 3, "Intonaco", r, 2.6f);
-            Building(env, -1, 3.5f, 18f, 24f, 6f, 4, "Tufo", r, 2.6f);
-            // case lato destro
-            Building(env, 1, 3.5f, -24f, -6f, 6f, 3, "Intonaco", r, 2.6f);
-            Building(env, 1, 3.5f, -6f, 8f, 6f, 4, "Tufo", r, 2.6f);
-            Building(env, 1, 5.0f, 8f, 14f, 6f, 3, "TufoScuro", r, 2.6f);
-            Building(env, 1, 3.5f, 14f, 24f, 6f, 3, "Intonaco", r, 2.6f);
-            // chiusure del vicolo (stazione a nord, vicolo degli stracci a sud)
-            Closure(env, "ChiusuraNord", 20f, Vector3.back, -3.5f, 3.5f, 4f, 4, "Tufo", r, 2.6f);
-            Closure(env, "ChiusuraSud", -20f, Vector3.forward, -3.5f, 3.5f, 4f, 4, "TufoScuro", r, 2.6f);
-
-            // lampioni a muro accanto alle porte
-            WallLamp(env, new Vector3(-5f, 0f, -2f), Vector3.right, Vector3.forward, 1.25f);
-            WallLamp(env, new Vector3(5f, 0f, 11f), Vector3.left, Vector3.forward, -1.25f);
-            WallLamp(env, new Vector3(0f, 0f, 20f), Vector3.back, Vector3.right, 1.25f);
-
-            // panni stesi
-            float[] lz = { -17f, -12f, -3.5f, 1.0f, 5.5f, 12.5f, 16.5f };
-            for (int i = 0; i < lz.Length; i++)
-            {
-                float z = lz[i];
-                float yL = 5.0f + (i % 3) * 0.9f;
-                float yR = yL - 0.35f - (float)r.NextDouble() * 0.4f;
-                Clothesline(env, r, z, yL, yR, -HubInnerLeft(z) + 0.05f, HubInnerRight(z) - 0.05f, 4 + (i % 3));
-            }
-
-            // oggetti di scena
-            Rubble(env, r, new Vector3(2.0f, 0f, -16.5f), 9, 0.8f);
-            Cart(env, new Vector3(3.9f, 0f, 9.5f));
-            Bucket(env, new Vector3(3.0f, 0f, -8.0f));
-            Bucket(env, new Vector3(-3.3f, 0f, 5.5f));
-            Model("SecchioLegno", env, new Vector3(-4.4f, 0f, -3.4f), 20f, 1.1f, true, "Secchio");
-            Lamp(env, new Vector3(2.7f, 0f, -5.5f));
-            Lamp(env, new Vector3(-2.7f, 0f, 14f));
-            Shrine(env, new Vector3(-3.5f, 0f, 6.5f), Vector3.right);
-            // panchina in tufo
-            var kb = new KitBuilder("M_ArenariaBlocchi");
-            kb.Box(new Vector3(-3.5f, 0f, 11.7f), new Vector3(-2.9f, 0.5f, 13.3f), 0, TileStone);
-            MeshObject(env, "PanchinaTufo", kb.Build(KitName("Panchina")), new[] { "M_ArenariaBlocchi" }, true);
-            // botte, casse e cesto
-            Model("BotteVino", env, new Vector3(-3.1f, 0f, 3.8f), 0f, 1.25f, true, "Botte");
-            Model("BotteVino", env, new Vector3(-3.15f, 0f, -15.0f), 40f, 1.25f, true, "Botte");
-            Model("CassaLegno", env, new Vector3(3.0f, 0f, 16.5f), 25f, 1.5f, true, "Cassa");
-            Model("CassaLegno", env, new Vector3(3.05f, 0.5f, 16.45f), -10f, 1.2f, true, "Cassa");
-            Model("CestaVimini", env, new Vector3(-3.0f, 0f, 12.0f), 0f, 1.6f, false, "Cesto");
-            Model("ScalaLegno", env, new Vector3(3.22f, 0f, -12.5f), 90f, 1.6f, false, "Scala"); // appoggiata al muro est (x = 3.5)
-            SetStatic(env.gameObject);
-
-            // muri invisibili ai bordi
-            var inv = new GameObject("MuriInvisibili").transform;
-            InvisibleWall("MuroInvisibile_Ovest", inv, new Vector3(-5.8f, 4f, 0f), new Vector3(1f, 8f, 44f));
-            InvisibleWall("MuroInvisibile_Est", inv, new Vector3(5.8f, 4f, 0f), new Vector3(1f, 8f, 44f));
-            InvisibleWall("MuroInvisibile_Nord", inv, new Vector3(0f, 4f, 20.5f), new Vector3(14f, 8f, 1f));
-            InvisibleWall("MuroInvisibile_Sud", inv, new Vector3(0f, 4f, -20.5f), new Vector3(14f, 8f, 1f));
-
-            // spawn
-            Spawn("inizio", new Vector3(0f, 0f, -13f), 0f, spawns);
-            Spawn("da_basso_antonietta", new Vector3(-1.8f, 0f, -2f), -90f, spawns); // al centro del vicolo, lontano dalla porta (x = -5)
-
-            var cam = MakeCamera("Main Camera", Vector3.zero, Quaternion.identity, new Color(0.85f, 0.76f, 0.60f), true);
-            BuildPlayer(new Vector3(0f, 0.05f, -13f), 0f, cam, CamProfilo.Esterno, true);
-            SaveScene(scene, "10_Hub_Vicolo");
-        }
 
         // ------------------------------------------------------------------ interni
 
@@ -623,6 +764,10 @@ namespace TrenoBambini.EditorTools
         {
             string[] subs = { plaster, dado, "M_LegnoVernicePelata", "Finestra", "M_FerroRuggine02", trim };
             var kb = new KitBuilder(subs);
+            kb.SubFisso = 0;
+            int hn = 0; foreach (char ch in name) hn += ch;
+            float dofs = ((fr.AxisU == 0 ? 0 : 1) + (hn % 2) * 2) * PassoFascia; // pareti che si incontrano a spigolo (assi diversi) o in linea (nome diverso): dado a quote diverse (niente facce superiori complanari)
+            kb.ProteggiTestate(fr.AxisU, fr.AxisU == 0 ? fr.W(0, 0, 0).x : fr.W(0, 0, 0).z, fr.AxisU == 0 ? fr.W(len, 0, 0).x : fr.W(len, 0, 0).z);
             ShellPieces(kb, fr, len, 0f, h, thick, new List<WallOpening>(ops), 0, TileWall, true, false, false);
             // zoccolo (interrotto dalle porte)
             float cursor = 0f;
@@ -638,8 +783,8 @@ namespace TrenoBambini.EditorTools
             if (len > cursor) gaps.Add(new Vector2(cursor, len));
             foreach (var g in gaps)
             {
-                fr.Box(kb, g.x, g.y, -0.03f, 0.02f, 0f, dadoH, 1, TileWall, 8 | 16);
-                fr.Box(kb, g.x, g.y, -0.045f, 0.02f, dadoH, dadoH + 0.05f, 5, TileStone, 8);
+                Trim(kb, fr, len, g.x, g.y, -0.03f, 0.02f, 0f, dadoH + dofs, 1, TileWall, 8 | 16);
+                Trim(kb, fr, len, g.x, g.y, -0.045f, 0.02f, dadoH + dofs, dadoH + 0.05f + dofs, 5, TileStone, 8);
             }
             fr.Box(kb, -0.02f, len + 0.02f, -0.02f, thick + 0.02f, h, h + 0.1f, 5, TileStone, 16);
 
@@ -647,12 +792,12 @@ namespace TrenoBambini.EditorTools
             {
                 bool isDoor = o.y0 < 0.01f;
                 // stipiti e architrave in legno
-                fr.Box(kb, o.U0 - 0.08f, o.U0, -0.04f, 0.28f, o.y0, o.y1, 2, TileWood, isDoor ? 16 : 0);
-                fr.Box(kb, o.U1, o.U1 + 0.08f, -0.04f, 0.28f, o.y0, o.y1, 2, TileWood, isDoor ? 16 : 0);
-                fr.Box(kb, o.U0 - 0.08f, o.U1 + 0.08f, -0.04f, 0.28f, o.y1, o.y1 + 0.1f, 2, TileWood, 0);
+                fr.Box(kb, o.U0 - 0.08f, o.U0 + Riporto, -0.04f, 0.28f, o.y0, o.y1, 2, TileWood, isDoor ? 16 : 0);
+                fr.Box(kb, o.U1 - Riporto, o.U1 + 0.08f, -0.04f, 0.28f, o.y0, o.y1, 2, TileWood, isDoor ? 16 : 0);
+                fr.Box(kb, o.U0 - 0.08f, o.U1 + 0.08f, -0.04f, 0.28f, o.y1 - Riporto, o.y1 + 0.1f, 2, TileWood, 0);
                 if (!isDoor)
                 {
-                    fr.Box(kb, o.U0 - 0.1f, o.U1 + 0.1f, -0.1f, 0.28f, o.y0 - 0.06f, o.y0, 2, TileWood, 0);
+                    fr.Box(kb, o.U0 - 0.1f, o.U1 + 0.1f, -0.1f, 0.28f, o.y0 - 0.06f, o.y0 + Riporto, 2, TileWood, 0);
                     // vetro e traversi
                     if (glassPane) fr.Box(kb, o.U0, o.U1, 0.2f, 0.23f, o.y0, o.y1, 3, 2f, 0);
                     float midU = (o.U0 + o.U1) * 0.5f, midY = (o.y0 + o.y1) * 0.5f;
@@ -662,216 +807,39 @@ namespace TrenoBambini.EditorTools
             }
             var mesh = kb.Build(KitName(name));
             var go = MeshObject(parent, name, mesh, subs, false);
-            Vector3 c, s;
-            fr.Bounds(0, len, 0, thick, 0, h, out c, out s);
-            var bc = go.AddComponent<BoxCollider>();
-            bc.center = c; bc.size = s;
+            // collider a pezzi: i varchi (porte e finestre) restano liberi; sotto e sopra le aperture il muro e' pieno
+            var colOps = new List<WallOpening>(ops);
+            colOps.Sort((p, q) => p.u.CompareTo(q.u));
+            float cu = 0f;
+            Action<float, float, float, float> pezzo = (u0, u1, y0, y1) =>
+            {
+                if (u1 - u0 < 0.001f || y1 - y0 < 0.001f) return;
+                Vector3 cc, ss;
+                fr.Bounds(u0, u1, 0, thick, y0, y1, out cc, out ss);
+                var bc = go.AddComponent<BoxCollider>();
+                bc.center = cc; bc.size = ss;
+            };
+            foreach (var o in colOps)
+            {
+                pezzo(cu, o.U0, 0f, h);
+                pezzo(o.U0, o.U1, 0f, o.y0);
+                pezzo(o.U0, o.U1, o.y1, h);
+                if (o.y0 > 0.01f)
+                {
+                    // R018: la finestra e' chiusa dal vetro (collider su un figlio dedicato): la camera non esce dalla stanza.
+                    // Al giocatore non cambia nulla, il davanzale e' a 1,1 m.
+                    Vector3 vc, vs;
+                    fr.Bounds(o.U0, o.U1, 0, thick, o.y0, o.y1, out vc, out vs);
+                    var vetro = new GameObject("VetroFinestraCamera");
+                    vetro.transform.SetParent(go.transform, false);
+                    var vb = vetro.AddComponent<BoxCollider>();
+                    vb.center = vc; vb.size = vs;
+                } // R018: la finestra e' chiusa dal vetro: la camera non esce dalla stanza (al giocatore non cambia nulla, il davanzale e' a 1,1 m)
+                cu = o.U1;
+            }
+            pezzo(cu, len, 0f, h);
             return go;
         }
 
-        static void BuildBasso()
-        {
-            var scene = NewScene();
-            kitScene = "Basso"; kitIndex = 0;
-            var r = new System.Random(1947);
-            doorWallPoints.Clear();
-            Ambient(new Color(0.62f, 0.52f, 0.40f), new Color(0.42f, 0.34f, 0.26f), new Color(0.24f, 0.19f, 0.14f));
-            Sun(new Color(1f, 0.88f, 0.68f), 0.6f, new Vector3(55f, -25f, 0f));
-
-            var env = new GameObject("Ambiente").transform;
-            var props = new GameObject("Arredo").transform;
-            var spawns = new GameObject("SpawnPoints").transform;
-
-            // stanza 6 x 5 m, x in [-3,3], z in [-2.5,2.5], pareti alte 3 m, spesse 30 cm verso l'esterno
-            Ground("Pavimento", env, new Vector3(-3.3f, -0.3f, -2.8f), new Vector3(3.3f, 0f, 2.8f), "M_PavimentoCotto", 1.2f);
-            const float H = 3.0f, TH = 0.3f;
-            const string PL = "M_IntonacoMattoni", DADO = "M_IntonacoRossoSbiadito", TRIM = "M_ArenariaCrepe";
-            // nord: finestrella chiusa
-            InteriorWall(env, "MuroNord", new WallFrame(new Vector3(-3f, 0f, 2.5f), Vector3.right, Vector3.back), 6f, H, TH,
-                new List<WallOpening> { new WallOpening(4.6f, 0.9f, 1.4f, 2.3f) }, PL, DADO, 1.0f, TRIM);
-            // sud: porta d'uscita
-            InteriorWall(env, "MuroSud", new WallFrame(new Vector3(3f, 0f, -2.5f), Vector3.left, Vector3.forward), 6f, H, TH,
-                new List<WallOpening> { new WallOpening(3f, 1.3f, 0f, 2.2f, true) }, PL, DADO, 1.0f, TRIM);
-            InteriorWall(env, "MuroOvest", new WallFrame(new Vector3(-3f, 0f, -2.5f), Vector3.forward, Vector3.right), 5f, H, TH,
-                new List<WallOpening>(), PL, DADO, 1.0f, TRIM);
-            InteriorWall(env, "MuroEst", new WallFrame(new Vector3(3f, 0f, 2.5f), Vector3.back, Vector3.left), 5f, H, TH,
-                new List<WallOpening>(), PL, DADO, 1.0f, TRIM);
-            // angoli esterni (le pareti si sovrappongono solo di 0.3 m: chiusura degli spigoli)
-            int cornerIdx = 0;
-            foreach (var sx in new[] { -1f, 1f })
-                foreach (var sz in new[] { -1f, 1f })
-                {
-                    var corner = new KitBuilder(PL);
-                    corner.Box(new Vector3(sx * 3f, 0f, sz * 2.5f), new Vector3(sx * 3.3f, H, sz * 2.8f), 0, TileWall, 16);
-                    MeshObject(env, "MuroAngolo_" + (++cornerIdx), corner.Build(KitName("Angolo")), new[] { PL }, true);
-                }
-
-            // ---- arredo
-            // letto (testata al muro nord, lato ovest)
-            {
-                var kb = new KitBuilder("M_LegnoVernicePelata", "M_TessutoLino", "Tessuto1");
-                Vector3 c = new Vector3(-1.95f, 0f, 1.2f);
-                kb.Box(c + new Vector3(-0.9f, 0.18f, -1.25f), c + new Vector3(0.9f, 0.3f, 1.25f), 0, TileWood);
-                foreach (var sx in new[] { -1f, 1f })
-                    foreach (var sz in new[] { -1f, 1f })
-                        kb.Box(c + new Vector3(sx * 0.85f - 0.05f, 0f, sz * 1.2f - 0.05f), c + new Vector3(sx * 0.85f + 0.05f, 0.18f, sz * 1.2f + 0.05f), 0, TileWood);
-                kb.Box(c + new Vector3(-0.9f, 0.18f, 1.2f), c + new Vector3(0.9f, 1.05f, 1.3f), 0, TileWood);
-                kb.Box(c + new Vector3(-0.9f, 0.18f, -1.3f), c + new Vector3(0.9f, 0.55f, -1.2f), 0, TileWood);
-                kb.Box(c + new Vector3(-0.85f, 0.3f, -1.2f), c + new Vector3(0.85f, 0.5f, 1.2f), 1, 1.0f);
-                kb.Box(c + new Vector3(-0.87f, 0.5f, -1.15f), c + new Vector3(0.87f, 0.57f, 0.4f), 2, 1.0f);
-                kb.Box(c + new Vector3(-0.4f, 0.5f, 0.8f), c + new Vector3(0.4f, 0.62f, 1.18f), 1, 0.6f);
-                MeshObject(props, "Letto", kb.Build(KitName("Letto")), kb.matNames, true);
-            }
-            // tavolo, sedie, lume a petrolio
-            Model("TavoloLegno01", props, new Vector3(1.6f, 0f, 0.9f), 0f, 1.2f, true, "Tavolo");
-            Model("SediaDipinta", props, new Vector3(1.15f, 0f, 0.15f), 15f, 1.0f, true, "Sedia");
-            Model("SediaDipinta", props, new Vector3(2.05f, 0f, 1.65f), 195f, 1.0f, true, "Sedia");
-            var lampTable = Model("LampadaPetrolio_A", props, new Vector3(1.55f, 0.66f, 0.95f), 0f, 1.2f, false, "LampadaTavolo");
-            Prim(PrimitiveType.Sphere, "FiammaLampada", props, new Vector3(1.55f, 0.84f, 0.95f), new Vector3(0.06f, 0.1f, 0.06f), "Glow", null, false);
-            Model("CestaVimini", props, new Vector3(2.2f, 0.66f, 0.8f), 30f, 1.2f, false, "Cesto");
-
-            // braciere
-            var br = Empty("Braciere", props, new Vector3(-0.1f, 0f, -0.5f)).transform;
-            Cyl("CiotolaBraciere", br, new Vector3(0f, 0.4f, 0f), 0.55f, 0.14f, "M_FerroRuggine02");
-            Cyl("PiedeBraciere", br, new Vector3(0f, 0.2f, 0f), 0.1f, 0.4f, "M_FerroRuggine02", null, false);
-            Cyl("BaseBraciere", br, new Vector3(0f, 0.03f, 0f), 0.4f, 0.06f, "M_FerroRuggine02", null, false);
-            Cyl("Brace", br, new Vector3(0f, 0.46f, 0f), 0.45f, 0.03f, "Glow", null, false);
-            Model("SecchioMetallo", props, new Vector3(0.45f, 0f, -0.75f), 10f, 1.1f, true, "SecchioCarbone");
-
-            // cassapanca (cassa grande) con vaso
-            Model("CassaLegno", props, new Vector3(2.65f, 0f, -0.6f), 90f, 1.45f, true, "Cassapanca");
-            Model("VasoTerracotta", props, new Vector3(2.65f, 0.52f, -0.35f), 0f, 1.0f, false, "Vaso");
-
-            // angolo di deposito: botte e casse
-            Model("BotteVino", props, new Vector3(-2.55f, 0f, -1.95f), 0f, 1.2f, true, "Botte");
-            Model("CassaLegno", props, new Vector3(-2.55f, 0f, -0.85f), 90f, 1.2f, true, "Cassa");
-            Model("CassaLegno", props, new Vector3(-2.55f, 0.43f, -0.85f), 78f, 1.0f, true, "Cassa");
-            Model("ScalaLegno", props, new Vector3(2.9f, 0f, -1.75f), 90f, 1.5f, false, "Scala");
-
-            // altarino con lumino (muro nord)
-            {
-                var fr = new WallFrame(new Vector3(0.2f, 0f, 2.5f), Vector3.right, Vector3.back);
-                var kb = new KitBuilder("M_ArenariaCrepe", "M_LegnoDipintoBlu", "M_LegnoVernicePelata");
-                fr.Box(kb, -0.5f, -0.38f, -0.08f, 0f, 1.1f, 2.2f, 0, TileStone, 0);
-                fr.Box(kb, 0.38f, 0.5f, -0.08f, 0f, 1.1f, 2.2f, 0, TileStone, 0);
-                fr.Box(kb, -0.56f, 0.56f, -0.1f, 0f, 2.2f, 2.32f, 0, TileStone, 0);
-                fr.Box(kb, -0.38f, 0.38f, -0.03f, -0.01f, 1.1f, 2.2f, 1, 1f, 0);
-                fr.Box(kb, -0.55f, 0.55f, -0.3f, 0f, 1.0f, 1.07f, 2, TileWood, 0);
-                fr.Box(kb, -0.4f, -0.34f, -0.26f, -0.04f, 0.4f, 1.0f, 2, TileWood, 0);
-                fr.Box(kb, 0.34f, 0.4f, -0.26f, -0.04f, 0.4f, 1.0f, 2, TileWood, 0);
-                MeshObject(props, "Altarino", kb.Build(KitName("Altarino")), kb.matNames, false);
-                Prim(PrimitiveType.Capsule, "StatuettaAltarino", props, fr.W(-0.05f, -0.1f, 1.38f), new Vector3(0.1f, 0.2f, 0.1f), "Cera", null, false);
-                Model("Candela", props, fr.W(0.22f, -0.15f, 1.07f), 0f, 1.0f, false, "CeroAltarino");
-                Prim(PrimitiveType.Sphere, "LuminoAltarino", props, fr.W(0.22f, -0.15f, 1.2f), new Vector3(0.05f, 0.08f, 0.05f), "Glow", null, false);
-            }
-
-            // tenda divisoria con bastone
-            Cyl("BastoneTenda", props, new Vector3(-0.95f, 2.45f, 1.65f), 0.04f, 1.6f, "M_FerroRuggine02", new Vector3(90f, 0f, 0f), false);
-            Box("Tenda", props, new Vector3(-0.95f, 1.25f, 1.65f), new Vector3(0.04f, 2.3f, 1.5f), "Tessuto2", null, false);
-
-            // panni appesi
-            Clothesline(props, r, 0.3f, 2.5f, 2.4f, -0.8f, 2.9f, 3);
-
-            // porta d'uscita nel varco del muro sud (z = -2.5)
-            var doorFr = new WallFrame(new Vector3(0f, 0f, -2.5f), Vector3.left, Vector3.forward);
-            var door = DoorLeaf(props, "PortaUscita", doorFr, 0f, 0.08f, 0.2f, 1.15f, 2.15f, 0.25f); // come prima: fronte del collider a z = -2.25
-            var d = door.AddComponent<Door>();
-            d.targetScene = "10_Hub_Vicolo";
-            d.targetSpawn = "da_basso_antonietta";
-
-            // le scarpe (due blocchi a forma di scarpa) vicino alla porta
-            var shoes = Empty("Scarpe", props, new Vector3(1.3f, 0f, -2.0f));
-            ShoeObject(shoes.transform, new Vector3(-0.1f, 0f, 0f), 8f, 1f);
-            ShoeObject(shoes.transform, new Vector3(0.12f, 0f, 0.03f), -14f, 1f);
-            var bc = shoes.AddComponent<BoxCollider>();
-            bc.center = new Vector3(0f, 0.08f, 0f);
-            bc.size = new Vector3(0.5f, 0.18f, 0.42f);
-            var shoeGlow = shoes.AddComponent<Glow>();
-            shoeGlow.intensity = 0.35f; // alone discreto: la forma della scarpa deve restare leggibile
-            var pick = shoes.AddComponent<ItemPickup>();
-            pick.oggettoId = "scarpe";
-
-            // luce calda sopra il tavolo (lume a petrolio): una sola Point Light
-            var lgo = new GameObject("Luce Calda");
-            lgo.transform.position = new Vector3(1.2f, 1.7f, 0.5f);
-            var pl = lgo.AddComponent<Light>();
-            pl.type = LightType.Point;
-            pl.color = new Color(1f, 0.70f, 0.40f);
-            pl.intensity = 4f;
-            pl.range = 9f;
-            pl.shadows = LightShadows.None;
-
-            Spawn("ingresso", new Vector3(0f, 0f, -1.7f), 0f, spawns);
-            Spawn("oggetto_scarpe", new Vector3(0.7f, 0f, -1.4f), 90f, spawns);
-
-            var cam = MakeCamera("Main Camera", Vector3.zero, Quaternion.identity, new Color(0.10f, 0.07f, 0.05f), true);
-            BuildPlayer(new Vector3(0f, 0.05f, -1.7f), 0f, cam, CamProfilo.InternoPiccoloAdulto, true); // il basso è nel presente: Amerigo adulto
-            SaveScene(scene, "20_Int_BassoAntonietta");
-        }
-
-        // ------------------------------------------------------------------ 30_FB_Scarpe
-
-        static void BuildFlashback()
-        {
-            var scene = NewScene();
-            kitScene = "Ricordo"; kitIndex = 0;
-            doorWallPoints.Clear();
-            Color sepiaFog = new Color(0.62f, 0.50f, 0.34f);
-            Ambient(new Color(0.72f, 0.60f, 0.42f), new Color(0.52f, 0.42f, 0.30f), new Color(0.28f, 0.22f, 0.15f));
-            Sun(new Color(1f, 0.86f, 0.62f), 0.9f, new Vector3(55f, -40f, 0f));
-            RenderSettings.fog = true;
-            RenderSettings.fogMode = FogMode.Linear;
-            RenderSettings.fogColor = sepiaFog;
-            RenderSettings.fogStartDistance = 4f;
-            RenderSettings.fogEndDistance = 22f;
-
-            EnsureLightMaterials();
-            var env = new GameObject("Ambiente").transform;
-            var spawns = new GameObject("SpawnPoints").transform;
-
-            // stanza 10 x 10 m, pareti alte 4 m, spesse 30 cm verso l'esterno
-            Ground("Pavimento", env, new Vector3(-5.3f, -0.3f, -5.3f), new Vector3(5.3f, 0f, 5.3f), "M_AssiConsunte", 1.4f);
-            const float H = 4.0f, TH = 0.3f;
-            const string PL = "M_IntonacoMattoni", DADO = "M_AssiStagionate", TRIM = "M_ArenariaCrepe";
-            InteriorWall(env, "MuroNord", new WallFrame(new Vector3(-5f, 0f, 5f), Vector3.right, Vector3.back), 10f, H, TH,
-                new List<WallOpening>(), PL, DADO, 1.2f, TRIM);
-            InteriorWall(env, "MuroSud", new WallFrame(new Vector3(5f, 0f, -5f), Vector3.left, Vector3.forward), 10f, H, TH,
-                new List<WallOpening>(), PL, DADO, 1.2f, TRIM);
-            // ovest: grande finestra (il vetro e' un pannello luminoso con sporco e sfumatura, vedi BuildFlashbackLuci)
-            InteriorWall(env, "MuroOvest", new WallFrame(new Vector3(-5f, 0f, -5f), Vector3.forward, Vector3.right), 10f, H, TH,
-                new List<WallOpening> { new WallOpening(5f, 2.4f, 1.0f, 2.8f) }, PL, DADO, 1.2f, TRIM, false);
-            Box("VetroFinestra", env, new Vector3(-5.22f, 1.9f, 0f), new Vector3(0.03f, 1.8f, 2.4f), "M_LuceFinestra", null, false);
-            // est: porta dell'uscita
-            InteriorWall(env, "MuroEst", new WallFrame(new Vector3(5f, 0f, 5f), Vector3.back, Vector3.left), 10f, H, TH,
-                new List<WallOpening> { new WallOpening(5f, 1.4f, 0f, 2.4f, true) }, PL, DADO, 1.2f, TRIM);
-            // pilastri d'angolo (Muro*: la camera li rende trasparenti) e chiusure esterne
-            int pilIdx = 0;
-            foreach (var sx in new[] { -1f, 1f })
-                foreach (var sz in new[] { -1f, 1f })
-                {
-                    var pil = new KitBuilder("M_ArenariaCrepe", PL);
-                    pil.Box(new Vector3(sx * 4.5f, 0f, sz * 4.5f), new Vector3(sx * 5f, H, sz * 5f), 0, TileStone, 16);
-                    pil.Box(new Vector3(sx * 5f, 0f, sz * 5f), new Vector3(sx * 5.3f, H, sz * 5.3f), 1, TileWall, 16);
-                    MeshObject(env, "MuroPilastro_" + (++pilIdx), pil.Build(KitName("Pilastro")), new[] { "M_ArenariaCrepe", PL }, true);
-                }
-
-            FlashbackProps(env);
-            SetStatic(env.gameObject);
-
-            // uscita: bagliore nel vano della porta est
-            var exitRoot = new GameObject("Uscita").transform;
-            var exit = Box("EscapeExit", exitRoot, new Vector3(5.1f, 1.2f, 0f), new Vector3(0.12f, 2.4f, 1.4f), "M_LuceUscita");
-            exit.AddComponent<Glow>();
-            exit.AddComponent<EscapeExit>();
-
-            var ctrl = new GameObject("EscapeRoom");
-            ctrl.AddComponent<EscapeRoomController>().flashbackId = "flashback_scarpe";
-
-            Spawn("inizio", new Vector3(0f, 0f, 0f), 0f, spawns);
-
-            var cam = MakeCamera("Main Camera", Vector3.zero, Quaternion.identity, sepiaFog, true);
-            BuildPlayer(new Vector3(0f, 0.05f, 0f), 0f, cam, CamProfilo.InternoLargo);
-            SaveScene(scene, "30_FB_Scarpe");
-        }
     }
 }
