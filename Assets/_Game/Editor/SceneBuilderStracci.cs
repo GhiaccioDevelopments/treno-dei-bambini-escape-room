@@ -412,6 +412,7 @@ namespace TrenoBambini.EditorTools
             // il punto dove sta Capa 'e fierro (la figura viene messa dal generatore del personaggio)
             var npc = new GameObject("Npc_CapaEFierro"); npc.transform.SetParent(bt, false);
             npc.transform.SetPositionAndRotation(StrCapa, Quaternion.Euler(0f, 100f, 0f));
+            FiguraCapaEFierro(npc.transform);
 
             // montagne di stracci agli angoli nord, ferri vecchi, scaffali, carretto, ceste, sacchi
             MucchioStracci(bt, r, new Vector3(-6.2f, QB, 46.4f), 1.4f, 14);
@@ -462,6 +463,37 @@ namespace TrenoBambini.EditorTools
             Segreto("Mucchio di stracci della bottega", new Vector3(6.2f, QB + 0.55f, 46.3f), "Nel mucchio degli stracci di destra, in fondo alla bottega: un bottone di divisa dimenticato.");
             Segreto("Carretto di Capa 'e fierro", StrCarretto + Vector3.up * 0.9f, "Il carretto parcheggiato in fondo alla bottega: ha un cassetto sotto il sedile, che si apre girando la ruota.");
             Segreto("Cesta dei ferri vecchi", new Vector3(-6.8f, QB + 0.5f, 37.4f), "Tra i ferri vecchi dell'angolo sud-ovest: un tappo a corona schiacciato.");
+        }
+
+        /// <summary>
+        /// R012: la figura di Capa 'e fierro sul suo punto. Con il prefab MakeHuman importato (Treno > Personaggi > Importa Capa 'e fierro MakeHuman)
+        /// si usa quello (Animator con il controller di Amerigo: resta nella posa ferma); altrimenti un segnaposto di primitive, cosi' la scena si costruisce lo stesso.
+        /// Un collider a capsula sul punto: il giocatore non gli passa attraverso.
+        /// </summary>
+        static void FiguraCapaEFierro(Transform punto)
+        {
+            var prefab = PersonaggiBuilder.LoadCapaEFierroPrefab();
+            if (prefab != null)
+            {
+                var corpo = (GameObject)PrefabUtility.InstantiatePrefab(prefab, punto);
+                corpo.name = "CapaEFierro_Mesh";
+                corpo.transform.localPosition = prefab.transform.localPosition; // offset dei piedi calcolato dall'import
+                corpo.transform.localRotation = Quaternion.identity;
+            }
+            else
+            {
+                Debug.LogWarning("[SceneBuilder] Prefab di Capa 'e fierro mancante: metto un segnaposto (esegui Treno > Personaggi > Importa Capa 'e fierro MakeHuman, poi ricostruisci la scena).");
+                var g = new GameObject("CapaEFierro_Segnaposto").transform;
+                g.SetParent(punto, false);
+                Cyl("Segnaposto_Gambe", g, new Vector3(0f, 0.42f, 0f), 0.36f, 0.84f, "M_Panno_Grigio", null, false);
+                Cyl("Segnaposto_Busto", g, new Vector3(0f, 1.15f, 0f), 0.52f, 0.62f, "M_Panno_Terra", null, false);
+                Box("Segnaposto_Gilet", g, new Vector3(0f, 1.15f, 0.02f), new Vector3(0.5f, 0.58f, 0.46f), "M_Panno_BluSpento", null, false);
+                Prim(PrimitiveType.Sphere, "Segnaposto_Testa", g, new Vector3(0f, 1.6f, 0f), new Vector3(0.24f, 0.27f, 0.25f), "M_Panno_Beige", null, false);
+            }
+            var cap = punto.gameObject.AddComponent<CapsuleCollider>();
+            cap.center = new Vector3(0f, 0.86f, 0f);
+            cap.radius = 0.3f;
+            cap.height = 1.72f;
         }
 
         // ------------------------------------------------------------------ segreti
