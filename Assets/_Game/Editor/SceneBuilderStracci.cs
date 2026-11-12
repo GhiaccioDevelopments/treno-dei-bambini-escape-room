@@ -285,6 +285,80 @@ namespace TrenoBambini.EditorTools
                 Box("MucchioStracci_Pezzo", padre, p, new Vector3(0.55f + (float)r.NextDouble() * 0.45f, 0.14f + (float)r.NextDouble() * 0.08f, 0.42f + (float)r.NextDouble() * 0.4f),
                     MatPanni[r.Next(MatPanni.Length)], new Vector3((float)(r.NextDouble() - 0.5) * 28f, r.Next(360), (float)(r.NextDouble() - 0.5) * 28f), false);
             }
+            DettagliMucchio(padre, c, rad);
+        }
+
+        /// <summary>
+        /// Ritocco estetico (R012, PC scuola, da verificare in Unity): sopra e attorno ai blocchi del mucchio si aggiungono i modelli gia' nel progetto
+        /// (panni d'epoca di ModelliR007 buttati di traverso, sacchi e fagotti, una cesta). Un generatore a parte, con il seme dalla posizione,
+        /// cosi' la sequenza casuale "r" della scena (e quindi tutto il resto) non cambia. Nessun collider: il collider resta la base del mucchio.
+        /// Il centro in alto resta libero (li' puo' stare un collezionabile R011).
+        /// </summary>
+        static void DettagliMucchio(Transform padre, Vector3 c, float rad)
+        {
+            var q = new System.Random(Mathf.RoundToInt(c.x * 73f + c.z * 131f) & 0x7fffffff);
+            string[] panni = { "Panni/Panno_Straccio.fbx", "Panni/Panno_Camicia.fbx", "Panni/Panno_Tovaglia.fbx", "Panni/Panno_Mutandoni.fbx" };
+            int np = Mathf.Clamp(Mathf.RoundToInt(rad * 4f), 3, 6);
+            for (int i = 0; i < np; i++)
+            {
+                // panni stesi di traverso sul fianco del mucchio (i modelli sono fatti per stare appesi: ruotati di ~80 gradi su x stanno sdraiati)
+                float a = (float)(i * Math.PI * 2.0 / np + q.NextDouble() * 0.6), d = rad * (0.5f + (float)q.NextDouble() * 0.3f);
+                var pos = c + new Vector3(Mathf.Cos(a) * d, 0.55f + (float)q.NextDouble() * 0.15f, Mathf.Sin(a) * d);
+                ModelloInclinato(panni[q.Next(panni.Length)], padre, pos, new Vector3(70f + (float)q.NextDouble() * 25f, q.Next(360), (float)(q.NextDouble() - 0.5) * 30f), 0.75f + (float)q.NextDouble() * 0.2f, "PannoMucchio");
+            }
+            int ns = rad > 1.1f ? 3 : 2;
+            for (int i = 0; i < ns; i++)
+            {
+                // sacchi e fagotti appoggiati alla base, sul bordo
+                float a = (float)(q.NextDouble() * Math.PI * 2.0);
+                var pos = c + new Vector3(Mathf.Cos(a) * rad * 0.95f, 0f, Mathf.Sin(a) * rad * 0.85f);
+                ModelloInclinato("Sacco", padre, pos, new Vector3(0f, q.Next(360), (float)(q.NextDouble() - 0.5) * 16f), 0.9f + (float)q.NextDouble() * 0.25f, "SaccoMucchio");
+            }
+            if (rad >= 1.0f)
+            {
+                float a = (float)(q.NextDouble() * Math.PI * 2.0);
+                ModelloInclinato("CestaVimini", padre, c + new Vector3(Mathf.Cos(a) * rad * 1.05f, 0f, Mathf.Sin(a) * rad * 0.95f), new Vector3(0f, q.Next(360), 0f), 1.2f, "CestaMucchio");
+            }
+        }
+
+        /// <summary>Modello FBX senza collider con rotazione completa (Model ruota solo attorno a y).</summary>
+        static GameObject ModelloInclinato(string model, Transform parent, Vector3 pos, Vector3 euler, float scala, string nome)
+        {
+            var g = Model(model, parent, pos, euler.y, scala, false, nome);
+            g.transform.localRotation = Quaternion.Euler(euler);
+            return g;
+        }
+
+        /// <summary>
+        /// Ritocco estetico dei ferri vecchi (R012, da verificare in Unity): ruote di carro, un cerchione, il telaio di una branda di ferro e una bicicletta
+        /// buttata sul fianco, un secchio e una pentola ammaccata. Seme dalla posizione (la sequenza "r" della scena non cambia); il collider resta la base.
+        /// </summary>
+        static void DettagliFerri(Transform g, Vector3 c, float k)
+        {
+            var q = new System.Random(Mathf.RoundToInt(c.x * 59f + c.z * 97f) & 0x7fffffff);
+            // due ruote di carro appoggiate in piedi contro il mucchio (cerchio di ferro e mozzo)
+            for (int i = 0; i < 2; i++)
+            {
+                float yaw = q.Next(360);
+                var dir = Quaternion.Euler(0f, yaw, 0f) * Vector3.forward;
+                var pos = c + dir * (0.75f * k) + Vector3.up * 0.42f;
+                var ruota = new GameObject("FerriVecchi_Ruota").transform;
+                ruota.SetParent(g, false);
+                ruota.localPosition = pos;
+                ruota.localRotation = Quaternion.Euler(0f, yaw + 90f, 12f + (float)q.NextDouble() * 10f);
+                Cyl("FerriVecchi_Cerchio", ruota, Vector3.zero, 0.84f, 0.05f, "M_FerroRuggineGrossa", new Vector3(0f, 0f, 90f), false);
+                Cyl("FerriVecchi_Mozzo", ruota, Vector3.zero, 0.16f, 0.14f, "M_LegnoVernicePelata", new Vector3(0f, 0f, 90f), false);
+                for (int rr = 0; rr < 4; rr++)
+                    Box("FerriVecchi_Raggio", ruota, Vector3.zero, new Vector3(0.03f, 0.78f, 0.04f), "M_LegnoVernicePelata", new Vector3(rr * 45f, 0f, 0f), false);
+            }
+            if (k >= 0.9f)
+            {
+                // telaio di branda di ferro di traverso e una bicicletta sul fianco
+                ModelloInclinato("LettoFerro", g, c + new Vector3(0f, 0.55f, 0.1f * k), new Vector3(0f, q.Next(360), 14f), 0.55f, "FerriVecchi_Branda");
+                ModelloInclinato("Bicicletta", g, c + new Vector3(0.3f * k, 0.5f, -0.2f * k), new Vector3(0f, q.Next(360), 78f), 0.9f, "FerriVecchi_Bicicletta");
+            }
+            ModelloInclinato("SecchioMetallo", g, c + new Vector3(-0.8f * k, 0f, -0.45f * k), new Vector3(0f, q.Next(360), 0f), 1.0f, "FerriVecchi_Secchio");
+            ModelloInclinato("PentolaRame", g, c + new Vector3(-0.2f * k, 0.48f, 0.25f * k), new Vector3(0f, q.Next(360), 25f), 1.0f, "FerriVecchi_Pentola");
         }
 
         // ------------------------------------------------------------------ la bottega
@@ -355,6 +429,7 @@ namespace TrenoBambini.EditorTools
                     if (i % 2 == 0) Cyl("FerriVecchi_Tubo", g, p, 0.07f + (float)r.NextDouble() * 0.05f, 0.9f, "M_FerroRuggine02", new Vector3(0f, r.Next(180), 90f), false);
                     else Box("FerriVecchi_Lamiera", g, p, new Vector3(0.6f, 0.03f, 0.4f), "M_FerroRuggineGrossa", new Vector3((float)(r.NextDouble() - 0.5) * 30f, r.Next(180), 0f), false);
                 }
+                DettagliFerri(g, c, k);
             };
             ferri(new Vector3(-6.8f, QB, 37.4f), 1.0f);
             ferri(new Vector3(6.9f, QB, 36.8f), 0.9f);
