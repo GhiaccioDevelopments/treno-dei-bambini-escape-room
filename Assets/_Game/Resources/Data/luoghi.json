@@ -43,9 +43,9 @@
       "scena": "",
       "spawn": "",
       "aperto": false,
-      "descrizione": "Binari, fumo e saluti lunghi: da qui partono i treni diretti verso il Nord. Si aprirà più avanti nella storia.",
+      "descrizione": "La stazione da cui, nell'inverno 1946-47, partivano i treni dei bambini verso il Nord. Oggi il cancello è chiuso: quella partenza si ritrova solo nel ricordo del cappotto.",
       "sbloccatoDa": "volantino",
-      "sbloccatoMsg": "Il volantino parlava dei treni: la stazione è il prossimo posto da visitare, ma per ora il cancello resta chiuso. Si aprirà più avanti."
+      "sbloccatoMsg": "Il cancello della stazione è chiuso: i treni del 1946 si ritrovano solo nei ricordi. Il viaggio, però, Antonietta l'aveva preparato in casa: dietro la porta del basso c'è ancora appeso un cappottino."
     },
     {
       "id": "vicolo_stracci",
@@ -90,6 +90,41 @@
       "aperto": false,
       "descrizione": "La stessa strada del ricordo delle scarpe, ma di sera e sotto la pioggia: voci dalle finestre e, in fondo al largo, la sede del Comitato con la luce accesa.",
       "meteo": "pioggia"
+    },
+    {
+      "id": "ricordo_cappotto",
+      "nome": "Il ricordo del cappotto",
+      "scena": "60_FB_Stazione",
+      "spawn": "",
+      "aperto": false,
+      "descrizione": "Una grande stazione nell'inverno 1946-47, ispirata alla vecchia stazione di Napoli: tavoli del Comitato e della Croce Rossa, montagne di cappotti, fumo e una carrozza di terza classe pronta a partire.",
+      "meteo": "sereno"
+    },
+    {
+      "id": "ricordo_vagone",
+      "nome": "Il treno per il Nord",
+      "scena": "61_FB_Vagone",
+      "spawn": "salita",
+      "aperto": true,
+      "descrizione": "La carrozza di terza classe numero 214: panche di legno, reticelle piene di valigie di cartone, finestrini da cui scorre l'Italia.",
+      "richiede": [
+        "partenza"
+      ],
+      "richiedeMsg": [
+        "Il capotreno ti ferma sul predellino: «Prima saluta tua madre, guagliò.» Antonietta ti aspetta sulla banchina, con qualcosa in mano."
+      ],
+      "aperturaMsg": "Sali sul predellino: il treno sta per partire.",
+      "meteo": ""
+    },
+    {
+      "id": "modena",
+      "nome": "Modena, casa Benvenuti",
+      "scena": "",
+      "spawn": "",
+      "aperto": false,
+      "descrizione": "Una corte di pianura vicino a Modena, d'inverno: la casa di Derna, il laboratorio di Alcide, la scuola in fondo alla strada.",
+      "sbloccatoDa": "cappotto",
+      "sbloccatoMsg": "Modena è lontana da questo vicolo. Il ricordo dell'inverno al Nord comincia da un'altra cosa che Antonietta ha conservato: si aprirà più avanti."
     }
   ]
 }

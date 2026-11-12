@@ -1110,6 +1110,224 @@
         0.18,
         0.1
       ]
+    },
+    {
+      "chiave": "StazioneNapoli",
+      "gruppo": "ricordo",
+      "tipo": "insegna",
+      "w": 512,
+      "h": 96,
+      "seed": 61,
+      "righe": [
+        "NAPOLI"
+      ],
+      "carta": [
+        0.2,
+        0.22,
+        0.24
+      ],
+      "inchiostro": [
+        0.88,
+        0.84,
+        0.72
+      ]
+    },
+    {
+      "chiave": "Binario1",
+      "gruppo": "ricordo",
+      "tipo": "insegna",
+      "w": 512,
+      "h": 96,
+      "seed": 62,
+      "righe": [
+        "BINARIO 1"
+      ],
+      "carta": [
+        0.2,
+        0.22,
+        0.24
+      ],
+      "inchiostro": [
+        0.88,
+        0.84,
+        0.72
+      ]
+    },
+    {
+      "chiave": "Binario2",
+      "gruppo": "ricordo",
+      "tipo": "insegna",
+      "w": 512,
+      "h": 96,
+      "seed": 63,
+      "righe": [
+        "BINARIO 2"
+      ],
+      "carta": [
+        0.2,
+        0.22,
+        0.24
+      ],
+      "inchiostro": [
+        0.88,
+        0.84,
+        0.72
+      ]
+    },
+    {
+      "chiave": "SalaAspetto",
+      "gruppo": "ricordo",
+      "tipo": "insegna",
+      "w": 512,
+      "h": 96,
+      "seed": 64,
+      "righe": [
+        "SALA D'ASPETTO - III CLASSE"
+      ],
+      "carta": [
+        0.2,
+        0.22,
+        0.24
+      ],
+      "inchiostro": [
+        0.88,
+        0.84,
+        0.72
+      ]
+    },
+    {
+      "chiave": "ComitatoBambini",
+      "gruppo": "ricordo",
+      "tipo": "insegna",
+      "w": 512,
+      "h": 96,
+      "seed": 65,
+      "righe": [
+        "COMITATO PER I BAMBINI"
+      ],
+      "carta": [
+        0.86,
+        0.8,
+        0.62
+      ],
+      "inchiostro": [
+        0.12,
+        0.1,
+        0.08
+      ]
+    },
+    {
+      "chiave": "CroceRossa",
+      "gruppo": "ricordo",
+      "tipo": "insegna",
+      "w": 512,
+      "h": 96,
+      "seed": 66,
+      "righe": [
+        "CROCE ROSSA - VESTIARIO"
+      ],
+      "carta": [
+        0.9,
+        0.88,
+        0.82
+      ],
+      "inchiostro": [
+        0.6,
+        0.12,
+        0.1
+      ]
+    },
+    {
+      "chiave": "Carrozza214",
+      "gruppo": "ricordo",
+      "tipo": "insegna",
+      "w": 512,
+      "h": 96,
+      "seed": 67,
+      "righe": [
+        "III CLASSE   N. 214"
+      ],
+      "carta": [
+        0.24,
+        0.26,
+        0.22
+      ],
+      "inchiostro": [
+        0.86,
+        0.82,
+        0.68
+      ]
+    },
+    {
+      "chiave": "PericoloSporgersi",
+      "gruppo": "ricordo",
+      "tipo": "insegna",
+      "w": 512,
+      "h": 96,
+      "seed": 68,
+      "righe": [
+        "E' PERICOLOSO SPORGERSI"
+      ],
+      "carta": [
+        0.86,
+        0.82,
+        0.7
+      ],
+      "inchiostro": [
+        0.16,
+        0.12,
+        0.1
+      ]
+    },
+    {
+      "chiave": "AvvisoPartenza",
+      "gruppo": "ricordo",
+      "tipo": "manifesto",
+      "w": 256,
+      "h": 384,
+      "seed": 69,
+      "righe": [
+        "AVVISO",
+        "",
+        "I BAMBINI",
+        "IN PARTENZA",
+        "SI PRESENTINO",
+        "AL TAVOLO",
+        "DEL COMITATO",
+        "CON LA MADRE",
+        "E IL CARTELLINO"
+      ],
+      "carta": [
+        0.87,
+        0.81,
+        0.63
+      ],
+      "inchiostro": [
+        0.12,
+        0.1,
+        0.08
+      ]
+    },
+    {
+      "chiave": "CartolinaFirenze",
+      "gruppo": "segreti",
+      "tipo": "cartolina",
+      "w": 256,
+      "h": 160,
+      "seed": 70,
+      "righe": [
+        "SALUTI DA FIRENZE"
+      ],
+      "carta": [
+        0.86,
+        0.79,
+        0.6
+      ],
+      "inchiostro": [
+        0.27,
+        0.18,
+        0.1
+      ]
     }
   ]
 }

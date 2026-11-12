@@ -1625,6 +1625,164 @@
           "z": 59.5
         }
       ]
+    },
+    {
+      "scena": "60_FB_Stazione",
+      "titolo": "La stazione, inverno 1946-47",
+      "tema": "ricordo",
+      "ax0": -26,
+      "az0": -27,
+      "ax1": 26,
+      "az1": 62,
+      "ppm": 8,
+      "raggio": 18,
+      "strade": [
+        {
+          "id": "atrio",
+          "nome": "L'atrio della stazione",
+          "tipo": "stanza",
+          "zone": [
+            {
+              "x0": -15,
+              "x1": 15,
+              "z0": -16,
+              "z1": 0
+            }
+          ],
+          "ancore": [
+            {
+              "x": 0,
+              "z": -8
+            }
+          ]
+        },
+        {
+          "id": "testata",
+          "nome": "La testata dei binari",
+          "tipo": "largo",
+          "zone": [
+            {
+              "x0": -11,
+              "x1": 11,
+              "z0": 0,
+              "z1": 4
+            }
+          ],
+          "ancore": [
+            {
+              "x": 0,
+              "z": 2
+            }
+          ]
+        },
+        {
+          "id": "banchina",
+          "nome": "La banchina del binario 1",
+          "tipo": "vicolo",
+          "zone": [
+            {
+              "x0": -4,
+              "x1": 4,
+              "z0": 4,
+              "z1": 44
+            }
+          ],
+          "ancore": [
+            {
+              "x": 0,
+              "z": 24
+            }
+          ]
+        }
+      ],
+      "punti": [
+        {
+          "id": "treno",
+          "glifo": "stazione",
+          "nome": "Carrozza 214",
+          "x": -4.2,
+          "z": 17.0
+        }
+      ]
+    },
+    {
+      "scena": "61_FB_Vagone",
+      "titolo": "La carrozza 214",
+      "tema": "ricordo",
+      "ax0": -6,
+      "az0": -6,
+      "ax1": 6,
+      "az1": 24,
+      "ppm": 24,
+      "raggio": 8,
+      "strade": [
+        {
+          "id": "vestibolo_sud",
+          "nome": "Il vestibolo",
+          "tipo": "stanza",
+          "zone": [
+            {
+              "x0": -1.4,
+              "x1": 1.4,
+              "z0": -2.5,
+              "z1": 0
+            }
+          ],
+          "ancore": [
+            {
+              "x": 0,
+              "z": -1.2
+            }
+          ]
+        },
+        {
+          "id": "carrozza",
+          "nome": "La carrozza di terza classe",
+          "tipo": "stanza",
+          "zone": [
+            {
+              "x0": -1.4,
+              "x1": 1.4,
+              "z0": 0,
+              "z1": 18
+            }
+          ],
+          "ancore": [
+            {
+              "x": 0,
+              "z": 9
+            }
+          ]
+        },
+        {
+          "id": "vestibolo_nord",
+          "nome": "Il vestibolo della discesa",
+          "tipo": "stanza",
+          "zone": [
+            {
+              "x0": -1.4,
+              "x1": 1.4,
+              "z0": 18,
+              "z1": 20.5
+            }
+          ],
+          "ancore": [
+            {
+              "x": 0,
+              "z": 19.3
+            }
+          ]
+        }
+      ],
+      "punti": [
+        {
+          "id": "uscita",
+          "glifo": "uscita",
+          "nome": "La porta della discesa",
+          "x": 0.0,
+          "z": 20.2
+        }
+      ]
     }
   ],
   "obiettivi": [
@@ -2159,6 +2317,152 @@
           "x": -4.0,
           "z": 1.9,
           "testo": "Esamina il foglio piegato sulla credenza"
+        },
+        {
+          "scena": "10_Hub_Vicolo",
+          "x": -9.1,
+          "z": -2.0,
+          "testo": "Torna al basso di Antonietta"
+        }
+      ]
+    },
+    {
+      "id": "ob_cappotto_cartellini",
+      "testo": "Ritrova i cartellini",
+      "capitolo": "flashback_cappotto",
+      "completo": [
+        "enigma_cartellini"
+      ],
+      "punti": [
+        {
+          "scena": "60_FB_Stazione",
+          "x": -8.0,
+          "z": -7.9,
+          "testo": "Il tavolo del Comitato: il registro e i cartellini da appendere"
+        },
+        {
+          "scena": "20_Int_BassoAntonietta",
+          "x": 1.15,
+          "z": -2.1,
+          "testo": "Esamina il cappottino appeso dietro la porta"
+        },
+        {
+          "scena": "10_Hub_Vicolo",
+          "x": -9.1,
+          "z": -2.0,
+          "testo": "Torna al basso di Antonietta"
+        }
+      ]
+    },
+    {
+      "id": "ob_cappotto_cappotti",
+      "testo": "Un cappotto per ognuno",
+      "capitolo": "flashback_cappotto",
+      "completo": [
+        "enigma_cappotti"
+      ],
+      "punti": [
+        {
+          "scena": "60_FB_Stazione",
+          "x": 8.0,
+          "z": -7.9,
+          "testo": "Il mucchio di cappotti della Croce Rossa"
+        },
+        {
+          "scena": "20_Int_BassoAntonietta",
+          "x": 1.15,
+          "z": -2.1,
+          "testo": "Esamina il cappottino appeso dietro la porta"
+        },
+        {
+          "scena": "10_Hub_Vicolo",
+          "x": -9.1,
+          "z": -2.0,
+          "testo": "Torna al basso di Antonietta"
+        }
+      ]
+    },
+    {
+      "id": "ob_cappotto_mela",
+      "testo": "Saluta Antonietta",
+      "capitolo": "flashback_cappotto",
+      "completo": [
+        "enigma_mela"
+      ],
+      "punti": [
+        {
+          "scena": "60_FB_Stazione",
+          "x": -2.4,
+          "z": 13.2,
+          "testo": "Antonietta ti aspetta sulla banchina, accanto alla carrozza 214"
+        },
+        {
+          "scena": "20_Int_BassoAntonietta",
+          "x": 1.15,
+          "z": -2.1,
+          "testo": "Esamina il cappottino appeso dietro la porta"
+        },
+        {
+          "scena": "10_Hub_Vicolo",
+          "x": -9.1,
+          "z": -2.0,
+          "testo": "Torna al basso di Antonietta"
+        }
+      ]
+    },
+    {
+      "id": "ob_cappotto_finestrino",
+      "testo": "Segna le città dal finestrino",
+      "capitolo": "flashback_cappotto",
+      "completo": [
+        "enigma_finestrino"
+      ],
+      "punti": [
+        {
+          "scena": "61_FB_Vagone",
+          "x": -0.9,
+          "z": 17.2,
+          "testo": "La carta della linea, in fondo alla carrozza"
+        },
+        {
+          "scena": "60_FB_Stazione",
+          "x": -3.9,
+          "z": 17.0,
+          "testo": "Sali sulla carrozza 214"
+        },
+        {
+          "scena": "20_Int_BassoAntonietta",
+          "x": 1.15,
+          "z": -2.1,
+          "testo": "Esamina il cappottino appeso dietro la porta"
+        },
+        {
+          "scena": "10_Hub_Vicolo",
+          "x": -9.1,
+          "z": -2.0,
+          "testo": "Torna al basso di Antonietta"
+        }
+      ]
+    },
+    {
+      "id": "ob_cappotto_paura",
+      "testo": "Tranquillizza i bambini",
+      "capitolo": "flashback_cappotto",
+      "completo": [
+        "enigma_paura"
+      ],
+      "punti": [
+        {
+          "scena": "61_FB_Vagone",
+          "x": 0.0,
+          "z": 8.4,
+          "testo": "I bambini dello scompartimento, a metà carrozza"
+        },
+        {
+          "scena": "20_Int_BassoAntonietta",
+          "x": 1.15,
+          "z": -2.1,
+          "testo": "Esamina il cappottino appeso dietro la porta"
         },
         {
           "scena": "10_Hub_Vicolo",

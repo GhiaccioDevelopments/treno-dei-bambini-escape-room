@@ -101,6 +101,38 @@
         30
       ],
       "superficie": "ovattato"
+    },
+    {
+      "scena": "60_FB_Stazione",
+      "musica": "tema_amerigo_ricordo",
+      "ambiente": [
+        "ricordo_tono",
+        "stazione_vapore"
+      ],
+      "sparsi": [
+        "treno_fischio"
+      ],
+      "intervallo": [
+        14,
+        32
+      ],
+      "superficie": "ovattato"
+    },
+    {
+      "scena": "61_FB_Vagone",
+      "musica": "tema_amerigo_ricordo",
+      "ambiente": [
+        "ricordo_tono",
+        "stazione_vapore"
+      ],
+      "sparsi": [
+        "treno_fischio"
+      ],
+      "intervallo": [
+        35,
+        70
+      ],
+      "superficie": "ovattato"
     }
   ],
   "eventi": [

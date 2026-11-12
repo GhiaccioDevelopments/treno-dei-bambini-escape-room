@@ -159,6 +159,134 @@
           }
         ]
       }
+    },
+    {
+      "id": "cappotto",
+      "nome": "Il cappotto",
+      "descrizione": "Un cappottino di lana blu, lavato tante volte, con una toppa sul gomito. Su un talloncino cucito dentro, a matita: 112. Le maniche arrivano appena al polso di un bambino di sette anni.",
+      "significato": "Il cappotto della Croce Rossa che Amerigo indossò per il viaggio verso il Nord. Antonietta l'ha tenuto appeso dietro la porta per tutta la vita, come se il figlio potesse tornare a prenderlo da un momento all'altro. È il ricordo di una solidarietà fatta di cose concrete: un numero, un cappotto, un paio di scarpe, una mela.",
+      "temaCivico": "Solidarietà (art. 2 della Costituzione) e accoglienza: i bambini partivano lavati, visitati, vestiti e schedati; il viaggio unì il Sud e il Nord di un'Italia sola (artt. 3 e 5).",
+      "icona": "scarpe",
+      "flashback": "flashback_cappotto",
+      "cutscene": "cutscene_cappotto",
+      "cutsceneIngresso": "cutscene_cappotto",
+      "luogo": "basso_antonietta",
+      "ingresso": {
+        "scena": "20_Int_BassoAntonietta",
+        "x": 1.15,
+        "y": 1.1,
+        "z": -2.43,
+        "yaw": 180,
+        "richiedeFlashback": "flashback_volantino",
+        "prompt": "Esamina: un cappottino appeso dietro la porta",
+        "parti": [
+          {
+            "id": "chiodo",
+            "forma": "cilindro",
+            "materiale": "metallo",
+            "colore": "#3a3632",
+            "y": 0.62,
+            "z": 0.02,
+            "rx": 90,
+            "sx": 0.012,
+            "sy": 0.03,
+            "sz": 0.012
+          },
+          {
+            "id": "corpo",
+            "forma": "cubo",
+            "materiale": "stoffa",
+            "colore": "#3f4a57",
+            "y": 0.3,
+            "sx": 0.3,
+            "sy": 0.44,
+            "sz": 0.05
+          },
+          {
+            "id": "bavero",
+            "forma": "cubo",
+            "materiale": "stoffa",
+            "colore": "#36404c",
+            "y": 0.5,
+            "z": -0.028,
+            "sx": 0.18,
+            "sy": 0.06,
+            "sz": 0.01
+          },
+          {
+            "id": "manica_sx",
+            "forma": "cilindro",
+            "materiale": "stoffa",
+            "colore": "#3f4a57",
+            "x": -0.17,
+            "y": 0.29,
+            "rz": -8,
+            "sx": 0.065,
+            "sy": 0.17,
+            "sz": 0.065
+          },
+          {
+            "id": "manica_dx",
+            "forma": "cilindro",
+            "materiale": "stoffa",
+            "colore": "#3f4a57",
+            "x": 0.17,
+            "y": 0.29,
+            "rz": 8,
+            "sx": 0.065,
+            "sy": 0.17,
+            "sz": 0.065
+          },
+          {
+            "id": "toppa",
+            "forma": "cubo",
+            "materiale": "stoffa",
+            "colore": "#7a6a52",
+            "x": 0.17,
+            "y": 0.2,
+            "z": -0.035,
+            "sx": 0.05,
+            "sy": 0.05,
+            "sz": 0.005
+          },
+          {
+            "id": "bottone_a",
+            "forma": "sfera",
+            "materiale": "legno",
+            "colore": "#2a2018",
+            "x": -0.02,
+            "y": 0.4,
+            "z": -0.028,
+            "sx": 0.018,
+            "sy": 0.018,
+            "sz": 0.008
+          },
+          {
+            "id": "bottone_b",
+            "forma": "sfera",
+            "materiale": "legno",
+            "colore": "#2a2018",
+            "x": -0.02,
+            "y": 0.28,
+            "z": -0.028,
+            "sx": 0.018,
+            "sy": 0.018,
+            "sz": 0.008
+          },
+          {
+            "id": "bottone_c",
+            "forma": "sfera",
+            "materiale": "legno",
+            "colore": "#2a2018",
+            "x": -0.02,
+            "y": 0.16,
+            "z": -0.028,
+            "sx": 0.018,
+            "sy": 0.018,
+            "sz": 0.008
+          }
+        ]
+      }
     }
   ]
 }

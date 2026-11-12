@@ -61,6 +61,18 @@
       "nome": "Una madre del vicolo",
       "ritratto": "",
       "colore": "#7A5A48"
+    },
+    {
+      "id": "mariuccia",
+      "nome": "Mariuccia",
+      "ritratto": "",
+      "colore": "#9A6A58"
+    },
+    {
+      "id": "controllore",
+      "nome": "Il controllore",
+      "ritratto": "",
+      "colore": "#3E4652"
     }
   ]
 }
