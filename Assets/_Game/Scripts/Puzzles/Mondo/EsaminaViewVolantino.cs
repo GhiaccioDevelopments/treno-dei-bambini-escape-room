@@ -118,7 +118,7 @@ namespace TrenoBambini.Puzzles
                 lr.sharedMaterial = matFilo;
                 lr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
                 lr.receiveShadows = false;
-                lr.enabled = false;
+                g.SetActive(false); // spento finche' non c'e' un collegamento: cosi' non entra nell'inquadratura (MondoFab.Limiti conta i renderer attivi)
                 fili[i] = lr;
                 AggiornaVerdetto(i);
             }
@@ -137,12 +137,12 @@ namespace TrenoBambini.Puzzles
         {
             var lr = fili[i];
             Run dr = CercaRun("diceria", i), doc;
-            if (string.IsNullOrEmpty(colleg[i]) || dr == null || !run.TryGetValue(colleg[i], out doc)) { lr.enabled = false; return; }
+            if (string.IsNullOrEmpty(colleg[i]) || dr == null || !run.TryGetValue(colleg[i], out doc)) { lr.gameObject.SetActive(false); return; }
             lr.SetPosition(0, Spillo(dr.go, true));
             lr.SetPosition(1, Spillo(doc.go, false));
             lr.sharedMaterial = fissato[i] ? matFiloFisso : matFilo;
             lr.startWidth = lr.endWidth = fissato[i] ? 0.008f : 0.006f;
-            lr.enabled = true;
+            lr.gameObject.SetActive(true);
         }
 
         void ScegliDiceria(int i)
