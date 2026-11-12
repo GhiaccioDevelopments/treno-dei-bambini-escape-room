@@ -32,6 +32,69 @@ namespace TrenoBambini.Puzzles
         }
     }
 
+    /// <summary>
+    /// R013 ("Il volantino del treno"): ascolto nello spazio. Una voce del vicolo non e' un oggetto: e' un punto a terra sotto un balcone, una finestra o
+    /// accanto al lavatoio. Avvicinandosi (o premendo E) la voce si "sente": il sottotitolo (nome: descrizione) compare come per un ritrovamento e la
+    /// diceria entra nel quaderno. Una luce calda e tremolante sulla finestra da cui viene la voce la fa notare; da lontano si sente un mormorio (evento audio "voce_vicolo").
+    /// </summary>
+    public class VoceVicolo : MonoBehaviour
+    {
+        public HiddenItem item;
+        public Light luce;
+        public Vector3 fonte;
+        public float raggio = 2.0f;
+        Transform player;
+        float fase, prossimoMormorio;
+
+        public static VoceVicolo Crea(NascostoDef n, NascostoPuzzle owner, Transform parent)
+        {
+            var go = new GameObject("Voce_" + n.id);
+            go.transform.SetParent(parent, false);
+            go.transform.position = new Vector3(n.x, n.y, n.z);
+            var bc = go.AddComponent<BoxCollider>();
+            bc.isTrigger = true; // il punto dove ci si ferma ad ascoltare: non blocca il player
+            bc.center = new Vector3(0f, 0.9f, 0f); bc.size = new Vector3(1.6f, 1.8f, 1.6f);
+            var v = go.AddComponent<VoceVicolo>();
+            v.fonte = new Vector3(n.fx, n.fy, n.fz);
+            if (v.fonte == Vector3.zero) v.fonte = go.transform.position + Vector3.up * 3f;
+            var lg = new GameObject("LuceVoce");
+            lg.transform.SetParent(go.transform, false);
+            lg.transform.position = v.fonte;
+            v.luce = lg.AddComponent<Light>();
+            v.luce.type = LightType.Point; v.luce.range = 4.5f; v.luce.intensity = 2.2f; v.luce.shadows = LightShadows.None;
+            v.luce.color = new Color(1f, 0.78f, 0.5f); // lume di una finestra a sera
+            var h = go.AddComponent<HiddenItem>();
+            h.item = n;
+            h.owner = owner;
+            h.prompt = !string.IsNullOrEmpty(n.prompt) ? n.prompt : n.nome;
+            v.item = h;
+            return v;
+        }
+
+        void Start() { fase = UnityEngine.Random.value * 6.28f; prossimoMormorio = Time.time + UnityEngine.Random.value * 3f; }
+
+        void Update()
+        {
+            if (luce != null) luce.intensity = 2.2f + 0.5f * Mathf.Sin(Time.time * 1.7f + fase) + 0.2f * Mathf.Sin(Time.time * 5.3f + fase * 2f);
+            if (item == null) return;
+            if (player == null)
+            {
+                var p = FindAnyObjectByType<TrenoBambini.Player.ThirdPersonController>();
+                if (p == null) return;
+                player = p.transform;
+            }
+            Vector3 d = player.position - transform.position; d.y = 0f;
+            float dist = d.magnitude;
+            if (dist < 10f && Time.time > prossimoMormorio)
+            {
+                AudioManager.FireAt("voce_vicolo", fonte);
+                prossimoMormorio = Time.time + 6f + UnityEngine.Random.value * 5f;
+            }
+            // ci si ferma sotto la finestra: la voce si sente da sola (non durante dialoghi, viste ravvicinate o cutscene)
+            if (dist < raggio && GameManager.I != null && !GameManager.I.InputBlocked) item.Interact();
+        }
+    }
+
     /// <summary>Enigma "nascosto": spawna gli oggetti da trovare, conta i ritrovamenti, mostra la descrizione di ciascuno.</summary>
     public class NascostoPuzzle : MonoBehaviour
     {
@@ -71,6 +134,11 @@ namespace TrenoBambini.Puzzles
                 // R024: modello vero (calz_<stile>), un po' piu' grande del vero per riconoscerlo da lontano; il fascio di luce lo fa notare senza aloni colorati
                 GameObject go;
                 bool straccio = !string.IsNullOrEmpty(n.modello) && n.modello.StartsWith("straccio");
+                if (n.modello == "voce")
+                {
+                    VoceVicolo.Crea(n, this, transform); // R013: una voce del vicolo (si ascolta avvicinandosi, niente da raccogliere)
+                    continue;
+                }
                 if (straccio)
                 {
                     // R012: pezzo di stoffa gettato a terra (due falde sovrapposte, colore del tessuto), piu' grande del vero per riconoscerlo da lontano
@@ -99,7 +167,7 @@ namespace TrenoBambini.Puzzles
                 var h = go.AddComponent<HiddenItem>();
                 h.item = n;
                 h.owner = this;
-                h.prompt = "Raccogli: " + n.nome;
+                h.prompt = !string.IsNullOrEmpty(n.prompt) ? n.prompt : "Raccogli: " + n.nome;
             }
 
             if (found >= total) { Complete(); return; }
@@ -115,6 +183,7 @@ namespace TrenoBambini.Puzzles
         public void Found(HiddenItem h)
         {
             if (finished || h == null) return;
+            if (h.item != null && MondoStato.Ha(h.item.id)) return; // R013: gia' trovato nello stesso fotogramma (voce sentita avvicinandosi e con E insieme)
             if (UIRoot.I != null && h.item != null)
                 UIRoot.I.Toast(h.item.nome + ": " + h.item.descrizione, 4.5f);
             // scintille dorate dove l'oggetto è stato trovato

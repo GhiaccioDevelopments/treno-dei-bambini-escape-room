@@ -120,6 +120,7 @@ namespace TrenoBambini.Puzzles
             if (mec == "ruote") BuildRuote();
             if (mec == "deduzione") BuildDeduzione();
             BuildStracci(mec); // R012: tessuti, bilancia, monete
+            BuildVolantino(mec); // R013: bacheca, ciclostile, datario
 
             // luci: una calda dall'alto a sinistra e una di riempimento, solo per questa vista
             var lk = new GameObject("Luce");
@@ -251,6 +252,7 @@ namespace TrenoBambini.Puzzles
             if (mec == "deduzione") BuildDeduzioneUi();
             if (mec == "documenti") BuildDocumentiUi();
             BuildStracciUi(mec); // R012
+            BuildVolantinoUi(mec); // R013
         }
 
         // ------------------------------------------------------------------ ruote
@@ -714,6 +716,7 @@ namespace TrenoBambini.Puzzles
         void Usa(Run r, RaycastHit hit)
         {
             var d = r.d;
+            if (UsaVolantino(r, hit)) return; // R013: voci e fogli della bacheca, fasi del ciclostile, nastri e timbro del datario
             if (UsaStracci(r)) return; // R012: strumenti del tessuto, pesi, monete
             if (d.azione == "ruota_cifra")
             {
@@ -943,6 +946,7 @@ namespace TrenoBambini.Puzzles
             if (!def.ordinata || (prog < sol.Count && ev == sol[prog])) RivelaQuando(ev);
             string mec = Meccanismo(def);
             if (sol.Count == 0 && (mec == "monete" || mec == "colonne")) return; // R012: si risolvono solo con Paga / Conferma, mai con un evento dei pezzi
+            if (sol.Count == 0 && (mec == "bacheca" || mec == "ciclostile" || mec == "datario")) return; // R013: si risolvono solo dal loro meccanismo (fili, fogli stampati, timbri)
             if (sol.Count == 0 && mec == "tessuti") { if (ev == "deduzione") Solved(); return; } // R012: come la deduzione, ma le prove non risolvono
             if (sol.Count == 0 && (mec == "deduzione" || mec == "documenti" || mec == "ruote")) { if (ev == "deduzione" || ev == "documenti") { Solved(); } return; }
             if (def.ordinata)

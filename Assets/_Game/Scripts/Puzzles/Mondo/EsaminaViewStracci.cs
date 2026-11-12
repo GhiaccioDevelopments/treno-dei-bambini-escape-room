@@ -78,6 +78,8 @@ namespace TrenoBambini.Puzzles
         {
             if (solved) return false;
             string mec = Meccanismo(def);
+            bool esitoVolantino;
+            if (ConfermaVolantino(mec, out esitoVolantino)) return esitoVolantino; // R013: Scrivi la matrice (ciclostile), Timbra (datario)
             if (mec == "monete") return PagaMonete();
             if (mec == "colonne") return ConfermaColonne();
             return false;

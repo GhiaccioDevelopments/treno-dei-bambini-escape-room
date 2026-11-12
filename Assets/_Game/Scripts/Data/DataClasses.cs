@@ -115,6 +115,13 @@ namespace TrenoBambini.Data
         public List<string> diritti = new List<string>();     // R012 colonne: terza colonna (i diritti di oggi)
         public List<RigaTreDef> righe = new List<RigaTreDef>(); // R012 colonne: oggetto, mestiere e diritto giusti per ogni riga
         public float squilibrio;             // R012 bilancia: grammi in piu' sul piatto sinistro finche' il chiodo e' sotto il piatto
+        public List<CollegamentoDef> collegamenti = new List<CollegamentoDef>(); // R013 bacheca: per ogni diceria (parte con azione "diceria", valore = indice) il documento giusto e il verdetto
+        public List<FraseDef> frasi = new List<FraseDef>();   // R013 ciclostile: frasi candidate per la matrice (giusta = chiara e verificabile)
+        public int giri;                     // R013 ciclostile: giri di manovella (fogli) da stampare
+        public float ritmo;                  // R013 ciclostile: secondi minimi fra due giri (piu' veloce = il foglio sbava)
+        public List<DataTimbroDef> date = new List<DataTimbroDef>(); // R013 datario: date da timbrare, in ordine (linea del tempo)
+        public List<string> mesi = new List<string>();        // R013 datario: nomi dei mesi sul nastro (12)
+        public List<string> anni = new List<string>();        // R013 datario: anni sul nastro
         public string finale;                // se valorizzato (nella scena l'oggetto-ricordo con questo id resta nascosto finche' l'enigma non e' risolto), alla soluzione parte il ricordo di questo oggetto (es. "scarpe")
     }
 
@@ -167,6 +174,15 @@ namespace TrenoBambini.Data
 
     [Serializable] public class RigaTreDef { public string oggetto, mestiere, diritto, nota; }
 
+    /// <summary>R013 bacheca: la diceria (indice) va collegata al documento con id "a"; verdetto "vera" o "falsa".</summary>
+    [Serializable] public class CollegamentoDef { public string voce, a, verdetto, nota; }
+
+    /// <summary>R013 ciclostile: frase candidata; giusta = chiara e verificabile; motivo = spiegazione gentile se scelta per sbaglio.</summary>
+    [Serializable] public class FraseDef { public string testo; public bool giusta; public string motivo; }
+
+    /// <summary>R013 datario: data (giorno, mese 1-12, anno) da timbrare; parte = pezzo rivelato sulla linea del tempo; etichetta = che cosa accadde.</summary>
+    [Serializable] public class DataTimbroDef { public int giorno, mese, anno; public string etichetta, parte; }
+
     [Serializable] public class DocumentoDef { public string id, titolo; public List<string> righe = new List<string>(); }
 
     [Serializable]
@@ -185,6 +201,8 @@ namespace TrenoBambini.Data
         public string modello;
         public float rx;        // R024: inclinazione attorno all'asse lungo (gradi): 0 = in piedi, ~75 = abbandonata su un fianco
         public string colore;   // R024: colore del cuoio (vuoto = predefinito dello stile)
+        public string prompt;   // R013: testo del prompt (vuoto = "Raccogli: " + nome)
+        public float fx, fy, fz; // R013 voce: punto (mondo) da cui viene la voce (finestra, balcone, lavatoio)
     }
 
     [Serializable] public class EventoDef { public string testo; public string data; }
