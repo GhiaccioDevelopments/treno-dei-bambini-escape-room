@@ -380,7 +380,7 @@ namespace TrenoBambini.Puzzles
             // elenco dei mestieri in una riga sotto il titolo (non copre le scarpe)
             var lista = UIFactory.MakePanel(ui, "Mestieri", new Color(0.07f, 0.05f, 0.035f, 0.78f), false);
             UIFactory.Place(lista.rectTransform, new Vector2(0f, 1f), new Vector2(0f, 1f), new Vector2(28f, -190f), new Vector2(1224f, 48f));
-            var t = UIFactory.MakeText(lista.rectTransform, "<b>" + T.mestieri + "</b>  " + string.Join("  ·  ", def.mestieri), 22, UITheme.CartaChiara, TextAlignmentOptions.Left);
+            var t = UIFactory.MakeText(lista.rectTransform, "<b>" + (Meccanismo(def) == "tessuti" ? S(3) : T.mestieri) + "</b>  " + string.Join("  ·  ", def.mestieri), 22, UITheme.CartaChiara, TextAlignmentOptions.Left);
             UIFactory.Stretch(t.rectTransform, 18f, 4f, 14f, 4f);
             t.enableAutoSizing = true; t.fontSizeMin = 14; t.fontSizeMax = 22;
             var ok = UIFactory.MakeButton(ui, T.btnConferma, () => Conferma(), new Vector2(240f, 64f), ButtonStyle.Brass, 26f, true);
@@ -393,7 +393,7 @@ namespace TrenoBambini.Puzzles
             int m = def.mestieri.Count + 1;
             assegnati[i] = ((assegnati[i] + delta) % m + m) % m;
             etichette[i].text = assegnati[i] == 0 ? "?" : def.mestieri[assegnati[i] - 1];
-            Info(def.passanti[i].descrizione + " Che mestiere fa?");
+            Info(Meccanismo(def) == "tessuti" ? def.passanti[i].descrizione : def.passanti[i].descrizione + " Che mestiere fa?"); // R012: per i tessuti la domanda sul mestiere non ha senso
             UISfx.Play(Sfx.Tick, 0.5f);
         }
 
@@ -546,6 +546,7 @@ namespace TrenoBambini.Puzzles
                         if (gp.dpad.left.wasPressedThisFrame || gp.leftShoulder.wasPressedThisFrame) CiclaFocus(-1);
                         if (gp.buttonSouth.wasPressedThisFrame) UsaFocus();
                         if (gp.buttonNorth.wasPressedThisFrame && assegnati != null) Conferma();
+                        if (gp.buttonNorth.wasPressedThisFrame) ConfermaStracci(); // R012: Paga (monete) e Conferma (colonne) anche col gamepad
                     }
                 }
             }
