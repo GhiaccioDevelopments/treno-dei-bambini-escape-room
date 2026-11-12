@@ -98,7 +98,7 @@ namespace TrenoBambini.EditorTools
         public static void AddMeteo(Scene scene, string name)
         {
             foreach (var root in scene.GetRootGameObjects()) if (root.name == "Meteo") Object.DestroyImmediate(root);
-            if (name != "10_Hub_Vicolo" && name != "20_Int_BassoAntonietta" && name != "30_FB_Scarpe") return;
+            if (name != "10_Hub_Vicolo" && name != "20_Int_BassoAntonietta" && name != "30_FB_Scarpe" && name != "50_FB_Volantino") return; // R013: il vicolo delle voci, sera di pioggia
             var go = new GameObject("Meteo");
             var mc = go.AddComponent<MeteoController>();
             mc.materialePioggia = Particelle("M_Pioggia", true);
@@ -113,7 +113,7 @@ namespace TrenoBambini.EditorTools
         public static void AddDecals(Scene scene, string name)
         {
             foreach (var root in scene.GetRootGameObjects()) if (root.name == "Decal_Muri") Object.DestroyImmediate(root);
-            if (name != "10_Hub_Vicolo" && name != "30_FB_Scarpe" && name != "40_FB_Stracci") return;
+            if (name != "10_Hub_Vicolo" && name != "30_FB_Scarpe" && name != "40_FB_Stracci" && name != "50_FB_Volantino") return;
             var mA = Decal("M_DecalUmido", "DecalUmido.png");
             var mB = Decal("M_DecalMacchie", "DecalMacchie.png");
             if (mA == null || mB == null) return;

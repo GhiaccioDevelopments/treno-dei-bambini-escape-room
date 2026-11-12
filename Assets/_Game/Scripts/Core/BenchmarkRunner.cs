@@ -35,6 +35,7 @@ namespace TrenoBambini.Core
             new Percorso { scena = "20_Int_BassoAntonietta", altezza = 1.65f, punti = new[] { new Vector3(-3.9f, 0f, -2.6f), new Vector3(0f, 0f, 1f), new Vector3(3.0f, 0f, 4.5f), new Vector3(3.6f, 0f, 12f) } },
             new Percorso { scena = "30_FB_Scarpe", punti = new[] { new Vector3(0f, 0f, -22f), new Vector3(0f, 0f, 0f), new Vector3(0f, 0f, 20f), new Vector3(0f, 0f, 36f) } },
             new Percorso { scena = "40_FB_Stracci", punti = new[] { new Vector3(0f, 0f, -26f), new Vector3(0f, 0f, 0f), new Vector3(0f, 0f, 20f), new Vector3(0f, 2.9f, 33.5f), new Vector3(0f, 2.9f, 44f) } },
+            new Percorso { scena = "50_FB_Volantino", punti = new[] { new Vector3(0f, 0f, -26f), new Vector3(0f, 0f, 0f), new Vector3(0f, 0f, 20f), new Vector3(0f, 0.9f, 32f), new Vector3(0f, 0.9f, 44f), new Vector3(0f, 0.9f, 56f) } },
         };
 
         static readonly string[] NomiPreset = { "Bassa", "Media", "Alta", "Ultra", "Minimo" }; // 4 = tutto al minimo (R008)

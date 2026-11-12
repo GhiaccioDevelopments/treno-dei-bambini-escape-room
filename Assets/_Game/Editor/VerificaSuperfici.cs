@@ -25,7 +25,7 @@ namespace TrenoBambini.EditorTools
     {
         const string ScenesFolder = "Assets/_Game/Scenes";
         const string ReportFolder = "Docs/richieste/media/R017";
-        static readonly string[] Scene = { "01_Titolo", "10_Hub_Vicolo", "20_Int_BassoAntonietta", "30_FB_Scarpe", "40_FB_Stracci" };
+        static readonly string[] Scene = { "01_Titolo", "10_Hub_Vicolo", "20_Int_BassoAntonietta", "30_FB_Scarpe", "40_FB_Stracci", "50_FB_Volantino" };
 
         public const float DistComplanare = 0.002f;   // 2 mm
         public const float SovrapposizioneMin = 0.003f; // 3 mm

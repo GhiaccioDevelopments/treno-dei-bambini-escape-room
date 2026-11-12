@@ -42,7 +42,7 @@ namespace TrenoBambini.EditorTools
 
         const int LutSize = 32;
 
-        static readonly string[] LookScenes = { "10_Hub_Vicolo", "20_Int_BassoAntonietta", "30_FB_Scarpe", "40_FB_Stracci" };
+        static readonly string[] LookScenes = { "10_Hub_Vicolo", "20_Int_BassoAntonietta", "30_FB_Scarpe", "40_FB_Stracci", "50_FB_Volantino" };
         const string LookRoot = "Look";
         const string LookLightName = "Look_Luce";
 
@@ -214,7 +214,7 @@ namespace TrenoBambini.EditorTools
 
         static VolumeProfile ProfileFor(string n)
         {
-            string p = (n == "30_FB_Scarpe" || n == "40_FB_Stracci") ? ProfFlash : n == "20_Int_BassoAntonietta" ? ProfBasso : ProfEpoca;
+            string p = (n == "30_FB_Scarpe" || n == "40_FB_Stracci" || n == "50_FB_Volantino") ? ProfFlash : n == "20_Int_BassoAntonietta" ? ProfBasso : ProfEpoca;
             return AssetDatabase.LoadAssetAtPath<VolumeProfile>(p);
         }
 
@@ -696,6 +696,7 @@ namespace TrenoBambini.EditorTools
                 case "20_Int_BassoAntonietta": res = 8f; maxSize = 1024; break;
                 case "30_FB_Scarpe": res = 3f; maxSize = 1024; break;
                 case "40_FB_Stracci": res = 2.5f; maxSize = 1024; break; // R012: LFS vicino al limite, lightmap ridotte
+                case "50_FB_Volantino": res = 2.5f; maxSize = 1024; break; // R013: come Stracci (LFS)
                 default: res = 4f; maxSize = 1024; break;
             }
         }
@@ -917,6 +918,20 @@ namespace TrenoBambini.EditorTools
                     AddLampLights("FiammaCandela", Cct(1900f), 1.0f, 3.4f);
                     probeMin = new Vector3(-4.4f, 0.3f, -2.3f); probeMax = new Vector3(6.2f, 2.4f, 14f); probeStep = 1.4f;
                     probesSky = false;
+                    break;
+                case "50_FB_Volantino":
+                    // R013: lo stesso set del ricordo "Le scarpe" ma di sera, sotto la pioggia (luoghi.json meteo "pioggia"): cielo coperto come l'hub,
+                    // sole quasi spento e freddo, nebbia grigio-azzurra; le luci sono lampioni, lampade dei bassi, finestre e le lampade a petrolio della sede.
+                    exterior = true;
+                    SetSun(sun, new Color(0.62f, 0.68f, 0.86f), 0.35f, new Vector3(16f, -30f, 0f), 0.3f);
+                    SetSkyAmbient(1.0f);
+                    bg = new Color(0.26f, 0.27f, 0.31f);
+                    SetFog(0.03f, bg);
+                    AddLampLights("LuceLampione", Cct(2400f), 5.0f, 9f);
+                    AddLampLights("EdicolaLumino", Cct(1900f), 1.3f, 3f);
+                    AddLampLights("LuceBottega", Cct(2200f), 4.0f, 8f);
+                    AddLampLights("LuceBasso", Cct(2300f), 3.0f, 6.5f);
+                    probeMin = new Vector3(-17f, 0.4f, -33f); probeMax = new Vector3(20f, 4.4f, 60f); probeStep = 3.6f;
                     break;
                 default: // 30_FB_Scarpe: ricordo 1946, sole basso dorato, ombre lunghe, nessuna pioggia
                     // R007: sole basso (altezza ~22 gradi) lungo l'asse della via, caldo e luminoso; cielo procedurale al tramonto

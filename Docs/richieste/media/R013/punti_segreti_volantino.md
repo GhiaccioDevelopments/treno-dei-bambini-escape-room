@@ -13,7 +13,7 @@ Non toccare a mano: rigenerare la scena da **Treno > Costruisci tutte le scene**
 | 5 | Scrivania del datario | 0,0 | 0,9 | 56,0 | La scrivania della stanza dei registri (enigma principale V5). |
 | 6 | Leggio dei registri | -6,9 | 0,9 | 57,5 | Il leggio contro la parete ovest della stanza dei registri: un registro con le impronte dei bambini. |
 | 7 | Cestino del ciclostile | 6,6 | 0,9 | 42,2 | Accanto al cestino della carta, vicino al ciclostile: una matrice buttata. |
-| 8 | Scaffale dei registri | -7,4 | 2,1 | 53,5 | Sul ripiano alto dello scaffale dei registri (parete ovest): un timbro vecchio. |
+| 8 | Scaffale dei registri | -7,6 | 2,1 | 53,5 | Sul ripiano alto dello scaffale dei registri (parete ovest): un timbro vecchio. |
 | 9 | Largo, sotto il manifesto strappato | 7,2 | 0,9 | 28,6 | A terra sotto il manifesto del voto, sul muro est del largo in alto. |
 | 10 | Cortile, accanto al lavatoio | 16,4 | 0,0 | -13,2 | A terra nel cortile del lavatoio, verso il pozzo. |
 | 11 | Sala, davanti alla panca | -3,0 | 0,9 | 40,6 | Davanti alla panca d'attesa, vicino alla porta della sede. |
