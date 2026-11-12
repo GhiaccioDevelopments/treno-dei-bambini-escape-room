@@ -122,6 +122,11 @@ namespace TrenoBambini.Data
         public List<DataTimbroDef> date = new List<DataTimbroDef>(); // R013 datario: date da timbrare, in ordine (linea del tempo)
         public List<string> mesi = new List<string>();        // R013 datario: nomi dei mesi sul nastro (12)
         public List<string> anni = new List<string>();        // R013 datario: anni sul nastro
+        public List<FiguraDef> figure = new List<FiguraDef>(); // R014 cartellini, cappotti, dialogo: le figure (parte "vuoto" con azione "figura", valore = indice) e che cosa spetta a ciascuna
+        public List<FermataDef> fermate = new List<FermataDef>(); // R014 finestrino: i cartelli che passano nel finestrino, in ordine (le citta' da appuntare hanno citta = true)
+        public float periodo;                // R014 finestrino: secondi fra due cartelli
+        public string cutscene;              // R014: cutscene (id) che parte quando l'enigma e' risolto (mai quando si rivive il ricordo)
+        public string cutsceneCapitolo;      // R014: capitolo di quella cutscene (vuoto = tutte le battute)
         public string finale;                // se valorizzato (nella scena l'oggetto-ricordo con questo id resta nascosto finche' l'enigma non e' risolto), alla soluzione parte il ricordo di questo oggetto (es. "scarpe")
     }
 
@@ -182,6 +187,27 @@ namespace TrenoBambini.Data
 
     /// <summary>R013 datario: data (giorno, mese 1-12, anno) da timbrare; parte = pezzo rivelato sulla linea del tempo; etichetta = che cosa accadde.</summary>
     [Serializable] public class DataTimbroDef { public int giorno, mese, anno; public string etichetta, parte; }
+
+    /// <summary>
+    /// R014: una figura viva della vista ravvicinata (bambino della fila, riflesso nel vetro, bambino dello scompartimento). id = parte "vuoto" della figura.
+    /// cartellini: cartellino = id della parte del cartellino giusto, collo = quota (locale) dove si appende. cappotti: cappotto = id del cappotto giusto,
+    /// taglia = misura del bambino (i cappotti hanno valore = taglia), busto = quota (locale) del cappotto indossato, ok = messaggio quando lo indossa, dopo = pezzi rivelati.
+    /// dialogo: paura = che cosa dice il bambino, risposte = le scelte di Amerigo (una giusta per bambino), ok = che cosa dice quando si e' calmato.
+    /// </summary>
+    [Serializable]
+    public class FiguraDef
+    {
+        public string id, nome, cartellino, cappotto, ok, dopo, paura;
+        public int taglia;
+        public float collo, busto;
+        public List<RispostaDef> risposte = new List<RispostaDef>();
+    }
+
+    /// <summary>R014 dialogo: una risposta di Amerigo. giusta = calma il bambino; richiede = oggetto della latta o gettone da mostrare; esito = reazione del bambino (mai un errore).</summary>
+    [Serializable] public class RispostaDef { public string testo, richiede, esito; public bool giusta; }
+
+    /// <summary>R014 finestrino: cartello che passa nel finestrino. citta = va appuntato sulla carta; dopo = pezzi rivelati sulla carta; ripete = che cosa dice il controllore se lo perdi; luce = 0 giorno .. 1 notte.</summary>
+    [Serializable] public class FermataDef { public string testo, dopo, ripete; public bool citta; public float luce; }
 
     [Serializable] public class DocumentoDef { public string id, titolo; public List<string> righe = new List<string>(); }
 

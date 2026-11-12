@@ -78,6 +78,8 @@ namespace TrenoBambini.Puzzles
         {
             if (solved) return false;
             string mec = Meccanismo(def);
+            bool esitoCappotto;
+            if (ConfermaCappotto(mec, out esitoCappotto)) return esitoCappotto; // R014: Appunta (finestrino), Rispondi (dialogo)
             bool esitoVolantino;
             if (ConfermaVolantino(mec, out esitoVolantino)) return esitoVolantino; // R013: Scrivi la matrice (ciclostile), Timbra (datario)
             if (mec == "monete") return PagaMonete();

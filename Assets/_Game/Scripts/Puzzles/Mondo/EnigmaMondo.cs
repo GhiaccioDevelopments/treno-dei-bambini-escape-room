@@ -144,6 +144,9 @@ namespace TrenoBambini.Puzzles
             if (glow != null) glow.on = false;
             var cb = alRisolto;
             if (cb != null) cb(this);
+            // R014: alcuni enigmi fanno partire un pezzo di cutscene (capitolo) quando sono risolti; mai quando si rivive il ricordo
+            if (!string.IsNullOrEmpty(def.cutscene) && GameManager.I != null && !GameManager.I.Rivivendo && UIRoot.I != null && UIRoot.I.Cutscene != null)
+                UIRoot.I.Cutscene.Play(def.cutscene, null, string.IsNullOrEmpty(def.cutsceneCapitolo) ? null : def.cutsceneCapitolo);
             if (!string.IsNullOrEmpty(def.finale)) AvviaRicordo(def.finale);
         }
 
