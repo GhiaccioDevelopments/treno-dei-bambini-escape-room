@@ -174,3 +174,6 @@ Packages/packages-lock.json linguist-generated
 LightingData.asset     binary
 
 Tools/AudioGen/*.sh text eol=lf
+
+# Screenshot di documentazione: JPG leggeri, fuori da LFS
+Docs/**/*.jpg -filter -diff -merge text=auto

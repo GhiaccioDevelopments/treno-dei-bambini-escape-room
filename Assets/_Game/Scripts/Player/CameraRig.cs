@@ -51,21 +51,128 @@ namespace TrenoBambini.Player
         int pendingTouch = -1;
         int pendingFrame;
 
+        // R018: profili per stanza (CameraProfileVolume) e piani di taglio coerenti con la nebbia
+        public const float NearClip = 0.12f;
+        Unity.Cinemachine.Cinemachine3OrbitRig.Settings orbiteBase;
+        float fovBase;
+        Vector2 rangeBase;
+        float scalaCorr = 1f, scalaVel, fovCorr, fovVel, pMinCorr, pMinVel, pMaxCorr, pMaxVel;
+        bool profiloInit;
+
+        /// <summary>True se il giocatore e' in un volume interno (CameraProfileVolume.dissolviMuri): i muri si dissolvono invece di spingere la camera.</summary>
+        public static bool Interno { get; private set; }
+        Unity.Cinemachine.CinemachineDeoccluder deoccluder;
+        CameraGuard guard;
+        bool modalitaInit;
+
         void Awake()
         {
             if (vcam == null) vcam = GetComponent<CinemachineCamera>();
             if (orbit == null) orbit = GetComponent<CinemachineOrbitalFollow>();
+            deoccluder = GetComponent<Unity.Cinemachine.CinemachineDeoccluder>();
+            guard = GetComponent<CameraGuard>();
         }
 
         void Start()
         {
             Snap();
+            ImpostaPianiDiTaglio();
 #if UNITY_WEBGL && !UNITY_EDITOR
             TrenoDisableContextMenu(); // niente menu contestuale del browser sul tasto destro
 #endif
         }
 
-        void OnDisable() { MoveYaw = float.NaN; }
+        void OnDisable() { MoveYaw = float.NaN; Interno = false; }
+
+        /// <summary>
+        /// Near fisso a 0,12 m. Far = distanza a cui la nebbia esponenziale copre ormai il 95% (3 / densita'), tra 40 e 150 m:
+        /// oltre non si vede nulla, quindi non si spreca precisione di profondita' (meno z-fighting a distanza).
+        /// </summary>
+        void ImpostaPianiDiTaglio()
+        {
+            if (vcam == null) return;
+            var l = vcam.Lens;
+            l.NearClipPlane = NearClip;
+            float far = 150f;
+            if (RenderSettings.fog && RenderSettings.fogMode != FogMode.Linear && RenderSettings.fogDensity > 0.0001f)
+                far = Mathf.Clamp(3f / RenderSettings.fogDensity, 40f, 150f);
+            l.FarClipPlane = far;
+            vcam.Lens = l;
+        }
+
+        /// <summary>
+        /// Sceglie la modalita' in base al volume che contiene il giocatore: interno = i muri (VistaLibera, PorteVista) non collidono con la camera e
+        /// si dissolvono; esterno = la camera collide con tutto. Si chiama ogni fotogramma da Update (e dalla prova automatica).
+        /// </summary>
+        public void AggiornaModalita()
+        {
+            var tr = target != null ? target : transform;
+            var vol = CameraProfileVolume.Trova(tr.position);
+            bool interno = vol != null && vol.dissolviMuri;
+            if (modalitaInit && interno == Interno) return;
+            modalitaInit = true;
+            Interno = interno;
+            int vista = LayerMask.NameToLayer(WallFader.LayerName), porte = LayerMask.NameToLayer(WallFader.LayerPorte);
+            int maschera = interno ? ~((1 << vista) | (1 << porte)) : ~0;
+            if (deoccluder != null) deoccluder.CollideAgainst = maschera;
+            if (guard != null) guard.collideAgainst = maschera;
+        }
+
+        /// <summary>Limita l'angolo dell'anello (altezza / raggio) a CameraGuard.ElevazioneMax gradi.</summary>
+        static Unity.Cinemachine.Cinemachine3OrbitRig.Orbit Limita(Unity.Cinemachine.Cinemachine3OrbitRig.Orbit o)
+        {
+            float max = o.Radius * Mathf.Tan(CameraGuard.ElevazioneMax * Mathf.Deg2Rad);
+            if (o.Height > max) o.Height = max;
+            return o;
+        }
+
+        void CatturaProfiloBase()
+        {
+            orbiteBase = orbit.Orbits;
+            orbiteBase.Top = Limita(orbiteBase.Top);
+            orbiteBase.Center = Limita(orbiteBase.Center);
+            orbit.Orbits = orbiteBase;
+            fovBase = vcam != null ? vcam.Lens.FieldOfView : 52f;
+            rangeBase = orbit.VerticalAxis.Range;
+            fovCorr = fovBase; scalaCorr = 1f; pMinCorr = rangeBase.x; pMaxCorr = rangeBase.y;
+            profiloInit = true;
+        }
+
+        /// <summary>Transizione morbida verso il profilo del volume che contiene il giocatore (o verso quello della scena).</summary>
+        void AggiornaProfilo()
+        {
+            if (!profiloInit) CatturaProfiloBase();
+            AggiornaModalita();
+            var tr = target != null ? target : transform;
+            var vol = CameraProfileVolume.Trova(tr.position);
+            float scalaT = vol != null ? vol.scalaOrbita : 1f;
+            float fovT = vol != null && vol.fov > 0f ? vol.fov : fovBase;
+            float minT = vol != null ? Mathf.Max(vol.pitchMin, rangeBase.x) : rangeBase.x;
+            float maxT = vol != null ? Mathf.Min(vol.pitchMax, rangeBase.y) : rangeBase.y;
+            float dt = Time.unscaledDeltaTime;
+            const float t = 0.5f;
+            float s0 = scalaCorr, f0 = fovCorr, a0 = pMinCorr, b0 = pMaxCorr;
+            scalaCorr = Mathf.SmoothDamp(scalaCorr, scalaT, ref scalaVel, t, Mathf.Infinity, dt);
+            fovCorr = Mathf.SmoothDamp(fovCorr, fovT, ref fovVel, t, Mathf.Infinity, dt);
+            pMinCorr = Mathf.SmoothDamp(pMinCorr, minT, ref pMinVel, t, Mathf.Infinity, dt);
+            pMaxCorr = Mathf.SmoothDamp(pMaxCorr, maxT, ref pMaxVel, t, Mathf.Infinity, dt);
+            if (!Mathf.Approximately(s0, scalaCorr))
+            {
+                var ob = orbiteBase;
+                ob.Top = new Unity.Cinemachine.Cinemachine3OrbitRig.Orbit { Height = ob.Top.Height * scalaCorr, Radius = ob.Top.Radius * scalaCorr };
+                ob.Center = new Unity.Cinemachine.Cinemachine3OrbitRig.Orbit { Height = ob.Center.Height * scalaCorr, Radius = ob.Center.Radius * scalaCorr };
+                ob.Bottom = new Unity.Cinemachine.Cinemachine3OrbitRig.Orbit { Height = ob.Bottom.Height * scalaCorr, Radius = ob.Bottom.Radius * scalaCorr };
+                orbit.Orbits = ob;
+            }
+            if (vcam != null && !Mathf.Approximately(f0, fovCorr)) { var l = vcam.Lens; l.FieldOfView = fovCorr; vcam.Lens = l; }
+            if (!Mathf.Approximately(a0, pMinCorr) || !Mathf.Approximately(b0, pMaxCorr))
+            {
+                var v = orbit.VerticalAxis;
+                v.Range = new Vector2(pMinCorr, pMaxCorr);
+                v.Value = Mathf.Clamp(v.Value, v.Range.x, v.Range.y);
+                orbit.VerticalAxis = v;
+            }
+        }
 
         /// <summary>Riporta la camera dietro al player e azzera lo smorzamento (dopo cambio scena o teletrasporto).</summary>
         public void Snap()
@@ -82,6 +189,7 @@ namespace TrenoBambini.Player
         void Update()
         {
             if (orbit == null) return;
+            AggiornaProfilo();
             MoveYaw = orbit.HorizontalAxis.Value;
             bool blocked = GameManager.I != null && GameManager.I.InputBlocked;
             if (blocked) { camTouch = -1; pendingTouch = -1; return; }

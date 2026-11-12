@@ -13,5 +13,5 @@ if not defined PY (
 )
 "%PY%" "%~dp0prepara_materiali_amerigo.py"
 echo.
-echo Fatto. Ora apri MakeHuman: Utilities ^> Scripting ^> Load ^> genera_amerigo_makehuman.py ^> Execute
+echo Fatto. Ora apri MakeHuman: Utilities ^> Scripting ^> Load ^> genera_amerigo_makehuman.py ^> Execute (e genera_capa_e_fierro_makehuman.py per Capa 'e fierro)
 pause

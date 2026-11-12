@@ -404,6 +404,34 @@ namespace TrenoBambini.UI.Fx
             });
         }
 
+        /// <summary>R023: la latta d'epoca (smalto verde, coperchio, cerniera e fermaglio d'ottone), icona coerente con l'inventario.</summary>
+        public static Sprite IconLatta()
+        {
+            return Make("icon_latta", 64, 64, 0f, (p, w, h) =>
+            {
+                var verde = new Color(0.27f, 0.40f, 0.32f);
+                for (int y = 0; y < h; y++)
+                    for (int x = 0; x < w; x++)
+                    {
+                        Color c = Color.clear;
+                        float body = RR(x + 0.5f - 6f, y + 0.5f - 10f, 52f, 38f, 6f);
+                        if (body < 0.5f)
+                        {
+                            float t = (y - 10f) / 38f;
+                            c = Color.Lerp(verde * 0.7f, verde * 1.2f, t);
+                            c.a = Mathf.Clamp01(0.5f - body);
+                            if (Mathf.Abs(body + 2.5f) < 0.8f) c = Color.Lerp(c, UITheme.Inchiostro, 0.45f);
+                            if (y >= 33 && y <= 34) c = Color.Lerp(c, UITheme.Inchiostro, 0.55f);   // linea del coperchio
+                            if (y > 34 && y < 38 && x > 6 && x < 58) c = Color.Lerp(c, Color.white, 0.12f); // riflesso sul coperchio
+                            if (x > 28 && x < 36 && y > 29 && y < 38) c = UITheme.OttoneLuce;       // fermaglio
+                            if (x > 29 && x < 35 && y > 31 && y < 34) c = UITheme.Ottone;
+                            if ((x < 12 || x > 52) && (y < 17 || y > 41)) c = Color.Lerp(c, UITheme.Ottone, 0.55f); // angoli
+                        }
+                        p[y * w + x] = C(c, c.a);
+                    }
+            });
+        }
+
         public static Sprite IconWatch()
         {
             return Make("icon_orologio", 64, 64, 0f, (p, w, h) =>
@@ -549,7 +577,7 @@ namespace TrenoBambini.UI.Fx
         public static void WarmUp()
         {
             Paper(); PaperDark(); Tag(); Postcard(); Notebook(); Cover(); Brass(); BrassFrame(); Seal(); Ticket(); KeyCap();
-            StampFrame(); DashedFrame(); White(); Glow(); Smoke(); Spark(); Diamond(); IconSuitcase(); IconWatch(); IconLens();
+            StampFrame(); DashedFrame(); White(); Glow(); Smoke(); Spark(); Diamond(); IconSuitcase(); IconLatta(); IconWatch(); IconLens();
             Iris(false); Iris(true); Vignette(new Color(0.2f, 0.1f, 0.03f));
         }
 

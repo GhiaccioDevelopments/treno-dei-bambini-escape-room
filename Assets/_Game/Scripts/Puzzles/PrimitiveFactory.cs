@@ -25,7 +25,7 @@ namespace TrenoBambini.Puzzles
             go.transform.position = pos + Vector3.up * (type == PrimitiveType.Cube || type == PrimitiveType.Sphere ? scale.y * 0.5f : scale.y); // appoggiato al pavimento
             go.transform.localScale = scale;
             var r = go.GetComponent<Renderer>();
-            if (r != null) r.material.color = color;
+            if (r != null) r.sharedMaterial = MondoFab.Mat("legno", "#" + ColorUtility.ToHtmlStringRGB(color)); // R009: materiale URP vero (il default dei primitivi era magenta)
             return go;
         }
     }

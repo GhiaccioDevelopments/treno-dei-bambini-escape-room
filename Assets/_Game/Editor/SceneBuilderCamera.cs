@@ -1,4 +1,5 @@
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Unity.Cinemachine;
@@ -21,7 +22,9 @@ namespace TrenoBambini.EditorTools
 
     public static partial class SceneBuilder
     {
-        // Muro* (tranne MuroInvisibile*): la camera li ignora per la collisione, WallFader li nasconde. Le porte (layer PorteVista) restano solide per il player, visibili sempre, e la camera le attraversa.
+        // Muro* (tranne MuroInvisibile*) vanno sul layer VistaLibera ("facciata"): da R018 la camera collide anche con loro (vedi CameraGuard),
+        // WallFader resta solo come ultima rete per quelli che nonostante tutto stanno tra camera e giocatore.
+        // Le porte (layer PorteVista) restano solide anche per la camera (R018: attraversarle mostrava il vuoto fuori dalla stanza) e WallFader non le nasconde mai.
         static void AssegnaLayerVistaLibera(Scene scene)
         {
             int layer = EnsureLayer(WallFader.LayerName);
@@ -30,11 +33,64 @@ namespace TrenoBambini.EditorTools
                 foreach (var t in root.GetComponentsInChildren<Transform>(true))
                 {
                     string n = t.name;
-                    bool muro = n.StartsWith("Muro") && !n.StartsWith("MuroInvisibile");
+                    bool muro = n.StartsWith("Muro") && !n.StartsWith("MuroInvisibile") && !n.Contains("Soffitto"); // R018: i soffitti restano solidi (layer Default)
                     bool porta = n.StartsWith("Porta") && t.GetComponent<Collider>() != null;
-                    if (porta) t.gameObject.layer = layerPorte; // la camera le attraversa, WallFader non le nasconde mai
+                    if (porta) t.gameObject.layer = layerPorte; // esterni: solide anche per la camera; interni: si dissolvono (MuroDissolvibile) come i muri
                     if (muro && t.GetComponent<Collider>() != null) t.gameObject.layer = layer;
                 }
+        }
+
+        /// <summary>
+        /// R018: negli interni (scene con CameraProfileVolume 'dissolviMuri') muri, pareti e porte diventano dissolvibili (MuroDissolvibile = LODGroup
+        /// con cross-fade) e i soffitti tornano sul layer Default (sempre solidi). Idempotente: usato sia dai generatori (BuildBasso) sia dal menu
+        /// "Treno/Camera/Applica dissolvenza interni" che aggiorna le scene gia' costruite senza rigenerarle (le lightmap restano collegate).
+        /// </summary>
+        static int PreparaInterniDissolvibili(Scene scene)
+        {
+            int layerVista = EnsureLayer(WallFader.LayerName), layerPorte = EnsureLayer(WallFader.LayerPorte);
+            bool interno = false;
+            foreach (var root in scene.GetRootGameObjects())
+                foreach (var v in root.GetComponentsInChildren<CameraProfileVolume>(true)) if (v.dissolviMuri) interno = true;
+            if (!interno) return 0;
+            int tot = 0;
+            foreach (var root in scene.GetRootGameObjects())
+                foreach (var t in root.GetComponentsInChildren<Transform>(true))
+                {
+                    string n = t.name;
+                    if (n.StartsWith("Muro") && n.Contains("Soffitto")) { t.gameObject.layer = 0; continue; }
+                    bool muro = n.StartsWith("Muro") && !n.StartsWith("MuroInvisibile");
+                    bool porta = n.StartsWith("Porta") && t.GetComponent<Collider>() != null;
+                    if (!(muro || porta)) continue;
+                    if (t.GetComponentInChildren<Renderer>(true) == null) continue;
+                    if (muro)
+                    {
+                        t.gameObject.layer = layerVista;
+                        // il vetro delle finestre (collider solo per la camera) sta sullo stesso layer del muro: negli interni non spinge la camera e si dissolve con lui
+                        foreach (var f in t.GetComponentsInChildren<Transform>(true)) if (f.name == "VetroFinestraCamera") f.gameObject.layer = layerVista;
+                    }
+                    MuroDissolvibile.Prepara(t.gameObject);
+                    tot++;
+                }
+            return tot;
+        }
+
+        [MenuItem("Treno/Camera/Applica dissolvenza interni")]
+        public static void ApplicaDissolvenzaInterni()
+        {
+            if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) return;
+            string path = ScenesFolder + "/20_Int_BassoAntonietta.unity";
+            var sc = EditorSceneManager.OpenScene(path, OpenSceneMode.Single);
+            foreach (var root in sc.GetRootGameObjects())
+                foreach (var v in root.GetComponentsInChildren<CameraProfileVolume>(true))
+                {
+                    v.dissolviMuri = true;
+                    if (v.name == "CamVol_Cucina") { v.transform.position = new Vector3(3f, 1.5f, 5.8f); v.GetComponent<BoxCollider>().size = new Vector3(3f, 3f, 5f); }
+                    if (v.name == "CamVol_Cortile") { v.transform.position = new Vector3(3.75f, 2.1f, 11.1f); v.GetComponent<BoxCollider>().size = new Vector3(5.1f, 4.2f, 6f); }
+                }
+            int n = PreparaInterniDissolvibili(sc);
+            EditorSceneManager.MarkSceneDirty(sc);
+            EditorSceneManager.SaveScene(sc);
+            Debug.Log("[Camera] Dissolvenza interni applicata a " + n + " muri/porte del basso (scena salvata, lightmap invariate).");
         }
 
         static int EnsureLayer(string name)
@@ -62,7 +118,7 @@ namespace TrenoBambini.EditorTools
         /// <param name="scalaOrbita">Moltiplicatore di altezze e raggi dell'orbita: 0,85 per il bambino MakeHuman (1,0 m invece di 1,2 m) mantiene la stessa proporzione nell'inquadratura.</param>
         static void BuildCameraRig(Camera cam, Transform player, Transform punto, float yaw, CamProfilo profilo, float scalaOrbita = 1f)
         {
-            int layerVista = EnsureLayer(WallFader.LayerName);
+            EnsureLayer(WallFader.LayerName);
             int layerPorte = EnsureLayer(WallFader.LayerPorte);
 
             // la Main Camera diventa solo "schermo": il Brain di Cinemachine la muove
@@ -74,7 +130,7 @@ namespace TrenoBambini.EditorTools
             var vcam = go.AddComponent<CinemachineCamera>();
             vcam.Target.TrackingTarget = punto;
             vcam.Target.LookAtTarget = punto;
-            vcam.Lens.NearClipPlane = 0.1f;
+            vcam.Lens.NearClipPlane = CameraRig.NearClip;
             vcam.Lens.FarClipPlane = 150f;
 
             // Orbita a 3 anelli: l'altezza della camera cambia con l'inclinazione (basso = guarda in su, alto = dall'alto),
@@ -91,14 +147,15 @@ namespace TrenoBambini.EditorTools
             switch (profilo)
             {
                 case CamProfilo.InternoPiccolo:
-                    vcam.Lens.FieldOfView = 50f;
-                    orbit.Orbits = Orbits(top: (3.7f, 1.4f), centro: (2.3f, 3.0f), basso: (1.1f, 2.4f));
+                    vcam.Lens.FieldOfView = 56f;
+                    orbit.Orbits = Orbits(top: (1.6f, 1.3f), centro: (1.2f, 2.4f), basso: (0.8f, 2.0f));
                     comp.Composition.ScreenPosition = new Vector2(0f, -0.04f);
                     break;
                 case CamProfilo.InternoPiccoloAdulto:
                     // altezze relative al punto camera (1,45 m): camera a ~1,7 / 2,5 / 3,2 m dal suolo, sotto o appena sopra i muri da 3 m
-                    vcam.Lens.FieldOfView = 55f;
-                    orbit.Orbits = Orbits(top: (1.75f, 1.2f), centro: (1.0f, 2.5f), basso: (0.2f, 2.0f));
+                    // R018: l'anello alto sta SOTTO il soffitto da 3 m (1,45 + 1,2 = 2,65 m): la camera non esce mai dalla stanza
+                    vcam.Lens.FieldOfView = 58f;
+                    orbit.Orbits = Orbits(top: (1.2f, 1.2f), centro: (0.9f, 2.4f), basso: (0.2f, 2.0f));
                     comp.Composition.ScreenPosition = new Vector2(0f, -0.04f);
                     break;
                 case CamProfilo.InternoLargo:
@@ -128,13 +185,16 @@ namespace TrenoBambini.EditorTools
                 Value = Mathf.DeltaAngle(0f, yaw + off), Center = Mathf.DeltaAngle(0f, yaw + off),
                 Range = new Vector2(-180f, 180f), Wrap = true
             };
-            orbit.VerticalAxis = new InputAxis { Value = 0f, Center = 0f, Range = new Vector2(-1f, 1f), Wrap = false };
+            // R018: negli interni l'inclinazione e' limitata (niente anello bassissimo che guarda il soffitto, niente anello troppo alto)
+            bool interno = profilo != CamProfilo.Esterno;
+            orbit.VerticalAxis = new InputAxis { Value = 0f, Center = 0f, Range = interno ? new Vector2(-0.7f, 1f) : new Vector2(-1f, 1f), Wrap = false };
             orbit.RadialAxis = new InputAxis { Value = 1f, Center = 1f, Range = new Vector2(1f, 1f), Wrap = false };
 
-            // Collisione/occlusione: la camera non attraversa muri e oggetti solidi, tranne Muro*/Porta* (layer VistaLibera,
-            // nascosti da WallFader). Il player è escluso via tag.
+            // Collisione/occlusione (R018, regola unica documentata in CameraGuard): la camera non attraversa niente di solido,
+            // muri, soffitti e porte compresi (layer VistaLibera e PorteVista inclusi); gli unici esclusi sono i trigger e i props piccoli.
+            // Il player è escluso via tag. CameraGuard, subito dopo, copre i casi che il Deoccluder non vede.
             var deo = go.AddComponent<CinemachineDeoccluder>();
-            deo.CollideAgainst = ~((1 << layerVista) | (1 << layerPorte));
+            deo.CollideAgainst = ~0;
             deo.IgnoreTag = "Player";
             deo.MinimumDistanceFromTarget = 0.5f;
             deo.AvoidObstacles.Enabled = true;
@@ -146,6 +206,10 @@ namespace TrenoBambini.EditorTools
             deo.AvoidObstacles.MaximumEffort = 4;
             deo.AvoidObstacles.SmoothingTime = 0.1f;
             deo.ShotQualityEvaluation.Enabled = false;
+
+            var guard = go.AddComponent<CameraGuard>();
+            guard.target = punto;
+            guard.collideAgainst = ~0;
 
             var rig = go.AddComponent<CameraRig>();
             rig.vcam = vcam;

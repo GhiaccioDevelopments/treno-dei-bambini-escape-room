@@ -1,0 +1,40 @@
+{
+ "nome": "Bacinella",
+ "cartella": "Bacinella",
+ "sorgente": "",
+ "materiali": [
+  "SmaltoBianco",
+  "BordoSmalto"
+ ],
+ "tri": [
+  432,
+  216,
+  108
+ ],
+ "tri_originali": 432,
+ "dim": [
+  0.444,
+  0.444,
+  0.114
+ ],
+ "piatti": {
+  "BordoSmalto": {
+   "colore": [
+    0.07,
+    0.09,
+    0.13
+   ],
+   "metallico": 0.3,
+   "levig": 0.55
+  }
+ },
+ "texture": {
+  "SmaltoBianco": {
+   "albedo": "SmaltoBianco_albedo.jpg",
+   "normal": "SmaltoBianco_normal.jpg",
+   "mask": "SmaltoBianco_mask.png",
+   "albedo_azzurro": "SmaltoBianco_albedo_azzurro.jpg",
+   "levigatezza": 0.3
+  }
+ }
+}
