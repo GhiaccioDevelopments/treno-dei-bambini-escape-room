@@ -5,6 +5,21 @@ Regole d'uso: vedi la sezione "Diario e lavoro su più PC" in `CLAUDE.md`.
 
 ---
 
+## 2026-11-12 – PC scuola – R013 "Il volantino del treno" scritto senza Unity
+**Branch:** richiesta/R013-ricordo-volantino (con dentro R012) · **Ultimo commit:** vedi `git log` (voce scritta prima del push)
+### Fatto
+- Merge di `richiesta/R012-ricordo-stracci` nel branch di R013 (senza conflitti).
+- Capitolo completo in codice e dati: scena `50_FB_Volantino` da `SceneBuilderVolantino.cs` (vicolo delle voci = set de "Le scarpe" di sera con la pioggia, sede del Comitato a due stanze),
+  5 enigmi (`flashback_volantino.json`), 4 meccanismi nuovi (voci da ascoltare, bacheca a fili alla Obra Dinn, ciclostile a fasi, datario), cutscene `cs_volantino_001..022`,
+  oggetto `volantino` sulla credenza del basso, `stazione` sbloccata, mappa e obiettivi, segreti R011, prova `-volantinotest`.
+### Decisioni
+- Date del datario solo confermate (16-12-1945, 29-12-1945, 19-01-1946, 2-6-1946); niente 10 marzo 1946; Teresa Noce senza date. Dettagli nel Rapporto di R013.
+### Problemi aperti
+- Niente compilato né provato: la lista "Da fare a casa con Unity" è nel Rapporto di R013 (prima finire R012).
+- Modifiche locali non mie in `ArtSource/Characters/makehuman/` (fbx, mhm, screenshot di Amerigo): lasciate fuori dai commit.
+### Prossimi passi
+- A casa: compilare, costruire la scena, verifiche, bake, `-volantinotest`; poi R014.
+
 ## 2026-11-09 – PC casa – R019, R024, R025, R011 integrate e online; R012 Stracci a metà
 **Branch:** richiesta/R012-ricordo-stracci · **Ultimo commit:** 6836263 (+ questa voce) · **feature:** 3030250 · **gh-pages:** 715b01d
 ### Fatto
