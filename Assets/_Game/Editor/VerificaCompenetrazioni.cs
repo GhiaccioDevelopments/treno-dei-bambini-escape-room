@@ -22,7 +22,7 @@ namespace TrenoBambini.EditorTools
     {
         const string ScenesFolder = "Assets/_Game/Scenes";
         const string ReportPath = "Docs/richieste/media/R006/compenetrazioni.txt";
-        static readonly string[] Scene = { "01_Titolo", "10_Hub_Vicolo", "20_Int_BassoAntonietta", "30_FB_Scarpe" };
+        static readonly string[] Scene = { "01_Titolo", "10_Hub_Vicolo", "20_Int_BassoAntonietta", "30_FB_Scarpe", "40_FB_Stracci" };
 
         /// <summary>Penetrazione minima (m) oltre la quale una coppia viene segnalata.</summary>
         public const float Tolleranza = 0.02f;

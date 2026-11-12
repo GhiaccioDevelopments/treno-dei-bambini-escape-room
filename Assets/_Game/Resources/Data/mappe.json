@@ -1015,6 +1015,320 @@
           "z": 35.5
         }
       ]
+    },
+    {
+      "scena": "40_FB_Stracci",
+      "titolo": "Il vicolo degli stracci, nel 1946",
+      "tema": "ricordo",
+      "ax0": -33,
+      "az0": -37,
+      "ax1": 33,
+      "az1": 55,
+      "ppm": 8,
+      "raggio": 20,
+      "strade": [
+        {
+          "id": "largo_stracci",
+          "nome": "Largo degli Stracci",
+          "tipo": "largo",
+          "zone": [
+            {
+              "x0": -6,
+              "x1": 6,
+              "z0": -30,
+              "z1": -22
+            }
+          ],
+          "ancore": [
+            {
+              "x": 0,
+              "z": -26
+            }
+          ]
+        },
+        {
+          "id": "vico_stracci",
+          "nome": "Vico degli Stracci",
+          "tipo": "vicolo",
+          "zone": [
+            {
+              "x0": -3,
+              "x1": 3,
+              "z0": -22,
+              "z1": 12
+            }
+          ],
+          "ancore": [
+            {
+              "x": 0,
+              "z": -3
+            }
+          ]
+        },
+        {
+          "id": "scala_carraio",
+          "nome": "Scalinata del Carraio",
+          "tipo": "rampa",
+          "zone": [
+            {
+              "x0": -3,
+              "x1": 3,
+              "z0": 12,
+              "z1": 15
+            }
+          ],
+          "ancore": [
+            {
+              "x": 0,
+              "z": 13.5
+            }
+          ]
+        },
+        {
+          "id": "vico_alto",
+          "nome": "Vico Alto",
+          "tipo": "vicolo",
+          "zone": [
+            {
+              "x0": -3,
+              "x1": 3,
+              "z0": 15,
+              "z1": 24
+            }
+          ],
+          "ancore": [
+            {
+              "x": 0,
+              "z": 19.5
+            }
+          ]
+        },
+        {
+          "id": "largo_bottega",
+          "nome": "Largo della Bottega",
+          "tipo": "largo",
+          "zone": [
+            {
+              "x0": -6,
+              "x1": 6,
+              "z0": 24,
+              "z1": 32
+            }
+          ],
+          "ancore": [
+            {
+              "x": 0,
+              "z": 28
+            }
+          ]
+        },
+        {
+          "id": "soglia_bottega",
+          "nome": "Soglia della bottega",
+          "tipo": "vicolo",
+          "zone": [
+            {
+              "x0": -1.75,
+              "x1": 1.75,
+              "z0": 32,
+              "z1": 35
+            }
+          ],
+          "ancore": [
+            {
+              "x": 0,
+              "z": 33.5
+            }
+          ]
+        },
+        {
+          "id": "bottega",
+          "nome": "La bottega di Capa 'e fierro",
+          "tipo": "stanza",
+          "zone": [
+            {
+              "x0": -8,
+              "x1": 8,
+              "z0": 35,
+              "z1": 48
+            }
+          ],
+          "ancore": [
+            {
+              "x": 0,
+              "z": 41.5
+            }
+          ]
+        },
+        {
+          "id": "vico_panni",
+          "nome": "Vico dei Panni",
+          "tipo": "vicolo",
+          "zone": [
+            {
+              "x0": -16,
+              "x1": -3,
+              "z0": -9,
+              "z1": -5
+            }
+          ],
+          "ancore": [
+            {
+              "x": -9.5,
+              "z": -7
+            }
+          ]
+        },
+        {
+          "id": "cortile_bucato",
+          "nome": "Cortile del Bucato",
+          "tipo": "cortile",
+          "zone": [
+            {
+              "x0": -26,
+              "x1": -16,
+              "z0": -14,
+              "z1": -1
+            }
+          ],
+          "ancore": [
+            {
+              "x": -21,
+              "z": -7.5
+            }
+          ]
+        },
+        {
+          "id": "lotto_macerie",
+          "nome": "Il Lotto delle Macerie",
+          "tipo": "largo",
+          "zone": [
+            {
+              "x0": 3,
+              "x1": 15,
+              "z0": -20,
+              "z1": -8
+            }
+          ],
+          "ancore": [
+            {
+              "x": 9,
+              "z": -14
+            }
+          ]
+        },
+        {
+          "id": "vico_carrettieri",
+          "nome": "Vico dei Carrettieri",
+          "tipo": "vicolo",
+          "zone": [
+            {
+              "x0": 3,
+              "x1": 14,
+              "z0": 4,
+              "z1": 8
+            }
+          ],
+          "ancore": [
+            {
+              "x": 8.5,
+              "z": 6
+            }
+          ]
+        },
+        {
+          "id": "cortile_carrettieri",
+          "nome": "Cortile dei Carrettieri",
+          "tipo": "cortile",
+          "zone": [
+            {
+              "x0": 14,
+              "x1": 24,
+              "z0": -2,
+              "z1": 12
+            }
+          ],
+          "ancore": [
+            {
+              "x": 19,
+              "z": 5
+            }
+          ]
+        },
+        {
+          "id": "scala_terrazzo",
+          "nome": "Scala del Terrazzino",
+          "tipo": "rampa",
+          "zone": [
+            {
+              "x0": 18,
+              "x1": 22,
+              "z0": 12,
+              "z1": 15
+            }
+          ],
+          "ancore": [
+            {
+              "x": 20,
+              "z": 13.5
+            }
+          ]
+        },
+        {
+          "id": "terrazzino",
+          "nome": "Il Terrazzino",
+          "tipo": "cortile",
+          "zone": [
+            {
+              "x0": 14,
+              "x1": 26,
+              "z0": 15,
+              "z1": 23
+            }
+          ],
+          "ancore": [
+            {
+              "x": 20,
+              "z": 19
+            }
+          ]
+        },
+        {
+          "id": "passaggio_alto",
+          "nome": "Passaggio Alto",
+          "tipo": "vicolo",
+          "zone": [
+            {
+              "x0": 3,
+              "x1": 14,
+              "z0": 17,
+              "z1": 21
+            }
+          ],
+          "ancore": [
+            {
+              "x": 8.5,
+              "z": 19
+            }
+          ]
+        }
+      ],
+      "punti": [
+        {
+          "id": "uscita",
+          "glifo": "uscita",
+          "nome": "Porta della bottega",
+          "x": 5.8,
+          "z": 47.0
+        },
+        {
+          "id": "bottega",
+          "glifo": "bottega",
+          "nome": "Bottega di Capa 'e fierro",
+          "x": 0.0,
+          "z": 34.0
+        }
+      ]
     }
   ],
   "obiettivi": [
@@ -1269,6 +1583,146 @@
           "x": -4.0,
           "z": 4.5,
           "testo": "Riprendi le scarpe nel baule"
+        },
+        {
+          "scena": "10_Hub_Vicolo",
+          "x": -9.1,
+          "z": -2.0,
+          "testo": "Torna al basso di Antonietta"
+        }
+      ]
+    },
+    {
+      "id": "ob_stracci_giro",
+      "testo": "Raccogli gli stracci nel vicolo",
+      "capitolo": "flashback_stracci",
+      "completo": [
+        "enigma_giro"
+      ],
+      "punti": [
+        {
+          "scena": "40_FB_Stracci",
+          "x": -4.0,
+          "z": -25.4,
+          "testo": "Guarda e prova gli stracci al banco, poi cercane altri nel vicolo"
+        },
+        {
+          "scena": "20_Int_BassoAntonietta",
+          "x": 3.7,
+          "z": 10.3,
+          "testo": "Esamina il fagotto di stracci nel cortile"
+        },
+        {
+          "scena": "10_Hub_Vicolo",
+          "x": -9.1,
+          "z": -2.0,
+          "testo": "Torna al basso di Antonietta"
+        }
+      ]
+    },
+    {
+      "id": "ob_stracci_ceste",
+      "testo": "Smista gli stracci nelle ceste",
+      "capitolo": "flashback_stracci",
+      "completo": [
+        "enigma_ceste"
+      ],
+      "punti": [
+        {
+          "scena": "40_FB_Stracci",
+          "x": -6.6,
+          "z": 41.0,
+          "testo": "Metti ogni straccio nella sua cesta"
+        },
+        {
+          "scena": "20_Int_BassoAntonietta",
+          "x": 3.7,
+          "z": 10.3,
+          "testo": "Esamina il fagotto di stracci nel cortile"
+        },
+        {
+          "scena": "10_Hub_Vicolo",
+          "x": -9.1,
+          "z": -2.0,
+          "testo": "Torna al basso di Antonietta"
+        }
+      ]
+    },
+    {
+      "id": "ob_stracci_bilancia",
+      "testo": "Pesa le ceste sulla bilancia",
+      "capitolo": "flashback_stracci",
+      "completo": [
+        "enigma_bilancia"
+      ],
+      "punti": [
+        {
+          "scena": "40_FB_Stracci",
+          "x": 6.6,
+          "z": 39.6,
+          "testo": "La bilancia di Capa 'e fierro pende: guarda bene"
+        },
+        {
+          "scena": "20_Int_BassoAntonietta",
+          "x": 3.7,
+          "z": 10.3,
+          "testo": "Esamina il fagotto di stracci nel cortile"
+        },
+        {
+          "scena": "10_Hub_Vicolo",
+          "x": -9.1,
+          "z": -2.0,
+          "testo": "Torna al basso di Antonietta"
+        }
+      ]
+    },
+    {
+      "id": "ob_stracci_conto",
+      "testo": "Fai il conto e riscuoti",
+      "capitolo": "flashback_stracci",
+      "completo": [
+        "enigma_conto"
+      ],
+      "punti": [
+        {
+          "scena": "40_FB_Stracci",
+          "x": 6.6,
+          "z": 43.6,
+          "testo": "Leggi il registro e conta le monete"
+        },
+        {
+          "scena": "20_Int_BassoAntonietta",
+          "x": 3.7,
+          "z": 10.3,
+          "testo": "Esamina il fagotto di stracci nel cortile"
+        },
+        {
+          "scena": "10_Hub_Vicolo",
+          "x": -9.1,
+          "z": -2.0,
+          "testo": "Torna al basso di Antonietta"
+        }
+      ]
+    },
+    {
+      "id": "ob_stracci_mestieri",
+      "testo": "Guarda il muro dei mestieri",
+      "capitolo": "flashback_stracci",
+      "completo": [
+        "enigma_mestieri"
+      ],
+      "punti": [
+        {
+          "scena": "40_FB_Stracci",
+          "x": -1.0,
+          "z": 47.0,
+          "testo": "Abbina gli attrezzi ai mestieri e ai diritti"
+        },
+        {
+          "scena": "20_Int_BassoAntonietta",
+          "x": 3.7,
+          "z": 10.3,
+          "testo": "Esamina il fagotto di stracci nel cortile"
         },
         {
           "scena": "10_Hub_Vicolo",

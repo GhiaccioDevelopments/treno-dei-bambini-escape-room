@@ -888,6 +888,90 @@
         0.2,
         0.28
       ]
+    },
+    {
+      "chiave": "BottegaStracci",
+      "gruppo": "ricordo",
+      "tipo": "insegna",
+      "w": 512,
+      "h": 96,
+      "seed": 31,
+      "righe": [
+        "STRACCI E FERRI VECCHI"
+      ],
+      "carta": [
+        0.22,
+        0.15,
+        0.08
+      ],
+      "inchiostro": [
+        0.92,
+        0.86,
+        0.68
+      ]
+    },
+    {
+      "chiave": "CompraStracci",
+      "gruppo": "ricordo",
+      "tipo": "manifesto",
+      "w": 256,
+      "h": 384,
+      "seed": 32,
+      "righe": [
+        "SI COMPRANO",
+        "LANA",
+        "COTONE",
+        "LINO",
+        "",
+        "NIENTE ROBA",
+        "MARCIA O INCERATA",
+        "",
+        "CAPA 'E FIERRO"
+      ],
+      "carta": [
+        0.86,
+        0.78,
+        0.6
+      ],
+      "inchiostro": [
+        0.12,
+        0.09,
+        0.06
+      ]
+    },
+    {
+      "chiave": "RitaglioStracci",
+      "gruppo": "segreti",
+      "tipo": "ritaglio",
+      "w": 256,
+      "h": 320,
+      "seed": 17,
+      "righe": [
+        "PICCOLI LAVORI",
+        "",
+        "NELLE CITTA DEL",
+        "DOPOGUERRA TANTI",
+        "BAMBINI AIUTANO",
+        "LE FAMIGLIE:",
+        "RACCOLGONO",
+        "STRACCI E FERRI",
+        "VECCHI E LI",
+        "PORTANO A CHI",
+        "LI COMPRA.",
+        "",
+        "SCUOLA? A VOLTE",
+        "NON C'E TEMPO."
+      ],
+      "carta": [
+        0.84,
+        0.79,
+        0.62
+      ],
+      "inchiostro": [
+        0.12,
+        0.1,
+        0.08
+      ]
     }
   ]
 }

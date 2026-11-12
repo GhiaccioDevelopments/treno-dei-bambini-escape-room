@@ -42,7 +42,7 @@ namespace TrenoBambini.EditorTools
 
         const int LutSize = 32;
 
-        static readonly string[] LookScenes = { "10_Hub_Vicolo", "20_Int_BassoAntonietta", "30_FB_Scarpe" };
+        static readonly string[] LookScenes = { "10_Hub_Vicolo", "20_Int_BassoAntonietta", "30_FB_Scarpe", "40_FB_Stracci" };
         const string LookRoot = "Look";
         const string LookLightName = "Look_Luce";
 
@@ -214,7 +214,7 @@ namespace TrenoBambini.EditorTools
 
         static VolumeProfile ProfileFor(string n)
         {
-            string p = n == "30_FB_Scarpe" ? ProfFlash : n == "20_Int_BassoAntonietta" ? ProfBasso : ProfEpoca;
+            string p = (n == "30_FB_Scarpe" || n == "40_FB_Stracci") ? ProfFlash : n == "20_Int_BassoAntonietta" ? ProfBasso : ProfEpoca;
             return AssetDatabase.LoadAssetAtPath<VolumeProfile>(p);
         }
 
@@ -695,6 +695,7 @@ namespace TrenoBambini.EditorTools
                 case "10_Hub_Vicolo": res = HubLightmapRes; maxSize = 1024; break;
                 case "20_Int_BassoAntonietta": res = 8f; maxSize = 1024; break;
                 case "30_FB_Scarpe": res = 3f; maxSize = 1024; break;
+                case "40_FB_Stracci": res = 2.5f; maxSize = 1024; break; // R012: LFS vicino al limite, lightmap ridotte
                 default: res = 4f; maxSize = 1024; break;
             }
         }
@@ -930,6 +931,7 @@ namespace TrenoBambini.EditorTools
                     AddLampLights("LuceBasso", Cct(2300f), 2.0f, 5.5f);
                     exterior = true;
                     probeMin = new Vector3(-17f, 0.4f, -33f); probeMax = new Vector3(20f, 3.6f, 38f); probeStep = 3.2f;
+                    if (name == "40_FB_Stracci") { probeMin = new Vector3(-27f, 0.4f, -31f); probeMax = new Vector3(27f, 4.6f, 49f); probeStep = 3.6f; }
                     break;
             }
             RenderSettings.skybox = sky;

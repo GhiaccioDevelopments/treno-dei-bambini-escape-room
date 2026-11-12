@@ -44,7 +44,7 @@ MCP for Unity) le implementa. Le due sessioni non si parlano: comunicano **solo 
 | R009 | Enigmi dentro il mondo, niente più oggetti viola | integrata (2026-11-09) con R020, PR #11 |
 | R010 | Ridisegno degli enigmi di "Le scarpe" | integrata (2026-11-09) con R020, PR #12 |
 | R011 | Easter egg ed enigmi nascosti in ogni stanza | integrata (2026-11-09): 3 enigmi segreti, 14 collezionabili, pagina Segreti, aiuto lieve automatico, Rivivi il ricordo, 351 PASS in build; D1 e violino in attesa di R016, PR #13 |
-| R012 | Nuovo ricordo "Stracci" (regole comuni dei capitoli) | aperta, PR #14 (dopo R006–R009) |
+| R012 | Nuovo ricordo "Stracci" (regole comuni dei capitoli) | codice completo, da provare in Unity (2026-11-12), PR #14 |
 | R013 | Nuovo ricordo "Il volantino del treno" | aperta, PR #15 (dopo R012) |
 | R014 | Nuovo ricordo "Il cappotto" | aperta, PR #16 (dopo R013) |
 | R015 | Nuovo ricordo "Il violino" | aperta, PR #17 (dopo R014) |

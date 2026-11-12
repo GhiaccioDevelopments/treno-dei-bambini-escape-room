@@ -20,7 +20,7 @@ namespace TrenoBambini.EditorTools
     public static class VerificaCamera
     {
         const string ScenesFolder = "Assets/_Game/Scenes";
-        static readonly string[] Scene = { "10_Hub_Vicolo", "20_Int_BassoAntonietta", "30_FB_Scarpe" };
+        static readonly string[] Scene = { "10_Hub_Vicolo", "20_Int_BassoAntonietta", "30_FB_Scarpe", "40_FB_Stracci" };
         public const int MaxPunti = 90;
 
         [MenuItem("Treno/Verifica/Camera")]

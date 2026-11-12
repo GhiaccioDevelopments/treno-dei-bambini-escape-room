@@ -23,7 +23,7 @@ namespace TrenoBambini.EditorTools
         const string ScenesFolder = "Assets/_Game/Scenes";
         static readonly string[] SceneNames =
         {
-            "00_Boot", "01_Titolo", "10_Hub_Vicolo", "20_Int_BassoAntonietta", "30_FB_Scarpe"
+            "00_Boot", "01_Titolo", "10_Hub_Vicolo", "20_Int_BassoAntonietta", "30_FB_Scarpe", "40_FB_Stracci"
         };
 
         static readonly Dictionary<string, Material> matCache = new Dictionary<string, Material>();
@@ -53,6 +53,8 @@ namespace TrenoBambini.EditorTools
                 BuildBasso();
                 EditorUtility.DisplayProgressBar("Costruisci scene", SceneNames[4], 0.85f);
                 BuildFlashback();
+                EditorUtility.DisplayProgressBar("Costruisci scene", SceneNames[5], 0.92f);
+                BuildFlashbackStracci(); // R012
 
                 SetBuildSettings();
                 AssetDatabase.SaveAssets();
@@ -64,7 +66,7 @@ namespace TrenoBambini.EditorTools
                 Debug.LogWarning("[SceneBuilder] Luci da rifare: Treno ▸ Look ▸ Bake luci di tutte le scene");
                 EditorSceneManager.OpenScene(ScenePath(SceneNames[0]), OpenSceneMode.Single);
                 ReportKit();
-                Debug.Log("[SceneBuilder] Costruite le 5 scene e aggiornati i Build Settings.");
+                Debug.Log("[SceneBuilder] Costruite le 6 scene e aggiornati i Build Settings.");
             }
             finally
             {
