@@ -1,0 +1,214 @@
+﻿Inizio prova mappa. Salvataggio presente: True
+PASS GameManager pronto
+PASS mappe.json: tre scene  [3 scene]
+PASS mappe.json: obiettivi del capitolo  [11 obiettivi]
+PASS 10_Hub_Vicolo: area della pianta scritta  [-42..43 / -57..70]
+PASS 10_Hub_Vicolo: immagine della pianta presente
+PASS 10_Hub_Vicolo: strada largo_fontanella ha nome, zona e ancora
+PASS 10_Hub_Vicolo: strada lungo_gelso ha nome, zona e ancora
+PASS 10_Hub_Vicolo: strada panni_stesi ha nome, zona e ancora
+PASS 10_Hub_Vicolo: strada tre_lumi ha nome, zona e ancora
+PASS 10_Hub_Vicolo: strada cortile_lavatoio ha nome, zona e ancora
+PASS 10_Hub_Vicolo: strada supportico_lanterna ha nome, zona e ancora
+PASS 10_Hub_Vicolo: strada cappella_scura ha nome, zona e ancora
+PASS 10_Hub_Vicolo: strada supportico_cancello ha nome, zona e ancora
+PASS 10_Hub_Vicolo: strada cortile_terrazzino ha nome, zona e ancora
+PASS 10_Hub_Vicolo: strada scalzacani ha nome, zona e ancora
+PASS 10_Hub_Vicolo: strada palazzo_crollato ha nome, zona e ancora
+PASS 10_Hub_Vicolo: strada speranzella ha nome, zona e ancora
+PASS 10_Hub_Vicolo: strada sette_spiriti ha nome, zona e ancora
+PASS 10_Hub_Vicolo: strada concordia ha nome, zona e ancora
+PASS 10_Hub_Vicolo: strada supportico_casse ha nome, zona e ancora
+PASS 10_Hub_Vicolo: strada portacarrese ha nome, zona e ancora
+PASS 10_Hub_Vicolo: strada madonna_illuminata ha nome, zona e ancora
+PASS 10_Hub_Vicolo: strada montecalvario ha nome, zona e ancora
+PASS 10_Hub_Vicolo: strada via_roma ha nome, zona e ancora
+PASS 10_Hub_Vicolo: strada sant_anna ha nome, zona e ancora
+PASS 10_Hub_Vicolo: strada rampa_cantari ha nome, zona e ancora
+PASS 10_Hub_Vicolo: strada madonnella ha nome, zona e ancora
+PASS 10_Hub_Vicolo: strada tre_scalini ha nome, zona e ancora
+PASS 10_Hub_Vicolo: strada capitano ha nome, zona e ancora
+PASS 20_Int_BassoAntonietta: area della pianta scritta  [-8..10 / -6..18]
+PASS 20_Int_BassoAntonietta: immagine della pianta presente
+PASS 20_Int_BassoAntonietta: strada stanza ha nome, zona e ancora
+PASS 20_Int_BassoAntonietta: strada alcova ha nome, zona e ancora
+PASS 20_Int_BassoAntonietta: strada cucina ha nome, zona e ancora
+PASS 20_Int_BassoAntonietta: strada cortile ha nome, zona e ancora
+PASS 30_FB_Scarpe: area della pianta scritta  [-29..33 / -45..51]
+PASS 30_FB_Scarpe: immagine della pianta presente
+PASS 30_FB_Scarpe: strada largo_fontanella ha nome, zona e ancora
+PASS 30_FB_Scarpe: strada lungo_gelso ha nome, zona e ancora
+PASS 30_FB_Scarpe: strada sant_anna ha nome, zona e ancora
+PASS 30_FB_Scarpe: strada supportico_cancello ha nome, zona e ancora
+PASS 30_FB_Scarpe: strada sette_spiriti ha nome, zona e ancora
+PASS 30_FB_Scarpe: strada scalzacani ha nome, zona e ancora
+PASS 30_FB_Scarpe: strada cortile_lavatoio ha nome, zona e ancora
+PASS 30_FB_Scarpe: strada madonna_illuminata ha nome, zona e ancora
+PASS 30_FB_Scarpe: strada tre_scalini ha nome, zona e ancora
+PASS glifo porta nella striscia
+PASS glifo fontana nella striscia
+PASS glifo edicola nella striscia
+PASS glifo pozzo nella striscia
+PASS glifo lavatoio nella striscia
+PASS glifo uscita nella striscia
+PASS glifo stazione nella striscia
+PASS glifo bottega nella striscia
+PASS Via Roma e' scritta come nel 1946 (già Toledo)
+PASS obiettivo ob_bucato: il gettone di completamento e' un enigma vero
+PASS obiettivo ob_bucato: ha almeno un punto e un testo
+PASS obiettivo ob_bucato: appartiene a un capitolo (dato in mappe.json)  [flashback_scarpe]
+PASS obiettivo ob_exvoto: il gettone di completamento e' un enigma vero
+PASS obiettivo ob_exvoto: ha almeno un punto e un testo
+PASS obiettivo ob_exvoto: appartiene a un capitolo (dato in mappe.json)  [flashback_scarpe]
+PASS obiettivo ob_foto: il gettone di completamento e' un enigma vero
+PASS obiettivo ob_foto: ha almeno un punto e un testo
+PASS obiettivo ob_foto: appartiene a un capitolo (dato in mappe.json)  [flashback_scarpe]
+PASS obiettivo ob_calendario: il gettone di completamento e' un enigma vero
+PASS obiettivo ob_calendario: ha almeno un punto e un testo
+PASS obiettivo ob_calendario: appartiene a un capitolo (dato in mappe.json)  [flashback_scarpe]
+PASS obiettivo ob_cassetta: il gettone di completamento e' un enigma vero
+PASS obiettivo ob_cassetta: ha almeno un punto e un testo
+PASS obiettivo ob_cassetta: appartiene a un capitolo (dato in mappe.json)  [flashback_scarpe]
+PASS obiettivo ob_baule: il gettone di completamento e' un enigma vero
+PASS obiettivo ob_baule: ha almeno un punto e un testo
+PASS obiettivo ob_baule: appartiene a un capitolo (dato in mappe.json)  [flashback_scarpe]
+PASS obiettivo ob_passanti: il gettone di completamento e' un enigma vero
+PASS obiettivo ob_passanti: ha almeno un punto e un testo
+PASS obiettivo ob_passanti: appartiene a un capitolo (dato in mappe.json)  [flashback_scarpe]
+PASS obiettivo ob_passanti: se esci dal ricordo ha un punto nel basso
+PASS obiettivo ob_passanti: se esci dal ricordo ha la porta del basso nell'hub
+PASS obiettivo ob_nascosto: il gettone di completamento e' un enigma vero
+PASS obiettivo ob_nascosto: ha almeno un punto e un testo
+PASS obiettivo ob_nascosto: appartiene a un capitolo (dato in mappe.json)  [flashback_scarpe]
+PASS obiettivo ob_nascosto: se esci dal ricordo ha un punto nel basso
+PASS obiettivo ob_nascosto: se esci dal ricordo ha la porta del basso nell'hub
+PASS obiettivo ob_quiz: il gettone di completamento e' un enigma vero
+PASS obiettivo ob_quiz: ha almeno un punto e un testo
+PASS obiettivo ob_quiz: appartiene a un capitolo (dato in mappe.json)  [flashback_scarpe]
+PASS obiettivo ob_quiz: se esci dal ricordo ha un punto nel basso
+PASS obiettivo ob_quiz: se esci dal ricordo ha la porta del basso nell'hub
+PASS obiettivo ob_ordina: il gettone di completamento e' un enigma vero
+PASS obiettivo ob_ordina: ha almeno un punto e un testo
+PASS obiettivo ob_ordina: appartiene a un capitolo (dato in mappe.json)  [flashback_scarpe]
+PASS obiettivo ob_ordina: se esci dal ricordo ha un punto nel basso
+PASS obiettivo ob_ordina: se esci dal ricordo ha la porta del basso nell'hub
+PASS obiettivo ob_lucchetto: il gettone di completamento e' un enigma vero
+PASS obiettivo ob_lucchetto: ha almeno un punto e un testo
+PASS obiettivo ob_lucchetto: appartiene a un capitolo (dato in mappe.json)  [flashback_scarpe]
+PASS obiettivo ob_lucchetto: se esci dal ricordo ha un punto nel basso
+PASS obiettivo ob_lucchetto: se esci dal ricordo ha la porta del basso nell'hub
+PASS preferenze di default: aiuto Normale, minimappa accesa, nord non fisso
+PASS hub caricato
+PASS HUD: minimappa e mappa grande create
+PASS hub: minimappa visibile in alto a sinistra
+PASS hub: la minimappa e' ancorata in alto a sinistra
+PASS hub: la minimappa non scende nella meta' bassa dello schermo (joystick e pulsanti touch liberi)  [angolo basso a 358 su 720]
+PASS inizio: prossimo obiettivo = ob_bucato  [trovato ob_bucato]
+PASS inizio: modalita' Normale, obiettivo ancora nascosto
+PASS hub: la targa dice il nome della strada dove si sta (Largo della Fontanella)  [Largo della Fontanella]
+PASS hub: compare almeno un nome di vicolo sulla minimappa  [1 etichette]
+PASS Normale + Indizio: la freccia sul bordo appare
+PASS Normale + Indizio: la riga dice l'obiettivo  [Guarda i panni stesi: ti ricorderanno la porta]
+PASS Normale: dopo l'azzeramento l'obiettivo si nasconde
+PASS Normale: dopo 3 minuti senza progressi l'obiettivo compare
+PASS Esploratore: nessun obiettivo, solo nomi e posizione
+PASS Guidata: l'obiettivo e' sempre segnato
+PASS bucato: il punto e' dove sta l'enigma nel mondo
+PASS bucato: minimappa visibile
+PASS bucato: la X rossa e' sulla mappa
+PASS bucato: la targa dice Largo Sant'Anna dei Panni o il vico  [Vico Lungo Gelso]
+PASS arrivati sul punto: la X si spegne (raggioArrivo)
+PASS hub: il tasto M apre la mappa grande
+PASS hub: la mappa grande ha i nomi e la X dell'obiettivo  [14/29 etichette]
+PASS hub: ingrandita mostra piu' nomi dei vicoli vicini  [9 etichette a zoom 2.5]
+PASS enigma mondo/enigma_bucato esiste
+PASS dopo il bucato: prossimo obiettivo = ob_exvoto  [trovato ob_exvoto]
+PASS dopo il bucato: il segno si e' spostato (prima c'era il bucato, ora l'ex-voto)
+PASS exvoto (lontano): minimappa visibile
+PASS exvoto (lontano): la freccia sul bordo indica l'obiettivo lontano
+PASS enigma mondo/enigma_exvoto esiste
+PASS dopo l'ex-voto: prossimo obiettivo = ob_foto  [trovato ob_foto]
+PASS nell'hub l'obiettivo successivo e' la porta del basso  [Torna al basso di Antonietta]
+PASS porta del basso: minimappa visibile
+PASS porta del basso: la X rossa e' sulla mappa
+PASS la porta del basso esiste
+PASS basso: minimappa visibile con la sua pianta
+PASS entrati nel basso: prossimo obiettivo = ob_foto  [trovato ob_foto]
+PASS basso: il punto e' la fotografia storta
+PASS basso: la targa dice la stanza  [La stanza]
+PASS fotografia (nella stanza): minimappa visibile
+PASS fotografia (nella stanza): la X rossa e' sulla mappa
+PASS enigma mondo/enigma_foto esiste
+PASS dopo enigma_foto: prossimo obiettivo = ob_calendario  [trovato ob_calendario]
+PASS basso: dopo enigma_foto il segno e' sul passo successivo
+PASS basso ob_calendario: minimappa visibile
+PASS basso ob_calendario: la X rossa e' sulla mappa
+PASS enigma mondo/enigma_calendario esiste
+PASS dopo enigma_calendario: prossimo obiettivo = ob_cassetta  [trovato ob_cassetta]
+PASS basso: dopo enigma_calendario il segno e' sul passo successivo
+PASS basso ob_cassetta: minimappa visibile
+PASS basso ob_cassetta: la X rossa e' sulla mappa
+PASS enigma mondo/enigma_cassetta esiste
+PASS dopo enigma_cassetta: prossimo obiettivo = ob_baule  [trovato ob_baule]
+PASS tasto M apre la mappa grande
+PASS mappa grande: il gioco e' bloccato mentre e' aperta
+PASS mappa grande: nel basso mostra l'obiettivo (la riga a destra)  [Apri il baule dell'alcova]
+PASS M richiude la mappa grande
+PASS Esc richiude la mappa grande (senza aprire la pausa)
+PASS basso: dopo enigma_cassetta il segno e' sul passo successivo
+PASS basso ob_baule: minimappa visibile
+PASS basso ob_baule: la X rossa e' sulla mappa
+PASS enigma mondo/enigma_baule esiste
+PASS dopo enigma_baule: prossimo obiettivo = ob_passanti  [trovato ob_passanti]
+PASS baule aperto, ancora nel basso: prossimo obiettivo = ob_passanti  [trovato ob_passanti]
+PASS basso: la X sta sul baule con il testo 'Riprendi le scarpe nel baule'  [Riprendi le scarpe nel baule]
+PASS basso, passo del ricordo: minimappa visibile
+PASS basso, passo del ricordo: la X rossa e' sulla mappa
+PASS hub: lo stesso passo manda alla porta del basso
+PASS ricordo: minimappa visibile
+PASS nel ricordo: prossimo obiettivo = ob_passanti  [trovato ob_passanti]
+PASS ricordo: il punto e' alle scarpe dei passanti
+PASS ricordo: la targa dice il nome (Largo della Fontanella)  [Largo della Fontanella]
+PASS ricordo passanti: minimappa visibile
+PASS ricordo passanti: la X rossa e' sulla mappa
+PASS ricordo: la mappa grande si apre
+PASS ricordo: nomi sulla mappa grande  [7/10]
+PASS enigma flashback_scarpe/enigma_passanti esiste
+PASS dopo enigma_passanti: prossimo obiettivo = ob_nascosto  [trovato ob_nascosto]
+PASS ricordo: dopo enigma_passanti il segno e' sul passo successivo
+PASS enigma flashback_scarpe/enigma_nascosto esiste
+PASS dopo enigma_nascosto: prossimo obiettivo = ob_quiz  [trovato ob_quiz]
+PASS ricordo: dopo enigma_nascosto il segno e' sul passo successivo
+PASS enigma flashback_scarpe/enigma_quiz esiste
+PASS dopo enigma_quiz: prossimo obiettivo = ob_ordina  [trovato ob_ordina]
+PASS ricordo: dopo enigma_quiz il segno e' sul passo successivo
+PASS enigma flashback_scarpe/enigma_ordina esiste
+PASS dopo enigma_ordina: prossimo obiettivo = ob_lucchetto  [trovato ob_lucchetto]
+PASS ricordo: dopo enigma_ordina il segno e' sul passo successivo
+PASS enigma flashback_scarpe/enigma_lucchetto esiste
+PASS dopo enigma_lucchetto: prossimo obiettivo = (finito)  [trovato (finito)]
+PASS capitolo finito: nessun segno ne' riga di obiettivo
+PASS capitolo finito: la mappa grande lo dice  [Il ricordo delle scarpe è tornato a casa con te. Il resto del viaggio ti aspetta più avanti.]
+PASS mappa grande: pulsante di zoom
+PASS mappa grande: lo zoom cresce  [1.82]
+PASS senza tastiera: Keyboard.current e' nullo
+PASS solo gamepad: Select apre la mappa grande
+PASS solo gamepad: B chiude la mappa grande
+PASS solo gamepad: Select riaperto e richiuso
+PASS biglietto trovato
+PASS biglietto: con la minimappa sta alla sua destra  [246]
+PASS biglietto: senza minimappa torna all'angolo  [16]
+PASS nord fisso: la pianta non ruota
+PASS minimappa spenta dalle impostazioni: il widget sparisce, M resta
+PASS minimappa spenta: la mappa grande si apre lo stesso
+PASS Impostazioni: la scheda Gioco si apre
+PASS Impostazioni > Gioco: 'Ripristina predefiniti' non c'e' (vale solo per la grafica)
+PASS Impostazioni > Gioco: tre righe con frecce (aiuto, minimappa, nord)  [3 frecce]
+PASS Impostazioni > Gioco: la freccia cambia l'aiuto della mappa  [0 -> 1]
+PASS salvataggio: aiuto, nord fisso e minimappa si rileggono
+PASS vecchio salvataggio: aiuto Normale e minimappa accesa
+PASS Nuova partita conserva le preferenze della mappa
+PASS nuova partita: prossimo obiettivo = ob_bucato  [trovato ob_bucato]
+PASS salvataggio vecchio: senza gettoni l'obiettivo non riparte dal bucato  [(finito)]
+PASS dopo aver tolto il ricordo completato: prossimo obiettivo = ob_bucato  [trovato ob_bucato]
+Fine prova: 212 PASS, 0 FAIL

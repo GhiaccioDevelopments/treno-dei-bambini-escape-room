@@ -1,0 +1,135 @@
+# Battute da registrare (R028)
+
+Generato da `ArtSource/Doppiaggio/genera_da_registrare.py`: **non modificare a mano** (rilanciare lo script se cambiano i dialoghi).
+Gli ID qui sotto **non cambiano piu'**: il nome del file e' l'ID, con estensione `.wav` (o `.ogg`).
+
+**Totale: 83 file** (gia' registrati: 0) · durata stimata in tutto: circa 15 minuti.
+
+## Come registrare con Audacity
+
+1. **Impostazioni del progetto**: in basso a sinistra *Frequenza del progetto* **44100 Hz**; *Modifica > Preferenze > Dispositivi*: canali **1 (Mono)**.
+2. Registra **un capitolo per sessione**, leggendo le battute nell'ordine della tabella, con **2 secondi di silenzio** fra una battuta e l'altra.
+3. **Riduzione rumore**: seleziona un pezzo di solo silenzio, *Effetti > Riduzione rumore > Ottieni profilo del rumore*; poi seleziona tutto (Ctrl+A) e applica l'effetto (valori predefiniti).
+4. **Normalizza**: *Effetti > Normalizza*, picco massimo **-1 dB**.
+5. **Etichette**: *File > Importa > Etichette...* e scegli `Doppiaggio/etichette/<capitolo>.txt`. Ogni etichetta ha gia' il nome giusto (l'ID): spostane i bordi trascinandoli in modo che ognuna copra la sua battuta, con circa **0,3 s di silenzio prima e dopo**.
+6. **Esporta**: *File > Esporta audio multiplo...* (Esporta multipli): formato **WAV (Microsoft) 16 bit PCM con segno** (oppure Ogg Vorbis qualita' 5), *Dividi i file in base a*: **Etichette**, *Nomina i file*: **Usando etichetta/nome della traccia**, cartella **`Assets/Audio/Voci/`** del progetto.
+   Per una battuta sola: selezionala e usa *File > Esporta audio > Esporta la selezione* con il nome esatto della tabella.
+7. In Unity: **Treno > Doppiaggio > Aggiorna libreria voci**. Nel gioco il pulsante altoparlante della battuta diventa nero e la voce parte.
+
+## 0. Il filmato iniziale (36 file)
+
+| # | File | Personaggio | Testo | Come leggerla | Durata |
+|---|------|-------------|-------|---------------|--------|
+| 1 | `cs_intro_001.wav` | Narratore | Napoli, 1994. Sui Quartieri Spagnoli piove da ore, una pioggia fine d'autunno. | voce calma, racconto | 6.0 s |
+| 2 | `cs_intro_002.wav` | Amerigo adulto | Mi hanno telefonato ieri sera. Mia madre, Antonietta, se n'è andata. | sommessa | 5.6 s |
+| 3 | `cs_intro_003.wav` | Amerigo adulto | Da questo vicolo sono partito che avevo sette anni. Poi ci sono tornato poco, e sempre di fretta. | malinconica | 8.1 s |
+| 4 | `cs_intro_004.wav` | Amerigo adulto | I gradini, i panni stesi, l'edicola coi lumini. È tutto com'era. O forse lo guardo ancora con gli occhi di allora. | piano, pensieroso, con pause | 10.2 s |
+| 5 | `cs_intro_005.wav` | Amerigo adulto | Prima di aprire quella porta, devo ricordarmi chi ero. | ferma, chiara | 4.3 s |
+| 6 | `cs_intro_006.wav` | Narratore | Napoli, autunno 1946. La guerra è finita da poco, ma nei vicoli sono rimasti la fame e il freddo. | voce calma, racconto | 8.5 s |
+| 7 | `cs_intro_007.wav` | Narratore | Amerigo ha sette anni. Niente scarpe, una salopette piena di toppe, e due occhi che contano tutto. | voce calma, racconto | 7.7 s |
+| 8 | `cs_intro_008.wav` | Amerigo bambino | Ventitré gradini, quattro lumini, tre gatti. E scarpe buone, oggi, ne sono passate due paia. | sorridente | 6.8 s |
+| 9 | `cs_intro_009.wav` | Tommasino | Amerì, la vuoi smettere di contare? Tanto i numeri non si mangiano. | sorridente | 5.6 s |
+| 10 | `cs_intro_010.wav` | Antonietta | Amerigo! Dentro, che fa scuro. E i piedi te li lavi prima di salire sul letto. | voce calma, racconto | 7.3 s |
+| 11 | `cs_intro_011.wav` | Narratore | Antonietta non sa leggere e parla poco. L'affetto lo mette nei rammendi, nel pane diviso a metà. | piano, pensieroso, con pause | 8.1 s |
+| 12 | `cs_intro_012.wav` | Narratore | Compaiono manifesti: treni per il Nord, per i bambini poveri. Lassù li aspettano un letto caldo, la scuola, un piatto ogni giorno. | voce calma, racconto | 9.8 s |
+| 13 | `cs_intro_013.wav` | Maddalena | Non è carità, signo'. È gente che lavora e divide quello che ha. Con i vostri figli. | ferma, chiara | 7.7 s |
+| 14 | `cs_intro_014.wav` | Narratore | Ma nei vicoli la paura corre più veloce dei treni. Si dice che quei bambini non torneranno. | seria | 7.7 s |
+| 15 | `cs_intro_015.wav` | Maddalena | Le chiacchiere non hanno mai sfamato nessuno. Venite al Comitato: guardate le carte, fate domande. | ferma, chiara | 6.8 s |
+| 16 | `cs_intro_016.wav` | Antonietta | E chi me lo dice, a me, che me lo ridate? | seria | 5.2 s |
+| 17 | `cs_intro_017.wav` | Narratore | Tra il 1945 e il 1952, circa settantamila bambini del Sud furono ospitati da famiglie del Centro-Nord; da Napoli, circa diecimila. | voce calma, racconto | 9.8 s |
+| 18 | `cs_intro_018.wav` | Amerigo adulto | Su uno di quei treni c'ero anch'io. Il resto, adesso, me lo devono raccontare le cose di mia madre. | malinconica | 9.3 s |
+| 19 | `cs_intro_019.wav` | Amerigo adulto | Mia madre non buttava via niente. Ogni cosa che teneva aveva un motivo, anche se non lo diceva. | piano, pensieroso, con pause | 8.1 s |
+| 20 | `cs_intro_020.wav` | Narratore | Ritrova gli oggetti di Antonietta. Ognuno apre un ricordo: il 1946, vissuto di nuovo con i piedi di Amerigo. | voce calma, racconto | 8.5 s |
+| 21 | `cs_intro_021.wav` | Narratore | Avvicinati a ciò che ti incuriosisce e prendilo in mano: le cose di casa parlano a chi le guarda. | voce calma, racconto | 8.5 s |
+| 22 | `cs_intro_022.wav` | Narratore | Dentro ogni ricordo ti aspettano enigmi: lucchetti, date, documenti, cose da rimettere in ordine. | voce calma, racconto | 6.4 s |
+| 23 | `cs_intro_023.wav` | Amerigo adulto | Quello che trovo lo metto nella latta, come faceva lei coi bottoni. Quello che capisco, lo scrivo nel quaderno. | piano, pensieroso, con pause | 8.5 s |
+| 24 | `cs_intro_024.wav` | Narratore | In un angolo hai una piccola pianta del quartiere. Ti dice dove sei e come si chiama la strada. | voce calma, racconto | 8.5 s |
+| 25 | `cs_intro_025.wav` | Narratore | Quando non sai più dove andare, sulla pianta compare una croce: è il tuo prossimo passo. | voce calma, racconto | 7.3 s |
+| 26 | `cs_intro_026.wav` | Narratore | In ogni enigma c'è un Indizio. Chiederlo non è barare: nel vicolo, chi è in difficoltà bussa al vicino. | voce calma, racconto | 8.9 s |
+| 27 | `cs_intro_027.wav` | Narratore | E se sbagli, nessuno ti punisce. Il ricordo ti spiega perché, e aspetta che tu riprovi. | voce calma, racconto | 7.3 s |
+| 28 | `cs_intro_028.wav` | Narratore | Nel 1946, per un bambino povero, mangiare ogni giorno, curarsi, andare a scuola non era affatto scontato. | seria | 7.7 s |
+| 29 | `cs_intro_029.wav` | Narratore | Quell'anno, il 2 giugno, donne e uomini votarono insieme: nacque la Repubblica e fu eletta l'Assemblea Costituente. | voce calma, racconto | 8.5 s |
+| 30 | `cs_intro_030.wav` | Narratore | Dal 1948 la Costituzione chiede alla Repubblica di togliere gli ostacoli che rendono le persone disuguali. | voce calma, racconto | 7.3 s |
+| 31 | `cs_intro_031.wav` | Narratore | Protegge l'infanzia, apre la scuola a tutti. I treni dei bambini vennero prima di quelle parole: famiglie e associazioni le misero in pratica. | voce calma, racconto | 10.6 s |
+| 32 | `cs_intro_032.wav` | Amerigo adulto | Per me i diritti hanno avuto prima una faccia, un letto, un piatto caldo. Le parole sono venute dopo. | trattenuta, commossa | 8.5 s |
+| 33 | `cs_intro_033.wav` | Narratore | Ricordare serve anche a chiedersi: chi resta indietro oggi? E chi gli tende la mano? | seria | 6.8 s |
+| 34 | `cs_intro_034.wav` | Amerigo adulto | Eccomi. Il vicolo, la pioggia... e tutte queste porte uguali. Qual era la nostra? | piano, pensieroso, con pause | 6.4 s |
+| 35 | `cs_intro_035.wav` | Amerigo adulto | Mamma stendeva i panni sopra la porta. E le toppe le cuciva sempre uguali a quelle della mia salopette. | malinconica | 8.5 s |
+| 36 | `cs_intro_036.wav` | Narratore | Il primo ricordo comincia qui, tra i panni stesi. Tocca a te. | ferma, chiara | 5.6 s |
+
+## 1. Le scarpe (7 file)
+
+| # | File | Personaggio | Testo | Come leggerla | Durata |
+|---|------|-------------|-------|---------------|--------|
+| 1 | `nar_scarpe_001.wav` | Narratore | Chiudi gli occhi e senti il freddo della pietra sotto i piedi nudi. Sei di nuovo nel vicolo, bambino, seduto sul gradino. Scarpe non ne hai, e forse per questo le conosci tutte: come ogni pomeriggio guardi in basso e indovini il mestiere di chi passa dalle scarpe che porta. Ognuna racconta una vita, e tu ne vorresti una tua. Prova a mettere insieme i pezzi del ricordo. | voce calma, racconto (entrata nel ricordo) | 28.9 s |
+| 2 | `cs_scarpe_001.wav` | Narratore | Napoli, 1946. In un vicolo stretto, dove il sole arriva a fatica, due bambini siedono su un gradino e guardano in basso, verso i piedi di chi passa. Amerigo, i piedi suoi, li ha nudi e neri di strada. | voce calma, racconto | 16.9 s |
+| 3 | `cs_scarpe_008.wav` | Narratore | Amerigo saluta l'amico e rientra nel basso, una stanza sola in cui si vive, si cucina e si dorme. I suoi piedi nudi lasciano piccole impronte umide sul pavimento. | voce calma, racconto | 13.1 s |
+| 4 | `cs_scarpe_012.wav` | Narratore | Antonietta è dura perché ha paura: in un mondo che non perdona, la tenerezza le sembra un lusso che non può permettersi. Ma ogni gesto suo è protezione. | piano, pensieroso, con pause | 12.3 s |
+| 5 | `cs_scarpe_018.wav` | Narratore | Per Amerigo un paio di scarpe non è un capriccio: è la prova che qualcuno ha pensato a lui. Ma ciò che serve per crescere non dovrebbe essere un sogno: oggi è un diritto di ogni bambino. | piano, pensieroso, con pause | 16.0 s |
+| 6 | `cs_scarpe_019.wav` | Narratore | Ora tocca a te: entra nel ricordo di Amerigo e scopri che cosa dicono le scarpe degli altri, e i suoi piedi nudi, sul nostro Paese e sulla sua Costituzione. | ferma, chiara | 13.1 s |
+| 7 | `nar_scarpe_002.wav` | Narratore | Il ricordo si dissolve piano. Indovinare il lavoro dalle scarpe degli altri era un gioco, ma sotto c'era una domanda seria: chi ha diritto a un paio di scarpe, a un pasto, a una scuola, a un futuro? Allora un bambino scalzo poteva solo desiderarlo. La Repubblica ha poi scritto la sua risposta nella Costituzione, e tocca a ciascuno di noi darle vita. | voce calma, chiusura del ricordo | 27.3 s |
+
+## 2. Stracci (6 file)
+
+| # | File | Personaggio | Testo | Come leggerla | Durata |
+|---|------|-------------|-------|---------------|--------|
+| 1 | `nar_stracci_001.wav` | Narratore | Chiudi gli occhi e senti la polvere sotto i piedi nudi. Sei di nuovo bambino, con un sacco più grosso di te sulla spalla. Nel vicolo degli stracci ogni cortile ha qualcosa da dare e nessuno lo regala: bisogna chiedere, frugare, scegliere. In fondo c'è la bottega di Capa 'e fierro, dove tutto si pesa e si paga. Prova a rimettere insieme il giro degli stracci. | voce calma, racconto (entrata nel ricordo) | 28.5 s |
+| 2 | `cs_stracci_003.wav` | Narratore | Napoli, 1946. Un bambino scalzo con un sacco più grande di lui bussa a un portone dopo l'altro. | voce calma, racconto | 8.5 s |
+| 3 | `cs_stracci_010.wav` | Narratore | Capa 'e fierro compra stracci e ferri vecchi in una bottega in fondo al vicolo. Prima di arrivarci bisogna raccogliere quelli giusti: non tutto quello che è vecchio vale qualcosa. | voce calma, racconto | 13.1 s |
+| 4 | `cs_stracci_016.wav` | Narratore | Amerigo torna da Antonietta con il soldo stretto in pugno. Lo mette nella cassetta di latta, vicino a tutto quello che non si deve perdere. | voce calma, racconto | 11.0 s |
+| 5 | `cs_stracci_019.wav` | Narratore | Per Amerigo c'era un soldo. Nel nostro Paese di oggi ci sono i diritti che quel soldo non comprava: la scuola, la salute, un'età giusta per lavorare. | ferma, chiara | 12.7 s |
+| 6 | `nar_stracci_002.wav` | Narratore | Il ricordo si spegne come una lampada a petrolio. Per Amerigo quel giro era un modo di darsi da fare, e un soldo guadagnato valeva più di mille parole. Ma a sette anni si dovrebbe stare a scuola, a giocare, a crescere: è questo che molti anni dopo la Repubblica ha messo nero su bianco, perché nessun bambino debba più contare monete al posto di imparare a leggere. | voce calma, chiusura del ricordo | 28.9 s |
+
+## 3. Il volantino (7 file)
+
+| # | File | Personaggio | Testo | Come leggerla | Durata |
+|---|------|-------------|-------|---------------|--------|
+| 1 | `nar_volantino_001.wav` | Narratore | Chiudi gli occhi e senti la pioggia fine sulle spalle. È sera, Antonietta ti tiene per mano e cammina in fretta. Dalle finestre e dal lavatoio escono voci, una più spaventosa dell'altra. In fondo al vicolo, oltre il largo, c'è la sede del Comitato, con la luce accesa. Prima di arrivarci, ascolta: che cosa dice la gente dei treni dei bambini? | voce calma, racconto (entrata nel ricordo) | 26.9 s |
+| 2 | `cs_volantino_003.wav` | Narratore | Napoli, autunno 1946. È sera e piove fino. Antonietta attraversa il vicolo con Amerigo per mano. | voce calma, racconto | 7.3 s |
+| 3 | `cs_volantino_008.wav` | Narratore | Amerigo conosce le lettere dei manifesti e poco altro. Ma stasera ha deciso che sa leggere, e nessuno glielo toglie dalla testa. | voce calma, racconto | 9.8 s |
+| 4 | `cs_volantino_009.wav` | Narratore | Prima della sede del Comitato bisogna passare sotto i balconi. E dai balconi, la sera, scendono le voci. | voce calma, racconto | 8.1 s |
+| 5 | `cs_volantino_018.wav` | Narratore | Antonietta prende la matita. Non sa scrivere il suo nome: sul registro traccia una croce, lenta e decisa. | voce calma, racconto | 8.1 s |
+| 6 | `cs_volantino_022.wav` | Narratore | Le voci correvano più veloci dei treni. Ma una prova che chiunque può controllare, prima o poi, le raggiunge. | ferma, chiara | 8.5 s |
+| 7 | `nar_volantino_002.wav` | Narratore | Il ricordo si spegne come la lampada della sede. Un foglio ciclostilato, tre frasi che chiunque poteva controllare, una croce al posto di una firma. Le voci correvano più veloci dei treni; ma una prova, prima o poi, le raggiungeva. | voce calma, chiusura del ricordo | 17.3 s |
+
+## 4. Il cappotto (9 file)
+
+| # | File | Personaggio | Testo | Come leggerla | Durata |
+|---|------|-------------|-------|---------------|--------|
+| 1 | `nar_cappotto_001.wav` | Narratore | Fumo, fischi, odore di carbone e di sapone da bucato. La stazione è piena di madri e di bambini lavati di fresco, con i capelli ancora bagnati. Al tavolo del Comitato una volontaria chiama i numeri; dal binario arriva una folata che fa volare via i cartellini. Prima di salire sul treno ti servono un numero, un cappotto e un saluto. | voce calma, racconto (entrata nel ricordo) | 26.0 s |
+| 2 | `cs_cappotto_003.wav` | Narratore | Napoli, inverno 1946-47. In stazione il fumo delle locomotive si mescola all'odore di sapone: i bambini sono stati lavati, visitati e vestiti, uno per uno. | voce calma, racconto | 11.8 s |
+| 3 | `cs_cappotto_008.wav` | Narratore | Ai tavoli del Comitato e della Croce Rossa le volontarie chiamano, scrivono, piegano. Prima di salire servono un numero, un cappotto e un saluto. | voce calma, racconto | 10.6 s |
+| 4 | `cs_cappotto_010.wav` | Narratore | Amerigo non cammina: prova il pavimento un passo alla volta, come se le scarpe potessero scappare. | voce calma, racconto | 7.3 s |
+| 5 | `cs_cappotto_013.wav` | Narratore | Nessuno si gira. La voce della Pachiochia si perde nel fischio di una locomotiva. | voce calma, racconto | 6.4 s |
+| 6 | `cs_cappotto_014.wav` | Narratore | È ancora buio quando il treno si ferma, l'ultima volta. Sulla banchina, sotto le lanterne, aspettano famiglie con le sciarpe fino agli occhi. | voce calma, racconto | 10.6 s |
+| 7 | `cs_cappotto_019.wav` | Narratore | Una donna con il fazzoletto in testa legge un foglio. Chiama i nomi, non i numeri. | voce calma, racconto | 7.3 s |
+| 8 | `cs_cappotto_022.wav` | Narratore | Un cappotto di sconosciuti, un paio di scarpe senza biglietto, una mela da tenere. Il viaggio verso il Nord comincia così: con quello che altri avevano messo da parte per te. | ferma, chiara | 13.5 s |
+| 9 | `nar_cappotto_002.wav` | Narratore | Il ricordo si ferma su una banchina di notte, sotto le lanterne. Un bambino con un cappotto blu e le scarpe nuove stringe una valigia di cartone. Dentro, una mela che non mangerà. | voce calma, chiusura del ricordo | 14.3 s |
+
+## 5. Il violino (8 file)
+
+| # | File | Personaggio | Testo | Come leggerla | Durata |
+|---|------|-------------|-------|---------------|--------|
+| 1 | `nar_violino_001.wav` | Narratore | Neve sui campi fino all'orizzonte, nebbia bassa, odore di legna e di pane. La corte dei Benvenuti ha tre porte: la cucina di Derna con la stufa accesa, il laboratorio dove Alcide accorda pianoforti, e in fondo alla strada bianca la scuola. Qui nessuno ti chiama con il numero. | voce calma, racconto (entrata nel ricordo) | 21.4 s |
+| 2 | `cs_violino_003.wav` | Narratore | Modena, inverno 1946-47. La neve copre i campi fino all'orizzonte e la nebbia si posa bassa sulle case della corte. | voce calma, racconto | 9.8 s |
+| 3 | `cs_violino_008.wav` | Narratore | Nella corte ci sono tre porte: la cucina di Derna, il laboratorio dei Benvenuti con il forno e il pianoforte, e in fondo alla strada bianca, la scuola. | voce calma, racconto | 12.3 s |
+| 4 | `cs_violino_012.wav` | Narratore | I due bambini si guardano le scarpe: quelle nuove della Croce Rossa e quelle col tacco rattoppato. Ridono, prima piano, poi forte. | voce calma, racconto | 9.8 s |
+| 5 | `cs_violino_014.wav` | Narratore | Una sera di festa in casa Benvenuti: il pane di Rosa sul tavolo, la stufa che borbotta, Luzio e Nario seduti sul pavimento. | voce calma, racconto | 10.2 s |
+| 6 | `cs_violino_016.wav` | Narratore | Amerigo suona le sue due frasi. Nessuno parla. Poi Rosa batte le mani, e tutti dietro. | voce calma, racconto | 7.3 s |
+| 7 | `cs_violino_022.wav` | Narratore | Una cucina calda, un foglio di pallini colorati, una lettera dettata. A Modena qualcuno aveva guardato Amerigo e aveva visto un talento: la scuola e la musica, per la prima volta, erano anche sue. | ferma, chiara | 14.8 s |
+| 8 | `nar_violino_002.wav` | Narratore | Il ricordo si ferma in una cucina calda di Modena: un bambino detta, una donna scrive. In tasca, piegato in quattro, un foglio di pallini colorati. | voce calma, chiusura del ricordo | 11.4 s |
+
+## 6. Il finale, 1994 (10 file)
+
+| # | File | Personaggio | Testo | Come leggerla | Durata |
+|---|------|-------------|-------|---------------|--------|
+| 1 | `nar_finale_001.wav` | Narratore | Napoli, 1994. Il basso di tua madre: mobili sotto le lenzuola, una lampadina nuda, scatoloni. Dal vicolo arrivano la radio di un vicino e il rumore dei motorini. La stanza è la stessa di cinquant'anni fa, e non è più la stessa. | voce calma, racconto (entrata nel ricordo) | 18.5 s |
+| 2 | `cs_finale_003.wav` | Narratore | Napoli, 1994. Lo stesso basso, cinquant'anni dopo: le lenzuola sui mobili, una lampadina nuda, gli scatoloni da riempire. | voce calma, racconto | 8.5 s |
+| 3 | `cs_finale_005.wav` | Narratore | Su un mobiletto, accanto alla porta, le ultime cose di Antonietta. Il telefono ha smesso di squillare. | voce calma, racconto | 7.7 s |
+| 4 | `cs_finale_007.wav` | Narratore | Amerigo accorda il violino a mezzi scatti, come gli aveva insegnato Alcide, e suona le due frasi dei pallini colorati. | voce calma, racconto | 8.9 s |
+| 5 | `cs_finale_008.wav` | Narratore | Per un attimo la stanza è tutta 1946: il lume a petrolio, i panni stesi, una donna di spalle che si ferma ad ascoltare. | voce calma, racconto | 10.6 s |
+| 6 | `cs_finale_012.wav` | Narratore | Si siedono sul gradino, uno accanto all'altro. Il vicolo fa il suo rumore: i motorini, una radio, qualcuno che chiama un nome dalla finestra. | voce calma, racconto | 11.0 s |
+| 7 | `cs_finale_017.wav` | Narratore | Tra il 1945 e il 1952 circa settantamila bambini del Sud e del Centro viaggiarono sui treni della felicità, accolti da famiglie che spesso non avevano molto più di loro. | voce calma, racconto | 13.1 s |
+| 8 | `cs_finale_018.wav` | Narratore | Oggi la Costituzione (art. 30) e la legge n. 184 del 1983 dicono che ogni bambino ha diritto a crescere in una famiglia: la sua, o un'altra che lo accolga. | ferma, chiara | 13.5 s |
+| 9 | `cs_finale_022.wav` | Narratore | Hai trovato tutti i segreti del gioco. Grazie per aver guardato in ogni angolo. | sorridente | 6.4 s |
+| 10 | `nar_finale_002.wav` | Narratore | Una custodia aperta su un letto di ferro, un ragazzino sulla soglia. Il treno dei bambini è partito nel 1946; qualcuno, oggi, lo fa ripartire. | voce calma, chiusura del ricordo | 11.0 s |

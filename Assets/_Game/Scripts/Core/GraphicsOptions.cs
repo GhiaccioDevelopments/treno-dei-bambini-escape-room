@@ -38,7 +38,7 @@ namespace TrenoBambini.Core
     /// <summary>Tabella delle voci grafiche (R008).</summary>
     public static class GraphicsOptions
     {
-        public static readonly string[] Gruppi = { "Generale", "Ombre", "Luci", "Effetti", "Meteo", "Dettaglio", "Accessibilità" };
+        public static readonly string[] Gruppi = { "Generale", "Ombre", "Luci", "Effetti", "Meteo", "Dettaglio", "Gioco", "Accessibilità" };
 
         static readonly string[] NoSi = { "No", "Sì" };
 

@@ -39,7 +39,11 @@
   "quadernoOggettoFmt": "Nel quaderno: {0}",
   "porta": "Apri la porta",
   "portaChiusa": "Questa porta è chiusa a chiave.",
-  "entraFmt": "Entra: {0}"
+  "entraFmt": "Entra: {0}",
+  "bigliettoFare": "Cosa fare",
+  "bigliettoOttieni": "Cosa ottieni",
+  "bigliettoChiudi": "Tocca o premi un tasto per cominciare. Il pulsante ? lo rimostra.",
+  "btnSpiega": "?"
  },
  "enigmi": [
   {
@@ -468,7 +472,9 @@
      "spiegazione": "I panni con la toppa a quadri, la stessa della tua salopette, finiscono sopra la porta verde dello slargo.",
      "erroreMsg": "Rifletti: quali panni hanno la toppa che conosci?"
     }
-   ]
+   ],
+   "cosaFare": "Segui le toppe che conosci sui panni stesi.",
+   "cosaOttieni": "La porta di casa: il basso di Antonietta."
   },
   {
    "id": "enigma_exvoto",
@@ -724,7 +730,9 @@
      "spiegazione": "Un ex-voto girato nasconde la chiave appesa dietro.",
      "erroreMsg": "Pensa a un oggetto che parla di piedi e di grazie ricevute."
     }
-   ]
+   ],
+   "cosaFare": "Guarda gli ex-voto dell'edicola e trova quello che nasconde qualcosa.",
+   "cosaOttieni": "La chiave del basso."
   },
   {
    "id": "enigma_manifesti",
@@ -867,7 +875,9 @@
      "erroreMsg": "Guarda sotto i manifesti sul pane e sugli stracci."
     }
    ],
-   "scala": 1
+   "scala": 1,
+   "cosaFare": "Stacca i manifesti uno alla volta, fino al più vecchio.",
+   "cosaOttieni": "L'avviso del Comitato per i treni e una pagina del quaderno."
   },
   {
    "id": "enigma_foto",
@@ -1151,7 +1161,9 @@
      "erroreMsg": "Raddrizza la foto e guarda dietro."
     }
    ],
-   "scala": 1
+   "scala": 1,
+   "cosaFare": "Raddrizza la fotografia e guarda che cosa c'è dietro.",
+   "cosaOttieni": "Tre disegni in fila: un aiuto per la cassetta di latta."
   },
   {
    "id": "enigma_calendario",
@@ -1563,7 +1575,9 @@
      "erroreMsg": "Conta le scarpette mese per mese."
     }
    ],
-   "scala": 1
+   "scala": 1,
+   "cosaFare": "Conta le scarpette disegnate mese per mese.",
+   "cosaOttieni": "Le quattro cifre di un codice."
   },
   {
    "id": "enigma_cassetta",
@@ -1819,7 +1833,9 @@
      "erroreMsg": "Ricorda il calendario della cucina."
     }
    ],
-   "scala": 1
+   "scala": 1,
+   "cosaFare": "Gira le quattro rotelle sul codice giusto.",
+   "cosaOttieni": "Le cose preziose di Antonietta e la chiavetta del baule."
   },
   {
    "id": "enigma_baule",
@@ -2248,7 +2264,9 @@
      "erroreMsg": "Ricorda il cartoncino."
     }
    ],
-   "scala": 1
+   "scala": 1,
+   "cosaFare": "Apri il baule con la chiavetta e cerca sotto la coperta.",
+   "cosaOttieni": "Le scarpe del viaggio: il primo ricordo."
   }
  ],
  "oggetti": [

@@ -344,12 +344,15 @@ namespace TrenoBambini.EditorTools
             Sedia(props, new Vector3(3.65f, 0f, 1.2f), -90f);
             Sedia(props, new Vector3(2.3f, 0f, 0.35f), 0f);
             Sedia(props, new Vector3(2.3f, 0f, 2.05f), 180f);
+            if (!Anno1994) // R016: nel 1994 sul tavolo non c'e' il lume (c'e' la lampadina nuda) ne' il cesto: ci si ricompone la ricevuta
+            {
             var lampTavolo = Model("LampadaPetrolio_A", props, new Vector3(2.25f, 0.66f, 1.25f), 0f, 1.2f, false, "LampadaTavolo");
             Impila(lampTavolo, tavolo, new Vector2(-0.05f, 0.05f));
             var fiammaTavolo = Prim(PrimitiveType.Sphere, "FiammaLampada", props, lampTavolo.transform.position + Vector3.up * 0.18f, new Vector3(0.06f, 0.1f, 0.06f), "Glow", null, false);
             Cavaliere(fiammaTavolo, tavolo);
             var cesto = Model("CestaVimini", props, new Vector3(2.7f, 0.66f, 1.0f), 30f, 1.2f, false, "Cesto");
             Impila(cesto, tavolo, new Vector2(0.4f, -0.2f));
+            }
 
             // braciere e secchio del carbone
             var br = Empty("Braciere", props, new Vector3(-1.2f, 0f, 0.6f)).transform;
@@ -424,9 +427,12 @@ namespace TrenoBambini.EditorTools
             // porta d'uscita nel varco del muro sud
             var doorFr = new WallFrame(new Vector3(0f, 0f, -2.5f), Vector3.left, Vector3.forward);
             var door = DoorLeaf(props, "PortaUscita", doorFr, 0f, 0.08f, 0.2f, 1.15f, 2.15f, 0.25f);
+            if (!Anno1994) // R016: nel 1994 la porta sul vicolo e' l'uscita dal capitolo (EscapeExit, SceneBuilderFinale)
+            {
             var d = door.AddComponent<Door>();
             d.targetScene = "10_Hub_Vicolo";
             d.targetSpawn = "da_basso_antonietta";
+            }
 
             // ---------------------------------------------------------------- alcova
             var letto = Pz(props, "LettoFerro", "B_LettoFerro", new[] { "M_FerroRuggine02", "M_TessutoLino", "Tessuto1" }, LettoFerro, new Vector3(-3.85f, 0f, 6.8f), 0f);
@@ -502,9 +508,11 @@ namespace TrenoBambini.EditorTools
                 Box("AppesoTraveCucina", props, new Vector3(3.0f, H - 0.1f, zt), new Vector3(2.95f, 0.2f, 0.2f), "M_LegnoVernicePelata", null, false);
             }
 
-            RisolviSpazio("20_Int_BassoAntonietta");
+            RisolviSpazio(Anno1994 ? "80_Basso_1994" : "20_Int_BassoAntonietta");
 
             // le scarpe (due blocchi a forma di scarpa) vicino alla porta
+            if (!Anno1994) // R016: nel 1994 le scarpe le posa il giocatore (enigma della soglia)
+            {
             var shoes = Empty("Scarpe", props, new Vector3(1.3f, 0f, -2.0f));
             ShoeObject(shoes.transform, new Vector3(-0.1f, 0f, 0f), 8f, 1f);
             ShoeObject(shoes.transform, new Vector3(0.12f, 0f, 0.03f), -14f, 1f);
@@ -515,13 +523,15 @@ namespace TrenoBambini.EditorTools
             shoeGlow.intensity = 0.35f; // alone discreto: la forma della scarpa deve restare leggibile
             var pick = shoes.AddComponent<ItemPickup>();
             pick.oggettoId = "scarpe";
+            }
 
             // luce calda sopra il tavolo (lume a petrolio): una sola Point Light
             var lgo = new GameObject("Luce Calda");
             lgo.transform.position = new Vector3(1.8f, 1.8f, 0.8f);
             var pl = lgo.AddComponent<Light>();
             pl.type = LightType.Point;
-            pl.color = new Color(1f, 0.70f, 0.40f);
+            pl.color = Anno1994 ? new Color(0.92f, 0.94f, 1f) : new Color(1f, 0.70f, 0.40f); // R016: lampadina nuda, luce fredda
+            if (Anno1994) lgo.transform.position = new Vector3(2.3f, 2.5f, 1.2f);
             pl.intensity = 4f;
             pl.range = 9f;
             pl.shadows = LightShadows.None;
@@ -529,7 +539,7 @@ namespace TrenoBambini.EditorTools
             Spawn("ingresso", new Vector3(0f, 0f, -1.7f), 0f, spawns);
             Spawn("oggetto_scarpe", new Vector3(0.7f, 0f, -1.4f), 90f, spawns);
 
-            SegretiBasso();
+            if (Anno1994) { Arreda1994(env, props); SegretiFinale(); } else SegretiBasso(); // R016
             SetStatic(env.gameObject);
             PredisponiSicurezza(true); // R017
 
@@ -537,7 +547,7 @@ namespace TrenoBambini.EditorTools
             BuildPlayer(new Vector3(0f, 0.05f, -1.7f), 0f, cam, CamProfilo.InternoPiccoloAdulto, true); // il basso e' nel presente: Amerigo adulto
             CreaVolumiCamera();
             PreparaInterniDissolvibili(scene); // R018
-            SaveScene(scene, "20_Int_BassoAntonietta");
+            SaveScene(scene, Anno1994 ? "80_Basso_1994" : "20_Int_BassoAntonietta");
         }
 
         /// <summary>

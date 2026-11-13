@@ -42,7 +42,7 @@ namespace TrenoBambini.EditorTools
 
         const int LutSize = 32;
 
-        static readonly string[] LookScenes = { "10_Hub_Vicolo", "20_Int_BassoAntonietta", "30_FB_Scarpe" };
+        static readonly string[] LookScenes = { "10_Hub_Vicolo", "20_Int_BassoAntonietta", "30_FB_Scarpe", "40_FB_Stracci", "50_FB_Volantino", "60_FB_Stazione", "61_FB_Vagone", "70_FB_Modena", "80_Basso_1994" };
         const string LookRoot = "Look";
         const string LookLightName = "Look_Luce";
 
@@ -214,7 +214,7 @@ namespace TrenoBambini.EditorTools
 
         static VolumeProfile ProfileFor(string n)
         {
-            string p = n == "30_FB_Scarpe" ? ProfFlash : n == "20_Int_BassoAntonietta" ? ProfBasso : ProfEpoca;
+            string p = (n == "30_FB_Scarpe" || n == "40_FB_Stracci" || n == "50_FB_Volantino" || n == "60_FB_Stazione" || n == "61_FB_Vagone" || n == "70_FB_Modena") ? ProfFlash : (n == "20_Int_BassoAntonietta" || n == "80_Basso_1994") ? ProfBasso : ProfEpoca;
             return AssetDatabase.LoadAssetAtPath<VolumeProfile>(p);
         }
 
@@ -695,6 +695,12 @@ namespace TrenoBambini.EditorTools
                 case "10_Hub_Vicolo": res = HubLightmapRes; maxSize = 1024; break;
                 case "20_Int_BassoAntonietta": res = 8f; maxSize = 1024; break;
                 case "30_FB_Scarpe": res = 3f; maxSize = 1024; break;
+                case "40_FB_Stracci": res = 2.5f; maxSize = 1024; break; // R012: LFS vicino al limite, lightmap ridotte
+                case "50_FB_Volantino": res = 2.5f; maxSize = 1024; break; // R013: come Stracci (LFS)
+                case "60_FB_Stazione": res = 2f; maxSize = 1024; break; // R014: stazione grande, lightmap leggere (LFS)
+                case "61_FB_Vagone": res = 6f; maxSize = 512; break;    // R014: interno piccolo
+                case "70_FB_Modena": res = 2.5f; maxSize = 1024; break; // R015: corte, tre interni e la strada (LFS)
+                case "80_Basso_1994": res = 6f; maxSize = 1024; break;  // R016: il basso nel 1994 (come il basso, un po' piu' leggero)
                 default: res = 4f; maxSize = 1024; break;
             }
         }
@@ -917,6 +923,69 @@ namespace TrenoBambini.EditorTools
                     probeMin = new Vector3(-4.4f, 0.3f, -2.3f); probeMax = new Vector3(6.2f, 2.4f, 14f); probeStep = 1.4f;
                     probesSky = false;
                     break;
+                case "80_Basso_1994":
+                    // R016: lo stesso basso nel marzo 1994: luce del presente fredda e neutra, una lampadina nuda al posto del lume; gli angoli del 1946
+                    // (DueTempi) hanno luci dinamiche proprie, spente nel bake.
+                    SetSun(sun, new Color(0.82f, 0.86f, 0.94f), 2.0f, new Vector3(52f, 28f, 0f), 0.5f);
+                    SetSkyAmbient(1.6f);
+                    bg = new Color(0.08f, 0.08f, 0.085f);
+                    SetFog(0.005f, new Color(0.2f, 0.2f, 0.21f));
+                    var lamp94 = GameObject.Find("Luce Calda");
+                    if (lamp94 != null)
+                    {
+                        var l94 = lamp94.GetComponent<Light>();
+                        l94.color = Color.Lerp(Cct(4200f), Color.white, 0.4f);
+                        l94.intensity = 3.2f; l94.range = 8f; l94.shadows = LightShadows.None;
+                        l94.lightmapBakeType = LightmapBakeType.Mixed;
+                    }
+                    probeMin = new Vector3(-4.4f, 0.3f, -2.3f); probeMax = new Vector3(6.2f, 2.4f, 14f); probeStep = 1.4f;
+                    probesSky = false;
+                    break;
+                case "50_FB_Volantino":
+                    // R013: lo stesso set del ricordo "Le scarpe" ma di sera, sotto la pioggia (luoghi.json meteo "pioggia"): cielo coperto come l'hub,
+                    // sole quasi spento e freddo, nebbia grigio-azzurra; le luci sono lampioni, lampade dei bassi, finestre e le lampade a petrolio della sede.
+                    exterior = true;
+                    SetSun(sun, new Color(0.62f, 0.68f, 0.86f), 0.35f, new Vector3(16f, -30f, 0f), 0.3f);
+                    SetSkyAmbient(1.0f);
+                    bg = new Color(0.26f, 0.27f, 0.31f);
+                    SetFog(0.03f, bg);
+                    AddLampLights("LuceLampione", Cct(2400f), 5.0f, 9f);
+                    AddLampLights("EdicolaLumino", Cct(1900f), 1.3f, 3f);
+                    AddLampLights("LuceBottega", Cct(2200f), 4.0f, 8f);
+                    AddLampLights("LuceBasso", Cct(2300f), 3.0f, 6.5f);
+                    probeMin = new Vector3(-17f, 0.4f, -33f); probeMax = new Vector3(20f, 4.4f, 60f); probeStep = 3.6f;
+                    break;
+                case "60_FB_Stazione":
+                    // R014: mattina d'inverno in una grande stazione: luce fredda e bassa dal lucernario e dalla testata aperta, fumo grigio (nebbia),
+                    // lampade appese calde. Cielo coperto come l'hub.
+                    exterior = true;
+                    SetSun(sun, new Color(0.86f, 0.88f, 0.92f), 1.2f, new Vector3(28f, -24f, 0f), 0.5f);
+                    SetSkyAmbient(1.3f);
+                    bg = new Color(0.52f, 0.52f, 0.50f);
+                    SetFog(0.022f, bg);
+                    AddLampLights("LuceLampione", Cct(2500f), 4.0f, 10f);
+                    probeMin = new Vector3(-14f, 0.4f, -15f); probeMax = new Vector3(14f, 5f, 44f); probeStep = 4f;
+                    break;
+                case "70_FB_Modena":
+                    // R015: mattina d'inverno in pianura: cielo bianco, sole basso e velato, nebbia lattea che chiude i campi; dentro stufe e lampade calde
+                    exterior = true;
+                    SetSun(sun, new Color(0.9f, 0.93f, 0.98f), 0.9f, new Vector3(22f, 150f, 0f), 0.35f);
+                    SetSkyAmbient(1.5f);
+                    bg = new Color(0.8f, 0.81f, 0.82f);
+                    SetFog(0.028f, bg);
+                    AddLampLights("LuceBottega", Cct(2300f), 2.2f, 6f);
+                    probeMin = new Vector3(-16f, 0.4f, -13f); probeMax = new Vector3(16f, 3.6f, 50f); probeStep = 4f;
+                    break;
+                case "61_FB_Vagone":
+                    // R014: interno stretto della carrozza: pomeriggio dai finestrini (il sole e' Mixed: PaesaggioTreno lo porta verso la notte), lanterne calde.
+                    SetSun(sun, new Color(1f, 0.86f, 0.66f), 1.6f, new Vector3(20f, 70f, 0f), 0.6f);
+                    SetSkyAmbient(1.4f);
+                    bg = new Color(0.6f, 0.58f, 0.52f);
+                    SetFog(0.008f, bg);
+                    AddLampLights("LuceBottega", Cct(2300f), 1.6f, 4.5f);
+                    probeMin = new Vector3(-1.2f, 0.4f, -2.2f); probeMax = new Vector3(1.2f, 2.2f, 20.2f); probeStep = 1.2f;
+                    probesSky = false;
+                    break;
                 default: // 30_FB_Scarpe: ricordo 1946, sole basso dorato, ombre lunghe, nessuna pioggia
                     // R007: sole basso (altezza ~22 gradi) lungo l'asse della via, caldo e luminoso; cielo procedurale al tramonto
                     sky = AssetDatabase.LoadAssetAtPath<Material>(SkyRicordo);
@@ -930,6 +999,7 @@ namespace TrenoBambini.EditorTools
                     AddLampLights("LuceBasso", Cct(2300f), 2.0f, 5.5f);
                     exterior = true;
                     probeMin = new Vector3(-17f, 0.4f, -33f); probeMax = new Vector3(20f, 3.6f, 38f); probeStep = 3.2f;
+                    if (name == "40_FB_Stracci") { probeMin = new Vector3(-27f, 0.4f, -31f); probeMax = new Vector3(27f, 4.6f, 49f); probeStep = 3.6f; }
                     break;
             }
             RenderSettings.skybox = sky;

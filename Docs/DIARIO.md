@@ -5,6 +5,124 @@ Regole d'uso: vedi la sezione "Diario e lavoro su più PC" in `CLAUDE.md`.
 
 ---
 
+## 2026-11-13 – PC scuola – R028 voce del Narratore
+**Branch:** richiesta/R028-voce-narratore (con dentro R027 -> R012)
+### Fatto
+- Pulsante altoparlante (cutscene e messaggi dei ricordi), lettura automatica in Impostazioni, ID `nar_<oggetto>_001/002`.
+- Lista da registrare: `Doppiaggio/DA_REGISTRARE.md` (83 file, ~15 min), `copione.csv`, etichette di Audacity per capitolo.
+
+## 2026-11-13 – PC scuola – R027 trofei
+**Branch:** richiesta/R027-trofei (con dentro R026 -> R012)
+### Fatto
+- Album di figurine (menu e pausa), 30 trofei in 5 famiglie, condizioni a token, notifica, eventi senza indizi / errori / schede / scene, prove.
+### Decisioni
+- Missioni secondarie = gli enigmi segreti di R011; elenco nel Rapporto di R027 (nessuna domanda, si corregge dopo).
+
+## 2026-11-13 – PC scuola – R026 biglietto "Cosa fare / Cosa ottieni"
+**Branch:** richiesta/R026-enigmi-chiari (con dentro R016 e quindi R012-R015)
+### Fatto
+- Biglietto d'apertura per tutti i 48 enigmi (3D e 2D), pulsante ?, opzione nelle Impostazioni, script `aggiungi_biglietti.py`, controlli nei self-test.
+### Problemi aperti
+- Punti 3 (grafica, screenshot prima/dopo) e 4 (giro da studente) solo con Unity.
+
+## 2026-11-13 – PC scuola – R016 il finale scritto senza Unity
+**Branch:** richiesta/R016-finale-1994 (con dentro R015, R014, R013, R012) · niente compilato: a scuola niente Unity
+### Fatto
+- Scena `80_Basso_1994` = generatore del basso con `Anno1994` + arredo 1994; stanza a due tempi (`DueTempi`: gli angoli tornano al 1946 per qualche secondo).
+- Nove postazioni (basso svuotato, cinque ricordi al loro posto, ricevuta del Monte dei pegni da ricomporre, custodia 4712 sotto il letto, Carmine),
+  cutscene `cs_finale_001..022`, titoli di coda e ritorno al menu, flag `finale_visto`, scena extra con tutti i segreti, segreti della radio, prova `-finaletest`.
+### Problemi aperti
+- Tutto da compilare e provare (Rapporto di R016); ricostruire anche il basso 20 per verificare che resti identico.
+### Prossimi passi
+- A casa: R012 -> R016 in Unity; poi R026-R029.
+
+## 2026-11-13 – PC scuola – R015 "Il violino" scritto senza Unity
+**Branch:** richiesta/R015-ricordo-violino (con dentro R014, R013, R012) · nessuno di questi branch e' stato compilato: a scuola niente Unity
+### Fatto
+- Scena `70_FB_Modena` da `SceneBuilderViolino.cs`: corte innevata, casa di Derna (cucina e stanzetta), laboratorio dei Benvenuti, strada e scuola, neve che cade.
+- 5 enigmi sul suono con alternativa visiva (`flashback_violino.json`): forno con la prova della farina, attrezzi che suonano (onde sulla lavagnetta),
+  pianoforte da accordare con i battimenti (lancetta), impronte nella neve, melodia originale da ascoltare e ripetere. Codice in `EsaminaViewViolino.cs`.
+- Cutscene `cs_violino_001..022`, oggetto `spartito` nel cassettino della credenza della cucina (dopo il cappotto), luoghi, mappe, obiettivi, personaggi.
+- Segreti R011: la carta d'Italia (enigma) + 5 collezionabili; `segreti.json` rigenerato. Prova `-violinotest`.
+### Decisioni
+- Il ragazzo geloso e' Rivo [GIOCO]; id dell'oggetto `spartito` (il `violino` resta per R016). Dettagli nel Rapporto di R015.
+### Problemi aperti
+- Niente compilato ne' provato: lista "Da fare a casa con Unity" nel Rapporto di R015 (prima R012, R013, R014).
+- Sei personaggi di Modena da fare in MakeHuman (per ora solo nelle cutscene).
+### Prossimi passi (PC casa)
+- Compilare e provare R012 -> R013 -> R014 -> R015; poi R016 (finale), R026-R029.
+
+## 2026-11-12 – PC scuola – R012 chiusa lato codice, R013 e R014 scritte, Capa 'e fierro in MakeHuman
+**Branch:** richiesta/R015-ricordo-violino (contiene R012+R013+R014) · nessuno di questi branch e' stato compilato: a scuola niente Unity
+### Fatto
+- **R012 Stracci**: review del codice, correzioni (testi dei tessuti, gamepad su monete/muro), bottega abbellita, Capa 'e fierro (script MakeHuman, import Unity, ritratto). Branch `richiesta/R012-ricordo-stracci`.
+- **R013 Volantino**: scena `50_FB_Volantino` da builder, 5 enigmi, `cs_volantino_001..022`, segreti, `-volantinotest`. Branch `richiesta/R013-ricordo-volantino`.
+- **R014 Cappotto**: scene `60_FB_Stazione` e `61_FB_Vagone`, 5 enigmi, `cs_cappotto_001..022`, segreti, `-cappottotest`, porta della stazione nell'hub corretta. Branch `richiesta/R014-ricordo-cappotto`.
+- **Capa 'e fierro (MakeHuman)**: abito nuovo (giacca di fustagno, camicia a righe, pantaloni di lana, shoes04), testa rasata dipinta sulla pelle, barba, sopracciglia folte (eyebrow012), 54 anni. Modello in `ArtSource/Characters/makehuman/Capa_e_fierro/` = penultima versione (prima di barba/sopracciglia).
+### Problemi aperti
+- Tutto il codice di R012-R014 e' NON compilato e NON provato: checklist "Da fare a casa con Unity" nel Rapporto di ogni richiesta.
+- Capa 'e fierro: rilanciare `genera_capa_e_fierro_makehuman.py` (materiali gia' aggiornati) e approvare gli screenshot.
+- R015 Violino: solo il merge di R014, lavoro non iniziato.
+### Prossimi passi (PC casa)
+- Compilare e provare R012 → R013 → R014 nell'ordine dei Rapporti; poi R015, R016, R026–R029.
+
+## 2026-11-12 – PC scuola – R014 "Il cappotto" scritto senza Unity
+**Branch:** richiesta/R014-ricordo-cappotto (con dentro R013 e R012) · **Ultimo commit:** vedi `git log`
+### Fatto
+- Scene `60_FB_Stazione` (stazione generica, D9) e `61_FB_Vagone` (carrozza 214 con il paesaggio che scorre), entrambe giocabili (D10), da `SceneBuilderCappotto.cs`.
+- 5 enigmi con 4 meccanismi nuovi (cartellini su figure vive, cappotti per taglia, finestrino in movimento, dialoghi a scelta), cutscene `cs_cappotto_001..022`,
+  cappottino dietro la porta del basso, Modena sbloccata, segreti R011, prova `-cappottotest`.
+- Hub: `Porta_stazione` con il pivot sulla parete (le prove la misuravano a quota 0).
+### Problemi aperti
+- Niente compilato né provato: lista nel Rapporto di R014 (prima R012 e R013).
+### Prossimi passi
+- A casa: compilare, costruire le scene, verifiche, bake, `-cappottotest`; poi R015.
+
+## 2026-11-12 – PC scuola – R013 "Il volantino del treno" scritto senza Unity
+**Branch:** richiesta/R013-ricordo-volantino (con dentro R012) · **Ultimo commit:** vedi `git log` (voce scritta prima del push)
+### Fatto
+- Merge di `richiesta/R012-ricordo-stracci` nel branch di R013 (senza conflitti).
+- Capitolo completo in codice e dati: scena `50_FB_Volantino` da `SceneBuilderVolantino.cs` (vicolo delle voci = set de "Le scarpe" di sera con la pioggia, sede del Comitato a due stanze),
+  5 enigmi (`flashback_volantino.json`), 4 meccanismi nuovi (voci da ascoltare, bacheca a fili alla Obra Dinn, ciclostile a fasi, datario), cutscene `cs_volantino_001..022`,
+  oggetto `volantino` sulla credenza del basso, `stazione` sbloccata, mappa e obiettivi, segreti R011, prova `-volantinotest`.
+### Decisioni
+- Date del datario solo confermate (16-12-1945, 29-12-1945, 19-01-1946, 2-6-1946); niente 10 marzo 1946; Teresa Noce senza date. Dettagli nel Rapporto di R013.
+### Problemi aperti
+- Niente compilato né provato: la lista "Da fare a casa con Unity" è nel Rapporto di R013 (prima finire R012).
+- Modifiche locali non mie in `ArtSource/Characters/makehuman/` (fbx, mhm, screenshot di Amerigo): lasciate fuori dai commit.
+### Prossimi passi
+- A casa: compilare, costruire la scena, verifiche, bake, `-volantinotest`; poi R014.
+
+## 2026-11-09 – PC casa – R019, R024, R025, R011 integrate e online; R012 Stracci a metà
+**Branch:** richiesta/R012-ricordo-stracci · **Ultimo commit:** 6836263 (+ questa voce) · **feature:** 3030250 · **gh-pages:** 715b01d
+### Fatto
+- **R019** minimappa integrata in `feature/upgrade-realistico`.
+- **R024** scarpe invisibili: causa = calzature piccole e grigie come il selciato. 5 modelli `calz_*` veri, luce che le sfiora, controllo `ControllaRaccoglibili` nel self-test (241 PASS).
+- **R025** filmato iniziale: copione di 36 battute `cs_intro_*` (4:38), 7 capitoli in-engine, si salta tenendo premuto, Rivedi da Pausa e menu, 65 PASS. Personaggio `amerigo_adulto`, `nomeCopione` nel CSV.
+- **R011** segreti: 3 enigmi segreti + 14 collezionabili, pagina Segreti nel quaderno, aiuto lieve automatico, "Rivivi il ricordo" dalla latta, 351 PASS.
+- Build WebGL pubblicata dopo ogni richiesta (ultima 715b01d). PR #26 e #27 chiuse.
+### Decisioni
+- Mai domande: copione R025 mostrato e sviluppato subito; correzioni di review applicate senza attendere.
+### Problemi aperti
+- **R012 non chiusa**: MCP di Unity caduto durante le prove. L'ultima correzione (EsaminaView.Registra) non è ancora compilata; mancano personaggio 3D di Capa 'e fierro, bake, FPS, foto, -enigmitest/-segretitest. Elenco completo nel Rapporto della R012.
+- R025: primo piano dei piedi scuro (sembra un adulto), striscia di pioggia residua vicino alla camera.
+- Hub: `Porta_stazione` non raggiungibile a piedi (da sistemare con R014).
+- Modifiche locali non committate (.mat rigenerati, Settings/Quality, .meta texture segreti): rumore di Unity, non lavoro.
+### Prossimi passi
+- Riavviare il server MCP, finire R012 (prove, personaggio, bake), review, merge, WebGL; poi R013.
+
+## 2026-11-09 – PC casa – Nuove richieste R024–R029 e regola dei 2 minuti
+**Branch:** richiesta/R019-minimappa-vicoli · **Ultimo commit:** 8847569 (+ questa voce)
+### Fatto
+- Aperte 6 richieste in bozza: **R024** scarpe invisibili nel livello 2 del ricordo (PR #26), **R025** filmato iniziale doppiato (PR #27),
+  **R026** enigmi più chiari con biglietto "cosa fare / cosa ottieni" (PR #28), **R027** trofei (PR #29),
+  **R028** pulsante altoparlante del Narratore + lista file da registrare con Audacity (PR #30), **R029** ottimizzazione totale (PR #31).
+### Decisioni
+- Coda: R019 → R024 → R025 → ricordi (R011, R012–R016) → R026 → R027 → R028 → R029 (ottimizzazione per ultima).
+- `CLAUDE.md`: se l'utente non risponde a una domanda entro 2 minuti si va avanti con l'opzione raccomandata.
+### Prossimi passi
+- Chiudere R019 (in prova), poi R024.
+
 ## 2026-11-08 – PC casa – R022, R017, R018, R007 (con R021) integrate, gioco online aggiornato
 **Branch:** feature/upgrade-realistico · **Ultimo commit:** 38a2796 (+ questa voce) · **gh-pages:** e88ad1b
 ### Fatto
