@@ -48,7 +48,7 @@ MCP for Unity) le implementa. Le due sessioni non si parlano: comunicano **solo 
 | R013 | Nuovo ricordo "Il volantino del treno" | codice completo, da provare in Unity (2026-11-12), PR #15 |
 | R014 | Nuovo ricordo "Il cappotto" | codice completo, da provare in Unity (2026-11-12), PR #16 |
 | R015 | Nuovo ricordo "Il violino" | codice completo, da provare in Unity (2026-11-13), PR #17 |
-| R016 | Il finale nel 1994 | aperta, PR #18 (dopo R015) |
+| R016 | Il finale nel 1994 | codice completo, da provare in Unity (2026-11-13), PR #18 |
 | R017 | Mappe pulite: niente sfarfallii né buchi sul vuoto | integrata in `feature/upgrade-realistico` (7/11), PR #19 |
 | R018 | Telecamera robusta: mai dentro gli edifici né sul vuoto | integrata in `feature/upgrade-realistico` (8/11), PR #20 |
 | R019 | Minimappa d'epoca con prossimo obiettivo e nomi dei vicoli | integrata (2026-11-09): minimappa, mappa grande (M), obiettivi, 212 PASS in build, PR #21 |

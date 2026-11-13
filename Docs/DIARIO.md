@@ -5,6 +5,17 @@ Regole d'uso: vedi la sezione "Diario e lavoro su più PC" in `CLAUDE.md`.
 
 ---
 
+## 2026-11-13 – PC scuola – R016 il finale scritto senza Unity
+**Branch:** richiesta/R016-finale-1994 (con dentro R015, R014, R013, R012) · niente compilato: a scuola niente Unity
+### Fatto
+- Scena `80_Basso_1994` = generatore del basso con `Anno1994` + arredo 1994; stanza a due tempi (`DueTempi`: gli angoli tornano al 1946 per qualche secondo).
+- Nove postazioni (basso svuotato, cinque ricordi al loro posto, ricevuta del Monte dei pegni da ricomporre, custodia 4712 sotto il letto, Carmine),
+  cutscene `cs_finale_001..022`, titoli di coda e ritorno al menu, flag `finale_visto`, scena extra con tutti i segreti, segreti della radio, prova `-finaletest`.
+### Problemi aperti
+- Tutto da compilare e provare (Rapporto di R016); ricostruire anche il basso 20 per verificare che resti identico.
+### Prossimi passi
+- A casa: R012 -> R016 in Unity; poi R026-R029.
+
 ## 2026-11-13 – PC scuola – R015 "Il violino" scritto senza Unity
 **Branch:** richiesta/R015-ricordo-violino (con dentro R014, R013, R012) · nessuno di questi branch e' stato compilato: a scuola niente Unity
 ### Fatto

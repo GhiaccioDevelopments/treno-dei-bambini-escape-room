@@ -89,7 +89,7 @@ Protagonista: Amerigo Speranza, Napoli 1946.
 ## Struttura
 ```
 Assets/_Game/
-  Scenes/            00_Boot, 01_Titolo, 10_Hub_Vicolo, 20_Int_BassoAntonietta, 30_FB_Scarpe, 40_FB_Stracci (R012: vicolo degli stracci + bottega di Capa 'e fierro, un'unica scena; Treno > Scene > Costruisci ricordo Stracci), 50_FB_Volantino (R013: vicolo delle voci = set de "Le scarpe" di sera con la pioggia + sede del Comitato; Treno > Scene > Costruisci ricordo Volantino), 60_FB_Stazione + 61_FB_Vagone (R014: un ricordo su due scene, enigmi con campo "scena"; Treno > Scene > Costruisci ricordo Cappotto), 70_FB_Modena (R015: corte innevata con casa di Derna, laboratorio dei Benvenuti e scuola; Treno > Scene > Costruisci ricordo Violino)
+  Scenes/            00_Boot, 01_Titolo, 10_Hub_Vicolo, 20_Int_BassoAntonietta, 30_FB_Scarpe, 40_FB_Stracci (R012: vicolo degli stracci + bottega di Capa 'e fierro, un'unica scena; Treno > Scene > Costruisci ricordo Stracci), 50_FB_Volantino (R013: vicolo delle voci = set de "Le scarpe" di sera con la pioggia + sede del Comitato; Treno > Scene > Costruisci ricordo Volantino), 60_FB_Stazione + 61_FB_Vagone (R014: un ricordo su due scene, enigmi con campo "scena"; Treno > Scene > Costruisci ricordo Cappotto), 70_FB_Modena (R015: corte innevata con casa di Derna, laboratorio dei Benvenuti e scuola; Treno > Scene > Costruisci ricordo Violino), 80_Basso_1994 (R016: il finale, BuildBasso con Anno1994 + arredo 1994 + DueTempi; Treno > Scene > Costruisci finale 1994)
   Scripts/Core       GameManager, SaveSystem, SceneLoader, Transition, GameData (loader JSON)
   Scripts/Player     ThirdPersonController (CharacterController), CameraRig (Cinemachine 3), WallFader, PlayerInteractor
   Scripts/World      Interactable, Door, ItemPickup (avvia flashback), IngressoRicordo (R012: oggetti-ricordo creati a runtime da oggetti.json, campo ingresso), Glow (emissione pulsante)
@@ -221,6 +221,7 @@ Formato voce:
   Misurare FPS e peso build per preset. Merge su `main` e tag v0.2 solo dopo l'ok dell'utente.
   Richieste dell'utente in sospeso: `Docs/BACKLOG.md` (controllarlo all'inizio di ogni sotto-fase).
 - Stracci (R012, branch `richiesta/R012-ricordo-stracci`): sviluppato (scena 40_FB_Stracci, 5 enigmi, cutscene `cutscene_stracci`).
+- Finale (R016, branch `richiesta/R016-finale-1994`): codice scritto senza Unity (scena 80_Basso_1994, nove postazioni, stanza a due tempi `DueTempi`, ricevuta `ricomponi`, titoli di coda `TitoliDiCoda`); oggetto `violino` con `titoliDiCoda: true`, ingresso dal telefono del basso dopo il violino.
 - Violino (R015, branch `richiesta/R015-ricordo-violino`): codice scritto senza Unity (scena 70_FB_Modena da costruire, 5 enigmi sul suono, cutscene `cutscene_violino`); oggetto `spartito` nel cassettino del basso dopo il cappotto.
 - Cappotto (R014, branch `richiesta/R014-ricordo-cappotto`): codice scritto senza Unity (scene 60_FB_Stazione e 61_FB_Vagone da costruire, 5 enigmi, cutscene `cutscene_cappotto`).
 - Volantino (R013, branch `richiesta/R013-ricordo-volantino`): codice scritto senza Unity (scena 50_FB_Volantino da costruire, 5 enigmi, cutscene `cutscene_volantino`); il volantino sblocca `stazione`. Oggetti futuri: volantino del treno, cappotto, violino, finale. **Ok dell'utente (2026-11-06)** a svilupparli tutti
