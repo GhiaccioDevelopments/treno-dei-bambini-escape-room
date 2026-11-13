@@ -1783,6 +1783,149 @@
           "z": 20.2
         }
       ]
+    },
+    {
+      "scena": "70_FB_Modena",
+      "titolo": "Modena, inverno 1946-47",
+      "tema": "ricordo",
+      "ax0": -27,
+      "az0": -23,
+      "ax1": 27,
+      "az1": 61,
+      "ppm": 8,
+      "raggio": 18,
+      "strade": [
+        {
+          "id": "corte",
+          "nome": "La corte dei Benvenuti",
+          "tipo": "cortile",
+          "zone": [
+            {
+              "x0": -6,
+              "x1": 6,
+              "z0": -12,
+              "z1": 12
+            }
+          ],
+          "ancore": [
+            {
+              "x": 0,
+              "z": -2
+            }
+          ]
+        },
+        {
+          "id": "cucina_derna",
+          "nome": "La cucina di Derna",
+          "tipo": "stanza",
+          "zone": [
+            {
+              "x0": -15.5,
+              "x1": -6.5,
+              "z0": -7.5,
+              "z1": 1
+            }
+          ],
+          "ancore": [
+            {
+              "x": -11,
+              "z": -3
+            }
+          ]
+        },
+        {
+          "id": "stanzetta",
+          "nome": "La stanzetta di Amerigo",
+          "tipo": "stanza",
+          "zone": [
+            {
+              "x0": -15.5,
+              "x1": -6.5,
+              "z0": 1,
+              "z1": 7.5
+            }
+          ],
+          "ancore": [
+            {
+              "x": -11,
+              "z": 4.2
+            }
+          ]
+        },
+        {
+          "id": "laboratorio",
+          "nome": "Il laboratorio di Alcide",
+          "tipo": "stanza",
+          "zone": [
+            {
+              "x0": 6.5,
+              "x1": 15.5,
+              "z0": -7.5,
+              "z1": 7.5
+            }
+          ],
+          "ancore": [
+            {
+              "x": 11,
+              "z": 0
+            }
+          ]
+        },
+        {
+          "id": "strada",
+          "nome": "La strada della scuola",
+          "tipo": "vicolo",
+          "zone": [
+            {
+              "x0": -2.5,
+              "x1": 2.5,
+              "z0": 12,
+              "z1": 40
+            }
+          ],
+          "ancore": [
+            {
+              "x": 0,
+              "z": 26
+            }
+          ]
+        },
+        {
+          "id": "scuola",
+          "nome": "La scuola",
+          "tipo": "stanza",
+          "zone": [
+            {
+              "x0": -5.5,
+              "x1": 5.5,
+              "z0": 40.5,
+              "z1": 49.5
+            }
+          ],
+          "ancore": [
+            {
+              "x": 0,
+              "z": 44
+            }
+          ]
+        }
+      ],
+      "punti": [
+        {
+          "id": "uscita",
+          "glifo": "uscita",
+          "nome": "Il cancello della corte",
+          "x": 0.0,
+          "z": -12.2
+        },
+        {
+          "id": "forno",
+          "glifo": "bottega",
+          "nome": "Il forno di Rosa",
+          "x": 9.6,
+          "z": -6.7
+        }
+      ]
     }
   ],
   "obiettivi": [
@@ -2463,6 +2606,146 @@
           "x": 1.15,
           "z": -2.1,
           "testo": "Esamina il cappottino appeso dietro la porta"
+        },
+        {
+          "scena": "10_Hub_Vicolo",
+          "x": -9.1,
+          "z": -2.0,
+          "testo": "Torna al basso di Antonietta"
+        }
+      ]
+    },
+    {
+      "id": "ob_violino_forno",
+      "testo": "Aiuta Rosa a infornare il pane",
+      "capitolo": "flashback_violino",
+      "completo": [
+        "enigma_forno"
+      ],
+      "punti": [
+        {
+          "scena": "70_FB_Modena",
+          "x": 9.6,
+          "z": -5.6,
+          "testo": "Il forno di Rosa, nel laboratorio dei Benvenuti"
+        },
+        {
+          "scena": "20_Int_BassoAntonietta",
+          "x": 2.07,
+          "z": 6.9,
+          "testo": "Esamina il cassettino sulla credenza della cucina"
+        },
+        {
+          "scena": "10_Hub_Vicolo",
+          "x": -9.1,
+          "z": -2.0,
+          "testo": "Torna al basso di Antonietta"
+        }
+      ]
+    },
+    {
+      "id": "ob_violino_attrezzi",
+      "testo": "Porta il pane ad Alcide",
+      "capitolo": "flashback_violino",
+      "completo": [
+        "enigma_attrezzi"
+      ],
+      "punti": [
+        {
+          "scena": "70_FB_Modena",
+          "x": 14.0,
+          "z": -1.6,
+          "testo": "Il banco dell'accordatore, nel laboratorio"
+        },
+        {
+          "scena": "20_Int_BassoAntonietta",
+          "x": 2.07,
+          "z": 6.9,
+          "testo": "Esamina il cassettino sulla credenza della cucina"
+        },
+        {
+          "scena": "10_Hub_Vicolo",
+          "x": -9.1,
+          "z": -2.0,
+          "testo": "Torna al basso di Antonietta"
+        }
+      ]
+    },
+    {
+      "id": "ob_violino_piano",
+      "testo": "Accorda il pianoforte",
+      "capitolo": "flashback_violino",
+      "completo": [
+        "enigma_pianoforte"
+      ],
+      "punti": [
+        {
+          "scena": "70_FB_Modena",
+          "x": 14.0,
+          "z": 4.2,
+          "testo": "Il pianoforte aperto, nel laboratorio"
+        },
+        {
+          "scena": "20_Int_BassoAntonietta",
+          "x": 2.07,
+          "z": 6.9,
+          "testo": "Esamina il cassettino sulla credenza della cucina"
+        },
+        {
+          "scena": "10_Hub_Vicolo",
+          "x": -9.1,
+          "z": -2.0,
+          "testo": "Torna al basso di Antonietta"
+        }
+      ]
+    },
+    {
+      "id": "ob_violino_impronte",
+      "testo": "Segui le impronte nella neve",
+      "capitolo": "flashback_violino",
+      "completo": [
+        "enigma_impronte"
+      ],
+      "punti": [
+        {
+          "scena": "70_FB_Modena",
+          "x": 0.0,
+          "z": 8.2,
+          "testo": "Le impronte all'imbocco della strada"
+        },
+        {
+          "scena": "20_Int_BassoAntonietta",
+          "x": 2.07,
+          "z": 6.9,
+          "testo": "Esamina il cassettino sulla credenza della cucina"
+        },
+        {
+          "scena": "10_Hub_Vicolo",
+          "x": -9.1,
+          "z": -2.0,
+          "testo": "Torna al basso di Antonietta"
+        }
+      ]
+    },
+    {
+      "id": "ob_violino_melodia",
+      "testo": "La prima melodia, a scuola",
+      "capitolo": "flashback_violino",
+      "completo": [
+        "enigma_melodia"
+      ],
+      "punti": [
+        {
+          "scena": "70_FB_Modena",
+          "x": 0.0,
+          "z": 46.4,
+          "testo": "La cattedra della scuola, in fondo alla strada"
+        },
+        {
+          "scena": "20_Int_BassoAntonietta",
+          "x": 2.07,
+          "z": 6.9,
+          "testo": "Esamina il cassettino sulla credenza della cucina"
         },
         {
           "scena": "10_Hub_Vicolo",

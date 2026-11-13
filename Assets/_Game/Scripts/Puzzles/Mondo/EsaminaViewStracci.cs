@@ -78,6 +78,8 @@ namespace TrenoBambini.Puzzles
         {
             if (solved) return false;
             string mec = Meccanismo(def);
+            bool esitoViolino;
+            if (ConfermaViolino(mec, out esitoViolino)) return esitoViolino; // R015: Ascolta (suoni, accordatura, melodia)
             bool esitoCappotto;
             if (ConfermaCappotto(mec, out esitoCappotto)) return esitoCappotto; // R014: Appunta (finestrino), Rispondi (dialogo)
             bool esitoVolantino;

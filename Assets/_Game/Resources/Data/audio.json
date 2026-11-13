@@ -133,6 +133,22 @@
         70
       ],
       "superficie": "ovattato"
+    },
+    {
+      "scena": "70_FB_Modena",
+      "musica": "tema_amerigo_ricordo",
+      "ambiente": [
+        "ricordo_tono",
+        "vento_mare"
+      ],
+      "sparsi": [
+        "campane"
+      ],
+      "intervallo": [
+        30,
+        70
+      ],
+      "superficie": "ovattato"
     }
   ],
   "eventi": [

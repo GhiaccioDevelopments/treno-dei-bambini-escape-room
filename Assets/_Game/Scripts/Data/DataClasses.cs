@@ -127,6 +127,12 @@ namespace TrenoBambini.Data
         public float periodo;                // R014 finestrino: secondi fra due cartelli
         public string cutscene;              // R014: cutscene (id) che parte quando l'enigma e' risolto (mai quando si rivive il ricordo)
         public string cutsceneCapitolo;      // R014: capitolo di quella cutscene (vuoto = tutte le battute)
+        public FornoDef forno = new FornoDef();               // R015 forno: il modello del calore (farina, legna, serranda, clessidra)
+        public List<SuonoDef> suoni = new List<SuonoDef>();    // R015 suoni: i suoni da riconoscere, in ordine (attrezzo = id della parte)
+        public List<CordaDef> corde = new List<CordaDef>();    // R015 accordatura: le corde da accordare con i battimenti
+        public List<ImprontaDef> impronte = new List<ImprontaDef>(); // R015 impronte: gli scarponi dei ragazzi (indice = valore delle parti "scarpone" e "orma")
+        public List<int> note = new List<int>();               // R015 melodia: note (midi) dei segni colorati (indice = valore delle parti "nota")
+        public List<FraseDef> frasi = new List<FraseDef>();    // R015 melodia: le frasi da ascoltare e ripetere
         public string finale;                // se valorizzato (nella scena l'oggetto-ricordo con questo id resta nascosto finche' l'enigma non e' risolto), alla soluzione parte il ricordo di questo oggetto (es. "scarpe")
     }
 
@@ -207,6 +213,22 @@ namespace TrenoBambini.Data
     [Serializable] public class RispostaDef { public string testo, richiede, esito; public bool giusta; }
 
     /// <summary>R014 finestrino: cartello che passa nel finestrino. citta = va appuntato sulla carta; dopo = pezzi rivelati sulla carta; ripete = che cosa dice il controllore se lo perdi; luce = 0 giorno .. 1 notte.</summary>
+    /// <summary>R015 forno: gradi iniziali, finestra giusta (giusto0..giusto1), massimo, gradi per ciocco (legna), calo al secondo (raffredda, serranda aperta in piu'),
+    /// secondi di cottura e tolleranze (presto = quanto prima si puo' sfornare, tardi = quanto dopo prima che bruci).</summary>
+    [Serializable] public class FornoDef { public float inizio = 110f, giusto0 = 220f, giusto1 = 265f, massimo = 340f, legna = 42f, raffredda = 1.2f, serranda = 7f, cottura = 12f, presto = 2.5f, tardi = 4f; }
+
+    /// <summary>R015 suoni: attrezzo = id della parte giusta, nome, tipo di suono sintetizzato (diapason | chiave | feltro | martelletto | corda), onda = descrizione del disegno, ok = che cosa dice Alcide.</summary>
+    [Serializable] public class SuonoDef { public string attrezzo, nome, tipo, onda, ok; }
+
+    /// <summary>R015 accordatura: id = parte della corda, nome, nota (midi), scarto iniziale in Hz dal diapason (= battimenti al secondo), passo = Hz per mezzo scatto, dopo = pezzi rivelati quando e' accordata.</summary>
+    [Serializable] public class CordaDef { public string id, nome, dopo; public int nota = 69; public float scarto, passo = 0.5f; }
+
+    /// <summary>R015 impronte: lo scarpone di un ragazzo (nome, numero, chiodi sulla suola, tacco).</summary>
+    [Serializable] public class ImprontaDef { public string nome, tacco; public int misura, chiodi; }
+
+    /// <summary>R015 melodia: una frase (indici dei segni colorati), secondi per nota, che cosa dice Alcide alla fine.</summary>
+    [Serializable] public class FraseDef { public List<int> note = new List<int>(); public float tempo = 0.55f; public string ok; }
+
     [Serializable] public class FermataDef { public string testo, dopo, ripete; public bool citta; public float luce; }
 
     [Serializable] public class DocumentoDef { public string id, titolo; public List<string> righe = new List<string>(); }

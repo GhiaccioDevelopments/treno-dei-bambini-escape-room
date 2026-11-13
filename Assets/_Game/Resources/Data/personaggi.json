@@ -73,6 +73,42 @@
       "nome": "Il controllore",
       "ritratto": "",
       "colore": "#3E4652"
+    },
+    {
+      "id": "derna",
+      "nome": "Derna",
+      "ritratto": "",
+      "colore": "#6A5A6E"
+    },
+    {
+      "id": "alcide",
+      "nome": "Alcide",
+      "ritratto": "",
+      "colore": "#6E5A3A"
+    },
+    {
+      "id": "rosa",
+      "nome": "Rosa",
+      "ritratto": "",
+      "colore": "#9A5A4A"
+    },
+    {
+      "id": "rivo",
+      "nome": "Rivo",
+      "ritratto": "",
+      "colore": "#4A6A5A"
+    },
+    {
+      "id": "luzio",
+      "nome": "Luzio",
+      "ritratto": "",
+      "colore": "#5A5A7A"
+    },
+    {
+      "id": "nario",
+      "nome": "Nario",
+      "ritratto": "",
+      "colore": "#7A6A4A"
     }
   ]
 }

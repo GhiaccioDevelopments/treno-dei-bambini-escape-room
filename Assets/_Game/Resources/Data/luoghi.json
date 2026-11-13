@@ -122,9 +122,18 @@
       "scena": "",
       "spawn": "",
       "aperto": false,
-      "descrizione": "Una corte di pianura vicino a Modena, d'inverno: la casa di Derna, il laboratorio di Alcide, la scuola in fondo alla strada.",
+      "descrizione": "Una corte di pianura vicino a Modena, d'inverno: la casa di Derna, il laboratorio di Alcide, la scuola in fondo alla strada. Da questo vicolo ci si arriva solo con un ricordo.",
       "sbloccatoDa": "cappotto",
-      "sbloccatoMsg": "Modena è lontana da questo vicolo. Il ricordo dell'inverno al Nord comincia da un'altra cosa che Antonietta ha conservato: si aprirà più avanti."
+      "sbloccatoMsg": "Modena è lontana da questo vicolo. Ma Antonietta qualcosa di Modena l'aveva tenuto: sulla credenza della cucina c'è un cassettino socchiuso."
+    },
+    {
+      "id": "ricordo_violino",
+      "nome": "Il ricordo del violino",
+      "scena": "70_FB_Modena",
+      "spawn": "",
+      "aperto": false,
+      "descrizione": "Una corte di pianura vicino a Modena, nell'inverno 1946-47: neve, nebbia bassa, la cucina di Derna con la stufa, il laboratorio dei Benvenuti con il forno e il pianoforte, la scuola in fondo alla strada.",
+      "meteo": "sereno"
     }
   ]
 }

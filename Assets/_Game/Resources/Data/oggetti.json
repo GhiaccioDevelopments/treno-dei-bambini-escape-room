@@ -287,6 +287,194 @@
           }
         ]
       }
+    },
+    {
+      "id": "spartito",
+      "nome": "Lo spartito di Alcide",
+      "descrizione": "Un foglio piegato in quattro, consumato sulle pieghe. Niente note: file di pallini colorati, rosso, verde, blu, e in alto, a matita, «Per Amerigo».",
+      "significato": "Lo spartito che Alcide Benvenuti disegnò per Amerigo, a Modena, quando scoprì che il bambino aveva orecchio. Antonietta l'ha tenuto in un cassetto per tutta la vita senza saperlo leggere: i pallini colorati erano musica, e lei lo sapeva lo stesso.",
+      "temaCivico": "Diritto allo studio (art. 34: la scuola è aperta a tutti) e promozione della cultura (art. 9): il talento di un bambino povero di Napoli scoperto in una casa di Modena.",
+      "icona": "scarpe",
+      "flashback": "flashback_violino",
+      "cutscene": "cutscene_violino",
+      "cutsceneIngresso": "cutscene_violino",
+      "luogo": "basso_antonietta",
+      "ingresso": {
+        "scena": "20_Int_BassoAntonietta",
+        "x": 2.07,
+        "y": 0.965,
+        "z": 6.9,
+        "yaw": 80,
+        "richiedeFlashback": "flashback_cappotto",
+        "prompt": "Esamina: un cassettino socchiuso sulla credenza",
+        "parti": [
+          {
+            "id": "cassettino",
+            "forma": "cubo",
+            "materiale": "legno",
+            "colore": "#5a3d26",
+            "y": 0.04,
+            "z": 0.03,
+            "sx": 0.24,
+            "sy": 0.08,
+            "sz": 0.16
+          },
+          {
+            "id": "cassetto_aperto",
+            "forma": "cubo",
+            "materiale": "legno",
+            "colore": "#6a4a2e",
+            "y": 0.035,
+            "z": -0.07,
+            "sx": 0.21,
+            "sy": 0.06,
+            "sz": 0.1
+          },
+          {
+            "id": "pomello",
+            "forma": "sfera",
+            "materiale": "ottone",
+            "colore": "#b59a3f",
+            "y": 0.04,
+            "z": -0.125,
+            "sx": 0.016,
+            "sy": 0.016,
+            "sz": 0.016
+          },
+          {
+            "id": "foglio",
+            "forma": "cubo",
+            "materiale": "carta",
+            "colore": "#d8cba6",
+            "y": 0.068,
+            "z": -0.06,
+            "rx": -12,
+            "sx": 0.17,
+            "sy": 0.004,
+            "sz": 0.1
+          },
+          {
+            "id": "pallino_0",
+            "forma": "cilindro",
+            "materiale": "cera",
+            "colore": "#a3261c",
+            "x": -0.06,
+            "y": 0.072,
+            "z": -0.02,
+            "sx": 0.016,
+            "sy": 0.001,
+            "sz": 0.016
+          },
+          {
+            "id": "pallino_1",
+            "forma": "cilindro",
+            "materiale": "cera",
+            "colore": "#3a6a3a",
+            "x": -0.03,
+            "y": 0.072,
+            "z": -0.02,
+            "sx": 0.016,
+            "sy": 0.001,
+            "sz": 0.016
+          },
+          {
+            "id": "pallino_2",
+            "forma": "cilindro",
+            "materiale": "cera",
+            "colore": "#2e4a7a",
+            "x": 0.0,
+            "y": 0.072,
+            "z": -0.02,
+            "sx": 0.016,
+            "sy": 0.001,
+            "sz": 0.016
+          },
+          {
+            "id": "pallino_3",
+            "forma": "cilindro",
+            "materiale": "cera",
+            "colore": "#3a6a3a",
+            "x": 0.03,
+            "y": 0.072,
+            "z": -0.02,
+            "sx": 0.016,
+            "sy": 0.001,
+            "sz": 0.016
+          },
+          {
+            "id": "pallino_4",
+            "forma": "cilindro",
+            "materiale": "cera",
+            "colore": "#2e4a7a",
+            "x": 0.06,
+            "y": 0.072,
+            "z": -0.02,
+            "sx": 0.016,
+            "sy": 0.001,
+            "sz": 0.016
+          },
+          {
+            "id": "pallino_5",
+            "forma": "cilindro",
+            "materiale": "cera",
+            "colore": "#6a3a7a",
+            "x": -0.06,
+            "y": 0.072,
+            "z": 0.015,
+            "sx": 0.016,
+            "sy": 0.001,
+            "sz": 0.016
+          },
+          {
+            "id": "pallino_6",
+            "forma": "cilindro",
+            "materiale": "cera",
+            "colore": "#2e4a7a",
+            "x": -0.03,
+            "y": 0.072,
+            "z": 0.015,
+            "sx": 0.016,
+            "sy": 0.001,
+            "sz": 0.016
+          },
+          {
+            "id": "pallino_7",
+            "forma": "cilindro",
+            "materiale": "cera",
+            "colore": "#3a6a3a",
+            "x": 0.0,
+            "y": 0.072,
+            "z": 0.015,
+            "sx": 0.016,
+            "sy": 0.001,
+            "sz": 0.016
+          },
+          {
+            "id": "pallino_8",
+            "forma": "cilindro",
+            "materiale": "cera",
+            "colore": "#c88a2a",
+            "x": 0.03,
+            "y": 0.072,
+            "z": 0.015,
+            "sx": 0.016,
+            "sy": 0.001,
+            "sz": 0.016
+          },
+          {
+            "id": "pallino_9",
+            "forma": "cilindro",
+            "materiale": "cera",
+            "colore": "#a3261c",
+            "x": 0.06,
+            "y": 0.072,
+            "z": 0.015,
+            "sx": 0.016,
+            "sy": 0.001,
+            "sz": 0.016
+          }
+        ]
+      }
     }
   ]
 }

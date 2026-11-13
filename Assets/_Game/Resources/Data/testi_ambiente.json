@@ -1328,6 +1328,165 @@
         0.18,
         0.1
       ]
+    },
+    {
+      "chiave": "ScuolaElementare",
+      "gruppo": "ricordo",
+      "tipo": "insegna",
+      "w": 512,
+      "h": 96,
+      "seed": 71,
+      "righe": [
+        "SCUOLA ELEMENTARE"
+      ],
+      "carta": [
+        0.84,
+        0.8,
+        0.7
+      ],
+      "inchiostro": [
+        0.16,
+        0.12,
+        0.1
+      ]
+    },
+    {
+      "chiave": "Laboratorio",
+      "gruppo": "ricordo",
+      "tipo": "insegna",
+      "w": 512,
+      "h": 96,
+      "seed": 72,
+      "righe": [
+        "BENVENUTI - ACCORDATURA PIANOFORTI"
+      ],
+      "carta": [
+        0.3,
+        0.24,
+        0.18
+      ],
+      "inchiostro": [
+        0.88,
+        0.82,
+        0.66
+      ]
+    },
+    {
+      "chiave": "Forno",
+      "gruppo": "ricordo",
+      "tipo": "insegna",
+      "w": 512,
+      "h": 96,
+      "seed": 73,
+      "righe": [
+        "FORNO"
+      ],
+      "carta": [
+        0.86,
+        0.8,
+        0.62
+      ],
+      "inchiostro": [
+        0.12,
+        0.1,
+        0.08
+      ]
+    },
+    {
+      "chiave": "Alfabeto",
+      "gruppo": "ricordo",
+      "tipo": "manifesto",
+      "w": 384,
+      "h": 256,
+      "seed": 74,
+      "righe": [
+        "A B C D E",
+        "F G H I L",
+        "M N O P Q",
+        "R S T U V Z"
+      ],
+      "carta": [
+        0.88,
+        0.84,
+        0.7
+      ],
+      "inchiostro": [
+        0.12,
+        0.1,
+        0.08
+      ]
+    },
+    {
+      "chiave": "Lavagna",
+      "gruppo": "ricordo",
+      "tipo": "manifesto",
+      "w": 384,
+      "h": 256,
+      "seed": 75,
+      "righe": [
+        "MODENA, 1947",
+        "",
+        "IL PANE",
+        "LA NEVE",
+        "IL TRENO"
+      ],
+      "carta": [
+        0.14,
+        0.16,
+        0.14
+      ],
+      "inchiostro": [
+        0.88,
+        0.86,
+        0.8
+      ]
+    },
+    {
+      "chiave": "CartolinaModena",
+      "gruppo": "segreti",
+      "tipo": "cartolina",
+      "w": 256,
+      "h": 160,
+      "seed": 76,
+      "righe": [
+        "SALUTI DA MODENA"
+      ],
+      "carta": [
+        0.86,
+        0.79,
+        0.6
+      ],
+      "inchiostro": [
+        0.27,
+        0.18,
+        0.1
+      ]
+    },
+    {
+      "chiave": "Pagella",
+      "gruppo": "segreti",
+      "tipo": "lista",
+      "w": 256,
+      "h": 320,
+      "seed": 77,
+      "righe": [
+        "PAGELLA",
+        "SPERANZA AMERIGO",
+        "CLASSE II",
+        "LETTURA: BUONO",
+        "ARITMETICA: OTTIMO",
+        "CANTO: OTTIMO"
+      ],
+      "carta": [
+        0.86,
+        0.82,
+        0.68
+      ],
+      "inchiostro": [
+        0.12,
+        0.1,
+        0.18
+      ]
     }
   ]
 }
