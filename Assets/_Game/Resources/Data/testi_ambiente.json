@@ -1,0 +1,1492 @@
+{
+  "testi": [
+    {
+      "chiave": "Ricostruiamo",
+      "gruppo": "quartiere",
+      "tipo": "manifesto",
+      "w": 256,
+      "h": 384,
+      "seed": 3,
+      "righe": [
+        "RICOSTRUIAMO",
+        "INSIEME",
+        "LA NOSTRA CITTA",
+        "",
+        "ASSEMBLEA IN PIAZZA",
+        "SABATO ORE 16"
+      ],
+      "carta": [
+        0.88,
+        0.8,
+        0.62
+      ],
+      "inchiostro": [
+        0.1,
+        0.08,
+        0.06
+      ]
+    },
+    {
+      "chiave": "Acqua",
+      "gruppo": "quartiere",
+      "tipo": "manifesto",
+      "w": 256,
+      "h": 384,
+      "seed": 4,
+      "righe": [
+        "AVVISO",
+        "ACQUA ALLA",
+        "FONTANELLA",
+        "",
+        "DALLE 6 ALLE 10",
+        "PORTARE I SECCHI"
+      ],
+      "carta": [
+        0.88,
+        0.8,
+        0.62
+      ],
+      "inchiostro": [
+        0.1,
+        0.08,
+        0.06
+      ]
+    },
+    {
+      "chiave": "Viveri",
+      "gruppo": "quartiere",
+      "tipo": "manifesto",
+      "w": 256,
+      "h": 384,
+      "seed": 5,
+      "righe": [
+        "AVVISO",
+        "DISTRIBUZIONE",
+        "DEI VIVERI",
+        "",
+        "OGNI MARTEDI",
+        "PORTARE LA TESSERA"
+      ],
+      "carta": [
+        0.88,
+        0.8,
+        0.62
+      ],
+      "inchiostro": [
+        0.1,
+        0.08,
+        0.06
+      ]
+    },
+    {
+      "chiave": "Affitto",
+      "gruppo": "quartiere",
+      "tipo": "manifesto",
+      "w": 256,
+      "h": 384,
+      "seed": 6,
+      "righe": [
+        "SI AFFITTA",
+        "BASSO",
+        "",
+        "RIVOLGERSI",
+        "AL PORTIERE",
+        "DI SERA"
+      ],
+      "carta": [
+        0.88,
+        0.8,
+        0.62
+      ],
+      "inchiostro": [
+        0.1,
+        0.08,
+        0.06
+      ]
+    },
+    {
+      "chiave": "Scuola",
+      "gruppo": "quartiere",
+      "tipo": "manifesto",
+      "w": 256,
+      "h": 384,
+      "seed": 7,
+      "righe": [
+        "PER LA SCUOLA",
+        "PER I BAMBINI",
+        "",
+        "OFFERTE AL",
+        "COMITATO DI VIA",
+        "GRAZIE"
+      ],
+      "carta": [
+        0.88,
+        0.8,
+        0.62
+      ],
+      "inchiostro": [
+        0.1,
+        0.08,
+        0.06
+      ]
+    },
+    {
+      "chiave": "Lavoro",
+      "gruppo": "quartiere",
+      "tipo": "manifesto",
+      "w": 256,
+      "h": 384,
+      "seed": 8,
+      "righe": [
+        "CERCASI",
+        "MANOVALI",
+        "",
+        "PER LA",
+        "RICOSTRUZIONE",
+        "PAGA A GIORNATA"
+      ],
+      "carta": [
+        0.88,
+        0.8,
+        0.62
+      ],
+      "inchiostro": [
+        0.45,
+        0.08,
+        0.05
+      ]
+    },
+    {
+      "chiave": "Festa",
+      "gruppo": "quartiere",
+      "tipo": "manifesto",
+      "w": 256,
+      "h": 384,
+      "seed": 9,
+      "righe": [
+        "FESTA DI",
+        "QUARTIERE",
+        "",
+        "SABATO SERA",
+        "MUSICA E BALLI",
+        "PER TUTTI"
+      ],
+      "carta": [
+        0.88,
+        0.8,
+        0.62
+      ],
+      "inchiostro": [
+        0.1,
+        0.08,
+        0.06
+      ]
+    },
+    {
+      "chiave": "Crollo",
+      "gruppo": "quartiere",
+      "tipo": "manifesto",
+      "w": 256,
+      "h": 384,
+      "seed": 10,
+      "righe": [
+        "PERICOLO",
+        "CROLLO",
+        "",
+        "NON ENTRARE",
+        "VIA LIBERA",
+        "SOLO AI TECNICI"
+      ],
+      "carta": [
+        0.88,
+        0.8,
+        0.62
+      ],
+      "inchiostro": [
+        0.45,
+        0.08,
+        0.05
+      ]
+    },
+    {
+      "chiave": "Salumeria",
+      "gruppo": "quartiere",
+      "tipo": "insegna",
+      "w": 512,
+      "h": 96,
+      "seed": 11,
+      "righe": [
+        "SALUMERIA"
+      ],
+      "carta": [
+        0.38,
+        0.1,
+        0.08
+      ],
+      "inchiostro": [
+        0.9,
+        0.82,
+        0.6
+      ]
+    },
+    {
+      "chiave": "Barbiere",
+      "gruppo": "quartiere",
+      "tipo": "insegna",
+      "w": 512,
+      "h": 96,
+      "seed": 12,
+      "righe": [
+        "BARBIERE"
+      ],
+      "carta": [
+        0.12,
+        0.22,
+        0.3
+      ],
+      "inchiostro": [
+        0.9,
+        0.82,
+        0.6
+      ]
+    },
+    {
+      "chiave": "Calzolaio",
+      "gruppo": "quartiere",
+      "tipo": "insegna",
+      "w": 512,
+      "h": 96,
+      "seed": 13,
+      "righe": [
+        "CALZOLAIO"
+      ],
+      "carta": [
+        0.22,
+        0.15,
+        0.08
+      ],
+      "inchiostro": [
+        0.9,
+        0.82,
+        0.6
+      ]
+    },
+    {
+      "chiave": "Latteria",
+      "gruppo": "quartiere",
+      "tipo": "insegna",
+      "w": 512,
+      "h": 96,
+      "seed": 14,
+      "righe": [
+        "LATTERIA"
+      ],
+      "carta": [
+        0.18,
+        0.3,
+        0.24
+      ],
+      "inchiostro": [
+        0.9,
+        0.82,
+        0.6
+      ]
+    },
+    {
+      "chiave": "Ferramenta",
+      "gruppo": "quartiere",
+      "tipo": "insegna",
+      "w": 512,
+      "h": 96,
+      "seed": 15,
+      "righe": [
+        "FERRAMENTA"
+      ],
+      "carta": [
+        0.16,
+        0.16,
+        0.17
+      ],
+      "inchiostro": [
+        0.9,
+        0.82,
+        0.6
+      ]
+    },
+    {
+      "chiave": "Trattoria",
+      "gruppo": "quartiere",
+      "tipo": "insegna",
+      "w": 512,
+      "h": 96,
+      "seed": 16,
+      "righe": [
+        "TRATTORIA"
+      ],
+      "carta": [
+        0.4,
+        0.22,
+        0.08
+      ],
+      "inchiostro": [
+        0.9,
+        0.82,
+        0.6
+      ]
+    },
+    {
+      "chiave": "Sarto",
+      "gruppo": "quartiere",
+      "tipo": "insegna",
+      "w": 512,
+      "h": 96,
+      "seed": 17,
+      "righe": [
+        "SARTO"
+      ],
+      "carta": [
+        0.2,
+        0.2,
+        0.3
+      ],
+      "inchiostro": [
+        0.9,
+        0.82,
+        0.6
+      ]
+    },
+    {
+      "chiave": "Fruttivendolo",
+      "gruppo": "quartiere",
+      "tipo": "insegna",
+      "w": 512,
+      "h": 96,
+      "seed": 18,
+      "righe": [
+        "FRUTTA E VERDURA"
+      ],
+      "carta": [
+        0.22,
+        0.3,
+        0.14
+      ],
+      "inchiostro": [
+        0.9,
+        0.82,
+        0.6
+      ]
+    },
+    {
+      "chiave": "Stazione",
+      "gruppo": "quartiere",
+      "tipo": "insegna",
+      "w": 512,
+      "h": 96,
+      "seed": 19,
+      "righe": [
+        "STAZIONE"
+      ],
+      "carta": [
+        0.16,
+        0.2,
+        0.17
+      ],
+      "inchiostro": [
+        0.92,
+        0.86,
+        0.68
+      ]
+    },
+    {
+      "chiave": "Comitato",
+      "gruppo": "quartiere",
+      "tipo": "insegna",
+      "w": 512,
+      "h": 96,
+      "seed": 20,
+      "righe": [
+        "SEDE DEL COMITATO"
+      ],
+      "carta": [
+        0.38,
+        0.1,
+        0.08
+      ],
+      "inchiostro": [
+        0.92,
+        0.86,
+        0.68
+      ]
+    },
+    {
+      "chiave": "CapaFierro",
+      "gruppo": "quartiere",
+      "tipo": "insegna",
+      "w": 512,
+      "h": 96,
+      "seed": 21,
+      "righe": [
+        "STRACCI E FERRI VECCHI"
+      ],
+      "carta": [
+        0.12,
+        0.22,
+        0.3
+      ],
+      "inchiostro": [
+        0.92,
+        0.86,
+        0.68
+      ]
+    },
+    {
+      "chiave": "Stracci",
+      "gruppo": "quartiere",
+      "tipo": "insegna",
+      "w": 512,
+      "h": 96,
+      "seed": 22,
+      "righe": [
+        "VICOLO DEGLI STRACCI"
+      ],
+      "carta": [
+        0.22,
+        0.15,
+        0.08
+      ],
+      "inchiostro": [
+        0.92,
+        0.86,
+        0.68
+      ]
+    },
+    {
+      "chiave": "SantinoGennaro",
+      "gruppo": "basso",
+      "tipo": "manifesto",
+      "w": 128,
+      "h": 192,
+      "seed": 21,
+      "righe": [
+        "S. GENNARO",
+        "",
+        "PROTEGGI",
+        "NAPOLI"
+      ],
+      "carta": [
+        0.86,
+        0.78,
+        0.6
+      ],
+      "inchiostro": [
+        0.42,
+        0.08,
+        0.06
+      ]
+    },
+    {
+      "chiave": "SantinoMadonna",
+      "gruppo": "basso",
+      "tipo": "manifesto",
+      "w": 128,
+      "h": 192,
+      "seed": 22,
+      "righe": [
+        "MADONNA",
+        "DEL CARMINE",
+        "",
+        "PREGA PER NOI"
+      ],
+      "carta": [
+        0.86,
+        0.78,
+        0.6
+      ],
+      "inchiostro": [
+        0.1,
+        0.08,
+        0.06
+      ]
+    },
+    {
+      "chiave": "SantinoCuore",
+      "gruppo": "basso",
+      "tipo": "manifesto",
+      "w": 128,
+      "h": 192,
+      "seed": 23,
+      "righe": [
+        "SACRO",
+        "CUORE",
+        "",
+        "BENEDICI",
+        "QUESTA CASA"
+      ],
+      "carta": [
+        0.86,
+        0.78,
+        0.6
+      ],
+      "inchiostro": [
+        0.42,
+        0.08,
+        0.06
+      ]
+    },
+    {
+      "chiave": "Calendario",
+      "gruppo": "basso",
+      "tipo": "manifesto",
+      "w": 128,
+      "h": 192,
+      "seed": 24,
+      "righe": [
+        "ANNO",
+        "1946",
+        "",
+        "NOVEMBRE"
+      ],
+      "carta": [
+        0.9,
+        0.86,
+        0.72
+      ],
+      "inchiostro": [
+        0.42,
+        0.08,
+        0.06
+      ]
+    },
+    {
+      "chiave": "Graffito",
+      "gruppo": "ricordo",
+      "tipo": "insegna",
+      "w": 256,
+      "h": 96,
+      "seed": 31,
+      "righe": [
+        "C'ERO ANCH'IO"
+      ],
+      "carta": [
+        0.34,
+        0.28,
+        0.22
+      ],
+      "inchiostro": [
+        0.9,
+        0.88,
+        0.8
+      ]
+    },
+    {
+      "chiave": "Campana",
+      "gruppo": "ricordo",
+      "tipo": "insegna",
+      "w": 128,
+      "h": 96,
+      "seed": 32,
+      "righe": [
+        "CIELO"
+      ],
+      "carta": [
+        0.3,
+        0.26,
+        0.2
+      ],
+      "inchiostro": [
+        0.9,
+        0.88,
+        0.8
+      ]
+    },
+    {
+      "chiave": "Referendum",
+      "gruppo": "quartiere",
+      "tipo": "manifesto",
+      "w": 256,
+      "h": 384,
+      "seed": 41,
+      "righe": [
+        "2 GIUGNO 1946",
+        "",
+        "REPUBBLICA",
+        "O MONARCHIA?",
+        "",
+        "DECIDE IL POPOLO",
+        "VOTA!"
+      ],
+      "carta": [
+        0.86,
+        0.8,
+        0.64
+      ],
+      "inchiostro": [
+        0.12,
+        0.08,
+        0.06
+      ]
+    },
+    {
+      "chiave": "VotoDonne",
+      "gruppo": "quartiere",
+      "tipo": "manifesto",
+      "w": 256,
+      "h": 384,
+      "seed": 42,
+      "righe": [
+        "DONNE E UOMINI",
+        "PER LA PRIMA VOLTA",
+        "VOTIAMO TUTTI",
+        "",
+        "2 E 3 GIUGNO",
+        "ORE 7-22"
+      ],
+      "carta": [
+        0.82,
+        0.78,
+        0.66
+      ],
+      "inchiostro": [
+        0.14,
+        0.09,
+        0.07
+      ]
+    },
+    {
+      "chiave": "Seggio",
+      "gruppo": "quartiere",
+      "tipo": "manifesto",
+      "w": 256,
+      "h": 320,
+      "seed": 43,
+      "righe": [
+        "SEZIONE ELETTORALE",
+        "N. 12",
+        "",
+        "SCUOLA ELEMENTARE",
+        "PORTARE IL CERTIFICATO",
+        "ELETTORALE"
+      ],
+      "carta": [
+        0.9,
+        0.84,
+        0.68
+      ],
+      "inchiostro": [
+        0.1,
+        0.07,
+        0.05
+      ]
+    },
+    {
+      "chiave": "Treni",
+      "gruppo": "ricordo",
+      "tipo": "manifesto",
+      "w": 256,
+      "h": 384,
+      "seed": 11,
+      "righe": [
+        "TRENI PER",
+        "IL NORD",
+        "",
+        "BAMBINI DI NAPOLI",
+        "ISCRIZIONI AL",
+        "COMITATO"
+      ],
+      "carta": [
+        0.88,
+        0.8,
+        0.62
+      ],
+      "inchiostro": [
+        0.1,
+        0.08,
+        0.06
+      ]
+    },
+    {
+      "chiave": "Ritaglio",
+      "gruppo": "segreti",
+      "tipo": "ritaglio",
+      "w": 256,
+      "h": 320,
+      "seed": 11,
+      "righe": [
+        "PARTONO I BAMBINI",
+        "16 DICEMBRE 1945",
+        "UN TRENO CARICO",
+        "DI BAMBINI LASCIA",
+        "MILANO E ARRIVA",
+        "A REGGIO EMILIA.",
+        "SONO CIRCA 1800",
+        "I PICCOLI VIAG-",
+        "GIATORI, ACCOLTI",
+        "DA FAMIGLIE.",
+        "A NAPOLI UN",
+        "COMITATO PER LA",
+        "SALVEZZA DEI",
+        "BAMBINI PREPARA",
+        "LE PARTENZE:",
+        "LISTE, VISITE,",
+        "VESTITI CALDI."
+      ],
+      "carta": [
+        0.84,
+        0.79,
+        0.62
+      ],
+      "inchiostro": [
+        0.12,
+        0.1,
+        0.08
+      ]
+    },
+    {
+      "chiave": "Cartolina",
+      "gruppo": "segreti",
+      "tipo": "cartolina",
+      "w": 256,
+      "h": 160,
+      "seed": 12,
+      "righe": [
+        "NAPOLI"
+      ],
+      "carta": [
+        0.86,
+        0.77,
+        0.58
+      ],
+      "inchiostro": [
+        0.27,
+        0.18,
+        0.1
+      ]
+    },
+    {
+      "chiave": "AmLire",
+      "gruppo": "segreti",
+      "tipo": "amlire",
+      "w": 256,
+      "h": 112,
+      "seed": 13,
+      "righe": [
+        "AM LIRE",
+        "ALLIED MILITARY CURRENCY"
+      ],
+      "carta": [
+        0.66,
+        0.74,
+        0.58
+      ],
+      "inchiostro": [
+        0.16,
+        0.27,
+        0.17
+      ]
+    },
+    {
+      "chiave": "Settebello",
+      "gruppo": "segreti",
+      "tipo": "settebello",
+      "w": 96,
+      "h": 160,
+      "seed": 14,
+      "righe": [
+        "7"
+      ],
+      "carta": [
+        0.86,
+        0.8,
+        0.65
+      ],
+      "inchiostro": [
+        0.5,
+        0.13,
+        0.1
+      ]
+    },
+    {
+      "chiave": "BigliettoScarpa",
+      "gruppo": "segreti",
+      "tipo": "biglietto_scarpa",
+      "w": 128,
+      "h": 96,
+      "seed": 15,
+      "righe": [],
+      "carta": [
+        0.82,
+        0.74,
+        0.58
+      ],
+      "inchiostro": [
+        0.13,
+        0.12,
+        0.11
+      ]
+    },
+    {
+      "chiave": "BigliettoMela",
+      "gruppo": "segreti",
+      "tipo": "biglietto_mela",
+      "w": 128,
+      "h": 96,
+      "seed": 16,
+      "righe": [],
+      "carta": [
+        0.82,
+        0.74,
+        0.58
+      ],
+      "inchiostro": [
+        0.13,
+        0.12,
+        0.11
+      ]
+    },
+    {
+      "chiave": "BigliettoTreno",
+      "gruppo": "segreti",
+      "tipo": "biglietto_treno",
+      "w": 128,
+      "h": 96,
+      "seed": 17,
+      "righe": [],
+      "carta": [
+        0.82,
+        0.74,
+        0.58
+      ],
+      "inchiostro": [
+        0.13,
+        0.12,
+        0.11
+      ]
+    },
+    {
+      "chiave": "ListaSpesa",
+      "gruppo": "segreti",
+      "tipo": "lista",
+      "w": 128,
+      "h": 160,
+      "seed": 18,
+      "righe": [
+        "SCARPE",
+        "6 - 7 - 8",
+        "COLOMBA",
+        "PEPPINO",
+        "NUNZIA",
+        "4 PAIA",
+        "(ANCHE USATE)"
+      ],
+      "carta": [
+        0.8,
+        0.76,
+        0.62
+      ],
+      "inchiostro": [
+        0.2,
+        0.2,
+        0.28
+      ]
+    },
+    {
+      "chiave": "BottegaStracci",
+      "gruppo": "ricordo",
+      "tipo": "insegna",
+      "w": 512,
+      "h": 96,
+      "seed": 31,
+      "righe": [
+        "STRACCI E FERRI VECCHI"
+      ],
+      "carta": [
+        0.22,
+        0.15,
+        0.08
+      ],
+      "inchiostro": [
+        0.92,
+        0.86,
+        0.68
+      ]
+    },
+    {
+      "chiave": "CompraStracci",
+      "gruppo": "ricordo",
+      "tipo": "manifesto",
+      "w": 256,
+      "h": 384,
+      "seed": 32,
+      "righe": [
+        "SI COMPRANO",
+        "LANA",
+        "COTONE",
+        "LINO",
+        "",
+        "NIENTE ROBA",
+        "MARCIA O INCERATA",
+        "",
+        "CAPA 'E FIERRO"
+      ],
+      "carta": [
+        0.86,
+        0.78,
+        0.6
+      ],
+      "inchiostro": [
+        0.12,
+        0.09,
+        0.06
+      ]
+    },
+    {
+      "chiave": "RitaglioStracci",
+      "gruppo": "segreti",
+      "tipo": "ritaglio",
+      "w": 256,
+      "h": 320,
+      "seed": 17,
+      "righe": [
+        "PICCOLI LAVORI",
+        "",
+        "NELLE CITTA DEL",
+        "DOPOGUERRA TANTI",
+        "BAMBINI AIUTANO",
+        "LE FAMIGLIE:",
+        "RACCOLGONO",
+        "STRACCI E FERRI",
+        "VECCHI E LI",
+        "PORTANO A CHI",
+        "LI COMPRA.",
+        "",
+        "SCUOLA? A VOLTE",
+        "NON C'E TEMPO."
+      ],
+      "carta": [
+        0.84,
+        0.79,
+        0.62
+      ],
+      "inchiostro": [
+        0.12,
+        0.1,
+        0.08
+      ]
+    },
+    {
+      "chiave": "ComitatoTreni",
+      "gruppo": "ricordo",
+      "tipo": "manifesto",
+      "w": 256,
+      "h": 384,
+      "seed": 41,
+      "righe": [
+        "COMITATO",
+        "PER I BAMBINI",
+        "",
+        "OSPITALITA",
+        "PRESSO FAMIGLIE",
+        "DEL CENTRO-NORD",
+        "",
+        "ISCRIZIONI QUI"
+      ],
+      "carta": [
+        0.87,
+        0.8,
+        0.62
+      ],
+      "inchiostro": [
+        0.45,
+        0.1,
+        0.08
+      ]
+    },
+    {
+      "chiave": "ComitatoVisite",
+      "gruppo": "ricordo",
+      "tipo": "manifesto",
+      "w": 256,
+      "h": 384,
+      "seed": 42,
+      "righe": [
+        "AVVISO",
+        "",
+        "PRIMA DELLA",
+        "PARTENZA:",
+        "VISITA MEDICA",
+        "VACCINAZIONE",
+        "BAGNO E VESTITI",
+        "",
+        "LE MADRI POSSONO",
+        "ASSISTERE"
+      ],
+      "carta": [
+        0.86,
+        0.8,
+        0.64
+      ],
+      "inchiostro": [
+        0.12,
+        0.1,
+        0.08
+      ]
+    },
+    {
+      "chiave": "ComitatoVoto",
+      "gruppo": "ricordo",
+      "tipo": "manifesto",
+      "w": 256,
+      "h": 384,
+      "seed": 43,
+      "righe": [
+        "DONNE!",
+        "",
+        "IL 2 GIUGNO",
+        "ANCHE VOI",
+        "VOTATE",
+        "",
+        "LA SCHEDA SI",
+        "SEGNA CON LA",
+        "MATITA COPIATIVA"
+      ],
+      "carta": [
+        0.85,
+        0.78,
+        0.6
+      ],
+      "inchiostro": [
+        0.12,
+        0.1,
+        0.08
+      ]
+    },
+    {
+      "chiave": "ManifestoElezioni",
+      "gruppo": "segreti",
+      "tipo": "ritaglio",
+      "w": 256,
+      "h": 320,
+      "seed": 44,
+      "righe": [
+        "ELEZIONI 1946",
+        "",
+        "PER LA PRIMA",
+        "VOLTA IN TUTTA",
+        "ITALIA VOTANO",
+        "LE DONNE.",
+        "",
+        "2 GIUGNO:",
+        "REFERENDUM E",
+        "COSTITUENTE"
+      ],
+      "carta": [
+        0.84,
+        0.78,
+        0.6
+      ],
+      "inchiostro": [
+        0.14,
+        0.1,
+        0.08
+      ]
+    },
+    {
+      "chiave": "CartolinaNord",
+      "gruppo": "segreti",
+      "tipo": "cartolina",
+      "w": 256,
+      "h": 160,
+      "seed": 45,
+      "righe": [
+        "SALUTI DALL'EMILIA"
+      ],
+      "carta": [
+        0.86,
+        0.79,
+        0.6
+      ],
+      "inchiostro": [
+        0.27,
+        0.18,
+        0.1
+      ]
+    },
+    {
+      "chiave": "StazioneNapoli",
+      "gruppo": "ricordo",
+      "tipo": "insegna",
+      "w": 512,
+      "h": 96,
+      "seed": 61,
+      "righe": [
+        "NAPOLI"
+      ],
+      "carta": [
+        0.2,
+        0.22,
+        0.24
+      ],
+      "inchiostro": [
+        0.88,
+        0.84,
+        0.72
+      ]
+    },
+    {
+      "chiave": "Binario1",
+      "gruppo": "ricordo",
+      "tipo": "insegna",
+      "w": 512,
+      "h": 96,
+      "seed": 62,
+      "righe": [
+        "BINARIO 1"
+      ],
+      "carta": [
+        0.2,
+        0.22,
+        0.24
+      ],
+      "inchiostro": [
+        0.88,
+        0.84,
+        0.72
+      ]
+    },
+    {
+      "chiave": "Binario2",
+      "gruppo": "ricordo",
+      "tipo": "insegna",
+      "w": 512,
+      "h": 96,
+      "seed": 63,
+      "righe": [
+        "BINARIO 2"
+      ],
+      "carta": [
+        0.2,
+        0.22,
+        0.24
+      ],
+      "inchiostro": [
+        0.88,
+        0.84,
+        0.72
+      ]
+    },
+    {
+      "chiave": "SalaAspetto",
+      "gruppo": "ricordo",
+      "tipo": "insegna",
+      "w": 512,
+      "h": 96,
+      "seed": 64,
+      "righe": [
+        "SALA D'ASPETTO - III CLASSE"
+      ],
+      "carta": [
+        0.2,
+        0.22,
+        0.24
+      ],
+      "inchiostro": [
+        0.88,
+        0.84,
+        0.72
+      ]
+    },
+    {
+      "chiave": "ComitatoBambini",
+      "gruppo": "ricordo",
+      "tipo": "insegna",
+      "w": 512,
+      "h": 96,
+      "seed": 65,
+      "righe": [
+        "COMITATO PER I BAMBINI"
+      ],
+      "carta": [
+        0.86,
+        0.8,
+        0.62
+      ],
+      "inchiostro": [
+        0.12,
+        0.1,
+        0.08
+      ]
+    },
+    {
+      "chiave": "CroceRossa",
+      "gruppo": "ricordo",
+      "tipo": "insegna",
+      "w": 512,
+      "h": 96,
+      "seed": 66,
+      "righe": [
+        "CROCE ROSSA - VESTIARIO"
+      ],
+      "carta": [
+        0.9,
+        0.88,
+        0.82
+      ],
+      "inchiostro": [
+        0.6,
+        0.12,
+        0.1
+      ]
+    },
+    {
+      "chiave": "Carrozza214",
+      "gruppo": "ricordo",
+      "tipo": "insegna",
+      "w": 512,
+      "h": 96,
+      "seed": 67,
+      "righe": [
+        "III CLASSE   N. 214"
+      ],
+      "carta": [
+        0.24,
+        0.26,
+        0.22
+      ],
+      "inchiostro": [
+        0.86,
+        0.82,
+        0.68
+      ]
+    },
+    {
+      "chiave": "PericoloSporgersi",
+      "gruppo": "ricordo",
+      "tipo": "insegna",
+      "w": 512,
+      "h": 96,
+      "seed": 68,
+      "righe": [
+        "E' PERICOLOSO SPORGERSI"
+      ],
+      "carta": [
+        0.86,
+        0.82,
+        0.7
+      ],
+      "inchiostro": [
+        0.16,
+        0.12,
+        0.1
+      ]
+    },
+    {
+      "chiave": "AvvisoPartenza",
+      "gruppo": "ricordo",
+      "tipo": "manifesto",
+      "w": 256,
+      "h": 384,
+      "seed": 69,
+      "righe": [
+        "AVVISO",
+        "",
+        "I BAMBINI",
+        "IN PARTENZA",
+        "SI PRESENTINO",
+        "AL TAVOLO",
+        "DEL COMITATO",
+        "CON LA MADRE",
+        "E IL CARTELLINO"
+      ],
+      "carta": [
+        0.87,
+        0.81,
+        0.63
+      ],
+      "inchiostro": [
+        0.12,
+        0.1,
+        0.08
+      ]
+    },
+    {
+      "chiave": "CartolinaFirenze",
+      "gruppo": "segreti",
+      "tipo": "cartolina",
+      "w": 256,
+      "h": 160,
+      "seed": 70,
+      "righe": [
+        "SALUTI DA FIRENZE"
+      ],
+      "carta": [
+        0.86,
+        0.79,
+        0.6
+      ],
+      "inchiostro": [
+        0.27,
+        0.18,
+        0.1
+      ]
+    },
+    {
+      "chiave": "ScuolaElementare",
+      "gruppo": "ricordo",
+      "tipo": "insegna",
+      "w": 512,
+      "h": 96,
+      "seed": 71,
+      "righe": [
+        "SCUOLA ELEMENTARE"
+      ],
+      "carta": [
+        0.84,
+        0.8,
+        0.7
+      ],
+      "inchiostro": [
+        0.16,
+        0.12,
+        0.1
+      ]
+    },
+    {
+      "chiave": "Laboratorio",
+      "gruppo": "ricordo",
+      "tipo": "insegna",
+      "w": 512,
+      "h": 96,
+      "seed": 72,
+      "righe": [
+        "BENVENUTI - ACCORDATURA PIANOFORTI"
+      ],
+      "carta": [
+        0.3,
+        0.24,
+        0.18
+      ],
+      "inchiostro": [
+        0.88,
+        0.82,
+        0.66
+      ]
+    },
+    {
+      "chiave": "Forno",
+      "gruppo": "ricordo",
+      "tipo": "insegna",
+      "w": 512,
+      "h": 96,
+      "seed": 73,
+      "righe": [
+        "FORNO"
+      ],
+      "carta": [
+        0.86,
+        0.8,
+        0.62
+      ],
+      "inchiostro": [
+        0.12,
+        0.1,
+        0.08
+      ]
+    },
+    {
+      "chiave": "Alfabeto",
+      "gruppo": "ricordo",
+      "tipo": "manifesto",
+      "w": 384,
+      "h": 256,
+      "seed": 74,
+      "righe": [
+        "A B C D E",
+        "F G H I L",
+        "M N O P Q",
+        "R S T U V Z"
+      ],
+      "carta": [
+        0.88,
+        0.84,
+        0.7
+      ],
+      "inchiostro": [
+        0.12,
+        0.1,
+        0.08
+      ]
+    },
+    {
+      "chiave": "Lavagna",
+      "gruppo": "ricordo",
+      "tipo": "manifesto",
+      "w": 384,
+      "h": 256,
+      "seed": 75,
+      "righe": [
+        "MODENA, 1947",
+        "",
+        "IL PANE",
+        "LA NEVE",
+        "IL TRENO"
+      ],
+      "carta": [
+        0.14,
+        0.16,
+        0.14
+      ],
+      "inchiostro": [
+        0.88,
+        0.86,
+        0.8
+      ]
+    },
+    {
+      "chiave": "CartolinaModena",
+      "gruppo": "segreti",
+      "tipo": "cartolina",
+      "w": 256,
+      "h": 160,
+      "seed": 76,
+      "righe": [
+        "SALUTI DA MODENA"
+      ],
+      "carta": [
+        0.86,
+        0.79,
+        0.6
+      ],
+      "inchiostro": [
+        0.27,
+        0.18,
+        0.1
+      ]
+    },
+    {
+      "chiave": "Pagella",
+      "gruppo": "segreti",
+      "tipo": "lista",
+      "w": 256,
+      "h": 320,
+      "seed": 77,
+      "righe": [
+        "PAGELLA",
+        "SPERANZA AMERIGO",
+        "CLASSE II",
+        "LETTURA: BUONO",
+        "ARITMETICA: OTTIMO",
+        "CANTO: OTTIMO"
+      ],
+      "carta": [
+        0.86,
+        0.82,
+        0.68
+      ],
+      "inchiostro": [
+        0.12,
+        0.1,
+        0.18
+      ]
+    }
+  ]
+}

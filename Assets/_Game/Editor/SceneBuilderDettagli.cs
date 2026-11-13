@@ -91,7 +91,7 @@ namespace TrenoBambini.EditorTools
                 case "Pantaloni":
                     AddSheet(v, uv, t, new Vector3(-0.21f, 0, 0), new Vector3(0.2f, 0, 0), new Vector3(0, -0.9f, 0), 3, 8, 0.03f, 1.5f, ph);
                     AddSheet(v, uv, t, new Vector3(0.01f, 0, 0), new Vector3(0.2f, 0, 0), new Vector3(0, -0.9f, 0), 3, 8, 0.03f, 1.5f, ph + 2f);
-                    AddSheet(v, uv, t, new Vector3(-0.21f, 0, 0.004f), new Vector3(0.42f, 0, 0), new Vector3(0, -0.14f, 0), 4, 2, 0.01f, 1f, ph);
+                    AddSheet(v, uv, t, new Vector3(-0.21f, 0, 0.02f), new Vector3(0.42f, 0, 0), new Vector3(0, -0.14f, 0), 4, 2, 0.01f, 1f, ph); // cintura: 2 cm davanti ai due panni (R017: niente facce complanari)
                     break;
                 default: // straccio
                     AddSheet(v, uv, t, new Vector3(-0.2f, 0, 0), new Vector3(0.4f, 0, 0), new Vector3(0.03f, -0.5f, 0), 5, 5, 0.05f, 2f + variant, ph);
@@ -114,39 +114,45 @@ namespace TrenoBambini.EditorTools
 
         static GameObject ClothObject(Transform parent, string kind, int variant, string mat, Vector3 topPos, float yaw, Vector3 scale)
         {
-            var go = new GameObject("Panno_" + kind);
-            go.transform.SetParent(parent, false);
-            go.transform.localPosition = topPos;
-            go.transform.localRotation = Quaternion.Euler(0f, yaw, 0f);
-            go.transform.localScale = scale;
-            go.AddComponent<MeshFilter>().sharedMesh = ClothMesh(kind, variant);
-            var mr = go.AddComponent<MeshRenderer>();
-            mr.sharedMaterial = Mat(mat);
+            // R007 t2: panni veri (modelli Panno_* con LOD, alpha clip e bordi sfilacciati). Capo e variante di colore (3 materiali) dipendono dalla
+            // posizione, quindi sono diversi da un'istanza all'altra e riproducibili. L'argomento mat (colori delle primitive) non si usa piu'.
+            int h = Mathf.Abs((int)(topPos.x * 13.7f) + (int)(topPos.z * 7.3f) * 31 + (int)(topPos.y * 5f) + variant * 17);
+            string capo = kind == "Camicia" ? "Camicia" : kind == "Pantaloni" ? "Mutandoni" : kind == "Straccio" ? "Straccio" : ((h & 3) == 1 ? "LenzuoloRammendato" : (h & 3) == 3 ? "Tovaglia" : "Lenzuolo");
+            if ((h >> 3) % 3 == 0) yaw += 180f; // specchia il verso del vento
+            var go = ModelloIst("Panni/Panno_" + capo + ".fbx", parent, topPos, yaw, scale, false, "Panno_" + kind, 0.04f);
+            string[] mm = { "M_Panni", "M_Panni_B", "M_Panni_C" };
+            var m = AssetDatabase.LoadAssetAtPath<Material>("Assets/Art/Materials/" + mm[(h >> 1) % 3] + ".mat");
+            if (m != null)
+                foreach (var r in go.GetComponentsInChildren<Renderer>()) r.sharedMaterial = m;
             return go;
         }
 
         static readonly string[] ClothColors = { "PannoBianco", "PannoGrigio", "PannoBeige", "PannoBlu", "PannoTerra", "PannoOcra", "PannoBianco" };
 
+        // filo teso tra xL e xR (a ridosso delle pareti: gli estremi stanno 8 cm prima del piano di facciata, oltre le fasce in pietra);
+        // i panni sono larghi al piu' l'80% dello spazio a loro assegnato e poco ruotati, cosi' non si toccano
         static void Clothesline(Transform parent, System.Random r, float z, float yL, float yR, float xL, float xR, int cloths)
         {
+            const float inset = 0.08f;
+            xL += inset; xR -= inset;
             float len = xR - xL;
             float ang = Mathf.Atan2(yR - yL, len) * Mathf.Rad2Deg;
             Box("Filo", parent, new Vector3((xL + xR) * 0.5f, (yL + yR) * 0.5f, z), new Vector3(len, 0.015f, 0.015f), "M_FerroRuggine02", new Vector3(0f, 0f, ang), false);
-            float maxW = len / (cloths + 1f) * 0.95f;
+            float maxW = len / (cloths + 1f) * 0.8f;
             for (int k = 1; k <= cloths; k++)
             {
-                float tt = k / (cloths + 1f) + ((float)r.NextDouble() - 0.5f) * 0.05f;
+                float tt = k / (cloths + 1f) + ((float)r.NextDouble() - 0.5f) * 0.03f;
                 double roll = r.NextDouble();
                 string kind = roll < 0.22 ? "Lenzuolo" : roll < 0.58 ? "Camicia" : roll < 0.84 ? "Pantaloni" : "Straccio";
                 int variant = r.Next(0, 2);
-                float baseW = kind == "Lenzuolo" ? 1.1f : kind == "Camicia" ? 0.9f : kind == "Pantaloni" ? 0.42f : 0.4f;
-                float s = 0.8f + (float)r.NextDouble() * 0.35f;
+                float baseW = kind == "Lenzuolo" ? 1.25f : kind == "Camicia" ? 0.81f : kind == "Pantaloni" ? 0.64f : 0.54f; // larghezze dei modelli Panno_* (R007 t2)
+                float s = 0.75f + (float)r.NextDouble() * 0.2f; // R007 t3: scala reale (camicia ~0,7 m, lenzuolo ~1,1 m)
                 float sx = Mathf.Min(s, maxW / baseW);
                 float yTop = Mathf.Lerp(yL, yR, tt) - 0.03f;
                 string mat = ClothColors[r.Next(ClothColors.Length)];
                 if (kind == "Lenzuolo" && r.NextDouble() < 0.6) mat = "PannoBianco";
-                ClothObject(parent, kind, variant, mat, new Vector3(Mathf.Lerp(xL, xR, tt), yTop, z + ((float)r.NextDouble() - 0.5f) * 0.1f),
-                    (float)(r.NextDouble() - 0.5) * 24f, new Vector3(sx, s, sx));
+                ClothObject(parent, kind, variant, mat, new Vector3(Mathf.Lerp(xL, xR, tt), yTop, z + ((float)r.NextDouble() - 0.5f) * 0.04f),
+                    (float)(r.NextDouble() - 0.5) * 12f, new Vector3(sx, s, sx));
             }
         }
 
@@ -302,9 +308,9 @@ namespace TrenoBambini.EditorTools
             {
                 float side = Mathf.Clamp01(1f - Mathf.Pow(Mathf.Abs(u * 2f - 1f), 2.5f) * 0.7f);
                 float k = Mathf.Lerp(0.6f, 1.1f, w) * side * (0.9f + 0.1f * ValueNoise(u * 5f, w * 8f));
-                return new Color(1.0f * k, 0.84f * k, 0.55f * k);
+                return new Color(1.0f * k, 0.66f * k, 0.34f * k); // R007 t3B: ambra, non piu' bianco
             });
-            EmissiveMat("M_LuceUscita", door, 2.4f);
+            EmissiveMat("M_LuceUscita", door, 0.9f);
             AssetDatabase.SaveAssets();
         }
 
@@ -325,122 +331,6 @@ namespace TrenoBambini.EditorTools
             if (backOnMinZ) kb.Box(new Vector3(mn.x, 0.05f, mn.z), new Vector3(mx.x, h - 0.04f, mn.z + 0.02f), 0, TileWood);
             if (backOnMinX) kb.Box(new Vector3(mn.x, 0.05f, mn.z), new Vector3(mn.x + 0.02f, h - 0.04f, mx.z), 0, TileWood);
             if (backOnMaxX) kb.Box(new Vector3(mx.x - 0.02f, 0.05f, mn.z), new Vector3(mx.x, h - 0.04f, mx.z), 0, TileWood);
-        }
-
-        static void FlashbackProps(Transform env)
-        {
-            var r = new System.Random(1946);
-            // Distanze minime di 0.8 m dalle postazioni degli enigmi (+-3,+-3) e dagli oggetti nascosti
-            // (-4.2,0.5) (0.5,-4.2) (4.2,0.3) (-1.5,4.2) (1.2,1.9): tutto sta contro i muri.
-
-            // scaffale delle scarpe, muro nord (x -4.0..-2.4)
-            {
-                var kb = new KitBuilder("M_LegnoVernicePelata", "M_AssiConsunte", "PannoBeige");
-                float[] lv = { 0.05f, 0.75f, 1.4f };
-                AddShelf(kb, new Vector3(-4.0f, 0f, 4.45f), 1.6f, 0.5f, 2.05f, lv, false, true, false, false);
-                // scatole da scarpe
-                kb.Box(new Vector3(-3.95f, 0.09f, 4.55f), new Vector3(-3.55f, 0.28f, 4.9f), 1, 0.5f);
-                kb.Box(new Vector3(-3.95f, 0.32f, 4.55f), new Vector3(-3.6f, 0.52f, 4.9f), 1, 0.5f);
-                kb.Box(new Vector3(-2.7f, 0.09f, 4.55f), new Vector3(-2.45f, 0.4f, 4.9f), 1, 0.5f);
-                MeshObject(env, "ScaffaleScarpe", kb.Build(KitName("ScaffaleScarpe")), kb.matNames, true);
-                float[] xs = { -3.4f, -3.05f, -2.7f, -3.8f, -3.45f, -3.1f };
-                for (int i = 0; i < 6; i++)
-                {
-                    float y = i < 3 ? 0.79f : 1.44f;
-                    ShoeObject(env, new Vector3(xs[i], y, 4.7f - (i % 2) * 0.08f), 180f + (float)(r.NextDouble() - 0.5) * 28f, 1.2f);
-                }
-                ShoeObject(env, new Vector3(-3.2f, 0.09f, 4.65f), 140f, 1.2f);
-                ClothObject(env, "Straccio", 0, "PannoGrigio", new Vector3(-2.55f, 2.05f, 4.43f), 5f, new Vector3(0.9f, 0.9f, 0.9f));
-            }
-            // scaffale basso, muro ovest (z -3.7..-1.0 libero fino a -2.2), con scarpe
-            {
-                var kb = new KitBuilder("M_LegnoVernicePelata", "M_AssiConsunte");
-                float[] lv = { 0.05f, 0.6f, 1.15f };
-                AddShelf(kb, new Vector3(-4.95f, 0f, -3.7f), 0.42f, 1.5f, 1.7f, lv, false, false, true, false);
-                MeshObject(env, "ScaffaleOvest", kb.Build(KitName("ScaffaleOvest")), kb.matNames, true);
-                for (int i = 0; i < 5; i++)
-                {
-                    float y = i < 3 ? 0.64f : 1.19f;
-                    ShoeObject(env, new Vector3(-4.7f, y, -3.55f + (i % 3) * 0.45f + (i >= 3 ? 0.2f : 0f)), 90f + (float)(r.NextDouble() - 0.5) * 30f, 1.2f);
-                }
-            }
-            // banco da calzolaio, muro sud (x 1.7..3.1)
-            {
-                var kb = new KitBuilder("M_AssiStagionate", "M_FerroRuggine02", "M_LegnoVernicePelata", "PannoTerra");
-                kb.Box(new Vector3(1.7f, 0.82f, -4.95f), new Vector3(3.1f, 0.88f, -4.3f), 0, TileWood);
-                foreach (var cx in new[] { 1.74f, 3.0f })
-                    foreach (var cz in new[] { -4.93f, -4.38f })
-                        kb.Box(new Vector3(cx, 0f, cz), new Vector3(cx + 0.07f, 0.82f, cz + 0.07f), 2, TileWood);
-                kb.Box(new Vector3(1.74f, 0.3f, -4.93f), new Vector3(3.07f, 0.34f, -4.38f), 0, TileWood);
-                // utensili sul banco: martello, tenaglia, pezzo di cuoio, pentolino di colla
-                kb.Box(new Vector3(1.85f, 0.88f, -4.55f), new Vector3(2.15f, 0.9f, -4.51f), 2, 0.3f);
-                kb.Box(new Vector3(1.83f, 0.88f, -4.6f), new Vector3(1.9f, 0.95f, -4.46f), 1, 0.3f);
-                kb.Box(new Vector3(2.3f, 0.88f, -4.7f), new Vector3(2.55f, 0.89f, -4.5f), 3, 0.3f);
-                kb.Box(new Vector3(2.7f, 0.88f, -4.8f), new Vector3(2.82f, 0.96f, -4.68f), 1, 0.3f);
-                // pelli sul ripiano basso
-                kb.Box(new Vector3(2.0f, 0.34f, -4.9f), new Vector3(2.8f, 0.5f, -4.5f), 3, 0.5f);
-                // pannello con attrezzi appesi
-                kb.Box(new Vector3(1.75f, 1.35f, -4.98f), new Vector3(3.05f, 2.05f, -4.95f), 2, TileWood);
-                for (int i = 0; i < 5; i++)
-                {
-                    float x = 1.9f + i * 0.25f;
-                    float drop = (i % 2) * 0.12f;
-                    kb.Box(new Vector3(x, 1.5f, -4.95f), new Vector3(x + 0.03f, 1.9f - drop, -4.9f), 1, 0.3f);
-                    kb.Box(new Vector3(x - 0.04f, 1.9f - drop, -4.95f), new Vector3(x + 0.07f, 1.97f - drop, -4.9f), 2, 0.3f);
-                }
-                MeshObject(env, "BancoCalzolaio", kb.Build(KitName("BancoCalzolaio")), kb.matNames, true);
-                ShoeObject(env, new Vector3(2.4f, 0.88f, -4.45f), 200f, 1.2f);
-                ShoeObject(env, new Vector3(2.62f, 0.88f, -4.62f), 120f, 1.2f);
-                Model("Candela", env, new Vector3(1.95f, 0.88f, -4.75f), 0f, 1f, false, "CandelaBanco");
-                Model("LanternaPH", env, new Vector3(3.0f, 0.88f, -4.75f), 0f, 1.2f, false, "LanternaBanco");
-            }
-            // cassette e casse negli angoli
-            Model("CassaLegno", env, new Vector3(-4.3f, 0f, -4.2f), 15f, 1.5f, true, "Cassa");
-            Model("CassaLegno", env, new Vector3(-3.4f, 0f, -4.4f), -20f, 1.15f, true, "Cassa");
-            Model("CassaLegno", env, new Vector3(-4.3f, 0.5f, -4.2f), 40f, 1.1f, true, "Cassa");
-            Model("CassaLegno", env, new Vector3(-4.55f, 0f, -1.1f), 8f, 1.3f, true, "Cassetta");
-            Model("CassaLegno", env, new Vector3(4.55f, 0f, -4.6f), -12f, 1.2f, true, "Cassetta");
-            Model("BotteVino", env, new Vector3(4.3f, 0f, 4.1f), 0f, 1.25f, true, "Botte");
-            Model("SediaDipinta", env, new Vector3(4.2f, 0f, -1.8f), -95f, 1.0f, true, "Sedia");
-            Model("TavoloLegno02", env, new Vector3(4.3f, 0f, -3.6f), 0f, 1.3f, true, "TavolinoLegno");
-            // mensola con lume, vaso e cesto (muro nord, x 1.5..3.5)
-            {
-                var kb = new KitBuilder("M_LegnoVernicePelata");
-                kb.Box(new Vector3(1.5f, 0f, 4.35f), new Vector3(3.5f, 0.88f, 4.85f), 0, TileWood);
-                kb.Box(new Vector3(1.52f, 0.88f, 4.37f), new Vector3(3.48f, 0.92f, 4.88f), 0, TileWood);
-                MeshObject(env, "Mensola", kb.Build(KitName("Mensola")), kb.matNames, true);
-                Model("LampadaPetrolio_B", env, new Vector3(3.2f, 0.92f, 4.65f), 0f, 1.4f, false, "LampadaMensola");
-                Model("VasoTerracotta", env, new Vector3(2.2f, 0.92f, 4.65f), 0f, 1.2f, false, "Vaso");
-                Model("CestaVimini", env, new Vector3(1.7f, 0.92f, 4.65f), 20f, 1.4f, false, "Cesto");
-            }
-            // panca (muro ovest, z 2.5..4.3)
-            {
-                var pk = new KitBuilder("M_LegnoVernicePelata");
-                pk.Box(new Vector3(-4.75f, 0.42f, 2.5f), new Vector3(-4.25f, 0.5f, 4.3f), 0, TileWood);
-                foreach (var z in new[] { 2.6f, 4.2f })
-                    pk.Box(new Vector3(-4.7f, 0f, z - 0.05f), new Vector3(-4.3f, 0.42f, z + 0.05f), 0, TileWood);
-                MeshObject(env, "Panca", pk.Build(KitName("Panca")), pk.matNames, true);
-            }
-            // stenditoio con panni (muro est, z 1.8..3.6)
-            {
-                var kb = new KitBuilder("M_FerroRuggine02");
-                kb.Box(new Vector3(4.85f, 1.9f, 1.8f), new Vector3(4.9f, 1.93f, 3.6f), 0, 0.5f);
-                kb.Box(new Vector3(4.7f, 1.9f, 1.78f), new Vector3(4.9f, 1.93f, 1.82f), 0, 0.5f);
-                kb.Box(new Vector3(4.7f, 1.9f, 3.58f), new Vector3(4.9f, 1.93f, 3.62f), 0, 0.5f);
-                MeshObject(env, "Stenditoio", kb.Build(KitName("Stenditoio")), kb.matNames, false);
-                ClothObject(env, "Camicia", 1, "PannoBeige", new Vector3(4.78f, 1.9f, 2.2f), 90f, Vector3.one);
-                ClothObject(env, "Pantaloni", 0, "PannoGrigio", new Vector3(4.78f, 1.9f, 2.85f), 88f, Vector3.one);
-                ClothObject(env, "Straccio", 1, "PannoTerra", new Vector3(4.78f, 1.9f, 3.35f), 92f, Vector3.one);
-            }
-            // pile di stracci a terra
-            {
-                var kb = new KitBuilder("PannoBeige", "PannoGrigio", "PannoTerra");
-                kb.Box(new Vector3(4.2f, 0f, -4.75f), new Vector3(4.7f, 0.1f, -4.35f), 0, 0.6f);
-                kb.Box(new Vector3(4.28f, 0.1f, -4.7f), new Vector3(4.6f, 0.17f, -4.42f), 1, 0.6f);
-                kb.Box(new Vector3(-4.85f, 0f, -0.2f), new Vector3(-4.35f, 0.08f, 0.1f), 2, 0.6f);
-                kb.Box(new Vector3(-4.8f, 0.08f, -0.15f), new Vector3(-4.5f, 0.14f, 0.05f), 0, 0.6f);
-                MeshObject(env, "Stracci", kb.Build(KitName("Stracci")), kb.matNames, false);
-            }
         }
     }
 }

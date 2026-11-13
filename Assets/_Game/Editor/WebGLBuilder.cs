@@ -70,7 +70,7 @@ namespace TrenoBambini.EditorTools
                 var existing = UnityEngine.SceneManagement.SceneManager.GetSceneByPath(sp);
                 bool giaAperta = existing.IsValid() && existing.isLoaded;
                 var sc = giaAperta ? existing : UnityEditor.SceneManagement.EditorSceneManager.OpenScene(sp, UnityEditor.SceneManagement.OpenSceneMode.Additive);
-                bool bakedExpected = sp.Contains("01_Titolo") || sp.Contains("10_Hub") || sp.Contains("20_Int") || sp.Contains("30_FB");
+                bool bakedExpected = sp.Contains("10_Hub") || sp.Contains("20_Int") || sp.Contains("30_FB");
                 if (bakedExpected && Lightmapping.GetLightingDataAssetForScene(sc) == null)
                     Debug.LogWarning("[WebGLBuilder] Luci da rifare: Treno ▸ Look ▸ Bake luci di tutte le scene (manca il lighting data di " + sp + ")");
                 if (!giaAperta && UnityEditor.SceneManagement.EditorSceneManager.sceneCount > 1)
@@ -88,7 +88,8 @@ namespace TrenoBambini.EditorTools
             BuildReport report;
             try
             {
-                string outPath = Path.GetFullPath(Path.Combine(Application.dataPath, "..", OutputFolder));
+                string outPath = System.Environment.GetEnvironmentVariable("TRENO_WEBGL_OUT"); // R007 t5: cartella alternativa fuori dal repo
+                if (string.IsNullOrEmpty(outPath)) outPath = Path.GetFullPath(Path.Combine(Application.dataPath, "..", OutputFolder));
                 Directory.CreateDirectory(outPath);
 
                 var options = new BuildPlayerOptions
@@ -200,6 +201,17 @@ namespace TrenoBambini.EditorTools
             if (imp.textureType == TextureImporterType.Lightmap || path.Contains("Lightmap-") || path.Contains("ReflectionProbe-"))
             {
                 s.maxTextureSize = path.Contains("ReflectionProbe-") ? 256 : 1024;
+                return s;
+            }
+
+            // R019: le piante della minimappa (inchiostro e tratteggio sottile) restano a piena risoluzione e senza crunch; i glifi restano come sono
+            if (path.Contains("/Resources/Mappe/"))
+            {
+                s.maxTextureSize = 1024;
+                if (path.EndsWith(".png")) return s;
+                s.format = TextureImporterFormat.DXT1;
+                s.crunchedCompression = false;
+                s.compressionQuality = 50;
                 return s;
             }
 

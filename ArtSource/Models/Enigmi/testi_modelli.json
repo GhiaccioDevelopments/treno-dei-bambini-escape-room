@@ -1,0 +1,10 @@
+{
+  "_nota": "Testi stampati sugli oggetti degli enigmi, letti da texture_enigmi.py. Marca e grafica inventate dal team (nessuna marca reale).",
+  "latta": {
+    "marca": "PARTENOPE",
+    "prodotto": "BISCOTTI ALL'UOVO",
+    "sottotitolo": "Fabbrica di biscotti - Napoli",
+    "fronte": "BISCOTTI FINI",
+    "fianco": "PARTENOPE"
+  }
+}

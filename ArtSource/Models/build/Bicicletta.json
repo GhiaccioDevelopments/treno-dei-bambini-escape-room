@@ -1,0 +1,50 @@
+{
+ "nome": "Bicicletta",
+ "cartella": "Bicicletta",
+ "sorgente": "",
+ "materiali": [
+  "BiciNero",
+  "Cuoio",
+  "Fanale"
+ ],
+ "tri": [
+  2640,
+  1320,
+  660
+ ],
+ "tri_originali": 2640,
+ "dim": [
+  0.345,
+  1.75,
+  0.99
+ ],
+ "piatti": {
+  "BiciNero": {
+   "colore": [
+    0.035,
+    0.035,
+    0.04
+   ],
+   "metallico": 0.55,
+   "levig": 0.5
+  },
+  "Cuoio": {
+   "colore": [
+    0.11,
+    0.065,
+    0.04
+   ],
+   "metallico": 0.0,
+   "levig": 0.35
+  },
+  "Fanale": {
+   "colore": [
+    0.55,
+    0.47,
+    0.3
+   ],
+   "metallico": 0.85,
+   "levig": 0.55
+  }
+ }
+}

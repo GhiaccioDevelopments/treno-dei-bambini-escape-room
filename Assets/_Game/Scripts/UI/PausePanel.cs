@@ -1,6 +1,7 @@
 using TMPro;
 using TrenoBambini.Audio;
 using TrenoBambini.Core;
+using TrenoBambini.Data;
 using TrenoBambini.UI.Fx;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,7 +16,8 @@ namespace TrenoBambini.UI
         GameObject view;
         PanelFx fx;
         Slider volume, music, ambient, effects, voices;
-        Button reduceBtn, lookBtn;
+        Button lookBtn;
+        TextMeshProUGUI segretiTxt; // R011: contatore dei segreti, solo qui (mai nell'HUD)
         const float ItemH = 42f, RowH = 32f;
 
         void Awake()
@@ -53,13 +55,15 @@ namespace TrenoBambini.UI
 
             var content = UIFactory.NewRect("Voci", pr);
             UIFactory.Stretch(content, 90f, 20f, 20f, 20f);
-            var vl = UIFactory.AddVLayout(content.gameObject, 5f);
+            var vl = UIFactory.AddVLayout(content.gameObject, 2f);
             vl.padding = new RectOffset(0, 0, 4, 4);
 
             var title = UIFactory.MakeText(content, "Pausa", 42, UITheme.InchiostroBlu, TextAlignmentOptions.Center, FontStyles.Bold | FontStyles.Italic);
             Add(title, 440f, 50f);
+            segretiTxt = UIFactory.MakeText(content, "", 22, new Color(UITheme.InchiostroBlu.r, UITheme.InchiostroBlu.g, UITheme.InchiostroBlu.b, 0.8f), TextAlignmentOptions.Center, FontStyles.Italic);
+            Add(segretiTxt, 440f, 24f);
             Add(Item(content, "Riprendi", Hide), 440f, ItemH);
-            Add(Item(content, "Valigia", () => { if (UIRoot.I != null) UIRoot.I.Inventory.Show(); }), 440f, ItemH);
+            Add(Item(content, GameData.UiMenu.hud.latta, () => { if (UIRoot.I != null) UIRoot.I.Inventory.Show(); }), 440f, ItemH);
 
             // R002: volume generale + quattro canali, una riga per slider (etichetta a sinistra)
             volume = SliderRow(content, "Generale", OnVolume);
@@ -68,12 +72,13 @@ namespace TrenoBambini.UI
             effects = SliderRow(content, "Effetti", v => OnChannel(AudioChannel.Effetti, v));
             voices = SliderRow(content, "Voci", v => OnChannel(AudioChannel.Voci, v));
 
-            reduceBtn = Item(content, "", OnToggleReduce);
-            Add(reduceBtn, 440f, ItemH);
+            // R008: grafica, audio e accessibilita' (effetti ridotti compresi) stanno nel menu Impostazioni
+            Add(Item(content, "Impostazioni", () => { if (UIRoot.I != null && UIRoot.I.Settings != null) UIRoot.I.Settings.Show(); }), 440f, ItemH);
             // R005: comandi da tastiera e scelta di come si gira la visuale (salvata)
             Add(Item(content, "Comandi", OnComandi), 440f, ItemH);
             lookBtn = Item(content, "", OnToggleLook);
             Add(lookBtn, 440f, ItemH);
+            Add(Item(content, GameData.UiMenu.filmato.rivedi, OnRivediFilmato), 440f, ItemH);
             Add(Item(content, "Salva", OnSave), 440f, ItemH);
             Add(Item(content, "Torna al titolo", OnTitle), 440f, ItemH);
 
@@ -106,11 +111,6 @@ namespace TrenoBambini.UI
             ((RectTransform)c.transform).sizeDelta = new Vector2(w, h);
         }
 
-        void RefreshReduceLabel()
-        {
-            UIFactory.SetLabel(reduceBtn, "Effetti ridotti: " + (UITheme.ReduceEffects ? "sì" : "no"));
-        }
-
         public void Show()
         {
             if (IsOpen) return;
@@ -123,8 +123,10 @@ namespace TrenoBambini.UI
             effects.SetValueWithoutNotify(am != null ? am.GetChannel(AudioChannel.Effetti) : 1f);
             voices.SetValueWithoutNotify(am != null ? am.GetChannel(AudioChannel.Voci) : 1f);
             if (am != null) am.Music.SetPaused(true); // la musica scende al 30% senza fermarsi
-            RefreshReduceLabel();
             RefreshLookLabel();
+            string rs = TrenoBambini.Segreti.SegretiStato.RigaPausa();
+            segretiTxt.text = rs;
+            segretiTxt.gameObject.SetActive(!string.IsNullOrEmpty(rs));
             transform.SetAsLastSibling();
             fx.Show();
         }
@@ -146,12 +148,6 @@ namespace TrenoBambini.UI
         void OnChannel(AudioChannel ch, float v)
         {
             if (AudioManager.I != null) AudioManager.I.SetChannel(ch, v);
-        }
-
-        void OnToggleReduce()
-        {
-            if (UIRoot.I != null) UIRoot.I.SetReduceEffects(!UITheme.ReduceEffects);
-            RefreshReduceLabel();
         }
 
         void RefreshLookLabel()
@@ -176,6 +172,19 @@ namespace TrenoBambini.UI
         {
             if (UIRoot.I == null) return;
             UIRoot.I.ShowMessage("Comandi", UIRoot.ComandiTesto(!CursorManager.MouseLookMode), null);
+        }
+
+        /// <summary>R025: rivedi il filmato iniziale (non dentro un ricordo: li' si tornerebbe al vicolo e si perderebbe il filo).</summary>
+        void OnRivediFilmato()
+        {
+            if (UIRoot.I == null || GameManager.I == null) return;
+            if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name.Contains("_FB_"))
+            {
+                UIRoot.I.Toast(GameData.UiMenu.filmato.nonQui);
+                return;
+            }
+            Hide();
+            GameManager.I.RivediFilmato();
         }
 
         void OnSave()

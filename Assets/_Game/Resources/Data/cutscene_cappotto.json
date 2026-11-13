@@ -1,0 +1,249 @@
+{
+  "id": "cutscene_cappotto",
+  "titolo": "Il cappotto",
+  "sfondo": "cs_ricordo",
+  "battute": [
+    {
+      "id": "cs_cappotto_001",
+      "personaggio": "amerigo_adulto",
+      "testo": "Dietro la porta, su un chiodo, un cappottino blu. Ci entrerebbe a stento il mio braccio.",
+      "emozione": "pensierosa",
+      "audio": "",
+      "azione": "dissolvenza",
+      "sfondo": "cs_basso",
+      "posizione": "sx",
+      "capitolo": "ingresso"
+    },
+    {
+      "id": "cs_cappotto_002",
+      "personaggio": "amerigo_adulto",
+      "testo": "Provo a infilare la mano nella manica. Si ferma al polso. Allora ci stavo dentro tutto.",
+      "emozione": "pensierosa",
+      "audio": "",
+      "azione": "",
+      "sfondo": "",
+      "posizione": "sx",
+      "capitolo": "ingresso"
+    },
+    {
+      "id": "cs_cappotto_003",
+      "personaggio": "narratore",
+      "testo": "Napoli, inverno 1946-47. In stazione il fumo delle locomotive si mescola all'odore di sapone: i bambini sono stati lavati, visitati e vestiti, uno per uno.",
+      "emozione": "neutra",
+      "audio": "",
+      "azione": "dissolvenza",
+      "sfondo": "cs_ricordo",
+      "posizione": "sx",
+      "capitolo": "ingresso"
+    },
+    {
+      "id": "cs_cappotto_004",
+      "personaggio": "antonietta",
+      "testo": "Stai dritto e non fare lo scemo. Quando chiamano il tuo numero, rispondi forte.",
+      "emozione": "decisa",
+      "audio": "",
+      "azione": "entra_dx",
+      "sfondo": "",
+      "posizione": "dx",
+      "capitolo": "ingresso"
+    },
+    {
+      "id": "cs_cappotto_005",
+      "personaggio": "amerigo",
+      "testo": "E se il numero me lo scordo, mammà?",
+      "emozione": "neutra",
+      "audio": "",
+      "azione": "entra_sx",
+      "sfondo": "",
+      "posizione": "sx",
+      "capitolo": "ingresso"
+    },
+    {
+      "id": "cs_cappotto_006",
+      "personaggio": "antonietta",
+      "testo": "Il numero non si scorda. Si porta al collo.",
+      "emozione": "neutra",
+      "audio": "",
+      "azione": "",
+      "sfondo": "",
+      "posizione": "dx",
+      "capitolo": "ingresso"
+    },
+    {
+      "id": "cs_cappotto_007",
+      "personaggio": "tommasino",
+      "testo": "Amerì! Hanno dato i cartellini, ma è passato il vento dal binario e li ha fatti volare tutti!",
+      "emozione": "felice",
+      "audio": "",
+      "azione": "entra_dx",
+      "sfondo": "",
+      "posizione": "dx",
+      "capitolo": "ingresso"
+    },
+    {
+      "id": "cs_cappotto_008",
+      "personaggio": "narratore",
+      "testo": "Ai tavoli del Comitato e della Croce Rossa le volontarie chiamano, scrivono, piegano. Prima di salire servono un numero, un cappotto e un saluto.",
+      "emozione": "neutra",
+      "audio": "",
+      "azione": "",
+      "sfondo": "",
+      "posizione": "sx",
+      "capitolo": "ingresso"
+    },
+    {
+      "id": "cs_cappotto_009",
+      "personaggio": "amerigo",
+      "testo": "Mammà... guarda qua sotto. Sono scarpe. Sono mie.",
+      "emozione": "sorpresa",
+      "audio": "",
+      "azione": "zoom",
+      "sfondo": "cs_ricordo",
+      "posizione": "sx",
+      "capitolo": "meta"
+    },
+    {
+      "id": "cs_cappotto_010",
+      "personaggio": "narratore",
+      "testo": "Amerigo non cammina: prova il pavimento un passo alla volta, come se le scarpe potessero scappare.",
+      "emozione": "neutra",
+      "audio": "",
+      "azione": "",
+      "sfondo": "",
+      "posizione": "sx",
+      "capitolo": "meta"
+    },
+    {
+      "id": "cs_cappotto_011",
+      "personaggio": "pachiochia",
+      "testo": "Partite, partite! Tanto quei bambini non li rivedete più!",
+      "emozione": "triste",
+      "audio": "",
+      "azione": "entra_dx",
+      "sfondo": "",
+      "posizione": "dx",
+      "capitolo": "meta"
+    },
+    {
+      "id": "cs_cappotto_012",
+      "personaggio": "madre_vicolo",
+      "testo": "Pachiò, l'hai detto pure la settimana scorsa. Io il registro l'ho letto.",
+      "emozione": "decisa",
+      "audio": "",
+      "azione": "",
+      "sfondo": "",
+      "posizione": "sx",
+      "capitolo": "meta"
+    },
+    {
+      "id": "cs_cappotto_013",
+      "personaggio": "narratore",
+      "testo": "Nessuno si gira. La voce della Pachiochia si perde nel fischio di una locomotiva.",
+      "emozione": "neutra",
+      "audio": "",
+      "azione": "",
+      "sfondo": "",
+      "posizione": "sx",
+      "capitolo": "meta"
+    },
+    {
+      "id": "cs_cappotto_014",
+      "personaggio": "narratore",
+      "testo": "È ancora buio quando il treno si ferma, l'ultima volta. Sulla banchina, sotto le lanterne, aspettano famiglie con le sciarpe fino agli occhi.",
+      "emozione": "neutra",
+      "audio": "",
+      "azione": "dissolvenza",
+      "sfondo": "cs_ricordo",
+      "posizione": "sx",
+      "capitolo": "chiusura"
+    },
+    {
+      "id": "cs_cappotto_015",
+      "personaggio": "controllore",
+      "testo": "Modena! Scendete piano, guagliù, e tenete stretti i cappotti.",
+      "emozione": "felice",
+      "audio": "",
+      "azione": "entra_dx",
+      "sfondo": "",
+      "posizione": "dx",
+      "capitolo": "chiusura"
+    },
+    {
+      "id": "cs_cappotto_016",
+      "personaggio": "amerigo",
+      "testo": "Tommasì, guarda fuori. È tutto bianco.",
+      "emozione": "sorpresa",
+      "audio": "",
+      "azione": "entra_sx",
+      "sfondo": "",
+      "posizione": "sx",
+      "capitolo": "chiusura"
+    },
+    {
+      "id": "cs_cappotto_017",
+      "personaggio": "tommasino",
+      "testo": "Pare zucchero. Ma io non lo assaggio prima di te.",
+      "emozione": "felice",
+      "audio": "",
+      "azione": "",
+      "sfondo": "",
+      "posizione": "dx",
+      "capitolo": "chiusura"
+    },
+    {
+      "id": "cs_cappotto_018",
+      "personaggio": "mariuccia",
+      "testo": "Io non scendo se non mi chiamano con il nome. Il numero non mi piace.",
+      "emozione": "pensierosa",
+      "audio": "",
+      "azione": "entra_dx",
+      "sfondo": "",
+      "posizione": "dx",
+      "capitolo": "chiusura"
+    },
+    {
+      "id": "cs_cappotto_019",
+      "personaggio": "narratore",
+      "testo": "Una donna con il fazzoletto in testa legge un foglio. Chiama i nomi, non i numeri.",
+      "emozione": "neutra",
+      "audio": "",
+      "azione": "",
+      "sfondo": "",
+      "posizione": "sx",
+      "capitolo": "chiusura"
+    },
+    {
+      "id": "cs_cappotto_020",
+      "personaggio": "amerigo",
+      "testo": "Amerigo Speranza. Sono io.",
+      "emozione": "decisa",
+      "audio": "",
+      "azione": "",
+      "sfondo": "",
+      "posizione": "sx",
+      "capitolo": "chiusura"
+    },
+    {
+      "id": "cs_cappotto_021",
+      "personaggio": "amerigo_adulto",
+      "testo": "Quel cappotto l'ho stretto per tutto il viaggio. Non perché avevo freddo.",
+      "emozione": "pensierosa",
+      "audio": "",
+      "azione": "dissolvenza",
+      "sfondo": "cs_basso",
+      "posizione": "sx",
+      "capitolo": "chiusura"
+    },
+    {
+      "id": "cs_cappotto_022",
+      "personaggio": "narratore",
+      "testo": "Un cappotto di sconosciuti, un paio di scarpe senza biglietto, una mela da tenere. Il viaggio verso il Nord comincia così: con quello che altri avevano messo da parte per te.",
+      "emozione": "decisa",
+      "audio": "",
+      "azione": "",
+      "sfondo": "",
+      "posizione": "sx",
+      "capitolo": "chiusura"
+    }
+  ]
+}
