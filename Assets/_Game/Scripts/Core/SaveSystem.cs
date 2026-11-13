@@ -33,6 +33,8 @@ namespace TrenoBambini.Core
         public bool filmatoVisto;        // R025: il filmato iniziale e' stato visto (o saltato) in questa partita
         // R011: segreti. I salvataggi vecchi non li hanno: restano vuoti.
         public List<string> segretiTrovati = new List<string>();  // id dei segreti trovati (collezionabili ed enigmi segreti)
+        public List<string> trofei = new List<string>();            // R027: id dei trofei sbloccati
+        public List<string> trofeiEventi = new List<string>();      // R027: eventi per le condizioni dei trofei (senza_indizi:..., errore:..., scheda:..., scena:...)
         public List<string> segretiFlag = new List<string>();      // flag di gioco per gli agganci futuri: "finale_visto", "segreti_tutti", ...
     }
 

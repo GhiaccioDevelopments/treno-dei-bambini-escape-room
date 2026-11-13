@@ -247,6 +247,11 @@ namespace TrenoBambini.Core
                 }
             }
             Check("R026: tutti gli enigmi hanno cosaFare e cosaOttieni (" + tot + ")", tot >= 48 && senza == 0, string.Join(", ", nomi));
+            // R027: i trofei hanno condizioni scritte bene e testi
+            var errati = new List<string>();
+            foreach (var t in GameData.Trofei.trofei)
+                if (!TrenoBambini.Album.Trofei.CondizioneValida(t.condizione) || string.IsNullOrEmpty(t.titolo) || string.IsNullOrEmpty(t.descrizione)) errati.Add(t.id);
+            Check("R027: 20-35 trofei con condizioni valide", GameData.Trofei.trofei.Count >= 20 && GameData.Trofei.trofei.Count <= 35 && errati.Count == 0, string.Join(", ", errati));
         }
 
         IEnumerator Flusso()

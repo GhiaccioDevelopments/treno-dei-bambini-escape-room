@@ -79,6 +79,7 @@ namespace TrenoBambini.UI
             lookBtn = Item(content, "", OnToggleLook);
             Add(lookBtn, 440f, ItemH);
             Add(Item(content, GameData.UiMenu.filmato.rivedi, OnRivediFilmato), 440f, ItemH);
+            Add(Item(content, GameData.Trofei.testi.titolo, () => TrofeiPanel.Mostra()), 440f, ItemH); // R027
             Add(Item(content, "Salva", OnSave), 440f, ItemH);
             Add(Item(content, "Torna al titolo", OnTitle), 440f, ItemH);
 

@@ -15,6 +15,7 @@ namespace TrenoBambini.Core
         static UiMenuFile uiMenu;
         static FilmatoFile filmato;
         static CreditiFile crediti;
+        static TrofeiFile trofei;
         static List<EnigmaDef> enigmiMondo;
         static List<NascostoDef> oggettiEnigma;
         static EnigmiTesti testiEnigmi;
@@ -83,6 +84,8 @@ namespace TrenoBambini.Core
 
         /// <summary>R023: asset esterni e licenze, generati da CREDITS.md (Treno > Crediti > Genera crediti.json).</summary>
         public static CreditiFile Crediti { get { if (crediti == null) crediti = LoadJson<CreditiFile>("crediti") ?? new CreditiFile(); return crediti; } }
+        /// <summary>R027: i trofei (trofei.json, generato da ArtSource/Trofei/genera_trofei.py).</summary>
+        public static TrofeiFile Trofei { get { if (trofei == null) trofei = LoadJson<TrofeiFile>("trofei") ?? new TrofeiFile(); return trofei; } }
 
         /// <summary>R009/R020: enigmi degli oggetti nel mondo di hub e basso (enigmi_mondo.json). Ognuno ha il campo scena.</summary>
         public static List<EnigmaDef> EnigmiMondo

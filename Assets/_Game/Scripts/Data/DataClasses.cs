@@ -380,7 +380,7 @@ namespace TrenoBambini.Data
             new UiVoce { id = "continua", etichetta = "Continua" }, new UiVoce { id = "nuova", etichetta = "Nuova partita" },
             new UiVoce { id = "ricordi", etichetta = "Ricordi" }, new UiVoce { id = "impostazioni", etichetta = "Impostazioni" },
             new UiVoce { id = "filmato", etichetta = "Rivedi il filmato iniziale" },
-            new UiVoce { id = "crediti", etichetta = "Crediti" }, new UiVoce { id = "esci", etichetta = "Esci" }
+            new UiVoce { id = "trofei", etichetta = "Trofei" }, new UiVoce { id = "crediti", etichetta = "Crediti" }, new UiVoce { id = "esci", etichetta = "Esci" }
         };
         public UiAnteprima anteprima = new UiAnteprima();
         public UiConferma conferma = new UiConferma();
@@ -493,6 +493,11 @@ namespace TrenoBambini.Data
         public string minimappaNome = "Minimappa", minimappaSpiega = "", nordFissoNome = "Nord in alto", nordFissoSpiega = "";
         public string si = "Si", no = "No";
     }
+
+    /// <summary>R027: trofei.json. testi = interfaccia dell'album; trofei = elenco (condizione: vedi TrenoBambini.Album.Trofei).</summary>
+    [Serializable] public class TrofeiTesti { public string titolo = "Trofei", sottotitolo = "", contatore = "{0} su {1}", bloccato = "", segreto = "", notifica = "{0}", indietro = "Indietro", famigliaStoria = "", famigliaEnigmi = "", famigliaEsplorazione = "", famigliaMissioni = "", famigliaCivici = ""; }
+    [Serializable] public class TrofeoDef { public string id, titolo, descrizione, indizio, icona, condizione, famiglia; public bool segreto; }
+    [Serializable] public class TrofeiFile { public TrofeiTesti testi = new TrofeiTesti(); public List<TrofeoDef> trofei = new List<TrofeoDef>(); }
 
     [Serializable] public class CreditoVoce { public string asset, tipo, autore, licenza; }
     [Serializable] public class CreditiFile { public List<CreditoVoce> voci = new List<CreditoVoce>(); }

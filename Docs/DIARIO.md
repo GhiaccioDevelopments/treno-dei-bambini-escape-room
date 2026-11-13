@@ -5,6 +5,13 @@ Regole d'uso: vedi la sezione "Diario e lavoro su più PC" in `CLAUDE.md`.
 
 ---
 
+## 2026-11-13 – PC scuola – R027 trofei
+**Branch:** richiesta/R027-trofei (con dentro R026 -> R012)
+### Fatto
+- Album di figurine (menu e pausa), 30 trofei in 5 famiglie, condizioni a token, notifica, eventi senza indizi / errori / schede / scene, prove.
+### Decisioni
+- Missioni secondarie = gli enigmi segreti di R011; elenco nel Rapporto di R027 (nessuna domanda, si corregge dopo).
+
 ## 2026-11-13 – PC scuola – R026 biglietto "Cosa fare / Cosa ottieni"
 **Branch:** richiesta/R026-enigmi-chiari (con dentro R016 e quindi R012-R015)
 ### Fatto

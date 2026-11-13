@@ -1,0 +1,318 @@
+{
+  "testi": {
+    "titolo": "Trofei",
+    "sottotitolo": "L'album di figurine di Amerigo",
+    "contatore": "{0} su {1}",
+    "bloccato": "Un trofeo segreto: si scopre giocando.",
+    "segreto": "Segreto",
+    "notifica": "Nuova figurina nell'album: {0}",
+    "indietro": "Indietro",
+    "famigliaStoria": "La storia",
+    "famigliaEnigmi": "Gli enigmi",
+    "famigliaEsplorazione": "Esplorare",
+    "famigliaMissioni": "Missioni secondarie",
+    "famigliaCivici": "Educazione civica"
+  },
+  "trofei": [
+    {
+      "id": "storia_filmato",
+      "famiglia": "storia",
+      "titolo": "Il ritorno",
+      "descrizione": "Hai visto Amerigo tornare nel vicolo.",
+      "indizio": "Comincia una nuova partita.",
+      "condizione": "filmato",
+      "icona": "I",
+      "segreto": false
+    },
+    {
+      "id": "storia_scarpe",
+      "famiglia": "storia",
+      "titolo": "Le scarpe",
+      "descrizione": "Hai rivissuto il ricordo delle scarpe.",
+      "indizio": "Nel basso c'è un baule chiuso.",
+      "condizione": "fb:flashback_scarpe",
+      "icona": "II",
+      "segreto": false
+    },
+    {
+      "id": "storia_stracci",
+      "famiglia": "storia",
+      "titolo": "Stracci",
+      "descrizione": "Hai lavorato con Capa 'e fierro.",
+      "indizio": "Nel cortile del basso c'è un fagotto.",
+      "condizione": "fb:flashback_stracci",
+      "icona": "III",
+      "segreto": false
+    },
+    {
+      "id": "storia_volantino",
+      "famiglia": "storia",
+      "titolo": "Il volantino",
+      "descrizione": "Hai battuto le dicerie con le prove.",
+      "indizio": "Sulla credenza c'è un foglio piegato.",
+      "condizione": "fb:flashback_volantino",
+      "icona": "IV",
+      "segreto": false
+    },
+    {
+      "id": "storia_cappotto",
+      "famiglia": "storia",
+      "titolo": "Il cappotto",
+      "descrizione": "Sei partito con il numero 112.",
+      "indizio": "Dietro la porta è appeso qualcosa.",
+      "condizione": "fb:flashback_cappotto",
+      "icona": "V",
+      "segreto": false
+    },
+    {
+      "id": "storia_violino",
+      "famiglia": "storia",
+      "titolo": "Il violino",
+      "descrizione": "A Modena hai scoperto di avere orecchio.",
+      "indizio": "Sulla credenza della cucina c'è un cassettino.",
+      "condizione": "fb:flashback_violino",
+      "icona": "VI",
+      "segreto": false
+    },
+    {
+      "id": "storia_finale",
+      "famiglia": "storia",
+      "titolo": "Il violino ritrovato",
+      "descrizione": "Hai finito la storia di Amerigo.",
+      "indizio": "Un telefono squilla nel basso.",
+      "condizione": "fb:flashback_finale",
+      "icona": "VII",
+      "segreto": false
+    },
+    {
+      "id": "enigmi_primo",
+      "famiglia": "enigmi",
+      "titolo": "Al primo colpo",
+      "descrizione": "Hai risolto un enigma senza chiedere indizi.",
+      "indizio": "Prova a risolvere un enigma senza il pulsante Indizio.",
+      "condizione": "conta:senza_indizi:1",
+      "icona": "1",
+      "segreto": false
+    },
+    {
+      "id": "enigmi_dieci",
+      "famiglia": "enigmi",
+      "titolo": "Testa fina",
+      "descrizione": "Dieci enigmi risolti senza indizi.",
+      "indizio": "Dieci enigmi senza indizi.",
+      "condizione": "conta:senza_indizi:10",
+      "icona": "10",
+      "segreto": false
+    },
+    {
+      "id": "enigmi_scarpe_pulito",
+      "famiglia": "enigmi",
+      "titolo": "Passo sicuro",
+      "descrizione": "Il ricordo delle scarpe senza un errore.",
+      "indizio": "Rivivi le scarpe senza sbagliare.",
+      "condizione": "fb:flashback_scarpe + no:errore:30_FB_Scarpe",
+      "icona": "S",
+      "segreto": false
+    },
+    {
+      "id": "enigmi_modena_pulito",
+      "famiglia": "enigmi",
+      "titolo": "Orecchio fino",
+      "descrizione": "Il ricordo di Modena senza un errore.",
+      "indizio": "A Modena, ascolta bene prima di toccare.",
+      "condizione": "fb:flashback_violino + no:errore:70_FB_Modena",
+      "icona": "M",
+      "segreto": false
+    },
+    {
+      "id": "enigmi_schede",
+      "famiglia": "enigmi",
+      "titolo": "Educazione civica",
+      "descrizione": "Hai letto 14 schede civiche.",
+      "indizio": "Le schede compaiono quando risolvi un enigma.",
+      "condizione": "conta:scheda:14",
+      "icona": "C",
+      "segreto": false
+    },
+    {
+      "id": "enigmi_schede_tutte",
+      "famiglia": "enigmi",
+      "titolo": "Il quaderno completo",
+      "descrizione": "Hai letto tutte le schede civiche dei ricordi.",
+      "indizio": "Ogni enigma dei ricordi ha la sua scheda.",
+      "condizione": "conta:scheda:29",
+      "icona": "Q",
+      "segreto": false
+    },
+    {
+      "id": "esplora_luoghi",
+      "famiglia": "esplorazione",
+      "titolo": "Da Napoli a Modena",
+      "descrizione": "Sei stato in tutti i luoghi del gioco.",
+      "indizio": "Vicolo, basso, ogni ricordo, e il basso del 1994.",
+      "condizione": "ev:scena:10_Hub_Vicolo + ev:scena:20_Int_BassoAntonietta + ev:scena:30_FB_Scarpe + ev:scena:40_FB_Stracci + ev:scena:50_FB_Volantino + ev:scena:60_FB_Stazione + ev:scena:61_FB_Vagone + ev:scena:70_FB_Modena + ev:scena:80_Basso_1994",
+      "icona": "N",
+      "segreto": false
+    },
+    {
+      "id": "esplora_segreto",
+      "famiglia": "esplorazione",
+      "titolo": "Occhio lungo",
+      "descrizione": "Hai trovato il primo segreto.",
+      "indizio": "In ogni stanza c'è qualcosa di nascosto.",
+      "condizione": "segreti:1",
+      "icona": "o",
+      "segreto": false
+    },
+    {
+      "id": "esplora_meta",
+      "famiglia": "esplorazione",
+      "titolo": "Mezzo vicolo",
+      "descrizione": "Hai trovato metà dei segreti.",
+      "indizio": "Guarda negli angoli, sotto, dietro.",
+      "condizione": "segreti:23",
+      "icona": "½",
+      "segreto": false
+    },
+    {
+      "id": "esplora_tutti",
+      "famiglia": "esplorazione",
+      "titolo": "Ogni angolo",
+      "descrizione": "Hai trovato tutti i segreti del gioco.",
+      "indizio": "",
+      "condizione": "flag:segreti_tutti",
+      "icona": "★",
+      "segreto": true
+    },
+    {
+      "id": "esplora_scatola",
+      "famiglia": "esplorazione",
+      "titolo": "La scatola dei ragazzi",
+      "descrizione": "Hai consegnato a Carmine la scatola dei ragazzi del vicolo.",
+      "indizio": "",
+      "condizione": "cutscene:cutscene_finale#segreti",
+      "icona": "♥",
+      "segreto": true
+    },
+    {
+      "id": "missione_portella",
+      "famiglia": "missioni",
+      "titolo": "La filastrocca",
+      "descrizione": "Hai aperto la portella del sottoscala.",
+      "indizio": "Nel cortile del vicolo, sotto una scala, tre tasselli dipinti.",
+      "condizione": "ris:segreti/enigma_portella",
+      "icona": "a",
+      "segreto": false
+    },
+    {
+      "id": "missione_ripostiglio",
+      "famiglia": "missioni",
+      "titolo": "Dietro la credenza",
+      "descrizione": "Hai trovato il posto dove dormiva Amerigo.",
+      "indizio": "Nel basso, una credenza spostata troppe volte.",
+      "condizione": "ris:segreti/enigma_ripostiglio",
+      "icona": "b",
+      "segreto": false
+    },
+    {
+      "id": "missione_carretto",
+      "famiglia": "missioni",
+      "titolo": "Il biglietto del robivecchi",
+      "descrizione": "Hai trovato il biglietto di Capa 'e fierro.",
+      "indizio": "Nel ricordo degli stracci c'è un carretto.",
+      "condizione": "ris:segreti/enigma_carretto",
+      "icona": "c",
+      "segreto": false
+    },
+    {
+      "id": "missione_udi",
+      "famiglia": "missioni",
+      "titolo": "Le impronte d'inchiostro",
+      "descrizione": "Hai aperto il cassetto del leggio.",
+      "indizio": "Nella sede del Comitato, un registro senza firme.",
+      "condizione": "ris:segreti/enigma_impronte",
+      "icona": "d",
+      "segreto": false
+    },
+    {
+      "id": "missione_valigia",
+      "famiglia": "missioni",
+      "titolo": "La valigia dimenticata",
+      "descrizione": "Hai aperto la valigia sulla reticella.",
+      "indizio": "Nel treno, stessa carrozza, stesso numero.",
+      "condizione": "ris:segreti/enigma_valigia",
+      "icona": "e",
+      "segreto": false
+    },
+    {
+      "id": "missione_carta",
+      "famiglia": "missioni",
+      "titolo": "La puntina di Napoli",
+      "descrizione": "Hai rimesso a posto la carta d'Italia della scuola.",
+      "indizio": "A scuola, a Modena, manca una puntina.",
+      "condizione": "ris:segreti/enigma_carta_italia",
+      "icona": "f",
+      "segreto": false
+    },
+    {
+      "id": "missione_radio",
+      "famiglia": "missioni",
+      "titolo": "92,7",
+      "descrizione": "Hai sintonizzato la radio di Antonietta.",
+      "indizio": "Nel basso del 1994 una radio gracchia.",
+      "condizione": "ris:segreti/enigma_radio",
+      "icona": "g",
+      "segreto": false
+    },
+    {
+      "id": "civico_lavoro",
+      "famiglia": "civici",
+      "titolo": "Il primo soldo",
+      "descrizione": "Lavoro minorile ieri, diritti oggi: hai fatto il conto giusto con Capa 'e fierro.",
+      "indizio": "Nella bottega degli stracci si fa un conto.",
+      "condizione": "gettone:soldo",
+      "icona": "£",
+      "segreto": false
+    },
+    {
+      "id": "civico_fonti",
+      "famiglia": "civici",
+      "titolo": "Contro le dicerie",
+      "descrizione": "A una diceria si risponde con una prova (art. 21).",
+      "indizio": "Nella sede del Comitato c'è una bacheca.",
+      "condizione": "gettone:parole_giuste",
+      "icona": "§",
+      "segreto": false
+    },
+    {
+      "id": "civico_identita",
+      "famiglia": "civici",
+      "titolo": "Un nome, non un numero",
+      "descrizione": "Ogni bambino ha diritto alla propria identità.",
+      "indizio": "In stazione volano via i cartellini.",
+      "condizione": "gettone:numero_112",
+      "icona": "#",
+      "segreto": false
+    },
+    {
+      "id": "civico_scuola",
+      "famiglia": "civici",
+      "titolo": "La scuola è di tutti",
+      "descrizione": "Art. 34: la scuola è aperta a tutti.",
+      "indizio": "A Modena, dopo le lezioni, Alcide ti aspetta.",
+      "condizione": "gettone:spartito_alcide",
+      "icona": "♪",
+      "segreto": false
+    },
+    {
+      "id": "civico_famiglia",
+      "famiglia": "civici",
+      "titolo": "Una famiglia",
+      "descrizione": "Art. 30 e legge 184 del 1983: il diritto a una famiglia.",
+      "indizio": "Alla fine qualcuno bussa alla porta.",
+      "condizione": "gettone:testimone",
+      "icona": "∞",
+      "segreto": false
+    }
+  ]
+}

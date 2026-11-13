@@ -302,6 +302,9 @@ namespace TrenoBambini.Core
             Check("il violino e' in inventario e il finale e' completato", sv.inventario.Contains("violino") && sv.flashbackCompletati.Contains("flashback_finale"));
             Check("flag finale_visto (R011)", sv.segretiFlag.Contains("finale_visto"));
             Check("cutscene di chiusura vista", sv.cutsceneViste.Contains("cutscene_finale#chiusura"));
+            TrenoBambini.Album.Trofei.Controlla(false);
+            Check("R027: trofeo del finale e trofeo civico della famiglia sbloccati", sv.trofei.Contains("storia_finale") && sv.trofei.Contains("civico_famiglia"));
+            Check("R027: lo sblocco e' nel salvataggio", PlayerPrefs.GetString("treno_save", "").Contains("storia_finale"));
             t = 0f;
             while (SceneManager.GetActiveScene().name != GameManager.SceneTitolo && t < 240f) { t += Time.unscaledDeltaTime; yield return null; }
             Check("dopo i titoli si torna al menu principale", SceneManager.GetActiveScene().name == GameManager.SceneTitolo);

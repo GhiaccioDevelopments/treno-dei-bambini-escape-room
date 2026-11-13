@@ -1016,6 +1016,7 @@ namespace TrenoBambini.Puzzles
             string m = !string.IsNullOrEmpty(specific) ? specific : (!string.IsNullOrEmpty(def.erroreMsg) ? def.erroreMsg : T.erroreGenerico);
             SetFeedback(m, new Color(0.95f, 0.72f, 0.6f));
             UISfx.Play(Sfx.SoftError, 0.5f);
+            if (GameManager.I == null || !GameManager.I.Rivivendo) TrenoBambini.Album.Trofei.Evento("errore:" + UnityEngine.SceneManagement.SceneManager.GetActiveScene().name); // R027
             if (ui != null) UIFx.Wobble((RectTransform)feedback.transform.parent, 0.8f, 0.5f);
         }
 
@@ -1066,6 +1067,13 @@ namespace TrenoBambini.Puzzles
             if (solved) return;
             solved = true;
             AudioManager.Fire("enigma_risolto");
+            // R027: eventi per i trofei (mai quando si rivive un ricordo)
+            if (GameManager.I == null || !GameManager.I.Rivivendo)
+            {
+                string k = (gameObject.scene.name ?? "") + "/" + (def.id ?? "");
+                if (hintLevel == 0) TrenoBambini.Album.Trofei.Evento("senza_indizi:" + k);
+                if (!string.IsNullOrEmpty(def.scheda)) TrenoBambini.Album.Trofei.Evento("scheda:" + k);
+            }
             RivelaQuando("risolto");
             hintBtn.gameObject.SetActive(false);
             closeBtn.gameObject.SetActive(false);
