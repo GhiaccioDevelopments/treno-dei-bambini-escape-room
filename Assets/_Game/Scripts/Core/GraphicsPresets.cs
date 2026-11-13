@@ -520,7 +520,7 @@ namespace TrenoBambini.Core
         /// <summary>R007 t3: la pellicola dei ricordi (gate weave, polvere, graffi) e' accesa solo nel ricordo 1946 (scena 30_FB_Scarpe); piu' forte a Alta/Ultra.</summary>
         static void ApplyPellicola()
         {
-            bool ricordo = SceneManager.GetActiveScene().name.StartsWith("30_");
+            bool ricordo = SceneManager.GetActiveScene().name.Contains("_FB_"); // R013: tutti i ricordi (30_FB_Scarpe, 40_FB_Stracci, 50_FB_Volantino, ...)
             float k = ricordo ? 1f : (GameManager.MenuBackdrop ? 0.5f : 0f); // R023: nel menu iniziale la pellicola e' piu' leggera che nei ricordi
             float q = Current == (int)GraphicsPreset.Media ? 0.6f : 1f;
             Shader.SetGlobalFloat("_TrenoPellicola", k);

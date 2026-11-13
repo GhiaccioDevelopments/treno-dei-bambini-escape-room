@@ -391,8 +391,31 @@ namespace TrenoBambini.UI
                 body.rectTransform.anchorMin = Vector2.zero; body.rectTransform.anchorMax = Vector2.one;
                 body.rectTransform.offsetMin = new Vector2(24f, 10f); body.rectTransform.offsetMax = new Vector2(-24f, -76f);
                 body.enableAutoSizing = true; body.fontSizeMin = 11; body.fontSizeMax = 20;
+                if (aperto && !string.IsNullOrEmpty(R.rivivi))
+                {
+                    string oid = o.id;
+                    var bt = UIFactory.MakeButton(card.rectTransform, R.rivivi, () => RiviviRicordo(oid), new Vector2(230f, 42f), ButtonStyle.Brass, 20f);
+                    bt.gameObject.name = "Rivivi_" + o.id;
+                    var brt = (RectTransform)bt.transform;
+                    brt.anchorMin = brt.anchorMax = new Vector2(1f, 0f); brt.pivot = new Vector2(1f, 0f); brt.anchoredPosition = new Vector2(-18f, 10f);
+                    body.rectTransform.offsetMin = new Vector2(24f, 56f);
+                }
             }
             if (n == 0) NotaVuota(ricordiContent, T.ricordiVuoto);
+        }
+
+        /// <summary>R011: rientra in un ricordo gia' completato (fuori da un altro ricordo).</summary>
+        public void RiviviRicordo(string oggettoId)
+        {
+            var gm = GameManager.I;
+            if (gm == null || busy) return;
+            if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name.Contains("_FB_"))
+            {
+                if (UIRoot.I != null) UIRoot.I.Toast(R.riviviNonQui, 4f);
+                return;
+            }
+            Hide();
+            gm.RivediRicordo(oggettoId);
         }
 
         string ProssimoRicordo(LuogoDef luogo)

@@ -213,7 +213,9 @@
      "x": -12.5,
      "y": 0.0,
      "z": 18.6,
-     "modello": "cartone"
+     "modello": "cartone",
+     "rx": 78,
+     "colore": "#8a6b45"
     },
     {
      "id": "zoccolo_legno",
@@ -222,7 +224,9 @@
      "x": -7.0,
      "y": 0.0,
      "z": -7.2,
-     "modello": "zoccoli"
+     "modello": "zoccoli",
+     "rx": 0,
+     "colore": "#8a5f35"
     },
     {
      "id": "scarpone_soldato",
@@ -231,7 +235,9 @@
      "x": 12.0,
      "y": 0.0,
      "z": 8.6,
-     "modello": "militari"
+     "modello": "militari",
+     "rx": -72,
+     "colore": "#6b5438"
     },
     {
      "id": "scarpa_signora",
@@ -240,7 +246,9 @@
      "x": 6.2,
      "y": 0.9,
      "z": 34.3,
-     "modello": "tacchi"
+     "modello": "tacchi",
+     "rx": 55,
+     "colore": "#7a2e36"
     },
     {
      "id": "pezze_piedi",
@@ -249,7 +257,9 @@
      "x": 14.2,
      "y": 0.0,
      "z": -17.6,
-     "modello": "pezze"
+     "modello": "pezze",
+     "rx": 0,
+     "colore": "#8a7658"
     }
    ],
    "eventi": [],
