@@ -42,7 +42,7 @@ namespace TrenoBambini.EditorTools
 
         const int LutSize = 32;
 
-        static readonly string[] LookScenes = { "10_Hub_Vicolo", "20_Int_BassoAntonietta", "30_FB_Scarpe", "40_FB_Stracci", "50_FB_Volantino", "60_FB_Stazione", "61_FB_Vagone" };
+        static readonly string[] LookScenes = { "10_Hub_Vicolo", "20_Int_BassoAntonietta", "30_FB_Scarpe", "40_FB_Stracci", "50_FB_Volantino", "60_FB_Stazione", "61_FB_Vagone", "70_FB_Modena" };
         const string LookRoot = "Look";
         const string LookLightName = "Look_Luce";
 
@@ -214,7 +214,7 @@ namespace TrenoBambini.EditorTools
 
         static VolumeProfile ProfileFor(string n)
         {
-            string p = (n == "30_FB_Scarpe" || n == "40_FB_Stracci" || n == "50_FB_Volantino" || n == "60_FB_Stazione" || n == "61_FB_Vagone") ? ProfFlash : n == "20_Int_BassoAntonietta" ? ProfBasso : ProfEpoca;
+            string p = (n == "30_FB_Scarpe" || n == "40_FB_Stracci" || n == "50_FB_Volantino" || n == "60_FB_Stazione" || n == "61_FB_Vagone" || n == "70_FB_Modena") ? ProfFlash : n == "20_Int_BassoAntonietta" ? ProfBasso : ProfEpoca;
             return AssetDatabase.LoadAssetAtPath<VolumeProfile>(p);
         }
 
@@ -699,6 +699,7 @@ namespace TrenoBambini.EditorTools
                 case "50_FB_Volantino": res = 2.5f; maxSize = 1024; break; // R013: come Stracci (LFS)
                 case "60_FB_Stazione": res = 2f; maxSize = 1024; break; // R014: stazione grande, lightmap leggere (LFS)
                 case "61_FB_Vagone": res = 6f; maxSize = 512; break;    // R014: interno piccolo
+                case "70_FB_Modena": res = 2.5f; maxSize = 1024; break; // R015: corte, tre interni e la strada (LFS)
                 default: res = 4f; maxSize = 1024; break;
             }
         }
@@ -945,6 +946,16 @@ namespace TrenoBambini.EditorTools
                     SetFog(0.022f, bg);
                     AddLampLights("LuceLampione", Cct(2500f), 4.0f, 10f);
                     probeMin = new Vector3(-14f, 0.4f, -15f); probeMax = new Vector3(14f, 5f, 44f); probeStep = 4f;
+                    break;
+                case "70_FB_Modena":
+                    // R015: mattina d'inverno in pianura: cielo bianco, sole basso e velato, nebbia lattea che chiude i campi; dentro stufe e lampade calde
+                    exterior = true;
+                    SetSun(sun, new Color(0.9f, 0.93f, 0.98f), 0.9f, new Vector3(22f, 150f, 0f), 0.35f);
+                    SetSkyAmbient(1.5f);
+                    bg = new Color(0.8f, 0.81f, 0.82f);
+                    SetFog(0.028f, bg);
+                    AddLampLights("LuceBottega", Cct(2300f), 2.2f, 6f);
+                    probeMin = new Vector3(-16f, 0.4f, -13f); probeMax = new Vector3(16f, 3.6f, 50f); probeStep = 4f;
                     break;
                 case "61_FB_Vagone":
                     // R014: interno stretto della carrozza: pomeriggio dai finestrini (il sole e' Mixed: PaesaggioTreno lo porta verso la notte), lanterne calde.

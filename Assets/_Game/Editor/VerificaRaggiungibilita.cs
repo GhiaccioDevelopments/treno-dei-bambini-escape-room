@@ -40,6 +40,7 @@ namespace TrenoBambini.EditorTools
             problemi += Scena(sb, "50_FB_Volantino", "inizio", 0.2f, 1.0f);
             problemi += Scena(sb, "60_FB_Stazione", "inizio", 0.2f, 1.0f);
             problemi += Scena(sb, "61_FB_Vagone", "inizio", 0.2f, 1.0f);
+            problemi += Scena(sb, "70_FB_Modena", "inizio", 0.2f, 1.0f);
             problemi += Scena(sb, "10_Hub_Vicolo", "inizio", 0.28f, 1.75f);
             sb.AppendLine();
             sb.AppendLine("TOTALE problemi: " + problemi);
@@ -113,9 +114,9 @@ namespace TrenoBambini.EditorTools
             foreach (var ip in Object.FindObjectsByType<ItemPickup>(FindObjectsInactive.Exclude)) { var c = ip.GetComponent<Collider>(); if (c != null) bers.Add(new Bersaglio { nome = "Oggetto " + ip.oggettoId, box = c.bounds }); }
             foreach (var ex in Object.FindObjectsByType<EscapeExit>(FindObjectsInactive.Exclude)) { var c = ex.GetComponent<Collider>(); if (c != null) bers.Add(new Bersaglio { nome = "Uscita", box = c.bounds }); }
             foreach (var s in Object.FindObjectsByType<SpawnPoint>(FindObjectsInactive.Include)) bers.Add(new Bersaglio { nome = "Spawn " + s.id, pos = s.transform.position, punto = true });
-            if (nome == "30_FB_Scarpe" || nome == "40_FB_Stracci" || nome == "50_FB_Volantino" || nome == "60_FB_Stazione" || nome == "61_FB_Vagone")
+            if (nome == "30_FB_Scarpe" || nome == "40_FB_Stracci" || nome == "50_FB_Volantino" || nome == "60_FB_Stazione" || nome == "61_FB_Vagone" || nome == "70_FB_Modena")
             {
-                var json = Resources.Load<TextAsset>(nome == "30_FB_Scarpe" ? "Data/flashback_scarpe" : nome == "40_FB_Stracci" ? "Data/flashback_stracci" : nome == "50_FB_Volantino" ? "Data/flashback_volantino" : "Data/flashback_cappotto");
+                var json = Resources.Load<TextAsset>(nome == "30_FB_Scarpe" ? "Data/flashback_scarpe" : nome == "40_FB_Stracci" ? "Data/flashback_stracci" : nome == "50_FB_Volantino" ? "Data/flashback_volantino" : nome == "70_FB_Modena" ? "Data/flashback_violino" : "Data/flashback_cappotto");
                 if (json != null)
                 {
                     var fb = JsonUtility.FromJson<TrenoBambini.Data.FlashbackDef>(json.text);

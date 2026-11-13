@@ -27,6 +27,7 @@ namespace TrenoBambini.EditorTools
             { "50_FB_Volantino", "Docs/richieste/media/R013/punti_segreti_volantino.md" },
             { "60_FB_Stazione", "Docs/richieste/media/R014/punti_segreti_stazione.md" },
             { "61_FB_Vagone", "Docs/richieste/media/R014/punti_segreti_vagone.md" },
+            { "70_FB_Modena", "Docs/richieste/media/R015/punti_segreti_modena.md" },
         };
 
         static Dictionary<string, Vector3> Punti(string scena)

@@ -17,8 +17,8 @@ MOD = "70_FB_Modena"
 
 # ---------------------------------------------------------------- posizioni nel mondo (= SceneBuilderViolino.cs)
 POS_V1 = (9.6, 0.0, -6.7)     # laboratorio: il forno di Rosa contro il muro sud, fronte verso nord (yaw 180)
-POS_V2 = (15.1, 0.0, -1.6)    # laboratorio: banco dell'accordatore contro il muro est, fronte verso ovest (yaw 90)
-POS_V3 = (15.1, 0.0, 4.2)     # laboratorio: pianoforte verticale contro il muro est, fronte verso ovest (yaw 90)
+POS_V2 = (15.0, 0.0, -1.6)    # laboratorio: banco dell'accordatore contro il muro est, fronte verso ovest (yaw 90)
+POS_V3 = (15.0, 0.0, 4.2)     # laboratorio: pianoforte verticale contro il muro est, fronte verso ovest (yaw 90)
 POS_V4 = (0.0, 0.0, 9.0)      # corte: le impronte nella neve all'imbocco della strada, fronte verso sud (yaw 0)
 POS_V5 = (0.0, 0.0, 47.4)     # scuola: la cattedra con il violino e lo spartito, fronte verso sud (yaw 0)
 

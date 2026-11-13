@@ -86,6 +86,7 @@ namespace TrenoBambini.EditorTools
                 case "IntonacoGrigio": return TintedMat("M_IntonacoMattoni", "M_Intonaco_Grigio", new Color(0.8f, 0.8f, 0.78f));
                 case "Foglia": return TintedMat("M_TessutoLino", "M_Foglia", new Color(0.28f, 0.46f, 0.2f));
                 case "Paglia": return TintedMat("M_CestaVimini", "M_Paglia", new Color(1.1f, 1.0f, 0.75f));
+                case "Neve": return TintedMat("M_TessutoLino", "M_Neve", new Color(1.12f, 1.15f, 1.2f)); // R015: neve di Modena (tela chiara schiarita e un po' fredda)
             }
             return null;
         }

@@ -251,6 +251,8 @@ namespace TrenoBambini.EditorTools
                 case "macerie": return "M_TerraPolverosa";
                 case "stazione": return "M_PavimentoPiastreGrandi"; // R014: atrio e banchine della stazione
                 case "legno": return "M_AssiConsunte";          // R014: pavimento della carrozza
+                case "neve": return "Neve";                     // R015: corte e strada di Modena
+                case "cotto": return "M_PavimentoCotto";        // R015: cucina di Derna
                 default: return "M_BasoliLavica";
             }
         }
