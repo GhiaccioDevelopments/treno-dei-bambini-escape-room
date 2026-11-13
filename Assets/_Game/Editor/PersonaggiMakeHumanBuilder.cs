@@ -68,6 +68,42 @@ namespace TrenoBambini.EditorTools
             }
         };
 
+        // R012: Capa 'e fierro, robivecchi sulla cinquantina (ArtSource/Characters/makehuman/genera_capa_e_fierro_makehuman.py).
+        // Scala come l'adulto (stesso ordine di altezza, ~1,70 m): DA MISURARE al primo import (il log stampa l'offset dei piedi; altezza dal Bounds del prefab).
+        // Nomi di slot e texture: quelli che l'export FBX di MakeHuman da' di solito (mesh del corpo = nome del modello in minuscolo,
+        // texture = <materiale>_diffuse.png). Se uno slot non corrisponde il log lo dice ("mesh ... senza materiale"): correggere qui.
+        static readonly MhPers MhCapa = new MhPers
+        {
+            Sorgente = "ArtSource/Characters/makehuman/Capa_e_fierro", FbxSorgente = "Capa_e_fierro.fbx",
+            Nome = "CapaEFierroMH", Scala = 0.0933f,
+            Slots = new[] {
+                new MhSlot { Slot = "capa_e_fierro", Albedo = "middleage_lightskinned_male_diffuse", Tipo = "Pelle" },
+                new MhSlot { Slot = "male_worksuit01", Albedo = "capa_e_fierro_abito_diffuse", Normal = "male_worksuit01_normal", Tipo = "Vestito" },
+                new MhSlot { Slot = "shoes01", Albedo = "capa_e_fierro_scarpe_diffuse", Tipo = "Vestito" },
+                new MhSlot { Slot = "short02", Albedo = "capa_e_fierro_capelli_diffuse", Tipo = "Capelli" },
+                new MhSlot { Slot = "eyebrow010", Albedo = "eyebrow010", Tipo = "Ciglia" },
+                new MhSlot { Slot = "eyelashes01", Albedo = "eyelashes01", Tipo = "Ciglia" },
+                new MhSlot { Slot = "high-poly", Albedo = "brown_eye_cut", Tipo = "Occhi" },
+                new MhSlot { Slot = "teeth_base", Albedo = "teeth", Tipo = "Denti" },
+            }
+        };
+
+        /// <summary>R012: importa Capa 'e fierro (FBX MakeHuman) come prefab Humanoid; poi Treno > Scene > Costruisci ricordo Stracci lo mette sul punto Npc_CapaEFierro.</summary>
+        [MenuItem("Treno/Personaggi/Importa Capa 'e fierro MakeHuman")]
+        public static void ImportaCapaEFierroMakeHuman()
+        {
+            bool ok = ImportaMh(MhCapa);
+            AssetDatabase.SaveAssets();
+            if (ok) Debug.Log("[Personaggi] Capa 'e fierro MakeHuman importato. Prefab: " + MhCapa.Prefab);
+            else Debug.LogError("[Personaggi] Importazione di Capa 'e fierro NON riuscita: vedi gli errori sopra (l'FBX si crea con genera_capa_e_fierro_makehuman.py in MakeHuman).");
+        }
+
+        /// <summary>R012: prefab di Capa 'e fierro se e' gia' stato importato, altrimenti null (la scena mette un segnaposto).</summary>
+        public static GameObject LoadCapaEFierroPrefab()
+        {
+            return AssetDatabase.LoadAssetAtPath<GameObject>(MhCapa.Prefab);
+        }
+
         [MenuItem("Treno/Personaggi/Importa Amerigo MakeHuman")]
         public static void ImportaAmerigoMakeHuman()
         {

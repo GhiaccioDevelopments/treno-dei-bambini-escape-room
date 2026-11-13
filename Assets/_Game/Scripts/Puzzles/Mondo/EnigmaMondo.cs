@@ -18,12 +18,14 @@ namespace TrenoBambini.Puzzles
     {
         public static readonly List<EnigmaMondo> Tutti = new List<EnigmaMondo>();
         public static float UltimoProgresso;
+        public static float SogliaBagliore = 150f; // secondi senza progressi dopo i quali un enigma disponibile brilla (la prova la abbassa)
 
         public EnigmaDef def;
         public string chiave;
         public Action<EnigmaMondo> alRisolto;
         public Action<string> progresso; // testo extra dell'HUD (oggetti nascosti)
 
+        public bool segreto; // R011: enigma segreto: mai brillio automatico (ne' dopo 150 s ne' con "evidenzia interattivi")
         NascostoPuzzle nascosto;
         Glow glow;
         bool bagliore;
@@ -63,7 +65,7 @@ namespace TrenoBambini.Puzzles
 
         void Update()
         {
-            bool vuole = Disponibile && ((GameManager.I != null && GameManager.I.Save.evidenziaInterattivi) || (Time.time - UltimoProgresso > 150f && UltimoProgresso > 0f));
+            bool vuole = !segreto && Disponibile && ((GameManager.I != null && GameManager.I.Save.evidenziaInterattivi) || (Time.time - UltimoProgresso > SogliaBagliore && UltimoProgresso > 0f));
             if (vuole != bagliore) { bagliore = vuole; if (glow != null) glow.on = vuole; }
         }
 
@@ -142,6 +144,9 @@ namespace TrenoBambini.Puzzles
             if (glow != null) glow.on = false;
             var cb = alRisolto;
             if (cb != null) cb(this);
+            // R014: alcuni enigmi fanno partire un pezzo di cutscene (capitolo) quando sono risolti; mai quando si rivive il ricordo
+            if (!string.IsNullOrEmpty(def.cutscene) && GameManager.I != null && !GameManager.I.Rivivendo && UIRoot.I != null && UIRoot.I.Cutscene != null)
+                UIRoot.I.Cutscene.Play(def.cutscene, null, string.IsNullOrEmpty(def.cutsceneCapitolo) ? null : def.cutsceneCapitolo);
             if (!string.IsNullOrEmpty(def.finale)) AvviaRicordo(def.finale);
         }
 

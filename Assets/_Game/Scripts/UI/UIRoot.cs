@@ -4,6 +4,7 @@ using TMPro;
 using TrenoBambini.Core;
 using TrenoBambini.Data;
 using TrenoBambini.Dialogue;
+using TrenoBambini.Mappa;
 using TrenoBambini.Player;
 using TrenoBambini.UI.Fx;
 using UnityEngine;
@@ -33,9 +34,15 @@ namespace TrenoBambini.UI
         public RectTransform FlightLayer { get; private set; }
         public Fader Fader { get; private set; }
         public CutscenePlayer Cutscene { get; private set; }
+        /// <summary>R025: filmato iniziale della nuova partita.</summary>
+        public FilmatoIniziale Filmato { get; private set; }
         public InventoryPanel Inventory { get; private set; }
         public PausePanel Pause { get; private set; }
         public SettingsPanel Settings { get; private set; }
+        /// <summary>R019: la mappa grande (tasto M) e la minimappa in alto a sinistra.</summary>
+        public MappaGrande PiantaGrande { get; private set; }
+        public MinimappaHud Minimappa { get; private set; }
+        InputAction mappaAction;
 
         EventSystem eventSystem;
         bool menuScene = true;
@@ -91,6 +98,30 @@ namespace TrenoBambini.UI
         bool clickRefusedShown;
         float ignoreEscUntil;
         static bool comandiMostrati;
+        /// <summary>R025: dopo il filmato (che spiega i comandi) niente telegramma dei comandi in questa sessione.</summary>
+        public static void SegnaComandiMostrati() { comandiMostrati = true; }
+
+        bool soloMinimappa;
+        readonly System.Collections.Generic.List<GameObject> hudNascosti = new System.Collections.Generic.List<GameObject>();
+
+        /// <summary>R025: durante il filmato mostra solo la minimappa vera (il resto della HUD resta spento).</summary>
+        public void MostraSoloMinimappa(bool on)
+        {
+            if (soloMinimappa == on) return;
+            soloMinimappa = on;
+            if (on)
+            {
+                hudNascosti.Clear();
+                var mm = Minimappa != null ? Minimappa.transform.parent : null;
+                foreach (Transform c in HudLayer)
+                    if (c != null && c != Minimappa.transform && c.gameObject.activeSelf) { hudNascosti.Add(c.gameObject); c.gameObject.SetActive(false); }
+            }
+            else
+            {
+                foreach (var g in hudNascosti) if (g != null) g.SetActive(true);
+                hudNascosti.Clear();
+            }
+        }
         RectTransform joystickRoot;
 
         /// <summary>Testo dei comandi (pausa ▸ Comandi e toast d'inizio partita).</summary>
@@ -119,6 +150,7 @@ namespace TrenoBambini.UI
 
         void OnDestroy()
         {
+            if (mappaAction != null) { mappaAction.Disable(); mappaAction.Dispose(); mappaAction = null; }
             if (I == this) { SceneManager.sceneLoaded -= OnSceneLoaded; I = null; }
         }
 
@@ -148,6 +180,8 @@ namespace TrenoBambini.UI
 
             var cgo = UIFactory.NewRect("CutscenePlayer", CutsceneLayer);
             Cutscene = cgo.gameObject.AddComponent<CutscenePlayer>();
+            var fgo2 = UIFactory.NewRect("Filmato", CutsceneLayer);
+            Filmato = fgo2.gameObject.AddComponent<FilmatoIniziale>();
 
             BuildHud();
             toasts = ToastStack.Create(ToastLayer);
@@ -159,6 +193,8 @@ namespace TrenoBambini.UI
             Pause = pgo.gameObject.AddComponent<PausePanel>();
             var sgo = UIFactory.NewRect("SettingsPanel", ModalLayer);
             Settings = sgo.gameObject.AddComponent<SettingsPanel>();
+            var mgo = UIFactory.NewRect("MappaGrande", ModalLayer);
+            PiantaGrande = mgo.gameObject.AddComponent<MappaGrande>();
 
             // particelle sopra tutto tranne il fader
             var partLayer = NewLayer("Particelle", false);
@@ -214,7 +250,14 @@ namespace TrenoBambini.UI
         {
             hudGroup = HudLayer.gameObject.AddComponent<CanvasGroup>();
 
-            // contatore enigmi a biglietto (in alto a sinistra)
+            // R019: minimappa d'epoca in alto a sinistra; il biglietto degli enigmi le sta accanto
+            Minimappa = MinimappaHud.Create(HudLayer);
+            mappaAction = new InputAction("Mappa", InputActionType.Button);
+            mappaAction.AddBinding("<Keyboard>/m");
+            mappaAction.AddBinding("<Gamepad>/select");
+            mappaAction.Enable();
+
+            // contatore enigmi a biglietto
             ticket = TicketHud.Create(HudLayer);
 
             // pulsanti Inventario (latta) / Pausa (orologio) in alto a destra, sempre cliccabili (utili su LIM)
@@ -223,6 +266,8 @@ namespace TrenoBambini.UI
             var inv = MakeIconButton(HudLayer, GameData.UiMenu.hud.latta, UIArt.IconLatta(), ToggleInventory, new Vector2(190f, 60f));
             UIFactory.Place((RectTransform)inv.transform, new Vector2(1f, 1f), new Vector2(1f, 1f), new Vector2(-196f, -16f), new Vector2(190f, 60f));
             inventoryButton = (RectTransform)inv.transform;
+            var mapBtn = UIFactory.MakeButton(HudLayer, GameData.Mappe.testi.pulsante, ToggleMappa, new Vector2(150f, 60f), ButtonStyle.Brass, 24f);
+            UIFactory.Place((RectTransform)mapBtn.transform, new Vector2(1f, 1f), new Vector2(1f, 1f), new Vector2(-406f, -16f), new Vector2(150f, 60f));
 
             // prompt "interagisci" + indicatore nel mondo (layer annidato proprio)
             var anim = UIFactory.NewRect("Animati", HudLayer);
@@ -542,7 +587,7 @@ namespace TrenoBambini.UI
         {
             get
             {
-                return !menuScene && modalCount == 0 && !Cutscene.IsPlaying && !Fader.Busy
+                return !menuScene && modalCount == 0 && !Cutscene.IsPlaying && !FilmatoIniziale.InCorso && !Fader.Busy
                     && !(SceneLoader.I != null && SceneLoader.I.IsLoading);
             }
         }
@@ -551,6 +596,15 @@ namespace TrenoBambini.UI
         {
             if (Inventory.IsOpen) { Inventory.Hide(); return; }
             if (Pause.IsOpen || CanOpenMenus) Inventory.Show();
+        }
+
+        /// <summary>R019: apre o chiude la mappa grande (tasto M, pulsante Mappa, tocco sulla minimappa).</summary>
+        public void ToggleMappa()
+        {
+            if (PiantaGrande == null) return;
+            if (PiantaGrande.IsOpen) { PiantaGrande.Hide(); return; }
+            if (!CanOpenMenus || (Pause != null && Pause.IsOpen) || Inventory.IsOpen || (Settings != null && Settings.IsOpen)) return;
+            PiantaGrande.Show();
         }
 
         public void TogglePause()
@@ -577,7 +631,7 @@ namespace TrenoBambini.UI
             UpdateInteractButton();
             UpdateClickCard();
 
-            bool showHud = !menuScene && !Cutscene.IsPlaying;
+            bool showHud = !menuScene && !Cutscene.IsPlaying && (!FilmatoIniziale.InCorso || soloMinimappa);
             if (HudLayer.gameObject.activeSelf != showHud)
             {
                 HudLayer.gameObject.SetActive(showHud);
@@ -599,7 +653,7 @@ namespace TrenoBambini.UI
             }
 
             var kb = Keyboard.current;
-            if (kb == null) return;
+            if (kb == null) { UpdateSoloGamepad(); return; }
 
             // dialogo semplice: E/Spazio/Invio completa la scrittura, poi chiude (con piccola pausa per non riusare lo stesso tasto)
             if (dialogCurrent != null)
@@ -619,12 +673,35 @@ namespace TrenoBambini.UI
                 if (kb.escapeKey.wasPressedThisFrame || (gpad != null && gpad.buttonEast.wasPressedThisFrame)) { Settings.Hide(); return; }
             }
 
-            if (menuScene || Cutscene.IsPlaying || Fader.Busy || lastModalPopFrame == Time.frameCount) return;
+            if (menuScene || Cutscene.IsPlaying || FilmatoIniziale.InCorso || Fader.Busy || lastModalPopFrame == Time.frameCount) return;
             MaybeShowComandiToast();
+
+            // R019: la mappa grande si chiude con M, Esc o B; si apre con M (o Select del gamepad)
+            bool mappaPremuta = mappaAction != null && mappaAction.WasPressedThisFrame();
+            if (PiantaGrande != null && PiantaGrande.IsOpen)
+            {
+                var gpm = Gamepad.current;
+                if (mappaPremuta || (kb.escapeKey.wasPressedThisFrame && Time.unscaledTime >= ignoreEscUntil) || (gpm != null && gpm.buttonEast.wasPressedThisFrame)) PiantaGrande.Hide();
+                return;
+            }
+            if (mappaPremuta) { ToggleMappa(); return; }
 
             if (kb.iKey.wasPressedThisFrame || kb.tabKey.wasPressedThisFrame) ToggleInventory();
             else if (kb.pKey.wasPressedThisFrame) TogglePause();
             else if (kb.escapeKey.wasPressedThisFrame && Time.unscaledTime >= ignoreEscUntil) TogglePause();
+        }
+
+        /// <summary>R019: senza tastiera (solo gamepad) Select apre e chiude la mappa grande e B la chiude.</summary>
+        void UpdateSoloGamepad()
+        {
+            if (menuScene || Cutscene.IsPlaying || FilmatoIniziale.InCorso || Fader.Busy || dialogCurrent != null || lastModalPopFrame == Time.frameCount) return;
+            bool premuta = mappaAction != null && mappaAction.WasPressedThisFrame();
+            var gp = Gamepad.current;
+            if (PiantaGrande != null && PiantaGrande.IsOpen)
+            {
+                if (premuta || (gp != null && gp.buttonEast.wasPressedThisFrame)) PiantaGrande.Hide();
+            }
+            else if (premuta) ToggleMappa();
         }
 
         // ---------------------------------------------------------------- fps bassi => effetti ridotti

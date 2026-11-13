@@ -1,0 +1,2187 @@
+{
+  "id": "flashback_finale",
+  "oggetto": "violino",
+  "titolo": "Il violino ritrovato",
+  "scena": "80_Basso_1994",
+  "introduzione": "Napoli, 1994. Il basso di tua madre: mobili sotto le lenzuola, una lampadina nuda, scatoloni. Dal vicolo arrivano la radio di un vicino e il rumore dei motorini. La stanza è la stessa di cinquant'anni fa, e non è più la stessa.",
+  "conclusione": "Una custodia aperta su un letto di ferro, un ragazzino sulla soglia. Il treno dei bambini è partito nel 1946; qualcuno, oggi, lo fa ripartire.",
+  "enigmi": [
+    {
+      "id": "enigma_basso94",
+      "tipo": "quiz",
+      "meccanismo": "oggetto",
+      "titolo": "Il basso svuotato",
+      "scena": "80_Basso_1994",
+      "x": 3.6,
+      "y": 0.0,
+      "z": -1.95,
+      "yaw": 180,
+      "scala": 1,
+      "consegna": "Il basso è vuoto e freddo, i mobili sotto le lenzuola. Nell'angolo, accanto alla porta, le ultime cose di tua madre: il telefono, un calendario, la scatola di latta. Guardale tutte e tre.",
+      "temaCivico": "La memoria di una famiglia sta negli oggetti che si conservano: anche loro sono documenti.",
+      "indizi": [
+        "Tocca il telefono, il calendario e la scatola di latta.",
+        "Il calendario ha un giorno cerchiato; nella latta c'è qualcosa con un numero.",
+        "Telefono, calendario, cartellino: tutti e tre."
+      ],
+      "spiegazione": "Cinque segni a matita sul fondo della latta, uno per ogni posto della casa. Tua madre non sapeva scrivere, ma sapeva dove aveva messo le cose. Rimettile al loro posto.",
+      "erroreMsg": "",
+      "scheda": "Napoli, marzo 1994 [dal film, da verificare]: un basso dei Quartieri Spagnoli dopo la morte di chi ci ha vissuto tutta la vita.",
+      "appunto": "Nella latta: il cartellino 112 e cinque posti segnati.",
+      "distanza": 1.4,
+      "inclina": 10,
+      "prompt": "il telefono e la scatola di latta",
+      "soluzione": [
+        "telefono",
+        "calendario",
+        "cartellino"
+      ],
+      "ordinata": false,
+      "produce": [
+        "elenco_posti",
+        "cartellino_112"
+      ],
+      "parti": [
+        {
+          "id": "mobiletto",
+          "forma": "cubo",
+          "materiale": "legno",
+          "colore": "#4a3a2c",
+          "y": 0.35,
+          "sx": 0.6,
+          "sy": 0.7,
+          "sz": 0.4
+        },
+        {
+          "id": "centrino",
+          "forma": "cubo",
+          "materiale": "stoffa",
+          "colore": "#e6e0d0",
+          "y": 0.703,
+          "sx": 0.45,
+          "sy": 0.004,
+          "sz": 0.3
+        },
+        {
+          "id": "telefono",
+          "forma": "cubo",
+          "materiale": "metallo",
+          "colore": "#5a5e62",
+          "x": -0.12,
+          "y": 0.76,
+          "sx": 0.2,
+          "sy": 0.1,
+          "sz": 0.18,
+          "clic": true,
+          "azione": "verifica",
+          "evento": "telefono",
+          "msg": "Il telefono squilla. Rispondi: niente, solo il fruscio della linea. Poi riattaccano. Chi chiama ancora questo numero?"
+        },
+        {
+          "id": "cornetta",
+          "forma": "capsula",
+          "materiale": "metallo",
+          "colore": "#4a4e52",
+          "x": -0.12,
+          "y": 0.83,
+          "sx": 0.05,
+          "sy": 0.1,
+          "sz": 0.05,
+          "rz": 90
+        },
+        {
+          "id": "disco",
+          "forma": "cilindro",
+          "materiale": "metallo",
+          "colore": "#d8d4c8",
+          "x": -0.12,
+          "y": 0.812,
+          "z": -0.05,
+          "sx": 0.08,
+          "sy": 0.004,
+          "sz": 0.08,
+          "rx": -20
+        },
+        {
+          "id": "latta",
+          "forma": "cilindro",
+          "materiale": "metallo",
+          "colore": "#7a6a4a",
+          "x": 0.14,
+          "y": 0.75,
+          "sx": 0.16,
+          "sy": 0.05,
+          "sz": 0.16
+        },
+        {
+          "id": "latta_coperchio",
+          "forma": "cilindro",
+          "materiale": "metallo",
+          "colore": "#8a7a5a",
+          "x": 0.2,
+          "y": 0.71,
+          "z": -0.12,
+          "sx": 0.165,
+          "sy": 0.006,
+          "sz": 0.165,
+          "rx": 70
+        },
+        {
+          "id": "cartellino",
+          "forma": "cubo",
+          "materiale": "carta",
+          "colore": "#e6dcc0",
+          "x": 0.14,
+          "y": 0.806,
+          "sx": 0.09,
+          "sy": 0.004,
+          "sz": 0.06,
+          "rx": 0,
+          "testo": "N. 112",
+          "dimensione": 0.022,
+          "clic": true,
+          "azione": "verifica",
+          "evento": "cartellino",
+          "msg": "Nella latta, sopra tutto, un cartellino di cartone con lo spago: N. 112. Il tuo numero del treno. Lei l'aveva tenuto. Sul fondo della latta, cinque segni a matita: cinque posti della casa."
+        },
+        {
+          "id": "calendario",
+          "forma": "cubo",
+          "materiale": "carta",
+          "colore": "#e8e2d0",
+          "y": 1.5,
+          "z": 0.22,
+          "sx": 0.36,
+          "sy": 0.48,
+          "sz": 0.006,
+          "testo": "1994",
+          "dimensione": 0.06,
+          "clic": true,
+          "azione": "verifica",
+          "evento": "calendario",
+          "msg": "Un calendario del 1994, fermo a marzo. Un giorno è cerchiato a penna: «Amerigo, teatro». La data di un tuo concerto, in un'altra città."
+        },
+        {
+          "id": "calendario_cerchio",
+          "forma": "cilindro",
+          "materiale": "carta",
+          "colore": "#a3261c",
+          "x": 0.06,
+          "y": 1.38,
+          "z": 0.215,
+          "sx": 0.05,
+          "sy": 0.002,
+          "sz": 0.04,
+          "rx": 90
+        },
+        {
+          "id": "chiodo_cal",
+          "forma": "cilindro",
+          "materiale": "metallo",
+          "colore": "#3a3632",
+          "y": 1.76,
+          "z": 0.215,
+          "sx": 0.01,
+          "sy": 0.02,
+          "sz": 0.01,
+          "rx": 90
+        }
+      ],
+      "domande": [
+        {
+          "testo": "Che cosa c'è nella scatola di latta?",
+          "opzioni": [
+            "Il cartellino del treno, n. 112",
+            "Un violino",
+            "Un biglietto da mille lire",
+            "Niente"
+          ],
+          "corretta": 0,
+          "spiegazione": "Il numero del viaggio verso Modena."
+        },
+        {
+          "testo": "Che giorno è cerchiato sul calendario?",
+          "opzioni": [
+            "Il giorno di un concerto di Amerigo",
+            "Natale",
+            "Il compleanno di Antonietta",
+            "Nessuno"
+          ],
+          "corretta": 0,
+          "spiegazione": "Lei sapeva dei suoi concerti."
+        },
+        {
+          "testo": "Perchè i posti sono segnati con segni e non con parole?",
+          "opzioni": [
+            "Antonietta non sapeva scrivere",
+            "Per gioco",
+            "Per non farli trovare",
+            "Per errore"
+          ],
+          "corretta": 0,
+          "spiegazione": "Era analfabeta, come molte donne della sua generazione."
+        }
+      ],
+      "cosaFare": "Guarda il telefono, il calendario e la scatola di latta.",
+      "cosaOttieni": "I cinque posti dei ricordi."
+    },
+    {
+      "id": "enigma_posto_scarpe",
+      "tipo": "quiz",
+      "meccanismo": "oggetto",
+      "titolo": "La soglia",
+      "scena": "80_Basso_1994",
+      "x": 0.6,
+      "y": 0.0,
+      "z": -2.0,
+      "yaw": 180,
+      "scala": 1,
+      "consegna": "Uno dei cinque posti segnati nella latta. Quale ricordo abitava qui? Posalo dal vassoio.",
+      "temaCivico": "Memoria e legami familiari: la Costituzione (art. 30) parla del dovere dei genitori verso i figli; qui è una madre che ha conservato tutto.",
+      "indizi": [
+        "Ogni ricordo ha un posto in cui lo usavi.",
+        "Il cappotto si appende, le scarpe si lasciano entrando, gli stracci vanno nella cesta, il volantino sulla credenza, lo spartito sotto il cuscino.",
+        "Qui va le scarpe."
+      ],
+      "spiegazione": "Sulla soglia, dove le scarpe si lasciavano entrando: le scarpe al loro posto. Per un momento l'angolo torna com'era nel 1946: luce di lume a petrolio, voci dal vicolo, qualcuno di spalle. Poi a terra resta un frammento di carta.",
+      "erroreMsg": "Qui non c'era.",
+      "scheda": "",
+      "appunto": "Un frammento di carta: la soglia.",
+      "distanza": 1.3,
+      "inclina": 18,
+      "prompt": "il posto delle scarpe sulla soglia",
+      "soluzione": [
+        "posato"
+      ],
+      "richiede": [
+        "elenco_posti"
+      ],
+      "bloccatoMsg": "Un posto come un altro, per ora. Prima guarda le cose di tua madre nell'angolo accanto alla porta.",
+      "produce": [
+        "frammento_scarpe"
+      ],
+      "parti": [
+        {
+          "id": "vassoio",
+          "forma": "cubo",
+          "materiale": "metallo",
+          "colore": "#7a6a4a",
+          "y": 0.02,
+          "z": -0.32,
+          "sx": 0.62,
+          "sy": 0.02,
+          "sz": 0.16,
+          "nascosta": true,
+          "gruppo": "vista"
+        },
+        {
+          "id": "ricordo_scarpe",
+          "forma": "cubo",
+          "materiale": "stoffa",
+          "colore": "#3a2418",
+          "x": -0.24,
+          "y": 0.05,
+          "z": -0.32,
+          "sx": 0.09,
+          "sy": 0.03,
+          "sz": 0.08,
+          "testo": "SCARPE",
+          "dimensione": 0.012,
+          "nascosta": true,
+          "gruppo": "vista",
+          "clic": true,
+          "azione": "verifica",
+          "evento": "posato",
+          "dopo": "scarpe_posato,frammento,-ricordo_scarpe",
+          "msg": ""
+        },
+        {
+          "id": "ricordo_stracci",
+          "forma": "cubo",
+          "materiale": "stoffa",
+          "colore": "#8a6a4a",
+          "x": -0.12,
+          "y": 0.05,
+          "z": -0.32,
+          "sx": 0.09,
+          "sy": 0.03,
+          "sz": 0.08,
+          "testo": "STRACCI",
+          "dimensione": 0.012,
+          "nascosta": true,
+          "gruppo": "vista",
+          "clic": true,
+          "azione": "errore",
+          "msg": "Qui non c'era. Gli stracci stavano nella cesta del cortile, pronti per Capa 'e fierro."
+        },
+        {
+          "id": "ricordo_volantino",
+          "forma": "cubo",
+          "materiale": "carta",
+          "colore": "#d8cba6",
+          "y": 0.05,
+          "z": -0.32,
+          "sx": 0.09,
+          "sy": 0.03,
+          "sz": 0.08,
+          "testo": "VOLANTINO",
+          "dimensione": 0.012,
+          "nascosta": true,
+          "gruppo": "vista",
+          "clic": true,
+          "azione": "errore",
+          "msg": "Qui non c'era. Il volantino stava sulla credenza, sotto il piatto buono."
+        },
+        {
+          "id": "ricordo_cappotto",
+          "forma": "cubo",
+          "materiale": "stoffa",
+          "colore": "#3f4a57",
+          "x": 0.12,
+          "y": 0.05,
+          "z": -0.32,
+          "sx": 0.09,
+          "sy": 0.03,
+          "sz": 0.08,
+          "testo": "CAPPOTTO",
+          "dimensione": 0.012,
+          "nascosta": true,
+          "gruppo": "vista",
+          "clic": true,
+          "azione": "errore",
+          "msg": "Qui non c'era. Il cappotto si appende al chiodo dietro la porta."
+        },
+        {
+          "id": "ricordo_spartito",
+          "forma": "cubo",
+          "materiale": "carta",
+          "colore": "#e3d9bd",
+          "x": 0.24,
+          "y": 0.05,
+          "z": -0.32,
+          "sx": 0.09,
+          "sy": 0.03,
+          "sz": 0.08,
+          "testo": "SPARTITO",
+          "dimensione": 0.012,
+          "nascosta": true,
+          "gruppo": "vista",
+          "clic": true,
+          "azione": "errore",
+          "msg": "Qui non c'era. Lo spartito lei lo teneva sotto il cuscino."
+        },
+        {
+          "id": "soglia",
+          "forma": "cubo",
+          "materiale": "pietra",
+          "colore": "#6a5a4c",
+          "y": 0.01,
+          "sx": 0.7,
+          "sy": 0.02,
+          "sz": 0.3
+        },
+        {
+          "id": "scarpe_posato",
+          "forma": "scarpa",
+          "materiale": "cuoio",
+          "colore": "#3a2418",
+          "x": -0.06,
+          "y": 0.06,
+          "sx": 0.8,
+          "sy": 0.8,
+          "sz": 0.8,
+          "ry": 10,
+          "testo": "lucide",
+          "nascosta": true
+        },
+        {
+          "id": "frammento",
+          "forma": "cubo",
+          "materiale": "carta",
+          "colore": "#d8cba6",
+          "x": 0.18,
+          "y": 0.012,
+          "z": -0.12,
+          "sx": 0.07,
+          "sy": 0.003,
+          "sz": 0.05,
+          "ry": 24,
+          "nascosta": true
+        }
+      ],
+      "domande": [
+        {
+          "testo": "Dove va le scarpe?",
+          "opzioni": [
+            "La soglia",
+            "Nella spazzatura",
+            "In valigia",
+            "Al Monte dei pegni"
+          ],
+          "corretta": 0,
+          "spiegazione": "Sulla soglia, dove le scarpe si lasciavano entrando: le scarpe al loro posto."
+        },
+        {
+          "testo": "Che cosa succede quando un ricordo torna al suo posto?",
+          "opzioni": [
+            "L'angolo torna per un momento al 1946",
+            "Niente",
+            "Suona il telefono",
+            "Si spegne la luce"
+          ],
+          "corretta": 0,
+          "spiegazione": "La stanza ha due tempi."
+        },
+        {
+          "testo": "Che cosa resta a terra?",
+          "opzioni": [
+            "Un frammento di carta",
+            "Una moneta",
+            "Una chiave",
+            "Niente"
+          ],
+          "corretta": 0,
+          "spiegazione": "Cinque frammenti: si ricompongono sul tavolo."
+        }
+      ],
+      "cosaFare": "Posa qui il ricordo che abitava questo posto.",
+      "cosaOttieni": "Un frammento di carta."
+    },
+    {
+      "id": "enigma_posto_stracci",
+      "tipo": "quiz",
+      "meccanismo": "oggetto",
+      "titolo": "La cesta del cortile",
+      "scena": "80_Basso_1994",
+      "x": 3.7,
+      "y": 0.0,
+      "z": 10.3,
+      "yaw": 180,
+      "scala": 1,
+      "consegna": "Uno dei cinque posti segnati nella latta. Quale ricordo abitava qui? Posalo dal vassoio.",
+      "temaCivico": "Memoria e legami familiari: la Costituzione (art. 30) parla del dovere dei genitori verso i figli; qui è una madre che ha conservato tutto.",
+      "indizi": [
+        "Ogni ricordo ha un posto in cui lo usavi.",
+        "Il cappotto si appende, le scarpe si lasciano entrando, gli stracci vanno nella cesta, il volantino sulla credenza, lo spartito sotto il cuscino.",
+        "Qui va gli stracci."
+      ],
+      "spiegazione": "Nella cesta del cortile, dove Antonietta teneva le pezze da vendere: gli stracci al loro posto. Per un momento l'angolo torna com'era nel 1946: luce di lume a petrolio, voci dal vicolo, qualcuno di spalle. Poi a terra resta un frammento di carta.",
+      "erroreMsg": "Qui non c'era.",
+      "scheda": "",
+      "appunto": "Un frammento di carta: la cesta del cortile.",
+      "distanza": 1.3,
+      "inclina": 18,
+      "prompt": "la cesta del cortile",
+      "soluzione": [
+        "posato"
+      ],
+      "richiede": [
+        "elenco_posti"
+      ],
+      "bloccatoMsg": "Un posto come un altro, per ora. Prima guarda le cose di tua madre nell'angolo accanto alla porta.",
+      "produce": [
+        "frammento_stracci"
+      ],
+      "parti": [
+        {
+          "id": "vassoio",
+          "forma": "cubo",
+          "materiale": "metallo",
+          "colore": "#7a6a4a",
+          "y": 0.02,
+          "z": -0.32,
+          "sx": 0.62,
+          "sy": 0.02,
+          "sz": 0.16,
+          "nascosta": true,
+          "gruppo": "vista"
+        },
+        {
+          "id": "ricordo_scarpe",
+          "forma": "cubo",
+          "materiale": "stoffa",
+          "colore": "#3a2418",
+          "x": -0.24,
+          "y": 0.05,
+          "z": -0.32,
+          "sx": 0.09,
+          "sy": 0.03,
+          "sz": 0.08,
+          "testo": "SCARPE",
+          "dimensione": 0.012,
+          "nascosta": true,
+          "gruppo": "vista",
+          "clic": true,
+          "azione": "errore",
+          "msg": "Qui non c'era. Le scarpe si lasciavano entrando, sulla soglia."
+        },
+        {
+          "id": "ricordo_stracci",
+          "forma": "cubo",
+          "materiale": "stoffa",
+          "colore": "#8a6a4a",
+          "x": -0.12,
+          "y": 0.05,
+          "z": -0.32,
+          "sx": 0.09,
+          "sy": 0.03,
+          "sz": 0.08,
+          "testo": "STRACCI",
+          "dimensione": 0.012,
+          "nascosta": true,
+          "gruppo": "vista",
+          "clic": true,
+          "azione": "verifica",
+          "evento": "posato",
+          "dopo": "stracci_posato,frammento,-ricordo_stracci",
+          "msg": ""
+        },
+        {
+          "id": "ricordo_volantino",
+          "forma": "cubo",
+          "materiale": "carta",
+          "colore": "#d8cba6",
+          "y": 0.05,
+          "z": -0.32,
+          "sx": 0.09,
+          "sy": 0.03,
+          "sz": 0.08,
+          "testo": "VOLANTINO",
+          "dimensione": 0.012,
+          "nascosta": true,
+          "gruppo": "vista",
+          "clic": true,
+          "azione": "errore",
+          "msg": "Qui non c'era. Il volantino stava sulla credenza, sotto il piatto buono."
+        },
+        {
+          "id": "ricordo_cappotto",
+          "forma": "cubo",
+          "materiale": "stoffa",
+          "colore": "#3f4a57",
+          "x": 0.12,
+          "y": 0.05,
+          "z": -0.32,
+          "sx": 0.09,
+          "sy": 0.03,
+          "sz": 0.08,
+          "testo": "CAPPOTTO",
+          "dimensione": 0.012,
+          "nascosta": true,
+          "gruppo": "vista",
+          "clic": true,
+          "azione": "errore",
+          "msg": "Qui non c'era. Il cappotto si appende al chiodo dietro la porta."
+        },
+        {
+          "id": "ricordo_spartito",
+          "forma": "cubo",
+          "materiale": "carta",
+          "colore": "#e3d9bd",
+          "x": 0.24,
+          "y": 0.05,
+          "z": -0.32,
+          "sx": 0.09,
+          "sy": 0.03,
+          "sz": 0.08,
+          "testo": "SPARTITO",
+          "dimensione": 0.012,
+          "nascosta": true,
+          "gruppo": "vista",
+          "clic": true,
+          "azione": "errore",
+          "msg": "Qui non c'era. Lo spartito lei lo teneva sotto il cuscino."
+        },
+        {
+          "id": "cesta",
+          "forma": "cilindro",
+          "materiale": "legno",
+          "colore": "#a8895a",
+          "y": 0.2,
+          "sx": 0.5,
+          "sy": 0.2,
+          "sz": 0.5
+        },
+        {
+          "id": "stracci_posato",
+          "forma": "sfera",
+          "materiale": "stoffa",
+          "colore": "#8a6a4a",
+          "y": 0.38,
+          "sx": 0.42,
+          "sy": 0.14,
+          "sz": 0.42,
+          "nascosta": true
+        },
+        {
+          "id": "frammento",
+          "forma": "cubo",
+          "materiale": "carta",
+          "colore": "#d8cba6",
+          "x": 0.18,
+          "y": 0.012,
+          "z": -0.12,
+          "sx": 0.07,
+          "sy": 0.003,
+          "sz": 0.05,
+          "ry": 24,
+          "nascosta": true
+        }
+      ],
+      "domande": [
+        {
+          "testo": "Dove va gli stracci?",
+          "opzioni": [
+            "La cesta del cortile",
+            "Nella spazzatura",
+            "In valigia",
+            "Al Monte dei pegni"
+          ],
+          "corretta": 0,
+          "spiegazione": "Nella cesta del cortile, dove Antonietta teneva le pezze da vendere: gli stracci al loro posto."
+        },
+        {
+          "testo": "Che cosa succede quando un ricordo torna al suo posto?",
+          "opzioni": [
+            "L'angolo torna per un momento al 1946",
+            "Niente",
+            "Suona il telefono",
+            "Si spegne la luce"
+          ],
+          "corretta": 0,
+          "spiegazione": "La stanza ha due tempi."
+        },
+        {
+          "testo": "Che cosa resta a terra?",
+          "opzioni": [
+            "Un frammento di carta",
+            "Una moneta",
+            "Una chiave",
+            "Niente"
+          ],
+          "corretta": 0,
+          "spiegazione": "Cinque frammenti: si ricompongono sul tavolo."
+        }
+      ],
+      "cosaFare": "Posa qui il ricordo che abitava questo posto.",
+      "cosaOttieni": "Un frammento di carta."
+    },
+    {
+      "id": "enigma_posto_volantino",
+      "tipo": "quiz",
+      "meccanismo": "oggetto",
+      "titolo": "La credenza",
+      "scena": "80_Basso_1994",
+      "x": -3.98,
+      "y": 0.965,
+      "z": 1.98,
+      "yaw": 270,
+      "scala": 1,
+      "consegna": "Uno dei cinque posti segnati nella latta. Quale ricordo abitava qui? Posalo dal vassoio.",
+      "temaCivico": "Memoria e legami familiari: la Costituzione (art. 30) parla del dovere dei genitori verso i figli; qui è una madre che ha conservato tutto.",
+      "indizi": [
+        "Ogni ricordo ha un posto in cui lo usavi.",
+        "Il cappotto si appende, le scarpe si lasciano entrando, gli stracci vanno nella cesta, il volantino sulla credenza, lo spartito sotto il cuscino.",
+        "Qui va il volantino."
+      ],
+      "spiegazione": "Sulla credenza, sotto il piatto buono, dove stava il volantino: al suo posto. Per un momento l'angolo torna com'era nel 1946: luce di lume a petrolio, voci dal vicolo, qualcuno di spalle. Poi a terra resta un frammento di carta.",
+      "erroreMsg": "Qui non c'era.",
+      "scheda": "",
+      "appunto": "Un frammento di carta: la credenza.",
+      "distanza": 1.3,
+      "inclina": 18,
+      "prompt": "la credenza",
+      "soluzione": [
+        "posato"
+      ],
+      "richiede": [
+        "elenco_posti"
+      ],
+      "bloccatoMsg": "Un posto come un altro, per ora. Prima guarda le cose di tua madre nell'angolo accanto alla porta.",
+      "produce": [
+        "frammento_volantino"
+      ],
+      "parti": [
+        {
+          "id": "vassoio",
+          "forma": "cubo",
+          "materiale": "metallo",
+          "colore": "#7a6a4a",
+          "y": 0.02,
+          "z": -0.32,
+          "sx": 0.62,
+          "sy": 0.02,
+          "sz": 0.16,
+          "nascosta": true,
+          "gruppo": "vista"
+        },
+        {
+          "id": "ricordo_scarpe",
+          "forma": "cubo",
+          "materiale": "stoffa",
+          "colore": "#3a2418",
+          "x": -0.24,
+          "y": 0.05,
+          "z": -0.32,
+          "sx": 0.09,
+          "sy": 0.03,
+          "sz": 0.08,
+          "testo": "SCARPE",
+          "dimensione": 0.012,
+          "nascosta": true,
+          "gruppo": "vista",
+          "clic": true,
+          "azione": "errore",
+          "msg": "Qui non c'era. Le scarpe si lasciavano entrando, sulla soglia."
+        },
+        {
+          "id": "ricordo_stracci",
+          "forma": "cubo",
+          "materiale": "stoffa",
+          "colore": "#8a6a4a",
+          "x": -0.12,
+          "y": 0.05,
+          "z": -0.32,
+          "sx": 0.09,
+          "sy": 0.03,
+          "sz": 0.08,
+          "testo": "STRACCI",
+          "dimensione": 0.012,
+          "nascosta": true,
+          "gruppo": "vista",
+          "clic": true,
+          "azione": "errore",
+          "msg": "Qui non c'era. Gli stracci stavano nella cesta del cortile, pronti per Capa 'e fierro."
+        },
+        {
+          "id": "ricordo_volantino",
+          "forma": "cubo",
+          "materiale": "carta",
+          "colore": "#d8cba6",
+          "y": 0.05,
+          "z": -0.32,
+          "sx": 0.09,
+          "sy": 0.03,
+          "sz": 0.08,
+          "testo": "VOLANTINO",
+          "dimensione": 0.012,
+          "nascosta": true,
+          "gruppo": "vista",
+          "clic": true,
+          "azione": "verifica",
+          "evento": "posato",
+          "dopo": "volantino_posato,frammento,-ricordo_volantino",
+          "msg": ""
+        },
+        {
+          "id": "ricordo_cappotto",
+          "forma": "cubo",
+          "materiale": "stoffa",
+          "colore": "#3f4a57",
+          "x": 0.12,
+          "y": 0.05,
+          "z": -0.32,
+          "sx": 0.09,
+          "sy": 0.03,
+          "sz": 0.08,
+          "testo": "CAPPOTTO",
+          "dimensione": 0.012,
+          "nascosta": true,
+          "gruppo": "vista",
+          "clic": true,
+          "azione": "errore",
+          "msg": "Qui non c'era. Il cappotto si appende al chiodo dietro la porta."
+        },
+        {
+          "id": "ricordo_spartito",
+          "forma": "cubo",
+          "materiale": "carta",
+          "colore": "#e3d9bd",
+          "x": 0.24,
+          "y": 0.05,
+          "z": -0.32,
+          "sx": 0.09,
+          "sy": 0.03,
+          "sz": 0.08,
+          "testo": "SPARTITO",
+          "dimensione": 0.012,
+          "nascosta": true,
+          "gruppo": "vista",
+          "clic": true,
+          "azione": "errore",
+          "msg": "Qui non c'era. Lo spartito lei lo teneva sotto il cuscino."
+        },
+        {
+          "id": "piatto",
+          "forma": "cilindro",
+          "materiale": "gesso",
+          "colore": "#e8e2d0",
+          "y": 0.01,
+          "sx": 0.24,
+          "sy": 0.01,
+          "sz": 0.24
+        },
+        {
+          "id": "volantino_posato",
+          "forma": "cubo",
+          "materiale": "carta",
+          "colore": "#d8cba6",
+          "y": 0.004,
+          "z": 0.04,
+          "sx": 0.16,
+          "sy": 0.004,
+          "sz": 0.11,
+          "nascosta": true
+        },
+        {
+          "id": "frammento",
+          "forma": "cubo",
+          "materiale": "carta",
+          "colore": "#d8cba6",
+          "x": 0.18,
+          "y": 0.012,
+          "z": -0.12,
+          "sx": 0.07,
+          "sy": 0.003,
+          "sz": 0.05,
+          "ry": 24,
+          "nascosta": true
+        }
+      ],
+      "domande": [
+        {
+          "testo": "Dove va il volantino?",
+          "opzioni": [
+            "La credenza",
+            "Nella spazzatura",
+            "In valigia",
+            "Al Monte dei pegni"
+          ],
+          "corretta": 0,
+          "spiegazione": "Sulla credenza, sotto il piatto buono, dove stava il volantino: al suo posto."
+        },
+        {
+          "testo": "Che cosa succede quando un ricordo torna al suo posto?",
+          "opzioni": [
+            "L'angolo torna per un momento al 1946",
+            "Niente",
+            "Suona il telefono",
+            "Si spegne la luce"
+          ],
+          "corretta": 0,
+          "spiegazione": "La stanza ha due tempi."
+        },
+        {
+          "testo": "Che cosa resta a terra?",
+          "opzioni": [
+            "Un frammento di carta",
+            "Una moneta",
+            "Una chiave",
+            "Niente"
+          ],
+          "corretta": 0,
+          "spiegazione": "Cinque frammenti: si ricompongono sul tavolo."
+        }
+      ],
+      "cosaFare": "Posa qui il ricordo che abitava questo posto.",
+      "cosaOttieni": "Un frammento di carta."
+    },
+    {
+      "id": "enigma_posto_cappotto",
+      "tipo": "quiz",
+      "meccanismo": "oggetto",
+      "titolo": "Il chiodo della porta",
+      "scena": "80_Basso_1994",
+      "x": 1.15,
+      "y": 1.1,
+      "z": -2.3,
+      "yaw": 180,
+      "scala": 1,
+      "consegna": "Uno dei cinque posti segnati nella latta. Quale ricordo abitava qui? Posalo dal vassoio.",
+      "temaCivico": "Memoria e legami familiari: la Costituzione (art. 30) parla del dovere dei genitori verso i figli; qui è una madre che ha conservato tutto.",
+      "indizi": [
+        "Ogni ricordo ha un posto in cui lo usavi.",
+        "Il cappotto si appende, le scarpe si lasciano entrando, gli stracci vanno nella cesta, il volantino sulla credenza, lo spartito sotto il cuscino.",
+        "Qui va il cappotto."
+      ],
+      "spiegazione": "Al chiodo dietro la porta, dove è rimasto appeso per quasi cinquant'anni: il cappotto. Per un momento l'angolo torna com'era nel 1946: luce di lume a petrolio, voci dal vicolo, qualcuno di spalle. Poi a terra resta un frammento di carta.",
+      "erroreMsg": "Qui non c'era.",
+      "scheda": "",
+      "appunto": "Un frammento di carta: il chiodo della porta.",
+      "distanza": 1.3,
+      "inclina": 18,
+      "prompt": "il chiodo dietro la porta",
+      "soluzione": [
+        "posato"
+      ],
+      "richiede": [
+        "elenco_posti"
+      ],
+      "bloccatoMsg": "Un posto come un altro, per ora. Prima guarda le cose di tua madre nell'angolo accanto alla porta.",
+      "produce": [
+        "frammento_cappotto"
+      ],
+      "parti": [
+        {
+          "id": "vassoio",
+          "forma": "cubo",
+          "materiale": "metallo",
+          "colore": "#7a6a4a",
+          "y": 0.02,
+          "z": -0.32,
+          "sx": 0.62,
+          "sy": 0.02,
+          "sz": 0.16,
+          "nascosta": true,
+          "gruppo": "vista"
+        },
+        {
+          "id": "ricordo_scarpe",
+          "forma": "cubo",
+          "materiale": "stoffa",
+          "colore": "#3a2418",
+          "x": -0.24,
+          "y": 0.05,
+          "z": -0.32,
+          "sx": 0.09,
+          "sy": 0.03,
+          "sz": 0.08,
+          "testo": "SCARPE",
+          "dimensione": 0.012,
+          "nascosta": true,
+          "gruppo": "vista",
+          "clic": true,
+          "azione": "errore",
+          "msg": "Qui non c'era. Le scarpe si lasciavano entrando, sulla soglia."
+        },
+        {
+          "id": "ricordo_stracci",
+          "forma": "cubo",
+          "materiale": "stoffa",
+          "colore": "#8a6a4a",
+          "x": -0.12,
+          "y": 0.05,
+          "z": -0.32,
+          "sx": 0.09,
+          "sy": 0.03,
+          "sz": 0.08,
+          "testo": "STRACCI",
+          "dimensione": 0.012,
+          "nascosta": true,
+          "gruppo": "vista",
+          "clic": true,
+          "azione": "errore",
+          "msg": "Qui non c'era. Gli stracci stavano nella cesta del cortile, pronti per Capa 'e fierro."
+        },
+        {
+          "id": "ricordo_volantino",
+          "forma": "cubo",
+          "materiale": "carta",
+          "colore": "#d8cba6",
+          "y": 0.05,
+          "z": -0.32,
+          "sx": 0.09,
+          "sy": 0.03,
+          "sz": 0.08,
+          "testo": "VOLANTINO",
+          "dimensione": 0.012,
+          "nascosta": true,
+          "gruppo": "vista",
+          "clic": true,
+          "azione": "errore",
+          "msg": "Qui non c'era. Il volantino stava sulla credenza, sotto il piatto buono."
+        },
+        {
+          "id": "ricordo_cappotto",
+          "forma": "cubo",
+          "materiale": "stoffa",
+          "colore": "#3f4a57",
+          "x": 0.12,
+          "y": 0.05,
+          "z": -0.32,
+          "sx": 0.09,
+          "sy": 0.03,
+          "sz": 0.08,
+          "testo": "CAPPOTTO",
+          "dimensione": 0.012,
+          "nascosta": true,
+          "gruppo": "vista",
+          "clic": true,
+          "azione": "verifica",
+          "evento": "posato",
+          "dopo": "cappotto_posato,frammento,-ricordo_cappotto",
+          "msg": ""
+        },
+        {
+          "id": "ricordo_spartito",
+          "forma": "cubo",
+          "materiale": "carta",
+          "colore": "#e3d9bd",
+          "x": 0.24,
+          "y": 0.05,
+          "z": -0.32,
+          "sx": 0.09,
+          "sy": 0.03,
+          "sz": 0.08,
+          "testo": "SPARTITO",
+          "dimensione": 0.012,
+          "nascosta": true,
+          "gruppo": "vista",
+          "clic": true,
+          "azione": "errore",
+          "msg": "Qui non c'era. Lo spartito lei lo teneva sotto il cuscino."
+        },
+        {
+          "id": "chiodo",
+          "forma": "cilindro",
+          "materiale": "metallo",
+          "colore": "#3a3632",
+          "y": 0.62,
+          "z": 0.02,
+          "sx": 0.012,
+          "sy": 0.03,
+          "sz": 0.012,
+          "rx": 90
+        },
+        {
+          "id": "cappotto_posato",
+          "forma": "cubo",
+          "materiale": "stoffa",
+          "colore": "#3f4a57",
+          "y": 0.3,
+          "sx": 0.3,
+          "sy": 0.44,
+          "sz": 0.05,
+          "nascosta": true
+        },
+        {
+          "id": "frammento",
+          "forma": "cubo",
+          "materiale": "carta",
+          "colore": "#d8cba6",
+          "x": 0.18,
+          "y": 0.02,
+          "z": -0.12,
+          "sx": 0.07,
+          "sy": 0.003,
+          "sz": 0.05,
+          "ry": 24,
+          "nascosta": true
+        }
+      ],
+      "domande": [
+        {
+          "testo": "Dove va il cappotto?",
+          "opzioni": [
+            "Il chiodo della porta",
+            "Nella spazzatura",
+            "In valigia",
+            "Al Monte dei pegni"
+          ],
+          "corretta": 0,
+          "spiegazione": "Al chiodo dietro la porta, dove è rimasto appeso per quasi cinquant'anni: il cappotto."
+        },
+        {
+          "testo": "Che cosa succede quando un ricordo torna al suo posto?",
+          "opzioni": [
+            "L'angolo torna per un momento al 1946",
+            "Niente",
+            "Suona il telefono",
+            "Si spegne la luce"
+          ],
+          "corretta": 0,
+          "spiegazione": "La stanza ha due tempi."
+        },
+        {
+          "testo": "Che cosa resta a terra?",
+          "opzioni": [
+            "Un frammento di carta",
+            "Una moneta",
+            "Una chiave",
+            "Niente"
+          ],
+          "corretta": 0,
+          "spiegazione": "Cinque frammenti: si ricompongono sul tavolo."
+        }
+      ],
+      "cosaFare": "Posa qui il ricordo che abitava questo posto.",
+      "cosaOttieni": "Un frammento di carta."
+    },
+    {
+      "id": "enigma_posto_spartito",
+      "tipo": "quiz",
+      "meccanismo": "oggetto",
+      "titolo": "Il cuscino",
+      "scena": "80_Basso_1994",
+      "x": -3.85,
+      "y": 0.62,
+      "z": 7.35,
+      "yaw": 0,
+      "scala": 1,
+      "consegna": "Uno dei cinque posti segnati nella latta. Quale ricordo abitava qui? Posalo dal vassoio.",
+      "temaCivico": "Memoria e legami familiari: la Costituzione (art. 30) parla del dovere dei genitori verso i figli; qui è una madre che ha conservato tutto.",
+      "indizi": [
+        "Ogni ricordo ha un posto in cui lo usavi.",
+        "Il cappotto si appende, le scarpe si lasciano entrando, gli stracci vanno nella cesta, il volantino sulla credenza, lo spartito sotto il cuscino.",
+        "Qui va lo spartito."
+      ],
+      "spiegazione": "Sotto il cuscino del letto di ferro: lo spartito, piegato in quattro. Per un momento l'angolo torna com'era nel 1946: luce di lume a petrolio, voci dal vicolo, qualcuno di spalle. Poi a terra resta un frammento di carta.",
+      "erroreMsg": "Qui non c'era.",
+      "scheda": "",
+      "appunto": "Un frammento di carta: il cuscino.",
+      "distanza": 1.3,
+      "inclina": 18,
+      "prompt": "il cuscino del letto",
+      "soluzione": [
+        "posato"
+      ],
+      "richiede": [
+        "elenco_posti"
+      ],
+      "bloccatoMsg": "Un posto come un altro, per ora. Prima guarda le cose di tua madre nell'angolo accanto alla porta.",
+      "produce": [
+        "frammento_spartito"
+      ],
+      "parti": [
+        {
+          "id": "vassoio",
+          "forma": "cubo",
+          "materiale": "metallo",
+          "colore": "#7a6a4a",
+          "y": 0.02,
+          "z": -0.32,
+          "sx": 0.62,
+          "sy": 0.02,
+          "sz": 0.16,
+          "nascosta": true,
+          "gruppo": "vista"
+        },
+        {
+          "id": "ricordo_scarpe",
+          "forma": "cubo",
+          "materiale": "stoffa",
+          "colore": "#3a2418",
+          "x": -0.24,
+          "y": 0.05,
+          "z": -0.32,
+          "sx": 0.09,
+          "sy": 0.03,
+          "sz": 0.08,
+          "testo": "SCARPE",
+          "dimensione": 0.012,
+          "nascosta": true,
+          "gruppo": "vista",
+          "clic": true,
+          "azione": "errore",
+          "msg": "Qui non c'era. Le scarpe si lasciavano entrando, sulla soglia."
+        },
+        {
+          "id": "ricordo_stracci",
+          "forma": "cubo",
+          "materiale": "stoffa",
+          "colore": "#8a6a4a",
+          "x": -0.12,
+          "y": 0.05,
+          "z": -0.32,
+          "sx": 0.09,
+          "sy": 0.03,
+          "sz": 0.08,
+          "testo": "STRACCI",
+          "dimensione": 0.012,
+          "nascosta": true,
+          "gruppo": "vista",
+          "clic": true,
+          "azione": "errore",
+          "msg": "Qui non c'era. Gli stracci stavano nella cesta del cortile, pronti per Capa 'e fierro."
+        },
+        {
+          "id": "ricordo_volantino",
+          "forma": "cubo",
+          "materiale": "carta",
+          "colore": "#d8cba6",
+          "y": 0.05,
+          "z": -0.32,
+          "sx": 0.09,
+          "sy": 0.03,
+          "sz": 0.08,
+          "testo": "VOLANTINO",
+          "dimensione": 0.012,
+          "nascosta": true,
+          "gruppo": "vista",
+          "clic": true,
+          "azione": "errore",
+          "msg": "Qui non c'era. Il volantino stava sulla credenza, sotto il piatto buono."
+        },
+        {
+          "id": "ricordo_cappotto",
+          "forma": "cubo",
+          "materiale": "stoffa",
+          "colore": "#3f4a57",
+          "x": 0.12,
+          "y": 0.05,
+          "z": -0.32,
+          "sx": 0.09,
+          "sy": 0.03,
+          "sz": 0.08,
+          "testo": "CAPPOTTO",
+          "dimensione": 0.012,
+          "nascosta": true,
+          "gruppo": "vista",
+          "clic": true,
+          "azione": "errore",
+          "msg": "Qui non c'era. Il cappotto si appende al chiodo dietro la porta."
+        },
+        {
+          "id": "ricordo_spartito",
+          "forma": "cubo",
+          "materiale": "carta",
+          "colore": "#e3d9bd",
+          "x": 0.24,
+          "y": 0.05,
+          "z": -0.32,
+          "sx": 0.09,
+          "sy": 0.03,
+          "sz": 0.08,
+          "testo": "SPARTITO",
+          "dimensione": 0.012,
+          "nascosta": true,
+          "gruppo": "vista",
+          "clic": true,
+          "azione": "verifica",
+          "evento": "posato",
+          "dopo": "spartito_posato,frammento,-ricordo_spartito",
+          "msg": ""
+        },
+        {
+          "id": "cuscino",
+          "forma": "cubo",
+          "materiale": "stoffa",
+          "colore": "#e0d8c4",
+          "y": 0.06,
+          "sx": 0.6,
+          "sy": 0.12,
+          "sz": 0.3
+        },
+        {
+          "id": "spartito_posato",
+          "forma": "cubo",
+          "materiale": "carta",
+          "colore": "#e3d9bd",
+          "y": 0.125,
+          "z": -0.08,
+          "sx": 0.17,
+          "sy": 0.004,
+          "sz": 0.1,
+          "nascosta": true
+        },
+        {
+          "id": "frammento",
+          "forma": "cubo",
+          "materiale": "carta",
+          "colore": "#d8cba6",
+          "x": 0.18,
+          "y": 0.012,
+          "z": -0.12,
+          "sx": 0.07,
+          "sy": 0.003,
+          "sz": 0.05,
+          "ry": 24,
+          "nascosta": true
+        }
+      ],
+      "domande": [
+        {
+          "testo": "Dove va lo spartito?",
+          "opzioni": [
+            "Il cuscino",
+            "Nella spazzatura",
+            "In valigia",
+            "Al Monte dei pegni"
+          ],
+          "corretta": 0,
+          "spiegazione": "Sotto il cuscino del letto di ferro: lo spartito, piegato in quattro."
+        },
+        {
+          "testo": "Che cosa succede quando un ricordo torna al suo posto?",
+          "opzioni": [
+            "L'angolo torna per un momento al 1946",
+            "Niente",
+            "Suona il telefono",
+            "Si spegne la luce"
+          ],
+          "corretta": 0,
+          "spiegazione": "La stanza ha due tempi."
+        },
+        {
+          "testo": "Che cosa resta a terra?",
+          "opzioni": [
+            "Un frammento di carta",
+            "Una moneta",
+            "Una chiave",
+            "Niente"
+          ],
+          "corretta": 0,
+          "spiegazione": "Cinque frammenti: si ricompongono sul tavolo."
+        }
+      ],
+      "cosaFare": "Posa qui il ricordo che abitava questo posto.",
+      "cosaOttieni": "Un frammento di carta."
+    },
+    {
+      "id": "enigma_ricevuta",
+      "tipo": "quiz",
+      "meccanismo": "ricomponi",
+      "titolo": "La ricevuta",
+      "scena": "80_Basso_1994",
+      "x": 2.3,
+      "y": 0.66,
+      "z": 1.2,
+      "yaw": 0,
+      "scala": 1,
+      "consegna": "Sotto la lampadina, sul tavolo, i cinque frammenti e un pezzo che c'era già: è un documento strappato. Tocca un pezzo, poi il punto del sottomano dove va. I bordi devono combaciare e le parole avere senso.",
+      "temaCivico": "Il credito su pegno: chi era povero portava al Monte i suoi oggetti per avere soldi in prestito, e poteva riscattarli pagando. Ricomprare il violino fu il gesto di una madre.",
+      "indizi": [
+        "I bordi dei pezzi combaciano: in alto il nome del Monte, in basso che cosa è stato impegnato.",
+        "Si legge da sinistra a destra: MONTE DEI - PEGNI - N. 4712, poi VIOLINO CON - CUSTODIA - RISCATTATO.",
+        "Il timbro RISCATTATO sta in basso a destra; il numero in alto a destra."
+      ],
+      "spiegazione": "È una polizza del Monte dei pegni: un violino con custodia, numero 4712. Sopra, un timbro rosso: RISCATTATO, qualche anno dopo. Al posto della firma, una croce. Tua madre era tornata a riprenderlo, da sola, e non te l'aveva mai detto.",
+      "erroreMsg": "",
+      "scheda": "I Monti dei pegni (o di pietà) prestavano denaro in cambio di un oggetto in garanzia; molte famiglie povere ci portavano lenzuola, ori e strumenti. Numero e date della polizza sono inventati per il gioco.",
+      "appunto": "Polizza n. 4712: violino con custodia, RISCATTATO.",
+      "distanza": 1.1,
+      "inclina": 62,
+      "prompt": "i frammenti sul tavolo",
+      "richiede": [
+        "frammento_scarpe",
+        "frammento_stracci",
+        "frammento_volantino",
+        "frammento_cappotto",
+        "frammento_spartito"
+      ],
+      "bloccatoMsg": "Sul tavolo c'è un solo pezzo di carta strappata. Gli altri, dice la latta, sono nei cinque posti della casa.",
+      "produce": [
+        "numero_polizza"
+      ],
+      "strumenti": [
+        "Ora tocca il punto del sottomano dove va.",
+        "Prima prendi un pezzo di carta.",
+        "I bordi non combaciano, e le parole non tornano: prova un altro punto.",
+        "Ancora {0} pezzi.",
+        "Il pezzo è già al suo posto."
+      ],
+      "dopoRicomposto": "croce,croce_b,timbro",
+      "parti": [
+        {
+          "id": "lampadina_ombra",
+          "forma": "cilindro",
+          "materiale": "stoffa",
+          "colore": "#2a2018",
+          "y": 0.002,
+          "sx": 0.9,
+          "sy": 0.002,
+          "sz": 0.6
+        },
+        {
+          "id": "sottomano",
+          "forma": "cubo",
+          "materiale": "cuoio",
+          "colore": "#3a2a1e",
+          "x": -0.12,
+          "y": 0.004,
+          "sx": 0.44,
+          "sy": 0.004,
+          "sz": 0.26
+        },
+        {
+          "id": "slot_0",
+          "forma": "cubo",
+          "materiale": "carta",
+          "colore": "#5a4a3a",
+          "x": -0.24,
+          "y": 0.007,
+          "z": 0.04,
+          "sx": 0.1152,
+          "sy": 0.002,
+          "sz": 0.0752,
+          "clic": true,
+          "azione": "slot",
+          "valore": 0,
+          "msg": ""
+        },
+        {
+          "id": "pezzo_0",
+          "forma": "cubo",
+          "materiale": "carta",
+          "colore": "#e3d9bd",
+          "x": 0.26,
+          "y": 0.012,
+          "z": 0.06,
+          "sx": 0.114,
+          "sy": 0.003,
+          "sz": 0.0744,
+          "ry": 12,
+          "testo": "MONTE DEI",
+          "dimensione": 0.014,
+          "clic": true,
+          "azione": "pezzo",
+          "valore": 0,
+          "msg": "Un pezzo di carta spessa, ingiallita: «MONTE DEI»."
+        },
+        {
+          "id": "slot_1",
+          "forma": "cubo",
+          "materiale": "carta",
+          "colore": "#5a4a3a",
+          "x": -0.12,
+          "y": 0.007,
+          "z": 0.04,
+          "sx": 0.1152,
+          "sy": 0.002,
+          "sz": 0.0752,
+          "clic": true,
+          "azione": "slot",
+          "valore": 1,
+          "msg": ""
+        },
+        {
+          "id": "pezzo_1",
+          "forma": "cubo",
+          "materiale": "carta",
+          "colore": "#e3d9bd",
+          "x": 0.33,
+          "y": 0.012,
+          "z": -0.08,
+          "sx": 0.114,
+          "sy": 0.003,
+          "sz": 0.0744,
+          "ry": -20,
+          "testo": "PEGNI",
+          "dimensione": 0.014,
+          "clic": true,
+          "azione": "pezzo",
+          "valore": 1,
+          "msg": "Un pezzo di carta spessa, ingiallita: «PEGNI»."
+        },
+        {
+          "id": "slot_2",
+          "forma": "cubo",
+          "materiale": "carta",
+          "colore": "#5a4a3a",
+          "y": 0.007,
+          "z": 0.04,
+          "sx": 0.1152,
+          "sy": 0.002,
+          "sz": 0.0752,
+          "clic": true,
+          "azione": "slot",
+          "valore": 2,
+          "msg": ""
+        },
+        {
+          "id": "pezzo_2",
+          "forma": "cubo",
+          "materiale": "carta",
+          "colore": "#e3d9bd",
+          "x": 0.2,
+          "y": 0.012,
+          "z": -0.1,
+          "sx": 0.114,
+          "sy": 0.003,
+          "sz": 0.0744,
+          "ry": 30,
+          "testo": "N. 4712",
+          "dimensione": 0.014,
+          "clic": true,
+          "azione": "pezzo",
+          "valore": 2,
+          "msg": "Un pezzo di carta spessa, ingiallita: «N. 4712»."
+        },
+        {
+          "id": "slot_3",
+          "forma": "cubo",
+          "materiale": "carta",
+          "colore": "#5a4a3a",
+          "x": -0.24,
+          "y": 0.007,
+          "z": -0.04,
+          "sx": 0.1152,
+          "sy": 0.002,
+          "sz": 0.0752,
+          "clic": true,
+          "azione": "slot",
+          "valore": 3,
+          "msg": ""
+        },
+        {
+          "id": "pezzo_3",
+          "forma": "cubo",
+          "materiale": "carta",
+          "colore": "#e3d9bd",
+          "x": 0.38,
+          "y": 0.012,
+          "z": 0.1,
+          "sx": 0.114,
+          "sy": 0.003,
+          "sz": 0.0744,
+          "ry": -8,
+          "testo": "VIOLINO CON",
+          "dimensione": 0.014,
+          "clic": true,
+          "azione": "pezzo",
+          "valore": 3,
+          "msg": "Un pezzo di carta spessa, ingiallita: «VIOLINO CON»."
+        },
+        {
+          "id": "slot_4",
+          "forma": "cubo",
+          "materiale": "carta",
+          "colore": "#5a4a3a",
+          "x": -0.12,
+          "y": 0.007,
+          "z": -0.04,
+          "sx": 0.1152,
+          "sy": 0.002,
+          "sz": 0.0752,
+          "clic": true,
+          "azione": "slot",
+          "valore": 4,
+          "msg": ""
+        },
+        {
+          "id": "pezzo_4",
+          "forma": "cubo",
+          "materiale": "carta",
+          "colore": "#e3d9bd",
+          "x": 0.24,
+          "y": 0.012,
+          "z": 0.16,
+          "sx": 0.114,
+          "sy": 0.003,
+          "sz": 0.0744,
+          "ry": 18,
+          "testo": "CUSTODIA",
+          "dimensione": 0.014,
+          "clic": true,
+          "azione": "pezzo",
+          "valore": 4,
+          "msg": "Un pezzo di carta spessa, ingiallita: «CUSTODIA»."
+        },
+        {
+          "id": "slot_5",
+          "forma": "cubo",
+          "materiale": "carta",
+          "colore": "#5a4a3a",
+          "y": 0.007,
+          "z": -0.04,
+          "sx": 0.1152,
+          "sy": 0.002,
+          "sz": 0.0752,
+          "clic": true,
+          "azione": "slot",
+          "valore": 5,
+          "msg": ""
+        },
+        {
+          "id": "pezzo_5",
+          "forma": "cubo",
+          "materiale": "carta",
+          "colore": "#e3d9bd",
+          "x": 0.36,
+          "y": 0.012,
+          "z": -0.18,
+          "sx": 0.114,
+          "sy": 0.003,
+          "sz": 0.0744,
+          "ry": 26,
+          "testo": "RISCATTATO",
+          "dimensione": 0.014,
+          "clic": true,
+          "azione": "pezzo",
+          "valore": 5,
+          "msg": "Un pezzo di carta spessa, ingiallita: «RISCATTATO»."
+        },
+        {
+          "id": "croce",
+          "forma": "cubo",
+          "materiale": "carta",
+          "colore": "#2a2018",
+          "x": -0.02,
+          "y": 0.016,
+          "z": -0.075,
+          "sx": 0.03,
+          "sy": 0.001,
+          "sz": 0.004,
+          "ry": 45,
+          "nascosta": true
+        },
+        {
+          "id": "croce_b",
+          "forma": "cubo",
+          "materiale": "carta",
+          "colore": "#2a2018",
+          "x": -0.02,
+          "y": 0.016,
+          "z": -0.075,
+          "sx": 0.03,
+          "sy": 0.001,
+          "sz": 0.004,
+          "ry": -45,
+          "nascosta": true
+        },
+        {
+          "id": "timbro",
+          "forma": "cilindro",
+          "materiale": "carta",
+          "colore": "#7a1f1a",
+          "x": 0.08,
+          "y": 0.016,
+          "z": -0.05,
+          "sx": 0.07,
+          "sy": 0.001,
+          "sz": 0.05,
+          "rx": 0,
+          "nascosta": true
+        }
+      ],
+      "domande": [
+        {
+          "testo": "Che cos'è il documento ricomposto?",
+          "opzioni": [
+            "Una polizza del Monte dei pegni",
+            "Una lettera",
+            "Un biglietto del treno",
+            "Una pagella"
+          ],
+          "corretta": 0,
+          "spiegazione": "Un violino impegnato e poi riscattato."
+        },
+        {
+          "testo": "Che cosa vuol dire RISCATTATO?",
+          "opzioni": [
+            "Che il violino è stato ripreso pagando",
+            "Che è stato venduto",
+            "Che è stato perso",
+            "Che è rotto"
+          ],
+          "corretta": 0,
+          "spiegazione": "Antonietta l'ha ricomprato."
+        },
+        {
+          "testo": "Perchè al posto della firma c'è una croce?",
+          "opzioni": [
+            "Antonietta non sapeva scrivere",
+            "Per scherzo",
+            "Era vietato firmare",
+            "Per errore"
+          ],
+          "corretta": 0,
+          "spiegazione": "Chi era analfabeta firmava con una croce."
+        }
+      ],
+      "cosaFare": "Ricomponi il documento strappato, pezzo per pezzo.",
+      "cosaOttieni": "Un numero che apre qualcosa."
+    },
+    {
+      "id": "enigma_custodia",
+      "tipo": "quiz",
+      "meccanismo": "ruote",
+      "titolo": "Sotto il letto",
+      "scena": "80_Basso_1994",
+      "x": -3.85,
+      "y": 0.0,
+      "z": 6.0,
+      "yaw": 0,
+      "scala": 1,
+      "consegna": "Sotto il letto di ferro, dietro una coperta piegata, c'è una custodia da violino. È chiusa da un lucchetto a quattro rotelle.",
+      "temaCivico": "Una famiglia sono anche i gesti che non si dicono: tenere, conservare, ricomprare.",
+      "indizi": [
+        "Sulla custodia c'è un'etichetta con un numero.",
+        "È lo stesso numero della polizza ricomposta sul tavolo.",
+        "4712."
+      ],
+      "spiegazione": "Dentro, il violino che Alcide ti aveva dato, con le corde allentate da cinquant'anni. Accanto, piegato con cura, un ritaglio di giornale: un tuo concerto. Nessuna lettera. Non serve.",
+      "erroreMsg": "Il lucchetto non si apre: che numero c'era sulla polizza?",
+      "scheda": "Nel romanzo e nel film Amerigo ritrova il violino dopo la morte della madre; il ritaglio di giornale e la polizza sono inventati per il gioco (nel film c'è una lettera: qui no).",
+      "appunto": "Il violino era sotto il letto, con un ritaglio di giornale.",
+      "distanza": 1.3,
+      "inclina": 40,
+      "prompt": "qualcosa sotto il letto",
+      "codice": "4712",
+      "soluzione": [
+        "apri_custodia"
+      ],
+      "ruote": {
+        "n": 4,
+        "x": 0.12,
+        "y": 0.06,
+        "z": -0.142,
+        "passo": 0.05,
+        "larghezza": 0.035,
+        "raggio": 0.03,
+        "colore": "#9b7a35"
+      },
+      "richiede": [
+        "numero_polizza"
+      ],
+      "bloccatoMsg": "Sotto il letto c'è qualcosa di lungo e scuro, avvolto in una coperta. Prima capisci che cosa c'è sul tavolo.",
+      "produce": [
+        "violino_1994"
+      ],
+      "cutscene": "cutscene_finale",
+      "cutsceneCapitolo": "meta",
+      "parti": [
+        {
+          "id": "custodia",
+          "forma": "cubo",
+          "materiale": "cuoio",
+          "colore": "#2a1a12",
+          "y": 0.06,
+          "sx": 0.75,
+          "sy": 0.11,
+          "sz": 0.26
+        },
+        {
+          "id": "custodia_bordo",
+          "forma": "cubo",
+          "materiale": "cuoio",
+          "colore": "#1e120c",
+          "y": 0.115,
+          "sx": 0.76,
+          "sy": 0.01,
+          "sz": 0.27
+        },
+        {
+          "id": "etichetta",
+          "forma": "cubo",
+          "materiale": "carta",
+          "colore": "#e3d9bd",
+          "x": -0.2,
+          "y": 0.122,
+          "sx": 0.1,
+          "sy": 0.002,
+          "sz": 0.05,
+          "testo": "4712",
+          "dimensione": 0.016,
+          "clic": true,
+          "azione": "leggi",
+          "msg": "Un'etichetta del Monte dei pegni incollata sulla custodia: 4712. Lo stesso numero della polizza."
+        },
+        {
+          "id": "lucchetto",
+          "forma": "cubo",
+          "materiale": "ottone",
+          "colore": "#b59a3f",
+          "x": 0.12,
+          "y": 0.06,
+          "z": -0.135,
+          "sx": 0.24,
+          "sy": 0.06,
+          "sz": 0.012
+        },
+        {
+          "id": "fermo",
+          "forma": "cilindro",
+          "materiale": "ottone",
+          "colore": "#b59a3f",
+          "x": 0.27,
+          "y": 0.06,
+          "z": -0.14,
+          "sx": 0.03,
+          "sy": 0.012,
+          "sz": 0.03,
+          "rx": 90,
+          "clic": true,
+          "azione": "verifica",
+          "evento": "apri_custodia",
+          "dopo": "coperchio_aperto,violino,violino_manico,ritaglio,-custodia_bordo",
+          "msg": "Clic. Il fermo della custodia si apre."
+        },
+        {
+          "id": "coperchio_aperto",
+          "forma": "cubo",
+          "materiale": "cuoio",
+          "colore": "#2a1a12",
+          "y": 0.2,
+          "z": 0.13,
+          "sx": 0.75,
+          "sy": 0.02,
+          "sz": 0.26,
+          "rx": -70,
+          "nascosta": true
+        },
+        {
+          "id": "violino",
+          "forma": "sfera",
+          "materiale": "legno",
+          "colore": "#8a4a1e",
+          "x": -0.1,
+          "y": 0.1,
+          "sx": 0.36,
+          "sy": 0.05,
+          "sz": 0.2,
+          "nascosta": true
+        },
+        {
+          "id": "violino_manico",
+          "forma": "cubo",
+          "materiale": "legno",
+          "colore": "#2a1a12",
+          "x": 0.18,
+          "y": 0.105,
+          "sx": 0.28,
+          "sy": 0.02,
+          "sz": 0.04,
+          "nascosta": true
+        },
+        {
+          "id": "ritaglio",
+          "forma": "cubo",
+          "materiale": "carta",
+          "colore": "#d8d0b8",
+          "x": -0.12,
+          "y": 0.13,
+          "z": 0.04,
+          "sx": 0.1,
+          "sy": 0.003,
+          "sz": 0.14,
+          "ry": -14,
+          "nascosta": true,
+          "testo": "CONCERTO",
+          "dimensione": 0.012,
+          "clic": true,
+          "azione": "leggi",
+          "msg": "Un ritaglio di giornale, piegato con cura lungo le pieghe vecchie: la fotografia di un concerto, un violinista in frac. Il tuo nome in grassetto. Lei non sapeva leggerlo, ma la fotografia l'aveva riconosciuta."
+        }
+      ],
+      "domande": [
+        {
+          "testo": "Quale numero apre la custodia?",
+          "opzioni": [
+            "4712, come la polizza",
+            "112",
+            "1946",
+            "214"
+          ],
+          "corretta": 0,
+          "spiegazione": "Lo stesso numero del Monte dei pegni."
+        },
+        {
+          "testo": "Che cosa c'è nella custodia, oltre al violino?",
+          "opzioni": [
+            "Un ritaglio di giornale di un concerto di Amerigo",
+            "Una lettera lunga",
+            "Una mela",
+            "Soldi"
+          ],
+          "corretta": 0,
+          "spiegazione": "Un segno, non un testo."
+        },
+        {
+          "testo": "Chi aveva ricomprato il violino?",
+          "opzioni": [
+            "Antonietta",
+            "Alcide",
+            "Carmine",
+            "Nessuno"
+          ],
+          "corretta": 0,
+          "spiegazione": "La polizza dice RISCATTATO."
+        }
+      ],
+      "cosaFare": "Apri la custodia con il numero giusto.",
+      "cosaOttieni": "Il violino, e un segno di tua madre."
+    },
+    {
+      "id": "enigma_carmine",
+      "tipo": "quiz",
+      "meccanismo": "dialogo",
+      "titolo": "Carmine",
+      "scena": "80_Basso_1994",
+      "x": -1.3,
+      "y": 0.0,
+      "z": -1.95,
+      "yaw": 180,
+      "scala": 1,
+      "consegna": "Qualcuno bussa alla porta sul vicolo. È un ragazzino: Carmine, il figlio di tuo fratello Agostino. Scegli che cosa fare con lui: ogni scelta va bene.",
+      "temaCivico": "Una famiglia si può anche scegliere: la legge 4 maggio 1983 n. 184 riconosce il diritto del minore a una famiglia, anche attraverso l'affido.",
+      "indizi": [
+        "Non ci sono risposte sbagliate: scegli quella che senti tua.",
+        "Puoi dargli il cartellino, accordare il violino o suonare.",
+        "Una qualunque delle tre."
+      ],
+      "spiegazione": "Carmine si siede sul gradino della porta, accanto a te. Fuori, il vicolo fa il suo rumore di sempre.",
+      "erroreMsg": "",
+      "scheda": "Nel romanzo Amerigo, nel 1994, conosce Carmine, figlio di Agostino, il fratellino nato dopo la sua partenza: per lui diventa l'occasione di restituire la solidarietà ricevuta. Le parole sono scritte per il gioco.",
+      "appunto": "Carmine, sulla soglia.",
+      "distanza": 2.0,
+      "inclina": 6,
+      "prompt": "la porta sul vicolo",
+      "richiede": [
+        "violino_1994"
+      ],
+      "bloccatoMsg": "La porta sul vicolo è chiusa. Fuori, ogni tanto, passa qualcuno.",
+      "produce": [
+        "testimone"
+      ],
+      "figure": [
+        {
+          "id": "fig_carmine",
+          "nome": "Carmine",
+          "collo": 0.256,
+          "busto": 0.12,
+          "paura": "«Tu sei lo zio che suona? Papà dice che te ne sei andato e non sei tornato più. Io non me ne vado mai da qua.»",
+          "ok": "Carmine resta sulla soglia, ma non scappa.",
+          "risposte": [
+            {
+              "testo": "Dargli il cartellino del treno: «Questo era il mio numero. Tienilo tu.»",
+              "richiede": "cartellino_112",
+              "giusta": true,
+              "esito": "Carmine gira il cartellino fra le dita. «Centododici. Ma eri un pacco?» Ride. Poi se lo mette in tasca, con attenzione."
+            },
+            {
+              "testo": "Accordare il violino davanti a lui: «Senti. Prima ua-ua, poi niente.»",
+              "richiede": "",
+              "giusta": true,
+              "esito": "Giri la chiave a mezzi scatti. Carmine si avvicina di un passo, poi di un altro. «Mo' è sparito.» «Sì. Mo' è giusto.»"
+            },
+            {
+              "testo": "Suonare le due frasi di Alcide.",
+              "richiede": "",
+              "giusta": true,
+              "esito": "Le due frasi riempiono il basso vuoto. Carmine non dice niente. Quando finisci, batte il tempo sullo stipite, sbagliato, e sorride."
+            }
+          ]
+        }
+      ],
+      "strumenti": [
+        "Scegli",
+        "Prova un altro modo.",
+        "Non hai il cartellino: è nella scatola di latta.",
+        ""
+      ],
+      "parti": [
+        {
+          "id": "fig_carmine",
+          "forma": "vuoto",
+          "materiale": "stoffa",
+          "y": 0.71,
+          "z": 0.05,
+          "sx": 0.42,
+          "sy": 1.42,
+          "sz": 0.34,
+          "clic": true,
+          "azione": "figura",
+          "valore": 0,
+          "msg": "Carmine, sulla porta: un ragazzino con un giubbotto troppo grande e le scarpe da ginnastica slacciate."
+        },
+        {
+          "id": "fig_carmine_gamba_sx",
+          "forma": "cilindro",
+          "materiale": "stoffa",
+          "colore": "#3a4a5a",
+          "x": -0.06,
+          "y": -0.3905,
+          "sx": 0.075,
+          "sy": 0.3195,
+          "sz": 0.075,
+          "genitore": "fig_carmine"
+        },
+        {
+          "id": "fig_carmine_piede_sx",
+          "forma": "cubo",
+          "materiale": "cuoio",
+          "colore": "#2a1e16",
+          "x": -0.06,
+          "y": -0.685,
+          "z": -0.04,
+          "sx": 0.08,
+          "sy": 0.05,
+          "sz": 0.15,
+          "genitore": "fig_carmine"
+        },
+        {
+          "id": "fig_carmine_gamba_dx",
+          "forma": "cilindro",
+          "materiale": "stoffa",
+          "colore": "#3a4a5a",
+          "x": 0.06,
+          "y": -0.3905,
+          "sx": 0.075,
+          "sy": 0.3195,
+          "sz": 0.075,
+          "genitore": "fig_carmine"
+        },
+        {
+          "id": "fig_carmine_piede_dx",
+          "forma": "cubo",
+          "materiale": "cuoio",
+          "colore": "#2a1e16",
+          "x": 0.06,
+          "y": -0.685,
+          "z": -0.04,
+          "sx": 0.08,
+          "sy": 0.05,
+          "sz": 0.15,
+          "genitore": "fig_carmine"
+        },
+        {
+          "id": "fig_carmine_busto",
+          "forma": "cubo",
+          "materiale": "stoffa",
+          "colore": "#3a4a5a",
+          "y": 0.1562,
+          "sx": 0.27,
+          "sy": 0.4544,
+          "sz": 0.15,
+          "genitore": "fig_carmine"
+        },
+        {
+          "id": "fig_carmine_braccio_sx",
+          "forma": "cilindro",
+          "materiale": "stoffa",
+          "colore": "#3a4a5a",
+          "x": -0.17,
+          "y": 0.1362,
+          "sx": 0.065,
+          "sy": 0.2499,
+          "sz": 0.065,
+          "rz": -8,
+          "genitore": "fig_carmine"
+        },
+        {
+          "id": "fig_carmine_mano_sx",
+          "forma": "sfera",
+          "materiale": "stoffa",
+          "colore": "#c99b78",
+          "x": -0.1836,
+          "y": -0.0937,
+          "sx": 0.06,
+          "sy": 0.06,
+          "sz": 0.06,
+          "genitore": "fig_carmine"
+        },
+        {
+          "id": "fig_carmine_braccio_dx",
+          "forma": "cilindro",
+          "materiale": "stoffa",
+          "colore": "#3a4a5a",
+          "x": 0.17,
+          "y": 0.1362,
+          "sx": 0.065,
+          "sy": 0.2499,
+          "sz": 0.065,
+          "rz": 8,
+          "genitore": "fig_carmine"
+        },
+        {
+          "id": "fig_carmine_mano_dx",
+          "forma": "sfera",
+          "materiale": "stoffa",
+          "colore": "#c99b78",
+          "x": 0.1836,
+          "y": -0.0937,
+          "sx": 0.06,
+          "sy": 0.06,
+          "sz": 0.06,
+          "genitore": "fig_carmine"
+        },
+        {
+          "id": "fig_carmine_collo",
+          "forma": "cilindro",
+          "materiale": "stoffa",
+          "colore": "#c99b78",
+          "y": 0.4034,
+          "sx": 0.07,
+          "sy": 0.03,
+          "sz": 0.07,
+          "genitore": "fig_carmine"
+        },
+        {
+          "id": "fig_carmine_testa",
+          "forma": "sfera",
+          "materiale": "stoffa",
+          "colore": "#c99b78",
+          "y": 0.5297,
+          "sx": 0.2126,
+          "sy": 0.2339,
+          "sz": 0.2126,
+          "genitore": "fig_carmine"
+        },
+        {
+          "id": "fig_carmine_capelli",
+          "forma": "sfera",
+          "materiale": "stoffa",
+          "colore": "#2a2018",
+          "y": 0.5597,
+          "z": 0.02,
+          "sx": 0.2254,
+          "sy": 0.1807,
+          "sz": 0.2232,
+          "genitore": "fig_carmine"
+        },
+        {
+          "id": "stipite_sx",
+          "forma": "cubo",
+          "materiale": "legno",
+          "colore": "#4a3220",
+          "x": -0.5,
+          "y": 1.05,
+          "z": 0.2,
+          "sx": 0.08,
+          "sy": 2.1,
+          "sz": 0.12
+        },
+        {
+          "id": "stipite_dx",
+          "forma": "cubo",
+          "materiale": "legno",
+          "colore": "#4a3220",
+          "x": 0.5,
+          "y": 1.05,
+          "z": 0.2,
+          "sx": 0.08,
+          "sy": 2.1,
+          "sz": 0.12
+        }
+      ],
+      "domande": [
+        {
+          "testo": "Chi è Carmine?",
+          "opzioni": [
+            "Il figlio di Agostino, fratello di Amerigo",
+            "Un vicino",
+            "Un postino",
+            "Il figlio di Alcide"
+          ],
+          "corretta": 0,
+          "spiegazione": "Il nipote di Amerigo."
+        },
+        {
+          "testo": "Che cosa può fare Amerigo con lui?",
+          "opzioni": [
+            "Una qualunque delle tre scelte",
+            "Solo suonare",
+            "Solo mandarlo via",
+            "Niente"
+          ],
+          "corretta": 0,
+          "spiegazione": "Nessuna scelta è sbagliata."
+        },
+        {
+          "testo": "Quale legge parla del diritto del minore a una famiglia?",
+          "opzioni": [
+            "La legge n. 184 del 1983",
+            "Lo Statuto albertino",
+            "Il codice della strada",
+            "Nessuna"
+          ],
+          "corretta": 0,
+          "spiegazione": "Modificata dalla legge 149 del 2001."
+        }
+      ],
+      "cosaFare": "Scegli che cosa fare con Carmine: ogni scelta va bene.",
+      "cosaOttieni": "La fine della storia."
+    }
+  ]
+}
