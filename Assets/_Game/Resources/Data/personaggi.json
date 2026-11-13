@@ -109,6 +109,12 @@
       "nome": "Nario",
       "ritratto": "",
       "colore": "#7A6A4A"
+    },
+    {
+      "id": "carmine",
+      "nome": "Carmine",
+      "ritratto": "",
+      "colore": "#4A5A6A"
     }
   ]
 }

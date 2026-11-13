@@ -134,6 +134,15 @@
       "aperto": false,
       "descrizione": "Una corte di pianura vicino a Modena, nell'inverno 1946-47: neve, nebbia bassa, la cucina di Derna con la stufa, il laboratorio dei Benvenuti con il forno e il pianoforte, la scuola in fondo alla strada.",
       "meteo": "sereno"
+    },
+    {
+      "id": "ricordo_finale",
+      "nome": "Il basso, 1994",
+      "scena": "80_Basso_1994",
+      "spawn": "",
+      "aperto": false,
+      "descrizione": "Il basso di Antonietta nel marzo 1994, dopo la sua morte: mobili sotto le lenzuola, una lampadina nuda, scatoloni, un telefono che squilla.",
+      "meteo": ""
     }
   ]
 }

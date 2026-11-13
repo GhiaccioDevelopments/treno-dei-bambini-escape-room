@@ -292,10 +292,32 @@ namespace TrenoBambini.Core
             if (UIRoot.I != null) UIRoot.I.QueueNewItem(oggettoId); // animazione "nuovo oggetto" al ritorno nel vicolo
 
             string cutsceneId = o != null ? o.cutscene : null;
+            if (o != null && o.titoliDiCoda) { Finale(cutsceneId); return; } // R016: il finale non torna al basso: titoli di coda e menu
             if (!string.IsNullOrEmpty(cutsceneId) && UIRoot.I != null && UIRoot.I.Cutscene != null)
                 UIRoot.I.Cutscene.Play(cutsceneId, ReturnFromFlashback, string.IsNullOrEmpty(o.cutsceneIngresso) ? null : "chiusura");
             else
                 ReturnFromFlashback();
+        }
+
+        /// <summary>R016: chiusura del gioco. Cutscene di chiusura, flag "finale_visto" (R011), scena in piu' se sono stati trovati tutti i segreti
+        /// (capitolo "segreti" della stessa cutscene), titoli di coda, poi il menu principale. Il salvataggio resta nel basso: "Continua" riparte da li'.</summary>
+        void Finale(string cutsceneId)
+        {
+            var s = Save;
+            s.scena = string.IsNullOrEmpty(s.ritornoScena) ? SceneHub : s.ritornoScena;
+            s.spawn = s.ritornoSpawn ?? "";
+            s.ritornoScena = ""; s.ritornoSpawn = "";
+            SaveGame();
+            System.Action titoli = () => TitoliDiCoda.Mostra(() => SceneLoader.I.Load(SceneTitolo, "", TransitionStyle.Fade));
+            System.Action segreti = () =>
+            {
+                TrenoBambini.Segreti.SegretiStato.ImpostaFlag("finale_visto");
+                if (TrenoBambini.Segreti.SegretiStato.Flag("segreti_tutti") && !string.IsNullOrEmpty(cutsceneId) && UIRoot.I != null && UIRoot.I.Cutscene != null)
+                    UIRoot.I.Cutscene.Play(cutsceneId, titoli, "segreti");
+                else titoli();
+            };
+            if (!string.IsNullOrEmpty(cutsceneId) && UIRoot.I != null && UIRoot.I.Cutscene != null) UIRoot.I.Cutscene.Play(cutsceneId, segreti, "chiusura");
+            else segreti();
         }
 
         void ReturnFromFlashback()

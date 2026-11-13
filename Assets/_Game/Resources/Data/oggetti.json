@@ -475,6 +475,76 @@
           }
         ]
       }
+    },
+    {
+      "id": "violino",
+      "nome": "Il violino",
+      "descrizione": "Un violino piccolo, da bambino, con le corde allentate. Nella custodia, piegato con cura, un ritaglio di giornale di un tuo concerto.",
+      "significato": "Il violino che Alcide aveva dato ad Amerigo a Modena, impegnato al Monte dei pegni e poi riscattato da Antonietta, che lo ha tenuto sotto il letto per tutta la vita. Non c'è una lettera: c'è una polizza firmata con una croce e un ritaglio di giornale che lei non sapeva leggere.",
+      "temaCivico": "Famiglia, affido e genitorialità scelta: art. 30 della Costituzione e legge 4 maggio 1983 n. 184 «Diritto del minore ad una famiglia» (modificata dalla legge 149 del 2001).",
+      "icona": "scarpe",
+      "flashback": "flashback_finale",
+      "cutscene": "cutscene_finale",
+      "cutsceneIngresso": "cutscene_finale",
+      "luogo": "basso_antonietta",
+      "titoliDiCoda": true,
+      "ingresso": {
+        "scena": "20_Int_BassoAntonietta",
+        "x": 3.6,
+        "y": 0.0,
+        "z": -1.95,
+        "yaw": 180,
+        "richiedeFlashback": "flashback_violino",
+        "prompt": "Esamina: il telefono che squilla",
+        "parti": [
+          {
+            "id": "mobiletto",
+            "forma": "cubo",
+            "materiale": "legno",
+            "colore": "#4a3a2c",
+            "y": 0.35,
+            "sx": 0.6,
+            "sy": 0.7,
+            "sz": 0.4
+          },
+          {
+            "id": "telefono",
+            "forma": "cubo",
+            "materiale": "metallo",
+            "colore": "#5a5e62",
+            "x": -0.12,
+            "y": 0.76,
+            "sx": 0.2,
+            "sy": 0.1,
+            "sz": 0.18
+          },
+          {
+            "id": "cornetta",
+            "forma": "capsula",
+            "materiale": "metallo",
+            "colore": "#4a4e52",
+            "x": -0.12,
+            "y": 0.83,
+            "rz": 90,
+            "sx": 0.05,
+            "sy": 0.1,
+            "sz": 0.05
+          },
+          {
+            "id": "disco",
+            "forma": "cilindro",
+            "materiale": "metallo",
+            "colore": "#d8d4c8",
+            "x": -0.12,
+            "y": 0.812,
+            "z": -0.05,
+            "rx": -20,
+            "sx": 0.08,
+            "sy": 0.004,
+            "sz": 0.08
+          }
+        ]
+      }
     }
   ]
 }

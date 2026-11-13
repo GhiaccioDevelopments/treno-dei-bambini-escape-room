@@ -149,6 +149,22 @@
         70
       ],
       "superficie": "ovattato"
+    },
+    {
+      "scena": "80_Basso_1994",
+      "musica": "",
+      "ambiente": [
+        "interno_silenzio",
+        "vicolo_brusio"
+      ],
+      "sparsi": [
+        "campane"
+      ],
+      "intervallo": [
+        40,
+        90
+      ],
+      "superficie": "pietra"
     }
   ],
   "eventi": [

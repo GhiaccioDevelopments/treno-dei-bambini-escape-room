@@ -42,7 +42,7 @@ namespace TrenoBambini.EditorTools
 
         const int LutSize = 32;
 
-        static readonly string[] LookScenes = { "10_Hub_Vicolo", "20_Int_BassoAntonietta", "30_FB_Scarpe", "40_FB_Stracci", "50_FB_Volantino", "60_FB_Stazione", "61_FB_Vagone", "70_FB_Modena" };
+        static readonly string[] LookScenes = { "10_Hub_Vicolo", "20_Int_BassoAntonietta", "30_FB_Scarpe", "40_FB_Stracci", "50_FB_Volantino", "60_FB_Stazione", "61_FB_Vagone", "70_FB_Modena", "80_Basso_1994" };
         const string LookRoot = "Look";
         const string LookLightName = "Look_Luce";
 
@@ -214,7 +214,7 @@ namespace TrenoBambini.EditorTools
 
         static VolumeProfile ProfileFor(string n)
         {
-            string p = (n == "30_FB_Scarpe" || n == "40_FB_Stracci" || n == "50_FB_Volantino" || n == "60_FB_Stazione" || n == "61_FB_Vagone" || n == "70_FB_Modena") ? ProfFlash : n == "20_Int_BassoAntonietta" ? ProfBasso : ProfEpoca;
+            string p = (n == "30_FB_Scarpe" || n == "40_FB_Stracci" || n == "50_FB_Volantino" || n == "60_FB_Stazione" || n == "61_FB_Vagone" || n == "70_FB_Modena") ? ProfFlash : (n == "20_Int_BassoAntonietta" || n == "80_Basso_1994") ? ProfBasso : ProfEpoca;
             return AssetDatabase.LoadAssetAtPath<VolumeProfile>(p);
         }
 
@@ -700,6 +700,7 @@ namespace TrenoBambini.EditorTools
                 case "60_FB_Stazione": res = 2f; maxSize = 1024; break; // R014: stazione grande, lightmap leggere (LFS)
                 case "61_FB_Vagone": res = 6f; maxSize = 512; break;    // R014: interno piccolo
                 case "70_FB_Modena": res = 2.5f; maxSize = 1024; break; // R015: corte, tre interni e la strada (LFS)
+                case "80_Basso_1994": res = 6f; maxSize = 1024; break;  // R016: il basso nel 1994 (come il basso, un po' piu' leggero)
                 default: res = 4f; maxSize = 1024; break;
             }
         }
@@ -919,6 +920,24 @@ namespace TrenoBambini.EditorTools
                     AddLampLights("Brace", Cct(2000f), 0.7f, 3.2f);
                     AddLampLights("FiammaLampada", Cct(2300f), 2.2f, 6f);
                     AddLampLights("FiammaCandela", Cct(1900f), 1.0f, 3.4f);
+                    probeMin = new Vector3(-4.4f, 0.3f, -2.3f); probeMax = new Vector3(6.2f, 2.4f, 14f); probeStep = 1.4f;
+                    probesSky = false;
+                    break;
+                case "80_Basso_1994":
+                    // R016: lo stesso basso nel marzo 1994: luce del presente fredda e neutra, una lampadina nuda al posto del lume; gli angoli del 1946
+                    // (DueTempi) hanno luci dinamiche proprie, spente nel bake.
+                    SetSun(sun, new Color(0.82f, 0.86f, 0.94f), 2.0f, new Vector3(52f, 28f, 0f), 0.5f);
+                    SetSkyAmbient(1.6f);
+                    bg = new Color(0.08f, 0.08f, 0.085f);
+                    SetFog(0.005f, new Color(0.2f, 0.2f, 0.21f));
+                    var lamp94 = GameObject.Find("Luce Calda");
+                    if (lamp94 != null)
+                    {
+                        var l94 = lamp94.GetComponent<Light>();
+                        l94.color = Color.Lerp(Cct(4200f), Color.white, 0.4f);
+                        l94.intensity = 3.2f; l94.range = 8f; l94.shadows = LightShadows.None;
+                        l94.lightmapBakeType = LightmapBakeType.Mixed;
+                    }
                     probeMin = new Vector3(-4.4f, 0.3f, -2.3f); probeMax = new Vector3(6.2f, 2.4f, 14f); probeStep = 1.4f;
                     probesSky = false;
                     break;

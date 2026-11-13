@@ -1926,6 +1926,104 @@
           "z": -6.7
         }
       ]
+    },
+    {
+      "scena": "80_Basso_1994",
+      "titolo": "Il basso, 1994",
+      "tema": "normale",
+      "ax0": -7.8,
+      "az0": -5.8,
+      "ax1": 9.3,
+      "az1": 17.4,
+      "ppm": 24,
+      "raggio": 8,
+      "strade": [
+        {
+          "id": "stanza",
+          "nome": "La stanza",
+          "tipo": "stanza",
+          "zone": [
+            {
+              "x0": -4.5,
+              "x1": 4.5,
+              "z0": -2.5,
+              "z1": 3.5
+            }
+          ],
+          "ancore": [
+            {
+              "x": 0,
+              "z": 0.5
+            }
+          ]
+        },
+        {
+          "id": "alcova",
+          "nome": "L'alcova",
+          "tipo": "stanza",
+          "zone": [
+            {
+              "x0": -4.5,
+              "x1": -1.5,
+              "z0": 3.8,
+              "z1": 7.8
+            }
+          ],
+          "ancore": [
+            {
+              "x": -3,
+              "z": 5.8
+            }
+          ]
+        },
+        {
+          "id": "cucina",
+          "nome": "La cucina",
+          "tipo": "stanza",
+          "zone": [
+            {
+              "x0": 1.5,
+              "x1": 4.5,
+              "z0": 3.8,
+              "z1": 7.8
+            }
+          ],
+          "ancore": [
+            {
+              "x": 3,
+              "z": 5.8
+            }
+          ]
+        },
+        {
+          "id": "cortile",
+          "nome": "Il cortile",
+          "tipo": "cortile",
+          "zone": [
+            {
+              "x0": 1.2,
+              "x1": 6.3,
+              "z0": 8.1,
+              "z1": 14.1
+            }
+          ],
+          "ancore": [
+            {
+              "x": 3.7,
+              "z": 11
+            }
+          ]
+        }
+      ],
+      "punti": [
+        {
+          "id": "uscita",
+          "glifo": "uscita",
+          "nome": "La porta sul vicolo",
+          "x": 0.0,
+          "z": -2.4
+        }
+      ]
     }
   ],
   "obiettivi": [
@@ -2746,6 +2844,168 @@
           "x": 2.07,
           "z": 6.9,
           "testo": "Esamina il cassettino sulla credenza della cucina"
+        },
+        {
+          "scena": "10_Hub_Vicolo",
+          "x": -9.1,
+          "z": -2.0,
+          "testo": "Torna al basso di Antonietta"
+        }
+      ]
+    },
+    {
+      "id": "ob_finale_basso",
+      "testo": "Guarda le cose di tua madre",
+      "capitolo": "flashback_finale",
+      "completo": [
+        "enigma_basso94"
+      ],
+      "punti": [
+        {
+          "scena": "80_Basso_1994",
+          "x": 3.6,
+          "z": -1.5,
+          "testo": "Il telefono e la scatola di latta, accanto alla porta"
+        },
+        {
+          "scena": "20_Int_BassoAntonietta",
+          "x": 3.6,
+          "z": -1.5,
+          "testo": "Il telefono che squilla, accanto alla porta"
+        },
+        {
+          "scena": "10_Hub_Vicolo",
+          "x": -9.1,
+          "z": -2.0,
+          "testo": "Torna al basso di Antonietta"
+        }
+      ]
+    },
+    {
+      "id": "ob_finale_posti",
+      "testo": "Rimetti i ricordi al loro posto",
+      "capitolo": "flashback_finale",
+      "completo": [
+        "enigma_posto_scarpe",
+        "enigma_posto_stracci",
+        "enigma_posto_volantino",
+        "enigma_posto_cappotto",
+        "enigma_posto_spartito"
+      ],
+      "punti": [
+        {
+          "scena": "80_Basso_1994",
+          "x": 0.6,
+          "z": -1.6,
+          "testo": "La soglia"
+        },
+        {
+          "scena": "80_Basso_1994",
+          "x": -3.6,
+          "z": 2.0,
+          "testo": "La credenza"
+        },
+        {
+          "scena": "80_Basso_1994",
+          "x": -3.85,
+          "z": 6.6,
+          "testo": "Il letto dell'alcova"
+        },
+        {
+          "scena": "80_Basso_1994",
+          "x": 3.7,
+          "z": 9.8,
+          "testo": "La cesta del cortile"
+        },
+        {
+          "scena": "20_Int_BassoAntonietta",
+          "x": 3.6,
+          "z": -1.5,
+          "testo": "Il telefono che squilla, accanto alla porta"
+        },
+        {
+          "scena": "10_Hub_Vicolo",
+          "x": -9.1,
+          "z": -2.0,
+          "testo": "Torna al basso di Antonietta"
+        }
+      ]
+    },
+    {
+      "id": "ob_finale_ricevuta",
+      "testo": "Ricomponi la carta strappata",
+      "capitolo": "flashback_finale",
+      "completo": [
+        "enigma_ricevuta"
+      ],
+      "punti": [
+        {
+          "scena": "80_Basso_1994",
+          "x": 2.3,
+          "z": 0.6,
+          "testo": "Il tavolo sotto la lampadina"
+        },
+        {
+          "scena": "20_Int_BassoAntonietta",
+          "x": 3.6,
+          "z": -1.5,
+          "testo": "Il telefono che squilla, accanto alla porta"
+        },
+        {
+          "scena": "10_Hub_Vicolo",
+          "x": -9.1,
+          "z": -2.0,
+          "testo": "Torna al basso di Antonietta"
+        }
+      ]
+    },
+    {
+      "id": "ob_finale_custodia",
+      "testo": "Guarda sotto il letto",
+      "capitolo": "flashback_finale",
+      "completo": [
+        "enigma_custodia"
+      ],
+      "punti": [
+        {
+          "scena": "80_Basso_1994",
+          "x": -3.0,
+          "z": 5.6,
+          "testo": "Il letto di ferro dell'alcova"
+        },
+        {
+          "scena": "20_Int_BassoAntonietta",
+          "x": 3.6,
+          "z": -1.5,
+          "testo": "Il telefono che squilla, accanto alla porta"
+        },
+        {
+          "scena": "10_Hub_Vicolo",
+          "x": -9.1,
+          "z": -2.0,
+          "testo": "Torna al basso di Antonietta"
+        }
+      ]
+    },
+    {
+      "id": "ob_finale_carmine",
+      "testo": "Apri a chi bussa",
+      "capitolo": "flashback_finale",
+      "completo": [
+        "enigma_carmine"
+      ],
+      "punti": [
+        {
+          "scena": "80_Basso_1994",
+          "x": -1.3,
+          "z": -1.5,
+          "testo": "La porta sul vicolo"
+        },
+        {
+          "scena": "20_Int_BassoAntonietta",
+          "x": 3.6,
+          "z": -1.5,
+          "testo": "Il telefono che squilla, accanto alla porta"
         },
         {
           "scena": "10_Hub_Vicolo",

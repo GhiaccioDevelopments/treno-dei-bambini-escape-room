@@ -28,6 +28,7 @@ namespace TrenoBambini.Data
         public string temaCivico; public string icona; public string flashback; public string cutscene; public string luogo;
         public string modello; // R023: prefab in Resources/Modelli/<modello> mostrato in 3D nella latta (vuoto = solo l'icona)
         public string cutsceneIngresso; // R012: cutscene (id) che parte prima di entrare nel ricordo (non quando lo si rivive)
+        public bool titoliDiCoda;       // R016: l'oggetto del finale: dopo la cutscene di chiusura (e quella dei segreti, se trovati tutti) partono i titoli di coda e si torna al menu
         public IngressoDef ingresso;    // R012: oggetto d'ingresso creato a runtime in una scena (es. il fagotto di stracci nel cortile del basso)
     }
 
@@ -116,6 +117,7 @@ namespace TrenoBambini.Data
         public List<RigaTreDef> righe = new List<RigaTreDef>(); // R012 colonne: oggetto, mestiere e diritto giusti per ogni riga
         public float squilibrio;             // R012 bilancia: grammi in piu' sul piatto sinistro finche' il chiodo e' sotto il piatto
         public List<CollegamentoDef> collegamenti = new List<CollegamentoDef>(); // R013 bacheca: per ogni diceria (parte con azione "diceria", valore = indice) il documento giusto e il verdetto
+        public string dopoRicomposto;        // R016 ricomponi: pezzi rivelati quando il documento e' ricomposto (timbro, croce)
         public List<FraseDef> frasi = new List<FraseDef>();   // R013 ciclostile: frasi candidate per la matrice (giusta = chiara e verificabile)
         public int giri;                     // R013 ciclostile: giri di manovella (fogli) da stampare
         public float ritmo;                  // R013 ciclostile: secondi minimi fra due giri (piu' veloce = il foglio sbava)
@@ -333,6 +335,9 @@ namespace TrenoBambini.Data
         public string rivivi = "", riviviNonQui = ""; // R011: rientrare in un ricordo gia' completato (per i segreti)
     }
     [Serializable]
+    /// <summary>R016: testi dei titoli di coda (ui_menu.json, blocco "finale"). velocita = pixel al secondo.</summary>
+    [Serializable] public class UiFinale { public string titolo = "", sottotitolo = "", fine = "", salta = ""; public float velocita = 55f; public List<string> righe = new List<string>(); }
+
     public class UiCrediti { public string titolo = "Crediti", intro = "", assetTitolo = "Asset esterni e licenze", indietro = "Indietro"; public List<string> squadra = new List<string>(); }
     [Serializable]
     public class UiQuaderno
@@ -379,6 +384,7 @@ namespace TrenoBambini.Data
         public UiConferma conferma = new UiConferma();
         public UiRicordi ricordi = new UiRicordi();
         public UiCrediti crediti = new UiCrediti();
+        public UiFinale finale = new UiFinale();   // R016: titoli di coda
         public UiInventario inventario = new UiInventario();
         public UiHud hud = new UiHud();
         public UiEnigmiImp enigmiImp = new UiEnigmiImp();
