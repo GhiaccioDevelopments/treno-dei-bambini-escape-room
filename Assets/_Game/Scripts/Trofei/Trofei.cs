@@ -40,16 +40,21 @@ namespace TrenoBambini.Album
             return n;
         }
 
+        static readonly Dictionary<string, string[]> tokenCache = new Dictionary<string, string[]>();
+
         public static bool Vera(string condizione)
         {
             var s = Save;
             if (s == null || string.IsNullOrEmpty(condizione)) return false;
-            foreach (var raw in condizione.Split('+'))
+            string[] tok;
+            if (!tokenCache.TryGetValue(condizione, out tok)) // R029: la condizione si divide una volta sola (il monitor la controlla ogni secondo)
             {
-                string t = raw.Trim();
-                if (t.Length == 0) continue;
-                if (!Token(s, t)) return false;
+                var l = new List<string>();
+                foreach (var raw in condizione.Split('+')) { string t = raw.Trim(); if (t.Length > 0) l.Add(t); }
+                tok = l.ToArray();
+                tokenCache[condizione] = tok;
             }
+            for (int i = 0; i < tok.Length; i++) if (!Token(s, tok[i])) return false;
             return true;
         }
 

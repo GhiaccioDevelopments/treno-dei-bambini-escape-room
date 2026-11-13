@@ -44,6 +44,7 @@ namespace TrenoBambini.Puzzles
         public Vector3 fonte;
         public float raggio = 2.0f;
         Transform player;
+        float prossimaRicerca; // R029
         float fase, prossimoMormorio;
 
         public static VoceVicolo Crea(NascostoDef n, NascostoPuzzle owner, Transform parent)
@@ -79,6 +80,8 @@ namespace TrenoBambini.Puzzles
             if (item == null) return;
             if (player == null)
             {
+                if (Time.unscaledTime < prossimaRicerca) return;
+                prossimaRicerca = Time.unscaledTime + 0.5f;
                 var p = FindAnyObjectByType<TrenoBambini.Player.ThirdPersonController>();
                 if (p == null) return;
                 player = p.transform;

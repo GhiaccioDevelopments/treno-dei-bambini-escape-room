@@ -5,6 +5,16 @@ Regole d'uso: vedi la sezione "Diario e lavoro su più PC" in `CLAUDE.md`.
 
 ---
 
+## 2026-11-13 – PC scuola – R029 ottimizzazione (parte senza Unity)
+**Branch:** richiesta/R029-ottimizzazione-totale (contiene tutta la coda: R012-R016, R026-R028)
+### Fatto
+- Controllo degli Update: tre correzioni (cache del CinemachineBrain, ricerche del giocatore limitate), cache delle condizioni dei trofei.
+- WebGL: stripping alto, IL2CPP per dimensione, link.xml. LFS: 613 file, 349 MB.
+### Problemi aperti
+- Tutta la coda R012-R029 e' scritta ma **mai compilata**: a casa compilare in ordine sul branch R029 (contiene tutto), poi provare richiesta per richiesta.
+### Prossimi passi (PC casa)
+- Aprire `richiesta/R029-ottimizzazione-totale` in Unity, console pulita, poi le liste "Da fare a casa" dei Rapporti R012 -> R029.
+
 ## 2026-11-13 – PC scuola – R028 voce del Narratore
 **Branch:** richiesta/R028-voce-narratore (con dentro R027 -> R012)
 ### Fatto

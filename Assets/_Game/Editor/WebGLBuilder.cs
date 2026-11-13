@@ -37,6 +37,13 @@ namespace TrenoBambini.EditorTools
             PlayerSettings.WebGL.memoryGrowthMode = WebGLMemoryGrowthMode.Geometric;
             PlayerSettings.WebGL.nameFilesAsHashes = false;
             PlayerSettings.WebGL.template = "APPLICATION:Default";
+            // R029: build piu' piccola. Stripping alto (le classi del gioco sono protette da Assets/_Game/link.xml: JsonUtility e AddComponent),
+            // IL2CPP ottimizzato per la dimensione, solo le eccezioni lanciate esplicitamente.
+            var nbt = UnityEditor.Build.NamedBuildTarget.WebGL;
+            PlayerSettings.SetManagedStrippingLevel(nbt, ManagedStrippingLevel.High);
+            PlayerSettings.SetIl2CppCodeGeneration(nbt, UnityEditor.Build.Il2CppCodeGeneration.OptimizeSize);
+            PlayerSettings.stripEngineCode = true;
+            PlayerSettings.WebGL.exceptionSupport = WebGLExceptionSupport.ExplicitlyThrownExceptionsOnly;
         }
 
         static bool Run()

@@ -55,6 +55,7 @@ namespace TrenoBambini.Mappa
         List<EtichettaStrada> etichette = new List<EtichettaStrada>();
         Vector2[] posEt = new Vector2[0]; float[] chiaveEt = new float[0]; bool[] candEt = new bool[0]; bool[] sceltoEt = new bool[0];
         ThirdPersonController giocatore;
+        float prossimaRicerca; // R029: senza giocatore lo si cerca al massimo due volte al secondo
         string nomeTarga = "";
         float obiettivoAlpha, targaAlpha;
 
@@ -194,7 +195,7 @@ namespace TrenoBambini.Mappa
             Visibile = voglio;
             if (!voglio) return;
 
-            if (giocatore == null) giocatore = FindAnyObjectByType<ThirdPersonController>();
+            if (giocatore == null && Time.unscaledTime >= prossimaRicerca) { prossimaRicerca = Time.unscaledTime + 0.5f; giocatore = FindAnyObjectByType<ThirdPersonController>(); }
             if (giocatore == null) return;
 
             // la minimappa si fa piu' discreta quando un pannello la copre o il gioco e' fermo
