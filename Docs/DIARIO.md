@@ -5,6 +5,22 @@ Regole d'uso: vedi la sezione "Diario e lavoro su più PC" in `CLAUDE.md`.
 
 ---
 
+## 2026-11-13 – PC scuola – R015 "Il violino" scritto senza Unity
+**Branch:** richiesta/R015-ricordo-violino (con dentro R014, R013, R012) · nessuno di questi branch e' stato compilato: a scuola niente Unity
+### Fatto
+- Scena `70_FB_Modena` da `SceneBuilderViolino.cs`: corte innevata, casa di Derna (cucina e stanzetta), laboratorio dei Benvenuti, strada e scuola, neve che cade.
+- 5 enigmi sul suono con alternativa visiva (`flashback_violino.json`): forno con la prova della farina, attrezzi che suonano (onde sulla lavagnetta),
+  pianoforte da accordare con i battimenti (lancetta), impronte nella neve, melodia originale da ascoltare e ripetere. Codice in `EsaminaViewViolino.cs`.
+- Cutscene `cs_violino_001..022`, oggetto `spartito` nel cassettino della credenza della cucina (dopo il cappotto), luoghi, mappe, obiettivi, personaggi.
+- Segreti R011: la carta d'Italia (enigma) + 5 collezionabili; `segreti.json` rigenerato. Prova `-violinotest`.
+### Decisioni
+- Il ragazzo geloso e' Rivo [GIOCO]; id dell'oggetto `spartito` (il `violino` resta per R016). Dettagli nel Rapporto di R015.
+### Problemi aperti
+- Niente compilato ne' provato: lista "Da fare a casa con Unity" nel Rapporto di R015 (prima R012, R013, R014).
+- Sei personaggi di Modena da fare in MakeHuman (per ora solo nelle cutscene).
+### Prossimi passi (PC casa)
+- Compilare e provare R012 -> R013 -> R014 -> R015; poi R016 (finale), R026-R029.
+
 ## 2026-11-12 – PC scuola – R012 chiusa lato codice, R013 e R014 scritte, Capa 'e fierro in MakeHuman
 **Branch:** richiesta/R015-ricordo-violino (contiene R012+R013+R014) · nessuno di questi branch e' stato compilato: a scuola niente Unity
 ### Fatto

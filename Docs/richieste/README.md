@@ -47,7 +47,7 @@ MCP for Unity) le implementa. Le due sessioni non si parlano: comunicano **solo 
 | R012 | Nuovo ricordo "Stracci" (regole comuni dei capitoli) | codice completo, da provare in Unity (2026-11-12), PR #14 |
 | R013 | Nuovo ricordo "Il volantino del treno" | codice completo, da provare in Unity (2026-11-12), PR #15 |
 | R014 | Nuovo ricordo "Il cappotto" | codice completo, da provare in Unity (2026-11-12), PR #16 |
-| R015 | Nuovo ricordo "Il violino" | aperta, PR #17 (dopo R014) |
+| R015 | Nuovo ricordo "Il violino" | codice completo, da provare in Unity (2026-11-13), PR #17 |
 | R016 | Il finale nel 1994 | aperta, PR #18 (dopo R015) |
 | R017 | Mappe pulite: niente sfarfallii né buchi sul vuoto | integrata in `feature/upgrade-realistico` (7/11), PR #19 |
 | R018 | Telecamera robusta: mai dentro gli edifici né sul vuoto | integrata in `feature/upgrade-realistico` (8/11), PR #20 |
