@@ -105,6 +105,12 @@ namespace TrenoBambini.Puzzles
             m.SetFloat("_Metallic", p.metal);
             var tex = Tex(p.tex);
             if (tex != null) m.SetTexture("_BaseMap", tex);
+            // R011: "tex:<nome>" = texture disegnata (Resources/Texture/Segreti/<nome>.png, generata da Treno > Segreti > Genera texture dei pezzi)
+            if (!string.IsNullOrEmpty(materiale) && materiale.StartsWith("tex:", System.StringComparison.Ordinal))
+            {
+                var dis = Resources.Load<Texture2D>("Texture/Segreti/" + materiale.Substring(4));
+                if (dis != null) { m.SetTexture("_BaseMap", dis); m.SetColor("_BaseColor", string.IsNullOrEmpty(colore) ? Color.white : c); m.SetFloat("_Smoothness", 0.1f); m.SetFloat("_Metallic", 0f); }
+            }
             m.EnableKeyword("_EMISSION");
             cache[key] = m;
             return m;
@@ -315,6 +321,24 @@ namespace TrenoBambini.Puzzles
                 return root;
             }
 
+            // R024: le cinque calzature da raccogliere hanno un modello vero ciascuna (Resources/Modelli/Enigmi/calz_<stile>), appoggiato a terra
+            float lungCalz = LunghezzaCalzatura(st);
+            if (lungCalz > 0f)
+            {
+                var mc = Modello("calz_" + st, root.transform, mT, Vector3.zero, Vector3.zero, Vector3.one * lungCalz);
+                if (mc != null)
+                {
+                    AppoggiaATerra(mc, root.transform);
+                    if (colliders && d.clic)
+                    {
+                        var bcc = root.AddComponent<BoxCollider>();
+                        bcc.center = new Vector3(0f, 0.06f, 0f);
+                        bcc.size = new Vector3(0.3f, 0.13f, 0.11f);
+                    }
+                    return root;
+                }
+            }
+
             Part(root, PrimitiveType.Cube, "suola", new Vector3(0f, 0.012f, 0f), new Vector3(0.29f, 0.025f, 0.1f), mSuola);
             if (st == "zoccoli")
             {
@@ -362,6 +386,33 @@ namespace TrenoBambini.Puzzles
                 bc.size = new Vector3(0.3f, 0.13f, 0.11f);
             }
             return root;
+        }
+
+        /// <summary>Lunghezza (m) del modello (misura x dei FBX in modelli_misure.json) della calzatura per lo stile dato; 0 = nessun modello dedicato (stile da primitive o dalla scarpa R023).</summary>
+        public static float LunghezzaCalzatura(string stile)
+        {
+            switch (stile)
+            {
+                case "zoccoli": return 0.275f;
+                case "militari": return 0.306f;
+                case "cartone": return 0.356f;
+                case "tacchi": return 0.248f;
+                case "pezze": return 0.247f;
+                default: return 0f;
+            }
+        }
+
+        /// <summary>Porta il modello con il fondo sul piano della radice e il centro sopra la sua posizione (i modelli sono centrati nel loro cubo).</summary>
+        static void AppoggiaATerra(GameObject modello, Transform radice)
+        {
+            bool primo = true; Bounds b = new Bounds();
+            foreach (var r in modello.GetComponentsInChildren<Renderer>())
+            {
+                if (primo) { b = r.bounds; primo = false; } else b.Encapsulate(r.bounds);
+            }
+            if (primo) return;
+            var p = radice.position;
+            modello.transform.position += new Vector3(p.x - b.center.x, p.y - b.min.y, p.z - b.center.z);
         }
 
         static GameObject Part(GameObject root, PrimitiveType t, string name, Vector3 pos, Vector3 scale, Material m)

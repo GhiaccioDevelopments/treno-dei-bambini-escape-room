@@ -1,0 +1,249 @@
+{
+  "id": "cutscene_finale",
+  "titolo": "Il violino ritrovato",
+  "sfondo": "cs_basso",
+  "battute": [
+    {
+      "id": "cs_finale_001",
+      "personaggio": "amerigo_adulto",
+      "testo": "Il telefono squilla. In un basso dove non abita più nessuno.",
+      "emozione": "pensierosa",
+      "audio": "",
+      "azione": "dissolvenza",
+      "sfondo": "cs_basso",
+      "posizione": "sx",
+      "capitolo": "ingresso"
+    },
+    {
+      "id": "cs_finale_002",
+      "personaggio": "amerigo_adulto",
+      "testo": "Così era cominciato, a marzo: una telefonata, una voce che non conoscevo, il primo treno per Napoli.",
+      "emozione": "pensierosa",
+      "audio": "",
+      "azione": "",
+      "sfondo": "",
+      "posizione": "sx",
+      "capitolo": "ingresso"
+    },
+    {
+      "id": "cs_finale_003",
+      "personaggio": "narratore",
+      "testo": "Napoli, 1994. Lo stesso basso, cinquant'anni dopo: le lenzuola sui mobili, una lampadina nuda, gli scatoloni da riempire.",
+      "emozione": "neutra",
+      "audio": "",
+      "azione": "dissolvenza",
+      "sfondo": "cs_basso",
+      "posizione": "sx",
+      "capitolo": "ingresso"
+    },
+    {
+      "id": "cs_finale_004",
+      "personaggio": "amerigo_adulto",
+      "testo": "Ho suonato in teatri dove c'era più gente che in tutto il vicolo. Qui dentro non so da dove cominciare.",
+      "emozione": "pensierosa",
+      "audio": "",
+      "azione": "",
+      "sfondo": "",
+      "posizione": "sx",
+      "capitolo": "ingresso"
+    },
+    {
+      "id": "cs_finale_005",
+      "personaggio": "narratore",
+      "testo": "Su un mobiletto, accanto alla porta, le ultime cose di Antonietta. Il telefono ha smesso di squillare.",
+      "emozione": "neutra",
+      "audio": "",
+      "azione": "",
+      "sfondo": "",
+      "posizione": "sx",
+      "capitolo": "ingresso"
+    },
+    {
+      "id": "cs_finale_006",
+      "personaggio": "amerigo_adulto",
+      "testo": "Ha suonato con le corde allentate da cinquant'anni. Male. Bene.",
+      "emozione": "commossa",
+      "audio": "",
+      "azione": "dissolvenza",
+      "sfondo": "cs_basso",
+      "posizione": "sx",
+      "capitolo": "meta"
+    },
+    {
+      "id": "cs_finale_007",
+      "personaggio": "narratore",
+      "testo": "Amerigo accorda il violino a mezzi scatti, come gli aveva insegnato Alcide, e suona le due frasi dei pallini colorati.",
+      "emozione": "neutra",
+      "audio": "",
+      "azione": "",
+      "sfondo": "",
+      "posizione": "sx",
+      "capitolo": "meta"
+    },
+    {
+      "id": "cs_finale_008",
+      "personaggio": "narratore",
+      "testo": "Per un attimo la stanza è tutta 1946: il lume a petrolio, i panni stesi, una donna di spalle che si ferma ad ascoltare.",
+      "emozione": "neutra",
+      "audio": "",
+      "azione": "dissolvenza",
+      "sfondo": "cs_ricordo",
+      "posizione": "sx",
+      "capitolo": "meta"
+    },
+    {
+      "id": "cs_finale_009",
+      "personaggio": "amerigo_adulto",
+      "testo": "Non si è voltata. Nemmeno allora si voltava, quando le volevo bene di più.",
+      "emozione": "commossa",
+      "audio": "",
+      "azione": "dissolvenza",
+      "sfondo": "cs_basso",
+      "posizione": "sx",
+      "capitolo": "meta"
+    },
+    {
+      "id": "cs_finale_010",
+      "personaggio": "carmine",
+      "testo": "Zio. La porta era aperta.",
+      "emozione": "neutra",
+      "audio": "",
+      "azione": "entra_dx",
+      "sfondo": "cs_basso",
+      "posizione": "dx",
+      "capitolo": "chiusura"
+    },
+    {
+      "id": "cs_finale_011",
+      "personaggio": "amerigo_adulto",
+      "testo": "Lo è sempre stata. Entra.",
+      "emozione": "felice",
+      "audio": "",
+      "azione": "entra_sx",
+      "sfondo": "",
+      "posizione": "sx",
+      "capitolo": "chiusura"
+    },
+    {
+      "id": "cs_finale_012",
+      "personaggio": "narratore",
+      "testo": "Si siedono sul gradino, uno accanto all'altro. Il vicolo fa il suo rumore: i motorini, una radio, qualcuno che chiama un nome dalla finestra.",
+      "emozione": "neutra",
+      "audio": "",
+      "azione": "",
+      "sfondo": "",
+      "posizione": "sx",
+      "capitolo": "chiusura"
+    },
+    {
+      "id": "cs_finale_013",
+      "personaggio": "carmine",
+      "testo": "Domani torni al Nord?",
+      "emozione": "pensierosa",
+      "audio": "",
+      "azione": "",
+      "sfondo": "",
+      "posizione": "dx",
+      "capitolo": "chiusura"
+    },
+    {
+      "id": "cs_finale_014",
+      "personaggio": "amerigo_adulto",
+      "testo": "Domani sì. Ma questo basso non lo vendo. E tu, se vuoi, il violino lo puoi venire a provare qui. Ogni volta che torno.",
+      "emozione": "decisa",
+      "audio": "",
+      "azione": "",
+      "sfondo": "",
+      "posizione": "sx",
+      "capitolo": "chiusura"
+    },
+    {
+      "id": "cs_finale_015",
+      "personaggio": "amerigo_adulto",
+      "testo": "Cinquant'anni fa una donna di Modena ha guardato un bambino scalzo e ha deciso di tenerlo con sé. Mia madre lo ha lasciato partire, e poi ha aspettato.",
+      "emozione": "commossa",
+      "audio": "",
+      "azione": "dissolvenza",
+      "sfondo": "cs_basso",
+      "posizione": "sx",
+      "capitolo": "chiusura"
+    },
+    {
+      "id": "cs_finale_016",
+      "personaggio": "amerigo_adulto",
+      "testo": "Ho avuto due madri. Nessuna delle due mi ha chiesto di scegliere. L'ho fatto io, tante volte, e ogni volta era giusto.",
+      "emozione": "commossa",
+      "audio": "",
+      "azione": "",
+      "sfondo": "",
+      "posizione": "sx",
+      "capitolo": "chiusura"
+    },
+    {
+      "id": "cs_finale_017",
+      "personaggio": "narratore",
+      "testo": "Tra il 1945 e il 1952 circa settantamila bambini del Sud e del Centro viaggiarono sui treni della felicità, accolti da famiglie che spesso non avevano molto più di loro.",
+      "emozione": "neutra",
+      "audio": "",
+      "azione": "dissolvenza",
+      "sfondo": "cs_ricordo",
+      "posizione": "sx",
+      "capitolo": "chiusura"
+    },
+    {
+      "id": "cs_finale_018",
+      "personaggio": "narratore",
+      "testo": "Oggi la Costituzione (art. 30) e la legge n. 184 del 1983 dicono che ogni bambino ha diritto a crescere in una famiglia: la sua, o un'altra che lo accolga.",
+      "emozione": "decisa",
+      "audio": "",
+      "azione": "",
+      "sfondo": "",
+      "posizione": "sx",
+      "capitolo": "chiusura"
+    },
+    {
+      "id": "cs_finale_019",
+      "personaggio": "amerigo_adulto",
+      "testo": "Carmine. C'è una scatola che voglio darti. L'ho riempita girando per il vicolo, un pezzetto alla volta.",
+      "emozione": "felice",
+      "audio": "",
+      "azione": "dissolvenza",
+      "sfondo": "cs_basso",
+      "posizione": "sx",
+      "capitolo": "segreti"
+    },
+    {
+      "id": "cs_finale_020",
+      "personaggio": "carmine",
+      "testo": "Che c'è dentro?",
+      "emozione": "sorpresa",
+      "audio": "",
+      "azione": "entra_dx",
+      "sfondo": "",
+      "posizione": "dx",
+      "capitolo": "segreti"
+    },
+    {
+      "id": "cs_finale_021",
+      "personaggio": "amerigo_adulto",
+      "testo": "I ragazzi del vicolo. Quelli che sono partiti e quelli che sono restati. Adesso la tieni tu.",
+      "emozione": "felice",
+      "audio": "",
+      "azione": "",
+      "sfondo": "",
+      "posizione": "sx",
+      "capitolo": "segreti"
+    },
+    {
+      "id": "cs_finale_022",
+      "personaggio": "narratore",
+      "testo": "Hai trovato tutti i segreti del gioco. Grazie per aver guardato in ogni angolo.",
+      "emozione": "felice",
+      "audio": "",
+      "azione": "",
+      "sfondo": "",
+      "posizione": "sx",
+      "capitolo": "segreti"
+    }
+  ]
+}

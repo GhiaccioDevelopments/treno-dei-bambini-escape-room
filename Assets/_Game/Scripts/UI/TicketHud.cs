@@ -14,6 +14,21 @@ namespace TrenoBambini.UI
     {
         static readonly string[] Roman = { "I", "II", "III", "IV", "V", "VI", "VII", "VIII" };
 
+        /// <summary>R019: il biglietto sta a destra della minimappa (alta 216 px, a 16 px dal bordo).</summary>
+        const float TicketAccanto = 246f, TicketSolo = 16f;
+        float animaFino;
+
+        /// <summary>X del biglietto: accanto alla minimappa quando c'e', altrimenti all'angolo.</summary>
+        static float TicketX { get { var m = TrenoBambini.Mappa.MinimappaHud.I; return m != null && m.Visibile ? TicketAccanto : TicketSolo; } }
+
+        void Update()
+        {
+            if (!shown || ticket == null || Time.unscaledTime < animaFino) return;
+            var p = ticket.anchoredPosition;
+            float x = Mathf.MoveTowards(p.x, TicketX, 1200f * Time.unscaledDeltaTime);
+            if (!Mathf.Approximately(x, p.x)) ticket.anchoredPosition = new Vector2(x, p.y);
+        }
+
         RectTransform ticket;
         TextMeshProUGUI extraLabel;
         RectTransform boxRow;
@@ -39,7 +54,7 @@ namespace TrenoBambini.UI
             img.sprite = UIArt.Ticket();
             img.type = Image.Type.Sliced;
             img.raycastTarget = false;
-            UIFactory.Place(ticket, new Vector2(0f, 1f), new Vector2(0f, 1f), new Vector2(16f, -16f), new Vector2(300f, 100f));
+            UIFactory.Place(ticket, new Vector2(0f, 1f), new Vector2(0f, 1f), new Vector2(TicketX, -16f), new Vector2(300f, 100f));
 
             var title = UIFactory.MakeText(ticket, "NAPOLI  →  RICORDO", 15, UITheme.InchiostroBlu, TextAlignmentOptions.TopLeft, FontStyles.Bold);
             UIFactory.Stretch(title.rectTransform, 40f, 0f, 14f, 10f);
@@ -101,9 +116,10 @@ namespace TrenoBambini.UI
                 // già risolti prima di entrare: caselle bucate senza animazione
                 for (int i = 0; i < solved && i < holes.Count; i++) holes[i].gameObject.SetActive(true);
                 punched = Mathf.Min(solved, holes.Count);
-                ticket.anchoredPosition = new Vector2(UITheme.ReduceEffects ? 16f : -420f, -16f);
+                ticket.anchoredPosition = new Vector2(UITheme.ReduceEffects ? TicketX : -420f, -16f);
                 UITween.Cancel(ticket);
-                UITween.Move(ticket, new Vector2(16f, -16f), 0.45f, Ease.OutCubic, null, 0.25f);
+                animaFino = Time.unscaledTime + 0.9f;
+                UITween.Move(ticket, new Vector2(TicketX, -16f), 0.45f, Ease.OutCubic, null, 0.25f);
             }
             else if (solved < punched)
             {

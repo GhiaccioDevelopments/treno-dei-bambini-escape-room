@@ -1,9 +1,120 @@
 {
   "personaggi": [
-    { "id": "amerigo", "nome": "Amerigo", "ritratto": "amerigo", "colore": "#C2703D" },
-    { "id": "antonietta", "nome": "Antonietta", "ritratto": "antonietta", "colore": "#8C3B2A" },
-    { "id": "tommasino", "nome": "Tommasino", "ritratto": "tommasino", "colore": "#D9A441" },
-    { "id": "maddalena", "nome": "Maddalena", "ritratto": "maddalena", "colore": "#B5483A" },
-    { "id": "narratore", "nome": "Narratore", "ritratto": "narratore", "colore": "#6B4E2E" }
+    {
+      "id": "amerigo",
+      "nome": "Amerigo",
+      "ritratto": "amerigo",
+      "colore": "#C2703D",
+      "nomeCopione": "Amerigo bambino"
+    },
+    {
+      "id": "amerigo_adulto",
+      "nome": "Amerigo",
+      "ritratto": "amerigo_adulto",
+      "colore": "#5A4A3C",
+      "nomeCopione": "Amerigo adulto"
+    },
+    {
+      "id": "antonietta",
+      "nome": "Antonietta",
+      "ritratto": "antonietta",
+      "colore": "#8C3B2A"
+    },
+    {
+      "id": "tommasino",
+      "nome": "Tommasino",
+      "ritratto": "tommasino",
+      "colore": "#D9A441"
+    },
+    {
+      "id": "maddalena",
+      "nome": "Maddalena",
+      "ritratto": "maddalena",
+      "colore": "#B5483A"
+    },
+    {
+      "id": "narratore",
+      "nome": "Narratore",
+      "ritratto": "narratore",
+      "colore": "#6B4E2E"
+    },
+    {
+      "id": "capa_e_fierro",
+      "nome": "Capa 'e fierro",
+      "ritratto": "capa_e_fierro",
+      "colore": "#6E5A3A"
+    },
+    {
+      "id": "donna_vicolo",
+      "nome": "Una donna del vicolo",
+      "ritratto": "",
+      "colore": "#8C5A4A"
+    },
+    {
+      "id": "pachiochia",
+      "nome": "La Pachiochia",
+      "ritratto": "",
+      "colore": "#4A4038"
+    },
+    {
+      "id": "madre_vicolo",
+      "nome": "Una madre del vicolo",
+      "ritratto": "",
+      "colore": "#7A5A48"
+    },
+    {
+      "id": "mariuccia",
+      "nome": "Mariuccia",
+      "ritratto": "",
+      "colore": "#9A6A58"
+    },
+    {
+      "id": "controllore",
+      "nome": "Il controllore",
+      "ritratto": "",
+      "colore": "#3E4652"
+    },
+    {
+      "id": "derna",
+      "nome": "Derna",
+      "ritratto": "",
+      "colore": "#6A5A6E"
+    },
+    {
+      "id": "alcide",
+      "nome": "Alcide",
+      "ritratto": "",
+      "colore": "#6E5A3A"
+    },
+    {
+      "id": "rosa",
+      "nome": "Rosa",
+      "ritratto": "",
+      "colore": "#9A5A4A"
+    },
+    {
+      "id": "rivo",
+      "nome": "Rivo",
+      "ritratto": "",
+      "colore": "#4A6A5A"
+    },
+    {
+      "id": "luzio",
+      "nome": "Luzio",
+      "ritratto": "",
+      "colore": "#5A5A7A"
+    },
+    {
+      "id": "nario",
+      "nome": "Nario",
+      "ritratto": "",
+      "colore": "#7A6A4A"
+    },
+    {
+      "id": "carmine",
+      "nome": "Carmine",
+      "ritratto": "",
+      "colore": "#4A5A6A"
+    }
   ]
 }

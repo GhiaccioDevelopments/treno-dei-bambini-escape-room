@@ -22,6 +22,10 @@
       "etichetta": "Impostazioni"
     },
     {
+      "id": "filmato",
+      "etichetta": "Rivedi il filmato iniziale"
+    },
+    {
       "id": "crediti",
       "etichetta": "Crediti"
     },
@@ -53,6 +57,8 @@
     "luogo": "Dove",
     "rivissuto": "Rivissuto",
     "nessuno": "Non hai ancora rivissuto nessun ricordo.",
+    "rivivi": "Rivivi il ricordo",
+    "riviviNonQui": "Si può rivivere un ricordo solo dal vicolo o dal basso, non da dentro un altro ricordo.",
     "indietro": "Indietro"
   },
   "crediti": {
@@ -112,7 +118,7 @@
     },
     "mappa": {
       "titolo": "Mappa",
-      "testo": "La mappa del quartiere non è ancora disponibile: arriverà con un prossimo aggiornamento."
+      "testo": "Premi M (o il pulsante Mappa in alto) per aprire la pianta del quartiere: i nomi dei vicoli, i luoghi e il prossimo passo."
     }
   },
   "enigmiImp": {
@@ -121,6 +127,37 @@
     "evidenziaNome": "Evidenzia oggetti interattivi",
     "evidenziaSpiega": "Un brillio leggero sugli oggetti da esaminare negli enigmi. Spento di default: di norma si riconoscono dalla luce e dal messaggio «Esamina».",
     "si": "Sì",
+    "no": "No",
+    "spiegazioneNome": "Mostra la spiegazione all'apertura",
+    "spiegazioneSpiega": "Quando apri un enigma compare un biglietto con due righe: che cosa fare e che cosa ottieni. Si rilegge con il pulsante ?."
+  },
+  "mappaImp": {
+    "aiutoNome": "Aiuto della mappa",
+    "aiutoSpiega": "Guidata: il prossimo obiettivo è sempre segnato. Normale: compare dopo qualche minuto senza progressi o quando chiedi un Indizio. Esploratore: solo i nomi dei vicoli e dove ti trovi.",
+    "guidata": "Guidata",
+    "normale": "Normale",
+    "esploratore": "Esploratore",
+    "minimappaNome": "Minimappa",
+    "minimappaSpiega": "La piccola pianta d'epoca in alto a sinistra. Spenta, resta la pianta grande con il tasto M.",
+    "nordFissoNome": "Nord sempre in alto",
+    "nordFissoSpiega": "Con «No» la pianta ruota insieme alla camera, così davanti a te è sempre in alto.",
+    "si": "Sì",
     "no": "No"
+  },
+  "filmato": {
+    "rivedi": "Rivedi il filmato iniziale",
+    "nonQui": "Il filmato si rivede dal vicolo o da casa, non dentro un ricordo."
+  },
+  "finale": {
+    "titolo": "Il treno dei bambini",
+    "sottotitolo": "Napoli, 1946 - Modena, 1947 - Napoli, 1994",
+    "righe": [
+      "Ispirato al romanzo di Viola Ardone (2019) e al film di Cristina Comencini (2024).",
+      "Personaggi, dialoghi, enigmi e melodie sono originali, scritti per questo gioco.",
+      "Ai bambini dei treni della felicità, e alle famiglie che li hanno accolti."
+    ],
+    "fine": "Fine",
+    "salta": "Tieni premuto per saltare",
+    "velocita": 55
   }
 }
