@@ -193,6 +193,13 @@ namespace TrenoBambini.UI
                 testo = () => TrenoBambini.Core.GameManager.I != null && TrenoBambini.Core.GameManager.I.Save.evidenziaInterattivi ? GameData.UiMenu.enigmiImp.si : GameData.UiMenu.enigmiImp.no,
                 passo = dir => { var g = TrenoBambini.Core.GameManager.I; if (g != null) { g.Save.evidenziaInterattivi = !g.Save.evidenziaInterattivi; g.SaveGame(); } }
             });
+            righe.Add(new Riga // R028: lettura automatica delle battute del Narratore (sì di default)
+            {
+                nome = GameData.UiMenu.voce.autoNome,
+                spiega = GameData.UiMenu.voce.autoSpiega,
+                testo = () => TrenoBambini.Core.GameManager.I != null && TrenoBambini.Core.GameManager.I.Save.narratoreManuale ? GameData.UiMenu.enigmiImp.no : GameData.UiMenu.enigmiImp.si,
+                passo = dir => { var g = TrenoBambini.Core.GameManager.I; if (g != null) { g.Save.narratoreManuale = !g.Save.narratoreManuale; g.SaveGame(); } }
+            });
             righe.Insert(3, new Riga // R026: biglietto "Cosa fare / Cosa ottieni" all'apertura degli enigmi (acceso di default)
             {
                 nome = GameData.UiMenu.enigmiImp.spiegazioneNome,

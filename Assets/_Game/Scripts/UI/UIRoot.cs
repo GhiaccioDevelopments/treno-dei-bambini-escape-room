@@ -64,7 +64,8 @@ namespace TrenoBambini.UI
         RectTransform inventoryButton;
 
         // dialogo modale (lettera)
-        class DialogRequest { public string titolo, testo, okLabel, noLabel; public Action onOk; public bool confirm; }
+        class DialogRequest { public string titolo, testo, okLabel, noLabel, voce; public Action onOk; public bool confirm; }
+        Altoparlante dlgVoce; // R028
         readonly Queue<DialogRequest> dialogQueue = new Queue<DialogRequest>();
         DialogRequest dialogCurrent;
         GameObject dlgRoot; PanelFx dlgFx; TextMeshProUGUI dlgTitle, dlgBody; Button dlgOk, dlgNo;
@@ -436,6 +437,8 @@ namespace TrenoBambini.UI
             dlgNo = UIFactory.MakeButton(card.rectTransform, "Annulla", () => CloseDialog(false), new Vector2(280f, 64f), ButtonStyle.Tag, 26f);
             UIFactory.Place((RectTransform)dlgNo.transform, new Vector2(0.5f, 0f), new Vector2(0.5f, 0f), new Vector2(-160f, 30f), new Vector2(280f, 64f));
 
+            dlgVoce = Altoparlante.Crea(card.rectTransform, new Vector2(1f, 0f), new Vector2(-60f, 40f)); // R028
+            dlgVoce.gameObject.SetActive(false);
             dlgRoot.SetActive(false);
         }
 
@@ -487,9 +490,10 @@ namespace TrenoBambini.UI
             if (ticket != null) ticket.Set(solved, total, extra);
         }
 
-        public void ShowMessage(string titolo, string testo, Action onClose)
+        /// <summary>voce (R028): id della battuta del Narratore (nar_...) per il pulsante altoparlante; vuoto = nessun pulsante.</summary>
+        public void ShowMessage(string titolo, string testo, Action onClose, string voce = null)
         {
-            Enqueue(new DialogRequest { titolo = titolo, testo = testo, okLabel = "Continua", onOk = onClose, confirm = false });
+            Enqueue(new DialogRequest { titolo = titolo, testo = testo, okLabel = "Continua", onOk = onClose, confirm = false, voce = voce });
         }
 
         public void ShowConfirm(string titolo, string testo, string okLabel, string noLabel, Action onYes)
@@ -561,6 +565,7 @@ namespace TrenoBambini.UI
             dlgRoot.transform.SetAsLastSibling();
             dlgFx.Show();
             Typewriter.Play(dlgBody, r.testo ?? "", 70f, true);
+            if (dlgVoce != null) { dlgVoce.Imposta(r.voce); if (!string.IsNullOrEmpty(r.voce) && Altoparlante.LetturaAutomatica) dlgVoce.Parti(); } // R028
             dialogOpenedAt = Time.unscaledTime;
             if (GameManager.I != null) GameManager.I.PushBlock("dialogo");
             PushModal();
@@ -571,6 +576,7 @@ namespace TrenoBambini.UI
             if (dialogCurrent == null) return;
             var r = dialogCurrent;
             dialogCurrent = null;
+            if (dlgVoce != null) dlgVoce.Ferma(); // R028
             dlgHiding = true;
             dlgFx.Hide(() =>
             {

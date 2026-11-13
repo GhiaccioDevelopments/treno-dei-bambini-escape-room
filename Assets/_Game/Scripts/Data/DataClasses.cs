@@ -340,6 +340,9 @@ namespace TrenoBambini.Data
     /// <summary>R016: testi dei titoli di coda (ui_menu.json, blocco "finale"). velocita = pixel al secondo.</summary>
     [Serializable] public class UiFinale { public string titolo = "", sottotitolo = "", fine = "", salta = ""; public float velocita = 55f; public List<string> righe = new List<string>(); }
 
+    /// <summary>R028: testi del pulsante altoparlante e della riga delle Impostazioni.</summary>
+    [Serializable] public class UiVoceNarratore { public string mancante = "", autoNome = "", autoSpiega = ""; }
+
     public class UiCrediti { public string titolo = "Crediti", intro = "", assetTitolo = "Asset esterni e licenze", indietro = "Indietro"; public List<string> squadra = new List<string>(); }
     [Serializable]
     public class UiQuaderno
@@ -386,6 +389,7 @@ namespace TrenoBambini.Data
         public UiConferma conferma = new UiConferma();
         public UiRicordi ricordi = new UiRicordi();
         public UiCrediti crediti = new UiCrediti();
+        public UiVoceNarratore voce = new UiVoceNarratore(); // R028: pulsante altoparlante del Narratore
         public UiFinale finale = new UiFinale();   // R016: titoli di coda
         public UiInventario inventario = new UiInventario();
         public UiHud hud = new UiHud();

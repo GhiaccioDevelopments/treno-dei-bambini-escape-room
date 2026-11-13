@@ -84,6 +84,7 @@ Protagonista: Amerigo Speranza, Napoli 1946.
 - File audio in `Assets/Audio/Voci/<id>.ogg|wav|mp3` (Git LFS). Il menu
   **Treno ▸ Doppiaggio ▸ Aggiorna libreria voci** li collega alle battute (VoiceLibrary).
 - Con audio: il testo avanza a fine clip. Senza audio: avanza con click/E/Spazio.
+- R028: pulsante altoparlante (`UI/Altoparlante.cs`) sotto le battute del Narratore; introduzioni e conclusioni dei ricordi hanno ID `nar_<oggetto>_001` / `_002`. Lista da registrare: `python ArtSource/Doppiaggio/genera_da_registrare.py` -> `Doppiaggio/DA_REGISTRARE.md`, `copione.csv`, `etichette/` (Audacity). Gli ID consegnati non cambiano piu'.
 - **Treno ▸ Doppiaggio ▸ Esporta copione CSV** → `Doppiaggio/copione.csv` (ID, personaggio, testo, emozione, file audio).
 
 ## Struttura

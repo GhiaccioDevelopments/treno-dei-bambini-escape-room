@@ -251,6 +251,15 @@ namespace TrenoBambini.Core
             var errati = new List<string>();
             foreach (var t in GameData.Trofei.trofei)
                 if (!TrenoBambini.Album.Trofei.CondizioneValida(t.condizione) || string.IsNullOrEmpty(t.titolo) || string.IsNullOrEmpty(t.descrizione)) errati.Add(t.id);
+            // R028: ID delle battute unici in tutte le cutscene (sono i nomi dei file del doppiaggio)
+            var visti = new HashSet<string>(); var doppi = new List<string>();
+            foreach (var ta in Resources.LoadAll<TextAsset>("Data"))
+            {
+                if (!ta.name.StartsWith("cutscene_")) continue;
+                var cs = JsonUtility.FromJson<CutsceneDef>(ta.text);
+                if (cs != null && cs.battute != null) foreach (var b in cs.battute) if (b != null && !visti.Add(b.id)) doppi.Add(b.id);
+            }
+            Check("R028: ID delle battute unici (" + visti.Count + ")", visti.Count > 100 && doppi.Count == 0, string.Join(", ", doppi));
             Check("R027: 20-35 trofei con condizioni valide", GameData.Trofei.trofei.Count >= 20 && GameData.Trofei.trofei.Count <= 35 && errati.Count == 0, string.Join(", ", errati));
         }
 

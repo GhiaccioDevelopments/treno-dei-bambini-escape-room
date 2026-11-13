@@ -60,7 +60,7 @@ MCP for Unity) le implementa. Le due sessioni non si parlano: comunicano **solo 
 | R025 | Filmato iniziale della nuova partita, doppiato dall'utente | integrata (2026-11-09): filmato a 7 capitoli, 36 battute cs_intro, 4:38, 65 PASS in build, PR #27 (voci da registrare con R028) |
 | R026 | Enigmi più belli e più chiari: cosa fare e cosa si ottiene | biglietto e testi fatti (2026-11-13), grafica e giro di prova da fare in Unity, PR #28 |
 | R027 | Trofei (achievement) e missioni secondarie | codice completo, da provare in Unity (2026-11-13), PR #29 |
-| R028 | Pulsante altoparlante sotto i dialoghi del Narratore, lista dei file da doppiare | aperta, PR #30 (penultima) |
+| R028 | Pulsante altoparlante sotto i dialoghi del Narratore, lista dei file da doppiare | codice e lista (83 file) fatti (2026-11-13), da provare in Unity, PR #30 |
 | R029 | Ottimizzazione totale del gioco | aperta, PR #31 (**ultima**) |
 
 **Coda di lavoro (2026-11-09):** R019 → R024 → R025 → R011 → R012 → R013 → R014 → R015 → R016 → R026 → R027 → R028 → R029.

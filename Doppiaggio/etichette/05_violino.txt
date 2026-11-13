@@ -1,0 +1,8 @@
+1.000	22.400	nar_violino_001
+24.400	34.200	cs_violino_003
+36.200	48.500	cs_violino_008
+50.500	60.300	cs_violino_012
+62.300	72.500	cs_violino_014
+74.500	81.800	cs_violino_016
+83.800	98.600	cs_violino_022
+100.600	112.000	nar_violino_002

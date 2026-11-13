@@ -37,4 +37,34 @@
 - [ ] Self-test PASS, console pulita, Windows e WebGL.
 
 ## Rapporto
-_(vuoto)_
+
+**Stato: codice e lista completi, da provare in Unity (2026-11-13).** Scritto al PC della scuola senza Unity. Base: `richiesta/R028-voce-narratore` con dentro R027 (-> R012).
+
+### Fatto
+- **Pulsante altoparlante** (`Scripts/UI/Altoparlante.cs`): icona d'epoca disegnata da codice (tromba da grammofono a china), sotto ogni battuta del **Narratore**
+  nelle cutscene (`CutscenePlayer`) e nei messaggi d'introduzione e conclusione dei ricordi (`UIRoot.ShowMessage` con il nuovo parametro `voce`). Clic, **tasto V** o
+  **gamepad Nord** = riproduce o ripete; onde animate mentre suona; secondo clic = ferma. Senza file: icona grigia e "voce non ancora registrata".
+- **Impostazione** "Leggi in automatico il Narratore" (sì di default, `SaveData.narratoreManuale`), nella scheda Accessibilità con le opzioni degli enigmi.
+- **ID**: le battute delle cutscene restano `cs_<oggetto>_NNN`; introduzioni e conclusioni dei ricordi sono `nar_<oggetto>_001` e `nar_<oggetto>_002`
+  (ricavati dal flashback, stabili). Il menu **Treno > Doppiaggio > Aggiorna libreria voci** li riconosce già (usa il nome del file).
+- **Lista per l'utente**: `Doppiaggio/DA_REGISTRARE.md`, `Doppiaggio/copione.csv` (`;`, apribile con Excel) e i file di etichette di Audacity
+  `Doppiaggio/etichette/00_intro.txt ... 06_finale.txt`, generati da `ArtSource/Doppiaggio/genera_da_registrare.py`. **83 file**, circa 15 minuti di parlato:
+  tutte le battute del Narratore, le 12 introduzioni/conclusioni dei ricordi e tutte le battute del filmato iniziale (anche Amerigo adulto e bambino). Guida Audacity
+  nel file (44.100 Hz mono, riduzione rumore, normalizza a -1 dB, 0,3 s di silenzio, etichette + Esporta multipli in `Assets/Audio/Voci/`).
+- Prova: `EnigmiSelfTest` controlla che gli ID delle battute siano unici.
+
+### Scostamenti
+- Il tasto per l'altoparlante è **V** (E e Spazio fanno già avanzare il dialogo).
+- L'opzione sta in Accessibilità, non in Audio: la scheda Audio delle Impostazioni è generata dalle opzioni grafiche/audio esistenti.
+- Il filmato iniziale (R025) ha il suo regista (`FilmatoIniziale`): le sue voci partono già da sole se il file c'è; il pulsante altoparlante lì non è stato aggiunto.
+- Le schede civiche lette dal narratore non hanno ancora una voce (sono nel riquadro della vista ravvicinata): da decidere se registrarle.
+
+### Da fare a casa con Unity
+1. Console senza errori (nuovo `Altoparlante.cs`; toccati `CutscenePlayer.cs`, `UIRoot.cs`, `EscapeRoomController.cs`, `EscapeExit.cs`, `SettingsPanel.cs`, `SaveSystem.cs`, `DataClasses.cs`).
+2. Registrare un file di prova (es. `nar_scarpe_001.wav`), Aggiorna libreria voci, entrare nel ricordo: pulsante nero, voce, onde, testo che avanza a fine clip.
+3. `-enigmitest`; screenshot.
+
+### Criteri di accettazione
+- [ ] Pulsante altoparlante sotto ogni battuta del Narratore, con stato "manca la voce" (scritto, da provare; manca nel filmato iniziale).
+- [x] `Doppiaggio/DA_REGISTRARE.md` e `copione.csv` completi e consegnati all'utente.
+- [ ] Self-test PASS, console pulita, Windows e WebGL.

@@ -1,0 +1,6 @@
+1.000	29.500	nar_stracci_001
+31.500	40.000	cs_stracci_003
+42.000	55.100	cs_stracci_010
+57.100	68.100	cs_stracci_016
+70.100	82.800	cs_stracci_019
+84.800	113.700	nar_stracci_002

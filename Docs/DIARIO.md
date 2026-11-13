@@ -5,6 +5,12 @@ Regole d'uso: vedi la sezione "Diario e lavoro su più PC" in `CLAUDE.md`.
 
 ---
 
+## 2026-11-13 – PC scuola – R028 voce del Narratore
+**Branch:** richiesta/R028-voce-narratore (con dentro R027 -> R012)
+### Fatto
+- Pulsante altoparlante (cutscene e messaggi dei ricordi), lettura automatica in Impostazioni, ID `nar_<oggetto>_001/002`.
+- Lista da registrare: `Doppiaggio/DA_REGISTRARE.md` (83 file, ~15 min), `copione.csv`, etichette di Audacity per capitolo.
+
 ## 2026-11-13 – PC scuola – R027 trofei
 **Branch:** richiesta/R027-trofei (con dentro R026 -> R012)
 ### Fatto

@@ -55,7 +55,7 @@ namespace TrenoBambini.Puzzles
             // attende un frame: fader e SceneLoader finiscono di sistemare la scena
             yield return null;
             if (solvedCount == 0 && UIRoot.I != null && !TrenoBambini.Dialogue.FilmatoIniziale.InCorso && !string.IsNullOrEmpty(flashback.introduzione))
-                UIRoot.I.ShowMessage(flashback.titolo, flashback.introduzione, null);
+                UIRoot.I.ShowMessage(flashback.titolo, flashback.introduzione, null, "nar_" + flashback.oggetto + "_001"); // R028: voce del Narratore
         }
 
         void OnDestroy()

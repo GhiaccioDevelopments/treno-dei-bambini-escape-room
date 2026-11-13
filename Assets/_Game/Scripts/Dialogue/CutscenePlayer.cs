@@ -28,6 +28,7 @@ namespace TrenoBambini.Dialogue
         float nextKey;
         RectTransform rtL, rtR;
         TextMeshProUGUI nameLbl, textLbl, hintLbl;
+        Altoparlante altoparlante; // R028
         float guardUntil;
         bool skip;
 
@@ -93,6 +94,8 @@ namespace TrenoBambini.Dialogue
             textLbl.enableAutoSizing = true; textLbl.fontSizeMin = 16; textLbl.fontSizeMax = 26;
             hintLbl = UIFactory.MakeText(boxRt, "Premi E, Spazio o clicca per continuare", 16, new Color(0.23f, 0.16f, 0.1f, 0.6f), TextAlignmentOptions.BottomLeft);
             UIFactory.Stretch(hintLbl.rectTransform, 34f, 6f, 90f, 0f);
+            altoparlante = Altoparlante.Crea(boxRt, new Vector2(1f, 0f), new Vector2(-120f, 34f)); // R028: sotto le battute del Narratore
+            altoparlante.gameObject.SetActive(false);
             var arrowImg = UIFactory.MakePanel(boxRt, "Continua", UITheme.Ceralacca, false);
             arrowImg.sprite = UIArt.Diamond();
             arrow = arrowImg.rectTransform;
@@ -260,7 +263,11 @@ namespace TrenoBambini.Dialogue
             textLbl.ForceMeshUpdate();
             int total = textLbl.textInfo.characterCount;
 
-            AudioClip clip = VoiceLibrary.Get(System.IO.Path.GetFileNameWithoutExtension(string.IsNullOrEmpty(b.audio) ? b.id : b.audio));
+            string voceId = System.IO.Path.GetFileNameWithoutExtension(string.IsNullOrEmpty(b.audio) ? b.id : b.audio);
+            AudioClip clip = VoiceLibrary.Get(voceId);
+            // R028: sotto le battute del Narratore il pulsante altoparlante; con la lettura automatica spenta la voce parte solo dal pulsante
+            if (altoparlante != null) altoparlante.Imposta(narratore ? voceId : null);
+            if (narratore && !Altoparlante.LetturaAutomatica) clip = null;
             if (clip != null && AudioManager.I != null) AudioManager.I.PlayVoice(clip);
             float clipEnd = clip != null ? Time.unscaledTime + clip.length + 0.4f : 0f;
 

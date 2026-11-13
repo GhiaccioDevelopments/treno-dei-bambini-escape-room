@@ -163,5 +163,10 @@
     "fine": "Fine",
     "salta": "Tieni premuto per saltare",
     "velocita": 55
+  },
+  "voce": {
+    "mancante": "voce non ancora registrata",
+    "autoNome": "Leggi in automatico il Narratore",
+    "autoSpiega": "Le battute del Narratore partono da sole quando la voce è registrata. Spento: si ascoltano solo con il pulsante altoparlante (o il tasto V)."
   }
 }
