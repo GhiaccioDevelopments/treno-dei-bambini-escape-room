@@ -4855,7 +4855,9 @@
    ],
    "x": -19.4,
    "y": 2.4,
-   "z": 30.52
+   "z": 30.52,
+   "cosaFare": "Apri la portella con la filastrocca dei tre tasselli.",
+   "cosaOttieni": "La scatola dei ragazzi del vicolo."
   },
   {
    "id": "enigma_ripostiglio",
@@ -5152,7 +5154,9 @@
    ],
    "x": -4.37,
    "y": 1.45,
-   "z": 3.17
+   "z": 3.17,
+   "cosaFare": "Capisci perché la credenza è stata spostata tante volte.",
+   "cosaOttieni": "Il posto dove dormiva Amerigo."
   },
   {
    "id": "enigma_carretto",
@@ -5342,7 +5346,9 @@
    ],
    "x": -5.3,
    "y": 1.7,
-   "z": 45.2
+   "z": 45.2,
+   "cosaFare": "Guarda sotto il sedile del carretto.",
+   "cosaOttieni": "Un biglietto di Capa 'e fierro."
   },
   {
    "id": "enigma_impronte",
@@ -5670,7 +5676,9 @@
    ],
    "x": -6.9,
    "y": 0.9,
-   "z": 57.5
+   "z": 57.5,
+   "cosaFare": "Apri il cassetto del leggio con le due rotelle.",
+   "cosaOttieni": "Un ricordo delle donne dell'UDI."
   },
   {
    "id": "enigma_valigia",
@@ -5874,7 +5882,9 @@
    ],
    "x": 1.1,
    "y": 2.0,
-   "z": 5.0
+   "z": 5.0,
+   "cosaFare": "Apri il lucchetto della valigia dimenticata.",
+   "cosaOttieni": "Un regalo per i bambini del treno."
   },
   {
    "id": "enigma_carta_italia",
@@ -6226,7 +6236,9 @@
    ],
    "x": -5.5,
    "y": 0.0,
-   "z": 46.0
+   "z": 46.0,
+   "cosaFare": "Rimetti al suo posto la puntina che manca.",
+   "cosaOttieni": "Un disegno nascosto."
   },
   {
    "id": "enigma_radio",
@@ -6341,7 +6353,9 @@
    ],
    "x": -1.0,
    "y": 0.8,
-   "z": 3.3
+   "z": 3.3,
+   "cosaFare": "Sintonizza la radio sulla frequenza segnata a matita.",
+   "cosaOttieni": "Una musica che conosci."
   }
  ],
  "campane": [

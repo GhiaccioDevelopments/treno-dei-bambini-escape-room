@@ -159,7 +159,9 @@
      "spiegazione": "Chi ripara le scarpe degli altri sa farsi bene le sue.",
      "erroreMsg": "Chi sa rifare le suole?"
     }
-   ]
+   ],
+   "cosaFare": "Dai a ogni paio di scarpe il mestiere di chi le porta.",
+   "cosaOttieni": "Il calzolaio riconosciuto e la prima cifra del lucchetto."
   },
   {
    "id": "enigma_nascosto",
@@ -583,7 +585,9 @@
     }
    ],
    "scala": 1,
-   "completoMsg": "Portale ora alle forme del calzolaio: vediamo a chi calzano."
+   "completoMsg": "Portale ora alle forme del calzolaio: vediamo a chi calzano.",
+   "cosaFare": "Trova nella strada cinque calzature e provale sulle forme giuste.",
+   "cosaOttieni": "Una cifra del lucchetto, scritta sulla forma più piccola."
   },
   {
    "id": "enigma_quiz",
@@ -795,7 +799,9 @@
      "erroreMsg": "Cerca nel registro la riga in cui non si paga nulla."
     }
    ],
-   "scala": 1
+   "scala": 1,
+   "cosaFare": "Rispondi alle domande toccando la riga giusta dei documenti.",
+   "cosaOttieni": "Una cifra del lucchetto, sul margine del quaderno."
   },
   {
    "id": "enigma_ordina",
@@ -1014,7 +1020,9 @@
    "inclina": 0,
    "soluzione": [],
    "scheda": "Dalla caduta del fascismo alla Repubblica passano pochi anni di fame e ricostruzione. Mettere in fila gli eventi aiuta a capire come si è arrivati alla Costituzione, entrata in vigore il 1° gennaio 1948.",
-   "scala": 1
+   "scala": 1,
+   "cosaFare": "Metti i ritagli di giornale in ordine, dal più antico al più recente.",
+   "cosaOttieni": "L'ultima cifra del lucchetto."
   },
   {
    "id": "enigma_lucchetto",
@@ -1124,7 +1132,9 @@
     }
    ],
    "scala": 1,
-   "scheda": "Nel 1989 l'ONU adottò la Convenzione sui diritti dell'infanzia e dell'adolescenza (20 novembre), ratificata dall'Italia nel 1991: ciò che Amerigo, scalzo sul gradino, poteva solo sognare è oggi un diritto scritto."
+   "scheda": "Nel 1989 l'ONU adottò la Convenzione sui diritti dell'infanzia e dell'adolescenza (20 novembre), ratificata dall'Italia nel 1991: ciò che Amerigo, scalzo sul gradino, poteva solo sognare è oggi un diritto scritto.",
+   "cosaFare": "Componi le quattro cifre raccolte lungo la strada.",
+   "cosaOttieni": "L'uscita dal ricordo."
   }
  ]
 }

@@ -524,7 +524,9 @@
           "corretta": 0,
           "spiegazione": "Né prima (pallido) né troppo dopo (bruciato)."
         }
-      ]
+      ],
+      "cosaFare": "Leggi il forno con la farina, scaldalo giusto, inforna e sforna a tempo.",
+      "cosaOttieni": "Il pane per Alcide."
     },
     {
       "id": "enigma_attrezzi",
@@ -1050,7 +1052,9 @@
           "corretta": 0,
           "spiegazione": "I tasti muovono i martelletti, che colpiscono le corde."
         }
-      ]
+      ],
+      "cosaFare": "Ascolta (o guarda l'onda) e tocca l'attrezzo che fa quel suono.",
+      "cosaOttieni": "Il diapason di Alcide."
     },
     {
       "id": "enigma_pianoforte",
@@ -1499,7 +1503,9 @@
           "corretta": 0,
           "spiegazione": "Senza battimento le due note sono uguali."
         }
-      ]
+      ],
+      "cosaFare": "Accorda le tre corde finché il battimento sparisce.",
+      "cosaOttieni": "La promessa di un violino."
     },
     {
       "id": "enigma_impronte",
@@ -4157,7 +4163,9 @@
           "corretta": 0,
           "spiegazione": "Il violino era nascosto nella legnaia."
         }
-      ]
+      ],
+      "cosaFare": "Confronta scarponi e impronte, poi segui le orme giuste.",
+      "cosaOttieni": "Il violino ritrovato."
     },
     {
       "id": "enigma_melodia",
@@ -4691,7 +4699,9 @@
           "corretta": 0,
           "spiegazione": "Art. 34: la scuola è aperta a tutti."
         }
-      ]
+      ],
+      "cosaFare": "Ascolta la frase di Alcide e ripetila sui segni colorati.",
+      "cosaOttieni": "Lo spartito di Alcide."
     }
   ]
 }

@@ -258,7 +258,19 @@ namespace TrenoBambini.Puzzles
             BuildVolantinoUi(mec); // R013
             BuildCappottoUi(mec); // R014
             BuildViolinoUi(mec); // R015
+
+            // R026: biglietto "Cosa fare / Cosa ottieni" all'apertura e pulsante "?" per rileggerlo
+            if (BigliettoEnigma.HaTesto(def))
+            {
+                var sp = UIFactory.MakeButton(ui, T.btnSpiega, () => { if (!solved) BigliettoEnigma.Mostra(ui, def); }, new Vector2(64f, 64f), ButtonStyle.Tag, 30f);
+                UIFactory.Place((RectTransform)sp.transform, new Vector2(0f, 0f), new Vector2(0f, 0f), new Vector2(696f, 24f), new Vector2(64f, 64f));
+                sp.gameObject.name = "Spiega";
+                if (BigliettoEnigma.Attivo) BigliettoEnigma.Mostra(ui, def);
+            }
         }
+
+        /// <summary>R026: il biglietto d'apertura e' visibile (per le prove).</summary>
+        public bool BigliettoVisibile { get { return BigliettoEnigma.Aperto != null; } }
 
         // ------------------------------------------------------------------ ruote
         void BuildRuote()

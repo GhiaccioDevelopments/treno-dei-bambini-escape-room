@@ -33,4 +33,35 @@
 - [ ] Self-test PASS, console pulita, Windows e WebGL.
 
 ## Rapporto
-_(vuoto)_
+
+**Stato: parte di codice e testi completa, da provare in Unity (2026-11-13).** Scritto al PC della scuola senza Unity. Base: `richiesta/R026-enigmi-chiari`
+con dentro R016 (e quindi R012-R015).
+
+### Fatto
+- **Biglietto d'apertura** (`Scripts/Puzzles/BigliettoEnigma.cs`): foglietto di carta d'epoca con "Cosa fare" e "Cosa ottieni"; compare all'apertura della vista
+  ravvicinata (`EsaminaView`) e dei pannelli 2D (`PuzzlePanel`, versione "Enigmi semplificati"); si chiude con un clic, un tasto, il gamepad o da solo dopo 12 s;
+  si riapre con il pulsante **?** accanto a Consegna (vista 3D) o a Chiudi (pannelli).
+- Campi JSON nuovi dell'Enigma `cosaFare`, `cosaOttieni`, compilati per **tutti i 48 enigmi** (ricordi, hub, basso, segreti) da
+  `ArtSource/Enigmi/aggiungi_biglietti.py` (va rilanciato dopo ogni generatore che riscrive i JSON; fallisce se un enigma non ha il biglietto). Mai la soluzione nel biglietto.
+- Etichette in `enigmi_mondo.json` (`bigliettoFare`, `bigliettoOttieni`, `bigliettoChiudi`, `btnSpiega`), riga in Impostazioni > Gioco **"Mostra la spiegazione
+  all'apertura"** (sì di default; `SaveData.nascondiSpiegazione`), testi in `ui_menu.json` (`enigmiImp.spiegazione*`).
+- Prove: `EnigmiSelfTest.ControllaBiglietti` (tutti gli enigmi hanno le due righe); `ViolinoTest` controlla che il biglietto compaia e si chiuda.
+
+### Non fatto (serve Unity)
+- **Punto 3, grafica**: passata sugli enigmi più deboli con screenshot prima/dopo. Senza editor non si vedono i risultati: va fatta a casa, guardando gli enigmi
+  dei ricordi nuovi (R012-R016, tutti di primitive) e quelli di hub e basso.
+- **Punto 4, giro "da studente"**: va giocato. Gli indizi dei capitoli R013-R016 sono già a tre livelli (spinta, direzione, quasi soluzione).
+
+### Decisioni prese da Claude
+- Il biglietto si chiude anche da solo (12 s) perché non blocchi la LIM; il primo 0,4 s ignora i tasti (il clic che apre l'enigma non lo richiude).
+- Pulsante "?" solo se l'enigma ha almeno una delle due righe.
+
+### Da fare a casa con Unity
+1. Console senza errori (nuovo `BigliettoEnigma.cs`; toccati `EsaminaView.cs`, `PuzzlePanel.cs`, `SettingsPanel.cs`, `SaveSystem.cs`, `DataClasses.cs`, `EnigmiSelfTest.cs`, `ViolinoTest.cs`).
+2. Aprire un enigma 3D e uno 2D: posizione e leggibilità del biglietto, del pulsante ? (non deve coprire i pulsanti dei meccanismi a destra) e alla LIM.
+3. `-enigmitest`, `-violinotest`; poi punti 3 e 4 con screenshot in `Docs/richieste/media/R026/`.
+
+### Criteri di accettazione
+- [x] Biglietto all'apertura di ogni enigma, testi solo in JSON (scritto, da provare).
+- [ ] Screenshot prima/dopo degli enigmi ritoccati in `Docs/richieste/media/R026/`.
+- [ ] Self-test PASS, console pulita, Windows e WebGL.

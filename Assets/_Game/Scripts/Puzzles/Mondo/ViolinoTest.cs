@@ -250,6 +250,10 @@ namespace TrenoBambini.Core
             if (V != null)
             {
                 Check("V1: meccanismo forno", EsaminaView.Meccanismo(V.Def) == "forno");
+                Check("R026: all'apertura compare il biglietto Cosa fare / Cosa ottieni", V.BigliettoVisibile);
+                if (BigliettoEnigma.Aperto != null) BigliettoEnigma.Aperto.Chiudi();
+                yield return Attendi(0.2f);
+                Check("R026: il biglietto si chiude", !V.BigliettoVisibile);
                 Check("V1: senza leggere il forno non si inforna", !V.Inforna() && V.FaseForno == 0);
                 V.Farina();
                 Check("V1: forno freddo -> farina bianca, lettura non buona", !V.FornoLetto && V.Cliccabile("sacchetto_farina"));

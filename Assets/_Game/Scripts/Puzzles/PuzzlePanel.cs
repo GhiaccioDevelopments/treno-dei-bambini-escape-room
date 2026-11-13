@@ -120,6 +120,12 @@ namespace TrenoBambini.Puzzles
             UIFactory.Stretch(hintBtn.GetComponentInChildren<TextMeshProUGUI>().rectTransform, 50f, 6f, 10f, 6f);
             closeBtn = UIFactory.MakeButton(cr, "Chiudi", Close, new Vector2(200f, 64f), ButtonStyle.Tag, 26f);
             UIFactory.Place((RectTransform)closeBtn.transform, new Vector2(0f, 0f), new Vector2(0f, 0f), new Vector2(250f, 24f), new Vector2(200f, 64f));
+            if (BigliettoEnigma.HaTesto(def)) // R026: biglietto "Cosa fare / Cosa ottieni" anche nei pannelli 2D
+            {
+                var sp = UIFactory.MakeButton(cr, GameData.TestiEnigmi.btnSpiega, () => BigliettoEnigma.Mostra(cr, def), new Vector2(64f, 64f), ButtonStyle.Tag, 30f);
+                UIFactory.Place((RectTransform)sp.transform, new Vector2(0f, 0f), new Vector2(0f, 0f), new Vector2(466f, 24f), new Vector2(64f, 64f));
+                if (BigliettoEnigma.Attivo) BigliettoEnigma.Mostra(cr, def);
+            }
             actionBtn = UIFactory.MakeButton(cr, "Avanti", OnActionClicked, new Vector2(280f, 64f), ButtonStyle.Seal, 28f, true);
             UIFactory.Place((RectTransform)actionBtn.transform, new Vector2(1f, 0f), new Vector2(1f, 0f), new Vector2(-34f, 24f), new Vector2(280f, 64f));
             actionBtn.gameObject.SetActive(false);

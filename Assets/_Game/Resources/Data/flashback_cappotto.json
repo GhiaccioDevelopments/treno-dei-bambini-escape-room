@@ -1232,7 +1232,9 @@
           "corretta": 0,
           "spiegazione": "Scalzo, capelli castani, 7 anni quasi 8: è il 112."
         }
-      ]
+      ],
+      "cosaFare": "Appendi a ogni bambino il cartellino giusto, leggendo il registro.",
+      "cosaOttieni": "Il tuo numero per il viaggio: 112."
     },
     {
       "id": "enigma_cappotti",
@@ -3110,7 +3112,9 @@
           "corretta": 0,
           "spiegazione": "In gran parte la Croce Rossa, con le volontarie."
         }
-      ]
+      ],
+      "cosaFare": "Fai provare a ogni bambino il cappotto della sua misura.",
+      "cosaOttieni": "Un cappotto per il viaggio, e una sorpresa."
     },
     {
       "id": "enigma_mela",
@@ -3343,7 +3347,9 @@
           "corretta": 0,
           "spiegazione": "Il capotreno fischia: si parte."
         }
-      ]
+      ],
+      "cosaFare": "Prendi quello che ti dà Antonietta e mettilo in valigia.",
+      "cosaOttieni": "Il saluto: si può salire sul treno."
     },
     {
       "id": "enigma_finestrino",
@@ -3989,7 +3995,9 @@
           "corretta": 0,
           "spiegazione": "Servono ai ferrovieri: non sono fermate da segnare."
         }
-      ]
+      ],
+      "cosaFare": "Segna sulla carta le città che passano nel finestrino.",
+      "cosaOttieni": "L'arrivo vicino: Modena."
     },
     {
       "id": "enigma_paura",
@@ -4866,7 +4874,9 @@
           "corretta": 0,
           "spiegazione": "Una risata scioglie la paura di chi fa il duro."
         }
-      ]
+      ],
+      "cosaFare": "Parla con i tre bambini e trova la risposta giusta per ognuno.",
+      "cosaOttieni": "Lo scompartimento tranquillo e la fine del viaggio."
     }
   ]
 }

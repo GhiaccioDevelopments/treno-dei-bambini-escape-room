@@ -221,7 +221,9 @@
           "corretta": 0,
           "spiegazione": "Era analfabeta, come molte donne della sua generazione."
         }
-      ]
+      ],
+      "cosaFare": "Guarda il telefono, il calendario e la scatola di latta.",
+      "cosaOttieni": "I cinque posti dei ricordi."
     },
     {
       "id": "enigma_posto_scarpe",
@@ -441,7 +443,9 @@
           "corretta": 0,
           "spiegazione": "Cinque frammenti: si ricompongono sul tavolo."
         }
-      ]
+      ],
+      "cosaFare": "Posa qui il ricordo che abitava questo posto.",
+      "cosaOttieni": "Un frammento di carta."
     },
     {
       "id": "enigma_posto_stracci",
@@ -658,7 +662,9 @@
           "corretta": 0,
           "spiegazione": "Cinque frammenti: si ricompongono sul tavolo."
         }
-      ]
+      ],
+      "cosaFare": "Posa qui il ricordo che abitava questo posto.",
+      "cosaOttieni": "Un frammento di carta."
     },
     {
       "id": "enigma_posto_volantino",
@@ -876,7 +882,9 @@
           "corretta": 0,
           "spiegazione": "Cinque frammenti: si ricompongono sul tavolo."
         }
-      ]
+      ],
+      "cosaFare": "Posa qui il ricordo che abitava questo posto.",
+      "cosaOttieni": "Un frammento di carta."
     },
     {
       "id": "enigma_posto_cappotto",
@@ -1095,7 +1103,9 @@
           "corretta": 0,
           "spiegazione": "Cinque frammenti: si ricompongono sul tavolo."
         }
-      ]
+      ],
+      "cosaFare": "Posa qui il ricordo che abitava questo posto.",
+      "cosaOttieni": "Un frammento di carta."
     },
     {
       "id": "enigma_posto_spartito",
@@ -1313,7 +1323,9 @@
           "corretta": 0,
           "spiegazione": "Cinque frammenti: si ricompongono sul tavolo."
         }
-      ]
+      ],
+      "cosaFare": "Posa qui il ricordo che abitava questo posto.",
+      "cosaOttieni": "Un frammento di carta."
     },
     {
       "id": "enigma_ricevuta",
@@ -1666,7 +1678,9 @@
           "corretta": 0,
           "spiegazione": "Chi era analfabeta firmava con una croce."
         }
-      ]
+      ],
+      "cosaFare": "Ricomponi il documento strappato, pezzo per pezzo.",
+      "cosaOttieni": "Un numero che apre qualcosa."
     },
     {
       "id": "enigma_custodia",
@@ -1874,7 +1888,9 @@
           "corretta": 0,
           "spiegazione": "La polizza dice RISCATTATO."
         }
-      ]
+      ],
+      "cosaFare": "Apri la custodia con il numero giusto.",
+      "cosaOttieni": "Il violino, e un segno di tua madre."
     },
     {
       "id": "enigma_carmine",
@@ -2163,7 +2179,9 @@
           "corretta": 0,
           "spiegazione": "Modificata dalla legge 149 del 2001."
         }
-      ]
+      ],
+      "cosaFare": "Scegli che cosa fare con Carmine: ogni scelta va bene.",
+      "cosaOttieni": "La fine della storia."
     }
   ]
 }

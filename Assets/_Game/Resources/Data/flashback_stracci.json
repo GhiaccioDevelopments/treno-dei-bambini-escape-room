@@ -441,7 +441,9 @@
           "corretta": 2,
           "spiegazione": "Compra stracci buoni: la roba marcita o incerata non si può riciclare."
         }
-      ]
+      ],
+      "cosaFare": "Raccogli i dieci stracci del vicolo e guardali bene al banco.",
+      "cosaOttieni": "Il sacco degli stracci buoni."
     },
     {
       "id": "enigma_ceste",
@@ -949,7 +951,9 @@
           "corretta": 0,
           "spiegazione": "I nodini sono tipici del lino."
         }
-      ]
+      ],
+      "cosaFare": "Metti ogni straccio nella cesta giusta.",
+      "cosaOttieni": "Le ceste pronte per la pesata."
     },
     {
       "id": "enigma_bilancia",
@@ -1520,7 +1524,9 @@
           "corretta": 0,
           "spiegazione": "1000 + 200 + 100 = 1300 grammi."
         }
-      ]
+      ],
+      "cosaFare": "Controlla la bilancia con il peso campione, poi pesa le ceste.",
+      "cosaOttieni": "I pesi giusti scritti sul registro."
     },
     {
       "id": "enigma_conto",
@@ -2113,7 +2119,9 @@
           "corretta": 0,
           "spiegazione": "52 + 16 + 15 = 83 lire."
         }
-      ]
+      ],
+      "cosaFare": "Fai il conto delle ceste e metti sul banco le monete giuste.",
+      "cosaOttieni": "Il primo soldo guadagnato da Amerigo."
     },
     {
       "id": "enigma_mestieri",
@@ -2407,7 +2415,9 @@
           "corretta": 0,
           "spiegazione": "La Convenzione ONU, art. 32."
         }
-      ]
+      ],
+      "cosaFare": "Abbina ogni attrezzo al suo mestiere e al diritto che lo protegge oggi.",
+      "cosaOttieni": "La porta della bottega si apre."
     }
   ]
 }

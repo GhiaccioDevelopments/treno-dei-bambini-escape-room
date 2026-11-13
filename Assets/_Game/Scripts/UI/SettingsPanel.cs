@@ -193,6 +193,13 @@ namespace TrenoBambini.UI
                 testo = () => TrenoBambini.Core.GameManager.I != null && TrenoBambini.Core.GameManager.I.Save.evidenziaInterattivi ? GameData.UiMenu.enigmiImp.si : GameData.UiMenu.enigmiImp.no,
                 passo = dir => { var g = TrenoBambini.Core.GameManager.I; if (g != null) { g.Save.evidenziaInterattivi = !g.Save.evidenziaInterattivi; g.SaveGame(); } }
             });
+            righe.Insert(3, new Riga // R026: biglietto "Cosa fare / Cosa ottieni" all'apertura degli enigmi (acceso di default)
+            {
+                nome = GameData.UiMenu.enigmiImp.spiegazioneNome,
+                spiega = GameData.UiMenu.enigmiImp.spiegazioneSpiega,
+                testo = () => TrenoBambini.Core.GameManager.I != null && TrenoBambini.Core.GameManager.I.Save.nascondiSpiegazione ? GameData.UiMenu.enigmiImp.no : GameData.UiMenu.enigmiImp.si,
+                passo = dir => { var g = TrenoBambini.Core.GameManager.I; if (g != null) { g.Save.nascondiSpiegazione = !g.Save.nascondiSpiegazione; g.SaveGame(); } }
+            });
         }
 
         /// <summary>R019: aiuto della mappa (Guidata / Normale / Esploratore), minimappa accesa o spenta, nord fisso. Testi in ui_menu.json (mappaImp).</summary>

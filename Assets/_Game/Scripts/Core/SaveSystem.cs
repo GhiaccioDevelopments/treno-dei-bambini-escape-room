@@ -23,6 +23,7 @@ namespace TrenoBambini.Core
         public bool visualeTastoDestro;
         public List<string> oggettiEnigma = new List<string>(); // R020: oggetti/indizi ottenuti negli enigmi del mondo
         public bool enigmiSemplificati;                          // R009: pannelli 2D al posto delle viste ravvicinate (LIM, accessibilita')
+        public bool nascondiSpiegazione;                         // R026: false = il biglietto "Cosa fare / Cosa ottieni" compare all'apertura di ogni enigma (default)
         public bool evidenziaInterattivi;                        // R009: brillio leggero sugli oggetti da esaminare (spento di default)
         public float tempoGioco; // R023: secondi giocati (anteprima di Continua)
         // R019: minimappa. aiutoMappa: 0 = Guidata (obiettivo sempre segnato), 1 = Normale (dopo qualche minuto senza progressi o con Indizio), 2 = Esploratore (nessun obiettivo)

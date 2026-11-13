@@ -228,11 +228,33 @@ namespace TrenoBambini.Core
         }
 
         // ------------------------------------------------------------------ flusso
+        [System.Serializable] class ListaEnigmi { public List<EnigmaDef> enigmi = new List<EnigmaDef>(); }
+
+        /// <summary>R026: ogni enigma del gioco (ricordi, hub e basso, segreti) ha le due righe del biglietto d'apertura.</summary>
+        void ControllaBiglietti()
+        {
+            int tot = 0, senza = 0;
+            var nomi = new List<string>();
+            foreach (var ta in Resources.LoadAll<TextAsset>("Data"))
+            {
+                if (!(ta.name.StartsWith("flashback_") || ta.name == "enigmi_mondo" || ta.name == "segreti")) continue;
+                var l = JsonUtility.FromJson<ListaEnigmi>(ta.text);
+                if (l == null || l.enigmi == null) continue;
+                foreach (var e in l.enigmi)
+                {
+                    tot++;
+                    if (string.IsNullOrEmpty(e.cosaFare) || string.IsNullOrEmpty(e.cosaOttieni)) { senza++; nomi.Add(ta.name + "/" + e.id); }
+                }
+            }
+            Check("R026: tutti gli enigmi hanno cosaFare e cosaOttieni (" + tot + ")", tot >= 48 && senza == 0, string.Join(", ", nomi));
+        }
+
         IEnumerator Flusso()
         {
             yield return Attendi(3f);
             Check("GameManager pronto", GameManager.I != null && SceneLoader.I != null);
             ControllaModelli();
+            ControllaBiglietti(); // R026
             PlayerPrefs.DeleteKey("treno_save");
             if (FotoRichiesta()) { yield return FotoMondo(); yield break; }
             GameManager.I.NewGame();

@@ -255,7 +255,9 @@
           "documento": "quaderno",
           "riga": 3
         }
-      ]
+      ],
+      "cosaFare": "Ascolta le voci del vicolo e rileggile nel quaderno.",
+      "cosaOttieni": "Quattro dicerie da controllare."
     },
     {
       "id": "enigma_bacheca",
@@ -801,7 +803,9 @@
           "corretta": 0,
           "spiegazione": "Ogni voce è smentita da un foglio che si può controllare."
         }
-      ]
+      ],
+      "cosaFare": "Collega ogni diceria al foglio del Comitato che le risponde.",
+      "cosaOttieni": "Le parole giuste per il volantino."
     },
     {
       "id": "enigma_ciclostile",
@@ -1299,7 +1303,9 @@
           "corretta": 0,
           "spiegazione": "Un ritmo regolare dà fogli puliti."
         }
-      ]
+      ],
+      "cosaFare": "Scegli tre frasi, prepara la matrice e stampa a ritmo.",
+      "cosaOttieni": "Un pacco di volantini e le cinque cose dell'accoglienza."
     },
     {
       "id": "enigma_ruoli",
@@ -1870,7 +1876,9 @@
           "corretta": 0,
           "spiegazione": "Spesso famiglie non ricche, organizzate da UDI, PCI e amministrazioni locali."
         }
-      ]
+      ],
+      "cosaFare": "Dai ogni oggetto alla persona a cui serve.",
+      "cosaOttieni": "Il retro del volantino stampato."
     },
     {
       "id": "enigma_timbro",
@@ -2397,7 +2405,9 @@
           "corretta": 0,
           "spiegazione": "Il 2 e 3 giugno 1946, referendum e Assemblea Costituente."
         }
-      ]
+      ],
+      "cosaFare": "Timbra le quattro date giuste sulla linea del tempo.",
+      "cosaOttieni": "Il volantino timbrato e l'uscita dal ricordo."
     }
   ]
 }

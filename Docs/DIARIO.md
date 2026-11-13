@@ -5,6 +5,13 @@ Regole d'uso: vedi la sezione "Diario e lavoro su più PC" in `CLAUDE.md`.
 
 ---
 
+## 2026-11-13 – PC scuola – R026 biglietto "Cosa fare / Cosa ottieni"
+**Branch:** richiesta/R026-enigmi-chiari (con dentro R016 e quindi R012-R015)
+### Fatto
+- Biglietto d'apertura per tutti i 48 enigmi (3D e 2D), pulsante ?, opzione nelle Impostazioni, script `aggiungi_biglietti.py`, controlli nei self-test.
+### Problemi aperti
+- Punti 3 (grafica, screenshot prima/dopo) e 4 (giro da studente) solo con Unity.
+
 ## 2026-11-13 – PC scuola – R016 il finale scritto senza Unity
 **Branch:** richiesta/R016-finale-1994 (con dentro R015, R014, R013, R012) · niente compilato: a scuola niente Unity
 ### Fatto

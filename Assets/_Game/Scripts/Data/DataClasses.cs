@@ -59,6 +59,7 @@ namespace TrenoBambini.Data
     {
         public string guida = "", guidaTouch = "";
         public string btnIndizio = "Indizio", btnChiudi = "Chiudi", btnConsegna = "Consegna", btnAvanti = "Avanti", btnConferma = "Conferma", mestieri = "";
+        public string bigliettoFare = "Cosa fare", bigliettoOttieni = "Cosa ottieni", bigliettoChiudi = "", btnSpiega = "?"; // R026: biglietto d'apertura
         public string gruppoFmt = "{0}: {1}/{2}", deduzioneErrore = "{0}", domandaFmt = "{0}/{1}: {2}", esatto = "", prossima = "";
         public string inMano = "{0}", manoLabel = "", serveQualcosa = "", nonCalzaNome = "{0}", nonCalza = "", prendiPrimaGiusto = "", prendiPrima = "";
         public string dritta = "", quasiDritta = "", calza = "", lucchettoApre = "", lucchettoNo = "", erroreGenerico = "", erroreOrdine = "", nessunIndizio = "";
@@ -129,6 +130,7 @@ namespace TrenoBambini.Data
         public float periodo;                // R014 finestrino: secondi fra due cartelli
         public string cutscene;              // R014: cutscene (id) che parte quando l'enigma e' risolto (mai quando si rivive il ricordo)
         public string cutsceneCapitolo;      // R014: capitolo di quella cutscene (vuoto = tutte le battute)
+        public string cosaFare, cosaOttieni; // R026: le due righe del biglietto d'apertura (una frase all'imperativo; che cosa si ottiene)
         public FornoDef forno = new FornoDef();               // R015 forno: il modello del calore (farina, legna, serranda, clessidra)
         public List<SuonoDef> suoni = new List<SuonoDef>();    // R015 suoni: i suoni da riconoscere, in ordine (attrezzo = id della parte)
         public List<CordaDef> corde = new List<CordaDef>();    // R015 accordatura: le corde da accordare con i battimenti
@@ -365,7 +367,7 @@ namespace TrenoBambini.Data
     /// <summary>Etichette dell'HUD e della pausa legate alla latta (M7).</summary>
     [Serializable] public class UiHud { public string latta = "Latta"; }
     [Serializable]
-    public class UiEnigmiImp { public string semplificatiNome = "", semplificatiSpiega = "", evidenziaNome = "", evidenziaSpiega = "", si = "Si", no = "No"; }
+    public class UiEnigmiImp { public string spiegazioneNome = "", spiegazioneSpiega = "", semplificatiNome = "", semplificatiSpiega = "", evidenziaNome = "", evidenziaSpiega = "", si = "Si", no = "No"; }
     /// <summary>R025: voce "Rivedi il filmato iniziale" della pausa.</summary>
     [Serializable]
     public class UiFilmatoMenu { public string rivedi = "Rivedi il filmato iniziale", nonQui = "Il filmato si rivede dal vicolo o da casa, non dentro un ricordo."; }

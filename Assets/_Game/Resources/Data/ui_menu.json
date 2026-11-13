@@ -127,7 +127,9 @@
     "evidenziaNome": "Evidenzia oggetti interattivi",
     "evidenziaSpiega": "Un brillio leggero sugli oggetti da esaminare negli enigmi. Spento di default: di norma si riconoscono dalla luce e dal messaggio «Esamina».",
     "si": "Sì",
-    "no": "No"
+    "no": "No",
+    "spiegazioneNome": "Mostra la spiegazione all'apertura",
+    "spiegazioneSpiega": "Quando apri un enigma compare un biglietto con due righe: che cosa fare e che cosa ottieni. Si rilegge con il pulsante ?."
   },
   "mappaImp": {
     "aiutoNome": "Aiuto della mappa",
