@@ -119,7 +119,7 @@ namespace TrenoBambini.Data
         public float squilibrio;             // R012 bilancia: grammi in piu' sul piatto sinistro finche' il chiodo e' sotto il piatto
         public List<CollegamentoDef> collegamenti = new List<CollegamentoDef>(); // R013 bacheca: per ogni diceria (parte con azione "diceria", valore = indice) il documento giusto e il verdetto
         public string dopoRicomposto;        // R016 ricomponi: pezzi rivelati quando il documento e' ricomposto (timbro, croce)
-        public List<FraseDef> frasi = new List<FraseDef>();   // R013 ciclostile: frasi candidate per la matrice (giusta = chiara e verificabile)
+        public List<FraseDef> frasi = new List<FraseDef>();   // R013 ciclostile: frasi candidate (testo, giusta, motivo); R015 melodia: frasi da ascoltare e ripetere (note, tempo, ok)
         public int giri;                     // R013 ciclostile: giri di manovella (fogli) da stampare
         public float ritmo;                  // R013 ciclostile: secondi minimi fra due giri (piu' veloce = il foglio sbava)
         public List<DataTimbroDef> date = new List<DataTimbroDef>(); // R013 datario: date da timbrare, in ordine (linea del tempo)
@@ -136,7 +136,6 @@ namespace TrenoBambini.Data
         public List<CordaDef> corde = new List<CordaDef>();    // R015 accordatura: le corde da accordare con i battimenti
         public List<ImprontaDef> impronte = new List<ImprontaDef>(); // R015 impronte: gli scarponi dei ragazzi (indice = valore delle parti "scarpone" e "orma")
         public List<int> note = new List<int>();               // R015 melodia: note (midi) dei segni colorati (indice = valore delle parti "nota")
-        public List<FraseDef> frasi = new List<FraseDef>();    // R015 melodia: le frasi da ascoltare e ripetere
         public string finale;                // se valorizzato (nella scena l'oggetto-ricordo con questo id resta nascosto finche' l'enigma non e' risolto), alla soluzione parte il ricordo di questo oggetto (es. "scarpe")
     }
 
@@ -193,7 +192,7 @@ namespace TrenoBambini.Data
     [Serializable] public class CollegamentoDef { public string voce, a, verdetto, nota; }
 
     /// <summary>R013 ciclostile: frase candidata; giusta = chiara e verificabile; motivo = spiegazione gentile se scelta per sbaglio.</summary>
-    [Serializable] public class FraseDef { public string testo; public bool giusta; public string motivo; }
+    [Serializable] public class FraseDef { public string testo; public bool giusta; public string motivo; public List<int> note = new List<int>(); public float tempo = 0.55f; public string ok; }
 
     /// <summary>R013 datario: data (giorno, mese 1-12, anno) da timbrare; parte = pezzo rivelato sulla linea del tempo; etichetta = che cosa accadde.</summary>
     [Serializable] public class DataTimbroDef { public int giorno, mese, anno; public string etichetta, parte; }
@@ -229,9 +228,6 @@ namespace TrenoBambini.Data
 
     /// <summary>R015 impronte: lo scarpone di un ragazzo (nome, numero, chiodi sulla suola, tacco).</summary>
     [Serializable] public class ImprontaDef { public string nome, tacco; public int misura, chiodi; }
-
-    /// <summary>R015 melodia: una frase (indici dei segni colorati), secondi per nota, che cosa dice Alcide alla fine.</summary>
-    [Serializable] public class FraseDef { public List<int> note = new List<int>(); public float tempo = 0.55f; public string ok; }
 
     [Serializable] public class FermataDef { public string testo, dopo, ripete; public bool citta; public float luce; }
 
@@ -336,14 +332,14 @@ namespace TrenoBambini.Data
         public string luogo = "Dove", rivissuto = "Rivissuto", nessuno = "Nessun ricordo.", indietro = "Indietro";
         public string rivivi = "", riviviNonQui = ""; // R011: rientrare in un ricordo gia' completato (per i segreti)
     }
-    [Serializable]
+
     /// <summary>R016: testi dei titoli di coda (ui_menu.json, blocco "finale"). velocita = pixel al secondo.</summary>
     [Serializable] public class UiFinale { public string titolo = "", sottotitolo = "", fine = "", salta = ""; public float velocita = 55f; public List<string> righe = new List<string>(); }
 
     /// <summary>R028: testi del pulsante altoparlante e della riga delle Impostazioni.</summary>
     [Serializable] public class UiVoceNarratore { public string mancante = "", autoNome = "", autoSpiega = ""; }
 
-    public class UiCrediti { public string titolo = "Crediti", intro = "", assetTitolo = "Asset esterni e licenze", indietro = "Indietro"; public List<string> squadra = new List<string>(); }
+    [Serializable] public class UiCrediti { public string titolo = "Crediti", intro = "", assetTitolo = "Asset esterni e licenze", indietro = "Indietro"; public List<string> squadra = new List<string>(); }
     [Serializable]
     public class UiQuaderno
     {
