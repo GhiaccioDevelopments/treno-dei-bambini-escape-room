@@ -4410,7 +4410,7 @@
     {
      "id": "cartoncino",
      "forma": "cubo",
-     "materiale": "tex:biglietto_treno",
+     "materiale": "tex:bigliettotreno",
      "colore": "",
      "x": 0,
      "y": 0.002,

@@ -902,7 +902,7 @@ def gettone():
 
 
 def biglietto_94():
-    return [parte("cartoncino", "cubo", "tex:biglietto_treno", "", 0, 0.002, 0, 0.09, 0.003, 0.05, ry=14)]
+    return [parte("cartoncino", "cubo", "tex:bigliettotreno", "", 0, 0.002, 0, 0.09, 0.003, 0.05, ry=14)]
 
 
 def santino_nuovo():
