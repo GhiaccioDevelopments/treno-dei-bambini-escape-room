@@ -483,6 +483,45 @@ namespace TrenoBambini.EditorTools
             return UnityEditor.Animations.AnimatorController.CreateAnimatorControllerAtPathWithClip(path, clip);
         }
 
+        /// <summary>
+        /// Mette sul punto il personaggio MakeHuman <paramref name="personaggio"/> (nome della cartella in ArtSource, vedi
+        /// PersonaggiBuilder.PrefabPersonaggio) con l'idle di Mixamo e un collider a capsula. Ritorna false (senza toccare il punto)
+        /// se il prefab non e' ancora stato importato: il chiamante lascia il segnaposto.
+        /// </summary>
+        public static bool PersonaggioMakeHuman(Transform punto, string personaggio)
+        {
+            var prefab = PersonaggiBuilder.PrefabPersonaggio(personaggio);
+            if (prefab == null) return false;
+            var corpo = (GameObject)PrefabUtility.InstantiatePrefab(prefab, punto);
+            corpo.name = personaggio + "_Mesh";
+            corpo.transform.localPosition = prefab.transform.localPosition; // offset dei piedi calcolato dall'import
+            corpo.transform.localRotation = Quaternion.identity;
+            var anim = corpo.GetComponentInChildren<Animator>();
+            if (anim == null) anim = corpo.AddComponent<Animator>();
+            anim.runtimeAnimatorController = ControllerIdleNpc();
+            anim.applyRootMotion = false;
+            var cap = punto.gameObject.GetComponent<CapsuleCollider>();
+            if (cap == null) cap = punto.gameObject.AddComponent<CapsuleCollider>();
+            cap.center = new Vector3(0f, 0.86f, 0f);
+            cap.radius = 0.3f;
+            cap.height = 1.72f;
+            return true;
+        }
+
+        /// <summary>Come FiguraFolla, ma con il personaggio MakeHuman se gia' importato (in piedi); altrimenti la figura di primitive.</summary>
+        static Transform FiguraPersonaggio(Transform parent, string nome, string personaggio, Vector3 pos, float yaw, float scala, bool seduta, string matGonna, string matBusto, string matTesta)
+        {
+            if (!seduta)
+            {
+                var punto = new GameObject(nome).transform;
+                punto.SetParent(parent, false);
+                punto.SetPositionAndRotation(pos, Quaternion.Euler(0f, yaw, 0f));
+                if (PersonaggioMakeHuman(punto, personaggio)) return punto;
+                UnityEngine.Object.DestroyImmediate(punto.gameObject);
+            }
+            return FiguraFolla(parent, nome, pos, yaw, scala, seduta, matGonna, matBusto, matTesta);
+        }
+
         static void FiguraCapaEFierro(Transform punto)
         {
             var prefab = PersonaggiBuilder.LoadCapaEFierroPrefab();

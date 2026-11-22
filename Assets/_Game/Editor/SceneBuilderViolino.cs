@@ -318,8 +318,20 @@ namespace TrenoBambini.EditorTools
             Box("Comodino", ca, new Vector3(-12.6f, 0.3f, 6.3f), new Vector3(0.45f, 0.6f, 0.4f), "M_LegnoVernicePelata");
             Model("Candela", ca, new Vector3(-12.6f, 0.6f, 6.3f), 0f, 1.0f, false, "CandelaComodino");
             Lampada(ca, new Vector3(-11f, 2.4f, 4.2f));
+            // Derna accanto al tavolo della cucina (tra la stufa e il tavolo: fuori dal percorso porta-tramezzo); modello MakeHuman se importato
+            PersonaggioSecondario(ca, "Npc_Derna", "Derna", new Vector3(-13.0f, 0f, -5.6f), 51f);
             Segreto("Tavolo della cucina di Derna", new Vector3(-11f, 0.8f, -4f), "Sul tavolo della cucina di Derna, accanto alla stufa: una cartolina.");
             Segreto("Davanzale della stanzetta", new Vector3(-15.4f, 1.0f, 4.5f), "Sul davanzale della finestra della stanzetta di Amerigo: un quaderno a righe.");
+        }
+
+        /// <summary>Un personaggio fermo (Derna, Rosa, Alcide): modello MakeHuman se importato, altrimenti un segnaposto di primitive; collider a capsula sul punto.</summary>
+        static void PersonaggioSecondario(Transform parent, string nome, string personaggio, Vector3 pos, float yaw)
+        {
+            var npc = new GameObject(nome);
+            npc.transform.SetParent(parent, false);
+            npc.transform.SetPositionAndRotation(pos, Quaternion.Euler(0f, yaw, 0f));
+            if (!PersonaggioMakeHuman(npc.transform, personaggio))
+                FiguraSegnaposto(npc.transform, "M_Panno_Grigio", "M_Panno_BluSpento", "M_Panno_Beige");
         }
 
         // ------------------------------------------------------------------ la casa-laboratorio dei Benvenuti
@@ -352,6 +364,9 @@ namespace TrenoBambini.EditorTools
             Model("SediaDipinta", la, new Vector3(13.9f, 0f, 4.2f), 270f, 1.0f, true, "SgabelloPiano");
             Lampada(la, new Vector3(9.5f, 2.4f, -4f));
             Lampada(la, new Vector3(13.4f, 2.4f, 1.4f));
+            // Rosa e Alcide nel laboratorio, in angoli liberi (Rosa sul lato est del forno, Alcide fra il banco e il pianoforte)
+            PersonaggioSecondario(la, "Npc_Rosa", "Rosa", new Vector3(11.6f, 0f, -5.6f), 241f);
+            PersonaggioSecondario(la, "Npc_Alcide", "Alcide", new Vector3(13.2f, 0f, 1.2f), 120f);
             Segreto("Forno di Rosa", VioV1, "Il forno a legna di Rosa contro il muro sud del laboratorio (enigma principale V1).");
             Segreto("Banco dell'accordatore", VioV2, "Il banco degli attrezzi di Alcide contro il muro est (enigma principale V2).");
             Segreto("Pianoforte", VioV3, "Il pianoforte verticale aperto contro il muro est (enigma principale V3).");

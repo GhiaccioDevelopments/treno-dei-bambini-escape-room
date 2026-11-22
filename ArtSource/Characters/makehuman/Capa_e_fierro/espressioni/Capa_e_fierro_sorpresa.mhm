@@ -1,0 +1,43 @@
+# Written by MakeHuman 1.2.1 alpha
+version v1.2.1
+camera 2.326674411889183 359.6819082829026 -0.00013453303732375245 0.8757867840682875 0.0754647173817662 8.7
+modifier head/head-square 0.450000
+modifier head/head-scale-horiz-decr|incr 0.120000
+modifier eyebrows/eyebrows-trans-down|up -0.250000
+modifier neck/neck-scale-horiz-decr|incr 0.350000
+modifier eyes/r-eye-scale-decr|incr -0.100000
+modifier eyes/l-eye-scale-decr|incr -0.100000
+modifier nose/nose-scale-vert-decr|incr 0.150000
+modifier nose/nose-scale-horiz-decr|incr 0.250000
+modifier chin/chin-width-decr|incr 0.300000
+modifier stomach/stomach-pregnant-decr|incr 0.300000
+modifier breast/BreastSize 0.500000
+modifier breast/BreastFirmness 0.500000
+modifier macrodetails/Gender 1.000000
+modifier macrodetails/Age 0.692308
+modifier macrodetails/African 0.121180
+modifier macrodetails/Asian 0.100000
+modifier macrodetails/Caucasian 0.778820
+modifier macrodetails-universal/Muscle 0.620000
+modifier macrodetails-universal/Weight 0.720000
+modifier macrodetails-height/Height 0.520000
+modifier macrodetails-proportions/BodyProportions 0.450000
+teeth Teeth_Base 0a5ec82a-0d5f-43ce-a765-8f076f95692d
+hair short02 c104cd4a-1edc-43f9-8b94-f63345a44638
+eyelashes Eyelashes01 d533836f-13ad-4836-8b65-051108253cd2
+skeleton game_engine.mhskel
+eyebrows eyebrow010 8261cde8-7ce2-47f3-a7a2-edf459c50887
+eyes HighPolyEyes 2c12f43b-1303-432c-b7ce-d78346baf2e6
+clothes male_worksuit01 6afd98fa-381b-456f-aa46-3dd15b27b2f0
+clothes shoes01 6e0c552e-e207-44df-8f70-c9bfdeddd8c6
+clothesHideFaces True
+expression surprise01.mhpose
+skinMaterial skins/middleage_caucasian_male/middleage_caucasian_male.mhmat
+material male_worksuit01 6afd98fa-381b-456f-aa46-3dd15b27b2f0 amerigo/capa_e_fierro_abito.mhmat
+material shoes01 6e0c552e-e207-44df-8f70-c9bfdeddd8c6 amerigo/capa_e_fierro_scarpe.mhmat
+material short02 c104cd4a-1edc-43f9-8b94-f63345a44638 amerigo/capa_e_fierro_capelli.mhmat
+material HighPolyEyes 2c12f43b-1303-432c-b7ce-d78346baf2e6 eyes/materials/brown.mhmat
+material eyebrow010 8261cde8-7ce2-47f3-a7a2-edf459c50887 eyebrow010.mhmat
+material Eyelashes01 d533836f-13ad-4836-8b65-051108253cd2 eyelashes01.mhmat
+material Teeth_Base 0a5ec82a-0d5f-43ce-a765-8f076f95692d teeth/materials/teeth.mhmat
+subdivide False

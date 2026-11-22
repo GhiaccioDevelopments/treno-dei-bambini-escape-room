@@ -128,7 +128,7 @@ namespace TrenoBambini.EditorTools
             l.type = LightType.Point; l.color = new Color(1f, 0.68f, 0.38f); l.intensity = 0f; l.range = 3.5f; l.shadows = LightShadows.None;
             l.lightmapBakeType = LightmapBakeType.Realtime;
             Prim(PrimitiveType.Sphere, "Fiamma1946", root.transform, lg.transform.position + Vector3.down * 0.3f, new Vector3(0.05f, 0.09f, 0.05f), "Glow", null, false);
-            FiguraFolla(root.transform, "Antonietta1946_" + id, figura, yaw, 1.0f, false, "M_Panno_Grigio", "M_Panno_Terra", "M_Panno_Beige");
+            FiguraPersonaggio(root.transform, "Antonietta1946_" + id, "Antonietta", figura, yaw, 1.0f, false, "M_Panno_Grigio", "M_Panno_Terra", "M_Panno_Beige");
             foreach (var c in root.GetComponentsInChildren<Collider>()) UnityEngine.Object.DestroyImmediate(c); // nel ricordo non si sbatte contro nessuno
             root.SetActive(false);
             dt.angoli.Add(new DueTempi.Angolo { chiave = "flashback_finale/enigma_posto_" + id, radice = root, luce = l });

@@ -332,10 +332,10 @@ namespace TrenoBambini.EditorTools
             Manifesto(sd, "ComitatoVisite", new Vector3(7.88f, y0 + 1.75f, 47.6f), Vector3.left, 0.62f, 0.93f, "Manifesto_Visite");
             Manifesto(sd, "ComitatoVoto", new Vector3(-7.88f, y0 + 1.75f, 41.8f), Vector3.right, 0.62f, 0.93f, "Manifesto_VotoSala");
             Manifesto(sd, "Treni", new Vector3(3.2f, y0 + 1.8f, 49.88f), Vector3.back, 0.62f, 0.93f, "Manifesto_TreniSala");
-            // Maddalena accanto alla bacheca (segnaposto: il modello 3D verra' con il suo generatore MakeHuman)
+            // Maddalena accanto alla bacheca (modello MakeHuman se importato, altrimenti segnaposto)
             var npc = new GameObject("Npc_Maddalena"); npc.transform.SetParent(sd, false);
             npc.transform.SetPositionAndRotation(VolMaddalena, Quaternion.Euler(0f, 200f, 0f));
-            FiguraSegnaposto(npc.transform, "M_Panno_Grigio", "M_Panno_BluSpento", "M_Panno_Beige");
+            if (!PersonaggioMakeHuman(npc.transform, "Maddalena")) FiguraSegnaposto(npc.transform, "M_Panno_Grigio", "M_Panno_BluSpento", "M_Panno_Beige");
 
             // ---- stanza dei registri: scaffale con i registri, armadio delle visite, scrivania (enigma), leggio (segreto)
             Box("Scaffale_Fianco", sd, new Vector3(-7.6f, y0 + 1.1f, 52.75f), new Vector3(0.4f, 2.2f, 0.05f), "M_LegnoVernicePelata", null, true);

@@ -251,10 +251,10 @@ namespace TrenoBambini.EditorTools
                 Box("AppesoCatenaLanterna", at, new Vector3(p.x, HAtrio - 1.0f, p.z), new Vector3(0.03f, 2.0f, 0.03f), "M_FerroRuggine02", null, false);
             }
 
-            // le volontarie dietro i tavoli (figure semplici: i modelli MakeHuman verranno dopo) e la folla
-            FiguraFolla(at, "Npc_VolontariaComitato", new Vector3(-8.0f, 0f, -6.0f), 180f, 0.98f, false, "M_Panno_Grigio", "M_Panno_BluSpento", "M_Panno_Beige");
-            FiguraFolla(at, "Npc_VolontariaCroceRossa", new Vector3(8.0f, 0f, -5.9f), 180f, 1.0f, false, "M_Panno_Bianco", "M_Panno_Bianco", "M_Panno_Beige");
-            FiguraFolla(at, "Npc_Pachiochia", new Vector3(-6.2f, 0f, -14.3f), 30f, 0.93f, false, "M_Panno_Grigio", "M_Panno_Grigio", "M_Panno_Beige");
+            // le volontarie dietro i tavoli (modelli MakeHuman se importati, altrimenti figure semplici) e la folla
+            FiguraPersonaggio(at, "Npc_VolontariaComitato", "VolontariaComitato", new Vector3(-8.0f, 0f, -6.0f), 180f, 0.98f, false, "M_Panno_Grigio", "M_Panno_BluSpento", "M_Panno_Beige");
+            FiguraPersonaggio(at, "Npc_VolontariaCroceRossa", "VolontariaCroceRossa", new Vector3(8.0f, 0f, -5.9f), 180f, 1.0f, false, "M_Panno_Bianco", "M_Panno_Bianco", "M_Panno_Beige");
+            FiguraPersonaggio(at, "Npc_Pachiochia", "Pachiochia", new Vector3(-6.2f, 0f, -14.3f), 30f, 0.93f, false, "M_Panno_Grigio", "M_Panno_Grigio", "M_Panno_Beige");
             var folla = new[]
             {
                 new Vector4(-5.6f, -9.2f, 20f, 1f), new Vector4(-3.4f, -8.4f, 200f, 0.6f), new Vector4(2.6f, -6.6f, 160f, 1f), new Vector4(3.3f, -6.9f, 140f, 0.62f),
@@ -374,8 +374,8 @@ namespace TrenoBambini.EditorTools
             }
 
             // sulla banchina: Antonietta accanto alla cassa con la valigia (C3), il capotreno, madri che salutano, carrelli
-            FiguraFolla(pe, "Npc_Antonietta", new Vector3(-1.25f, 0f, 14.05f), 270f, 1.0f, false, "M_Panno_Grigio", "M_Panno_Terra", "M_Panno_Beige");
-            FiguraFolla(pe, "Npc_Controllore", new Vector3(-2.4f, 0f, 18.9f), 250f, 1.02f, false, "M_Panno_BluSpento", "M_Panno_BluSpento", "M_Panno_Beige");
+            FiguraPersonaggio(pe, "Npc_Antonietta", "Antonietta", new Vector3(-1.25f, 0f, 14.05f), 270f, 1.0f, false, "M_Panno_Grigio", "M_Panno_Terra", "M_Panno_Beige");
+            FiguraPersonaggio(pe, "Npc_Controllore", "Controllore", new Vector3(-2.4f, 0f, 18.9f), 250f, 1.02f, false, "M_Panno_BluSpento", "M_Panno_BluSpento", "M_Panno_Beige");
             foreach (var f in new[] { new Vector4(-2.6f, 23.5f, 260f, 1f), new Vector4(-1.4f, 26.0f, 240f, 1f), new Vector4(-2.9f, 30.5f, 270f, 0.95f), new Vector4(1.8f, 12.0f, 200f, 1f),
                                        new Vector4(2.4f, 20.0f, 300f, 1f), new Vector4(-2.2f, 9.0f, 230f, 0.62f) })
             {
@@ -656,7 +656,7 @@ namespace TrenoBambini.EditorTools
                 FiguraFolla(ca, "Folla_BambinoSeduto_" + i, new Vector3(s.x, 0f, s.y), s.z, s.w, true, i % 2 == 0 ? "M_Panno_Terra" : "M_Panno_BluSpento", "M_Panno_Grigio", "M_Panno_Beige");
             }
             // una volontaria che accompagna i bambini, seduta nel primo scompartimento
-            FiguraFolla(ca, "Npc_Accompagnatrice", new Vector3(0.95f, 0f, 1.6f), 180f, 1.0f, true, "M_Panno_Grigio", "M_Panno_BluSpento", "M_Panno_Beige");
+            FiguraPersonaggio(ca, "Npc_Accompagnatrice", "VolontariaCroceRossa", new Vector3(0.95f, 0f, 1.6f), 180f, 1.0f, true, "M_Panno_Grigio", "M_Panno_BluSpento", "M_Panno_Beige");
 
             Segreto("Corridoio, accanto alla panca", new Vector3(0.25f, 0f, 12.4f), "A terra nel corridoio, accanto alla panca dello scompartimento: una cartolina.");
             Segreto("Davanzale del finestrino", new Vector3(1.3f, 1.0f, 15.0f), "Sul davanzale di un finestrino del lato est: un fazzoletto ricamato.");
