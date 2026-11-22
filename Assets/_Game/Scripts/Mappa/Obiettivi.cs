@@ -35,7 +35,13 @@ namespace TrenoBambini.Mappa
         public static ObiettivoDef Corrente()
         {
             var l = GameData.Mappe.obiettivi;
-            for (int i = 0; i < l.Count; i++) if (!ChiusoDalCapitolo(l[i]) && !Completo(l[i])) return l[i];
+            for (int i = 0; i < l.Count; i++)
+            {
+                if (ChiusoDalCapitolo(l[i]) || Completo(l[i])) continue;
+                // finiti gli enigmi di un capitolo, il passo dopo e' uscire dal ricordo (capitolo finito): il capitolo seguente parte solo quando questo e' rivissuto
+                if (i > 0 && l[i - 1].capitolo != l[i].capitolo && !string.IsNullOrEmpty(l[i - 1].capitolo) && !ChiusoDalCapitolo(l[i - 1])) return null;
+                return l[i];
+            }
             return null;
         }
 

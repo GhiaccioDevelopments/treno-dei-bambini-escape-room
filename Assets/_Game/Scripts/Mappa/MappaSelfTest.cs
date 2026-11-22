@@ -224,7 +224,7 @@ namespace TrenoBambini.Mappa
 
             // ---------- dati
             var mp = GameData.Mappe;
-            Check("mappe.json: tre scene", mp.scene.Count == 3, mp.scene.Count + " scene");
+            Check("mappe.json: una scena per ogni luogo giocabile (9)", mp.scene.Count >= 9, mp.scene.Count + " scene");
             Check("mappe.json: obiettivi del capitolo", mp.obiettivi.Count >= 11, mp.obiettivi.Count + " obiettivi");
             foreach (var s in mp.scene)
             {
@@ -240,7 +240,7 @@ namespace TrenoBambini.Mappa
             foreach (var o in mp.obiettivi)
             {
                 bool tokenOk = o.completo.Count > 0;
-                foreach (var t in o.completo) if (!(MondoStato.Trova("mondo/" + t) != null || MondoStato.Trova("flashback_scarpe/" + t) != null)) tokenOk = false;
+                foreach (var t in o.completo) if (!(MondoStato.Trova("mondo/" + t) != null || MondoStato.Trova((string.IsNullOrEmpty(o.capitolo) ? "flashback_scarpe" : o.capitolo) + "/" + t) != null)) tokenOk = false;
                 Check("obiettivo " + o.id + ": il gettone di completamento e' un enigma vero", tokenOk);
                 Check("obiettivo " + o.id + ": ha almeno un punto e un testo", o.punti.Count > 0 && !string.IsNullOrEmpty(o.testo));
                 Check("obiettivo " + o.id + ": appartiene a un capitolo (dato in mappe.json)", !string.IsNullOrEmpty(o.capitolo), o.capitolo);
@@ -525,7 +525,7 @@ namespace TrenoBambini.Mappa
             // salvataggio vecchio: scarpe nell'inventario e ricordo completato, ma senza i gettoni degli enigmi
             var sv = GameManager.I.Save;
             sv.inventario.Add("scarpe"); sv.flashbackCompletati.Add("flashback_scarpe");
-            Check("salvataggio vecchio: senza gettoni l'obiettivo non riparte dal bucato", Obiettivi.Corrente() == null, Id());
+            Check("salvataggio vecchio: senza gettoni l'obiettivo non riparte dal bucato ma dal capitolo dopo", Obiettivi.Corrente() != null && Obiettivi.Corrente().capitolo == "flashback_stracci", Id());
             sv.inventario.Remove("scarpe"); sv.flashbackCompletati.Remove("flashback_scarpe");
             Obiettivo("dopo aver tolto il ricordo completato", "ob_bucato");
             GameManager.I.Save.aiutoMappa = Obiettivi.Normale; GameManager.I.Save.nordFisso = false; GameManager.I.Save.minimappaNascosta = false;

@@ -506,8 +506,11 @@ namespace TrenoBambini.Segreti
             Check("segreti.json: almeno un segreto per stanza", f.segreti.Count >= 15, f.segreti.Count + " segreti");
             foreach (var st in f.stanze)
             {
-                int coll = f.segreti.FindAll(s => s.scena == st.scena && s.tipo == "collezionabile").Count;
-                int en = f.segreti.FindAll(s => s.scena == st.scena && s.tipo == "enigma").Count;
+                if (st.scena == "61_FB_Vagone") continue; // R014: stazione e vagone sono un solo ricordo, contati insieme
+                string sc0 = st.scena;
+                Predicate<string> qui = sc => sc == sc0 || (sc0 == "60_FB_Stazione" && sc == "61_FB_Vagone");
+                int coll = f.segreti.FindAll(s => qui(s.scena) && s.tipo == "collezionabile").Count;
+                int en = f.segreti.FindAll(s => qui(s.scena) && s.tipo == "enigma").Count;
                 Check(st.scena + ": >= 1 enigma segreto e 3-5 collezionabili", en >= 1 && coll >= 3 && coll <= 5, en + " enigmi, " + coll + " collezionabili");
             }
             var ids = new HashSet<string>();
@@ -873,8 +876,14 @@ namespace TrenoBambini.Segreti
             }
             Check("ricordo: soldo trovato, segreto salvato", SegretiStato.Trovato("ric_campana"));
             Check("ricordo: sei segreti su sei", SegretiStato.Trovati("30_FB_Scarpe") == SegretiStato.Totale("30_FB_Scarpe"), SegretiStato.Trovati("30_FB_Scarpe") + "/" + SegretiStato.Totale("30_FB_Scarpe"));
-            Check("tutti i segreti: flag per R016 impostato", SegretiStato.Flag("segreti_tutti") && SegretiStato.Trovati() == SegretiStato.Totale());
+            Check("le tre stanze della prova: tutti i segreti trovati", TrovatiPrimeStanze() == TotalePrimeStanze(), TrovatiPrimeStanze() + "/" + TotalePrimeStanze());
+            Check("segreti_tutti (R016) solo quando mancano zero segreti in tutto il gioco", SegretiStato.Flag("segreti_tutti") == (SegretiStato.Trovati() == SegretiStato.Totale()));
         }
+
+        // le tre stanze che questa prova visita (gli altri ricordi hanno le loro prove: -straccitest, -volantinotest, ...)
+        static readonly List<string> PrimeStanze = new List<string> { GameManager.SceneHub, "20_Int_BassoAntonietta", "30_FB_Scarpe" };
+        static int TotalePrimeStanze() { int n = 0; foreach (var s in PrimeStanze) n += SegretiStato.Totale(s); return n; }
+        static int TrovatiPrimeStanze() { int n = 0; foreach (var s in PrimeStanze) n += SegretiStato.Trovati(s); return n; }
 
         // ------------------------------------------------------------------ salvataggio, quaderno e pausa
         IEnumerator Persistenza()
@@ -882,8 +891,8 @@ namespace TrenoBambini.Segreti
             Log("=== Salvataggio, quaderno, pausa ===");
             GameManager.I.SaveGame();
             var riletto = SaveSystem.Load();
-            Check("salvataggio: i segreti trovati sono salvati (treno_save)", riletto.segretiTrovati.Count == SegretiStato.Totale(), riletto.segretiTrovati.Count + "/" + SegretiStato.Totale());
-            Check("salvataggio: il flag 'segreti_tutti' e' salvato", riletto.segretiFlag.Contains("segreti_tutti"));
+            Check("salvataggio: i segreti trovati sono salvati (treno_save)", riletto.segretiTrovati.Count == SegretiStato.Trovati() && riletto.segretiTrovati.Count >= TotalePrimeStanze(), riletto.segretiTrovati.Count + "/" + SegretiStato.Trovati());
+            Check("salvataggio: il flag 'segreti_tutti' rispecchia lo stato", riletto.segretiFlag.Contains("segreti_tutti") == SegretiStato.Flag("segreti_tutti"));
             GameManager.I.Continue();
             yield return ScenaPronta("30_FB_Scarpe");
             Check("ricaricato: i collezionabili gia' trovati non riappaiono", PezziScena().FindAll(p => p.def.ruolo == "raccogli" && p.Visibile).Count == 0);
@@ -891,12 +900,12 @@ namespace TrenoBambini.Segreti
             Check("ricaricato: la campana gia' risolta resta disegnata ma la sua logica e' spenta", campR != null && campR.fatto && campR.GetComponentsInChildren<Renderer>().Length > 10);
             // pagina Segreti del quaderno: apre davvero il quaderno e fotografa
             var voci = SegretiStato.VociQuaderno();
-            Check("quaderno: una voce per stanza", voci.Count == 3, voci.Count.ToString());
+            Check("quaderno: una voce per stanza", voci.Count == F.stanze.Count, voci.Count + "/" + F.stanze.Count);
             foreach (var v in voci) Log("  " + v.titolo);
             Check("quaderno: 'Il basso di Antonietta   5/5'", voci.Exists(v => v.titolo.Contains("5/5") && v.titolo.Contains("basso")));
             Check("quaderno: 'Il ricordo delle scarpe   6/6'", voci.Exists(v => v.titolo.Contains("6/6")));
             Check("quaderno: 'Il vicolo   6/6'", voci.Exists(v => v.id == GameManager.SceneHub && v.titolo.Contains("6/6")));
-            Check("quaderno: ogni segreto trovato ha la sua scheda scritta", voci.TrueForAll(v => !v.testo.Contains(F.testi.casellaIgnota)));
+            Check("quaderno: ogni segreto trovato ha la sua scheda scritta", voci.FindAll(v => PrimeStanze.Contains(v.id)).TrueForAll(v => !v.testo.Contains(F.testi.casellaIgnota)));
             var ui = UIRoot.I;
             if (ui != null && ui.Inventory != null)
             {
@@ -918,7 +927,7 @@ namespace TrenoBambini.Segreti
                 yield return Attendi(1.0f);
                 var campo = typeof(PausePanel).GetField("segretiTxt", BindingFlags.NonPublic | BindingFlags.Instance);
                 var tx = campo != null ? campo.GetValue(ui.Pause) as TMP_Text : null;
-                Check("pausa: il contatore dei segreti compare nel menu pausa", tx != null && tx.gameObject.activeInHierarchy && tx.text.Contains(SegretiStato.Totale() + "/" + SegretiStato.Totale()), tx != null ? tx.text : "-");
+                Check("pausa: il contatore dei segreti compare nel menu pausa", tx != null && tx.gameObject.activeInHierarchy && tx.text.Contains(SegretiStato.Trovati() + "/" + SegretiStato.Totale()), tx != null ? tx.text : "-");
                 yield return Foto("pausa_contatore");
                 ui.Pause.Hide();
                 yield return Attendi(0.8f);
