@@ -145,6 +145,7 @@ namespace TrenoBambini.Core
         IEnumerator Parte(string id, float dy = 0f)
         {
             Vector2 p;
+            if (BigliettoEnigma.Aperto != null) { BigliettoEnigma.Aperto.Chiudi(); yield return Attendi(0.3f); } // R026: il primo clic chiuderebbe il biglietto
             if (V == null || !V.PosizioneSchermo(id, out p)) { Check("parte " + id + " presente nella vista", false); yield break; }
             yield return ClickMouse(p + new Vector2(0f, dy));
             yield return Attendi(0.55f);
@@ -197,9 +198,17 @@ namespace TrenoBambini.Core
         {
             var e = Trova(id);
             Check(id + ": oggetto presente nel mondo", e != null);
-            if (e == null) yield break;
+            if (e == null)
+            {
+                var sbd = new StringBuilder("  diagnosi: scena attiva " + SceneManager.GetActiveScene().name + ", in lista " + EnigmaMondo.Tutti.Count + "; ");
+                foreach (var x in Resources.FindObjectsOfTypeAll<EnigmaMondo>()) if (x.gameObject.scene.IsValid()) sbd.Append(x.name + (x.gameObject.activeInHierarchy ? "(on) " : "(off, padre " + (x.transform.parent ? x.transform.parent.name + ":" + x.transform.parent.gameObject.activeInHierarchy : "-") + ") "));
+                Log(sbd.ToString());
+                yield break;
+            }
             e.Interact();
             yield return Attendi(1.0f);
+            // R026: il biglietto "Cosa fare" copre la vista e prende il primo clic; il giocatore lo chiude con un clic, la prova lo chiude qui
+            if (BigliettoEnigma.Aperto != null) { BigliettoEnigma.Aperto.Chiudi(); yield return Attendi(0.3f); }
         }
 
         IEnumerator Concludi(string id, string chiave)
@@ -267,11 +276,13 @@ namespace TrenoBambini.Core
         {
             yield return Attendi(3f);
             Check("GameManager pronto", GameManager.I != null && SceneLoader.I != null);
+            GameManager.FilmatoSpento = true; // R025: niente filmato iniziale dentro la prova
             ControllaModelli();
             ControllaBiglietti(); // R026
             PlayerPrefs.DeleteKey("treno_save");
             if (FotoRichiesta()) { yield return FotoMondo(); yield break; }
             GameManager.I.NewGame();
+            GameManager.I.Save.enigmiSemplificati = false; GameManager.I.Save.nascondiSpiegazione = false; // le opzioni restano da partite precedenti: la prova parte dalle viste 3D
             yield return ScenaPronta(GameManager.SceneHub);
             Check("hub caricato", SceneManager.GetActiveScene().name == GameManager.SceneHub);
             yield return ControllaViola("hub");
@@ -385,9 +396,10 @@ namespace TrenoBambini.Core
                             if (o == null) continue;
                             string st = (o.modello ?? "").ToLowerInvariant();
                             bool calz = MondoFab.LunghezzaCalzatura(st) > 0f;
+                            bool speciale = st == "voce" || st.StartsWith("straccio"); // R012/R013: stracci e voci li costruisce NascostoPuzzle
                             if (calz) nomi.Add("calz_" + st);
                             // nessuna ricaduta silenziosa: lo stile deve essere una calzatura nota oppure un modello vero che si carica
-                            Check("oggetto nascosto " + o.id + ": modello '" + st + "' dedicato", calz || (st != "" && Resources.Load<GameObject>("Modelli/Enigmi/" + st) != null));
+                            Check("oggetto nascosto " + o.id + ": modello '" + st + "' dedicato", calz || speciale || (st != "" && Resources.Load<GameObject>("Modelli/Enigmi/" + st) != null));
                         }
                 }
             }
@@ -545,6 +557,7 @@ namespace TrenoBambini.Core
             Log("=== Corsa completa in modalita' semplificata ===");
             PlayerPrefs.DeleteKey("treno_save");
             GameManager.I.NewGame();
+            GameManager.I.Save.enigmiSemplificati = false; GameManager.I.Save.nascondiSpiegazione = false; // le opzioni restano da partite precedenti: la prova parte dalle viste 3D
             yield return ScenaPronta(GameManager.SceneHub);
             GameManager.I.Save.enigmiSemplificati = true;
             GameManager.I.SaveGame();

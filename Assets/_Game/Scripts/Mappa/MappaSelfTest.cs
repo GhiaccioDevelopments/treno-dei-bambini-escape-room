@@ -220,6 +220,7 @@ namespace TrenoBambini.Mappa
         {
             yield return Attendi(3f);
             Check("GameManager pronto", GameManager.I != null && SceneLoader.I != null);
+            GameManager.FilmatoSpento = true; // R025: niente filmato iniziale dentro la prova
 
             // ---------- dati
             var mp = GameData.Mappe;

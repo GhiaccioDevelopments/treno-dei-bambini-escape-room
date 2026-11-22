@@ -177,8 +177,12 @@ namespace TrenoBambini.Core
         }
 
         /// <summary>R025: il filmato iniziale esiste (copione e regia) ed e' attivo (flag -senzafilmato nelle prove di prestazioni lo spegne).</summary>
+        /// <summary>Le prove automatiche che partono da Nuova partita (enigmi, segreti, mappa) spengono il filmato iniziale: altrimenti carica le sue scene durante la prova.</summary>
+        public static bool FilmatoSpento;
+
         public static bool FilmatoDisponibile()
         {
+            if (FilmatoSpento) return false;
             foreach (var a in System.Environment.GetCommandLineArgs()) if (a == "-senzafilmato") return false;
             var d = GameData.Cutscene("intro");
             var f = GameData.Filmato;

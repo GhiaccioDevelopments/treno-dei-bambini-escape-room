@@ -312,12 +312,13 @@ namespace TrenoBambini.Core
             // ---- 9. versione semplificata, mappa, obiettivi, segreti
             ResetSalvataggio(true);
             GameManager.I.Save.enigmiSemplificati = true;
+            GameManager.I.Save.cutsceneViste.Add("cutscene_finale#ingresso"); GameManager.I.Save.scena = Finale; GameManager.I.Save.spawn = "inizio"; // si entra come dal telefono (anche se il menu fa Continua)
             GameManager.I.SaveGame();
             yield return Vai(Finale, "inizio");
-            yield return ChiudiTutto(4);
+            yield return ChiudiTutto(20);
             int semplici = 0;
             foreach (var e in EnigmaMondo.Tutti) if (e != null && !e.segreto && e.chiave.StartsWith("flashback_finale/") && e.def.domande.Count >= 3) semplici++;
-            Check("ogni postazione ha le domande della versione semplificata", semplici == 9, semplici.ToString());
+            Check("ogni postazione ha le domande della versione semplificata", semplici == 9, semplici + " (scena " + SceneManager.GetActiveScene().name + ", enigmi in lista " + EnigmaMondo.Tutti.Count + ")");
             GameManager.I.Save.enigmiSemplificati = false;
             Check("mappa: scena 80", GameData.MappaScena(Finale) != null && GameData.MappaScena(Finale).strade.Count == 4);
             int obiettivi = 0; foreach (var o in GameData.Mappe.obiettivi) if (o.capitolo == "flashback_finale") obiettivi++;
