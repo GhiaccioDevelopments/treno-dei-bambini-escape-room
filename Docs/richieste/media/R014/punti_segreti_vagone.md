@@ -2,7 +2,6 @@
 
 Generato da `SceneBuilder` (R006, tappa 3). Coordinate mondo nella scena `61_FB_Vagone` (x, y, z).
 Non toccare a mano: rigenerare la scena da **Treno > Costruisci tutte le scene** aggiorna questo file.
-(Prima stesura scritta a mano al PC della scuola, senza Unity, con gli stessi nomi e le stesse coordinate di `SceneBuilderCappotto.cs`.)
 
 **Zone:** carrozza x -1,4..1,4 (corridoio x -0,45..0,45) z 0..18, vestiboli z -2,5..0 e 18..20,5; scompartimenti ogni 2 m (centri z 1, 3, ..., 17); reticelle a 2,0 m.
 
@@ -14,3 +13,12 @@ Non toccare a mano: rigenerare la scena da **Treno > Costruisci tutte le scene**
 | 4 | Corridoio, accanto alla panca | 0,3 | 0,0 | 12,4 | A terra nel corridoio, accanto alla panca dello scompartimento: una cartolina. |
 | 5 | Davanzale del finestrino | 1,3 | 1,0 | 15,0 | Sul davanzale di un finestrino del lato est: un fazzoletto ricamato. |
 | 6 | Uscita dal ricordo | 0,0 | 0,0 | 20,3 | La porta della discesa in fondo al vestibolo nord, che riporta al presente. |
+
+## Postazioni degli enigmi (flashback_cappotto.json, scena 61_FB_Vagone)
+
+| Elemento | x | y | z |
+|----------|---|---|---|
+| enigma_finestrino | -0,9 | 0,0 | 17,9 |
+| enigma_paura | 0,0 | 0,0 | 9,0 |
+| enigma_valigia (segreto) | 1,1 | 2,0 | 5,0 |
+

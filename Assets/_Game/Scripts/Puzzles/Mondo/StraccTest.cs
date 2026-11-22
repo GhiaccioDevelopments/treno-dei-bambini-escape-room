@@ -212,7 +212,7 @@ namespace TrenoBambini.Core
             Check("si entra in 40_FB_Stracci", SceneManager.GetActiveScene().name == "40_FB_Stracci");
             Check("cutscene d'ingresso registrata", GameManager.I.Save.cutsceneViste.Contains("cutscene_stracci#ingresso"));
             yield return ChiudiTutto(6);
-            var enigmiStracci = EnigmaMondo.Tutti.FindAll(e => e != null && e.gameObject.scene.name == "40_FB_Stracci");
+            var enigmiStracci = EnigmaMondo.Tutti.FindAll(e => e != null && !e.segreto && e.gameObject.scene.name == "40_FB_Stracci");
             Check("cinque enigmi creati", enigmiStracci.Count == 5, enigmiStracci.Count + ": " + string.Join(",", enigmiStracci.ConvertAll(e => e.name).ToArray()));
             var esci = FindAnyObjectByType<EscapeExit>();
             Check("uscita presente", esci != null);

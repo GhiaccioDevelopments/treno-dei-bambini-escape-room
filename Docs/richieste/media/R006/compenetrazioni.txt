@@ -1,8 +1,7 @@
-Verifica compenetrazioni - 2026-11-08 02:07
+Verifica compenetrazioni - 2026-11-22 18:04
 Tolleranza penetrazione 2 cm, appoggio 5 cm, sotto il pavimento 3 cm.
 
-== 01_Titolo: 1 segnalazioni ==
-  [01_Titolo] SOTTO IL PAVIMENTO 320,0 cm: Sicurezza/PianoSicurezza  @(0,00, -3,10, 0,43)
+== 01_Titolo: 0 segnalazioni ==
 
 == 10_Hub_Vicolo: 1 segnalazioni ==
   [10_Hub_Vicolo] SOTTO IL PAVIMENTO 400,0 cm: Sicurezza/PianoSicurezza  @(0,17, -3,90, 6,25)
@@ -13,4 +12,73 @@ Tolleranza penetrazione 2 cm, appoggio 5 cm, sotto il pavimento 3 cm.
 == 30_FB_Scarpe: 1 segnalazioni ==
   [30_FB_Scarpe] SOTTO IL PAVIMENTO 400,0 cm: Sicurezza/PianoSicurezza  @(1,75, -3,90, 2,69)
 
-TOTALE: 4
+== 40_FB_Stracci: 22 segnalazioni ==
+  [40_FB_Stracci] COMPENETRAZIONE 15,0 cm: Ambiente/Casa_E_49/LOD0[faccia] <-> Ambiente/Bottega/MuroSoffittoBottega  @(-4,00, 5,24, 40,12)  (a: c(-8,00, 5,70, 38,74) h(0,26, 1,50, 0,00); b: c(0,00, 4,78, 41,50) h(8,15, 0,08, 6,65))
+  [40_FB_Stracci] COMPENETRAZIONE 15,0 cm: Ambiente/Casa_E_50/LOD0[faccia] <-> Ambiente/Bottega/MuroBottega_Ovest  @(-7,98, 2,61, 40,58)  (a: c(-8,03, 2,27, 39,66) h(0,00, 0,05, 0,18); b: c(-7,94, 2,95, 41,50) h(0,06, 1,75, 6,50))
+  [40_FB_Stracci] COMPENETRAZIONE 15,0 cm: Ambiente/Casa_E_51/LOD0[faccia] <-> Ambiente/Bottega/MuroBottega_Ovest  @(-7,98, 2,61, 42,96)  (a: c(-8,03, 2,27, 44,41) h(0,00, 0,05, 0,18); b: c(-7,94, 2,95, 41,50) h(0,06, 1,75, 6,50))
+  [40_FB_Stracci] COMPENETRAZIONE 15,0 cm: Ambiente/Casa_N_20/LOD0[faccia] <-> Ambiente/Bottega/MuroSoffittoBottega  @(-4,00, 5,24, 38,14)  (a: c(-8,00, 5,70, 34,78) h(0,00, 1,50, 0,23); b: c(0,00, 4,78, 41,50) h(8,15, 0,08, 6,65))
+  [40_FB_Stracci] COMPENETRAZIONE 15,0 cm: Ambiente/Casa_S_41/LOD0[faccia] <-> Ambiente/Bottega/MuroSoffittoBottega  @(-4,00, 5,24, 44,86)  (a: c(-8,00, 5,70, 48,23) h(0,00, 1,50, 0,23); b: c(0,00, 4,78, 41,50) h(8,15, 0,08, 6,65))
+  [40_FB_Stracci] COMPENETRAZIONE 15,0 cm: Ambiente/Casa_S_42/LOD0[faccia] <-> Ambiente/Bottega/MuroSoffittoBottega  @(-1,50, 5,24, 44,86)  (a: c(-3,00, 5,70, 48,23) h(0,00, 1,50, 0,23); b: c(0,00, 4,78, 41,50) h(8,15, 0,08, 6,65))
+  [40_FB_Stracci] COMPENETRAZIONE 15,0 cm: Ambiente/Casa_N_21/LOD0[faccia] <-> Ambiente/Bottega/MuroSoffittoBottega  @(1,00, 5,24, 38,14)  (a: c(2,00, 5,70, 34,78) h(0,00, 1,50, 0,23); b: c(0,00, 4,78, 41,50) h(8,15, 0,08, 6,65))
+  [40_FB_Stracci] COMPENETRAZIONE 15,0 cm: Ambiente/Casa_S_43/LOD0[faccia] <-> Ambiente/Bottega/MuroSoffittoBottega  @(2,00, 5,24, 44,86)  (a: c(4,00, 5,70, 48,23) h(0,00, 1,50, 0,23); b: c(0,00, 4,78, 41,50) h(8,15, 0,08, 6,65))
+  [40_FB_Stracci] COMPENETRAZIONE 41,0 cm: Ambiente/Casa_O_83/LOD0[faccia] <-> Ambiente/Bottega/MuroSoffittoBottega  @(3,63, 4,84, 39,28)  (a: c(7,25, 4,90, 37,05) h(0,01, 0,46, 0,00); b: c(0,00, 4,78, 41,50) h(8,15, 0,08, 6,65))
+  [40_FB_Stracci] COMPENETRAZIONE 15,0 cm: Ambiente/Casa_O_82/LOD0[faccia] <-> Ambiente/Bottega/MuroBottega_Est  @(7,98, 2,61, 41,71)  (a: c(8,02, 2,27, 41,92) h(0,00, 0,05, 0,18); b: c(7,94, 2,95, 41,50) h(0,06, 1,75, 6,50))
+  [40_FB_Stracci] COMPENETRAZIONE 5,0 cm: Ambiente/Bottega/MuroBottega_Nord <-> Uscita/UscitaArchitrave  @(2,90, 3,30, 47,88)  (a: c(0,00, 2,95, 47,94) h(8,00, 1,75, 0,06); b: c(5,80, 3,65, 47,82) h(0,90, 0,09, 0,11))
+  [40_FB_Stracci] COMPENETRAZIONE 8,0 cm: Ambiente/Bottega/AppesoDado <-> Uscita/UscitaStipite  @(2,53, 2,08, 47,84)  (a: c(0,00, 1,75, 47,86) h(7,90, 0,55, 0,02); b: c(5,05, 2,40, 47,82) h(0,08, 1,20, 0,10))
+  [40_FB_Stracci] COMPENETRAZIONE 8,6 cm: Bottega/MucchioStracci/SaccoMucchio/Sacco_LOD0 <-> Uscita/UscitaSoglia  @(5,97, 1,33, 47,58)  (a: c(6,14, 1,43, 47,39) h(0,46, 0,23, 0,27); b: c(5,80, 1,23, 47,78) h(0,80, 0,03, 0,18))
+  [40_FB_Stracci] COMPENETRAZIONE 8,0 cm: Ambiente/Bottega/AppesoDado <-> Uscita/UscitaStipite  @(3,28, 2,08, 47,84)  (a: c(0,00, 1,75, 47,86) h(7,90, 0,55, 0,02); b: c(6,55, 2,40, 47,82) h(0,08, 1,20, 0,10))
+  [40_FB_Stracci] COMPENETRAZIONE 17,5 cm: Ambiente/Casa_S_39/LOD0[faccia] <-> Ambiente/Bottega/SogliaStipite  @(-1,96, 2,43, 32,07)  (a: c(-2,02, 2,16, 32,20) h(0,00, 0,03, 0,25); b: c(-1,90, 2,70, 31,95) h(0,15, 1,50, 0,17))
+  [40_FB_Stracci] COMPENETRAZIONE 12,5 cm: Ambiente/Insegna_BottegaStracci <-> Ambiente/Bottega/SogliaArchitrave  @(0,00, 4,15, 31,92)  (a: c(0,00, 4,25, 31,88) h(1,50, 0,23, 0,03); b: c(0,00, 4,05, 31,95) h(2,05, 0,15, 0,17))
+  [40_FB_Stracci] COMPENETRAZIONE 19,9 cm: Ambiente/Casa_S_40/LOD0[faccia] <-> Ambiente/Bottega/SogliaStipite  @(1,96, 2,43, 32,07)  (a: c(2,02, 2,16, 32,19) h(0,00, 0,03, 0,26); b: c(1,90, 2,70, 31,95) h(0,15, 1,50, 0,17))
+  [40_FB_Stracci] COMPENETRAZIONE 5,0 cm: Ambiente/Macerie <-> Ambiente/MucchioStracci/PannoMucchio/Panno_Camicia_LOD0  @(5,05, 0,77, -17,05)  (a: c(5,28, 0,97, -17,70) h(0,87, 0,29, 0,82); b: c(4,82, 0,56, -16,39) h(0,36, 0,33, 0,05))
+  [40_FB_Stracci] COMPENETRAZIONE 7,9 cm: Ambiente/Casa_S_25/LOD0[faccia] <-> Ambiente/Macerie  @(13,81, 1,04, -8,60)  (a: c(13,83, 1,02, -7,98) h(0,59, 0,00, 0,18); b: c(13,79, 1,06, -9,23) h(0,86, 0,29, 0,81))
+  [40_FB_Stracci] COMPENETRAZIONE 8,0 cm: Ambiente/Casa_O_84/LOD0[faccia] <-> Ambiente/Macerie  @(14,32, 1,06, -9,28)  (a: c(14,85, 1,07, -9,33) h(0,59, 0,05, 0,00); b: c(13,79, 1,06, -9,23) h(0,86, 0,29, 0,81))
+  [40_FB_Stracci] SOTTO IL PAVIMENTO 6,0 cm: Ambiente/MucchioStracci/MucchioStracci_Base  @(5,20, 0,25, -15,50)
+  [40_FB_Stracci] SOTTO IL PAVIMENTO 400,0 cm: Sicurezza/PianoSicurezza  @(0,23, -3,90, 9,25)
+
+== 50_FB_Volantino: 20 segnalazioni ==
+  [50_FB_Volantino] COMPENETRAZIONE 41,0 cm: Ambiente/Casa_E_39/LOD0[faccia] <-> Ambiente/Sede/MuroSoffittoSede  @(-3,93, 4,54, 45,23)  (a: c(-7,87, 4,60, 40,46) h(0,02, 0,46, 0,00); b: c(0,00, 4,48, 50,00) h(8,15, 0,08, 10,15))
+  [50_FB_Volantino] COMPENETRAZIONE 15,0 cm: Ambiente/Casa_E_40/LOD0[faccia] <-> Ambiente/Sede/MuroSoffittoSede  @(-4,00, 4,46, 48,13)  (a: c(-8,00, 4,45, 46,25) h(0,48, 0,55, 0,00); b: c(0,00, 4,48, 50,00) h(8,15, 0,08, 10,15))
+  [50_FB_Volantino] COMPENETRAZIONE 15,0 cm: Ambiente/Casa_E_41/LOD0[faccia] <-> Ambiente/Sede/MuroSede_Ovest  @(-7,98, 2,31, 50,33)  (a: c(-8,03, 1,97, 50,66) h(0,00, 0,05, 0,18); b: c(-7,94, 2,65, 50,00) h(0,06, 1,75, 10,00))
+  [50_FB_Volantino] COMPENETRAZIONE 15,0 cm: Ambiente/Casa_E_42/LOD0[faccia] <-> Ambiente/Sede/MuroSoffittoSede  @(-4,00, 4,46, 54,38)  (a: c(-8,00, 4,45, 58,75) h(0,48, 0,55, 0,00); b: c(0,00, 4,48, 50,00) h(8,15, 0,08, 10,15))
+  [50_FB_Volantino] COMPENETRAZIONE 15,0 cm: Ambiente/Casa_N_14/LOD0[faccia] <-> Ambiente/Sede/MuroSoffittoSede  @(-4,00, 4,94, 44,89)  (a: c(-8,00, 5,40, 39,78) h(0,00, 1,50, 0,23); b: c(0,00, 4,48, 50,00) h(8,15, 0,08, 10,15))
+  [50_FB_Volantino] COMPENETRAZIONE 15,0 cm: Ambiente/Casa_S_30/LOD0[faccia] <-> Ambiente/Sede/MuroSoffittoSede  @(-4,00, 4,94, 55,11)  (a: c(-8,00, 5,40, 60,23) h(0,00, 1,50, 0,23); b: c(0,00, 4,48, 50,00) h(8,15, 0,08, 10,15))
+  [50_FB_Volantino] COMPENETRAZIONE 41,0 cm: Ambiente/Casa_S_31/LOD0[faccia] <-> Ambiente/Sede/MuroSoffittoSede  @(-0,78, 4,54, 54,64)  (a: c(-1,56, 4,60, 59,27) h(0,00, 0,46, 0,02); b: c(0,00, 4,48, 50,00) h(8,15, 0,08, 10,15))
+  [50_FB_Volantino] COMPENETRAZIONE 15,0 cm: Ambiente/Casa_N_15/LOD0[faccia] <-> Ambiente/Sede/MuroSoffittoSede  @(1,00, 4,94, 44,89)  (a: c(2,00, 5,40, 39,78) h(0,00, 1,50, 0,23); b: c(0,00, 4,48, 50,00) h(8,15, 0,08, 10,15))
+  [50_FB_Volantino] COMPENETRAZIONE 15,0 cm: Ambiente/Casa_S_32/LOD0[faccia] <-> Ambiente/Sede/MuroSoffittoSede  @(1,50, 4,94, 55,11)  (a: c(3,00, 5,40, 60,23) h(0,00, 1,50, 0,23); b: c(0,00, 4,48, 50,00) h(8,15, 0,08, 10,15))
+  [50_FB_Volantino] COMPENETRAZIONE 15,0 cm: Ambiente/Casa_O_66/LOD0[faccia] <-> Ambiente/Sede/MuroSede_Est  @(7,98, 2,31, 54,54)  (a: c(8,03, 1,97, 59,09) h(0,00, 0,05, 0,18); b: c(7,94, 2,65, 50,00) h(0,06, 1,75, 10,00))
+  [50_FB_Volantino] COMPENETRAZIONE 15,0 cm: Ambiente/Casa_O_67/LOD0[faccia] <-> Ambiente/Sede/MuroSede_Est  @(7,98, 2,31, 48,96)  (a: c(8,02, 1,97, 47,92) h(0,00, 0,05, 0,18); b: c(7,94, 2,65, 50,00) h(0,06, 1,75, 10,00))
+  [50_FB_Volantino] COMPENETRAZIONE 15,0 cm: Ambiente/Casa_O_68/LOD0[faccia] <-> Ambiente/Sede/MuroSede_Est  @(7,98, 2,31, 47,54)  (a: c(8,03, 1,97, 45,09) h(0,00, 0,05, 0,18); b: c(7,94, 2,65, 50,00) h(0,06, 1,75, 10,00))
+  [50_FB_Volantino] COMPENETRAZIONE 17,5 cm: Ambiente/Casa_S_28/LOD0[faccia] <-> Ambiente/Sede/SogliaStipite  @(-1,96, 2,13, 37,07)  (a: c(-2,02, 1,86, 37,20) h(0,00, 0,03, 0,25); b: c(-1,90, 2,40, 36,95) h(0,15, 1,50, 0,17))
+  [50_FB_Volantino] COMPENETRAZIONE 5,0 cm: Ambiente/Sede/MuroSede_Nord <-> Uscita/UscitaArchitrave  @(2,50, 3,00, 59,88)  (a: c(0,00, 2,65, 59,94) h(8,00, 1,75, 0,06); b: c(5,00, 3,35, 59,82) h(0,90, 0,09, 0,11))
+  [50_FB_Volantino] COMPENETRAZIONE 8,0 cm: Ambiente/Sede/AppesoDado <-> Uscita/UscitaStipite  @(2,13, 1,78, 59,84)  (a: c(0,00, 1,45, 59,86) h(7,90, 0,55, 0,02); b: c(4,25, 2,10, 59,82) h(0,08, 1,20, 0,10))
+  [50_FB_Volantino] COMPENETRAZIONE 6,0 cm: Ambiente/Sede/AppesoDado <-> Uscita/UscitaSoglia  @(2,50, 1,19, 59,82)  (a: c(0,00, 1,45, 59,86) h(7,90, 0,55, 0,02); b: c(5,00, 0,93, 59,78) h(0,80, 0,03, 0,18))
+  [50_FB_Volantino] COMPENETRAZIONE 8,0 cm: Ambiente/Sede/AppesoDado <-> Uscita/UscitaStipite  @(2,88, 1,78, 59,84)  (a: c(0,00, 1,45, 59,86) h(7,90, 0,55, 0,02); b: c(5,75, 2,10, 59,82) h(0,08, 1,20, 0,10))
+  [50_FB_Volantino] COMPENETRAZIONE 11,8 cm: Ambiente/Casa_E_50/LOD0[faccia] <-> Ambiente/Valigia/Valigia2_LOD0  @(-2,83, 0,28, 10,09)  (a: c(-2,93, 0,32, 9,86) h(1,13, 0,62, 0,00); b: c(-2,73, 0,25, 10,32) h(0,31, 0,25, 0,11))
+  [50_FB_Volantino] COMPENETRAZIONE 19,9 cm: Ambiente/Casa_S_29/LOD0[faccia] <-> Ambiente/Sede/SogliaStipite  @(1,96, 2,13, 37,07)  (a: c(2,02, 1,86, 37,19) h(0,00, 0,03, 0,26); b: c(1,90, 2,40, 36,95) h(0,15, 1,50, 0,17))
+  [50_FB_Volantino] SOTTO IL PAVIMENTO 400,0 cm: Sicurezza/PianoSicurezza  @(1,75, -3,90, 14,25)
+
+== 60_FB_Stazione: 5 segnalazioni ==
+  [60_FB_Stazione] COMPENETRAZIONE 30,0 cm: Ambiente/Atrio/MuroAtrio_Nord_0 <-> Ambiente/Pensilina/MuroSoffittoPensilina_O  @(-9,08, 6,13, 11,55)  (a: c(-11,75, 4,50, 0,10) h(3,25, 4,50, 0,10); b: c(-6,40, 7,75, 23,00) h(4,80, 0,08, 23,10))
+  [60_FB_Stazione] SOTTO IL PAVIMENTO 60,0 cm: Ambiente/Pensilina/MuroPensilina_Ovest  @(-11,10, 3,60, 23,00)
+  [60_FB_Stazione] SOTTO IL PAVIMENTO 27,0 cm: Ambiente/Treno/Carrozza_A/Carrozza_Cassa  @(-5,65, 1,85, 10,65)
+  [60_FB_Stazione] SOSPESO (base a 10 cm, nessun appoggio entro 5 cm): Porte/Porta_Carrozza214  @(-4,20, 1,20, 17,60)
+  [60_FB_Stazione] SOTTO IL PAVIMENTO 400,0 cm: Sicurezza/PianoSicurezza  @(0,25, -3,90, 25,50)
+
+== 61_FB_Vagone: 1 segnalazioni ==
+  [61_FB_Vagone] SOTTO IL PAVIMENTO 400,0 cm: Sicurezza/PianoSicurezza  @(0,00, -3,90, 9,00)
+
+== 70_FB_Modena: 3 segnalazioni ==
+  [70_FB_Modena] COMPENETRAZIONE 18,0 cm: Ambiente/Campagna/MuroCorte_Nord_O <-> Ambiente/StradaScuola/Staccionata_Traverso  @(-3,45, 0,80, 19,08)  (a: c(-4,25, 0,75, 12,15) h(1,75, 0,75, 0,15); b: c(-2,65, 0,85, 26,00) h(0,03, 0,04, 14,00))
+  [70_FB_Modena] SOTTO IL PAVIMENTO 20,0 cm: Ambiente/Campagna/CampiNeve  @(0,00, -0,03, 18,00)
+  [70_FB_Modena] SOTTO IL PAVIMENTO 400,0 cm: Sicurezza/PianoSicurezza  @(0,00, -3,90, 18,00)
+
+== 80_Basso_1994: 6 segnalazioni ==
+  [80_Basso_1994] COMPENETRAZIONE 2,5 cm: Ambiente/MuroSoffittoStanza <-> Arredo/Arredo1994/AppesoFiloLampadina  @(1,15, 2,94, 1,92)  (a: c(0,00, 3,08, 2,63) h(4,80, 0,08, 5,43); b: c(2,30, 2,80, 1,20) h(0,01, 0,23, 0,01))
+  [80_Basso_1994] COMPENETRAZIONE 90,0 cm: Ambiente/MuroOvestCucina[faccia] <-> Arredo/Arredo1994/Lenzuolo_Orlo  @(1,53, 1,09, 6,50)  (a: c(1,20, 1,50, 5,80) h(0,00, 1,50, 2,00); b: c(1,85, 0,68, 7,20) h(0,30, 0,23, 0,65))
+  [80_Basso_1994] COMPENETRAZIONE 70,0 cm: Arredo/Credenza/Credenza_LOD0 <-> Arredo/Arredo1994/Lenzuolo_Orlo  @(1,85, 0,63, 7,20)  (a: c(1,85, 0,58, 7,20) h(0,58, 0,58, 0,30); b: c(1,85, 0,68, 7,20) h(0,30, 0,23, 0,65))
+  [80_Basso_1994] COMPENETRAZIONE 42,8 cm: Arredo/BacinellaCucina <-> Arredo/Arredo1994/Scatolone  @(3,95, 0,28, 4,55)  (a: c(4,00, 0,33, 4,50) h(0,28, 0,33, 0,28); b: c(3,90, 0,23, 4,60) h(0,27, 0,23, 0,23))
+  [80_Basso_1994] COMPENETRAZIONE 25,6 cm: Arredo/Cassapanca <-> Arredo/Arredo1994/Lenzuolo_Orlo  @(4,15, 0,31, -0,60)  (a: c(4,15, 0,25, -0,60) h(0,60, 0,25, 0,30); b: c(4,15, 0,38, -0,60) h(0,50, 0,13, 0,30))
+  [80_Basso_1994] SOTTO IL PAVIMENTO 300,0 cm: Sicurezza/PianoSicurezza  @(0,90, -2,90, 5,80)
+
+TOTALE: 60

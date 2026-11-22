@@ -2,7 +2,6 @@
 
 Generato da `SceneBuilder` (R006, tappa 3). Coordinate mondo nella scena `70_FB_Modena` (x, y, z).
 Non toccare a mano: rigenerare la scena da **Treno > Costruisci tutte le scene** aggiorna questo file.
-(Prima stesura scritta a mano al PC della scuola, senza Unity, con gli stessi nomi e le stesse coordinate di `SceneBuilderViolino.cs`.)
 
 **Zone:** corte x -6..6 z -12..12; casa di Derna x -16..-6 z -8..8 (cucina z < 1, stanzetta z > 1); laboratorio x 6..16 z -8..8; strada x -2,5..2,5 z 12..40; scuola x -6..6 z 40..50.
 
@@ -25,8 +24,9 @@ Non toccare a mano: rigenerare la scena da **Treno > Costruisci tutte le scene**
 
 | Elemento | x | y | z |
 |----------|---|---|---|
-| enigma_forno | 9.6 | 0.0 | -6.7 |
-| enigma_attrezzi | 15.0 | 0.0 | -1.6 |
-| enigma_pianoforte | 15.0 | 0.0 | 4.2 |
-| enigma_impronte | 0.0 | 0.0 | 9.0 |
-| enigma_melodia | 0.0 | 0.0 | 47.4 |
+| enigma_forno | 9,6 | 0,0 | -6,7 |
+| enigma_attrezzi | 15,0 | 0,0 | -1,6 |
+| enigma_pianoforte | 15,0 | 0,0 | 4,2 |
+| enigma_impronte | 0,0 | 0,0 | 9,0 |
+| enigma_melodia | 0,0 | 0,0 | 47,4 |
+

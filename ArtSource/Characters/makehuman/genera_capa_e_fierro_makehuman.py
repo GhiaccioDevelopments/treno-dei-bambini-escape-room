@@ -43,6 +43,9 @@ def _capa_main():
         "~/Documents/Il Treno dei Bambini",
         "~/treno-dei-bambini-escape-room",
     ]
+    # variabile d'ambiente opzionale TRENO_REPO (radice del repository): primo candidato, per l'esecuzione automatica
+    if os.environ.get("TRENO_REPO"):
+        _REPO.insert(0, os.environ["TRENO_REPO"])
     CARTELLA_OUTPUT = None
     for _r in _REPO:
         _c = os.path.join(os.path.expanduser(_r), _SOTTO)

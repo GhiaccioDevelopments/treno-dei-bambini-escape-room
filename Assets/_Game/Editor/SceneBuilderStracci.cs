@@ -470,6 +470,19 @@ namespace TrenoBambini.EditorTools
         /// si usa quello (Animator con il controller di Amerigo: resta nella posa ferma); altrimenti un segnaposto di primitive, cosi' la scena si costruisce lo stesso.
         /// Un collider a capsula sul punto: il giocatore non gli passa attraverso.
         /// </summary>
+        /// <summary>Controller con un solo stato di riposo (Amerigo_Idle, Mixamo Humanoid) per i personaggi fermi: creato una volta in Assets/Art/Characters/Npc_Idle.controller.</summary>
+        public static RuntimeAnimatorController ControllerIdleNpc()
+        {
+            const string path = "Assets/Art/Characters/Npc_Idle.controller";
+            var c = AssetDatabase.LoadAssetAtPath<RuntimeAnimatorController>(path);
+            if (c != null) return c;
+            AnimationClip clip = null;
+            foreach (var o in AssetDatabase.LoadAllAssetsAtPath("Assets/Art/Animations/Amerigo/Amerigo_Idle.fbx"))
+                if (o is AnimationClip ac && !ac.name.StartsWith("__preview__")) { clip = ac; break; }
+            if (clip == null) { Debug.LogWarning("[SceneBuilder] Amerigo_Idle.fbx senza clip: personaggio senza animazione."); return null; }
+            return UnityEditor.Animations.AnimatorController.CreateAnimatorControllerAtPathWithClip(path, clip);
+        }
+
         static void FiguraCapaEFierro(Transform punto)
         {
             var prefab = PersonaggiBuilder.LoadCapaEFierroPrefab();
@@ -479,6 +492,11 @@ namespace TrenoBambini.EditorTools
                 corpo.name = "CapaEFierro_Mesh";
                 corpo.transform.localPosition = prefab.transform.localPosition; // offset dei piedi calcolato dall'import
                 corpo.transform.localRotation = Quaternion.identity;
+                // in piedi al banco: idle di Mixamo (Humanoid) invece della posa a T
+                var anim = corpo.GetComponentInChildren<Animator>();
+                if (anim == null) anim = corpo.AddComponent<Animator>();
+                anim.runtimeAnimatorController = ControllerIdleNpc();
+                anim.applyRootMotion = false;
             }
             else
             {

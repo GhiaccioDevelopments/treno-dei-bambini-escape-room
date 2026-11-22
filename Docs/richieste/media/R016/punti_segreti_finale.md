@@ -2,7 +2,6 @@
 
 Generato da `SceneBuilder` (R006, tappa 3). Coordinate mondo nella scena `80_Basso_1994` (x, y, z).
 Non toccare a mano: rigenerare la scena da **Treno > Costruisci tutte le scene** aggiorna questo file.
-(Prima stesura scritta a mano al PC della scuola, senza Unity, con gli stessi nomi e le stesse coordinate di `SceneBuilderFinale.cs`.)
 
 **Zone:** stesso impianto del basso: stanza x -4,5..4,5 z -2,5..3,5; alcova x -4,5..-1,5 z 3,8..7,8; cucina x 1,5..4,5 z 3,8..7,8; cortile x 1,2..6,3 z 8,1..14,1.
 
@@ -18,3 +17,6 @@ Non toccare a mano: rigenerare la scena da **Treno > Costruisci tutte le scene**
 | 8 | Sugli scatoloni | -3,4 | 0,5 | -1,8 | Sopra lo scatolone piu' grande: un biglietto del treno del 1994. |
 | 9 | Mensola della cucina | 3,0 | 0,0 | 5,0 | Sul pavimento della cucina, vicino agli scatoloni: un santino nuovo. |
 | 10 | Davanzale del cortile | 5,6 | 0,0 | 9,2 | Nel cortile, ai piedi del muro: un ex-voto a forma di piede, come quello dell'edicola del vicolo. |
+
+## Postazioni degli enigmi (flashback_finale.json, scena 80_Basso_1994)
+

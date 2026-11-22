@@ -228,7 +228,7 @@ namespace TrenoBambini.Core
             Check("si entra in " + Scena, SceneManager.GetActiveScene().name == Scena);
             Check("cutscene d'ingresso registrata", GameManager.I.Save.cutsceneViste.Contains("cutscene_volantino#ingresso"));
             yield return ChiudiTutto(6);
-            Check("cinque enigmi creati", EnigmaMondo.Tutti.FindAll(e => e != null && e.gameObject.scene.name == Scena).Count == 5);
+            Check("cinque enigmi creati", EnigmaMondo.Tutti.FindAll(e => e != null && !e.segreto && e.gameObject.scene.name == Scena).Count == 5);
             Check("uscita presente", FindAnyObjectByType<EscapeExit>() != null);
             Check("Maddalena (segnaposto) nella sede", GameObject.Find("Npc_Maddalena") != null);
 

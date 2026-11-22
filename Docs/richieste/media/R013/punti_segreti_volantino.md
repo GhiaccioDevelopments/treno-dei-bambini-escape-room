@@ -2,7 +2,6 @@
 
 Generato da `SceneBuilder` (R006, tappa 3). Coordinate mondo nella scena `50_FB_Volantino` (x, y, z).
 Non toccare a mano: rigenerare la scena da **Treno > Costruisci tutte le scene** aggiorna questo file.
-(Prima stesura scritta a mano al PC della scuola, senza Unity, con gli stessi nomi e le stesse coordinate di `SceneBuilderVolantino.cs`.)
 
 | # | Punto | x | y | z | Idea |
 |---|-------|---|---|---|------|
@@ -18,6 +17,8 @@ Non toccare a mano: rigenerare la scena da **Treno > Costruisci tutte le scene**
 | 10 | Cortile, accanto al lavatoio | 16,4 | 0,0 | -13,2 | A terra nel cortile del lavatoio, verso il pozzo. |
 | 11 | Sala, davanti alla panca | -3,0 | 0,9 | 40,6 | Davanti alla panca d'attesa, vicino alla porta della sede. |
 | 12 | Uscita dal ricordo | 5,0 | 0,9 | 59,9 | La porta sul retro della stanza dei registri, che riporta al presente. |
+| 13 | Edicola votiva | -9,0 | 0,0 | 19,2 | Edicola votiva con lumino e fiori: un biglietto sotto i fiori, ex-voto di bambini in partenza. |
+| 14 | Edicola votiva | 10,0 | 0,0 | 9,2 | Edicola votiva con lumino e fiori: un biglietto sotto i fiori, ex-voto di bambini in partenza. |
 
 ## Postazioni degli enigmi (flashback_volantino.json)
 
@@ -32,3 +33,20 @@ Non toccare a mano: rigenerare la scena da **Treno > Costruisci tutte le scene**
 | voce_tornano | 16,6 | 0,0 | -16,0 |
 | voce_male | -11,0 | 0,0 | 18,6 |
 | voce_forni | -6,6 | 0,9 | 30,5 |
+
+## Zone
+
+| Zona | x0..x1 | z0..z1 | Quota |
+|------|--------|--------|-------|
+| Inizio | -6..6 | -32..-22 | 0 |
+| Via | -3..3 | -22..22 | 0 |
+| SlargoCalzolaio | -9..-3 | -8..0 | 0 |
+| TraversaEst | 3..16 | 6..10 | 0 |
+| ViccoloOvest | -16..-3 | 16..20 | 0 |
+| Passaggio | 3..9 | -16..-12 | 0 |
+| CortileEst | 9..19 | -20..-9 | 0 |
+| ScalinataNord | -3..3 | 22..25 | 0 -> 0,9 (scalinata) |
+| Piazzetta | -8..8 | 25..37 | 0,9 |
+| SogliaSede | -1,75..1,75 | 37..40 | 0,9 |
+| Sede | -8..8 | 40..60 | 0,9 |
+
