@@ -325,7 +325,7 @@ namespace TrenoBambini.Core
                 V.GiraManovellaAl(10f);
                 Check("V3: troppo veloce -> il foglio sbava", !V.GiraManovellaAl(10.2f) && V.GiriFatti == 0 && !V.Risolto);
                 foreach (var t in new[] { 11f, 12f, 13f, 14f, 15f }) V.GiraManovellaAl(t);
-                Check("V3: cinque giri regolari -> risolto", V.Risolto, "giri " + V.GiriFatti);
+                Check("V3: tre giri regolari (def.giri) -> risolto", V.Risolto, "giri " + V.GiriFatti);
                 yield return Attendi(0.6f);
                 yield return Chiudi();
             }

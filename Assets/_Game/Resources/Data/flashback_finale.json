@@ -17,12 +17,12 @@
       "z": -1.95,
       "yaw": 180,
       "scala": 1,
-      "consegna": "Il basso è vuoto e freddo, i mobili sotto le lenzuola. Nell'angolo, accanto alla porta, le ultime cose di tua madre: il telefono, un calendario, la scatola di latta. Guardale tutte e tre.",
+      "consegna": "Il basso è vuoto e freddo. Accanto alla porta ci sono le ultime cose di tua madre: il telefono, il calendario e la scatola di latta. Toccale una per una.",
       "temaCivico": "La memoria di una famiglia sta negli oggetti che si conservano: anche loro sono documenti.",
       "indizi": [
-        "Tocca il telefono, il calendario e la scatola di latta.",
+        "Tocca il telefono, il calendario e la scatola di latta, uno alla volta.",
         "Il calendario ha un giorno cerchiato; nella latta c'è qualcosa con un numero.",
-        "Telefono, calendario, cartellino: tutti e tre."
+        "Telefono, calendario, cartellino: tocca tutti e tre."
       ],
       "spiegazione": "Cinque segni a matita sul fondo della latta, uno per ogni posto della casa. Tua madre non sapeva scrivere, ma sapeva dove aveva messo le cose. Rimettile al loro posto.",
       "erroreMsg": "",
@@ -236,15 +236,15 @@
       "z": -2.0,
       "yaw": 180,
       "scala": 1,
-      "consegna": "Uno dei cinque posti segnati nella latta. Quale ricordo abitava qui? Posalo dal vassoio.",
+      "consegna": "Uno dei cinque posti della casa segnati nella latta. Apri il vassoio e posa qui il ricordo che abitava questo posto.",
       "temaCivico": "Memoria e legami familiari: la Costituzione (art. 30) parla del dovere dei genitori verso i figli; qui è una madre che ha conservato tutto.",
       "indizi": [
-        "Ogni ricordo ha un posto in cui lo usavi.",
+        "È la soglia di casa: che cosa si lascia fuori, o si toglie, entrando?",
         "Il cappotto si appende, le scarpe si lasciano entrando, gli stracci vanno nella cesta, il volantino sulla credenza, lo spartito sotto il cuscino.",
-        "Qui va le scarpe."
+        "Qui vanno le scarpe."
       ],
       "spiegazione": "Sulla soglia, dove le scarpe si lasciavano entrando: le scarpe al loro posto. Per un momento l'angolo torna com'era nel 1946: luce di lume a petrolio, voci dal vicolo, qualcuno di spalle. Poi a terra resta un frammento di carta.",
-      "erroreMsg": "Qui non c'era.",
+      "erroreMsg": "Qui non c'era: riprendi il ricordo e provane un altro. Ogni posto ne ha uno solo.",
       "scheda": "",
       "appunto": "Un frammento di carta: la soglia.",
       "distanza": 1.3,
@@ -256,7 +256,7 @@
       "richiede": [
         "elenco_posti"
       ],
-      "bloccatoMsg": "Un posto come un altro, per ora. Prima guarda le cose di tua madre nell'angolo accanto alla porta.",
+      "bloccatoMsg": "Prima guarda le ultime cose di tua madre nell'angolo accanto alla porta: la latta dice dove vanno i ricordi.",
       "produce": [
         "frammento_scarpe"
       ],
@@ -458,15 +458,15 @@
       "z": 10.3,
       "yaw": 180,
       "scala": 1,
-      "consegna": "Uno dei cinque posti segnati nella latta. Quale ricordo abitava qui? Posalo dal vassoio.",
+      "consegna": "Uno dei cinque posti della casa segnati nella latta. Apri il vassoio e posa qui il ricordo che abitava questo posto.",
       "temaCivico": "Memoria e legami familiari: la Costituzione (art. 30) parla del dovere dei genitori verso i figli; qui è una madre che ha conservato tutto.",
       "indizi": [
-        "Ogni ricordo ha un posto in cui lo usavi.",
+        "È una cesta del cortile: che cosa ci si metteva, da vendere a chi compra roba usata?",
         "Il cappotto si appende, le scarpe si lasciano entrando, gli stracci vanno nella cesta, il volantino sulla credenza, lo spartito sotto il cuscino.",
-        "Qui va gli stracci."
+        "Qui vanno gli stracci."
       ],
       "spiegazione": "Nella cesta del cortile, dove Antonietta teneva le pezze da vendere: gli stracci al loro posto. Per un momento l'angolo torna com'era nel 1946: luce di lume a petrolio, voci dal vicolo, qualcuno di spalle. Poi a terra resta un frammento di carta.",
-      "erroreMsg": "Qui non c'era.",
+      "erroreMsg": "Qui non c'era: riprendi il ricordo e provane un altro. Ogni posto ne ha uno solo.",
       "scheda": "",
       "appunto": "Un frammento di carta: la cesta del cortile.",
       "distanza": 1.3,
@@ -478,7 +478,7 @@
       "richiede": [
         "elenco_posti"
       ],
-      "bloccatoMsg": "Un posto come un altro, per ora. Prima guarda le cose di tua madre nell'angolo accanto alla porta.",
+      "bloccatoMsg": "Prima guarda le ultime cose di tua madre nell'angolo accanto alla porta: la latta dice dove vanno i ricordi.",
       "produce": [
         "frammento_stracci"
       ],
@@ -677,15 +677,15 @@
       "z": 1.98,
       "yaw": 270,
       "scala": 1,
-      "consegna": "Uno dei cinque posti segnati nella latta. Quale ricordo abitava qui? Posalo dal vassoio.",
+      "consegna": "Uno dei cinque posti della casa segnati nella latta. Apri il vassoio e posa qui il ricordo che abitava questo posto.",
       "temaCivico": "Memoria e legami familiari: la Costituzione (art. 30) parla del dovere dei genitori verso i figli; qui è una madre che ha conservato tutto.",
       "indizi": [
-        "Ogni ricordo ha un posto in cui lo usavi.",
+        "È la credenza della cucina: che cosa si teneva lì, sotto il piatto buono, per non perderlo?",
         "Il cappotto si appende, le scarpe si lasciano entrando, gli stracci vanno nella cesta, il volantino sulla credenza, lo spartito sotto il cuscino.",
         "Qui va il volantino."
       ],
       "spiegazione": "Sulla credenza, sotto il piatto buono, dove stava il volantino: al suo posto. Per un momento l'angolo torna com'era nel 1946: luce di lume a petrolio, voci dal vicolo, qualcuno di spalle. Poi a terra resta un frammento di carta.",
-      "erroreMsg": "Qui non c'era.",
+      "erroreMsg": "Qui non c'era: riprendi il ricordo e provane un altro. Ogni posto ne ha uno solo.",
       "scheda": "",
       "appunto": "Un frammento di carta: la credenza.",
       "distanza": 1.3,
@@ -697,7 +697,7 @@
       "richiede": [
         "elenco_posti"
       ],
-      "bloccatoMsg": "Un posto come un altro, per ora. Prima guarda le cose di tua madre nell'angolo accanto alla porta.",
+      "bloccatoMsg": "Prima guarda le ultime cose di tua madre nell'angolo accanto alla porta: la latta dice dove vanno i ricordi.",
       "produce": [
         "frammento_volantino"
       ],
@@ -897,15 +897,15 @@
       "z": -2.3,
       "yaw": 180,
       "scala": 1,
-      "consegna": "Uno dei cinque posti segnati nella latta. Quale ricordo abitava qui? Posalo dal vassoio.",
+      "consegna": "Uno dei cinque posti della casa segnati nella latta. Apri il vassoio e posa qui il ricordo che abitava questo posto.",
       "temaCivico": "Memoria e legami familiari: la Costituzione (art. 30) parla del dovere dei genitori verso i figli; qui è una madre che ha conservato tutto.",
       "indizi": [
-        "Ogni ricordo ha un posto in cui lo usavi.",
+        "È un chiodo dietro la porta: che cosa si appende lì, quando si torna a casa col freddo?",
         "Il cappotto si appende, le scarpe si lasciano entrando, gli stracci vanno nella cesta, il volantino sulla credenza, lo spartito sotto il cuscino.",
         "Qui va il cappotto."
       ],
       "spiegazione": "Al chiodo dietro la porta, dove è rimasto appeso per quasi cinquant'anni: il cappotto. Per un momento l'angolo torna com'era nel 1946: luce di lume a petrolio, voci dal vicolo, qualcuno di spalle. Poi a terra resta un frammento di carta.",
-      "erroreMsg": "Qui non c'era.",
+      "erroreMsg": "Qui non c'era: riprendi il ricordo e provane un altro. Ogni posto ne ha uno solo.",
       "scheda": "",
       "appunto": "Un frammento di carta: il chiodo della porta.",
       "distanza": 1.3,
@@ -917,7 +917,7 @@
       "richiede": [
         "elenco_posti"
       ],
-      "bloccatoMsg": "Un posto come un altro, per ora. Prima guarda le cose di tua madre nell'angolo accanto alla porta.",
+      "bloccatoMsg": "Prima guarda le ultime cose di tua madre nell'angolo accanto alla porta: la latta dice dove vanno i ricordi.",
       "produce": [
         "frammento_cappotto"
       ],
@@ -1118,15 +1118,15 @@
       "z": 7.35,
       "yaw": 0,
       "scala": 1,
-      "consegna": "Uno dei cinque posti segnati nella latta. Quale ricordo abitava qui? Posalo dal vassoio.",
+      "consegna": "Uno dei cinque posti della casa segnati nella latta. Apri il vassoio e posa qui il ricordo che abitava questo posto.",
       "temaCivico": "Memoria e legami familiari: la Costituzione (art. 30) parla del dovere dei genitori verso i figli; qui è una madre che ha conservato tutto.",
       "indizi": [
-        "Ogni ricordo ha un posto in cui lo usavi.",
+        "È un cuscino: che cosa si nasconde lì sotto, per tenerlo al sicuro?",
         "Il cappotto si appende, le scarpe si lasciano entrando, gli stracci vanno nella cesta, il volantino sulla credenza, lo spartito sotto il cuscino.",
         "Qui va lo spartito."
       ],
       "spiegazione": "Sotto il cuscino del letto di ferro: lo spartito, piegato in quattro. Per un momento l'angolo torna com'era nel 1946: luce di lume a petrolio, voci dal vicolo, qualcuno di spalle. Poi a terra resta un frammento di carta.",
-      "erroreMsg": "Qui non c'era.",
+      "erroreMsg": "Qui non c'era: riprendi il ricordo e provane un altro. Ogni posto ne ha uno solo.",
       "scheda": "",
       "appunto": "Un frammento di carta: il cuscino.",
       "distanza": 1.3,
@@ -1138,7 +1138,7 @@
       "richiede": [
         "elenco_posti"
       ],
-      "bloccatoMsg": "Un posto come un altro, per ora. Prima guarda le cose di tua madre nell'angolo accanto alla porta.",
+      "bloccatoMsg": "Prima guarda le ultime cose di tua madre nell'angolo accanto alla porta: la latta dice dove vanno i ricordi.",
       "produce": [
         "frammento_spartito"
       ],
@@ -1338,7 +1338,7 @@
       "z": 1.2,
       "yaw": 0,
       "scala": 1,
-      "consegna": "Sotto la lampadina, sul tavolo, i cinque frammenti e un pezzo che c'era già: è un documento strappato. Tocca un pezzo, poi il punto del sottomano dove va. I bordi devono combaciare e le parole avere senso.",
+      "consegna": "Sul tavolo ci sono i cinque frammenti e un pezzo già al suo posto: sono un documento strappato. Tocca un pezzo, poi il punto del sottomano dove va. I bordi devono combaciare e le parole avere senso.",
       "temaCivico": "Il credito su pegno: chi era povero portava al Monte i suoi oggetti per avere soldi in prestito, e poteva riscattarli pagando. Ricomprare il violino fu il gesto di una madre.",
       "indizi": [
         "I bordi dei pezzi combaciano: in alto il nome del Monte, in basso che cosa è stato impegnato.",
@@ -1346,7 +1346,7 @@
         "Il timbro RISCATTATO sta in basso a destra; il numero in alto a destra."
       ],
       "spiegazione": "È una polizza del Monte dei pegni: un violino con custodia, numero 4712. Sopra, un timbro rosso: RISCATTATO, qualche anno dopo. Al posto della firma, una croce. Tua madre era tornata a riprenderlo, da sola, e non te l'aveva mai detto.",
-      "erroreMsg": "",
+      "erroreMsg": "Questo pezzo non va qui: guarda i bordi e prova a leggere la frase che si forma.",
       "scheda": "I Monti dei pegni (o di pietà) prestavano denaro in cambio di un oggetto in garanzia; molte famiglie povere ci portavano lenzuola, ori e strumenti. Numero e date della polizza sono inventati per il gioco.",
       "appunto": "Polizza n. 4712: violino con custodia, RISCATTATO.",
       "distanza": 1.1,
@@ -1693,15 +1693,15 @@
       "z": 6.0,
       "yaw": 0,
       "scala": 1,
-      "consegna": "Sotto il letto di ferro, dietro una coperta piegata, c'è una custodia da violino. È chiusa da un lucchetto a quattro rotelle.",
+      "consegna": "Sotto il letto c'è una custodia da violino, chiusa da un lucchetto a quattro rotelle. Il numero giusto è su un documento che hai ricomposto.",
       "temaCivico": "Una famiglia sono anche i gesti che non si dicono: tenere, conservare, ricomprare.",
       "indizi": [
-        "Sulla custodia c'è un'etichetta con un numero.",
-        "È lo stesso numero della polizza ricomposta sul tavolo.",
+        "Il numero non è sulla custodia: è su un documento che hai ricomposto sul tavolo.",
+        "Cerca sulla polizza ricomposta il numero di quattro cifre accanto a «N.», in alto a destra.",
         "4712."
       ],
       "spiegazione": "Dentro, il violino che Alcide ti aveva dato, con le corde allentate da cinquant'anni. Accanto, piegato con cura, un ritaglio di giornale: un tuo concerto. Nessuna lettera. Non serve.",
-      "erroreMsg": "Il lucchetto non si apre: che numero c'era sulla polizza?",
+      "erroreMsg": "Il lucchetto non si apre: il numero è quello della polizza ricomposta sul tavolo, accanto a «N.».",
       "scheda": "Nel romanzo e nel film Amerigo ritrova il violino dopo la morte della madre; il ritaglio di giornale e la polizza sono inventati per il gioco (nel film c'è una lettera: qui no).",
       "appunto": "Il violino era sotto il letto, con un ritaglio di giornale.",
       "distanza": 1.3,
@@ -1903,12 +1903,12 @@
       "z": -1.95,
       "yaw": 180,
       "scala": 1,
-      "consegna": "Qualcuno bussa alla porta sul vicolo. È un ragazzino: Carmine, il figlio di tuo fratello Agostino. Scegli che cosa fare con lui: ogni scelta va bene.",
+      "consegna": "Qualcuno bussa alla porta sul vicolo: è Carmine, il figlio di tuo fratello Agostino. Scegli che cosa fare con lui: ogni scelta va bene.",
       "temaCivico": "Una famiglia si può anche scegliere: la legge 4 maggio 1983 n. 184 riconosce il diritto del minore a una famiglia, anche attraverso l'affido.",
       "indizi": [
         "Non ci sono risposte sbagliate: scegli quella che senti tua.",
         "Puoi dargli il cartellino, accordare il violino o suonare.",
-        "Una qualunque delle tre."
+        "Scegline una qualunque delle tre: va bene comunque."
       ],
       "spiegazione": "Carmine si siede sul gradino della porta, accanto a te. Fuori, il vicolo fa il suo rumore di sempre.",
       "erroreMsg": "",

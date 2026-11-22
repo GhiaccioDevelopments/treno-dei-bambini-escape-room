@@ -10,15 +10,15 @@
    "id": "enigma_passanti",
    "tipo": "oggetto",
    "titolo": "Le scarpe dei passanti",
-   "consegna": "Seduto sul gradino, bambino scalzo, guardi solo in basso. Dalle scarpe di chi passa indovini il mestiere: dai a ogni paio il suo lavoro (tocca un paio per cambiare). Confermi a gruppi di tre.",
+   "consegna": "Sei seduto sul gradino e vedi solo scarpe. Per ogni paio tocca e scegli il mestiere di chi le porta (confermi a gruppi di tre).",
    "temaCivico": "Disuguaglianze e lavoro (Costituzione, artt. 3 e 4)",
    "indizi": [
-    "Guarda le suole, i chiodi, il fango: ogni mestiere lascia un segno.",
-    "Chi ripara le scarpe degli altri porta suole nuove di cuoio chiaro, rifatte da sé.",
-    "Chiodate e bianche di calce: muratore. Zoccoli: lavandaia. Scarponi alti: reduce. Tacco: signora. Lucide e sottili: impiegato. Suole nuove: calzolaio."
+    "Guarda ogni paio da vicino: suole, chiodi, fango e tacchi dicono che lavoro fa chi le porta.",
+    "Chiodate e bianche di calce: muratore. Zoccoli di legno: lavandaia. Scarponi alti da soldato: reduce.",
+    "Il resto: tacco alto: signora. Lucide e sottili: impiegato. Suole nuove di cuoio chiaro: calzolaio, che ripara le scarpe degli altri."
    ],
    "spiegazione": "Ogni paio di scarpe raccontava una vita: la calce dei muratori, il legno fradicio delle lavandaie, gli scarponi dei soldati tornati, il tacco delle signore. Chi riparava le scarpe degli altri portava suole rifatte a mano. Amerigo le conosceva tutte, e ne desiderava un paio tutto suo.",
-   "erroreMsg": "Non è questo, ma non preoccuparti: guarda meglio e riprova.",
+   "erroreMsg": "Qualche abbinamento non torna, ma nessun problema: tocca di nuovo le scarpe dubbie e guarda suola e tacco.",
    "meccanismo": "deduzione",
    "x": -2.4,
    "y": 0.0,
@@ -167,15 +167,15 @@
    "id": "enigma_nascosto",
    "tipo": "nascosto",
    "titolo": "Il baule delle scarpe",
-   "consegna": "Il calzolaio ha lasciato le forme di legno su una mensola. Riporta le cinque cose che i passanti portano ai piedi e provale sulle forme giuste. Cerca nella strada: ognuna racconta una storia.",
+   "consegna": "Il calzolaio ha lasciato cinque forme di legno sulla mensola. Cerca nella strada cinque scarpe perdute, raccoglile con E e provale sulla forma giusta.",
    "temaCivico": "Disuguaglianze sociali e dignità della persona",
    "indizi": [
-    "Guarda in basso, vicino ai muri e negli angoli: le scarpe stanno per terra.",
-    "Una è nascosta non lontano dal centro della strada. Avvicinati agli oggetti sospetti e premi E.",
-    "Con tutte e cinque in mano, provale sulle forme: la forma e l'etichetta dicono quale va dove."
+    "Le scarpe stanno per terra o appoggiate ai muri della strada: guarda in basso, lungo i bordi e negli angoli.",
+    "Avvicinati a ogni oggetto sospetto e premi E: ti servono uno zoccolo, uno scarpone, un tacco, una scarpa di cartone e una scarpa piccola.",
+    "Con tutte e cinque in mano, provale sulle forme della mensola: la forma e l'etichetta dicono quale scarpa va dove."
    ],
    "spiegazione": "Le cinque calzature mostrano un Paese diviso: c'è chi ha scarpe buone, chi le ripara con il cartone, chi porta gli zoccoli, chi si lega pezze ai piedi e chi, come Amerigo, cammina scalzo. Per la Costituzione nessuno deve restare indietro per la condizione in cui nasce: la dignità spetta a tutti, anche a chi non ha niente ai piedi.",
-   "erroreMsg": "Per ora non le hai trovate tutte. Continua a cercare con calma, sono sparse per la stanza.",
+   "erroreMsg": "Ti mancano ancora delle scarpe: cercane altre vicino ai muri e negli angoli della strada.",
    "x": -8.55,
    "y": 1.0,
    "z": -1.5,
@@ -272,7 +272,7 @@
    "richiede": [
     "calzolaio_riconosciuto"
    ],
-   "bloccatoMsg": "Non hai ancora capito chi è il calzolaio. Guarda le scarpe di chi passa dal gradino.",
+   "bloccatoMsg": "Prima capisci chi è il calzolaio: guarda le scarpe di chi passa dal gradino.",
    "scheda": "Le pezze non entravano in nessuna forma: chi non aveva scarpe non aveva nemmeno quel posto sulla mensola. La dignità spetta a tutti, anche a chi non ha niente ai piedi.",
    "appunto": "Sulla forma più piccola, a matita: «Amerigo» e il numero 9.",
    "produce": [
@@ -586,22 +586,22 @@
    ],
    "scala": 1,
    "completoMsg": "Portale ora alle forme del calzolaio: vediamo a chi calzano.",
-   "cosaFare": "Trova nella strada cinque calzature e provale sulle forme giuste.",
+   "cosaFare": "Trova cinque scarpe nella strada e provale sulle forme giuste.",
    "cosaOttieni": "Una cifra del lucchetto, scritta sulla forma più piccola."
   },
   {
    "id": "enigma_quiz",
    "tipo": "oggetto",
    "titolo": "La cassetta dei diritti",
-   "consegna": "Nel cassetto a doppio fondo del banco, tre documenti: un avviso del Comitato, il registro dei lavori del calzolaio, una pagina di quaderno. Rispondi alle domande toccando la riga giusta.",
+   "consegna": "Nel cassetto del banco ci sono tre fogli: un avviso, il registro dei lavori e una pagina di quaderno. Leggi la domanda e tocca la riga che risponde.",
    "temaCivico": "Diritti dell'infanzia: Convenzione ONU e Costituzione italiana",
    "indizi": [
-    "Leggi con calma: la risposta è scritta in una delle righe dei fogli.",
-    "Ogni domanda ha una riga che la risolve, in un solo foglio.",
-    "Il foglio giusto è quello che parla di ciò che si chiede: avviso, registro o quaderno."
+    "La risposta a ogni domanda è scritta in una riga dei tre fogli: leggi con calma.",
+    "Ogni risposta sta in un solo foglio: scegli quello che parla dell'argomento della domanda (avviso, registro o quaderno).",
+    "Cerca nella domanda le parole chiave (un lavoro, una data, un diritto) e cerca le stesse parole nelle righe: la riga che le contiene è la risposta."
    ],
    "spiegazione": "Amerigo non conosceva i suoi diritti, ma li viveva negati ogni giorno: piedi scalzi anche d'inverno, poco cibo, poca scuola. Nei fogli del calzolaio c'è già l'idea di una comunità che si prende cura dei bambini.",
-   "erroreMsg": "Non è questo, ma non preoccuparti: guarda meglio e riprova.",
+   "erroreMsg": "Non è la riga giusta: rileggi la domanda e cerca nei fogli la riga che parla proprio di quello.",
    "meccanismo": "documenti",
    "x": -7.6,
    "y": 0.0,
@@ -611,7 +611,7 @@
    "richiede": [
     "enigma_nascosto"
    ],
-   "bloccatoMsg": "Il banco del calzolaio è chiuso: prima riporta le scarpe alle forme sulla mensola.",
+   "bloccatoMsg": "Il banco è chiuso a chiave: prima riporta le cinque scarpe sulle forme della mensola.",
    "scheda": "Quei bisogni sono poi diventati diritti: la Costituzione del 1948 protegge l'infanzia (art. 31) e rimuove gli ostacoli che limitano l'uguaglianza (art. 3); la Convenzione ONU sui diritti dell'infanzia è stata adottata il 20 novembre 1989 e ratificata dall'Italia nel 1991.",
    "appunto": "Sul margine del quaderno di scuola, cerchiato: 8.",
    "produce": [
@@ -807,15 +807,15 @@
    "id": "enigma_ordina",
    "tipo": "ordina",
    "titolo": "Il calendario della memoria",
-   "consegna": "Sul muro del barbiere sono appesi sei ritagli di giornale con fatti che hanno cambiato l'Italia. Mettili in ordine, dal più antico al più recente, trascinandoli.",
+   "consegna": "Sul muro del barbiere ci sono sei ritagli di giornale. Trascinali in ordine: in alto il fatto più antico, in basso il più recente.",
    "temaCivico": "Dalla guerra alla Repubblica: la nascita della Costituzione",
    "indizi": [
-    "Parti dalla guerra: l'armistizio e la liberazione vengono prima del voto.",
-    "Il voto è il 2 e 3 giugno 1946; poi si riunisce l'Assemblea Costituente.",
-    "Dopo la prima seduta della Costituente (25 giugno) viene eletto il capo provvisorio dello Stato (28 giugno)."
+    "Cerca la data di ogni ritaglio e parti dal più vecchio: prima la guerra che finisce, poi il voto.",
+    "L'armistizio e la liberazione vengono prima del voto del 2 e 3 giugno 1946; dopo il voto si riunisce l'Assemblea Costituente.",
+    "Chiudi con la prima seduta della Costituente (25 giugno) e poi l'elezione del capo provvisorio dello Stato (28 giugno)."
    ],
    "spiegazione": "Dalla guerra alla Repubblica: l'armistizio e le Quattro giornate di Napoli, la Liberazione, il voto del 2 e 3 giugno 1946, la prima seduta dell'Assemblea Costituente e, pochi giorni dopo, De Nicola capo provvisorio dello Stato. Sono i fatti che i giornali raccontavano nell'autunno del 1946.",
-   "erroreMsg": "Non è ancora l'ordine giusto. Il pulsante Verifica ti dice quante carte sono al posto giusto: riprova.",
+   "erroreMsg": "Non è ancora l'ordine giusto. Premi Verifica: ti dice quante carte sono già al posto giusto, poi sposta le altre.",
    "x": 3.1,
    "y": 1.6,
    "z": -0.5,
@@ -856,7 +856,7 @@
    "richiede": [
     "enigma_passanti"
    ],
-   "bloccatoMsg": "Il barbiere ha da fare. Prima capisci chi è il calzolaio, poi torna a guardare i ritagli.",
+   "bloccatoMsg": "Il barbiere ha da fare. Prima capisci chi è il calzolaio guardando le scarpe dal gradino, poi torna ai ritagli.",
    "appunto": "Sull'ultimo ritaglio, cerchiata: 9.",
    "produce": [
     "cifra_9b"
@@ -1028,15 +1028,15 @@
    "id": "enigma_lucchetto",
    "tipo": "lucchetto",
    "titolo": "Il lucchetto dell'uscita",
-   "consegna": "La porta del ricordo è chiusa con un lucchetto a quattro rotelle. Le quattro cifre le hai raccolte lungo la strada: gesso, matita, margine di un quaderno, un ritaglio. Rimettile in ordine.",
+   "consegna": "Per aprire la porta del ricordo serve un codice a quattro cifre. Le cifre le hai già trovate lungo la strada: mettile nell'ordine in cui le hai raccolte.",
    "temaCivico": "Diritti dell'infanzia: la Convenzione ONU del 1989",
    "indizi": [
-    "Le cifre sono quelle del quaderno, nell'ordine in cui le hai trovate.",
-    "Il numero è un anno: uno degli ultimi del Novecento, finisce per 9.",
+    "Le quattro cifre sono scritte nel quaderno, nell'ordine in cui le hai trovate: gesso, matita, margine del quaderno, ritaglio.",
+    "Messe in fila formano un anno, uno degli ultimi del Novecento: la data della Convenzione ONU sui diritti dell'infanzia.",
     "1 - 9 - 8 - 9."
    ],
    "spiegazione": "Nel 1989 l'ONU ha riconosciuto per la prima volta, in un trattato vincolante, che i bambini sono titolari di diritti: salute, istruzione, gioco, protezione. L'Italia l'ha ratificata nel 1991. Quello che Amerigo, scalzo sul gradino, poteva solo sognare è oggi scritto nero su bianco.",
-   "erroreMsg": "Il lucchetto non si apre. Ricorda la data della Convenzione ONU: se serve, usa l'indizio.",
+   "erroreMsg": "Il lucchetto non si apre: apri il quaderno, rileggi le quattro cifre e mettile nell'ordine in cui le hai trovate.",
    "x": 0.0,
    "y": 1.15,
    "z": 35.3,
@@ -1078,7 +1078,7 @@
     "cifra_8",
     "cifra_9b"
    ],
-   "bloccatoMsg": "Il lucchetto ha quattro rotelle e tu non hai ancora tutte le cifre. Controlla il quaderno: ne mancano.",
+   "bloccatoMsg": "Il lucchetto ha quattro rotelle e ti mancano ancora delle cifre: controlla nel quaderno quali hai e risolvi gli enigmi che restano.",
    "appunto": "Il lucchetto si apre con 1989.",
    "soluzione": [
     "scatto"
@@ -1133,7 +1133,7 @@
    ],
    "scala": 1,
    "scheda": "Nel 1989 l'ONU adottò la Convenzione sui diritti dell'infanzia e dell'adolescenza (20 novembre), ratificata dall'Italia nel 1991: ciò che Amerigo, scalzo sul gradino, poteva solo sognare è oggi un diritto scritto.",
-   "cosaFare": "Componi le quattro cifre raccolte lungo la strada.",
+   "cosaFare": "Metti le quattro cifre raccolte, nell'ordine in cui le hai trovate.",
    "cosaOttieni": "L'uscita dal ricordo."
   }
  ]

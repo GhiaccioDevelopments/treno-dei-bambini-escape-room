@@ -82,7 +82,7 @@ def v1():
         "x": POS_V1[0], "y": POS_V1[1], "z": POS_V1[2], "yaw": 180, "scala": 1, "distanza": 2.3, "inclina": 18,
         "prompt": "il forno di Rosa",
         "produce": ["pane_alcide"],
-        "forno": {"inizio": 110, "giusto0": 220, "giusto1": 265, "massimo": 340, "legna": 42, "raffredda": 1.2, "serranda": 7.0, "cottura": 12, "presto": 2.5, "tardi": 4.0},
+        "forno": {"inizio": 110, "giusto0": 200, "giusto1": 290, "massimo": 340, "legna": 42, "raffredda": 1.2, "serranda": 7.0, "cottura": 8, "presto": 4.0, "tardi": 8.0},
         "strumenti": [
             "Bianca. La farina resta bianca: il forno e' ancora freddo.",                                          # 0
             "Nocciola, in un respiro: il forno e' giusto. Inforna adesso.",                                         # 1
@@ -203,9 +203,9 @@ def v2():
 # ---------------------------------------------------------------- V3 il pianoforte stonato (battimenti)
 CORDE = [
     # id, nome, nota (midi), scarto iniziale (Hz), x sul pianoforte
-    ("corda_la", "il La", 69, 3.0, -0.12),
-    ("corda_re", "il Re", 62, -2.5, 0.0),
-    ("corda_mi", "il Mi", 64, 4.0, 0.12),
+    ("corda_la", "il La", 69, 1.5, -0.12),
+    ("corda_re", "il Re", 62, -1.0, 0.0),
+    ("corda_mi", "il Mi", 64, 2.0, 0.12),
 ]
 
 

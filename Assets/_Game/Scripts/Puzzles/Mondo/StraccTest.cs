@@ -212,7 +212,8 @@ namespace TrenoBambini.Core
             Check("si entra in 40_FB_Stracci", SceneManager.GetActiveScene().name == "40_FB_Stracci");
             Check("cutscene d'ingresso registrata", GameManager.I.Save.cutsceneViste.Contains("cutscene_stracci#ingresso"));
             yield return ChiudiTutto(6);
-            Check("cinque enigmi creati", EnigmaMondo.Tutti.FindAll(e => e != null && e.gameObject.scene.name == "40_FB_Stracci").Count == 5);
+            var enigmiStracci = EnigmaMondo.Tutti.FindAll(e => e != null && e.gameObject.scene.name == "40_FB_Stracci");
+            Check("cinque enigmi creati", enigmiStracci.Count == 5, enigmiStracci.Count + ": " + string.Join(",", enigmiStracci.ConvertAll(e => e.name).ToArray()));
             var esci = FindAnyObjectByType<EscapeExit>();
             Check("uscita presente", esci != null);
 
@@ -311,7 +312,7 @@ namespace TrenoBambini.Core
                 Check("S4: una moneta da 10 -> sul banco 10 lire", V.TotaleBanco == 10, V.TotaleBanco.ToString());
                 Check("S4: somma troppo bassa -> errore gentile", !V.ConfermaStracci() && !V.Risolto);
                 foreach (var id in new[] { "m10_1", "m10_2", "m10_3", "m10_4", "m10_5", "m5_0", "m5_1", "m5_2", "m5_3", "m2_0", "m2_1", "m1_0", "m1_1" }) V.Clicca(id);
-                Check("S4: somma troppo alta (85) -> errore gentile", V.TotaleBanco == 85 && !V.ConfermaStracci() && !V.Risolto, V.TotaleBanco.ToString());
+                Check("S4: somma troppo alta (86) -> errore gentile", V.TotaleBanco == 86 && !V.ConfermaStracci() && !V.Risolto, V.TotaleBanco.ToString());
                 V.Clicca("m2_1"); V.Clicca("m1_1");
                 Check("S4: 83 lire sul banco", V.TotaleBanco == 83, V.TotaleBanco.ToString());
                 Check("S4: 83 lire -> pagato", V.ConfermaStracci() && V.Risolto);

@@ -11,15 +11,15 @@
       "tipo": "nascosto",
       "meccanismo": "tessuti",
       "titolo": "Il giro degli stracci",
-      "consegna": "Capa 'e fierro compra gli stracci buoni e non vuole la roba marcita. Nel vicolo ci sono dieci pezzi gettati tra cortili, macerie e terrazzini: trovali tutti, senza fretta. Poi torna al banco e guardali bene: in controluce, tirando un filo, sentendo lo spessore. Decidi che cos'è ciascuno.",
+      "consegna": "Capa 'e fierro compra solo stracci buoni. Cerca dieci pezzi di stoffa nel vicolo, poi al banco provali uno a uno (controluce, filo, spessore) e dai a ciascuno la sua etichetta.",
       "temaCivico": "Il lavoro dei bambini nel 1946: raccogliere materiali di recupero per aiutare la famiglia. Oggi la Costituzione (art. 37) fissa un'età minima per il lavoro e tutela i minori; la Convenzione ONU del 1989 (art. 32) li protegge dallo sfruttamento economico.",
       "indizi": [
-        "Non tutto quello che è vecchio vale qualcosa: un pezzo marcio o incerato non si compra.",
-        "Guarda l'insegna disegnata della bottega, in fondo al vicolo: mostra che cosa compra Capa 'e fierro.",
-        "Lana, cotone e lino sì (tre, tre e due); la seta marcita e la tela cerata no."
+        "I pezzi sono sparsi nel vicolo, tra cortili, macerie e terrazzini: raccoglili con E. Poi al banco falli passare uno per uno sotto le tre prove.",
+        "Guarda l'insegna dipinta della bottega: mostra che cosa compra Capa 'e fierro (lana, cotone, lino). Quello che non compra è scarto.",
+        "Basta la prova del filo: se si arriccia come una molla e' lana; se si spezza netto e' cotone; se e' lungo, rigido e con nodini e' lino; se si sfarina o non si tira (cera) e' scarto. In tutto: 3 lana, 3 cotone, 2 lino, 2 scarto."
       ],
       "spiegazione": "Tre pezzi di lana, tre di cotone, due di lino: questi Capa 'e fierro li compra. La seta marcita e la tela cerata restano fuori. Hai imparato a distinguere una fibra dall'altra con le mani e con la luce.",
-      "erroreMsg": "Non tutti i pezzi hanno ancora l'etichetta giusta, ma non preoccuparti: rifai le prove con calma e riprova.",
+      "erroreMsg": "Qualche etichetta non è giusta, ma non preoccuparti: rifai le prove sui pezzi dubbi (controluce, filo, spessore) e riprova.",
       "scheda": "Raccogliere stracci per le case e per le strade era un lavoro da bambini a Napoli, come in tante città del dopoguerra. Nessuno lo chiamava lavoro: era darsi da fare. Oggi sappiamo che a un bambino servono la scuola e il tempo per giocare, e la legge lo dice.",
       "appunto": "Nel sacco: tre di lana, tre di cotone, due di lino; da buttare seta marcita e tela cerata.",
       "x": -4.0,
@@ -442,7 +442,7 @@
           "spiegazione": "Compra stracci buoni: la roba marcita o incerata non si può riciclare."
         }
       ],
-      "cosaFare": "Raccogli i dieci stracci del vicolo e guardali bene al banco.",
+      "cosaFare": "Raccogli i dieci stracci del vicolo e riconoscili al banco.",
       "cosaOttieni": "Il sacco degli stracci buoni."
     },
     {
@@ -450,16 +450,16 @@
       "tipo": "quiz",
       "meccanismo": "oggetto",
       "titolo": "Le ceste della bottega",
-      "consegna": "Nella bottega ci sono quattro ceste, ognuna con un disegno. Prendi in mano un pezzo dal sacco (in alto a destra) e mettilo nella cesta giusta. Capa 'e fierro brontola, ma ti corregge senza arrabbiarsi.",
+      "consegna": "Metti ogni straccio nella cesta con il suo disegno: tocca un pezzo nel sacco (in alto a destra), poi la cesta.",
       "temaCivico": "Gli stracci diventavano carta e stoffa nuova: un'economia del recupero che nel dopoguerra serviva a tutti. Il lavoro di chi li raccoglieva, però, era spesso lavoro di bambini.",
       "indizi": [
-        "Ogni cesta ha il suo disegno: un batuffolo, un fiore di cotone, un fiore azzurro, una croce.",
-        "Ricorda le prove: il filo che si arriccia, il filo che si spezza, i nodini in controluce.",
+        "Ogni cesta ha un disegno: un batuffolo (lana), un fiore di cotone, un fiore azzurro (lino) e una croce (scarto).",
+        "Ricorda le prove fatte al banco: il filo che si arriccia, il filo che si spezza, i nodini in controluce.",
         "Lana: grigio ruvido, marrone peloso, blu scuro. Cotone: chiaro, rosso, azzurro. Lino: beige e verdolino. Il resto va nella cesta con la croce."
       ],
       "spiegazione": "Ogni pezzo nella sua cesta: lana, cotone, lino e il resto da buttare. In una bottega di robivecchi l'ordine è già metà del guadagno.",
       "scheda": "Nel dopoguerra gli stracci di lana e di cotone venivano rimessi in circolo: venduti a chi li lavorava per farne filati e carta, in un riuso che già allora era normale (i dettagli di quali fabbriche e quali prezzi variavano da città a città).",
-      "erroreMsg": "Non è quella la cesta giusta, ma non c'è nessuna fretta: guarda il disegno e riprova.",
+      "erroreMsg": "Quel pezzo non va in quella cesta, ma non c'è fretta: guarda il disegno sulla cesta e ricorda le prove fatte al banco.",
       "appunto": "Gli stracci sono nelle ceste, pronti per la pesata.",
       "x": -6.6,
       "y": 1.2,
@@ -960,15 +960,15 @@
       "tipo": "quiz",
       "meccanismo": "bilancia",
       "titolo": "La bilancia che sbaglia",
-      "consegna": "Il conto non torna: la bilancia di Capa 'e fierro pende anche quando non dovrebbe. Prima verifica la bilancia con il peso campione da un chilo (a sinistra) contro il peso da un chilo (a destra). Poi pesa le tre ceste, una alla volta, sul piatto di sinistra, scegliendo i pesi giusti sul piatto di destra fino all'equilibrio. Tocca un peso per metterlo sul piatto, toccalo ancora per toglierlo.",
+      "consegna": "La bilancia pende anche quando non dovrebbe. Prima controllala con il peso campione da un chilo; poi pesa le tre ceste, una alla volta, mettendo pesi sul piatto di destra finché i piatti si equilibrano. Tocca un peso per metterlo, toccalo ancora per toglierlo.",
       "temaCivico": "Una paga giusta comincia da una misura giusta: il diritto di ogni lavoratore, grande o piccolo, a non essere sfruttato (art. 36 della Costituzione: retribuzione proporzionata al lavoro; art. 37: parità di retribuzione per i minori).",
       "indizi": [
-        "Una bilancia giusta sta in equilibrio con le stesse cose da una parte e dall'altra: la tua sta ferma anche con un chilo contro un chilo?",
-        "Prova il peso campione da un chilo contro il peso da un chilo: se pende, non è colpa dei pesi.",
-        "Guarda sotto il piatto di sinistra, dalla parte davanti: qualcosa è incastrato."
+        "Una bilancia giusta sta ferma con un chilo contro un chilo. La tua sta ferma?",
+        "Metti il peso campione da un chilo (a sinistra) contro il peso da un chilo (a destra): se pende, il difetto è nella bilancia, non nei pesi.",
+        "Guarda sotto il piatto di sinistra, dalla parte davanti: c'è un chiodo incastrato. Toglilo, poi pesa le tre ceste."
       ],
       "spiegazione": "Un chiodo, finito per caso sotto il piatto, falsava ogni pesata. Tolto quello, le tre ceste pesano 1300 g (lana), 800 g (cotone) e 600 g (lino). Capa 'e fierro non è un imbroglione: se ne accorge, brontola e ti dà ragione.",
-      "erroreMsg": "Non è ancora in equilibrio: guarda da che parte pende e aggiungi o togli un peso.",
+      "erroreMsg": "Non è ancora in equilibrio: se pende a sinistra aggiungi un peso a destra, se pende a destra toglilo.",
       "scheda": "Pesi e misure giusti sono la base di ogni scambio onesto. I prezzi e i pesi di questo gioco sono inventati [GIOCO]: servono a fare un conto, non a dire quanto valeva uno straccio nel 1946.",
       "appunto": "Sul registro: lana 1300 g, cotone 800 g, lino 600 g.",
       "x": 6.6,
@@ -1533,15 +1533,15 @@
       "tipo": "quiz",
       "meccanismo": "monete",
       "titolo": "Il conto",
-      "consegna": "Capa 'e fierro ti deve pagare. Leggi il registro: i prezzi al chilo e le pesate di oggi. Fai un conto per ogni cesta (chili per prezzo), poi somma. Metti sul banco, toccandole, le monete della somma giusta e premi Paga. Toccando una moneta sul banco la riprendi.",
+      "consegna": "Capa 'e fierro ti deve pagare. Sul registro, per ogni cesta, moltiplica i chili pesati per il prezzo al chilo, poi somma le tre cifre. Metti sul banco le monete della somma e premi Paga (toccando una moneta la riprendi).",
       "temaCivico": "Economia di sopravvivenza e borsa nera: nel 1946 si campava di piccoli scambi e di lavoretti. Il valore del lavoro dei più piccoli oggi è tutelato dalla legge: parità di retribuzione (art. 37) e protezione dallo sfruttamento (Convenzione ONU, art. 32).",
       "indizi": [
-        "Ogni cesta ha il suo prezzo al chilo: lana, cotone e lino non costano uguale.",
-        "Fai un conto per cesta: pesi in chili per prezzo al chilo (1,3 per 40; 0,8 per 20; 0,6 per 25). Poi somma.",
-        "Le tre cifre sono 52, 16 e 15: in tutto 83 lire. Con le monete da 10, 5, 2 e 1 lira si può fare in più modi."
+        "Sul registro trovi per ogni cesta i chili pesati e il prezzo al chilo: lana, cotone e lino non costano uguale.",
+        "Fai un conto per cesta: chili per prezzo al chilo (1,3 per 40; 0,8 per 20; 0,6 per 25). Poi somma i tre risultati.",
+        "Le tre cifre sono 52, 16 e 15: in tutto 83 lire. Per esempio otto monete da 10, una da 2 e una da 1."
       ],
       "spiegazione": "52 lire per la lana, 16 per il cotone, 15 per il lino: 83 lire in tutto. Capa 'e fierro paga contando le monete sul banco, una per una, e tu hai controllato che il conto fosse giusto.",
-      "erroreMsg": "Il conto non torna ancora: rifai la somma per ogni cesta.",
+      "erroreMsg": "Il conto non torna ancora: rifai chili per prezzo per ogni cesta, poi somma le tre cifre e controlla le monete sul banco.",
       "scheda": "Prezzi in lire inventati per il gioco [GIOCO]: il conto è un esercizio, non il valore vero degli stracci nel 1946. Saper controllare un conto è una difesa contro chi approfitta di chi non sa fare i calcoli.",
       "appunto": "Capa 'e fierro ha pagato: 83 lire. Il primo soldo guadagnato.",
       "x": 6.6,
@@ -2128,16 +2128,16 @@
       "tipo": "quiz",
       "meccanismo": "colonne",
       "titolo": "Il muro dei mestieri",
-      "consegna": "Sul muro della bottega sono appesi quattro oggetti: sono gli attrezzi di mestieri che facevano i bambini nel 1946. Per ogni oggetto, tocca la colonna di mezzo per scegliere il mestiere e la colonna di destra per scegliere il diritto di oggi che a quel bambino mancava. Poi premi Conferma.",
+      "consegna": "Sul muro ci sono quattro attrezzi di mestieri che facevano i bambini nel 1946. Per ogni attrezzo scegli il mestiere (colonna di mezzo) e il diritto di oggi che mancava a quel bambino (colonna di destra), poi premi Conferma.",
       "temaCivico": "Lavoro minorile e diritti dell'infanzia: Costituzione, artt. 31, 34 e 37 (in vigore dal 1948) e Convenzione ONU sui diritti dell'infanzia (1989), art. 32.",
       "indizi": [
-        "Pensa a dove si usava ogni oggetto: in strada, alla fontana, al mercato, per le case.",
-        "Poi chiediti che cosa mancava a quel bambino: la scuola, la salute, un'età giusta per lavorare, una famiglia aiutata.",
+        "Per ogni attrezzo pensa dove si usava: in strada, alla fontana, al mercato, per le case.",
+        "Poi chiediti che cosa mancava a quel bambino: la scuola, la sicurezza sul lavoro, un'età minima per lavorare, la protezione di chi è piccolo.",
         "Lustrascarpe: scuola (34). Acquaiolo: lavori pericolosi (ONU 32). Venditore ambulante: età minima (37). Stracci: protezione dell'infanzia (31)."
       ],
       "spiegazione": "Quattro mestieri, quattro diritti. Gli articoli sono quelli di oggi: nel 1946 la Costituzione non c'era ancora, ma i bambini c'erano già.",
       "scheda": "I collegamenti sono didattici: più diritti proteggono lo stesso bambino, e qui ne abbiamo scelto uno per ciascun mestiere. Art. 31: la Repubblica protegge l'infanzia. Art. 34: la scuola è aperta a tutti. Art. 37: età minima e tutela del lavoro dei minori. Convenzione ONU 1989, art. 32: protezione dallo sfruttamento economico e dai lavori pericolosi.",
-      "erroreMsg": "Non tutti i collegamenti sono giusti: ripensa a che cosa mancava a ciascun bambino.",
+      "erroreMsg": "Qualche collegamento non torna: per ogni attrezzo chiediti che cosa mancava a quel bambino e riprova.",
       "appunto": "Il lavoro dei bambini oggi ha le sue regole: scuola, salute, età minima, protezione.",
       "x": -1.0,
       "y": 1.2,

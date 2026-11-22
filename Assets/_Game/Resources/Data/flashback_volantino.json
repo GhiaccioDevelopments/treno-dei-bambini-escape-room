@@ -11,15 +11,15 @@
       "tipo": "nascosto",
       "meccanismo": "documenti",
       "titolo": "Le voci del vicolo",
-      "consegna": "Sera, pioggia fine. Dalle finestre e dal lavatoio escono voci sui treni dei bambini. Avvicinati e ascolta: ogni voce finisce nel quaderno. Quando le avrai sentite tutte e quattro, torna qui e rileggile con calma: chi le ha viste con i propri occhi?",
+      "consegna": "Dal lavatoio e dalle finestre del vicolo arrivano quattro voci sui treni dei bambini. Avvicinati a ognuna e premi E: finisce nel quaderno. Poi torna qui e rileggile: chi ha visto davvero i fatti?",
       "temaCivico": "Libertà di parola e responsabilità di chi parla: oggi l'art. 21 della Costituzione garantisce a tutti la libertà di esprimere il proprio pensiero. Proprio per questo conta chiedersi da dove viene una notizia prima di ripeterla.",
       "indizi": [
-        "Le voci vengono dall'alto e dall'acqua: balconi e finestre accese, e il lavatoio. Nel quaderno, per ogni voce chiediti: chi l'ha vista con i propri occhi?",
+        "Le voci vengono dall'alto e dall'acqua: balconi, finestre accese e il lavatoio. Avvicinati a ognuna e premi E.",
         "Balconi e lavatoio: uno sulla via grande, uno nel vicolo a ovest, una finestra sul largo in alto e il lavatoio del cortile a est. Nel quaderno guarda la parte «Chi lo dice?».",
         "Le quattro posizioni: il balcone sulla via (lato destro, prima della traversa), il lavatoio del cortile a est, il balcone del vicolo a ovest, la finestra sul largo in alto. Nel quaderno: «lo sanno tutti» è il lavatoio; il parente di un parente è il balcone sulla via; il sogno è il balcone del vicolo; la fonte che cambia è la finestra sul largo."
       ],
       "spiegazione": "Quattro voci, e nessuna vista con i propri occhi: un parente di un parente, «tutti», un sogno, una fonte che cambia. Così nasce e si diffonde una diceria: passa di bocca in bocca e a ogni passaggio sembra più sicura, anche se nessuno l'ha controllata.",
-      "erroreMsg": "Non è quella la riga: rileggi la parte «Chi lo dice?» di ogni voce, senza fretta.",
+      "erroreMsg": "Non è quella la riga: nel quaderno, sotto ogni voce, leggi «Chi lo dice?» e scegli la riga che risponde.",
       "scheda": "Nel 1945-46 attorno ai treni dei bambini circolavano dicerie spaventose: che i bambini sarebbero finiti in Russia, o peggio. La diffidenza era forte soprattutto perché l'iniziativa era promossa dai comunisti. Erano voci senza fonte: qui le nominiamo per smontarle, non per crederci.",
       "appunto": "Nel quaderno: quattro voci, nessuna vista con i propri occhi.",
       "x": -3.6,
@@ -264,15 +264,15 @@
       "tipo": "quiz",
       "meccanismo": "bacheca",
       "titolo": "La bacheca delle prove",
-      "consegna": "Sulla bacheca della sede ci sono le quattro voci del vicolo (a sinistra) e cinque fogli del Comitato (a destra). Tocca una voce, poi il foglio che le risponde: lo spago li collega. Quando due collegamenti sono giusti, lo spago diventa rosso e resta fissato. Alla fine gira il cartellino accanto a ogni voce: vera o falsa? Toccando un foglio da solo, lo leggi.",
+      "consegna": "Sulla bacheca ci sono le quattro voci (a sinistra) e cinque fogli del Comitato (a destra). Tocca una voce, poi il foglio che le risponde: lo spago li unisce. Alla fine gira il cartellino di ogni voce: vera o falsa? Toccando un foglio da solo, lo leggi.",
       "temaCivico": "Informazione e fonti: oggi l'art. 21 della Costituzione (in vigore dal 1948) tutela la libertà di parola e di stampa. Verificare una notizia vuol dire cercare una prova che chiunque possa controllare.",
       "indizi": [
-        "Ogni voce ha dentro una paura: andare lontano, non tornare, il male, la morte. Cerca il foglio che risponde proprio a quella paura.",
+        "Ogni voce nasconde una paura: partire lontano, non tornare, il male, la morte. Cerca il foglio che risponde proprio a quella paura.",
         "Guarda i timbri e le date: la cartolina viene dall'Emilia, il registro dice quando si torna, l'avviso parla del medico, la lettera di un letto e di una tavola. Un foglio non risponde a nessuna voce.",
         "Russia: cartolina dall'Emilia. Non tornano più: registro delle partenze. Gli fanno del male: avviso delle visite mediche. Forni: lettera della famiglia ospitante. L'elenco del corredo resta senza spago. Tutte e quattro le voci sono false."
       ],
       "spiegazione": "Quattro voci, quattro fogli che le smentiscono, e un foglio che non c'entra. Maddalena lo ripete alle madri: «Non vi chiedo di credere a me. Leggete, e venite a vedere.» Una voce si smonta con una prova che chiunque può controllare.",
-      "erroreMsg": "Non tutti i cartellini sono giusti: rileggi il foglio collegato a ogni voce e riprova.",
+      "erroreMsg": "Un cartellino non è giusto: rileggi il foglio collegato alla voce e chiediti se la conferma o la smentisce.",
       "scheda": "La cartolina, il registro, l'avviso e la lettera sono inventati per il gioco [GIOCO]. Vero è che i bambini, prima di partire, venivano visitati, lavati e vestiti, e che li accoglievano famiglie del Centro-Nord, spesso contadine e operaie.",
       "appunto": "Sulla bacheca: quattro voci false, quattro fogli che le smentiscono.",
       "x": -7.55,
@@ -812,15 +812,15 @@
       "tipo": "quiz",
       "meccanismo": "ciclostile",
       "titolo": "Il ciclostile",
-      "consegna": "Il ciclostile della sede: un tamburo, una matrice di carta cerata, l'inchiostro, una manovella. Prima scegli tre frasi da scrivere sulla matrice (un volantino deve far capire, non spaventare) e premi «Scrivi la matrice». Poi stendi la matrice sul tamburo, versa l'inchiostro e gira la manovella con un ritmo regolare, cinque volte: troppo in fretta, il foglio sbava.",
+      "consegna": "Prepara il volantino in tre mosse. 1) Scegli tre frasi chiare e vere e premi «Scrivi la matrice». 2) Tocca la matrice sul tamburo, poi l'inchiostro. 3) Gira la manovella tre volte con calma, un giro al secondo circa: se vai troppo in fretta, il foglio sbava.",
       "temaCivico": "Libertà di stampa e responsabilità di chi informa: oggi l'art. 21 della Costituzione dice che la stampa non può essere soggetta ad autorizzazioni o censure. Proprio per questo chi scrive deve dire cose chiare e controllabili.",
       "indizi": [
         "Un volantino deve far capire, non spaventare: niente accuse, niente esagerazioni, niente «lo dicono tutti».",
-        "Scegli le frasi che chiunque può controllare: una visita, delle lettere da leggere, un registro con le date. Poi l'ordine è: matrice, inchiostro, manovella.",
-        "Le tre frasi giuste: la visita del medico, le lettere delle famiglie in sede, il registro con il ritorno. Poi tocca la matrice, l'inchiostro e la manovella; gira con calma, circa un giro al secondo, cinque volte."
+        "Scegli le frasi che si possono controllare: una visita del medico, delle lettere da leggere in sede, un registro con le date.",
+        "Le tre frasi giuste: la visita del medico, le lettere delle famiglie in sede, il registro con il ritorno. Poi tocca la matrice, l'inchiostro e gira la manovella tre volte, un giro al secondo."
       ],
       "spiegazione": "Cinque fogli puliti, con tre frasi che chiunque può controllare. Maddalena li conta e sorride: «Domani li attacchiamo in tutto il quartiere.»",
-      "erroreMsg": "Qualcosa non va ancora: rileggi le frasi e ricorda l'ordine, matrice, inchiostro, manovella.",
+      "erroreMsg": "Manca ancora un passo: l'ordine è matrice, inchiostro, manovella. Se il foglio sbava, gira più piano.",
       "scheda": "Il ciclostile era la tipografia di chi aveva pochi soldi: lo usavano associazioni, sindacati, parrocchie, partiti e scuole per stampare avvisi e volantini. Qui le frasi si giudicano solo per chiarezza e verificabilità, mai per le idee di chi le scrive.",
       "appunto": "Cinque volantini stampati: visita del medico, lettere delle famiglie, ritorno a fine scuola.",
       "x": 6.5,
@@ -875,8 +875,8 @@
           "motivo": "«Lo dicono tutti» è proprio come le voci del vicolo: chi sono questi tutti? Una frase vaga non convince chi ha paura. Scegli una frase con una prova."
         }
       ],
-      "giri": 5,
-      "ritmo": 0.6,
+      "giri": 3,
+      "ritmo": 0.4,
       "strumenti": [
         "Scrivi la matrice",
         "Sulla matrice ci stanno tre frasi: scegline tre, non di più e non di meno.",
@@ -1304,7 +1304,7 @@
           "spiegazione": "Un ritmo regolare dà fogli puliti."
         }
       ],
-      "cosaFare": "Scegli tre frasi, prepara la matrice e stampa a ritmo.",
+      "cosaFare": "Scegli tre frasi vere, prepara la matrice e gira la manovella.",
       "cosaOttieni": "Un pacco di volantini e le cinque cose dell'accoglienza."
     },
     {
@@ -1312,15 +1312,15 @@
       "tipo": "quiz",
       "meccanismo": "oggetto",
       "titolo": "Chi fa che cosa",
-      "consegna": "Sul tavolo dell'accoglienza ci sono cinque cose, e dietro cinque cartoncini con le persone che lavorano per i treni. Scegli una cosa dall'elenco in alto a destra e tocca il cartoncino della persona a cui serve. Sul retro del volantino ci va proprio questo: chi fa che cosa.",
+      "consegna": "Sul tavolo ci sono cinque cose e dietro cinque cartoncini con le persone che lavorano per i treni. Scegli una cosa dall'elenco in alto a destra e tocca il cartoncino della persona a cui serve.",
       "temaCivico": "Associazioni e partecipazione: oggi la Costituzione riconosce la libertà di associarsi (art. 18) e di riunirsi in partiti (art. 49); la solidarietà è un dovere di tutti (art. 2).",
       "indizi": [
-        "Ogni oggetto è un mestiere: guarda bene che cosa serve a ciascuno.",
-        "Chi veste, chi cura, chi scrive i nomi, chi accoglie, chi guida il treno. Le frasi sui cartoncini aiutano: aghi, trentatré, nomi, letto, convoglio.",
+        "Ogni oggetto appartiene a un mestiere: chi veste, chi cura, chi scrive i nomi, chi accoglie, chi guida il treno.",
+        "Le frasi sui cartoncini aiutano: aghi, trentatré, nomi, letto, convoglio.",
         "Fascia della Croce Rossa: la signora Nunzia (vestiti). Stetoscopio: il dottor Russo. Registro: Maddalena. Lettera dal Nord: la famiglia Malagoli. Berretto: Gennaro, il ferroviere."
       ],
       "spiegazione": "Cinque persone, cinque compiti: vestire, curare, iscrivere, accogliere, accompagnare. Il retro del volantino lo dice chiaro, così ogni madre sa a chi chiedere.",
-      "erroreMsg": "Non è la persona giusta per questa cosa, ma niente fretta: rileggi il cartoncino e riprova.",
+      "erroreMsg": "Quella persona non usa questo oggetto, ma niente fretta: rileggi il cartoncino e prova con un'altra.",
       "scheda": "Le persone di questo tavolo sono inventate. I treni dei bambini furono promossi dall'UDI (Unione Donne Italiane) e dal PCI, con l'aiuto di Croce Rossa, sindacati e associazioni partigiane; a Napoli li organizzava il Comitato per la salvezza dei bambini di Napoli. Fra le promotrici c'era Teresa Noce, dirigente del PCI e dell'UDI, che propose di ospitare i bambini nelle campagne del Centro-Nord. I vestiti per il viaggio venivano in gran parte dalla Croce Rossa.",
       "appunto": "Sul retro del volantino: chi veste, chi cura, chi iscrive, chi accoglie, chi accompagna.",
       "x": 0.0,
@@ -1885,15 +1885,15 @@
       "tipo": "quiz",
       "meccanismo": "datario",
       "titolo": "Il timbro della data",
-      "consegna": "Prima di uscire, i volantini vanno timbrati. Sul retro c'è una piccola linea del tempo con quattro caselle: leggi i fogli sulla scrivania, gira i nastri del datario (giorno, mese, anno: tocca in alto per andare avanti, in basso per tornare indietro) e premi il timbro. Le date vanno in ordine, dalla più vecchia; l'ultima è il giorno in cui anche le madri hanno votato.",
+      "consegna": "Il retro del volantino ha una linea del tempo con quattro caselle. Leggi i fogli sulla scrivania, gira i nastri del datario (giorno, mese, anno: tocca in alto per andare avanti, in basso per tornare indietro) e premi il timbro. Le date vanno dalla più vecchia; l'ultima è il giorno in cui le donne di tutta Italia hanno votato.",
       "temaCivico": "Voto alle donne e uguaglianza: oggi l'art. 48 della Costituzione dice che sono elettori tutti i cittadini, uomini e donne, maggiorenni; l'art. 3 che tutti sono uguali davanti alla legge, senza distinzione di sesso.",
       "indizi": [
-        "Prima i treni del Nord, poi il voto.",
-        "Il voto delle donne in tutta Italia è d'estate; i treni e il congresso sono d'inverno, fra la fine del 1945 e l'inizio del 1946.",
+        "Leggi i fogli sulla scrivania: ognuno porta una data. Le quattro date vanno in ordine, dalla più vecchia.",
+        "Prima i treni del Nord, poi il voto: i treni e il congresso sono d'inverno, tra la fine del 1945 e l'inizio del 1946; il voto delle donne è d'estate.",
         "In ordine: 16-12-1945, 29-12-1945, 19-01-1946 e infine 02-06-1946."
       ],
       "spiegazione": "Quattro timbri in fila: il primo treno da Milano, il congresso di Roma, i treni da Roma, e il 2 giugno 1946. Il volantino è d'autunno, ma ricorda quel giorno d'estate in cui anche le madri del vicolo hanno votato [GIOCO].",
-      "erroreMsg": "Non è la data giusta per la prossima casella: rileggi i fogli e gira i nastri.",
+      "erroreMsg": "Non è la data giusta per questa casella: rileggi i fogli sulla scrivania e correggi i nastri del datario.",
       "scheda": "Il 2 e 3 giugno 1946 gli italiani scelsero fra Repubblica e Monarchia ed elessero l'Assemblea Costituente: per la prima volta votarono le donne in tutta Italia, con la matita copiativa. A Napoli la monarchia prese quasi l'80% dei voti. La Costituzione scritta da quell'Assemblea è entrata in vigore il 1° gennaio 1948.",
       "appunto": "Il volantino è timbrato: 16-12-1945, 29-12-1945, 19-01-1946, 02-06-1946.",
       "x": 0.0,

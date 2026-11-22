@@ -12,15 +12,15 @@
       "meccanismo": "forno",
       "titolo": "La prova della farina",
       "scena": "70_FB_Modena",
-      "consegna": "Rosa deve infornare il pane e ti chiede una mano. Nel suo forno non c'è un termometro: si getta un pizzico di farina sulla pietra. Se resta bianca il forno è freddo, se diventa nera brucia; se si fa color nocciola in un respiro, è giusto. Regola il calore con la legna e con la serranda, inforna, e sforna quando la clessidra è vuota.",
+      "consegna": "Rosa deve infornare il pane. Il forno non ha termometro: si getta un pizzico di farina sulla pietra. Bianca: forno freddo, aggiungi legna. Nocciola: giusto. Nera: troppo caldo, apri la serranda. Poi inforna e sforna quando la clessidra è vuota.",
       "temaCivico": "Accogliere è anche lavoro di tutti i giorni: le famiglie che ospitavano i bambini dividevano pane, letti e fatica (art. 2 della Costituzione: solidarietà).",
       "indizi": [
         "Il forno si legge con la farina: tocca il sacchetto e guarda di che colore diventa il pizzico sulla pietra.",
         "Bianca = freddo, aggiungi legna. Nera = troppo caldo, apri la serranda e aspetta. Nocciola = giusto: inforna subito.",
-        "Legna fino al nocciola, serranda chiusa, pala nel forno; poi aspetta che la sabbia scenda tutta e tocca il pane."
+        "Servono circa tre ciocchi di legna, finché la farina diventa nocciola; serranda chiusa, pala nel forno; quando la sabbia è scesa tutta tocca il pane."
       ],
       "spiegazione": "Le pagnotte escono dorate, con la crosta che canta quando si raffredda. Rosa te ne mette una calda fra le mani, avvolta in un tovagliolo: «Questa portala ad Alcide, che quando lavora si scorda di mangiare.»",
-      "erroreMsg": "",
+      "erroreMsg": "Il forno non è ancora giusto: tocca la farina e guarda il colore, poi aggiungi legna o apri la serranda.",
       "scheda": "Nelle case di campagna il forno a legna si scaldava una volta per tutta la settimana. Nel romanzo Rosa ha un forno; la prova della farina è un vecchio sistema dei fornai, qui usato per il gioco.",
       "appunto": "Il forno di Rosa: farina nocciola = forno giusto.",
       "x": 9.6,
@@ -36,15 +36,15 @@
       ],
       "forno": {
         "inizio": 110,
-        "giusto0": 220,
-        "giusto1": 265,
+        "giusto0": 200,
+        "giusto1": 290,
         "massimo": 340,
         "legna": 42,
         "raffredda": 1.2,
         "serranda": 7.0,
-        "cottura": 12,
-        "presto": 2.5,
-        "tardi": 4.0
+        "cottura": 8,
+        "presto": 4.0,
+        "tardi": 8.0
       },
       "strumenti": [
         "Bianca. La farina resta bianca: il forno è ancora freddo.",
@@ -525,7 +525,7 @@
           "spiegazione": "Né prima (pallido) né troppo dopo (bruciato)."
         }
       ],
-      "cosaFare": "Leggi il forno con la farina, scaldalo giusto, inforna e sforna a tempo.",
+      "cosaFare": "Leggi il forno con la farina, scaldalo, inforna e sforna a tempo.",
       "cosaOttieni": "Il pane per Alcide."
     },
     {
@@ -534,15 +534,15 @@
       "meccanismo": "suoni",
       "titolo": "Gli attrezzi che suonano",
       "scena": "70_FB_Modena",
-      "consegna": "Alcide prende il pane, poi ti mette alla prova: tiene un attrezzo dietro la schiena e lo fa suonare. Premi Ascolta, guarda l'onda che compare sulla lavagnetta e tocca sul banco l'attrezzo che fa quel suono. Anche gli attrezzi, se li tocchi, suonano e disegnano la loro onda.",
+      "consegna": "Alcide tiene un attrezzo dietro la schiena e lo fa suonare. Premi Ascolta, guarda l'onda sulla lavagnetta e tocca sul banco l'attrezzo che disegna la stessa onda. Anche gli attrezzi, se li tocchi, suonano e disegnano la loro onda.",
       "temaCivico": "Imparare un mestiere guardando e ascoltando chi lo sa fare: anche questa è istruzione (art. 34) e cultura (art. 9).",
       "indizi": [
-        "Ascolta più volte, poi tocca gli attrezzi uno per uno: ognuno disegna la sua onda. Confronta i disegni.",
-        "Onda liscia e lunghissima = diapason; scatti in fila = chiave; gobba bassa e corta = feltri; picco secco = martelletto; onda che trema e ronza = corda.",
+        "Premi Ascolta e guarda la forma dell'onda. Poi tocca gli attrezzi sul banco uno per uno: ognuno disegna la sua.",
+        "Cerca l'onda uguale: liscia e lunghissima = diapason; scatti in fila = chiave; gobba bassa e corta = feltri; picco secco = martelletto; onda che trema e ronza = corda.",
         "L'ordine di Alcide: martelletto, diapason, chiave, corda, feltri."
       ],
       "spiegazione": "Cinque suoni, cinque attrezzi. Alcide si toglie il cappello e ti guarda come si guarda una cosa rara: «Tu hai l'orecchio, Amerigo. E non lo sapevi.» Ti mette in mano il diapason.",
-      "erroreMsg": "",
+      "erroreMsg": "Non è quell'attrezzo: premi di nuovo Ascolta e confronta l'onda con quella che disegna ogni attrezzo.",
       "scheda": "Nel romanzo Alcide Benvenuti è un accordatore di pianoforti e scopre che Amerigo ha orecchio. Le prove con gli attrezzi sono inventate per il gioco. L'onda disegnata accanto a ogni suono serve a chi sente poco: il gioco si può risolvere anche solo con gli occhi.",
       "appunto": "Il diapason di Alcide: il La di tutto il mondo.",
       "x": 15.0,
@@ -1062,15 +1062,15 @@
       "meccanismo": "accordatura",
       "titolo": "Il pianoforte stonato",
       "scena": "70_FB_Modena",
-      "consegna": "Tre corde del pianoforte sono stonate. Scegli una corda, premi Ascolta: senti la corda e il diapason insieme. Finchè sono diversi fanno «ua-ua-ua» e la lancetta sul telaio trema. Gira la chiave a mezzi scatti: se il battimento rallenta sei sulla strada giusta; quando sparisce e la lancetta sta ferma, la corda è accordata.",
+      "consegna": "Tre corde del pianoforte sono stonate. Scegli una corda e premi Ascolta: finché è stonata senti «ua-ua-ua» e la lancetta trema. Gira la chiave a mezzi scatti: se il «ua-ua» rallenta vai bene, se accelera gira dall'altra parte. Quando sparisce e la lancetta sta ferma, la corda è accordata.",
       "temaCivico": "Il talento è di tutti, ma va coltivato: la Repubblica promuove lo sviluppo della cultura (art. 9) e chi è capace e meritevole ha diritto di arrivare in alto negli studi (art. 34).",
       "indizi": [
-        "Non cercare la nota: ascolta l'onda, il «ua-ua». O guarda la lancetta: trema tanto quanto è veloce il battimento.",
-        "Se dopo uno scatto il battimento accelera, giri dalla parte sbagliata: torna indietro. Continua finchè sparisce.",
-        "La: sei mezzi scatti verso sinistra. Re: cinque verso destra. Mi: otto verso sinistra."
+        "Scegli una corda, premi Ascolta e guarda la lancetta sul telaio: più trema, più la corda è stonata.",
+        "Dopo ogni mezzo scatto: se il battimento rallenta continua, se accelera torna indietro e gira dall'altra parte.",
+        "Poche mosse: il La tre mezzi scatti verso sinistra, il Re due verso destra, il Mi quattro verso sinistra."
       ],
       "spiegazione": "Le tre corde cantano pulite insieme al diapason. Alcide suona un accordo, lo lascia andare fino in fondo e non dice niente per un po'. Poi: «Prima di suonare, ascolta come suona la stanza. Tu lo fai già. A te ci vuole un violino.»",
-      "erroreMsg": "",
+      "erroreMsg": "Non è ancora accordata: gira la chiave piano, a mezzi scatti, e ascolta finché il «ua-ua» sparisce.",
       "scheda": "Quando due suoni sono quasi uguali si sente un'onda lenta, il battimento: gli accordatori lo usano per trovare la nota giusta. Nel gioco la lancetta mostra il battimento anche a chi non lo sente.",
       "appunto": "Accordare: il battimento rallenta, poi sparisce.",
       "x": 15.0,
@@ -1093,7 +1093,7 @@
           "id": "corda_la",
           "nome": "il La",
           "nota": 69,
-          "scarto": 3.0,
+          "scarto": 1.5,
           "passo": 0.5,
           "dopo": "corda_la_feltro"
         },
@@ -1101,7 +1101,7 @@
           "id": "corda_re",
           "nome": "il Re",
           "nota": 62,
-          "scarto": -2.5,
+          "scarto": -1.0,
           "passo": 0.5,
           "dopo": "corda_re_feltro"
         },
@@ -1109,7 +1109,7 @@
           "id": "corda_mi",
           "nome": "il Mi",
           "nota": 64,
-          "scarto": 4.0,
+          "scarto": 2.0,
           "passo": 0.5,
           "dopo": "corda_mi_feltro"
         }
@@ -1504,7 +1504,7 @@
           "spiegazione": "Senza battimento le due note sono uguali."
         }
       ],
-      "cosaFare": "Accorda le tre corde finché il battimento sparisce.",
+      "cosaFare": "Accorda le tre corde finché il «ua-ua» sparisce.",
       "cosaOttieni": "La promessa di un violino."
     },
     {
@@ -1513,15 +1513,15 @@
       "meccanismo": "impronte",
       "titolo": "Le impronte nella neve",
       "scena": "70_FB_Modena",
-      "consegna": "Il violino che Alcide ti ha preparato non è più sul banco. Fuori, nella neve, ci sono impronte fresche. Tu le scarpe le conosci tutte: tocca uno scarpone dei ragazzi, poi un'impronta, e confrontali (numero, chiodi, tacco). Quando sai di chi sono le orme che escono dal laboratorio, seguile: a ogni bivio tocca la traccia giusta.",
+      "consegna": "Il violino è sparito e fuori, nella neve, ci sono impronte fresche. Tocca uno scarpone dei ragazzi, poi un'impronta: ti dice se combaciano (numero, chiodi, tacco). Quando sai di chi sono le orme che escono dal laboratorio, seguile: a ogni bivio tocca la traccia giusta.",
       "temaCivico": "Nessuno è di troppo: la gelosia verso chi arriva da lontano si scioglie conoscendosi. La Costituzione (art. 3) chiede pari dignità senza distinzioni di provenienza.",
       "indizi": [
         "Tocca uno scarpone e poi le orme davanti alla porta: il gioco ti dice che cosa combacia e che cosa no.",
-        "Tre cose da guardare: il numero (la lunghezza), i chiodi sulla suola, il tacco. Uno dei tre ha il tacco rattoppato.",
+        "Tre cose da confrontare: la lunghezza (il numero), i chiodi sulla suola e il tacco. Una sola impronta ha il tacco rattoppato.",
         "Le orme della porta sono di Rivo (tacco rattoppato). Poi: primo bivio a sinistra, secondo a destra, terzo a sinistra, fino alla legnaia della scuola."
       ],
       "spiegazione": "Dietro la legnaia della scuola, avvolto in una coperta, c'è il violino. Rivo è lì, con il naso rosso e gli occhi bassi. Non scappa.",
-      "erroreMsg": "",
+      "erroreMsg": "Non combacia: confronta di nuovo numero, chiodi e tacco con un altro scarpone.",
       "scheda": "Nel romanzo uno dei tre ragazzi Benvenuti all'inizio è geloso di Amerigo; le fonti non dicono quale: nel gioco è Rivo. Il violino sparito e le impronte sono inventati per il gioco. Amerigo che riconosce le scarpe di tutti viene dal ricordo delle scarpe.",
       "appunto": "Le orme col tacco rattoppato portavano alla legnaia della scuola.",
       "x": 0.0,
@@ -4173,15 +4173,15 @@
       "meccanismo": "melodia",
       "titolo": "La prima melodia",
       "scena": "70_FB_Modena",
-      "consegna": "In classe, dopo le lezioni, Alcide ti fa sentire una frase sul violino. Premi Ascolta: le note si accendono anche sulla tastiera e sullo spartito, con i loro colori. Poi ripetila toccando i segni colorati nello stesso ordine. Rivo, dal banco, batte il tempo.",
+      "consegna": "In classe Alcide ti fa sentire una frase sul violino. Premi Ascolta: le note si accendono con i loro colori sulla tastiera e sullo spartito. Poi ripeti la frase toccando i segni colorati nello stesso ordine.",
       "temaCivico": "La scuola è aperta a tutti (art. 34): in Emilia i bambini ospiti andavano a scuola con i figli delle famiglie. E la musica è cultura da imparare insieme (art. 9).",
       "indizi": [
-        "Premi Ascolta tutte le volte che vuoi. Guarda l'ordine dei colori sullo spartito.",
-        "Prima frase: quattro note. Seconda frase: sei. Se sbagli, Alcide la rifà più lenta.",
+        "Premi Ascolta tutte le volte che vuoi e guarda l'ordine dei colori che si accendono.",
+        "Se sbagli, Alcide suona più lento e puoi riprovare. Prima frase: quattro note; seconda: sei.",
         "Prima frase: rosso, verde, blu, verde. Seconda: blu, viola, blu, verde, giallo, rosso."
       ],
       "spiegazione": "Le due frasi, una dopo l'altra, senza fermarti. Rivo smette di battere il tempo e applaude, piano, poi forte. Alcide stacca il foglio dei pallini colorati, lo piega in quattro e te lo infila nella tasca del cappotto: «Questo è tuo. La musica si porta addosso.»",
-      "erroreMsg": "",
+      "erroreMsg": "Non era quella nota: riascolta (Alcide la rifà più lenta) e ripeti i colori nell'ordine.",
       "scheda": "Nel romanzo Alcide scopre il talento di Amerigo e gli fa avere un violino. La melodia del gioco è originale; lo spartito a pallini colorati è inventato per il gioco, ed è l'oggetto che Antonietta conserverà senza saperlo leggere.",
       "appunto": "Lo spartito di Alcide: pallini colorati al posto delle note.",
       "x": 0.0,

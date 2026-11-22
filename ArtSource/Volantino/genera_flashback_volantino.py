@@ -270,7 +270,7 @@ def v3():
         # i gettoni dei ruoli servono al tavolo dell'accoglienza (V4): sono le cose che Maddalena affida ad Amerigo insieme al pacco dei volantini
         "produce": ["pacco_volantini", "ruolo_fascia", "ruolo_stetoscopio", "ruolo_registro", "ruolo_lettera", "ruolo_berretto"],
         "frasi": [{"testo": t, "giusta": g, "motivo": m} for t, g, m in FRASI],
-        "giri": 5, "ritmo": 0.6,
+        "giri": 3, "ritmo": 0.4,
         "strumenti": [
             "Scrivi la matrice",
             "Sulla matrice ci stanno tre frasi: scegline tre, non di più e non di meno.",

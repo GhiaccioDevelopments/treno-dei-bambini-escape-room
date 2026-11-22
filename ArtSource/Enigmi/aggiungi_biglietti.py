@@ -1,11 +1,15 @@
 # -*- coding: utf-8 -*-
-"""R026: scrive i campi "cosaFare" e "cosaOttieni" (biglietto d'apertura) in TUTTI gli enigmi del gioco (idempotente).
+"""R029: applica anche ArtSource/Enigmi/testi_semplici.py (testi e valori degli enigmi piu' semplici).
+R026: scrive i campi "cosaFare" e "cosaOttieni" (biglietto d'apertura) in TUTTI gli enigmi del gioco (idempotente).
 File: flashback_*.json, enigmi_mondo.json, segreti.json. Rilanciare DOPO ogni generatore che riscrive quei file
 (genera_flashback_*.py, genera_segreti.py). Uso: python aggiungi_biglietti.py
 Regole: "cosaFare" = una frase all'imperativo, breve; "cosaOttieni" = che cosa si ottiene (oggetto, gettone, riga del quaderno, pezzo di storia).
 Mai la soluzione nel biglietto (quella sta negli indizi a tre livelli). Un enigma senza riga qui fa fallire lo script.
 """
-import glob, json, os
+import copy, glob, json, os, sys
+
+sys.path.insert(0, os.path.dirname(__file__))
+from testi_semplici import S, V   # R029: testi riscritti (consegna, indizi, errori) e valori alleggeriti
 
 D = os.path.join(os.path.dirname(__file__), "..", "..", "Assets", "_Game", "Resources", "Data")
 
@@ -90,8 +94,15 @@ def main():
                 mancano.append(k)
                 continue
             fare, ottieni = B[k]
-            if e.get("cosaFare") != fare or e.get("cosaOttieni") != ottieni:
-                e["cosaFare"], e["cosaOttieni"] = fare, ottieni
+            fare = S.get(k, {}).get("cosaFare", fare)
+            prima = copy.deepcopy(e)
+            e["cosaFare"], e["cosaOttieni"] = fare, ottieni
+            for campo, valore in S.get(k, {}).items():
+                if campo != "cosaFare":
+                    e[campo] = copy.deepcopy(valore)
+            if k in V:
+                V[k](e)
+            if e != prima:
                 cambiato = True
         if cambiato:
             righe = raw.replace("\r\n", "\n").split("\n")
