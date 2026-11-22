@@ -1,4 +1,4 @@
-Verifica raggiungibilita' - 2026-11-22 18:07
+Verifica raggiungibilita' - 2026-11-22 20:44
 
 Mappa (x da -5,1, z in alto = nord, ogni carattere 25 cm; '.' = percorribile):
                                                 
@@ -39,8 +39,8 @@ Mappa (x da -5,1, z in alto = nord, ogni carattere 25 cm; '.' = percorribile):
                                                 
   ok   Porta PortaUscita (distanza dal percorribile 0,30 m)
   ok   Oggetto scarpe (distanza dal percorribile 0,00 m)
-  ok   Spawn oggetto_scarpe (distanza dal percorribile 0,10 m)
   ok   Spawn ingresso (distanza dal percorribile 0,11 m)
+  ok   Spawn oggetto_scarpe (distanza dal percorribile 0,10 m)
 == 20_Int_BassoAntonietta: 867 celle percorribili (54 m2), 0 problemi ==
 
   ok   Uscita (distanza dal percorribile 0,31 m)
@@ -55,20 +55,20 @@ Mappa (x da -5,1, z in alto = nord, ogni carattere 25 cm; '.' = percorribile):
   ok   Enigma enigma_quiz (distanza dal percorribile 0,14 m)
   ok   Enigma enigma_ordina (distanza dal percorribile 0,35 m)
   ok   Enigma enigma_lucchetto (distanza dal percorribile 0,05 m)
-  ok   Passante_01_Ingresso (distanza dal percorribile 0,00 m)
-  ok   Passante_11_ViccoloOvest (distanza dal percorribile 0,00 m)
-  ok   Passante_14_Panchina (distanza dal percorribile 0,00 m)
-  ok   Passante_03_Corridoio (distanza dal percorribile 0,05 m)
-  ok   Passante_05_BambinoCampana (distanza dal percorribile 0,05 m)
-  ok   Passante_04_ClienteCalzolaio (distanza dal percorribile 0,00 m)
-  ok   Passante_07_DalBarbiere (distanza dal percorribile 0,00 m)
-  ok   Passante_08_Trattoria (distanza dal percorribile 0,00 m)
-  ok   Passante_02_DavantiSarto (distanza dal percorribile 0,05 m)
-  ok   Passante_13_Fontana (distanza dal percorribile 0,00 m)
-  ok   Passante_09_Fruttivendolo (distanza dal percorribile 0,10 m)
   ok   Passante_10_Traversa (distanza dal percorribile 0,00 m)
-  ok   Passante_12_Cortile (distanza dal percorribile 0,00 m)
+  ok   Passante_09_Fruttivendolo (distanza dal percorribile 0,10 m)
+  ok   Passante_13_Fontana (distanza dal percorribile 0,00 m)
+  ok   Passante_07_DalBarbiere (distanza dal percorribile 0,00 m)
   ok   Passante_06_FilaSalumiere (distanza dal percorribile 0,10 m)
+  ok   Passante_05_BambinoCampana (distanza dal percorribile 0,05 m)
+  ok   Passante_14_Panchina (distanza dal percorribile 0,00 m)
+  ok   Passante_11_ViccoloOvest (distanza dal percorribile 0,00 m)
+  ok   Passante_01_Ingresso (distanza dal percorribile 0,00 m)
+  ok   Passante_03_Corridoio (distanza dal percorribile 0,05 m)
+  ok   Passante_02_DavantiSarto (distanza dal percorribile 0,05 m)
+  ok   Passante_04_ClienteCalzolaio (distanza dal percorribile 0,00 m)
+  ok   Passante_12_Cortile (distanza dal percorribile 0,00 m)
+  ok   Passante_08_Trattoria (distanza dal percorribile 0,00 m)
 == 30_FB_Scarpe: 11481 celle percorribili (718 m2), 0 problemi ==
 
   ok   Uscita (distanza dal percorribile 0,33 m)
@@ -114,11 +114,11 @@ Mappa (x da -5,1, z in alto = nord, ogni carattere 25 cm; '.' = percorribile):
   ok   Enigma enigma_cappotti (distanza dal percorribile 0,07 m)
   ok   Enigma enigma_mela (distanza dal percorribile 0,11 m)
   ok   Nascosto mela_annurca (distanza dal percorribile 0,07 m)
-== 60_FB_Stazione: 12800 celle percorribili (800 m2), 0 problemi ==
+== 60_FB_Stazione: 12801 celle percorribili (800 m2), 0 problemi ==
 
   ok   Uscita (distanza dal percorribile 0,22 m)
-  ok   Spawn salita (distanza dal percorribile 0,11 m)
   ok   Spawn inizio (distanza dal percorribile 0,11 m)
+  ok   Spawn salita (distanza dal percorribile 0,11 m)
   ok   Enigma enigma_finestrino (distanza dal percorribile 0,56 m)
   ok   Enigma enigma_paura (distanza dal percorribile 0,07 m)
 == 61_FB_Vagone: 369 celle percorribili (23 m2), 0 problemi ==
@@ -130,11 +130,11 @@ Mappa (x da -5,1, z in alto = nord, ogni carattere 25 cm; '.' = percorribile):
   ok   Enigma enigma_pianoforte (distanza dal percorribile 0,09 m)
   ok   Enigma enigma_impronte (distanza dal percorribile 0,11 m)
   ok   Enigma enigma_melodia (distanza dal percorribile 0,04 m)
-== 70_FB_Modena: 11379 celle percorribili (711 m2), 0 problemi ==
+== 70_FB_Modena: 11342 celle percorribili (709 m2), 0 problemi ==
 
   ok   Uscita (distanza dal percorribile 0,37 m)
-  ok   Spawn inizio (distanza dal percorribile 0,11 m)
   ok   Spawn oggetto_scarpe (distanza dal percorribile 0,10 m)
+  ok   Spawn inizio (distanza dal percorribile 0,11 m)
   ok   Spawn ingresso (distanza dal percorribile 0,11 m)
   ok   Enigma enigma_basso94 (distanza dal percorribile 0,41 m)
   ok   Enigma enigma_posto_scarpe (distanza dal percorribile 0,22 m)
@@ -147,11 +147,11 @@ Mappa (x da -5,1, z in alto = nord, ogni carattere 25 cm; '.' = percorribile):
   ok   Enigma enigma_carmine (distanza dal percorribile 0,10 m)
 == 80_Basso_1994: 832 celle percorribili (52 m2), 0 problemi ==
 
-  ok   Porta Porta_sede_partito (distanza dal percorribile 0,40 m)
-  ok   Porta Porta_casa_capa_e_fierro (distanza dal percorribile 0,40 m)
   ok   Porta Porta_stazione (distanza dal percorribile 0,40 m)
-  ok   Porta Porta_basso_antonietta (distanza dal percorribile 0,40 m)
+  ok   Porta Porta_casa_capa_e_fierro (distanza dal percorribile 0,40 m)
   ok   Porta Porta_vicolo_stracci (distanza dal percorribile 0,40 m)
+  ok   Porta Porta_sede_partito (distanza dal percorribile 0,40 m)
+  ok   Porta Porta_basso_antonietta (distanza dal percorribile 0,40 m)
   ok   Spawn da_basso_antonietta (distanza dal percorribile 0,05 m)
   ok   Spawn inizio (distanza dal percorribile 0,00 m)
 == 10_Hub_Vicolo: 29964 celle percorribili (1873 m2), 0 problemi ==

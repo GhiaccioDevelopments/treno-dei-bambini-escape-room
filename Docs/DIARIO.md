@@ -5,6 +5,25 @@ Regole d'uso: vedi la sezione "Diario e lavoro su più PC" in `CLAUDE.md`.
 
 ---
 
+## 2026-11-22 – PC casa – coda R012-R029 compilata, scene costruite, prove verdi, enigmi semplificati, 11 personaggi
+**Branch:** richiesta/R029-ottimizzazione-totale (contiene tutta la coda) · **Ultimo commit:** vedi `git log`
+### Fatto
+- Compilazione di tutta la coda (un solo errore: `FraseDef` doppia). Controllo di compilazione fuori da Unity (Roslyn) per i prossimi errori.
+- Scene costruite: 40 Stracci, 50 Volantino, 60/61 Cappotto, 70 Modena, 80 basso 1994, piu' hub, basso e scarpe; piante della mappa, punti dei segreti, bake di tutte le scene.
+- Bug di gioco corretti: porte di Modena murate (4 enigmi irraggiungibili), lenzuolo e scatolone del 1994, texture del biglietto del treno, obiettivi che saltavano al capitolo dopo prima di uscire dal ricordo, build WebGL rotta da `WebGLInput`.
+- **Enigmi piu' semplici** (richiesta dell'utente): testi di tutti gli enigmi riscritti (`ArtSource/Enigmi/testi_semplici.py`), 3 indizi progressivi, meno fatica su ciclostile, forno, pianoforte.
+- **Personaggi MakeHuman generati in automatico** (senza clic): Capa 'e fierro, Antonietta, Maddalena, la Pachiochia, controllore, due volontarie, Derna, Alcide, Rosa, Carmine; importati con idle e messi nelle scene.
+- Prove automatiche aggiornate al gioco con 6 capitoli: tutte 0 FAIL prima dei personaggi (enigmi 258, segreti 452, mappa 342, filmato 64, Stracci 81, Volantino 86, Cappotto 87, Violino 84, Finale 77). Nuovo menu **Treno > Prove > Tutte le prove automatiche**.
+### Decisioni
+- Nessuna domanda all'utente; decisioni nel Rapporto di R029 (sessione 2026-11-22).
+- Sorgenti pesanti dei personaggi (FBX, texture) fuori da git, texture a 1024 px (budget LFS).
+### Problemi aperti
+- **Ultimo giro di prove interrotto** (dopo l'aggiunta dei personaggi e il secondo bake di 50-80): rilanciare Treno > Prove > Tutte le prove automatiche.
+- Build WebGL da rifare (la prima e' fallita per WebGLInput, ora corretto) e da pubblicare su gh-pages; misure FPS e build Windows.
+- Limiti degli abiti MakeHuman (gonne corte, Derna con pantaloni tipo jeans, cravatta del controllore); accompagnatrice seduta e Carmine ancora figure semplici.
+- Merge su `main` e tag v0.2: da decidere dopo le prove.
+### Prossimi passi
+- Prove complete -> build WebGL -> gh-pages -> benchmark Windows -> merge.
 ## 2026-11-13 – PC scuola – R029 ottimizzazione (parte senza Unity)
 **Branch:** richiesta/R029-ottimizzazione-totale (contiene tutta la coda: R012-R016, R026-R028)
 ### Fatto
