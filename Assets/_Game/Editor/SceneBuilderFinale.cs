@@ -87,8 +87,8 @@ namespace TrenoBambini.EditorTools
             a94.SetParent(props, false);
             // mobili sotto le lenzuola (la credenza della stanza resta scoperta: ci va il volantino), scatoloni, televisore a tubo, radio, lampadina nuda
             Lenzuolo(a94, new Vector3(4.15f, 0.25f, -0.6f), new Vector3(0.9f, 0.5f, 0.5f), 90f);     // la cassapanca
-            Lenzuolo(a94, new Vector3(1.85f, 0.45f, 7.2f), new Vector3(0.5f, 0.9f, 1.2f), 90f);      // la credenza della cucina
-            foreach (var sc in new[] { new Vector4(-3.4f, -1.8f, 10f, 0.5f), new Vector4(-2.8f, -1.95f, -15f, 0.4f), new Vector4(-3.1f, -1.3f, 30f, 0.35f), new Vector4(3.9f, 4.6f, 5f, 0.45f) })
+            Lenzuolo(a94, new Vector3(1.85f, 0.58f, 7.2f), new Vector3(1.1f, 1.16f, 0.6f), 0f);      // la credenza della cucina (stesse misure del mobile, lontano dal muro ovest)
+            foreach (var sc in new[] { new Vector4(-3.4f, -1.8f, 10f, 0.5f), new Vector4(-2.8f, -1.95f, -15f, 0.4f), new Vector4(-3.1f, -1.3f, 30f, 0.35f) })
                 Box("Scatolone", a94, new Vector3(sc.x, sc.w * 0.5f, sc.y), new Vector3(sc.w * 1.2f, sc.w, sc.w), "PannoOcra", new Vector3(0f, sc.z, 0f));
             Box("Televisore", a94, new Vector3(-1.0f, 0.55f, 3.2f), new Vector3(0.55f, 0.45f, 0.45f), "M_FerroRuggineGrossa");
             Box("Televisore_Schermo", a94, new Vector3(-1.0f, 0.57f, 2.97f), new Vector3(0.44f, 0.34f, 0.01f), "Finestra", null, false);

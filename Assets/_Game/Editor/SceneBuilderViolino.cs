@@ -162,7 +162,7 @@ namespace TrenoBambini.EditorTools
         // ------------------------------------------------------------------ utilita'
 
         /// <summary>Muro pieno da (x0,z0) a (x1,z1) (allineato agli assi), alto h, con un vano (porta o finestra) opzionale fra u0 e u1 lungo il muro, da quota v0 a v1.</summary>
-        static void MuroConVano(Transform p, string nome, float x0, float z0, float x1, float z1, float h, string mat, float u0 = -1f, float u1 = -1f, float v0 = 0f, float v1 = 2.2f)
+        static void MuroConVano(Transform p, string nome, float x0, float z0, float x1, float z1, float h, string mat, float u0 = float.NaN, float u1 = float.NaN, float v0 = 0f, float v1 = 2.2f)
         {
             bool lungoX = Mathf.Abs(x1 - x0) > Mathf.Abs(z1 - z0);
             float a0 = lungoX ? Mathf.Min(x0, x1) : Mathf.Min(z0, z1), a1 = lungoX ? Mathf.Max(x0, x1) : Mathf.Max(z0, z1);
@@ -174,7 +174,7 @@ namespace TrenoBambini.EditorTools
                 var dim = lungoX ? new Vector3(b1 - b0, y1 - y0, SpMuro) : new Vector3(SpMuro, y1 - y0, b1 - b0);
                 Box(n, p, pos, dim, mat);
             };
-            if (u0 < 0f) { pezzo(nome, a0, a1, 0f, h); return; }
+            if (float.IsNaN(u0)) { pezzo(nome, a0, a1, 0f, h); return; } // NaN = muro pieno (le porte possono avere coordinate negative)
             pezzo(nome + "_A", a0, u0, 0f, h);
             pezzo(nome + "_B", u1, a1, 0f, h);
             pezzo(nome + "_Sotto", u0, u1, 0f, v0);
