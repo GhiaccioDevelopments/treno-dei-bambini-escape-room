@@ -74,7 +74,7 @@ namespace TrenoBambini.Core
         {
             I = this;
 #if UNITY_WEBGL && !UNITY_EDITOR
-            WebGLInput.captureAllKeyboardInput = true; // la tastiera arriva al gioco anche se il focus è sulla pagina
+            // WebGLInput.captureAllKeyboardInput e' gia' true per impostazione predefinita (e in Unity 6.6 il tipo non e' piu' visibile alla compilazione del player)
             TrenoInputInit();
 #endif
         }
