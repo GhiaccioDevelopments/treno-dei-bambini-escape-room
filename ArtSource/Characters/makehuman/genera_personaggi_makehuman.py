@@ -92,41 +92,42 @@ def _pers_main():
                       "cheek/l-cheek-volume-decr|incr": -0.35, "cheek/r-cheek-volume-decr|incr": -0.35},
             pelle="skins/middleage_caucasian_female/middleage_caucasian_female.mhmat",
             capelli=("ponytail01", "antonietta_capelli.mhmat"),
-            vestiti=[("female_elegantsuit01", "antonietta_abito.mhmat"), ("shoes03", "scarpe_nere_usate.mhmat")]),
+            vestiti=[("treno_tailleur_lungo", "antonietta_abito.mhmat"), ("shoes03", "scarpe_nere_usate.mhmat")]),
         "Maddalena": D(      # giovane militante del Comitato, ~25 anni, energica
             macro=macro(0.0, 25, 0.38, 0.45, 0.50),
             dettagli={"eyebrows/eyebrows-angle-down|up": -0.25},
             pelle="skins/young_caucasian_female/young_caucasian_female.mhmat",
             capelli=("braid01", "maddalena_capelli.mhmat"),
-            vestiti=[("female_elegantsuit01", "maddalena_abito.mhmat"), ("shoes03", "scarpe_nere_usate.mhmat")]),
+            vestiti=[("treno_tailleur_lungo", "maddalena_abito.mhmat"), ("shoes03", "scarpe_nere_usate.mhmat")]),
         "Pachiochia": D(     # vicina del vicolo, ~45 anni, robusta
             macro=macro(0.0, 45, 0.80, 0.45, 0.42),
             dettagli={"stomach/stomach-pregnant-decr|incr": 0.30, "neck/neck-scale-horiz-decr|incr": 0.25},
             pelle="skins/middleage_caucasian_female/middleage_caucasian_female.mhmat",
             capelli=("ponytail01", "pachiochia_capelli.mhmat"),
-            vestiti=[("female_elegantsuit01", "pachiochia_abito.mhmat"), ("shoes03", "scarpe_nere_usate.mhmat")]),
+            vestiti=[("treno_tailleur_lungo", "pachiochia_abito.mhmat"), ("shoes03", "scarpe_nere_usate.mhmat")]),
         "Controllore": D(    # controllore del treno, ~45 anni, divisa scura
             macro=macro(1.0, 45, 0.55, 0.50, 0.55),
             pelle="skins/middleage_caucasian_male/middleage_caucasian_male.mhmat",
             sopracciglia="eyebrow010",
             capelli=("short01", "controllore_capelli.mhmat"),
-            vestiti=[("male_elegantsuit01", "controllore_divisa.mhmat"), ("shoes03", "scarpe_nere_usate.mhmat")]),
+            vestiti=[("male_elegantsuit01", "controllore_divisa.mhmat"), ("shoes03", "scarpe_nere_usate.mhmat"),
+                     ("treno_berretto_ferroviere", "controllore_berretto.mhmat")]),
         "VolontariaComitato": D(   # volontaria del Comitato, ~28 anni, abito semplice grigio-verde
             macro=macro(0.0, 28, 0.40, 0.40, 0.48),
             pelle="skins/young_caucasian_female/young_caucasian_female.mhmat",
             capelli=("braid01", "volontaria_comitato_capelli.mhmat"),
-            vestiti=[("female_elegantsuit01", "volontaria_comitato_abito.mhmat"), ("shoes03", "scarpe_nere_usate.mhmat")]),
+            vestiti=[("treno_tailleur_lungo", "volontaria_comitato_abito.mhmat"), ("shoes03", "scarpe_nere_usate.mhmat")]),
         "VolontariaCroceRossa": D(  # volontaria della Croce Rossa, ~30 anni, camice bianco di cotone
             macro=macro(0.0, 30, 0.40, 0.40, 0.50),
             pelle="skins/young_caucasian_female/young_caucasian_female.mhmat",
             capelli=("ponytail01", "volontaria_cr_capelli.mhmat"),
-            vestiti=[("female_elegantsuit01", "volontaria_cr_abito.mhmat"), ("shoes03", "scarpe_nere_usate.mhmat")]),
+            vestiti=[("treno_tailleur_lungo", "volontaria_cr_abito.mhmat"), ("shoes03", "scarpe_nere_usate.mhmat")]),
         "Derna": D(          # Modena, ~35 anni, militante, lana grigio-verde rammendata
             macro=macro(0.0, 35, 0.35, 0.50, 0.50),
             dettagli={"eyebrows/eyebrows-angle-down|up": -0.20},
             pelle="skins/middleage_caucasian_female/middleage_caucasian_female.mhmat",
             capelli=("ponytail01", "derna_capelli.mhmat"),
-            vestiti=[("male_casualsuit05", "derna_cappotto.mhmat"), ("shoes03", "scarpe_nere_usate.mhmat")]),
+            vestiti=[("treno_tailleur_lungo", "derna_cappotto.mhmat"), ("shoes03", "scarpe_nere_usate.mhmat")]),
         "Alcide": D(         # Modena, ~40 anni, accordatore di pianoforti, camicia e cappello di feltro
             macro=macro(1.0, 40, 0.45, 0.45, 0.52),
             pelle="skins/middleage_caucasian_male/middleage_caucasian_male.mhmat",
@@ -138,7 +139,7 @@ def _pers_main():
             macro=macro(0.0, 60, 0.68, 0.38, 0.42),
             pelle="skins/old_caucasian_female/old_caucasian_female.mhmat",
             capelli=("ponytail01", "rosa_capelli.mhmat"),
-            vestiti=[("female_elegantsuit01", "rosa_abito.mhmat"), ("shoes03", "scarpe_nere_usate.mhmat")]),
+            vestiti=[("treno_tailleur_lungo", "rosa_abito.mhmat"), ("shoes03", "scarpe_nere_usate.mhmat")]),
         "Carmine": D(        # 1994, ~55 anni, abiti sobri (materiali originali di MakeHuman)
             macro=macro(1.0, 55, 0.55, 0.45, 0.52),
             pelle="skins/middleage_caucasian_male/middleage_caucasian_male.mhmat",
@@ -182,6 +183,9 @@ def _pers_main():
     def file_asset(tipo, nome):
         """Percorso del file .mhclo/.mhpxy di un asset di sistema (es. clothes/shoes01)."""
         cartella = os.path.join(SYS, tipo, nome)
+        if not os.path.isdir(cartella):
+            # abiti d'epoca creati da abiti_epoca/crea_abiti_epoca.py (cartella dati utente di MakeHuman)
+            cartella = os.path.join(getpath.getDataPath(tipo), nome)
         for ext in (".mhclo", ".mhpxy"):
             f = os.path.join(cartella, nome + ext)
             if os.path.isfile(f):

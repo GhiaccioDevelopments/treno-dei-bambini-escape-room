@@ -1,6 +1,6 @@
 # Written by MakeHuman 1.2.1 alpha
 version v1.2.1
-camera 0.0 0.0 0.0 -0.013072430280247849 -0.0018151478059147165 1.0
+camera 0.0 0.0 0.0 0.0 0.0 1.0
 modifier breast/BreastSize 0.500000
 modifier breast/BreastFirmness 0.500000
 modifier macrodetails/Gender 1.000000
@@ -20,10 +20,12 @@ eyebrows eyebrow010 8261cde8-7ce2-47f3-a7a2-edf459c50887
 eyes HighPolyEyes 2c12f43b-1303-432c-b7ce-d78346baf2e6
 clothes male_elegantsuit01 1d2e3843-dda5-40a8-84a0-96666aa681bb
 clothes shoes03 ad622a26-da1e-4e3c-9f8e-454edf10d504
+clothes treno_berretto_ferroviere e53c9759-416a-5108-8f63-a3066243f08f
 clothesHideFaces True
 skinMaterial skins/middleage_caucasian_male/middleage_caucasian_male.mhmat
 material male_elegantsuit01 1d2e3843-dda5-40a8-84a0-96666aa681bb amerigo/controllore_divisa.mhmat
 material shoes03 ad622a26-da1e-4e3c-9f8e-454edf10d504 amerigo/scarpe_nere_usate.mhmat
+material treno_berretto_ferroviere e53c9759-416a-5108-8f63-a3066243f08f amerigo/controllore_berretto.mhmat
 material short01 766436e9-63ed-4f6a-afa9-99f3acff70a8 amerigo/controllore_capelli.mhmat
 material HighPolyEyes 2c12f43b-1303-432c-b7ce-d78346baf2e6 eyes/materials/brown.mhmat
 material eyebrow010 8261cde8-7ce2-47f3-a7a2-edf459c50887 eyebrow010.mhmat

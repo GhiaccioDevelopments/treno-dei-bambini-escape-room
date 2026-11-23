@@ -142,6 +142,7 @@ il programma MakeHuman è AGPL-3.0 e non è incluso nel progetto). Materiali ric
 | Abito male_elegantsuit01, scarpe shoes03 (adulto) | Mesh + texture | stesse cartelle | makehuman_system | CC0 | Nessuna |
 | Occhi high-poly (brown), sopracciglia 001/002, ciglia 01, denti base | Mesh + texture | stesse cartelle | makehuman_system | CC0 | Nessuna; in Unity brown_eye_cut.png = brown_eye.png (letta da ArtSource, non copiata in Assets) con la cornea (cerchio azzurro) a alpha 0 |
 | Copie importate in Unity (FBX e texture) | Modello, texture | Assets/Art/Characters/AmerigoMH_Bambino/, AmerigoMH_Adulto/ | MakeHuman Community / makehuman_system | CC0 1.0 | Menu Treno > Personaggi > Importa Amerigo MakeHuman: scala, normali ricalcolate, mappa Humanoid esplicita, materiali URP, solo le texture usate; percorsi personali rimossi dagli FBX con pulisci_percorsi_fbx.py |
+| Tailleur lungo d'epoca (gonna sotto il ginocchio) e berretto da ferroviere | Mesh + texture | Personaggi secondari MakeHuman (Antonietta, Maddalena, Pachiochia, volontarie, Derna, Rosa, Controllore) | makehuman_system (female_elegantsuit01, male_elegantsuit01); berretto generato da codice | CC0 | Gonna allungata e svasata spostando i vertici (crea_abiti_epoca.py), cravatta coperta nella texture, berretto originale del progetto (CC0) |
 
 ## Animazioni di Amerigo (Fase 2.5)
 

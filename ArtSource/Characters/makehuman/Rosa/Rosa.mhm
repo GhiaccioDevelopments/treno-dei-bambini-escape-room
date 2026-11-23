@@ -1,6 +1,6 @@
 # Written by MakeHuman 1.2.1 alpha
 version v1.2.1
-camera 0.0 0.0 0.0 -0.008431218193005996 -0.007440346162041088 1.0
+camera 0.0 0.0 0.0 -0.012940796978162443 -0.007532092695369449 1.0
 modifier breast/BreastSize 0.500000
 modifier breast/BreastFirmness 0.500000
 modifier macrodetails/Gender 0.000000
@@ -18,11 +18,11 @@ eyelashes Eyelashes01 d533836f-13ad-4836-8b65-051108253cd2
 skeleton game_engine.mhskel
 eyebrows eyebrow001 9c81ec3a-faa5-4c94-9cdb-992300ba3084
 eyes HighPolyEyes 2c12f43b-1303-432c-b7ce-d78346baf2e6
-clothes female_elegantsuit01 8bb26477-c09f-4439-b05f-961516acf662
+clothes treno_tailleur_lungo 9287d67e-ccbd-5ede-a400-cbad243d9e79
 clothes shoes03 ad622a26-da1e-4e3c-9f8e-454edf10d504
 clothesHideFaces True
 skinMaterial skins/old_caucasian_female/old_caucasian_female.mhmat
-material female_elegantsuit01 8bb26477-c09f-4439-b05f-961516acf662 amerigo/rosa_abito.mhmat
+material treno_tailleur_lungo 9287d67e-ccbd-5ede-a400-cbad243d9e79 amerigo/rosa_abito.mhmat
 material shoes03 ad622a26-da1e-4e3c-9f8e-454edf10d504 amerigo/scarpe_nere_usate.mhmat
 material ponytail01 44e0340e-c7a6-4d22-814c-0632968d2dde amerigo/rosa_capelli.mhmat
 material HighPolyEyes 2c12f43b-1303-432c-b7ce-d78346baf2e6 eyes/materials/brown.mhmat
