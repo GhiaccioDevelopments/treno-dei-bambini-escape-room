@@ -5,6 +5,27 @@ Regole d'uso: vedi la sezione "Diario e lavoro su più PC" in `CLAUDE.md`.
 
 ---
 
+## 2026-11-23 – PC casa – v0.2: personaggi d'epoca, musica vera, prove complete, WebGL e sito online, merge su main
+**Branch:** main (merge di richiesta/R029-ottimizzazione-totale, tag v0.2) · **Ultimo commit:** vedi `git log`
+### Fatto
+- **Minimappa** (bug segnalato dall'utente): l'obiettivo non sparisce piu' dopo un'interazione, compare subito il passo successivo, anche dentro i ricordi; a capitolo finito indica l'uscita ("esci dal ricordo").
+- **Personaggi d'epoca** rigenerati e importati (11, avatar validi): gonna lunga per le donne, Derna in giacca e gonna, controllore senza cravatta e con berretto da ferroviere (un po' alto). Foto prima/dopo in `Docs/richieste/media/R029/personaggi/`.
+- **Musica vera** in tutte le scene e nei titoli di coda (registrazioni CC0 / pubblico dominio: Chopin, Tosti, Grieg, Borodin, Massenet suonato da Kreisler, Suk, quartetto di mandolini napoletano); la chiusa dei titoli cade sul "Fine". Crediti in `CREDITS.md`.
+- Enigma "ordina" giocabile senza mouse. **Copione del doppiaggio** completo: 17 voci, 174 battute (`Doppiaggio/`).
+- **Prove automatiche sulla build Windows: 10 suite, 1662 controlli, 0 FAIL** (poi rifatte menu, filmato, finale, enigmi, Stracci, Violino con la musica nuova: 0 FAIL).
+- **Benchmark**: ad Alta 600-960 FPS medi, 1% low minimo 157 (RTX 4060 Ti, 1280x720). Tabella nel Rapporto di R029.
+- **WebGL v0.2 su gh-pages** + **sito del progetto** in `/sito/` (sorgente in `D:/Lavori/Web/treno-dei-bambini-sito`, React/Vite, revisionato). Il file dei dati WebGL (127 MB) supera il limite di 100 MB di GitHub: `Tools/WebGL/dividi_data_webgl.py` lo divide in due parti e index.html le riunisce.
+- Merge su `main`, tag v0.2, PR R012-R016 e R026-R029 chiuse.
+### Decisioni
+- Merge su main deciso dall'utente (2026-11-23: "ti lascio il compito anche del merge sul main").
+- Fonte del sito: il romanzo di Viola Ardone (opera originale), con confronto col film.
+- Musica: solo registrazioni vere con licenza libera; Wikimedia Commons non usato (blocca i download automatici).
+- Eta' dei personaggi nel copione stimate da Claude.
+### Problemi aperti
+- In WebGL Unity ignora la qualita' audio per piattaforma: la musica pesa ~43 MB anche li'. Se serve alleggerire, ricodificare a parte le musiche per il web.
+- Da fare dall'utente: registrare le voci, una partita col gamepad, approvare l'aspetto dei personaggi, misura FPS su un PC della scuola.
+### Prossimi passi
+- Voci registrate -> import nel gioco -> nuova build.
 ## 2026-11-22 – PC casa – coda R012-R029 compilata, scene costruite, prove verdi, enigmi semplificati, 11 personaggi
 **Branch:** richiesta/R029-ottimizzazione-totale (contiene tutta la coda) · **Ultimo commit:** vedi `git log`
 ### Fatto

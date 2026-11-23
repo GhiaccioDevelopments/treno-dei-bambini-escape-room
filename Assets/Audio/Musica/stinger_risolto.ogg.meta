@@ -12,12 +12,20 @@ AudioImporter:
     quality: 0.6
     conversionMode: 0
     preloadAudioData: 1
-  platformSettingOverrides: {}
+  platformSettingOverrides:
+    13:
+      loadType: 1
+      sampleRateSetting: 2
+      sampleRateOverride: 22050
+      compressionFormat: 1
+      quality: 0.15
+      conversionMode: 0
+      preloadAudioData: 1
   forceToMono: 0
   normalize: 0
   loadInBackground: 1
   ambisonic: 0
   3D: 1
-  userData: r029
+  userData: r029b
   assetBundleName: 
   assetBundleVariant: 
