@@ -105,6 +105,7 @@ namespace TrenoBambini.EditorTools
         }
 
         // ---- Personaggi secondari (ArtSource/Characters/makehuman/genera_personaggi_makehuman.py) ----
+        // R029: gonna lunga d'epoca (mesh treno_tailleur_lungo, da crea_abiti_epoca.py) per le donne e berretto da ferroviere per il controllore.
         // Scala 0,0933 per tutti: l'FBX conserva l'altezza vera di ogni personaggio (153-181 cm).
         // Slot = nomi delle mesh dell'FBX (letti dall'FBX esportato): corpo = nome del personaggio in minuscolo senza trattini bassi.
         static MhPers MhNuovo(string cartella, string slotCorpo, string pelleTex, string sopracciglia, params MhSlot[] mezzo)
@@ -129,32 +130,32 @@ namespace TrenoBambini.EditorTools
         static readonly MhPers[] MhSecondari =
         {
             MhNuovo("Antonietta", "antonietta", "middleage_lightskinned_female_diffuse", "eyebrow001",
-                Veste("female_elegantsuit01", "antonietta_abito_diffuse", "female_elegantsuit01_normal"),
+                Veste("treno_tailleur_lungo", "antonietta_abito_diffuse", "female_elegantsuit01_normal"),
                 Veste("shoes03", "scarpe_nere_usate_diffuse"), Capelli("ponytail01", "antonietta_capelli_diffuse")),
             MhNuovo("Maddalena", "maddalena", "young_lightskinned_female_diffuse", "eyebrow001",
-                Veste("female_elegantsuit01", "maddalena_abito_diffuse", "female_elegantsuit01_normal"),
+                Veste("treno_tailleur_lungo", "maddalena_abito_diffuse", "female_elegantsuit01_normal"),
                 Veste("shoes03", "scarpe_nere_usate_diffuse"), Capelli("braid01", "maddalena_capelli_diffuse")),
             MhNuovo("Pachiochia", "pachiochia", "middleage_lightskinned_female_diffuse", "eyebrow001",
-                Veste("female_elegantsuit01", "pachiochia_abito_diffuse", "female_elegantsuit01_normal"),
+                Veste("treno_tailleur_lungo", "pachiochia_abito_diffuse", "female_elegantsuit01_normal"),
                 Veste("shoes03", "scarpe_nere_usate_diffuse"), Capelli("ponytail01", "pachiochia_capelli_diffuse")),
             MhNuovo("Controllore", "controllore", "middleage_lightskinned_male_diffuse", "eyebrow010",
-                Veste("male_elegantsuit01", "controllore_divisa_diffuse"),
+                Veste("male_elegantsuit01", "controllore_divisa_diffuse"), Veste("treno_berretto_ferroviere", "controllore_berretto_diffuse"),
                 Veste("shoes03", "scarpe_nere_usate_diffuse"), Capelli("short01", "controllore_capelli_diffuse")),
             MhNuovo("VolontariaComitato", "volontariacomitato", "young_lightskinned_female_diffuse", "eyebrow001",
-                Veste("female_elegantsuit01", "volontaria_comitato_abito_diffuse", "female_elegantsuit01_normal"),
+                Veste("treno_tailleur_lungo", "volontaria_comitato_abito_diffuse", "female_elegantsuit01_normal"),
                 Veste("shoes03", "scarpe_nere_usate_diffuse"), Capelli("braid01", "volontaria_comitato_capelli_diffuse")),
             MhNuovo("VolontariaCroceRossa", "volontariacrocerossa", "young_lightskinned_female_diffuse", "eyebrow001",
-                Veste("female_elegantsuit01", "volontaria_cr_abito_diffuse", "female_elegantsuit01_normal"),
+                Veste("treno_tailleur_lungo", "volontaria_cr_abito_diffuse", "female_elegantsuit01_normal"),
                 Veste("shoes03", "scarpe_nere_usate_diffuse"), Capelli("ponytail01", "volontaria_cr_capelli_diffuse")),
             MhNuovo("Derna", "derna", "middleage_lightskinned_female_diffuse", "eyebrow001",
-                Veste("male_casualsuit05", "derna_cappotto_diffuse", "male_casualsuit05_normal"),
+                Veste("treno_tailleur_lungo", "derna_cappotto_diffuse", "female_elegantsuit01_normal"),
                 Veste("shoes03", "scarpe_nere_usate_diffuse"), Capelli("ponytail01", "derna_capelli_diffuse")),
             MhNuovo("Alcide", "alcide", "middleage_lightskinned_male_diffuse", "eyebrow010",
                 Veste("male_casualsuit03", "alcide_abito_diffuse", "male_casualsuit03_normal"),
                 Veste("fedora", "fedora_texture", "fedora_normal"),
                 Veste("shoes01", "scarpe_usate_diffuse"), Capelli("short04", "alcide_capelli_diffuse")),
             MhNuovo("Rosa", "rosa", "old_lightskinned_female_diffuse", "eyebrow001",
-                Veste("female_elegantsuit01", "rosa_abito_diffuse", "female_elegantsuit01_normal"),
+                Veste("treno_tailleur_lungo", "rosa_abito_diffuse", "female_elegantsuit01_normal"),
                 Veste("shoes03", "scarpe_nere_usate_diffuse"), Capelli("ponytail01", "rosa_capelli_diffuse")),
             MhNuovo("Carmine", "carmine", "middleage_lightskinned_male_diffuse", "eyebrow010",
                 Veste("male_casualsuit05", "male_casualsuit05_diffuse", "male_casualsuit05_normal"),

@@ -158,7 +158,9 @@ namespace TrenoBambini.Core
             {
                 t += Time.unscaledDeltaTime;
                 var a = SceneManager.GetActiveScene().name;
-                if (a == GameManager.SceneHub && !GameManager.MenuBackdrop && SceneManager.sceneCount == 1) { res(true); yield break; }
+                // "Continua" riporta nella scena del salvataggio (hub, basso o un ricordo): basta che sia una scena di gioco, da sola e senza menu
+                bool scenaDiGioco = a != "00_Boot" && a != "01_Titolo";
+                if (scenaDiGioco && !GameManager.MenuBackdrop && SceneManager.sceneCount == 1) { res(true); yield break; }
                 yield return null;
             }
             res(false);
@@ -308,7 +310,7 @@ namespace TrenoBambini.Core
             yield return Tap(Key.Enter);
             bool gioco = false;
             yield return ScenaGioco(60f, r => gioco = r);
-            Check("Il gioco parte (hub, un'unica scena)", gioco, SceneManager.GetActiveScene().name + " scene=" + SceneManager.sceneCount);
+            Check("Il gioco parte (scena del salvataggio, un'unica scena)", gioco, SceneManager.GetActiveScene().name + " scene=" + SceneManager.sceneCount);
             if (!gioco) yield break;
 
             yield return Attendi(5f);
