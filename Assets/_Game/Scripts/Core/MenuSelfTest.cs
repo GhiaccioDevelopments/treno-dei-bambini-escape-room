@@ -195,7 +195,7 @@ namespace TrenoBambini.Core
         /// <summary>Preme S finche' il fuoco e' sulla voce indicata; vale false se non ci arriva (e in quel caso non si deve premere Invio).</summary>
         IEnumerator Raggiungi(string id, System.Action<bool> res)
         {
-            var ordine = new System.Collections.Generic.List<string> { "continua", "nuova", "ricordi", "impostazioni", "crediti", "esci" };
+            var ordine = new System.Collections.Generic.List<string> { "continua", "nuova", "ricordi", "impostazioni", "filmato", "trofei", "crediti", "esci" }; // R025 filmato e R027 trofei stanno fra Impostazioni e Crediti
             for (int i = 0; i < 10 && title.FuocoId != id; i++)
             {
                 int da = ordine.IndexOf(title.FuocoId), a = ordine.IndexOf(id);

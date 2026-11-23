@@ -282,14 +282,17 @@ namespace TrenoBambini.Mappa
             }
 
             // obiettivo e testo a destra
-            var ob = Obiettivi.Corrente();
+            var guida = Obiettivi.Guida(scena); // R029: sempre un obiettivo (passo, uscita, capitolo finito: esci dal ricordo)
             int modo = Obiettivi.Modo;
             string testo;
             ObiettivoPuntoDef punto = null;
             if (modo == Obiettivi.Esploratore) testo = T.aiutoSpento;
-            else if (ob == null) testo = string.IsNullOrEmpty(T.capitoloFinito) ? T.nessunObiettivo : T.capitoloFinito;
-            else if (Obiettivi.Mostrato) { testo = Obiettivi.Testo(ob, scena); punto = Obiettivi.Punto(ob, scena); }
-            else testo = T.obiettivoNascosto;
+            else if (!guida.valida) testo = T.nessunObiettivo;
+            else
+            {
+                testo = guida.testo;
+                if (guida.haPunto) punto = new ObiettivoPuntoDef { scena = scena, x = guida.x, z = guida.z, testo = guida.testo };
+            }
             if (obiettivoTesto.text != testo) obiettivoTesto.text = testo ?? "";
             obiettivoIntestazione.gameObject.SetActive(modo != Obiettivi.Esploratore);
 

@@ -443,6 +443,7 @@ namespace TrenoBambini.Data
         public string titoloGrande = "Pianta", pulsante = "Mappa", chiudi = "Chiudi", legendaTitolo = "Legenda", obiettivoTitolo = "Prossimo obiettivo";
         public string nessunObiettivo = "", obiettivoNascosto = "", capitoloFinito = "", aiuto = "", aiutoTouch = "", nord = "N";
         public string aiutoSpento = "";
+        public string esciRicordo = "Capitolo finito: esci dal ricordo"; // testo del passo "esci dal ricordo" (capitolo finito, o scena senza un punto del passo)
         public List<MappaLegendaVoce> legenda = new List<MappaLegendaVoce>();
     }
 

@@ -77,20 +77,92 @@ namespace TrenoBambini.Mappa
             return o.testo ?? "";
         }
 
-        /// <summary>L'obiettivo e' mostrato (X, freccia e riga) in base alla modalita' di aiuto.</summary>
-        public static bool Mostrato
+        /// <summary>
+        /// L'obiettivo e' mostrato (X, freccia e riga) in base alla modalita' di aiuto. R029 (bug "il punto sparisce"): Guidata e Normale (default)
+        /// lo mostrano SEMPRE, in ogni scena e dopo ogni interazione: prima in Normale ogni progresso lo nascondeva per minutiSenzaProgressi minuti
+        /// e il giocatore restava senza meta. Solo Esploratore (scelta del giocatore) lo spegne.
+        /// </summary>
+        public static bool Mostrato { get { return Modo != Esploratore; } }
+
+        /// <summary>Cosa indicare al giocatore adesso, in questa scena: riga di testo e punto (X) sulla pianta.</summary>
+        public struct GuidaInfo
         {
-            get
+            public bool valida;       // c'e' qualcosa da indicare (false solo a fine gioco o con scena senza pianta)
+            public string testo;
+            public bool haPunto;
+            public float x, z;
+            public string stato;      // "passo" | "uscita" | "capitoloFinito" | "fine" (per le prove)
+        }
+
+        /// <summary>
+        /// R029: l'obiettivo risolto per la scena indicata. Regola generale: se il passo ha un punto in questa scena si indica quello; altrimenti
+        /// (scena sbagliata) si indica l'uscita/porta della scena; "capitolo finito" (enigmi del ricordo tutti risolti, ricordo non ancora lasciato)
+        /// indica l'uscita con il testo "esci dal ricordo". Non dipende dalla modalita' di aiuto (decide chi la usa con Mostrato).
+        /// </summary>
+        public static GuidaInfo Guida(string scena)
+        {
+            var g = new GuidaInfo { testo = "", stato = "fine" };
+            var T = GameData.Mappe.testi;
+            var ob = Corrente();
+            if (ob != null)
             {
-                switch (Modo)
+                var p = Punto(ob, scena);
+                if (p != null)
                 {
-                    case Guidata: return true;
-                    case Esploratore: return false;
-                    default:
-                        return Forzato || rivelato || fermoSecondi >= GameData.Mappe.parametri.minutiSenzaProgressi * 60f;
+                    g.valida = true; g.haPunto = true; g.x = p.x; g.z = p.z; g.testo = Testo(ob, scena); g.stato = "passo";
+                    return g;
                 }
+                // scena sbagliata: la porta giusta per uscire da qui
+                g.valida = true; g.testo = Testo(ob, scena); g.stato = "uscita";
+                PuntoUscita(scena, ref g);
+                return g;
+            }
+            if (!FineCapitolo()) return g; // niente da fare: fine del gioco
+            g.valida = true; g.stato = "capitoloFinito"; g.testo = T.esciRicordo;
+            PuntoUscita(scena, ref g);
+            if (!g.haPunto)
+            {
+                // fuori da un ricordo (hub): la porta del passo appena chiuso
+                var l = GameData.Mappe.obiettivi;
+                for (int i = l.Count - 1; i >= 0 && !g.haPunto; i--)
+                {
+                    if (!Completo(l[i]) && !ChiusoDalCapitolo(l[i])) continue;
+                    var p = Punto(l[i], scena);
+                    if (p != null) { g.haPunto = true; g.x = p.x; g.z = p.z; }
+                    break;
+                }
+            }
+            return g;
         }
+
+        /// <summary>Capitolo finito ma non ancora lasciato: Corrente() e' null perche' il passo dopo e' di un altro capitolo.</summary>
+        static bool FineCapitolo()
+        {
+            var l = GameData.Mappe.obiettivi;
+            for (int i = 0; i < l.Count; i++)
+            {
+                if (ChiusoDalCapitolo(l[i]) || Completo(l[i])) continue;
+                return i > 0 && l[i - 1].capitolo != l[i].capitolo && !string.IsNullOrEmpty(l[i - 1].capitolo) && !ChiusoDalCapitolo(l[i - 1]);
+            }
+            // tutti i passi completi: se l'ultimo capitolo non e' ancora lasciato (es. finale) si indica comunque l'uscita
+            return l.Count > 0 && !string.IsNullOrEmpty(l[l.Count - 1].capitolo) && !ChiusoDalCapitolo(l[l.Count - 1]);
         }
+
+        /// <summary>Il punto di uscita della scena in mappe.json (glifo uscita, altrimenti stazione/porta): dove si lascia il ricordo o la stanza.</summary>
+        static void PuntoUscita(string scena, ref GuidaInfo g)
+        {
+            var def = GameData.MappaScena(scena);
+            if (def == null || def.punti == null) return;
+            MappaPuntoDef scelto = null;
+            string[] ordine = { "uscita", "stazione", "porta" };
+            for (int k = 0; k < ordine.Length && scelto == null; k++)
+                for (int i = 0; i < def.punti.Count; i++) if (def.punti[i].glifo == ordine[k]) { scelto = def.punti[i]; break; }
+            if (scelto == null) return;
+            g.haPunto = true; g.x = scelto.x; g.z = scelto.z;
+            if (g.stato == "uscita" && !string.IsNullOrEmpty(GameData.Mappe.testi.esciRicordo) && SceneRicordo(scena)) g.testo = GameData.Mappe.testi.esciRicordo;
+        }
+
+        static bool SceneRicordo(string scena) { var d = GameData.MappaScena(scena); return d != null && d.tema == "ricordo"; }
 
         /// <summary>R025: dopo il filmato iniziale la X del primo obiettivo resta visibile per un po' anche in aiuto Normale (non in Esploratore).</summary>
         public static bool Forzato { get { return Time.unscaledTime < forzatoFino; } }

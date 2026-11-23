@@ -215,6 +215,68 @@ namespace TrenoBambini.Mappa
             else Check(quando + ": la freccia sul bordo indica l'obiettivo lontano", m.FrecciaBordoVisibile && !m.CroceVisibile);
         }
 
+        /// <summary>
+        /// R029: per ogni stato della partita (tutti i passi risolti in sequenza, con il ricordo lasciato a fine capitolo) e per ogni scena di mappe.json
+        /// c'e' sempre una guida valida con un punto (passo, uscita/porta se si e' nella scena sbagliata, "capitolo finito: esci"); dopo ogni
+        /// enigma risolto l'obiettivo cambia ed e' ancora visibile. Lavora solo sui dati del salvataggio (poi li ripristina), senza caricare scene.
+        /// </summary>
+        IEnumerator ProvaGuidaOgniScena()
+        {
+            var save = GameManager.I.Save;
+            var tokenBackup = new System.Collections.Generic.List<string>(save.oggettiEnigma);
+            var fbBackup = new System.Collections.Generic.List<string>(save.flashbackCompletati);
+            int aiutoBackup = save.aiutoMappa;
+            save.oggettiEnigma.Clear(); save.flashbackCompletati.Clear(); save.aiutoMappa = Obiettivi.Normale;
+            var mp = GameData.Mappe;
+            string idPrima = null, testoPrima = null;
+            int controlli = 0, senza = 0;
+            string primoSenza = "";
+            for (int i = 0; i <= mp.obiettivi.Count; i++)
+            {
+                var corr = Obiettivi.Corrente();
+                string stato = i == 0 ? "inizio" : "dopo " + mp.obiettivi[i - 1].id;
+                foreach (var sc in mp.scene)
+                {
+                    var g = Obiettivi.Guida(sc.scena);
+                    controlli++;
+                    bool fineGioco = i == mp.obiettivi.Count && g.stato == "fine";
+                    if (fineGioco) continue; // tutto risolto e tutti i ricordi lasciati: nessun obiettivo da dare
+                    bool bene = g.valida && g.haPunto && !string.IsNullOrEmpty(g.testo) && Obiettivi.Mostrato;
+                    if (!bene) { senza++; if (primoSenza == "") primoSenza = stato + " / " + sc.scena + " (" + g.stato + ")"; }
+                    // la guida deve cadere dentro l'area della pianta della scena
+                    if (g.haPunto && !(g.x >= sc.ax0 && g.x <= sc.ax1 && g.z >= sc.az0 && g.z <= sc.az1)) { senza++; if (primoSenza == "") primoSenza = stato + " / " + sc.scena + ": punto fuori pianta"; }
+                }
+                // il cambio di passo: l'obiettivo dopo un enigma risolto e' diverso da prima
+                string idOra = Obiettivi.Corrente() != null ? Obiettivi.Corrente().id : "(" + Obiettivi.Guida(mp.scene[0].scena).stato + ")";
+                if (i > 0) Check("dopo " + mp.obiettivi[i - 1].id + ": l'obiettivo cambia (" + idPrima + " -> " + idOra + ")", idOra != idPrima || testoPrima != Obiettivi.Guida(mp.scene[0].scena).testo);
+                idPrima = idOra; testoPrima = Obiettivi.Guida(mp.scene[0].scena).testo;
+                if (i == mp.obiettivi.Count) break;
+                // risolve il passo; a fine capitolo (passo dopo di un altro capitolo) si controlla "capitolo finito" e poi si lascia il ricordo
+                var o = mp.obiettivi[i];
+                for (int k = 0; k < o.completo.Count; k++) MondoStato.Dai(o.completo[k]);
+                bool ultimoDelCapitolo = i == mp.obiettivi.Count - 1 || mp.obiettivi[i + 1].capitolo != o.capitolo;
+                if (ultimoDelCapitolo)
+                {
+                    var gf = Obiettivi.Guida(mp.scene[0].scena);
+                    Check("capitolo " + o.capitolo + " finito: guida 'esci dal ricordo' in ogni scena", Obiettivi.Corrente() == null && gf.valida && gf.testo == mp.testi.esciRicordo);
+                    foreach (var sc in mp.scene)
+                    {
+                        var gs = Obiettivi.Guida(sc.scena);
+                        Check("capitolo " + o.capitolo + " finito, scena " + sc.scena + ": c'e' un punto (uscita/porta)", gs.valida && gs.haPunto, gs.stato);
+                    }
+                    if (!save.flashbackCompletati.Contains(o.capitolo)) save.flashbackCompletati.Add(o.capitolo);
+                }
+            }
+            Check("ogni stato x ogni scena (" + controlli + " controlli): sempre un obiettivo con testo e punto dentro la pianta", senza == 0, senza + " senza guida, primo: " + primoSenza);
+            // Esploratore: la scelta del giocatore si rispetta
+            save.aiutoMappa = Obiettivi.Esploratore;
+            Check("Esploratore: l'obiettivo resta spento (scelta del giocatore)", !Obiettivi.Mostrato);
+            save.oggettiEnigma.Clear(); save.oggettiEnigma.AddRange(tokenBackup);
+            save.flashbackCompletati.Clear(); save.flashbackCompletati.AddRange(fbBackup);
+            save.aiutoMappa = aiutoBackup;
+            yield return null;
+        }
+
         // ------------------------------------------------------------------ flusso
         IEnumerator Flusso()
         {
@@ -251,6 +313,8 @@ namespace TrenoBambini.Mappa
                 }
             }
 
+            yield return ProvaGuidaOgniScena();
+
             // ---------- nuova partita
             // le preferenze della mappa passano da una partita alla successiva: si parte dai valori di default
             var prima0 = GameManager.I.Save;
@@ -273,7 +337,7 @@ namespace TrenoBambini.Mappa
             Check("hub: la minimappa non scende nella meta' bassa dello schermo (joystick e pulsanti touch liberi)", corners[0].y > Screen.height * 0.40f, "angolo basso a " + corners[0].y + " su " + Screen.height);
 
             Obiettivo("inizio", "ob_bucato");
-            Check("inizio: modalita' Normale, obiettivo ancora nascosto", Obiettivi.Modo == Obiettivi.Normale && !Obiettivi.Mostrato && !mm.CroceVisibile && !mm.FrecciaBordoVisibile && mm.TestoObiettivo == "");
+            Check("inizio: modalita' Normale, l'obiettivo e' subito visibile (testo e X o freccia)", Obiettivi.Modo == Obiettivi.Normale && Obiettivi.Mostrato && (mm.CroceVisibile || mm.FrecciaBordoVisibile) && mm.TestoObiettivo != "", mm.TestoObiettivo);
             Check("hub: la targa dice il nome della strada dove si sta (Largo della Fontanella)", mm.NomeStrada == "Largo della Fontanella", mm.NomeStrada);
             Check("hub: compare almeno un nome di vicolo sulla minimappa", mm.EtichetteVisibili > 0, mm.EtichetteVisibili + " etichette");
             yield return Foto("minimappa_hub_normale");
@@ -285,7 +349,7 @@ namespace TrenoBambini.Mappa
             Check("Normale + Indizio: la riga dice l'obiettivo", mm.TestoObiettivo.Contains("panni stesi"), mm.TestoObiettivo);
             Obiettivi.ImpostaFermo(0f, false);
             yield return Attendi(0.3f);
-            Check("Normale: dopo l'azzeramento l'obiettivo si nasconde", !Obiettivi.Mostrato);
+            Check("Normale: dopo l'azzeramento (progresso) l'obiettivo NON sparisce (R029)", Obiettivi.Mostrato && (mm.CroceVisibile || mm.FrecciaBordoVisibile) && mm.TestoObiettivo != "");
             Obiettivi.ImpostaFermo(GameData.Mappe.parametri.minutiSenzaProgressi * 60f + 1f, false);
             yield return Attendi(1.2f);
             Check("Normale: dopo " + GameData.Mappe.parametri.minutiSenzaProgressi + " minuti senza progressi l'obiettivo compare", Obiettivi.Mostrato && mm.FrecciaBordoVisibile);
@@ -310,7 +374,7 @@ namespace TrenoBambini.Mappa
             Check("bucato: la targa dice Largo Sant'Anna dei Panni o il vico", !string.IsNullOrEmpty(mm.NomeStrada), mm.NomeStrada);
             yield return Porta(p.x, p.z);
             yield return Attendi(0.6f);
-            Check("arrivati sul punto: la X si spegne (raggioArrivo)", !mm.CroceVisibile && !mm.FrecciaBordoVisibile);
+            Check("arrivati sul punto: la X resta (R029, nessuna meta persa)", mm.CroceVisibile || mm.FrecciaBordoVisibile);
             yield return Porta(0f, -2f);
             yield return Attendi(0.6f);
             yield return Foto("minimappa_hub_guidata_vicino");
@@ -419,10 +483,10 @@ namespace TrenoBambini.Mappa
                 if (i < rseq.Length - 1) Check("ricordo: dopo " + rseq[i] + " il segno e' sul passo successivo", pp != null);
             }
             yield return Attendi(1.0f);
-            Check("capitolo finito: nessun segno ne' riga di obiettivo", !UIRoot.I.Minimappa.CroceVisibile && !UIRoot.I.Minimappa.FrecciaBordoVisibile && UIRoot.I.Minimappa.TestoObiettivo == "");
+            Check("capitolo finito: la X indica l'uscita dal ricordo e la riga dice di uscire", (UIRoot.I.Minimappa.CroceVisibile || UIRoot.I.Minimappa.FrecciaBordoVisibile) && UIRoot.I.Minimappa.TestoObiettivo == GameData.Mappe.testi.esciRicordo, UIRoot.I.Minimappa.TestoObiettivo);
             yield return Tap(Key.M);
             yield return Attendi(1.0f);
-            Check("capitolo finito: la mappa grande lo dice", UIRoot.I.PiantaGrande.IsOpen && UIRoot.I.PiantaGrande.TestoObiettivo == GameData.Mappe.testi.capitoloFinito, UIRoot.I.PiantaGrande.TestoObiettivo);
+            Check("capitolo finito: la mappa grande lo dice", UIRoot.I.PiantaGrande.IsOpen && UIRoot.I.PiantaGrande.TestoObiettivo == GameData.Mappe.testi.esciRicordo && UIRoot.I.PiantaGrande.CroceVisibile, UIRoot.I.PiantaGrande.TestoObiettivo);
             yield return Tap(Key.M);
             yield return Attendi(0.8f);
 

@@ -246,27 +246,23 @@ namespace TrenoBambini.Mappa
 
         void AggiornaObiettivo(Vector3 p, float yaw, string scena)
         {
-            var ob = Obiettivi.Corrente();
-            bool mostra = ob != null && Obiettivi.Mostrato;
-            var punto = mostra ? Obiettivi.Punto(ob, scena) : null;
+            // R029: l'obiettivo e' sempre risolto per la scena corrente (passo, uscita se si e' nella scena sbagliata, "capitolo finito: esci")
+            var guida = Obiettivi.Guida(scena);
+            bool mostra = guida.valida && Obiettivi.Mostrato;
+            bool conPunto = mostra && guida.haPunto;
 
             // riga dell'obiettivo
-            string testo = mostra ? Obiettivi.Testo(ob, scena) : "";
+            string testo = mostra ? guida.testo : "";
             if (obiettivoTesto.text != testo && !string.IsNullOrEmpty(testo)) obiettivoTesto.text = testo;
             obiettivoAlpha = Mathf.MoveTowards(obiettivoAlpha, string.IsNullOrEmpty(testo) ? 0f : 1f, Time.unscaledDeltaTime * 3f);
             obiettivoGruppo.alpha = obiettivoAlpha;
 
-            if (punto == null) { if (croce.gameObject.activeSelf) croce.gameObject.SetActive(false); if (bordo.gameObject.activeSelf) bordo.gameObject.SetActive(false); return; }
+            if (!conPunto) { if (croce.gameObject.activeSelf) croce.gameObject.SetActive(false); if (bordo.gameObject.activeSelf) bordo.gameObject.SetActive(false); return; }
 
-            Vector2 v = MappaUi.Ruota(new Vector2(punto.x - p.x, punto.z - p.z) * scala, yaw);
+            Vector2 v = MappaUi.Ruota(new Vector2(guida.x - p.x, guida.z - p.z) * scala, yaw);
             float pulsa = UITheme.ReduceEffects ? 1f : 1f + 0.10f * Mathf.Sin(Time.unscaledTime * 3.2f);
-            float arrivo = GameData.Mappe.parametri.raggioArrivo;
-            if (arrivo > 0f && new Vector2(punto.x - p.x, punto.z - p.z).magnitude < arrivo)
-            {
-                // arrivato: la X si spegne (la riga resta finche' non si compie il passo)
-                croce.gameObject.SetActive(false); bordo.gameObject.SetActive(false);
-            }
-            else if (v.magnitude <= Raggio - 14f)
+            // R029: la X non si spegne piu' all'arrivo (raggioArrivo): finche' il passo non e' compiuto resta visibile, cosi' non si resta mai senza meta
+            if (v.magnitude <= Raggio - 14f)
             {
                 croce.gameObject.SetActive(true); bordo.gameObject.SetActive(false);
                 croce.rectTransform.anchoredPosition = v;
