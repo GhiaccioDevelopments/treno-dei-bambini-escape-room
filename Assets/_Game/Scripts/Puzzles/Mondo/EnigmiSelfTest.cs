@@ -1066,8 +1066,12 @@ namespace TrenoBambini.Core
             verify.Invoke(pan, null);   // ordine casuale = errore gentile
             yield return Attendi(0.6f);
             yield return Foto(id + "_errore");
-            var order = (List<int>)t.GetField("order", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(pan);
-            for (int i = 0; i < order.Count; i++) order[i] = i;
+            // nuovo modo (senza Su/Giu'): ogni carta viene presa e portata al suo posto, come con Invio + frecce
+            for (int i = 0; i < pan.OrdineProva().Length; i++) pan.SpostaCartaProva(i, i);
+            var ord = pan.OrdineProva(); bool ok = true;
+            for (int i = 0; i < ord.Length; i++) if (ord[i] != i) ok = false;
+            Check(id + ": le carte si riordinano spostandole (senza pulsanti Su/Giu')", ok);
+            yield return Attendi(0.4f);
             verify.Invoke(pan, null);
             yield return Attendi(2.0f);
             yield return Foto(id + "_risolto");

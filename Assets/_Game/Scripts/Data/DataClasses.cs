@@ -323,6 +323,12 @@ namespace TrenoBambini.Data
         public string intestazione = "Ultima partita", oggetto1 = "1 oggetto nella latta", oggetti = "{0} oggetti nella latta", nessunOggetto = "La latta e' ancora vuota";
         public string tempo1 = "1 minuto di gioco", tempo = "{0} minuti di gioco", tempoPoco = "meno di un minuto di gioco";
     }
+    /// <summary>Enigma "ordina": suggerimenti per tastiera e gamepad (senza mouse).</summary>
+    [Serializable]
+    public class UiOrdina
+    {
+        public string aiutoTastiera = "", scelta = "", presa = "", posata = "";
+    }
     [Serializable]
     public class UiConferma { public string timbro = "ATTENZIONE", titolo = "Nuova partita", testo = "Il salvataggio verra' cancellato. Continuare?", si = "Si'", no = "Annulla"; }
     [Serializable]
@@ -392,6 +398,7 @@ namespace TrenoBambini.Data
         public UiEnigmiImp enigmiImp = new UiEnigmiImp();
         public UiMappaImp mappaImp = new UiMappaImp();
         public UiFilmatoMenu filmato = new UiFilmatoMenu();
+        public UiOrdina ordina = new UiOrdina();
 
         /// <summary>Dopo il caricamento: rimette i valori di ripiego dove il JSON ha messo null (un blocco o una lista mancanti non devono far crollare la UI).</summary>
         public UiMenuFile Normalizza()
@@ -407,6 +414,7 @@ namespace TrenoBambini.Data
             if (enigmiImp == null) enigmiImp = d.enigmiImp;
             if (mappaImp == null) mappaImp = d.mappaImp;
             if (filmato == null) filmato = d.filmato;
+            if (ordina == null) ordina = d.ordina;
             if (inventario == null) inventario = d.inventario;
             if (inventario.sezioni == null || inventario.sezioni.Count != 4) inventario.sezioni = d.inventario.sezioni;
             if (inventario.quaderno == null) inventario.quaderno = d.inventario.quaderno;

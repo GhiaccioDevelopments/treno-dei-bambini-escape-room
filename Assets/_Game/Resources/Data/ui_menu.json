@@ -148,6 +148,12 @@
     "si": "Sì",
     "no": "No"
   },
+  "ordina": {
+    "aiutoTastiera": "Senza mouse: frecce o D-pad scelgono la carta, Invio o A la prende, le frecce la spostano, Invio o A la posa.",
+    "scelta": "Carta scelta: premi Invio per prenderla.",
+    "presa": "Carta in mano: spostala con le frecce, poi premi Invio per posarla.",
+    "posata": "Carta posata. Quando sei pronto premi Verifica."
+  },
   "filmato": {
     "rivedi": "Rivedi il filmato iniziale",
     "nonQui": "Il filmato si rivede dal vicolo o da casa, non dentro un ricordo."
