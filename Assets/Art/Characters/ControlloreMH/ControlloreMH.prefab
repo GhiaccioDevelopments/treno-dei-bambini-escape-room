@@ -96,6 +96,10 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 511a5c51ed3526248b8988b4d3cf1f81, type: 2}
+    - target: {fileID: 5013774429266538496, guid: 929dbb1f6e14fce44bf84f96c827ad62, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 179345e64bd96ce48a6c8fc18b904da1, type: 2}
     - target: {fileID: 5866666021909216657, guid: 929dbb1f6e14fce44bf84f96c827ad62, type: 3}
       propertyPath: m_Controller
       value: 
@@ -129,6 +133,11 @@ SkinnedMeshRenderer:
 --- !u!137 &2245563096012654803 stripped
 SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: -2275684611315099952, guid: 929dbb1f6e14fce44bf84f96c827ad62, type: 3}
+  m_PrefabInstance: {fileID: 9170159360011279875}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &4239701571105746435 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 5013774429266538496, guid: 929dbb1f6e14fce44bf84f96c827ad62, type: 3}
   m_PrefabInstance: {fileID: 9170159360011279875}
   m_PrefabAsset: {fileID: 0}
 --- !u!137 &5020138955103106767 stripped
@@ -181,6 +190,7 @@ LODGroup:
     - renderer: {fileID: 5416778020125827475}
     - renderer: {fileID: 1019223778980315495}
     - renderer: {fileID: 5020138955103106767}
+    - renderer: {fileID: 4239701571105746435}
   - screenRelativeHeight: 0.03
     fadeTransitionWidth: 0
     renderers:
@@ -191,6 +201,7 @@ LODGroup:
     - renderer: {fileID: 1088086157408965802}
     - renderer: {fileID: 5416778020125827475}
     - renderer: {fileID: 1019223778980315495}
+    - renderer: {fileID: 4239701571105746435}
   m_Enabled: 1
   m_GlobalIlluminationLOD: 0
 --- !u!137 &9130283328624587789 stripped

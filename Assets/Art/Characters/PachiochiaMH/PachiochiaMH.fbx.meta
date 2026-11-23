@@ -734,12 +734,12 @@ ModelImporter:
     - name: neck_01
       parentName: spine_03
       position: {x: 4.3825832e-11, y: 0.26169425, z: -0.0059852004}
-      rotation: {x: 0.16885656, y: -0.0000000058056955, z: -0.0000000011535938, w: 0.98564065}
+      rotation: {x: 0.16885656, y: -0.0000000058056964, z: -0.0000000011535938, w: 0.98564065}
       scale: {x: 1, y: 1, z: 1}
     - name: head
       parentName: neck_01
       position: {x: -8.770253e-18, y: 0.10086909, z: -7.4828926e-10}
-      rotation: {x: -0.20540209, y: 0.000000005735249, z: 0.0000000012036978, w: 0.9786777}
+      rotation: {x: -0.20540209, y: 0.00000000573525, z: 0.0000000012036979, w: 0.9786777}
       scale: {x: 1, y: 1, z: 1}
     - name: thigh_l
       parentName: pelvis
@@ -811,7 +811,7 @@ ModelImporter:
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: female_elegantsuit01Mesh
+    - name: treno_tailleur_lungoMesh
       parentName: PachiochiaMH(Clone)
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}

@@ -72,10 +72,6 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 88077827180f49549b042da5e522def5, type: 2}
-    - target: {fileID: -2706587422397466893, guid: 4758d687a80aeb044aa08498abdf9386, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: b3301276fbb3ea44e97a6c20c9ab658e, type: 2}
     - target: {fileID: -2275684611315099952, guid: 4758d687a80aeb044aa08498abdf9386, type: 3}
       propertyPath: m_CastShadows
       value: 0
@@ -108,6 +104,10 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: -0.039624166
       objectReference: {fileID: 0}
+    - target: {fileID: 3452135261591311329, guid: 4758d687a80aeb044aa08498abdf9386, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 076da082349614b41b4b8b3c468e1be1, type: 2}
     - target: {fileID: 3778152518820593552, guid: 4758d687a80aeb044aa08498abdf9386, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -148,11 +148,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 6804867252371960618}
   m_SourcePrefab: {fileID: 100100000, guid: 4758d687a80aeb044aa08498abdf9386, type: 3}
---- !u!137 &2167053929960798022 stripped
-SkinnedMeshRenderer:
-  m_CorrespondingSourceObject: {fileID: -2706587422397466893, guid: 4758d687a80aeb044aa08498abdf9386, type: 3}
-  m_PrefabInstance: {fileID: 4927686781473128885}
-  m_PrefabAsset: {fileID: 0}
 --- !u!137 &2596762663025743717 stripped
 SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: -2275684611315099952, guid: 4758d687a80aeb044aa08498abdf9386, type: 3}
@@ -193,10 +188,10 @@ LODGroup:
     - renderer: {fileID: 4002207179496778135}
     - renderer: {fileID: 5606899177358885988}
     - renderer: {fileID: 2596762663025743717}
-    - renderer: {fileID: 2167053929960798022}
     - renderer: {fileID: 7710577967557984208}
     - renderer: {fileID: 8073855409608490533}
     - renderer: {fileID: 9118460584863426937}
+    - renderer: {fileID: 7749247726018630228}
     - renderer: {fileID: 4015712943838096448}
   - screenRelativeHeight: 0.03
     fadeTransitionWidth: 0
@@ -204,9 +199,9 @@ LODGroup:
     - renderer: {fileID: 4002207179496778135}
     - renderer: {fileID: 5606899177358885988}
     - renderer: {fileID: 2596762663025743717}
-    - renderer: {fileID: 2167053929960798022}
     - renderer: {fileID: 7710577967557984208}
     - renderer: {fileID: 8073855409608490533}
+    - renderer: {fileID: 7749247726018630228}
     - renderer: {fileID: 4015712943838096448}
   m_Enabled: 1
   m_GlobalIlluminationLOD: 0
@@ -218,6 +213,11 @@ SkinnedMeshRenderer:
 --- !u!137 &7710577967557984208 stripped
 SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: -5808569527584735643, guid: 4758d687a80aeb044aa08498abdf9386, type: 3}
+  m_PrefabInstance: {fileID: 4927686781473128885}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &7749247726018630228 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 3452135261591311329, guid: 4758d687a80aeb044aa08498abdf9386, type: 3}
   m_PrefabInstance: {fileID: 4927686781473128885}
   m_PrefabAsset: {fileID: 0}
 --- !u!137 &8073855409608490533 stripped

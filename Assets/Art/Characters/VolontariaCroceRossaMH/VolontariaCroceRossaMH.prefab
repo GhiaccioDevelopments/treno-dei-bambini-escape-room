@@ -80,10 +80,6 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: ccd8b38c22a67d1439d7d99fb92c1fdc, type: 2}
-    - target: {fileID: -2706587422397466893, guid: dd4cbcf8597156a4ab40e48e89f6f6ec, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: e80b7ff3047036b41a332e433dcd159c, type: 2}
     - target: {fileID: -2275684611315099952, guid: dd4cbcf8597156a4ab40e48e89f6f6ec, type: 3}
       propertyPath: m_CastShadows
       value: 0
@@ -104,6 +100,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: VolontariaCroceRossaMH
       objectReference: {fileID: 0}
+    - target: {fileID: 3452135261591311329, guid: dd4cbcf8597156a4ab40e48e89f6f6ec, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: c6618da1569279e4a8c3560c5fd4c1fc, type: 2}
     - target: {fileID: 3778152518820593552, guid: dd4cbcf8597156a4ab40e48e89f6f6ec, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -158,6 +158,11 @@ SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: 3778152518820593552, guid: dd4cbcf8597156a4ab40e48e89f6f6ec, type: 3}
   m_PrefabInstance: {fileID: 4604318700925586785}
   m_PrefabAsset: {fileID: 0}
+--- !u!137 &1156758578302525056 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 3452135261591311329, guid: dd4cbcf8597156a4ab40e48e89f6f6ec, type: 3}
+  m_PrefabInstance: {fileID: 4604318700925586785}
+  m_PrefabAsset: {fileID: 0}
 --- !u!137 &1190643259999564548 stripped
 SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: -5808569527584735643, guid: dd4cbcf8597156a4ab40e48e89f6f6ec, type: 3}
@@ -187,21 +192,21 @@ LODGroup:
     renderers:
     - renderer: {fileID: 3911604338776836272}
     - renderer: {fileID: 6885713084735167409}
-    - renderer: {fileID: 7319922121024404370}
     - renderer: {fileID: 1190643259999564548}
     - renderer: {fileID: 8462100296781347827}
     - renderer: {fileID: 831867152261182193}
     - renderer: {fileID: 363733722264823213}
+    - renderer: {fileID: 1156758578302525056}
     - renderer: {fileID: 3852057272516466564}
   - screenRelativeHeight: 0.03
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 3911604338776836272}
     - renderer: {fileID: 6885713084735167409}
-    - renderer: {fileID: 7319922121024404370}
     - renderer: {fileID: 1190643259999564548}
     - renderer: {fileID: 8462100296781347827}
     - renderer: {fileID: 831867152261182193}
+    - renderer: {fileID: 1156758578302525056}
     - renderer: {fileID: 3852057272516466564}
   m_Enabled: 1
   m_GlobalIlluminationLOD: 0
@@ -218,11 +223,6 @@ SkinnedMeshRenderer:
 --- !u!137 &6885713084735167409 stripped
 SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: -2275684611315099952, guid: dd4cbcf8597156a4ab40e48e89f6f6ec, type: 3}
-  m_PrefabInstance: {fileID: 4604318700925586785}
-  m_PrefabAsset: {fileID: 0}
---- !u!137 &7319922121024404370 stripped
-SkinnedMeshRenderer:
-  m_CorrespondingSourceObject: {fileID: -2706587422397466893, guid: dd4cbcf8597156a4ab40e48e89f6f6ec, type: 3}
   m_PrefabInstance: {fileID: 4604318700925586785}
   m_PrefabAsset: {fileID: 0}
 --- !u!137 &8462100296781347827 stripped

@@ -734,12 +734,12 @@ ModelImporter:
     - name: neck_01
       parentName: spine_03
       position: {x: 4.1463968e-11, y: 0.27454045, z: -0.009661122}
-      rotation: {x: 0.17371906, y: -1.3048812e-10, z: 3.6939403e-11, w: 0.9847953}
+      rotation: {x: 0.17371906, y: -1.3048823e-10, z: 3.6939396e-11, w: 0.9847953}
       scale: {x: 1, y: 1, z: 1}
     - name: head
       parentName: neck_01
-      position: {x: 1.29336215e-17, y: 0.10630188, z: -0.00000001423923}
-      rotation: {x: -0.2038401, y: 3.2356498e-10, z: -3.9881012e-10, w: 0.9790042}
+      position: {x: 1.2933618e-17, y: 0.10630188, z: -0.00000001423923}
+      rotation: {x: -0.2038401, y: 3.235651e-10, z: -3.9881012e-10, w: 0.9790042}
       scale: {x: 1, y: 1, z: 1}
     - name: thigh_l
       parentName: pelvis
@@ -811,7 +811,7 @@ ModelImporter:
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: male_casualsuit05Mesh
+    - name: treno_tailleur_lungoMesh
       parentName: DernaMH(Clone)
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}

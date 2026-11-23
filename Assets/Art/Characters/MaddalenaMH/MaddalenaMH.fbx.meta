@@ -764,12 +764,12 @@ ModelImporter:
     - name: thigh_r
       parentName: pelvis
       position: {x: 0.09002106, y: -0.005820448, z: -0.010395163}
-      rotation: {x: 0.9451249, y: 0.10499888, z: -0.21924503, w: -0.21827911}
+      rotation: {x: 0.9451249, y: 0.10499887, z: -0.219245, w: -0.2182791}
       scale: {x: 1, y: 1, z: 1}
     - name: calf_r
       parentName: thigh_r
-      position: {x: -3.4779815e-10, y: 0.3489329, z: 0.0000000012927253}
-      rotation: {x: 0.06525956, y: 0.23217547, z: -0.0049864217, w: 0.9704694}
+      position: {x: -3.477983e-10, y: 0.3489329, z: 0.0000000012927251}
+      rotation: {x: 0.06525956, y: 0.23217541, z: -0.0049864207, w: 0.9704694}
       scale: {x: 1, y: 1, z: 1}
     - name: foot_r
       parentName: calf_r
@@ -811,7 +811,7 @@ ModelImporter:
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: female_elegantsuit01Mesh
+    - name: treno_tailleur_lungoMesh
       parentName: MaddalenaMH(Clone)
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}

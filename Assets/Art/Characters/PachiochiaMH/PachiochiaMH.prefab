@@ -68,10 +68,6 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: ff1ab3040c83b7649a3b2148a5086b14, type: 2}
-    - target: {fileID: -2706587422397466893, guid: 1afba6183b69b5045a4d5f8c62ca5b9d, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 12f0e30a67b722c498fa92ce085bf432, type: 2}
     - target: {fileID: -2275684611315099952, guid: 1afba6183b69b5045a4d5f8c62ca5b9d, type: 3}
       propertyPath: m_CastShadows
       value: 0
@@ -120,6 +116,10 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: -0.039073408
       objectReference: {fileID: 0}
+    - target: {fileID: 3452135261591311329, guid: 1afba6183b69b5045a4d5f8c62ca5b9d, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 8f513dc0e57f8ae48839b24b9cf8eeb8, type: 2}
     - target: {fileID: 3778152518820593552, guid: 1afba6183b69b5045a4d5f8c62ca5b9d, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -188,22 +188,22 @@ LODGroup:
     renderers:
     - renderer: {fileID: 1568860524306799255}
     - renderer: {fileID: 8936142971380500886}
-    - renderer: {fileID: 5051050163346729397}
     - renderer: {fileID: 3678168222959903011}
     - renderer: {fileID: 3906130068387913981}
     - renderer: {fileID: 6260586620571494868}
     - renderer: {fileID: 2884023372890300630}
     - renderer: {fileID: 2774574552485197706}
+    - renderer: {fileID: 3711204627136416935}
   - screenRelativeHeight: 0.03
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 1568860524306799255}
     - renderer: {fileID: 8936142971380500886}
-    - renderer: {fileID: 5051050163346729397}
     - renderer: {fileID: 3678168222959903011}
     - renderer: {fileID: 3906130068387913981}
     - renderer: {fileID: 6260586620571494868}
     - renderer: {fileID: 2884023372890300630}
+    - renderer: {fileID: 3711204627136416935}
   m_Enabled: 1
   m_GlobalIlluminationLOD: 0
 --- !u!137 &1568860524306799255 stripped
@@ -226,14 +226,14 @@ SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: -5808569527584735643, guid: 1afba6183b69b5045a4d5f8c62ca5b9d, type: 3}
   m_PrefabInstance: {fileID: 2047073261124099910}
   m_PrefabAsset: {fileID: 0}
+--- !u!137 &3711204627136416935 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 3452135261591311329, guid: 1afba6183b69b5045a4d5f8c62ca5b9d, type: 3}
+  m_PrefabInstance: {fileID: 2047073261124099910}
+  m_PrefabAsset: {fileID: 0}
 --- !u!137 &3906130068387913981 stripped
 SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: 3052867508428832699, guid: 1afba6183b69b5045a4d5f8c62ca5b9d, type: 3}
-  m_PrefabInstance: {fileID: 2047073261124099910}
-  m_PrefabAsset: {fileID: 0}
---- !u!137 &5051050163346729397 stripped
-SkinnedMeshRenderer:
-  m_CorrespondingSourceObject: {fileID: -2706587422397466893, guid: 1afba6183b69b5045a4d5f8c62ca5b9d, type: 3}
   m_PrefabInstance: {fileID: 2047073261124099910}
   m_PrefabAsset: {fileID: 0}
 --- !u!137 &6260586620571494868 stripped
