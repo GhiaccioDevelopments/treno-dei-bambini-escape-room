@@ -86,6 +86,7 @@ namespace TrenoBambini.EditorTools
                 case "IntonacoGrigio": return TintedMat("M_IntonacoMattoni", "M_Intonaco_Grigio", new Color(0.8f, 0.8f, 0.78f));
                 case "Foglia": return TintedMat("M_TessutoLino", "M_Foglia", new Color(0.28f, 0.46f, 0.2f));
                 case "Paglia": return TintedMat("M_CestaVimini", "M_Paglia", new Color(1.1f, 1.0f, 0.75f));
+                case "Neve": return TintedMat("M_TessutoLino", "M_Neve", new Color(1.12f, 1.15f, 1.2f)); // R015: neve di Modena (tela chiara schiarita e un po' fredda)
             }
             return null;
         }
@@ -644,8 +645,11 @@ namespace TrenoBambini.EditorTools
         static Door MakeDoor(Transform doorsParent, Transform envParent, string id, Vector3 wallPoint,
                              Vector3 normal, string signMat)
         {
-            var fr = new WallFrame(wallPoint, Vector3.Cross(Vector3.up, normal), normal);
+            // R014: mesh costruita attorno al punto della parete e oggetto posato li' (prima il pivot era nell'origine del mondo: la Porta_stazione,
+            // a quota 4,8 e a z 56, risultava "a 28 m dal percorribile" nelle prove che misurano transform.position)
+            var fr = new WallFrame(Vector3.zero, Vector3.Cross(Vector3.up, normal), normal);
             var go = DoorLeaf(doorsParent, "Porta_" + id, fr, 0f, 0.14f, 0.24f, 1.1f, 2.25f);
+            go.transform.position = wallPoint;
             // insegna sopra l'architrave
             var euler = Quaternion.LookRotation(normal).eulerAngles;
             Box("Insegna_" + id, envParent, wallPoint + normal * 0.07f + Vector3.up * 2.84f, new Vector3(1.5f, 0.3f, 0.06f), signMat, euler, false);

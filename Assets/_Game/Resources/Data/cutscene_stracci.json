@@ -1,0 +1,216 @@
+{
+  "id": "cutscene_stracci",
+  "titolo": "Gli stracci",
+  "sfondo": "cs_vicolo",
+  "battute": [
+    {
+      "id": "cs_stracci_001",
+      "personaggio": "amerigo_adulto",
+      "testo": "Lo spago è ancora quello. Ha tenuto più a lungo di certe promesse.",
+      "emozione": "pensierosa",
+      "audio": "",
+      "azione": "dissolvenza",
+      "sfondo": "cs_basso",
+      "posizione": "sx",
+      "capitolo": "ingresso"
+    },
+    {
+      "id": "cs_stracci_002",
+      "personaggio": "amerigo_adulto",
+      "testo": "Stracci. Tutti insieme sembrano niente. Eppure ognuno veniva da una porta a cui avevo bussato.",
+      "emozione": "pensierosa",
+      "audio": "",
+      "azione": "",
+      "sfondo": "",
+      "posizione": "sx",
+      "capitolo": "ingresso"
+    },
+    {
+      "id": "cs_stracci_003",
+      "personaggio": "narratore",
+      "testo": "Napoli, 1946. Un bambino scalzo con un sacco più grande di lui bussa a un portone dopo l'altro.",
+      "emozione": "neutra",
+      "audio": "",
+      "azione": "dissolvenza",
+      "sfondo": "cs_vicolo",
+      "posizione": "sx",
+      "capitolo": "ingresso"
+    },
+    {
+      "id": "cs_stracci_004",
+      "personaggio": "amerigo",
+      "testo": "Permesso! Avete degli stracci da darmi? Non vi chiedo niente, solo quello che non vi serve più.",
+      "emozione": "felice",
+      "audio": "",
+      "azione": "entra_sx",
+      "sfondo": "",
+      "posizione": "sx",
+      "capitolo": "ingresso"
+    },
+    {
+      "id": "cs_stracci_005",
+      "personaggio": "donna_vicolo",
+      "testo": "Vieni qua, guagliò. Questo era di mio figlio, ormai gli sta corto. È liso, ma tiene ancora caldo.",
+      "emozione": "neutra",
+      "audio": "",
+      "azione": "",
+      "sfondo": "",
+      "posizione": "dx",
+      "capitolo": "ingresso"
+    },
+    {
+      "id": "cs_stracci_006",
+      "personaggio": "amerigo",
+      "testo": "Grazie, signo'. Questi non sono stracci: ognuno ha una casa da cui è venuto.",
+      "emozione": "felice",
+      "audio": "",
+      "azione": "",
+      "sfondo": "",
+      "posizione": "sx",
+      "capitolo": "ingresso"
+    },
+    {
+      "id": "cs_stracci_007",
+      "personaggio": "tommasino",
+      "testo": "Amerigo! Che fai, il facchino? Scalzo e con quel sacco sembri una lumaca con la casa addosso.",
+      "emozione": "felice",
+      "audio": "",
+      "azione": "entra_dx",
+      "sfondo": "",
+      "posizione": "dx",
+      "capitolo": "ingresso"
+    },
+    {
+      "id": "cs_stracci_008",
+      "personaggio": "amerigo",
+      "testo": "Una lumaca che alla sera ha i soldi per il pane, Tommasì. Tu sei più svelto a parlare che a lavorare.",
+      "emozione": "decisa",
+      "audio": "",
+      "azione": "",
+      "sfondo": "",
+      "posizione": "sx",
+      "capitolo": "ingresso"
+    },
+    {
+      "id": "cs_stracci_009",
+      "personaggio": "tommasino",
+      "testo": "Eh, non si può avere tutto. Vai, vai, che Capa 'e fierro non aspetta nessuno.",
+      "emozione": "neutra",
+      "audio": "",
+      "azione": "",
+      "sfondo": "",
+      "posizione": "dx",
+      "capitolo": "ingresso"
+    },
+    {
+      "id": "cs_stracci_010",
+      "personaggio": "narratore",
+      "testo": "Capa 'e fierro compra stracci e ferri vecchi in una bottega in fondo al vicolo. Prima di arrivarci bisogna raccogliere quelli giusti: non tutto quello che è vecchio vale qualcosa.",
+      "emozione": "neutra",
+      "audio": "",
+      "azione": "",
+      "sfondo": "",
+      "posizione": "sx",
+      "capitolo": "ingresso"
+    },
+    {
+      "id": "cs_stracci_011",
+      "personaggio": "capa_e_fierro",
+      "testo": "Ottantatré lire. Non una di più, e tienile strette: in questo quartiere i soldi hanno le gambe.",
+      "emozione": "neutra",
+      "audio": "",
+      "azione": "dissolvenza",
+      "sfondo": "cs_ricordo",
+      "posizione": "dx",
+      "capitolo": "chiusura"
+    },
+    {
+      "id": "cs_stracci_012",
+      "personaggio": "amerigo",
+      "testo": "Ottantatré. Il conto l'avevo già fatto prima di voi.",
+      "emozione": "felice",
+      "audio": "",
+      "azione": "entra_sx",
+      "sfondo": "",
+      "posizione": "sx",
+      "capitolo": "chiusura"
+    },
+    {
+      "id": "cs_stracci_013",
+      "personaggio": "capa_e_fierro",
+      "testo": "Lo so, lo so. E la bilancia... mi hai fatto vergognare, guagliò. Un chiodo! Chissà da quanto stava là sotto.",
+      "emozione": "triste",
+      "audio": "",
+      "azione": "",
+      "sfondo": "",
+      "posizione": "dx",
+      "capitolo": "chiusura"
+    },
+    {
+      "id": "cs_stracci_014",
+      "personaggio": "capa_e_fierro",
+      "testo": "Tieni, questa lira è mia, non è del conto. Per il chiodo, e per non dirlo in giro.",
+      "emozione": "neutra",
+      "audio": "",
+      "azione": "",
+      "sfondo": "",
+      "posizione": "dx",
+      "capitolo": "chiusura"
+    },
+    {
+      "id": "cs_stracci_015",
+      "personaggio": "amerigo",
+      "testo": "Grazie. Non lo dico a nessuno... a nessuno che non sia un cliente.",
+      "emozione": "felice",
+      "audio": "",
+      "azione": "",
+      "sfondo": "",
+      "posizione": "sx",
+      "capitolo": "chiusura"
+    },
+    {
+      "id": "cs_stracci_016",
+      "personaggio": "narratore",
+      "testo": "Amerigo torna da Antonietta con il soldo stretto in pugno. Lo mette nella cassetta di latta, vicino a tutto quello che non si deve perdere.",
+      "emozione": "neutra",
+      "audio": "",
+      "azione": "dissolvenza",
+      "sfondo": "cs_basso",
+      "posizione": "sx",
+      "capitolo": "chiusura"
+    },
+    {
+      "id": "cs_stracci_017",
+      "personaggio": "antonietta",
+      "testo": "Dove li hai presi? ... Va bene. Mettili nella latta e non farli vedere. E lavati quei piedi, che sono neri come il carbone.",
+      "emozione": "neutra",
+      "audio": "",
+      "azione": "entra_dx",
+      "sfondo": "",
+      "posizione": "dx",
+      "capitolo": "chiusura"
+    },
+    {
+      "id": "cs_stracci_018",
+      "personaggio": "amerigo_adulto",
+      "testo": "A sette anni un soldo pesa più di un soldo. Oggi un bambino di sette anni dovrebbe portare altri pesi: un quaderno, un pallone, il sonno.",
+      "emozione": "pensierosa",
+      "audio": "",
+      "azione": "dissolvenza",
+      "sfondo": "cs_ricordo",
+      "posizione": "sx",
+      "capitolo": "chiusura"
+    },
+    {
+      "id": "cs_stracci_019",
+      "personaggio": "narratore",
+      "testo": "Per Amerigo c'era un soldo. Nel nostro Paese di oggi ci sono i diritti che quel soldo non comprava: la scuola, la salute, un'età giusta per lavorare.",
+      "emozione": "decisa",
+      "audio": "",
+      "azione": "",
+      "sfondo": "",
+      "posizione": "sx",
+      "capitolo": "chiusura"
+    }
+  ]
+}

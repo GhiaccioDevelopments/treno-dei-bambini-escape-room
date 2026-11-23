@@ -39,7 +39,14 @@ namespace TrenoBambini.World
                 var l = GameData.Luogo(luogoId);
                 if (l != null)
                 {
-                    if (!l.aperto)
+                    bool sbloccato = !string.IsNullOrEmpty(l.sbloccatoDa) && GameManager.I.Save.inventario.Contains(l.sbloccatoDa); // R012
+                    if (sbloccato && !l.aperto && string.IsNullOrEmpty(l.scena))
+                    {
+                        AudioManager.FireAt("porta_chiusa", transform.position);
+                        if (UIRoot.I != null) UIRoot.I.Toast(!string.IsNullOrEmpty(l.sbloccatoMsg) ? l.sbloccatoMsg : l.nome + " si aprirà più avanti.", 5f);
+                        return;
+                    }
+                    if (!l.aperto && !sbloccato)
                     {
                         AudioManager.FireAt("porta_chiusa", transform.position);
                         if (UIRoot.I != null) UIRoot.I.Toast(l.nome + " si aprirà più avanti.");

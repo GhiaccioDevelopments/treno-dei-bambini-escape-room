@@ -20,5 +20,23 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Game/Scenes/30_FB_Scarpe.unity
     guid: d0f37b5e1ca7b264bab050b8d10f9720
+  - enabled: 1
+    path: Assets/_Game/Scenes/40_FB_Stracci.unity
+    guid: cc5481f7ee8005140a522c8f333f2c2b
+  - enabled: 1
+    path: Assets/_Game/Scenes/50_FB_Volantino.unity
+    guid: 3fef46cbbab3a7c40b31a7b84df41d19
+  - enabled: 1
+    path: Assets/_Game/Scenes/60_FB_Stazione.unity
+    guid: 96f59fdc776bd93429e29c7c281b3a24
+  - enabled: 1
+    path: Assets/_Game/Scenes/61_FB_Vagone.unity
+    guid: 19ebc97a81a577b46b61ec682f95e99f
+  - enabled: 1
+    path: Assets/_Game/Scenes/70_FB_Modena.unity
+    guid: 20a23d21e26be9341a7e951b650b2829
+  - enabled: 1
+    path: Assets/_Game/Scenes/80_Basso_1994.unity
+    guid: 94f0b31a8c30f8c41b9dadc57c5c066c
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}

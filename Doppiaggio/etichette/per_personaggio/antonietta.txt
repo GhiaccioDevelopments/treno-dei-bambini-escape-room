@@ -1,0 +1,13 @@
+1.000	8.300	cs_intro_010
+10.300	15.500	cs_intro_016
+17.500	29.300	cs_scarpe_009
+31.300	43.600	cs_scarpe_011
+45.600	54.900	cs_scarpe_014
+56.900	65.000	cs_scarpe_017
+67.000	77.200	cs_stracci_017
+79.200	86.000	cs_volantino_004
+88.000	94.000	cs_volantino_006
+96.000	101.200	cs_volantino_011
+103.200	106.300	cs_volantino_019
+108.300	114.700	cs_cappotto_004
+116.700	121.000	cs_cappotto_006

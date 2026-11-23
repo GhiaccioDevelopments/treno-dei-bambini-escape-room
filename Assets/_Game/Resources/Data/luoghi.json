@@ -25,7 +25,7 @@
       "scena": "",
       "spawn": "",
       "aperto": false,
-      "descrizione": "La bottega di robivecchi (stracci e ferri vecchi) di un vicino di Antonietta, noto nel quartiere per il carattere testardo. Si aprirà più avanti nella storia."
+      "descrizione": "La bottega di robivecchi (stracci e ferri vecchi) di Capa 'e fierro: brontolone ma in fondo buono, compra gli stracci che i bambini del quartiere raccolgono per le case. Si entra solo nel ricordo degli stracci."
     },
     {
       "id": "sede_partito",
@@ -33,7 +33,9 @@
       "scena": "",
       "spawn": "",
       "aperto": false,
-      "descrizione": "La sede del Comitato, dove le volontarie organizzano l'accoglienza dei bambini. Nel quartiere si dicono molte cose strane su chi la frequenta. Si aprirà più avanti."
+      "descrizione": "La sede del Comitato, dove le volontarie organizzano l'accoglienza dei bambini: tavoli, un ciclostile, una bacheca piena di fogli. Nel quartiere si dicono molte cose strane su chi la frequenta. Oggi ci si entra solo nel ricordo del volantino.",
+      "sbloccatoDa": "stracci",
+      "sbloccatoMsg": "La porta della sede è chiusa. Ma Antonietta un foglio del Comitato l'aveva conservato: cercalo nella credenza del basso."
     },
     {
       "id": "stazione",
@@ -41,7 +43,9 @@
       "scena": "",
       "spawn": "",
       "aperto": false,
-      "descrizione": "Binari, fumo e saluti lunghi: da qui partono i treni diretti verso il Nord. Si aprirà più avanti nella storia."
+      "descrizione": "La stazione da cui, nell'inverno 1946-47, partivano i treni dei bambini verso il Nord. Oggi il cancello è chiuso: quella partenza si ritrova solo nel ricordo del cappotto.",
+      "sbloccatoDa": "volantino",
+      "sbloccatoMsg": "Il cancello della stazione è chiuso: i treni del 1946 si ritrovano solo nei ricordi. Il viaggio, però, Antonietta l'aveva preparato in casa: dietro la porta del basso c'è ancora appeso un cappottino."
     },
     {
       "id": "vicolo_stracci",
@@ -49,7 +53,7 @@
       "scena": "",
       "spawn": "",
       "aperto": false,
-      "descrizione": "Un vicolo stretto dove si raccolgono e si vendono stracci e panni usati. Si aprirà più avanti nella storia."
+      "descrizione": "Un vicolo stretto dove si raccolgono e si vendono stracci e panni usati. Oggi si rivive nel ricordo degli stracci."
     },
     {
       "id": "hub_vicolo",
@@ -68,6 +72,77 @@
       "aperto": false,
       "descrizione": "La stessa strada nel 1946: sole basso e aria asciutta.",
       "meteo": "sereno"
+    },
+    {
+      "id": "ricordo_stracci",
+      "nome": "Il ricordo degli stracci",
+      "scena": "40_FB_Stracci",
+      "spawn": "",
+      "aperto": false,
+      "descrizione": "Il vicolo degli stracci e la bottega di Capa 'e fierro nel 1946: polvere, panni stesi e luce di lampada a petrolio.",
+      "meteo": "sereno"
+    },
+    {
+      "id": "ricordo_volantino",
+      "nome": "Il ricordo del volantino",
+      "scena": "50_FB_Volantino",
+      "spawn": "",
+      "aperto": false,
+      "descrizione": "La stessa strada del ricordo delle scarpe, ma di sera e sotto la pioggia: voci dalle finestre e, in fondo al largo, la sede del Comitato con la luce accesa.",
+      "meteo": "pioggia"
+    },
+    {
+      "id": "ricordo_cappotto",
+      "nome": "Il ricordo del cappotto",
+      "scena": "60_FB_Stazione",
+      "spawn": "",
+      "aperto": false,
+      "descrizione": "Una grande stazione nell'inverno 1946-47, ispirata alla vecchia stazione di Napoli: tavoli del Comitato e della Croce Rossa, montagne di cappotti, fumo e una carrozza di terza classe pronta a partire.",
+      "meteo": "sereno"
+    },
+    {
+      "id": "ricordo_vagone",
+      "nome": "Il treno per il Nord",
+      "scena": "61_FB_Vagone",
+      "spawn": "salita",
+      "aperto": true,
+      "descrizione": "La carrozza di terza classe numero 214: panche di legno, reticelle piene di valigie di cartone, finestrini da cui scorre l'Italia.",
+      "richiede": [
+        "partenza"
+      ],
+      "richiedeMsg": [
+        "Il capotreno ti ferma sul predellino: «Prima saluta tua madre, guagliò.» Antonietta ti aspetta sulla banchina, con qualcosa in mano."
+      ],
+      "aperturaMsg": "Sali sul predellino: il treno sta per partire.",
+      "meteo": ""
+    },
+    {
+      "id": "modena",
+      "nome": "Modena, casa Benvenuti",
+      "scena": "",
+      "spawn": "",
+      "aperto": false,
+      "descrizione": "Una corte di pianura vicino a Modena, d'inverno: la casa di Derna, il laboratorio di Alcide, la scuola in fondo alla strada. Da questo vicolo ci si arriva solo con un ricordo.",
+      "sbloccatoDa": "cappotto",
+      "sbloccatoMsg": "Modena è lontana da questo vicolo. Ma Antonietta qualcosa di Modena l'aveva tenuto: sulla credenza della cucina c'è un cassettino socchiuso."
+    },
+    {
+      "id": "ricordo_violino",
+      "nome": "Il ricordo del violino",
+      "scena": "70_FB_Modena",
+      "spawn": "",
+      "aperto": false,
+      "descrizione": "Una corte di pianura vicino a Modena, nell'inverno 1946-47: neve, nebbia bassa, la cucina di Derna con la stufa, il laboratorio dei Benvenuti con il forno e il pianoforte, la scuola in fondo alla strada.",
+      "meteo": "sereno"
+    },
+    {
+      "id": "ricordo_finale",
+      "nome": "Il basso, 1994",
+      "scena": "80_Basso_1994",
+      "spawn": "",
+      "aperto": false,
+      "descrizione": "Il basso di Antonietta nel marzo 1994, dopo la sua morte: mobili sotto le lenzuola, una lampadina nuda, scatoloni, un telefono che squilla.",
+      "meteo": ""
     }
   ]
 }

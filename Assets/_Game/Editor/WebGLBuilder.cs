@@ -37,6 +37,13 @@ namespace TrenoBambini.EditorTools
             PlayerSettings.WebGL.memoryGrowthMode = WebGLMemoryGrowthMode.Geometric;
             PlayerSettings.WebGL.nameFilesAsHashes = false;
             PlayerSettings.WebGL.template = "APPLICATION:Default";
+            // R029: build piu' piccola. Stripping alto (le classi del gioco sono protette da Assets/_Game/link.xml: JsonUtility e AddComponent),
+            // IL2CPP ottimizzato per la dimensione, solo le eccezioni lanciate esplicitamente.
+            var nbt = UnityEditor.Build.NamedBuildTarget.WebGL;
+            PlayerSettings.SetManagedStrippingLevel(nbt, ManagedStrippingLevel.High);
+            PlayerSettings.SetIl2CppCodeGeneration(nbt, UnityEditor.Build.Il2CppCodeGeneration.OptimizeSize);
+            PlayerSettings.stripEngineCode = true;
+            PlayerSettings.WebGL.exceptionSupport = WebGLExceptionSupport.ExplicitlyThrownExceptionsOnly;
         }
 
         static bool Run()
@@ -201,6 +208,17 @@ namespace TrenoBambini.EditorTools
             if (imp.textureType == TextureImporterType.Lightmap || path.Contains("Lightmap-") || path.Contains("ReflectionProbe-"))
             {
                 s.maxTextureSize = path.Contains("ReflectionProbe-") ? 256 : 1024;
+                return s;
+            }
+
+            // R019: le piante della minimappa (inchiostro e tratteggio sottile) restano a piena risoluzione e senza crunch; i glifi restano come sono
+            if (path.Contains("/Resources/Mappe/"))
+            {
+                s.maxTextureSize = 1024;
+                if (path.EndsWith(".png")) return s;
+                s.format = TextureImporterFormat.DXT1;
+                s.crunchedCompression = false;
+                s.compressionQuality = 50;
                 return s;
             }
 

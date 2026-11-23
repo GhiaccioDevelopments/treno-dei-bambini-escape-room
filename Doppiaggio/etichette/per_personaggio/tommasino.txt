@@ -1,0 +1,8 @@
+1.000	6.600	cs_intro_009
+8.600	17.900	cs_scarpe_003
+19.900	23.800	cs_scarpe_005
+25.800	33.100	cs_scarpe_007
+35.100	42.800	cs_stracci_007
+44.800	51.600	cs_stracci_009
+53.600	61.700	cs_cappotto_007
+63.700	68.500	cs_cappotto_017

@@ -42,8 +42,10 @@ namespace TrenoBambini.Audio
             stingerSrc.playOnAwake = false; stingerSrc.loop = false; stingerSrc.spatialBlend = 0f;
         }
 
-        /// <summary>Suona il brano "id" con crossfade. id vuoto = silenzio (dissolvenza in uscita).</summary>
-        public void Play(string id, float fade = 2.5f)
+        /// <summary>Suona il brano "id" con crossfade. id vuoto = silenzio (dissolvenza in uscita).
+        /// finisciTra > 0 (titoli di coda): il brano suona una volta sola, senza loop, e parte dal punto giusto perche' la sua chiusa
+        /// cada dopo "finisciTra" secondi (se il brano e' piu' corto parte dall'inizio e finisce prima, nel silenzio).</summary>
+        public void Play(string id, float fade = 2.5f, float finisciTra = -1f)
         {
             id = id ?? "";
             if (id == currentId) return;
@@ -64,8 +66,9 @@ namespace TrenoBambini.Audio
                 cur = 1 - cur;
                 var nv = v[cur];
                 nv.src.clip = clip;
+                nv.src.loop = finisciTra <= 0f;
                 nv.level = 0f; nv.target = 1f; nv.speed = 1f / Mathf.Max(0.05f, fade);
-                nv.src.time = 0f;
+                nv.src.time = finisciTra > 0f ? Mathf.Clamp(clip.length - finisciTra, 0f, Mathf.Max(0f, clip.length - 0.1f)) : 0f;
                 nv.src.Play();
             });
         }

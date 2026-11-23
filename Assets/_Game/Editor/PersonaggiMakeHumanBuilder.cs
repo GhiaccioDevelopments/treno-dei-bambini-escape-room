@@ -68,6 +68,132 @@ namespace TrenoBambini.EditorTools
             }
         };
 
+        // R012: Capa 'e fierro, robivecchi sulla cinquantina (ArtSource/Characters/makehuman/genera_capa_e_fierro_makehuman.py).
+        // Scala come l'adulto (stesso ordine di altezza, ~1,70 m): DA MISURARE al primo import (il log stampa l'offset dei piedi; altezza dal Bounds del prefab).
+        // Nomi di slot e texture: quelli che l'export FBX di MakeHuman da' di solito (mesh del corpo = nome del modello in minuscolo,
+        // texture = <materiale>_diffuse.png). Se uno slot non corrisponde il log lo dice ("mesh ... senza materiale"): correggere qui.
+        static readonly MhPers MhCapa = new MhPers
+        {
+            Sorgente = "ArtSource/Characters/makehuman/Capa_e_fierro", FbxSorgente = "Capa_e_fierro.fbx",
+            Nome = "CapaEFierroMH", Scala = 0.0933f,
+            Slots = new[] {
+                new MhSlot { Slot = "capa_e_fierro", Albedo = "middleage_lightskinned_male_diffuse", Tipo = "Pelle" },
+                new MhSlot { Slot = "male_worksuit01", Albedo = "capa_e_fierro_abito_diffuse", Normal = "male_worksuit01_normal", Tipo = "Vestito" },
+                new MhSlot { Slot = "shoes01", Albedo = "capa_e_fierro_scarpe_diffuse", Tipo = "Vestito" },
+                new MhSlot { Slot = "short02", Albedo = "capa_e_fierro_capelli_diffuse", Tipo = "Capelli" },
+                new MhSlot { Slot = "eyebrow010", Albedo = "eyebrow010", Tipo = "Ciglia" },
+                new MhSlot { Slot = "eyelashes01", Albedo = "eyelashes01", Tipo = "Ciglia" },
+                new MhSlot { Slot = "high-poly", Albedo = "brown_eye_cut", Tipo = "Occhi" },
+                new MhSlot { Slot = "teeth_base", Albedo = "teeth", Tipo = "Denti" },
+            }
+        };
+
+        /// <summary>R012: importa Capa 'e fierro (FBX MakeHuman) come prefab Humanoid; poi Treno > Scene > Costruisci ricordo Stracci lo mette sul punto Npc_CapaEFierro.</summary>
+        [MenuItem("Treno/Personaggi/Importa Capa 'e fierro MakeHuman")]
+        public static void ImportaCapaEFierroMakeHuman()
+        {
+            bool ok = ImportaMh(MhCapa);
+            AssetDatabase.SaveAssets();
+            if (ok) Debug.Log("[Personaggi] Capa 'e fierro MakeHuman importato. Prefab: " + MhCapa.Prefab);
+            else Debug.LogError("[Personaggi] Importazione di Capa 'e fierro NON riuscita: vedi gli errori sopra (l'FBX si crea con genera_capa_e_fierro_makehuman.py in MakeHuman).");
+        }
+
+        /// <summary>R012: prefab di Capa 'e fierro se e' gia' stato importato, altrimenti null (la scena mette un segnaposto).</summary>
+        public static GameObject LoadCapaEFierroPrefab()
+        {
+            return AssetDatabase.LoadAssetAtPath<GameObject>(MhCapa.Prefab);
+        }
+
+        // ---- Personaggi secondari (ArtSource/Characters/makehuman/genera_personaggi_makehuman.py) ----
+        // R029: gonna lunga d'epoca (mesh treno_tailleur_lungo, da crea_abiti_epoca.py) per le donne e berretto da ferroviere per il controllore.
+        // Scala 0,0933 per tutti: l'FBX conserva l'altezza vera di ogni personaggio (153-181 cm).
+        // Slot = nomi delle mesh dell'FBX (letti dall'FBX esportato): corpo = nome del personaggio in minuscolo senza trattini bassi.
+        static MhPers MhNuovo(string cartella, string slotCorpo, string pelleTex, string sopracciglia, params MhSlot[] mezzo)
+        {
+            var slots = new List<MhSlot> { new MhSlot { Slot = slotCorpo, Albedo = pelleTex, Tipo = "Pelle" } };
+            slots.AddRange(mezzo);
+            slots.Add(new MhSlot { Slot = sopracciglia, Albedo = sopracciglia, Tipo = "Ciglia" });
+            slots.Add(new MhSlot { Slot = "eyelashes01", Albedo = "eyelashes01", Tipo = "Ciglia" });
+            slots.Add(new MhSlot { Slot = "high-poly", Albedo = "brown_eye_cut", Tipo = "Occhi" });
+            slots.Add(new MhSlot { Slot = "teeth_base", Albedo = "teeth", Tipo = "Denti" });
+            return new MhPers
+            {
+                Sorgente = "ArtSource/Characters/makehuman/" + cartella, FbxSorgente = cartella + ".fbx",
+                Nome = cartella + "MH", Scala = 0.0933f, Slots = slots.ToArray()
+            };
+        }
+        static MhSlot Veste(string slot, string albedo, string normal = null)
+        { return new MhSlot { Slot = slot, Albedo = albedo, Normal = normal, Tipo = "Vestito" }; }
+        static MhSlot Capelli(string slot, string albedo)
+        { return new MhSlot { Slot = slot, Albedo = albedo, Tipo = "Capelli" }; }
+
+        static readonly MhPers[] MhSecondari =
+        {
+            MhNuovo("Antonietta", "antonietta", "middleage_lightskinned_female_diffuse", "eyebrow001",
+                Veste("treno_tailleur_lungo", "antonietta_abito_diffuse", "female_elegantsuit01_normal"),
+                Veste("shoes03", "scarpe_nere_usate_diffuse"), Capelli("ponytail01", "antonietta_capelli_diffuse")),
+            MhNuovo("Maddalena", "maddalena", "young_lightskinned_female_diffuse", "eyebrow001",
+                Veste("treno_tailleur_lungo", "maddalena_abito_diffuse", "female_elegantsuit01_normal"),
+                Veste("shoes03", "scarpe_nere_usate_diffuse"), Capelli("braid01", "maddalena_capelli_diffuse")),
+            MhNuovo("Pachiochia", "pachiochia", "middleage_lightskinned_female_diffuse", "eyebrow001",
+                Veste("treno_tailleur_lungo", "pachiochia_abito_diffuse", "female_elegantsuit01_normal"),
+                Veste("shoes03", "scarpe_nere_usate_diffuse"), Capelli("ponytail01", "pachiochia_capelli_diffuse")),
+            MhNuovo("Controllore", "controllore", "middleage_lightskinned_male_diffuse", "eyebrow010",
+                Veste("male_elegantsuit01", "controllore_divisa_diffuse"), Veste("treno_berretto_ferroviere", "controllore_berretto_diffuse"),
+                Veste("shoes03", "scarpe_nere_usate_diffuse"), Capelli("short01", "controllore_capelli_diffuse")),
+            MhNuovo("VolontariaComitato", "volontariacomitato", "young_lightskinned_female_diffuse", "eyebrow001",
+                Veste("treno_tailleur_lungo", "volontaria_comitato_abito_diffuse", "female_elegantsuit01_normal"),
+                Veste("shoes03", "scarpe_nere_usate_diffuse"), Capelli("braid01", "volontaria_comitato_capelli_diffuse")),
+            MhNuovo("VolontariaCroceRossa", "volontariacrocerossa", "young_lightskinned_female_diffuse", "eyebrow001",
+                Veste("treno_tailleur_lungo", "volontaria_cr_abito_diffuse", "female_elegantsuit01_normal"),
+                Veste("shoes03", "scarpe_nere_usate_diffuse"), Capelli("ponytail01", "volontaria_cr_capelli_diffuse")),
+            MhNuovo("Derna", "derna", "middleage_lightskinned_female_diffuse", "eyebrow001",
+                Veste("treno_tailleur_lungo", "derna_cappotto_diffuse", "female_elegantsuit01_normal"),
+                Veste("shoes03", "scarpe_nere_usate_diffuse"), Capelli("ponytail01", "derna_capelli_diffuse")),
+            MhNuovo("Alcide", "alcide", "middleage_lightskinned_male_diffuse", "eyebrow010",
+                Veste("male_casualsuit03", "alcide_abito_diffuse", "male_casualsuit03_normal"),
+                Veste("fedora", "fedora_texture", "fedora_normal"),
+                Veste("shoes01", "scarpe_usate_diffuse"), Capelli("short04", "alcide_capelli_diffuse")),
+            MhNuovo("Rosa", "rosa", "old_lightskinned_female_diffuse", "eyebrow001",
+                Veste("treno_tailleur_lungo", "rosa_abito_diffuse", "female_elegantsuit01_normal"),
+                Veste("shoes03", "scarpe_nere_usate_diffuse"), Capelli("ponytail01", "rosa_capelli_diffuse")),
+            MhNuovo("Carmine", "carmine", "middleage_lightskinned_male_diffuse", "eyebrow010",
+                Veste("male_casualsuit05", "male_casualsuit05_diffuse", "male_casualsuit05_normal"),
+                Veste("shoes03", "shoes03_diffuse"), Capelli("short03", "carmine_capelli_diffuse")),
+        };
+
+        /// <summary>Importa tutti i personaggi MakeHuman della storia (Capa 'e fierro e i secondari); Amerigo ha il suo menu.</summary>
+        [MenuItem("Treno/Personaggi/Importa tutti i personaggi MakeHuman")]
+        public static void ImportaTuttiPersonaggiMakeHuman()
+        {
+            var tutti = new List<MhPers> { MhCapa };
+            tutti.AddRange(MhSecondari);
+            int ok = 0;
+            var falliti = new List<string>();
+            foreach (var p in tutti)
+            {
+                if (ImportaMh(p)) ok++; else falliti.Add(p.Nome);
+            }
+            AssetDatabase.SaveAssets();
+            if (falliti.Count == 0) Debug.Log("[Personaggi] Importati " + ok + " personaggi MakeHuman.");
+            else Debug.LogError("[Personaggi] Importati " + ok + " personaggi, NON riusciti: " + string.Join(", ", falliti) + " (vedi gli errori sopra).");
+        }
+
+        /// <summary>
+        /// Prefab di un personaggio MakeHuman gia' importato, per nome della cartella in ArtSource ("Antonietta", "Maddalena",
+        /// "Pachiochia", "Controllore", "VolontariaComitato", "VolontariaCroceRossa", "Derna", "Alcide", "Rosa", "Carmine",
+        /// "Capa_e_fierro"). Null se non esiste ancora: la scena tiene il segnaposto.
+        /// </summary>
+        public static GameObject PrefabPersonaggio(string nome)
+        {
+            if (string.IsNullOrEmpty(nome)) return null;
+            if (nome == "Capa_e_fierro" || nome == "CapaEFierro") return LoadCapaEFierroPrefab();
+            foreach (var p in MhSecondari)
+                if (p.Nome == nome + "MH" || p.Nome == nome)
+                    return AssetDatabase.LoadAssetAtPath<GameObject>(p.Prefab);
+            return null;
+        }
+
         [MenuItem("Treno/Personaggi/Importa Amerigo MakeHuman")]
         public static void ImportaAmerigoMakeHuman()
         {

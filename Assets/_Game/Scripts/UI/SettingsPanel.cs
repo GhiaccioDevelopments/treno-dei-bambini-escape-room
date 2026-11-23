@@ -27,6 +27,7 @@ namespace TrenoBambini.UI
         readonly List<Riga> righe = new List<Riga>();
         string gruppo = "Generale";
         bool built;
+        GameObject ripristinaBtn;   // vale solo per la grafica: nella scheda Gioco resta nascosto
 
         /// <summary>Una riga del menu: etichetta, spiegazione, controllo a frecce.</summary>
         sealed class Riga
@@ -112,6 +113,7 @@ namespace TrenoBambini.UI
 
             // piede
             var reset = UIFactory.MakeButton(card.rectTransform, "Ripristina predefiniti", OnRipristina, new Vector2(380f, 60f), ButtonStyle.Tag, 25f);
+            ripristinaBtn = reset.gameObject;
             UIFactory.Place((RectTransform)reset.transform, new Vector2(0f, 0f), new Vector2(0f, 0f), new Vector2(48f, 20f), new Vector2(380f, 60f));
             var close = UIFactory.MakeButton(card.rectTransform, "Chiudi", Hide, new Vector2(300f, 60f), ButtonStyle.Seal, 28f, true);
             UIFactory.Place((RectTransform)close.transform, new Vector2(1f, 0f), new Vector2(1f, 0f), new Vector2(-48f, 20f), new Vector2(300f, 60f));
@@ -141,6 +143,7 @@ namespace TrenoBambini.UI
                 };
                 righe.Add(r);
             }
+            if (gruppo == "Gioco") RigheMappa();
             if (gruppo == "Accessibilità") { RigaEffettiRidotti(); RigheEnigmi(); }
             float y = 0f;
             foreach (var r in righe) { CostruisciRiga(r, y); y += RowH + 4f; }
@@ -148,6 +151,7 @@ namespace TrenoBambini.UI
             content.anchoredPosition = Vector2.zero;
             AggiornaValori();
             AggiornaSchede();
+            if (ripristinaBtn != null) ripristinaBtn.SetActive(gruppo != "Gioco");
         }
 
         void RigaPreset()
@@ -188,6 +192,46 @@ namespace TrenoBambini.UI
                 spiega = GameData.UiMenu.enigmiImp.evidenziaSpiega,
                 testo = () => TrenoBambini.Core.GameManager.I != null && TrenoBambini.Core.GameManager.I.Save.evidenziaInterattivi ? GameData.UiMenu.enigmiImp.si : GameData.UiMenu.enigmiImp.no,
                 passo = dir => { var g = TrenoBambini.Core.GameManager.I; if (g != null) { g.Save.evidenziaInterattivi = !g.Save.evidenziaInterattivi; g.SaveGame(); } }
+            });
+            righe.Add(new Riga // R028: lettura automatica delle battute del Narratore (sì di default)
+            {
+                nome = GameData.UiMenu.voce.autoNome,
+                spiega = GameData.UiMenu.voce.autoSpiega,
+                testo = () => TrenoBambini.Core.GameManager.I != null && TrenoBambini.Core.GameManager.I.Save.narratoreManuale ? GameData.UiMenu.enigmiImp.no : GameData.UiMenu.enigmiImp.si,
+                passo = dir => { var g = TrenoBambini.Core.GameManager.I; if (g != null) { g.Save.narratoreManuale = !g.Save.narratoreManuale; g.SaveGame(); } }
+            });
+            righe.Insert(3, new Riga // R026: biglietto "Cosa fare / Cosa ottieni" all'apertura degli enigmi (acceso di default)
+            {
+                nome = GameData.UiMenu.enigmiImp.spiegazioneNome,
+                spiega = GameData.UiMenu.enigmiImp.spiegazioneSpiega,
+                testo = () => TrenoBambini.Core.GameManager.I != null && TrenoBambini.Core.GameManager.I.Save.nascondiSpiegazione ? GameData.UiMenu.enigmiImp.no : GameData.UiMenu.enigmiImp.si,
+                passo = dir => { var g = TrenoBambini.Core.GameManager.I; if (g != null) { g.Save.nascondiSpiegazione = !g.Save.nascondiSpiegazione; g.SaveGame(); } }
+            });
+        }
+
+        /// <summary>R019: aiuto della mappa (Guidata / Normale / Esploratore), minimappa accesa o spenta, nord fisso. Testi in ui_menu.json (mappaImp).</summary>
+        void RigheMappa()
+        {
+            var T = GameData.UiMenu.mappaImp;
+            Func<SaveData> sd = () => TrenoBambini.Core.GameManager.I != null ? TrenoBambini.Core.GameManager.I.Save : null;
+            Action salva = () => { if (TrenoBambini.Core.GameManager.I != null) TrenoBambini.Core.GameManager.I.SaveGame(); };
+            righe.Add(new Riga
+            {
+                nome = T.aiutoNome, spiega = T.aiutoSpiega,
+                testo = () => { var s = sd(); int a = s != null ? s.aiutoMappa : 1; return a == 0 ? T.guidata : (a == 2 ? T.esploratore : T.normale); },
+                passo = dir => { var s = sd(); if (s == null) return; s.aiutoMappa = ((s.aiutoMappa + dir) % 3 + 3) % 3; salva(); }
+            });
+            righe.Add(new Riga
+            {
+                nome = T.minimappaNome, spiega = T.minimappaSpiega,
+                testo = () => { var s = sd(); return s != null && s.minimappaNascosta ? T.no : T.si; },
+                passo = dir => { var s = sd(); if (s == null) return; s.minimappaNascosta = !s.minimappaNascosta; salva(); }
+            });
+            righe.Add(new Riga
+            {
+                nome = T.nordFissoNome, spiega = T.nordFissoSpiega,
+                testo = () => { var s = sd(); return s != null && s.nordFisso ? T.si : T.no; },
+                passo = dir => { var s = sd(); if (s == null) return; s.nordFisso = !s.nordFisso; salva(); }
             });
         }
 

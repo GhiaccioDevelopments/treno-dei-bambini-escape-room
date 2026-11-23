@@ -149,6 +149,108 @@
   "triangoli": 1108,
   "triangoli_lod1": 0
  },
+ "calz_cartone": {
+  "centro": [
+   0.0006,
+   0.0421,
+   0.0274
+  ],
+  "materiali": [
+   "ME_Cartone",
+   "ME_Fango",
+   "ME_Interno",
+   "ME_Lacci",
+   "ME_Suola",
+   "MT_Cuoio"
+  ],
+  "misura": [
+   0.3562,
+   0.1082,
+   0.1588
+  ],
+  "triangoli": 872,
+  "triangoli_lod1": 0
+ },
+ "calz_militari": {
+  "centro": [
+   -0.003,
+   0.0941,
+   -0.0002
+  ],
+  "materiali": [
+   "ME_Fango",
+   "ME_Interno",
+   "ME_Lacci",
+   "ME_Suola",
+   "MT_Cuoio"
+  ],
+  "misura": [
+   0.306,
+   0.1878,
+   0.1142
+  ],
+  "triangoli": 1488,
+  "triangoli_lod1": 0
+ },
+ "calz_pezze": {
+  "centro": [
+   0.0458,
+   0.0535,
+   0.0025
+  ],
+  "materiali": [
+   "ME_Fango",
+   "ME_Lacci",
+   "MT_Panno"
+  ],
+  "misura": [
+   0.2466,
+   0.107,
+   0.2909
+  ],
+  "triangoli": 1060,
+  "triangoli_lod1": 0
+ },
+ "calz_tacchi": {
+  "centro": [
+   0.002,
+   0.0666,
+   0.0
+  ],
+  "materiali": [
+   "ME_CuoioCinghia",
+   "ME_Interno",
+   "ME_Suola",
+   "MT_Cuoio"
+  ],
+  "misura": [
+   0.248,
+   0.1333,
+   0.08
+  ],
+  "triangoli": 796,
+  "triangoli_lod1": 0
+ },
+ "calz_zoccoli": {
+  "centro": [
+   -0.0025,
+   0.0468,
+   0.0
+  ],
+  "materiali": [
+   "ME_CuoioCinghia",
+   "ME_Interno",
+   "ME_LegnoNoce",
+   "ME_Ottone"
+  ],
+  "misura": [
+   0.275,
+   0.0924,
+   0.126
+  ],
+  "triangoli": 764,
+  "triangoli_lod1": 0
+ },
  "cassetta_coperchio": {
   "centro": [
    0.0,

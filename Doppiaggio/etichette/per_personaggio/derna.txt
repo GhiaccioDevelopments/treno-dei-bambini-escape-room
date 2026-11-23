@@ -1,0 +1,4 @@
+1.000	7.000	cs_violino_004
+9.000	15.800	cs_violino_006
+17.800	22.100	cs_violino_017
+24.100	28.400	cs_violino_020

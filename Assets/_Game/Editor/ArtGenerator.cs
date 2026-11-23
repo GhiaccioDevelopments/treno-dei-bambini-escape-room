@@ -34,6 +34,7 @@ namespace TrenoBambini.EditorTools
                 SaveSprite(MakeTommasino(), SpritesRoot + "/ritratti/tommasino.png");
                 SaveSprite(MakeMaddalena(), SpritesRoot + "/ritratti/maddalena.png");
                 SaveSprite(MakeNarratore(), SpritesRoot + "/ritratti/narratore.png");
+                SaveSprite(MakeCapaEFierro(), SpritesRoot + "/ritratti/capa_e_fierro.png"); // R012
 
                 EditorUtility.DisplayProgressBar("Genera grafica", "Sfondi...", 0.55f);
                 SaveSprite(MakeSfondoVicolo(), SpritesRoot + "/sfondi/cs_vicolo.png");
@@ -52,7 +53,7 @@ namespace TrenoBambini.EditorTools
             }
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
-            Debug.Log("[ArtGenerator] Grafica generata: icona, 5 ritratti, 3 sfondi, vignetta, materiali.");
+            Debug.Log("[ArtGenerator] Grafica generata: icona, 6 ritratti, 3 sfondi, vignetta, materiali.");
         }
 
         // ------------------------------------------------------------------ utilita
@@ -373,6 +374,82 @@ namespace TrenoBambini.EditorTools
             p.Ellipse(145, 128, 1.2f, 1.2f, skinSh);
 
             p.Noise(21, 0.025f);
+            return p.ToTexture();
+        }
+
+        /// <summary>
+        /// R012: solo il ritratto di Capa 'e fierro (non rigenera gli altri ritratti, gli sfondi e i materiali come "Genera grafica").
+        /// Ritratto di ripiego a cartone, nello stile degli altri: quando ci saranno i primi piani MakeHuman (screenshot/ dello script) si potra' sostituire.
+        /// </summary>
+        [MenuItem("Treno/Personaggi/Genera ritratto Capa 'e fierro")]
+        public static void GeneraRitrattoCapaEFierro()
+        {
+            SaveSprite(MakeCapaEFierro(), SpritesRoot + "/ritratti/capa_e_fierro.png");
+            AssetDatabase.SaveAssets();
+            Debug.Log("[ArtGenerator] Ritratto generato: " + SpritesRoot + "/ritratti/capa_e_fierro.png");
+        }
+
+        /// <summary>
+        /// R012: Capa 'e fierro, robivecchi sulla cinquantina (Napoli 1946): faccia larga e squadrata, testa quasi calva con i capelli grigi ai lati
+        /// (il soprannome), baffi folti grigi, barba di qualche giorno, sopracciglia spesse e aggrottate ma occhi buoni; gilet liso sopra la camicia
+        /// senza colletto, fazzoletto annodato al collo, spalle larghe. Personaggio originale.
+        /// </summary>
+        static Texture2D MakeCapaEFierro()
+        {
+            var p = new Pix(256, 256);
+            Color skin = H(0xC99A6E), skinSh = H(0xA67650), stubble = H(0x8A7A6A, 0.45f);
+            Color shirt = H(0xCDBF9E), vest = H(0x4E4032), vestDark = H(0x3A2F24), scarf = H(0x8E3B2C), grey = H(0x9A948A), greyDark = H(0x6E685F);
+
+            // collo largo e spalle da facchino
+            p.Rect(104, 76, 152, 112, skinSh);
+            p.OutPoly(new[] { V(14, 0), V(242, 0), V(232, 58), V(186, 86), V(70, 86), V(24, 58) }, shirt, Ink);
+            // gilet aperto, con i bottoni e una toppa
+            p.OutPoly(new[] { V(24, 58), V(70, 86), V(104, 80), V(116, 0), V(14, 0) }, vest, Ink, 2f);
+            p.OutPoly(new[] { V(232, 58), V(186, 86), V(152, 80), V(140, 0), V(242, 0) }, vest, Ink, 2f);
+            p.OutPoly(new[] { V(40, 20), V(70, 22), V(68, 44), V(42, 42) }, vestDark, Ink, 1.5f);
+            for (int i = 0; i < 3; i++) p.OutEllipse(150, 60 - i * 20, 3.5f, 3.5f, H(0x2A221A), Ink, 1f);
+            // fazzoletto annodato
+            p.OutPoly(new[] { V(100, 92), V(156, 92), V(146, 74), V(128, 66), V(110, 74) }, scarf, Ink, 2f);
+            p.OutPoly(new[] { V(122, 72), V(116, 46), V(130, 50) }, scarf, Ink, 1.5f);
+            p.OutPoly(new[] { V(132, 72), V(142, 48), V(130, 50) }, scarf, Ink, 1.5f);
+
+            // orecchie e testa larga, squadrata
+            p.OutEllipse(78, 146, 10, 14, skin, Ink, 2f);
+            p.OutEllipse(178, 146, 10, 14, skin, Ink, 2f);
+            p.OutPoly(new[] { V(84, 120), V(88, 178), V(104, 200), V(128, 206), V(152, 200), V(168, 178), V(172, 120), V(160, 96), V(128, 86), V(96, 96) }, skin, Ink);
+            // capelli grigi corti solo ai lati e dietro: in cima la testa e' quasi calva e lucida
+            p.Poly(new[] { V(84, 168), V(88, 186), V(98, 196), V(96, 168), V(90, 150) }, grey);
+            p.Poly(new[] { V(172, 168), V(168, 186), V(158, 196), V(160, 168), V(166, 150) }, grey);
+            p.Ellipse(116, 196, 14, 4, H(0xE8C9A2, 0.6f));
+            // barba di qualche giorno su mascelle e mento
+            p.Poly(new[] { V(90, 126), V(98, 104), V(128, 90), V(158, 104), V(166, 126), V(150, 110), V(128, 104), V(106, 110) }, stubble);
+            // rughe della fronte
+            p.Line(V(106, 184), V(150, 184), 1.6f, skinSh);
+            p.Line(V(110, 177), V(146, 177), 1.4f, skinSh);
+            // sopracciglia folte, aggrottate (brontolone)
+            p.Line(V(100, 162), V(122, 156), 5f, greyDark);
+            p.Line(V(134, 156), V(156, 162), 5f, greyDark);
+            // occhi piccoli ma buoni
+            p.Ellipse(112, 148, 7, 5.5f, H(0xF2E8D0));
+            p.Ellipse(144, 148, 7, 5.5f, H(0xF2E8D0));
+            p.Ellipse(113, 148, 3.8f, 4f, Ink);
+            p.Ellipse(145, 148, 3.8f, 4f, Ink);
+            p.Ellipse(114.3f, 149.5f, 1.2f, 1.2f, Color.white);
+            p.Ellipse(146.3f, 149.5f, 1.2f, 1.2f, Color.white);
+            p.Polyline(new[] { V(102, 141), V(108, 138), V(116, 139) }, 1.3f, skinSh);
+            p.Polyline(new[] { V(140, 139), V(148, 138), V(154, 141) }, 1.3f, skinSh);
+            // naso grosso
+            p.Polyline(new[] { V(128, 152), V(124, 132), V(126, 124) }, 2.6f, skinSh);
+            p.Ellipse(128, 124, 9, 6, skin);
+            p.Ellipse(121, 122, 2.4f, 2f, skinSh);
+            p.Ellipse(135, 122, 2.4f, 2f, skinSh);
+            // baffi folti grigi sopra una bocca seria
+            p.OutPoly(new[] { V(104, 108), V(114, 118), V(128, 116), V(142, 118), V(152, 108), V(140, 112), V(128, 110), V(116, 112) }, grey, greyDark, 1.5f);
+            p.Line(V(116, 104), V(140, 104), 2.6f, H(0x6E3E30));
+            p.Ellipse(98, 128, 9, 5, H(0xB9785A, 0.45f));
+            p.Ellipse(158, 128, 9, 5, H(0xB9785A, 0.45f));
+
+            p.Noise(27, 0.03f);
             return p.ToTexture();
         }
 

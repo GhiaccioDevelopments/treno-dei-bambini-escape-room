@@ -278,7 +278,8 @@ namespace TrenoBambini.EditorTools
                     muriManifesti |= 2;
                     Manifesto(env, "Acqua", f.wp + al * -1.2f + Vector3.up * 1.7f, f.n, 0.62f, 0.93f, "Manifesto_Acqua");
                     Manifesto(env, "Viveri", f.wp + al * 1.2f + Vector3.up * 1.7f, f.n, 0.62f, 0.93f, "Manifesto_Viveri");
-                    Manifesto(env, "Scuola", f.wp + al * 0.0f + Vector3.up * 1.8f, f.n, 0.5f, 0.78f, "Manifesto_Scuola");
+                    Manifesto(env, "Treni", f.wp + al * 0.0f + Vector3.up * 1.75f, f.n, 0.62f, 0.93f, "Manifesto_Treni"); // R025: il manifesto del filmato iniziale
+                    Manifesto(env, "Scuola", f.wp + al * 2.4f + Vector3.up * 1.8f, f.n, 0.5f, 0.78f, "Manifesto_Scuola");
                 }
                 else if (Mathf.Abs(f.wp.x + 8f) < 0.1f && Mathf.Abs(f.wp.z - 33f) < 0.1f)
                 {

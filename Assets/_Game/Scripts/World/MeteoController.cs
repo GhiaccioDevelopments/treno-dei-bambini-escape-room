@@ -192,9 +192,21 @@ namespace TrenoBambini.World
             }
         }
 
+        bool sospesa;
+
+        /// <summary>R025: pioggia spenta (particelle, spruzzi, gocce) senza cambiare scena: serve al filmato iniziale quando l'hub fa da ricordo seppia. Il suolo resta com'e'.</summary>
+        public void Sospendi(bool on)
+        {
+            if (sospesa == on) return;
+            sospesa = on;
+            if (pioggia != null) { pioggia.gameObject.SetActive(!on); if (!on) pioggia.Play(); }
+            if (spruzzi != null) { spruzzi.gameObject.SetActive(!on); if (!on) spruzzi.Play(); }
+            foreach (var d in gocce) if (d != null) { d.gameObject.SetActive(!on); if (!on) d.Play(); }
+        }
+
         void LateUpdate()
         {
-            if (pioggia == null) return;
+            if (pioggia == null || sospesa) return;
             if (versione != GraphicsPresets.Version) Applica();
             var cp = Camera.main;                     // ricontrollata a ogni frame: puo' cambiare (cutscene, benchmark, camera disattivata)
             if (cp != null) cam = cp.transform;

@@ -232,6 +232,44 @@ def scarpe_bambino():
     mhmat(os.path.join(src, "shoes01.mhmat"), "amerigo_bambino_scarpe", "amerigo_bambino_scarpe_diffuse.png")
 
 
+def abito_capa():
+    """R012, Capa 'e fierro: tuta da lavoro scurita (marrone-grigio), lisa, unta e con qualche toppa grande."""
+    src = os.path.join(SYS, "clothes", "male_worksuit01")
+    a = leggi(os.path.join(src, "male_worksuit01_diffuse.png"))
+    h, w = a.shape[:2]
+    stoffa = luminanza(a) > 12
+    a = tinta(a, (72, 64, 54), mix=0.92, guadagno=1.0, maschera=stoffa)
+    a[..., :3] *= rumore(h, w, 36, 0.24)[..., None]          # macchie d'unto e di ruggine
+    a[..., :3] *= rumore(h, w, 200, 0.07)[..., None]         # grana del tessuto liso
+    scrivi(a, os.path.join(OUT, "_tmp_capa.png"))
+    img = QImage(os.path.join(OUT, "_tmp_capa.png"))
+    p = QPainter(img)
+    p.setRenderHint(QPainter.Antialiasing)
+    for (u, v, du, dv, col) in [(0.06, 0.62, 0.08, 0.07, QColor(58, 52, 44)),
+                                (0.78, 0.46, 0.09, 0.08, QColor(84, 70, 52)),
+                                (0.22, 0.34, 0.06, 0.05, QColor(64, 66, 62))]:
+        r = QRectF(u * w, v * h, du * w, dv * h)
+        p.fillRect(r, col)
+        p.setPen(QPen(QColor(170, 155, 120, 200), max(2, w // 900), Qt.DashLine))
+        p.drawRect(r.adjusted(w * 0.004, h * 0.004, -w * 0.004, -h * 0.004))
+    p.end()
+    img.save(os.path.join(OUT, "capa_e_fierro_abito_diffuse.png"))
+    os.remove(os.path.join(OUT, "_tmp_capa.png"))
+    print("  scritto abito di Capa 'e fierro")
+    mhmat(os.path.join(src, "male_worksuit01.mhmat"), "capa_e_fierro_abito", "capa_e_fierro_abito_diffuse.png")
+
+
+def scarpe_capa():
+    """R012, Capa 'e fierro: scarpe di cuoio vecchie, scolorite e impolverate."""
+    src = os.path.join(SYS, "clothes", "shoes01")
+    a = leggi(os.path.join(src, "shoes01_diffuse.png"))
+    h, w = a.shape[:2]
+    a = tinta(a, (70, 55, 42), mix=0.8, guadagno=1.0, maschera=luminanza(a) > 12)
+    a[..., :3] *= rumore(h, w, 30, 0.28)[..., None]
+    scrivi(a, os.path.join(OUT, "capa_e_fierro_scarpe_diffuse.png"))
+    mhmat(os.path.join(src, "shoes01.mhmat"), "capa_e_fierro_scarpe", "capa_e_fierro_scarpe_diffuse.png")
+
+
 if __name__ == "__main__":
     if not os.path.isdir(OUT):
         os.makedirs(OUT)
@@ -240,4 +278,8 @@ if __name__ == "__main__":
     capelli(os.path.join(SYS, "hair", "short04"), "amerigo_adulto_capelli", (70, 48, 34))    # castano scuro (taglio scelto dall utente)
     salopette_bambino()
     pelle_bambino()          # scalzo: niente scarpe, piedi e gambe sporchi
+    # R012: Capa 'e fierro (genera_capa_e_fierro_makehuman.py)
+    capelli(os.path.join(SYS, "hair", "short02"), "capa_e_fierro_capelli", (128, 124, 116))  # grigio
+    abito_capa()
+    scarpe_capa()
     print("Fatto.")

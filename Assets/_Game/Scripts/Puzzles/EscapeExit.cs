@@ -41,7 +41,7 @@ namespace TrenoBambini.Puzzles
 
             string oggetto = flashback.oggetto;
             string testo = string.IsNullOrEmpty(flashback.conclusione) ? "Il ricordo si dissolve..." : flashback.conclusione;
-            UIRoot.I.ShowMessage(flashback.titolo, testo, () => GameManager.I.CompleteFlashback(oggetto));
+            UIRoot.I.ShowMessage(flashback.titolo, testo, () => GameManager.I.CompleteFlashback(oggetto), "nar_" + oggetto + "_002"); // R028: voce del Narratore
         }
     }
 }

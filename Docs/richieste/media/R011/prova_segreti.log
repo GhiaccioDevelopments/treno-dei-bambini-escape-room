@@ -1,0 +1,393 @@
+﻿Inizio prova segreti. Salvataggio presente: True
+PASS GameManager pronto
+PASS segreti.json: almeno un segreto per stanza  [17 segreti]
+PASS 10_Hub_Vicolo: >= 1 enigma segreto e 3-5 collezionabili  [1 enigmi, 5 collezionabili]
+PASS 20_Int_BassoAntonietta: >= 1 enigma segreto e 3-5 collezionabili  [1 enigmi, 4 collezionabili]
+PASS 30_FB_Scarpe: >= 1 enigma segreto e 3-5 collezionabili  [1 enigmi, 5 collezionabili]
+PASS segreto hub_edicole: id unico
+PASS segreto hub_edicole: nome e scheda scritti
+PASS segreto hub_edicole: ha un pezzo di mondo o un enigma
+PASS segreto hub_edicole: ha la pagina dietro le quinte
+PASS segreto hub_cartolina: id unico
+PASS segreto hub_cartolina: nome e scheda scritti
+PASS segreto hub_cartolina: ha un pezzo di mondo o un enigma
+PASS segreto hub_settebello: id unico
+PASS segreto hub_settebello: nome e scheda scritti
+PASS segreto hub_settebello: ha un pezzo di mondo o un enigma
+PASS segreto hub_trottola: id unico
+PASS segreto hub_trottola: nome e scheda scritti
+PASS segreto hub_trottola: ha un pezzo di mondo o un enigma
+PASS segreto hub_amlire: id unico
+PASS segreto hub_amlire: nome e scheda scritti
+PASS segreto hub_amlire: ha un pezzo di mondo o un enigma
+PASS segreto hub_ritaglio: id unico
+PASS segreto hub_ritaglio: nome e scheda scritti
+PASS segreto hub_ritaglio: ha un pezzo di mondo o un enigma
+PASS segreto basso_ripostiglio: id unico
+PASS segreto basso_ripostiglio: nome e scheda scritti
+PASS segreto basso_ripostiglio: ha un pezzo di mondo o un enigma
+PASS segreto basso_ripostiglio: ha la pagina dietro le quinte
+PASS segreto basso_santino: id unico
+PASS segreto basso_santino: nome e scheda scritti
+PASS segreto basso_santino: ha un pezzo di mondo o un enigma
+PASS segreto basso_ditale: id unico
+PASS segreto basso_ditale: nome e scheda scritti
+PASS segreto basso_ditale: ha un pezzo di mondo o un enigma
+PASS segreto basso_bottone: id unico
+PASS segreto basso_bottone: nome e scheda scritti
+PASS segreto basso_bottone: ha un pezzo di mondo o un enigma
+PASS segreto basso_biglia: id unico
+PASS segreto basso_biglia: nome e scheda scritti
+PASS segreto basso_biglia: ha un pezzo di mondo o un enigma
+PASS segreto ric_campana: id unico
+PASS segreto ric_campana: nome e scheda scritti
+PASS segreto ric_campana: ha un pezzo di mondo o un enigma
+PASS segreto ric_campana: ha la pagina dietro le quinte
+PASS segreto ric_moneta: id unico
+PASS segreto ric_moneta: nome e scheda scritti
+PASS segreto ric_moneta: ha un pezzo di mondo o un enigma
+PASS segreto ric_pallone: id unico
+PASS segreto ric_pallone: nome e scheda scritti
+PASS segreto ric_pallone: ha un pezzo di mondo o un enigma
+PASS segreto ric_lista: id unico
+PASS segreto ric_lista: nome e scheda scritti
+PASS segreto ric_lista: ha un pezzo di mondo o un enigma
+PASS segreto ric_uovo: id unico
+PASS segreto ric_uovo: nome e scheda scritti
+PASS segreto ric_uovo: ha un pezzo di mondo o un enigma
+PASS segreto ric_bottone: id unico
+PASS segreto ric_bottone: nome e scheda scritti
+PASS segreto ric_bottone: ha un pezzo di mondo o un enigma
+PASS nessun requisito di porte o enigmi principali dipende da un segreto
+PASS la minimappa e la mappa grande (mappe.json) non nominano alcun segreto
+PASS ogni pezzo interattivo ha il suo prompt nel JSON  [0]
+PASS salvataggio vecchio senza segreti: letto, liste vuote
+PASS hub caricato
+PASS nuova partita: nessun segreto trovato, contatore 0
+PASS la pausa mostra il contatore, il quaderno le caselle vuote  [Segreti trovati: 0/17]
+=== Hub ===
+  (gia' non raggiungibile a piedi senza i segreti: Porta_stazione, a 28,0 m)
+PASS interattori principali (hub prima): quelli raggiungibili restano proposti, nessuno coperto da un segreto  [7/8 ]
+PASS hub: pezzi dei segreti creati  [8 pezzi]
+  peso dei segreti in 10_Hub_Vicolo: 28 renderer, ~3900 triangoli, 0 luci dinamiche
+PASS 10_Hub_Vicolo: i segreti pesano poco (< 120 renderer, nessuna luce dinamica)  [28 renderer, 0 luci]
+PASS 10_Hub_Vicolo: area percorribile calcolata  [29963 celle]
+PASS bigl_scarpa: pezzo presente nel mondo
+  bigl_scarpa pos=(-13.85, 2.40, 7.78) renderer=1 bounds=(0.180, 0.005, 0.135)
+PASS bigl_scarpa: renderer attivi con materiale  [1 renderer, 1 attivi, 0 senza materiale]
+PASS bigl_scarpa: fuori da muri e pavimenti
+PASS bigl_scarpa: raggiungibile a piedi dal punto di partenza  [cella a 0,54 m, (-13.75, 1.20, 7.25)]
+PASS bigl_scarpa: il giocatore vicino lo vede proposto (prompt di interazione)  [nessun prompt]
+PASS bigl_scarpa: si vede da qualche punto raggiungibile (linea libera, >= 25 px)  [222 px]
+PASS bigl_mela: pezzo presente nel mondo
+  bigl_mela pos=(11.75, 3.60, 14.20) renderer=1 bounds=(0.180, 0.005, 0.135)
+PASS bigl_mela: renderer attivi con materiale  [1 renderer, 1 attivi, 0 senza materiale]
+PASS bigl_mela: fuori da muri e pavimenti
+PASS bigl_mela: raggiungibile a piedi dal punto di partenza  [cella a 0,55 m, (11.75, 2.40, 14.75)]
+PASS bigl_mela: il giocatore vicino lo vede proposto (prompt di interazione)  [nessun prompt]
+PASS bigl_mela: si vede da qualche punto raggiungibile (linea libera, >= 25 px)  [220 px]
+PASS bigl_treno: pezzo presente nel mondo
+  bigl_treno pos=(-7.45, 3.61, 35.40) renderer=1 bounds=(0.180, 0.005, 0.135)
+PASS bigl_treno: renderer attivi con materiale  [1 renderer, 1 attivi, 0 senza materiale]
+PASS bigl_treno: appoggiato (ne' sotto il suolo ne' sospeso)  [su Selciato_piazza_q36_4_6 scarto 0,013]
+PASS bigl_treno: fuori da muri e pavimenti
+PASS bigl_treno: raggiungibile a piedi dal punto di partenza  [cella a 0,16 m, (-7.50, 3.60, 35.25)]
+PASS bigl_treno: il giocatore vicino lo vede proposto (prompt di interazione)  [nessun prompt]
+PASS bigl_treno: si vede da qualche punto raggiungibile (linea libera, >= 25 px)  [93 px]
+PASS hub_cartolina: pezzo presente nel mondo
+  hub_cartolina pos=(-2.50, 4.81, 50.40) renderer=1 bounds=(0.240, 0.006, 0.160)
+PASS hub_cartolina: renderer attivi con materiale  [1 renderer, 1 attivi, 0 senza materiale]
+PASS hub_cartolina: appoggiato (ne' sotto il suolo ne' sospeso)  [su Selciato_piazza_q48_5_6 scarto 0,014]
+PASS hub_cartolina: fuori da muri e pavimenti
+PASS hub_cartolina: raggiungibile a piedi dal punto di partenza  [cella a 0,15 m, (-2.50, 4.80, 50.25)]
+PASS hub_cartolina: il giocatore vicino lo vede proposto (prompt di interazione)  [nessun prompt]
+PASS hub_cartolina: si vede da qualche punto raggiungibile (linea libera, >= 25 px)  [125 px]
+PASS hub_settebello: pezzo presente nel mondo
+  hub_settebello pos=(-19.30, 2.41, 26.00) renderer=1 bounds=(0.135, 0.005, 0.225)
+PASS hub_settebello: renderer attivi con materiale  [1 renderer, 1 attivi, 0 senza materiale]
+PASS hub_settebello: appoggiato (ne' sotto il suolo ne' sospeso)  [su Selciato_cortile_q24_4_5 scarto 0,013]
+PASS hub_settebello: fuori da muri e pavimenti
+PASS hub_settebello: raggiungibile a piedi dal punto di partenza  [cella a 0,75 m, (-19.25, 2.40, 25.25)]
+PASS hub_settebello: il giocatore vicino lo vede proposto (prompt di interazione)  [nessun prompt]
+PASS hub_settebello: si vede da qualche punto raggiungibile (linea libera, >= 25 px)  [106 px]
+PASS hub_trottola: pezzo presente nel mondo
+  hub_trottola pos=(-19.95, 0.01, -30.50) renderer=4 bounds=(0.111, 0.176, 0.111)
+PASS hub_trottola: renderer attivi con materiale  [4 renderer, 4 attivi, 0 senza materiale]
+PASS hub_trottola: appoggiato (ne' sotto il suolo ne' sospeso)  [su Selciato_cortile_q0_4_4 scarto 0,009]
+PASS hub_trottola: fuori da muri e pavimenti
+PASS hub_trottola: raggiungibile a piedi dal punto di partenza  [cella a 0,20 m, (-19.75, 0.00, -30.50)]
+PASS hub_trottola: il giocatore vicino lo vede proposto (prompt di interazione)  [nessun prompt]
+PASS hub_trottola: si vede da qualche punto raggiungibile (linea libera, >= 25 px)  [95 px]
+PASS hub_amlire: pezzo presente nel mondo
+  hub_amlire pos=(-2.80, 2.41, 20.50) renderer=1 bounds=(0.256, 0.005, 0.120)
+PASS hub_amlire: renderer attivi con materiale  [1 renderer, 1 attivi, 0 senza materiale]
+PASS hub_amlire: appoggiato (ne' sotto il suolo ne' sospeso)  [su Selciato_strada_q24_5_5 scarto 0,013]
+PASS hub_amlire: fuori da muri e pavimenti
+PASS hub_amlire: raggiungibile a piedi dal punto di partenza  [cella a 0,30 m, (-2.50, 2.40, 20.50)]
+PASS hub_amlire: il giocatore vicino lo vede proposto (prompt di interazione)  [nessun prompt]
+PASS hub_amlire: si vede da qualche punto raggiungibile (linea libera, >= 25 px)  [131 px]
+PASS hub_ritaglio: pezzo presente nel mondo
+  hub_ritaglio pos=(23.50, 0.01, -18.40) renderer=1 bounds=(0.224, 0.005, 0.264)
+PASS hub_ritaglio: renderer attivi con materiale  [1 renderer, 1 attivi, 0 senza materiale]
+PASS hub_ritaglio: appoggiato (ne' sotto il suolo ne' sospeso)  [su Selciato_macerie_q0_5_4 scarto 0,013]
+PASS hub_ritaglio: fuori da muri e pavimenti
+PASS hub_ritaglio: raggiungibile a piedi dal punto di partenza  [cella a 0,10 m, (23.50, 0.00, -18.50)]
+PASS hub_ritaglio: il giocatore vicino lo vede proposto (prompt di interazione)  [nessun prompt]
+PASS hub_ritaglio: si vede da qualche punto raggiungibile (linea libera, >= 25 px)  [137 px]
+PASS hub_cartolina: raccolto, il pezzo sparisce dal mondo
+PASS hub_cartolina: il segreto e' salvato
+PASS hub_settebello: raccolto, il pezzo sparisce dal mondo
+PASS hub_settebello: il segreto e' salvato
+PASS hub_trottola: raccolto, il pezzo sparisce dal mondo
+PASS hub_trottola: il segreto e' salvato
+PASS hub_amlire: raccolto, il pezzo sparisce dal mondo
+PASS hub_amlire: il segreto e' salvato
+PASS hub_ritaglio: raccolto, il pezzo sparisce dal mondo
+PASS hub_ritaglio: il segreto e' salvato
+PASS hub: cinque collezionabili trovati  [5]
+PASS hub: la portella del sottoscala esiste
+PASS hub: la portella e' prima del finale non-risolta e non e' marcata (nessuna freccia)
+PASS hub: senza i biglietti la portella non si apre (messaggio gentile)
+PASS bigl_treno: raccolto, il pezzo sparisce dal mondo
+PASS bigl_treno: il gettone e' nella borsa
+PASS bigl_scarpa: raccolto, il pezzo sparisce dal mondo
+PASS bigl_scarpa: il gettone e' nella borsa
+PASS bigl_mela: raccolto, il pezzo sparisce dal mondo
+PASS bigl_mela: il gettone e' nella borsa
+PASS hub: i tre biglietti sono nel quaderno (Trovati finora)
+PASS hub: con i biglietti la portella si apre in vista ravvicinata
+PASS hub: l'Indizio dentro l'enigma tace (nessun indizio prima della stanza completata)
+PASS clic sulla parte 'treno': il raggio colpisce la parte giusta  [treno]
+PASS hub: ordine sbagliato = messaggio gentile e si ricomincia  [Non è l'ordine giusto: le assi tornano su. Guarda di nuovo il cartoncino e riprova.]
+PASS clic sulla parte 'scarpa': il raggio colpisce la parte giusta  [scarpa]
+PASS clic sulla parte 'mela': il raggio colpisce la parte giusta  [mela]
+PASS clic sulla parte 'treno': il raggio colpisce la parte giusta  [treno]
+PASS hub: la filastrocca nell'ordine giusto risolve
+PASS hub: enigma segreto salvato e segreto trovato
+PASS interattori principali (hub dopo): quelli raggiungibili restano proposti, nessuno coperto da un segreto  [7/8 ]
+PASS hub: sei segreti su sei  [6/6]
+PASS hub: la pagina Segreti mostra 6/6  [Il vicolo   6/6]
+PASS hub: la voce dell'enigma ha la pagina dietro le quinte
+=== Basso ===
+PASS basso: pezzi dei segreti creati  [9 pezzi]
+PASS basso: con 'evidenzia interattivi' brilla l'enigma normale e non quello segreto
+PASS basso: dopo i secondi senza progressi brilla l'enigma normale e non quello segreto
+PASS interattori principali (basso prima): quelli raggiungibili restano proposti, nessuno coperto da un segreto  [5/5 ]
+  peso dei segreti in 20_Int_BassoAntonietta: 92 renderer, ~5624 triangoli, 0 luci dinamiche
+PASS 20_Int_BassoAntonietta: i segreti pesano poco (< 120 renderer, nessuna luce dinamica)  [92 renderer, 0 luci]
+PASS 20_Int_BassoAntonietta: area percorribile calcolata  [882 celle]
+PASS basso_graffi: pezzo presente nel mondo
+  basso_graffi pos=(-4.20, 0.01, 1.50) renderer=21 bounds=(1.088, 0.002, 1.009)
+PASS basso_graffi: renderer attivi con materiale  [21 renderer, 21 attivi, 0 senza materiale]
+PASS basso_graffi: appoggiato (ne' sotto il suolo ne' sospeso)  [su Pavimento scarto 0,013]
+PASS basso_graffi: fuori da muri e pavimenti
+PASS basso_santino: pezzo presente nel mondo
+  basso_santino pos=(-3.35, 1.35, 3.44) renderer=3 bounds=(0.135, 0.207, 0.012)
+PASS basso_santino: renderer attivi con materiale  [3 renderer, 3 attivi, 0 senza materiale]
+PASS basso_santino: fuori da muri e pavimenti
+PASS basso_santino: raggiungibile a piedi dal punto di partenza  [cella a 0,05 m, (-3.30, 0.00, 3.45)]
+PASS basso_santino: il giocatore vicino lo vede proposto (prompt di interazione)  [nessun prompt]
+PASS basso_santino: si vede da qualche punto raggiungibile (linea libera, >= 25 px)  [569 px]
+PASS basso_mattonella: pezzo presente nel mondo
+  basso_mattonella pos=(2.30, 0.01, 1.20) renderer=3 bounds=(0.329, 0.012, 0.329)
+PASS basso_mattonella: renderer attivi con materiale  [3 renderer, 3 attivi, 0 senza materiale]
+PASS basso_mattonella: appoggiato (ne' sotto il suolo ne' sospeso)  [su Pavimento scarto 0,012]
+PASS basso_mattonella: fuori da muri e pavimenti
+PASS basso_mattonella: raggiungibile a piedi dal punto di partenza  [cella a 0,96 m, (1.70, 0.00, 1.95)]
+PASS basso_mattonella: il giocatore vicino lo vede proposto (prompt di interazione)  [nessun prompt]
+PASS basso_mattonella: si vede da qualche punto raggiungibile (linea libera, >= 25 px)  [147 px]
+PASS basso_bottone: pezzo presente nel mondo
+  basso_bottone pos=(4.15, 0.01, 6.45) renderer=6 bounds=(0.058, 0.019, 0.058)
+PASS basso_bottone: renderer attivi con materiale  [6 renderer, 6 attivi, 0 senza materiale]
+PASS basso_bottone: appoggiato (ne' sotto il suolo ne' sospeso)  [su Pavimento scarto 0,012]
+PASS basso_bottone: fuori da muri e pavimenti
+PASS basso_bottone: raggiungibile a piedi dal punto di partenza  [cella a 0,05 m, (4.20, 0.00, 6.45)]
+PASS basso_bottone: il giocatore vicino lo vede proposto (prompt di interazione)  [nessun prompt]
+PASS basso_bottone: si vede da qualche punto raggiungibile (linea libera, >= 25 px)  [30 px]
+PASS basso_biglia: pezzo presente nel mondo
+  basso_biglia pos=(1.55, 0.01, 10.05) renderer=2 bounds=(0.058, 0.058, 0.058)
+PASS basso_biglia: renderer attivi con materiale  [2 renderer, 2 attivi, 0 senza materiale]
+PASS basso_biglia: appoggiato (ne' sotto il suolo ne' sospeso)  [su PavimentoCortile scarto 0,012]
+PASS basso_biglia: fuori da muri e pavimenti
+PASS basso_biglia: raggiungibile a piedi dal punto di partenza  [cella a 0,91 m, (2.45, 0.00, 9.95)]
+PASS basso_biglia: il giocatore vicino lo vede proposto (prompt di interazione)  [nessun prompt]
+PASS basso_biglia: si vede da qualche punto raggiungibile (linea libera, >= 25 px)  [26 px]
+PASS basso: il ditale non si vede finche' la mattonella e' al suo posto
+PASS basso_mattonella: raccolto, il pezzo sparisce dal mondo
+PASS basso_mattonella: il gettone e' nella borsa
+PASS basso: sollevata la mattonella compare il ditale
+  basso_ditale pos=(2.30, 0.01, 1.20) renderer=3 bounds=(0.068, 0.063, 0.068)
+PASS basso_ditale: renderer attivi con materiale  [3 renderer, 3 attivi, 0 senza materiale]
+PASS basso_ditale: appoggiato (ne' sotto il suolo ne' sospeso)  [su Pavimento scarto 0,012]
+PASS basso_ditale: fuori da muri e pavimenti
+PASS basso_ditale: raggiungibile a piedi dal punto di partenza  [cella a 0,96 m, (1.70, 0.00, 1.95)]
+PASS basso_ditale: il giocatore vicino lo vede proposto (prompt di interazione)  [nessun prompt]
+PASS basso_ditale: si vede da qualche punto raggiungibile (linea libera, >= 25 px)  [31 px]
+PASS basso_santino: raccolto, il pezzo sparisce dal mondo
+PASS basso_santino: il segreto e' salvato
+PASS basso_ditale: raccolto, il pezzo sparisce dal mondo
+PASS basso_ditale: il segreto e' salvato
+PASS basso_bottone: raccolto, il pezzo sparisce dal mondo
+PASS basso_bottone: il segreto e' salvato
+PASS basso_biglia: raccolto, il pezzo sparisce dal mondo
+PASS basso_biglia: il segreto e' salvato
+PASS basso: quattro collezionabili trovati  [4]
+PASS basso: i piatti della mensola esistono
+PASS basso: la credenza di scena esiste
+PASS basso: si apre la vista ravvicinata dei piatti
+PASS basso: l'Indizio dell'enigma segreto tace (indizi muti)
+PASS clic sulla parte 'piatto_1': il raggio colpisce la parte giusta  [piatto_1]
+PASS clic sulla parte 'piatto_2': il raggio colpisce la parte giusta  [piatto_2]
+PASS clic sulla parte 'piatto_3': il raggio colpisce la parte giusta  [piatto_3]
+PASS clic sulla parte 'leva': il raggio colpisce la parte giusta  [leva]
+PASS basso: tolti i piatti e tirata la leva l'enigma e' risolto
+PASS basso: segreto trovato e salvato
+PASS basso: la credenza scivola via (e' stata spostata di oltre 70 cm)  [0,80]
+PASS basso: compare il materassino nel ripostiglio
+PASS basso: compare la nicchia murata
+  basso_materassino pos=(-4.20, 0.00, 1.75) renderer=3 bounds=(0.600, 0.206, 0.206)
+PASS basso_materassino: renderer attivi con materiale  [3 renderer, 3 attivi, 0 senza materiale]
+PASS basso_materassino: fuori da muri e pavimenti
+PASS basso_materassino: raggiungibile a piedi dal punto di partenza  [cella a 0,16 m, (-4.05, 0.00, 1.70)]
+PASS basso_materassino: il giocatore vicino lo vede proposto (prompt di interazione)  [propone Enigma_enigma_foto]
+PASS basso_materassino: si vede da qualche punto raggiungibile (linea libera, >= 25 px)  [329 px]
+PASS interattori principali (basso dopo (credenza spostata)): quelli raggiungibili restano proposti, nessuno coperto da un segreto  [5/5 ]
+PASS basso: cinque segreti su cinque  [5/5]
+=== Ricordo ===
+PASS ricordo: pezzi dei segreti creati  [9 pezzi]
+  peso dei segreti in 30_FB_Scarpe: 66 renderer, ~2880 triangoli, 0 luci dinamiche
+PASS 30_FB_Scarpe: i segreti pesano poco (< 120 renderer, nessuna luce dinamica)  [66 renderer, 0 luci]
+PASS 30_FB_Scarpe: area percorribile calcolata  [11481 celle]
+PASS ric_graffito: pezzo presente nel mondo
+  ric_graffito pos=(18.90, 1.30, -15.30) renderer=3 bounds=(0.015, 0.340, 0.700)
+PASS ric_graffito: renderer attivi con materiale  [3 renderer, 3 attivi, 0 senza materiale]
+PASS ric_graffito: fuori da muri e pavimenti
+PASS ric_graffito: raggiungibile a piedi dal punto di partenza  [cella a 0,16 m, (18.75, 0.00, -15.25)]
+PASS ric_graffito: il giocatore vicino lo vede proposto (prompt di interazione)  [nessun prompt]
+PASS ric_graffito: si vede da qualche punto raggiungibile (linea libera, >= 25 px)  [1709 px]
+PASS ric_moneta: pezzo presente nel mondo
+  ric_moneta pos=(2.60, 0.01, 1.40) renderer=2 bounds=(0.054, 0.009, 0.054)
+PASS ric_moneta: renderer attivi con materiale  [2 renderer, 2 attivi, 0 senza materiale]
+PASS ric_moneta: appoggiato (ne' sotto il suolo ne' sospeso)  [su Selciato_strada_q0_5_5 scarto 0,012]
+PASS ric_moneta: fuori da muri e pavimenti
+PASS ric_moneta: raggiungibile a piedi dal punto di partenza  [cella a 0,14 m, (2.50, 0.00, 1.50)]
+PASS ric_moneta: il giocatore vicino lo vede proposto (prompt di interazione)  [nessun prompt]
+PASS ric_moneta: si vede da qualche punto raggiungibile (linea libera, >= 25 px)  [28 px]
+PASS ric_pallone: pezzo presente nel mondo
+  ric_pallone pos=(-0.90, 0.01, -24.20) renderer=4 bounds=(0.205, 0.206, 0.206)
+PASS ric_pallone: renderer attivi con materiale  [4 renderer, 4 attivi, 0 senza materiale]
+PASS ric_pallone: appoggiato (ne' sotto il suolo ne' sospeso)  [su Selciato_piazza_q0_5_4 scarto 0,009]
+PASS ric_pallone: fuori da muri e pavimenti
+PASS ric_pallone: raggiungibile a piedi dal punto di partenza  [cella a 0,57 m, (-1.25, 0.00, -23.75)]
+PASS ric_pallone: il giocatore vicino lo vede proposto (prompt di interazione)  [nessun prompt]
+PASS ric_pallone: si vede da qualche punto raggiungibile (linea libera, >= 25 px)  [107 px]
+PASS ric_lista: pezzo presente nel mondo
+  ric_lista pos=(2.40, 0.43, 18.40) renderer=1 bounds=(0.191, 0.005, 0.229)
+PASS ric_lista: renderer attivi con materiale  [1 renderer, 1 attivi, 0 senza materiale]
+PASS ric_lista: fuori da muri e pavimenti
+PASS ric_lista: raggiungibile a piedi dal punto di partenza  [cella a 0,38 m, (2.75, 0.00, 18.25)]
+PASS ric_lista: il giocatore vicino lo vede proposto (prompt di interazione)  [nessun prompt]
+PASS ric_lista: si vede da qualche punto raggiungibile (linea libera, >= 25 px)  [153 px]
+PASS ric_uovo: pezzo presente nel mondo
+  ric_uovo pos=(10.80, 0.01, -19.30) renderer=4 bounds=(0.295, 0.099, 0.248)
+PASS ric_uovo: renderer attivi con materiale  [4 renderer, 4 attivi, 0 senza materiale]
+PASS ric_uovo: appoggiato (ne' sotto il suolo ne' sospeso)  [su Selciato_cortile_q0_5_4 scarto 0,007]
+PASS ric_uovo: fuori da muri e pavimenti
+PASS ric_uovo: raggiungibile a piedi dal punto di partenza  [cella a 0,54 m, (10.75, 0.00, -18.75)]
+PASS ric_uovo: il giocatore vicino lo vede proposto (prompt di interazione)  [nessun prompt]
+PASS ric_uovo: si vede da qualche punto raggiungibile (linea libera, >= 25 px)  [149 px]
+PASS ric_bottone: pezzo presente nel mondo
+  ric_bottone pos=(-1.72, 0.80, -16.45) renderer=2 bounds=(0.009, 0.047, 0.047)
+PASS ric_bottone: renderer attivi con materiale  [2 renderer, 2 attivi, 0 senza materiale]
+PASS ric_bottone: fuori da muri e pavimenti
+PASS ric_bottone: raggiungibile a piedi dal punto di partenza  [cella a 0,22 m, (-1.50, 0.00, -16.50)]
+PASS ric_bottone: il giocatore vicino lo vede proposto (prompt di interazione)  [nessun prompt]
+PASS ric_bottone: si vede da qualche punto raggiungibile (linea libera, >= 25 px)  [47 px]
+PASS ric_pietra: pezzo presente nel mondo
+  ric_pietra pos=(-1.00, 1.80, 30.40) renderer=3 bounds=(0.373, 0.112, 0.278)
+PASS ric_pietra: renderer attivi con materiale  [3 renderer, 3 attivi, 0 senza materiale]
+PASS ric_pietra: fuori da muri e pavimenti
+PASS ric_moneta: raccolto, il pezzo sparisce dal mondo
+PASS ric_moneta: il segreto e' salvato
+PASS ric_pallone: raccolto, il pezzo sparisce dal mondo
+PASS ric_pallone: il segreto e' salvato
+PASS ric_lista: raccolto, il pezzo sparisce dal mondo
+PASS ric_lista: il segreto e' salvato
+PASS ric_uovo: raccolto, il pezzo sparisce dal mondo
+PASS ric_uovo: il segreto e' salvato
+PASS ric_bottone: raccolto, il pezzo sparisce dal mondo
+PASS ric_bottone: il segreto e' salvato
+PASS ricordo: cinque collezionabili trovati  [5]
+PASS ricordo: la campana di gesso e' disegnata sul selciato
+PASS ricordo: prima di leggere il graffito la campana non reagisce
+PASS ricordo: il graffito si legge e da' il numero
+PASS ricordo: letto il graffito il numero e' nel quaderno
+PASS ricordo: saltando nell'ordine sbagliato si ricomincia con un messaggio gentile
+PASS ricordo: la sequenza 4-2-7-1 fa scattare la campana
+PASS ricordo: la pietra della fontanella scivola via
+PASS ricordo: compare il soldo nella cavita'
+  ric_soldo pos=(-1.00, 1.81, 30.40) renderer=2 bounds=(0.061, 0.009, 0.061)
+PASS ric_soldo: renderer attivi con materiale  [2 renderer, 2 attivi, 0 senza materiale]
+PASS ric_soldo: fuori da muri e pavimenti
+PASS ric_soldo: raggiungibile a piedi dal punto di partenza  [cella a 0,65 m, (-1.00, 0.90, 29.75)]
+PASS ric_soldo: il giocatore vicino lo vede proposto (prompt di interazione)  [nessun prompt]
+PASS ric_soldo: si vede da qualche punto raggiungibile (linea libera, >= 25 px)  [53 px]
+PASS ricordo: soldo trovato, segreto salvato
+PASS ricordo: sei segreti su sei  [6/6]
+PASS tutti i segreti: flag per R016 impostato
+=== Salvataggio, quaderno, pausa ===
+PASS salvataggio: i segreti trovati sono salvati (treno_save)  [17/17]
+PASS salvataggio: il flag 'segreti_tutti' e' salvato
+PASS ricaricato: i collezionabili gia' trovati non riappaiono
+PASS ricaricato: la campana gia' risolta resta disegnata ma la sua logica e' spenta
+PASS quaderno: una voce per stanza  [3]
+  Il vicolo   6/6
+  Il basso di Antonietta   5/5
+  Il ricordo delle scarpe   6/6
+PASS quaderno: 'Il basso di Antonietta   5/5'
+PASS quaderno: 'Il ricordo delle scarpe   6/6'
+PASS quaderno: 'Il vicolo   6/6'
+PASS quaderno: ogni segreto trovato ha la sua scheda scritta
+PASS pausa: il contatore dei segreti compare nel menu pausa  [Segreti trovati: 17/17]
+PASS l'HUD non mostra mai il contatore dei segreti
+=== Indizio ===
+PASS indizio: a stanza non completata la stanza non risulta completa
+PASS indizio: a stanza non completata tace sui segreti
+PASS indizio: a stanza completata la stanza risulta completa
+PASS indizio: a stanza completata accenna 'In questa stanza c'e' ancora qualcosa'
+PASS indizio: non indica dove
+PASS indizio: se non resta nulla da trovare tace
+=== Easter egg ===
+PASS easter egg: senza il finale il violino non suona
+PASS easter egg: dopo il finale compare l'uovo del violino al gradino della chiesetta
+PASS easter egg: il violino suona da lontano (sorgente 3D)
+PASS easter egg: prima del capitolo Cappotto non ci sono scarpine in piu'
+PASS easter egg: dopo il capitolo Cappotto un paio piccolo in piu' sul filo  [True 3 renderer]
+PASS easter egg: le scarpine sul filo si vedono dalla strada
+=== La storia non dipende dai segreti ===
+PASS storia: tutti gli enigmi principali risolti senza toccare un segreto
+PASS storia: le stanze risultano completate
+PASS storia: la porta del basso esiste
+PASS storia: la porta del basso non chiede alcun segreto
+PASS storia: senza aver toccato un segreto la porta si apre davvero sul basso
+PASS storia: nessun segreto nel salvataggio
+=== Aiuto lieve automatico ===
+PASS aiuto automatico: a stanza completa e segreti da trovare compare da solo, senza premere Indizio
+PASS aiuto automatico: una volta sola per stanza
+PASS aiuto automatico nel ricordo: compare con l'uscita aperta
+PASS aiuto automatico: a stanza non completa tace
+=== Rivivi il ricordo ===
+PASS rivivi: la scheda Ricordi della latta ha il pulsante per il ricordo completato
+PASS rivivi: si rientra nel ricordo
+PASS rivivi: gli enigmi principali del ricordo restano risolti
+PASS rivivi: l'uscita e' aperta
+PASS ric_moneta: raccolto, il pezzo sparisce dal mondo
+PASS ric_moneta: il segreto e' salvato
+PASS rivivi: raccolto un segreto del ricordo
+PASS rivivi: si torna al vicolo
+PASS rivivi: stato degli enigmi principali invariato  [12->12, 29->29]
+PASS rivivi: niente cutscene ne' oggetto nuovo ne' progressi extra
+PASS rivivi: nessuna animazione 'nuovo oggetto' in coda
+PASS rivivi: ritorno e salvataggio puliti (nessun ritorno pendente)
+--- Segreti trovati: ric_moneta
+Fine prova: 351 PASS, 0 FAIL

@@ -1,0 +1,4 @@
+<!-- R029: con lo stripping alto della build WebGL si tiene tutto il codice del gioco (classi lette da JsonUtility, componenti aggiunti a runtime). -->
+<linker>
+  <assembly fullname="Assembly-CSharp" preserve="all" />
+</linker>

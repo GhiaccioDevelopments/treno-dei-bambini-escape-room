@@ -1,0 +1,249 @@
+{
+  "id": "cutscene_violino",
+  "titolo": "Il violino",
+  "sfondo": "cs_ricordo",
+  "battute": [
+    {
+      "id": "cs_violino_001",
+      "personaggio": "amerigo_adulto",
+      "testo": "Un cassettino che non avevo mai visto. Dentro, un foglio piegato in quattro: pallini rossi, verdi, blu.",
+      "emozione": "pensierosa",
+      "audio": "",
+      "azione": "dissolvenza",
+      "sfondo": "cs_basso",
+      "posizione": "sx",
+      "capitolo": "ingresso"
+    },
+    {
+      "id": "cs_violino_002",
+      "personaggio": "amerigo_adulto",
+      "testo": "Lei non sapeva leggere le lettere. Figuriamoci la musica. E l'ha tenuto lo stesso.",
+      "emozione": "pensierosa",
+      "audio": "",
+      "azione": "",
+      "sfondo": "",
+      "posizione": "sx",
+      "capitolo": "ingresso"
+    },
+    {
+      "id": "cs_violino_003",
+      "personaggio": "narratore",
+      "testo": "Modena, inverno 1946-47. La neve copre i campi fino all'orizzonte e la nebbia si posa bassa sulle case della corte.",
+      "emozione": "neutra",
+      "audio": "",
+      "azione": "dissolvenza",
+      "sfondo": "cs_ricordo",
+      "posizione": "sx",
+      "capitolo": "ingresso"
+    },
+    {
+      "id": "cs_violino_004",
+      "personaggio": "derna",
+      "testo": "Qui la stufa è accesa. Il resto lo impariamo un giorno alla volta.",
+      "emozione": "neutra",
+      "audio": "",
+      "azione": "entra_dx",
+      "sfondo": "",
+      "posizione": "dx",
+      "capitolo": "ingresso"
+    },
+    {
+      "id": "cs_violino_005",
+      "personaggio": "amerigo",
+      "testo": "La neve... è fredda pure dentro le scarpe?",
+      "emozione": "sorpresa",
+      "audio": "",
+      "azione": "entra_sx",
+      "sfondo": "",
+      "posizione": "sx",
+      "capitolo": "ingresso"
+    },
+    {
+      "id": "cs_violino_006",
+      "personaggio": "derna",
+      "testo": "Dentro le scarpe no, se le asciughi vicino alla stufa. Domani te lo faccio vedere.",
+      "emozione": "felice",
+      "audio": "",
+      "azione": "",
+      "sfondo": "",
+      "posizione": "dx",
+      "capitolo": "ingresso"
+    },
+    {
+      "id": "cs_violino_007",
+      "personaggio": "rosa",
+      "testo": "Derna, il bambino ha le guance come due mele. Mandalo da me, che il forno è caldo e c'è da impastare.",
+      "emozione": "felice",
+      "audio": "",
+      "azione": "entra_dx",
+      "sfondo": "",
+      "posizione": "dx",
+      "capitolo": "ingresso"
+    },
+    {
+      "id": "cs_violino_008",
+      "personaggio": "narratore",
+      "testo": "Nella corte ci sono tre porte: la cucina di Derna, il laboratorio dei Benvenuti con il forno e il pianoforte, e in fondo alla strada bianca, la scuola.",
+      "emozione": "neutra",
+      "audio": "",
+      "azione": "",
+      "sfondo": "",
+      "posizione": "sx",
+      "capitolo": "ingresso"
+    },
+    {
+      "id": "cs_violino_009",
+      "personaggio": "rivo",
+      "testo": "L'ho preso io. Non lo volevo rompere. Volevo solo vedere se lo sapevo suonare anche io.",
+      "emozione": "triste",
+      "audio": "",
+      "azione": "entra_dx",
+      "sfondo": "cs_ricordo",
+      "posizione": "dx",
+      "capitolo": "meta"
+    },
+    {
+      "id": "cs_violino_010",
+      "personaggio": "amerigo",
+      "testo": "E lo sai suonare?",
+      "emozione": "neutra",
+      "audio": "",
+      "azione": "entra_sx",
+      "sfondo": "",
+      "posizione": "sx",
+      "capitolo": "meta"
+    },
+    {
+      "id": "cs_violino_011",
+      "personaggio": "rivo",
+      "testo": "No. Fa un verso da gatto.",
+      "emozione": "pensierosa",
+      "audio": "",
+      "azione": "",
+      "sfondo": "",
+      "posizione": "dx",
+      "capitolo": "meta"
+    },
+    {
+      "id": "cs_violino_012",
+      "personaggio": "narratore",
+      "testo": "I due bambini si guardano le scarpe: quelle nuove della Croce Rossa e quelle col tacco rattoppato. Ridono, prima piano, poi forte.",
+      "emozione": "neutra",
+      "audio": "",
+      "azione": "",
+      "sfondo": "",
+      "posizione": "sx",
+      "capitolo": "meta"
+    },
+    {
+      "id": "cs_violino_013",
+      "personaggio": "rivo",
+      "testo": "Domani, a scuola, ti batto io il tempo. Così almeno uno dei due fa una cosa giusta.",
+      "emozione": "felice",
+      "audio": "",
+      "azione": "",
+      "sfondo": "",
+      "posizione": "dx",
+      "capitolo": "meta"
+    },
+    {
+      "id": "cs_violino_014",
+      "personaggio": "narratore",
+      "testo": "Una sera di festa in casa Benvenuti: il pane di Rosa sul tavolo, la stufa che borbotta, Luzio e Nario seduti sul pavimento.",
+      "emozione": "neutra",
+      "audio": "",
+      "azione": "dissolvenza",
+      "sfondo": "cs_ricordo",
+      "posizione": "sx",
+      "capitolo": "chiusura"
+    },
+    {
+      "id": "cs_violino_015",
+      "personaggio": "alcide",
+      "testo": "Adesso fai sentire a tutti quello che sai. Piano, che la stanza ascolta.",
+      "emozione": "felice",
+      "audio": "",
+      "azione": "entra_dx",
+      "sfondo": "",
+      "posizione": "dx",
+      "capitolo": "chiusura"
+    },
+    {
+      "id": "cs_violino_016",
+      "personaggio": "narratore",
+      "testo": "Amerigo suona le sue due frasi. Nessuno parla. Poi Rosa batte le mani, e tutti dietro.",
+      "emozione": "neutra",
+      "audio": "",
+      "azione": "",
+      "sfondo": "",
+      "posizione": "sx",
+      "capitolo": "chiusura"
+    },
+    {
+      "id": "cs_violino_017",
+      "personaggio": "derna",
+      "testo": "Adesso scriviamo a tua madre. Tu detti, io scrivo.",
+      "emozione": "neutra",
+      "audio": "",
+      "azione": "entra_dx",
+      "sfondo": "",
+      "posizione": "dx",
+      "capitolo": "chiusura"
+    },
+    {
+      "id": "cs_violino_018",
+      "personaggio": "amerigo",
+      "testo": "Scrivi che mangio. Che ho le scarpe. Che c'è la neve e non è zucchero.",
+      "emozione": "felice",
+      "audio": "",
+      "azione": "entra_sx",
+      "sfondo": "",
+      "posizione": "sx",
+      "capitolo": "chiusura"
+    },
+    {
+      "id": "cs_violino_019",
+      "personaggio": "amerigo",
+      "testo": "E scrivi che... no, questo non lo scrivere. Scrivi solo che sto bene.",
+      "emozione": "pensierosa",
+      "audio": "",
+      "azione": "",
+      "sfondo": "",
+      "posizione": "sx",
+      "capitolo": "chiusura"
+    },
+    {
+      "id": "cs_violino_020",
+      "personaggio": "derna",
+      "testo": "Lo scrivo così. Il resto lo capirà lo stesso.",
+      "emozione": "neutra",
+      "audio": "",
+      "azione": "",
+      "sfondo": "",
+      "posizione": "dx",
+      "capitolo": "chiusura"
+    },
+    {
+      "id": "cs_violino_021",
+      "personaggio": "amerigo_adulto",
+      "testo": "Lei non sapeva leggerla, quella lettera. Qualcuno gliel'avrà letta ad alta voce, nel vicolo.",
+      "emozione": "pensierosa",
+      "audio": "",
+      "azione": "dissolvenza",
+      "sfondo": "cs_basso",
+      "posizione": "sx",
+      "capitolo": "chiusura"
+    },
+    {
+      "id": "cs_violino_022",
+      "personaggio": "narratore",
+      "testo": "Una cucina calda, un foglio di pallini colorati, una lettera dettata. A Modena qualcuno aveva guardato Amerigo e aveva visto un talento: la scuola e la musica, per la prima volta, erano anche sue.",
+      "emozione": "decisa",
+      "audio": "",
+      "azione": "",
+      "sfondo": "",
+      "posizione": "sx",
+      "capitolo": "chiusura"
+    }
+  ]
+}

@@ -80,7 +80,8 @@ namespace TrenoBambini.EditorTools
                 var pf = JsonUtility.FromJson<PersonaggiFile>(File.ReadAllText(persPath, Encoding.UTF8));
                 if (pf != null && pf.personaggi != null)
                     foreach (var pd in pf.personaggi)
-                        if (pd != null && !string.IsNullOrEmpty(pd.id)) nomi[pd.id] = string.IsNullOrEmpty(pd.nome) ? pd.id : pd.nome;
+                        if (pd != null && !string.IsNullOrEmpty(pd.id))
+                            nomi[pd.id] = !string.IsNullOrEmpty(pd.nomeCopione) ? pd.nomeCopione : (string.IsNullOrEmpty(pd.nome) ? pd.id : pd.nome);
             }
 
             // file audio esistenti (id -> nome file con estensione)

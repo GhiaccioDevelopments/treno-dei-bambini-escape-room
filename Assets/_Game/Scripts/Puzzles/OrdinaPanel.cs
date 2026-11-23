@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using TMPro;
+using TrenoBambini.Core;
 using TrenoBambini.UI;
 using TrenoBambini.UI.Fx;
 using UnityEngine;
@@ -11,7 +12,8 @@ namespace TrenoBambini.Puzzles
 {
     /// <summary>
     /// Ordina gli eventi trascinando le carte con mouse o dito (drag and drop): la carta sollevata proietta un'ombra
-    /// e le altre si spostano per fare spazio. Per l'accessibilità da tastiera: clic sulla carta per sceglierla, poi frecce Su/Giù (o W/S).
+    /// e le altre si spostano per fare spazio. Non ci sono pulsanti Su/Giù.
+    /// Senza mouse (tastiera o gamepad): frecce/D-pad scelgono la carta, Invio/Spazio/A la "prende", le frecce la spostano, Invio/Spazio/A la posa.
     /// Verifica: le carte al posto giusto ricevono una puntina; nessun rosso aggressivo per quelle sbagliate.
     /// </summary>
     public class OrdinaPanel : PuzzlePanel
@@ -25,6 +27,7 @@ namespace TrenoBambini.Puzzles
         Image[] bgs, shadows, pins;
         TextMeshProUGUI[] labels, numbers;
         int dragEvent = -1, selectedEvent = -1;
+        bool held;   // true = la carta scelta e' "in mano" (modo senza mouse): le frecce la spostano
         float grabOffset;
 
         protected override void BuildContent(RectTransform a)
@@ -41,7 +44,8 @@ namespace TrenoBambini.Puzzles
             Shuffle();
             BuildRows();
             ShowAction("Verifica", Verify);
-            Info("Trascina le carte per metterle in ordine cronologico, poi premi Verifica.");
+            string aiuto = GameData.UiMenu.ordina.aiutoTastiera;   // il testo vero sta in ui_menu.json; se manca resta solo la riga base
+            Info("Trascina le carte per metterle in ordine cronologico, poi premi Verifica." + (string.IsNullOrEmpty(aiuto) ? "" : "\n" + aiuto));
         }
 
         void Shuffle()
@@ -209,14 +213,53 @@ namespace TrenoBambini.Puzzles
         // ---------------------------------------------------------------- selezione e tastiera
         public void Select(int e)
         {
+            if (e != selectedEvent) held = false;   // cambiando carta, quella di prima viene posata
             selectedEvent = e;
             for (int i = 0; i < bgs.Length; i++)
-                bgs[i].color = i == e && !solved ? new Color(1f, 0.93f, 0.7f) : new Color(1f, 0.97f, 0.88f);
+                bgs[i].color = i == e && !solved ? (held ? new Color(1f, 0.86f, 0.5f) : new Color(1f, 0.93f, 0.7f)) : new Color(1f, 0.97f, 0.88f);
         }
+
+        /// <summary>Modo senza mouse: sceglie la carta vicina (delta -1 = sopra, +1 = sotto). La prima volta sceglie la prima della pila.</summary>
+        void MoveFocus(int delta)
+        {
+            if (solved || dragEvent >= 0 || order.Count == 0) return;
+            if (selectedEvent < 0) { Select(order[0]); return; }
+            int to = Mathf.Clamp(order.IndexOf(selectedEvent) + delta, 0, order.Count - 1);
+            Select(order[to]);
+        }
+
+        /// <summary>Invio/Spazio/A: prende la carta scelta (o la posa se e' gia' in mano).</summary>
+        void ToggleHeld()
+        {
+            if (solved || dragEvent >= 0 || order.Count == 0) return;
+            if (selectedEvent < 0) { Select(order[0]); return; }
+            held = !held;
+            Select(selectedEvent);   // aggiorna il colore (piu' scuro = in mano)
+            UISfx.Play(Sfx.ClickPaper, held ? 0.5f : 0.4f);
+            string m = held ? GameData.UiMenu.ordina.presa : GameData.UiMenu.ordina.posata;
+            if (!string.IsNullOrEmpty(m)) Info(m);
+        }
+
+        // ---- API per le prove automatiche (stesso effetto dei tasti) ----
+        /// <summary>Riordino da codice: prende la carta "e" e la porta alla posizione "pos" (0 = in alto). Usata dai self-test.</summary>
+        public void SpostaCartaProva(int e, int pos)
+        {
+            if (e < 0 || e >= order.Count) return;
+            Select(e); held = true;
+            int guard = order.Count + 2;
+            while (guard-- > 0)
+            {
+                int cur = order.IndexOf(e);
+                if (cur == pos) break;
+                MoveSelected(pos < cur ? -1 : 1);
+            }
+            held = false; Select(e);
+        }
+        public int[] OrdineProva() { return order.ToArray(); }
 
         void MoveSelected(int delta)
         {
-            if (solved || selectedEvent < 0 || dragEvent >= 0) return;
+            if (solved || selectedEvent < 0 || dragEvent >= 0 || !held) return;
             int cur = order.IndexOf(selectedEvent);
             int to = cur + delta;
             if (to < 0 || to >= order.Count) return;
@@ -232,10 +275,23 @@ namespace TrenoBambini.Puzzles
         protected override void OnUpdate()
         {
             if (solved || rows == null) return;
+            int dir = 0; bool azione = false;
             var kb = Keyboard.current;
-            if (kb == null) return;
-            if (kb.upArrowKey.wasPressedThisFrame || kb.wKey.wasPressedThisFrame) MoveSelected(-1);
-            if (kb.downArrowKey.wasPressedThisFrame || kb.sKey.wasPressedThisFrame) MoveSelected(1);
+            if (kb != null)
+            {
+                if (kb.upArrowKey.wasPressedThisFrame || kb.wKey.wasPressedThisFrame) dir = -1;
+                if (kb.downArrowKey.wasPressedThisFrame || kb.sKey.wasPressedThisFrame) dir = 1;
+                if (kb.enterKey.wasPressedThisFrame || kb.numpadEnterKey.wasPressedThisFrame || kb.spaceKey.wasPressedThisFrame) azione = true;
+            }
+            var gp = Gamepad.current;
+            if (gp != null)
+            {
+                if (gp.dpad.up.wasPressedThisFrame) dir = -1;
+                if (gp.dpad.down.wasPressedThisFrame) dir = 1;
+                if (gp.buttonSouth.wasPressedThisFrame) azione = true;
+            }
+            if (azione) ToggleHeld();
+            if (dir != 0) { if (held) MoveSelected(dir); else MoveFocus(dir); }
         }
 
         // ---------------------------------------------------------------- verifica

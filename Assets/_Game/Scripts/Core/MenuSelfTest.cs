@@ -72,6 +72,7 @@ namespace TrenoBambini.Core
             string saveBackup = PlayerPrefs.GetString("treno_save", null);
             bool avevaSave = PlayerPrefs.HasKey("treno_save");
             Log("Inizio prova. Salvataggio presente: " + avevaSave);
+            GameManager.FilmatoSpento = true; // R025: niente filmato iniziale dentro la prova (blocca I ed Esc finche' dura)
 
             StartCoroutine(Osserva());
             string pre = Arg("-menutestpreset", "");
@@ -158,7 +159,9 @@ namespace TrenoBambini.Core
             {
                 t += Time.unscaledDeltaTime;
                 var a = SceneManager.GetActiveScene().name;
-                if (a == GameManager.SceneHub && !GameManager.MenuBackdrop && SceneManager.sceneCount == 1) { res(true); yield break; }
+                // "Continua" riporta nella scena del salvataggio (hub, basso o un ricordo): basta che sia una scena di gioco, da sola e senza menu
+                bool scenaDiGioco = a != "00_Boot" && a != "01_Titolo";
+                if (scenaDiGioco && !GameManager.MenuBackdrop && SceneManager.sceneCount == 1) { res(true); yield break; }
                 yield return null;
             }
             res(false);
@@ -195,7 +198,7 @@ namespace TrenoBambini.Core
         /// <summary>Preme S finche' il fuoco e' sulla voce indicata; vale false se non ci arriva (e in quel caso non si deve premere Invio).</summary>
         IEnumerator Raggiungi(string id, System.Action<bool> res)
         {
-            var ordine = new System.Collections.Generic.List<string> { "continua", "nuova", "ricordi", "impostazioni", "crediti", "esci" };
+            var ordine = new System.Collections.Generic.List<string> { "continua", "nuova", "ricordi", "impostazioni", "filmato", "trofei", "crediti", "esci" }; // R025 filmato e R027 trofei stanno fra Impostazioni e Crediti
             for (int i = 0; i < 10 && title.FuocoId != id; i++)
             {
                 int da = ordine.IndexOf(title.FuocoId), a = ordine.IndexOf(id);
@@ -308,7 +311,7 @@ namespace TrenoBambini.Core
             yield return Tap(Key.Enter);
             bool gioco = false;
             yield return ScenaGioco(60f, r => gioco = r);
-            Check("Il gioco parte (hub, un'unica scena)", gioco, SceneManager.GetActiveScene().name + " scene=" + SceneManager.sceneCount);
+            Check("Il gioco parte (scena del salvataggio, un'unica scena)", gioco, SceneManager.GetActiveScene().name + " scene=" + SceneManager.sceneCount);
             if (!gioco) yield break;
 
             yield return Attendi(5f);

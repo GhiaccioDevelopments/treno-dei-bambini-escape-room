@@ -138,6 +138,17 @@ ArtSource/Characters/makehuman/*
 !ArtSource/Characters/makehuman/*.bat
 !ArtSource/Characters/makehuman/Amerigo_bambino/
 !ArtSource/Characters/makehuman/Amerigo_adulto/
+!ArtSource/Characters/makehuman/Capa_e_fierro/
+!ArtSource/Characters/makehuman/Antonietta/
+!ArtSource/Characters/makehuman/Maddalena/
+!ArtSource/Characters/makehuman/Pachiochia/
+!ArtSource/Characters/makehuman/Controllore/
+!ArtSource/Characters/makehuman/VolontariaComitato/
+!ArtSource/Characters/makehuman/VolontariaCroceRossa/
+!ArtSource/Characters/makehuman/Derna/
+!ArtSource/Characters/makehuman/Alcide/
+!ArtSource/Characters/makehuman/Rosa/
+!ArtSource/Characters/makehuman/Carmine/
 ArtSource/Characters/makehuman/**/*.thumb
 !ArtSource/Characters/screenshots/
 ArtSource/Characters/screenshots/*
@@ -153,3 +164,41 @@ Assets/_Recovery*
 
 # R020: mappe intermedie dei modelli degli enigmi (si rigenerano con texture_enigmi.py)
 ArtSource/Models/Enigmi/_tmp/
+
+# uscite locali delle prove automatiche e catture di lavoro
+/Captures/
+/enigmitest/
+/mappatest/
+/segretitest/
+/straccitest/
+/volantinotest/
+/cappottotest/
+/violinotest/
+/finaletest/
+/introtest/
+/menutest/
+/Assets/Screenshots/
+/Assets/Screenshots.meta
+# personaggi MakeHuman secondari (2026-11-22): in git solo .mhm e screenshot; FBX e texture si rigenerano con genera_personaggi_makehuman.py (budget LFS)
+ArtSource/Characters/makehuman/Capa_e_fierro/textures/
+ArtSource/Characters/makehuman/Capa_e_fierro/*.fbx
+ArtSource/Characters/makehuman/Antonietta/textures/
+ArtSource/Characters/makehuman/Antonietta/*.fbx
+ArtSource/Characters/makehuman/Maddalena/textures/
+ArtSource/Characters/makehuman/Maddalena/*.fbx
+ArtSource/Characters/makehuman/Pachiochia/textures/
+ArtSource/Characters/makehuman/Pachiochia/*.fbx
+ArtSource/Characters/makehuman/Controllore/textures/
+ArtSource/Characters/makehuman/Controllore/*.fbx
+ArtSource/Characters/makehuman/VolontariaComitato/textures/
+ArtSource/Characters/makehuman/VolontariaComitato/*.fbx
+ArtSource/Characters/makehuman/VolontariaCroceRossa/textures/
+ArtSource/Characters/makehuman/VolontariaCroceRossa/*.fbx
+ArtSource/Characters/makehuman/Derna/textures/
+ArtSource/Characters/makehuman/Derna/*.fbx
+ArtSource/Characters/makehuman/Alcide/textures/
+ArtSource/Characters/makehuman/Alcide/*.fbx
+ArtSource/Characters/makehuman/Rosa/textures/
+ArtSource/Characters/makehuman/Rosa/*.fbx
+ArtSource/Characters/makehuman/Carmine/textures/
+ArtSource/Characters/makehuman/Carmine/*.fbx

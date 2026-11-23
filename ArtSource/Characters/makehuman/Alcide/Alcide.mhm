@@ -1,0 +1,33 @@
+# Written by MakeHuman 1.2.1 alpha
+version v1.2.1
+camera 0.0 0.0 0.0 -0.012940796978162443 -0.007532092695369449 1.0
+modifier breast/BreastSize 0.500000
+modifier breast/BreastFirmness 0.500000
+modifier macrodetails/Gender 1.000000
+modifier macrodetails/Age 0.615385
+modifier macrodetails/African 0.100000
+modifier macrodetails/Asian 0.100000
+modifier macrodetails/Caucasian 0.800000
+modifier macrodetails-universal/Muscle 0.450000
+modifier macrodetails-universal/Weight 0.450000
+modifier macrodetails-height/Height 0.520000
+modifier macrodetails-proportions/BodyProportions 0.500000
+teeth Teeth_Base 0a5ec82a-0d5f-43ce-a765-8f076f95692d
+hair short04 e09bfd91-f83f-4f9a-ba8c-4635cd1ae0d8
+eyelashes Eyelashes01 d533836f-13ad-4836-8b65-051108253cd2
+skeleton game_engine.mhskel
+eyebrows eyebrow010 8261cde8-7ce2-47f3-a7a2-edf459c50887
+eyes HighPolyEyes 2c12f43b-1303-432c-b7ce-d78346baf2e6
+clothes male_casualsuit03 39864dca-8d5c-4d7c-84ce-c00982e93cb7
+clothes fedora 566dbd52-71d1-4d76-a799-0474a5a384db
+clothes shoes01 6e0c552e-e207-44df-8f70-c9bfdeddd8c6
+clothesHideFaces True
+skinMaterial skins/middleage_caucasian_male/middleage_caucasian_male.mhmat
+material male_casualsuit03 39864dca-8d5c-4d7c-84ce-c00982e93cb7 amerigo/alcide_abito.mhmat
+material shoes01 6e0c552e-e207-44df-8f70-c9bfdeddd8c6 amerigo/scarpe_usate.mhmat
+material short04 e09bfd91-f83f-4f9a-ba8c-4635cd1ae0d8 amerigo/alcide_capelli.mhmat
+material HighPolyEyes 2c12f43b-1303-432c-b7ce-d78346baf2e6 eyes/materials/brown.mhmat
+material eyebrow010 8261cde8-7ce2-47f3-a7a2-edf459c50887 eyebrow010.mhmat
+material Eyelashes01 d533836f-13ad-4836-8b65-051108253cd2 eyelashes01.mhmat
+material Teeth_Base 0a5ec82a-0d5f-43ce-a765-8f076f95692d teeth/materials/teeth.mhmat
+subdivide False

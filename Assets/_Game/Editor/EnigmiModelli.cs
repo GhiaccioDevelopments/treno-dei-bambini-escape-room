@@ -65,6 +65,10 @@ namespace TrenoBambini.EditorTools
             { "ME_CuoioCinghia", D(TexP + "Scarpe/T_Cuoio_Scarpe_Albedo.png", TexP + "Scarpe/T_Cuoio_Scarpe_Normale.png", null, null, 0.35f, 0f, 0.8f, 0.62f, 0.48f) },
             { "ME_Lino", D(TexP + "TessutoLino/TessutoLino_Albedo.jpg", TexP + "TessutoLino/TessutoLino_Normal.jpg", TexP + "TessutoLino/TessutoLino_MS.png", TexP + "TessutoLino/TessutoLino_AO.jpg", 0.6f, 0f, 0.92f, 0.86f, 0.76f) },
             { "ME_Iuta", D(TexP + "TessutoIuta/TessutoIuta_Albedo.jpg", TexP + "TessutoIuta/TessutoIuta_Normal.jpg", TexP + "TessutoIuta/TessutoIuta_MS.png", TexP + "TessutoIuta/TessutoIuta_AO.jpg", 0.6f) },
+            // R024: calzature (solo colore, senza texture)
+            { "ME_Fango", D(null, null, null, null, 0.12f, 0f, 0.22f, 0.16f, 0.10f) },
+            { "ME_Interno", D(null, null, null, null, 0.08f, 0f, 0.05f, 0.036f, 0.028f) },
+            { "ME_Cartone", D(null, null, null, null, 0.05f, 0f, 0.62f, 0.49f, 0.33f) },
             { "MX_Vetro", new Def { smooth = 0.93f, tinta = new Color(0.62f, 0.66f, 0.62f, 0.14f), vetro = true } },
         };
 

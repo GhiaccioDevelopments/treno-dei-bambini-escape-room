@@ -38,7 +38,7 @@
     },
     {
       "scena": "20_Int_BassoAntonietta",
-      "musica": "",
+      "musica": "tema_amerigo_ricordo",
       "ambiente": [
         "interno_silenzio",
         "pioggia_ovattata"
@@ -56,7 +56,7 @@
     },
     {
       "scena": "30_FB_Scarpe",
-      "musica": "tema_amerigo_ricordo",
+      "musica": "ricordo_scarpe",
       "ambiente": [
         "ricordo_tono"
       ],
@@ -68,6 +68,103 @@
         50
       ],
       "superficie": "ovattato"
+    },
+    {
+      "scena": "40_FB_Stracci",
+      "musica": "ricordo_stracci",
+      "ambiente": [
+        "ricordo_tono"
+      ],
+      "sparsi": [
+        "carretto",
+        "panni"
+      ],
+      "intervallo": [
+        10,
+        28
+      ],
+      "superficie": "ovattato"
+    },
+    {
+      "scena": "50_FB_Volantino",
+      "musica": "ricordo_volantino",
+      "ambiente": [
+        "ricordo_tono",
+        "pioggia"
+      ],
+      "sparsi": [
+        "finestra",
+        "panni"
+      ],
+      "intervallo": [
+        12,
+        30
+      ],
+      "superficie": "ovattato"
+    },
+    {
+      "scena": "60_FB_Stazione",
+      "musica": "ricordo_stazione",
+      "ambiente": [
+        "ricordo_tono",
+        "stazione_vapore"
+      ],
+      "sparsi": [
+        "treno_fischio"
+      ],
+      "intervallo": [
+        14,
+        32
+      ],
+      "superficie": "ovattato"
+    },
+    {
+      "scena": "61_FB_Vagone",
+      "musica": "ricordo_vagone",
+      "ambiente": [
+        "ricordo_tono",
+        "stazione_vapore"
+      ],
+      "sparsi": [
+        "treno_fischio"
+      ],
+      "intervallo": [
+        35,
+        70
+      ],
+      "superficie": "ovattato"
+    },
+    {
+      "scena": "70_FB_Modena",
+      "musica": "ricordo_modena",
+      "ambiente": [
+        "ricordo_tono",
+        "vento_mare"
+      ],
+      "sparsi": [
+        "campane"
+      ],
+      "intervallo": [
+        30,
+        70
+      ],
+      "superficie": "ovattato"
+    },
+    {
+      "scena": "80_Basso_1994",
+      "musica": "finale_1994",
+      "ambiente": [
+        "interno_silenzio",
+        "vicolo_brusio"
+      ],
+      "sparsi": [
+        "campane"
+      ],
+      "intervallo": [
+        40,
+        90
+      ],
+      "superficie": "pietra"
     }
   ],
   "eventi": [
@@ -115,10 +212,15 @@
       "id": "cambio_scena",
       "stinger": "",
       "sfx": ""
+    },
+    {
+      "id": "voce_vicolo",
+      "stinger": "",
+      "sfx": "finestra"
     }
   ],
   "volumi": {
-    "musica": 0.6,
+    "musica": 0.9,
     "ambiente": 0.7,
     "effetti": 0.9,
     "voci": 1.0,

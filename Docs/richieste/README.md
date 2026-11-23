@@ -43,16 +43,24 @@ MCP for Unity) le implementa. Le due sessioni non si parlano: comunicano **solo 
 | R008 | Impostazioni grafiche dettagliate (ombre, luci, effetti) | integrata in feature/upgrade-realistico (2026-11-08), PR #10 |
 | R009 | Enigmi dentro il mondo, niente più oggetti viola | integrata (2026-11-09) con R020, PR #11 |
 | R010 | Ridisegno degli enigmi di "Le scarpe" | integrata (2026-11-09) con R020, PR #12 |
-| R011 | Easter egg ed enigmi nascosti in ogni stanza | aperta, PR #13 (dopo R006 e R009) |
-| R012 | Nuovo ricordo "Stracci" (regole comuni dei capitoli) | aperta, PR #14 (dopo R006–R009) |
-| R013 | Nuovo ricordo "Il volantino del treno" | aperta, PR #15 (dopo R012) |
-| R014 | Nuovo ricordo "Il cappotto" | aperta, PR #16 (dopo R013) |
-| R015 | Nuovo ricordo "Il violino" | aperta, PR #17 (dopo R014) |
-| R016 | Il finale nel 1994 | aperta, PR #18 (dopo R015) |
+| R011 | Easter egg ed enigmi nascosti in ogni stanza | integrata (2026-11-09): 3 enigmi segreti, 14 collezionabili, pagina Segreti, aiuto lieve automatico, Rivivi il ricordo, 351 PASS in build; D1 e violino in attesa di R016, PR #13 |
+| R012 | Nuovo ricordo "Stracci" (regole comuni dei capitoli) | compilato e provato in Unity (2026-11-22): scena costruita, Capa 'e fierro MakeHuman con idle, -straccitest 81 PASS 0 FAIL; resta il bake finale, PR #14 |
+| R013 | Nuovo ricordo "Il volantino del treno" | compilato e provato (2026-11-22): -volantinotest 86 PASS 0 FAIL, PR #15 |
+| R014 | Nuovo ricordo "Il cappotto" | compilato e provato (2026-11-22): -cappottotest 87 PASS 0 FAIL, PR #16 |
+| R015 | Nuovo ricordo "Il violino" | compilato e provato (2026-11-22): porte di Modena murate per errore corrette, -violinotest 84 PASS 0 FAIL, PR #17 |
+| R016 | Il finale nel 1994 | compilato e provato (2026-11-22): -finaletest 77 PASS 0 FAIL fino ai titoli di coda, PR #18 |
 | R017 | Mappe pulite: niente sfarfallii né buchi sul vuoto | integrata in `feature/upgrade-realistico` (7/11), PR #19 |
 | R018 | Telecamera robusta: mai dentro gli edifici né sul vuoto | integrata in `feature/upgrade-realistico` (8/11), PR #20 |
-| R019 | Minimappa d'epoca con prossimo obiettivo e nomi dei vicoli | aperta, PR #21 (dopo R006) |
+| R019 | Minimappa d'epoca con prossimo obiettivo e nomi dei vicoli | integrata (2026-11-09): minimappa, mappa grande (M), obiettivi, 212 PASS in build, PR #21 |
 | R020 | Enigmi d'autore in ogni stanza (quadri, codici, trama) | integrata (2026-11-09): enigmi nel mondo, modelli veri, 189 PASS in build, PR #22 |
 | R021 | Grafica realistica con identità unica (pellicola neorealista) | fusa in R007 e integrata (8/11), PR #23 chiusa |
 | R022 | Corsa corretta: personaggio dritto, gamba sinistra | integrata in `feature/upgrade-realistico` (7/11), PR #24 |
 | R023 | Menu iniziale e inventario rifatti, al livello dei giochi più belli | integrata (2026-11-08): menu col vicolo vivo, latta + quaderno, PR #25 |
+| R024 | Le scarpe da raccogliere nel ricordo (livello 2) sono invisibili | integrata (2026-11-09): 5 calzature vere, self-test raccoglibili, 241 PASS in build, online su gh-pages de33510, PR #26 |
+| R025 | Filmato iniziale della nuova partita, doppiato dall'utente | integrata (2026-11-09): filmato a 7 capitoli, 36 battute cs_intro, 4:38, 65 PASS in build, PR #27 (voci da registrare con R028) |
+| R026 | Enigmi più belli e più chiari: cosa fare e cosa si ottiene | provato (2026-11-22): biglietto in tutti i 48 enigmi; testi di tutti gli enigmi riscritti piu' semplici (3 indizi progressivi, ArtSource/Enigmi/testi_semplici.py), -enigmitest 258 PASS 0 FAIL, PR #28 |
+| R027 | Trofei (achievement) e missioni secondarie | compilato e provato nelle prove automatiche (2026-11-22), PR #29 |
+| R028 | Pulsante altoparlante sotto i dialoghi del Narratore, lista dei file da doppiare | compilato (2026-11-22); le voci le registra l'utente (Doppiaggio/DA_REGISTRARE.md), PR #30 |
+| R029 | Ottimizzazione totale del gioco | parziale (2026-11-13): codice e impostazioni WebGL; misure e rendering in Unity, PR #31 (**ultima**) |
+
+**Coda di lavoro (2026-11-09):** R019 → R024 → R025 → R011 → R012 → R013 → R014 → R015 → R016 → R026 → R027 → R028 → R029.

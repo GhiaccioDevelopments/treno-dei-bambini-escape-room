@@ -36,6 +36,12 @@ namespace TrenoBambini.EditorTools
             int problemi = 0;
             problemi += Scena(sb, "20_Int_BassoAntonietta", "ingresso", 0.28f, 1.75f);
             problemi += Scena(sb, "30_FB_Scarpe", "inizio", 0.2f, 1.0f);
+            problemi += Scena(sb, "40_FB_Stracci", "inizio", 0.2f, 1.0f);
+            problemi += Scena(sb, "50_FB_Volantino", "inizio", 0.2f, 1.0f);
+            problemi += Scena(sb, "60_FB_Stazione", "inizio", 0.2f, 1.0f);
+            problemi += Scena(sb, "61_FB_Vagone", "inizio", 0.2f, 1.0f);
+            problemi += Scena(sb, "70_FB_Modena", "inizio", 0.2f, 1.0f);
+            problemi += Scena(sb, "80_Basso_1994", "inizio", 0.28f, 1.75f);
             problemi += Scena(sb, "10_Hub_Vicolo", "inizio", 0.28f, 1.75f);
             sb.AppendLine();
             sb.AppendLine("TOTALE problemi: " + problemi);
@@ -46,7 +52,7 @@ namespace TrenoBambini.EditorTools
             return problemi;
         }
 
-        sealed class Bersaglio { public string nome; public Vector3 pos; public bool punto; public Bounds box; }
+        sealed class Bersaglio { public string nome; public Vector3 pos; public bool punto; public Bounds box; public bool piano; } // piano = oggetto da usare (enigma): conta la distanza in pianta, entro il raggio del PlayerInteractor
 
         static int Scena(StringBuilder sb, string nome, string spawnId, float r, float h)
         {
@@ -109,15 +115,16 @@ namespace TrenoBambini.EditorTools
             foreach (var ip in Object.FindObjectsByType<ItemPickup>(FindObjectsInactive.Exclude)) { var c = ip.GetComponent<Collider>(); if (c != null) bers.Add(new Bersaglio { nome = "Oggetto " + ip.oggettoId, box = c.bounds }); }
             foreach (var ex in Object.FindObjectsByType<EscapeExit>(FindObjectsInactive.Exclude)) { var c = ex.GetComponent<Collider>(); if (c != null) bers.Add(new Bersaglio { nome = "Uscita", box = c.bounds }); }
             foreach (var s in Object.FindObjectsByType<SpawnPoint>(FindObjectsInactive.Include)) bers.Add(new Bersaglio { nome = "Spawn " + s.id, pos = s.transform.position, punto = true });
-            if (nome == "30_FB_Scarpe")
+            if (nome == "30_FB_Scarpe" || nome == "40_FB_Stracci" || nome == "50_FB_Volantino" || nome == "60_FB_Stazione" || nome == "61_FB_Vagone" || nome == "70_FB_Modena" || nome == "80_Basso_1994")
             {
-                var json = Resources.Load<TextAsset>("Data/flashback_scarpe");
+                var json = Resources.Load<TextAsset>(nome == "30_FB_Scarpe" ? "Data/flashback_scarpe" : nome == "40_FB_Stracci" ? "Data/flashback_stracci" : nome == "50_FB_Volantino" ? "Data/flashback_volantino" : nome == "70_FB_Modena" ? "Data/flashback_violino" : nome == "80_Basso_1994" ? "Data/flashback_finale" : "Data/flashback_cappotto");
                 if (json != null)
                 {
                     var fb = JsonUtility.FromJson<TrenoBambini.Data.FlashbackDef>(json.text);
                     foreach (var e in fb.enigmi)
                     {
-                        bers.Add(new Bersaglio { nome = "Enigma " + e.id, pos = new Vector3(e.x, e.y, e.z), punto = true });
+                        if (!string.IsNullOrEmpty(e.scena) && e.scena != nome) continue; // R014: ricordo su due scene
+                        bers.Add(new Bersaglio { nome = "Enigma " + e.id, pos = new Vector3(e.x, e.y, e.z), punto = true, piano = true });
                         if (e.oggetti != null) foreach (var o in e.oggetti) bers.Add(new Bersaglio { nome = "Nascosto " + o.id, pos = new Vector3(o.x, o.y, o.z), punto = true });
                     }
                 }
@@ -134,11 +141,12 @@ namespace TrenoBambini.EditorTools
                         if (!visto[iz * w + ix]) continue;
                         var q = new Vector3(x0 + ix * Passo, quota[iz * w + ix], z0 + iz * Passo);
                         float dist;
-                        if (b.punto) dist = new Vector2(q.x - b.pos.x, q.z - b.pos.z).magnitude + Mathf.Abs(q.y - b.pos.y) * 2f;
+                        if (b.piano) dist = new Vector2(q.x - b.pos.x, q.z - b.pos.z).magnitude + Mathf.Max(0f, Mathf.Abs(q.y + 1.0f - b.pos.y) - 1.0f) * 2f; // altezza: da terra a 2 m si raggiunge con la mano
+                        else if (b.punto) dist = new Vector2(q.x - b.pos.x, q.z - b.pos.z).magnitude + Mathf.Abs(q.y - b.pos.y) * 2f;
                         else { var cp = b.box.ClosestPoint(new Vector3(q.x, Mathf.Clamp(q.y + 0.9f, b.box.min.y, b.box.max.y), q.z)); dist = new Vector2(q.x - cp.x, q.z - cp.z).magnitude; }
                         if (dist < best) best = dist;
                     }
-                float soglia = b.punto ? 0.5f : 1.2f;
+                float soglia = b.piano ? 1.4f : b.punto ? 0.5f : 1.2f;
                 bool ok = best <= soglia;
                 if (!ok) male++;
                 sb.AppendLine("  " + (ok ? "ok   " : "NO   ") + b.nome + " (distanza dal percorribile " + best.ToString("0.00") + " m)");

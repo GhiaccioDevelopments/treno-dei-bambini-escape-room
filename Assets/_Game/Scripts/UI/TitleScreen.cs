@@ -468,6 +468,8 @@ namespace TrenoBambini.UI
                     break;
                 case "ricordi": if (ricordiPanel == null) ricordiPanel = BuildRicordi(); Sottomenu(ricordiPanel); break;
                 case "impostazioni": if (UIRoot.I != null && UIRoot.I.Settings != null) UIRoot.I.Settings.Show(); break;
+                case "filmato": Lancia(() => GameManager.I.RivediFilmato()); break;
+                case "trofei": TrofeiPanel.Mostra(); break; // R027: l'album dei trofei
                 case "crediti": if (creditiPanel == null) creditiPanel = BuildCrediti(); Sottomenu(creditiPanel); break;
                 case "esci":
 #if UNITY_EDITOR

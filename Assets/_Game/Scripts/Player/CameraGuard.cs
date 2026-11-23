@@ -55,6 +55,7 @@ namespace TrenoBambini.Player
         bool nascosto;
         float prossimaScansione;
         Transform camT;
+        CinemachineBrain brainCache; // R029: niente GetComponent a ogni frame
 
         /// <summary>Distanza camera-giocatore dopo la correzione (informativo, per la prova automatica).</summary>
         public float UltimaDistanza { get; private set; }
@@ -210,7 +211,8 @@ namespace TrenoBambini.Player
             if (camT == null) { var c = Camera.main; if (c != null) camT = c.transform; }
             if (camT == null || target == null) return;
             // il giocatore si nasconde solo se la camera in uso e' questa (non durante le cutscene o con altre camere del Brain)
-            var brain = camT.GetComponent<CinemachineBrain>();
+            if (brainCache == null || brainCache.transform != camT) brainCache = camT.GetComponent<CinemachineBrain>();
+            var brain = brainCache;
             bool attiva = brain != null && ReferenceEquals(brain.ActiveVirtualCamera, ComponentOwner);
             float d = Vector3.Distance(camT.position, target.position);
             bool vuoleNascosto = attiva && (nascosto ? d < MostraOltre : d < NascondiSotto);

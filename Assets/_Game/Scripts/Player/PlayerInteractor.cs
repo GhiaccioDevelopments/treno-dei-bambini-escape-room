@@ -78,7 +78,8 @@ namespace TrenoBambini.Player
                 float dist = d.magnitude;
                 if (dist > range) continue;
                 if (dist > 0.6f && Vector3.Dot(fwd, d / dist) < 0f) continue;
-                if (dist < bestDist) { bestDist = dist; best = it; }
+                float score = dist + it.Penalita;
+                if (score < bestDist) { bestDist = score; best = it; }
             }
             return best;
         }
