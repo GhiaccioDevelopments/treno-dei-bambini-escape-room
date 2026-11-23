@@ -72,6 +72,7 @@ namespace TrenoBambini.Core
             string saveBackup = PlayerPrefs.GetString("treno_save", null);
             bool avevaSave = PlayerPrefs.HasKey("treno_save");
             Log("Inizio prova. Salvataggio presente: " + avevaSave);
+            GameManager.FilmatoSpento = true; // R025: niente filmato iniziale dentro la prova (blocca I ed Esc finche' dura)
 
             StartCoroutine(Osserva());
             string pre = Arg("-menutestpreset", "");
