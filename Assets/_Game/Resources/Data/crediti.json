@@ -313,10 +313,76 @@
             "licenza": "CC-BY 4.0"
         },
         {
-            "asset": "Musica, effetti e ambienti (Tema di Amerigo, passi, porte, ambienti dei luoghi)",
+            "asset": "Effetti e ambienti (passi, porte, ambienti dei luoghi)",
             "tipo": "Audio sintetizzato da codice",
             "autore": "Thomas Rosania, Luca Arduini / Claude",
             "licenza": "Originale del progetto"
+        },
+        {
+            "asset": "Chopin, Notturno in do diesis minore B. 49 \"Lento con gran espressione\"",
+            "tipo": "Musica (registrazione, menu e filmato iniziale)",
+            "autore": "Frédéric Chopin; pianoforte Diana Hughes (Musopen, 2015)",
+            "licenza": "CC0 1.0"
+        },
+        {
+            "asset": "Chopin, Preludio op. 28 n. 15 \"Goccia d'acqua\" (prima sezione)",
+            "tipo": "Musica (registrazione, basso e filmato iniziale; frase iniziale come stinger \"oggetto ritrovato\")",
+            "autore": "Frédéric Chopin; pianoforte Musopen (The Complete Works of Chopin)",
+            "licenza": "CC0 1.0"
+        },
+        {
+            "asset": "Chopin, Notturno op. 72 n. 1 in mi minore",
+            "tipo": "Musica (registrazione, ricordo del volantino; accordo finale come stinger \"enigma risolto\")",
+            "autore": "Frédéric Chopin; pianoforte Musopen (The Complete Works of Chopin)",
+            "licenza": "CC0 1.0"
+        },
+        {
+            "asset": "Chopin, Preludio op. 28 n. 6 in si minore",
+            "tipo": "Musica (registrazione, ricordo delle scarpe)",
+            "autore": "Frédéric Chopin; pianoforte Musopen (The Complete Works of Chopin)",
+            "licenza": "CC0 1.0"
+        },
+        {
+            "asset": "Grieg, Peer Gynt suite n. 1: La morte di Åse",
+            "tipo": "Musica (registrazione, ricordo della stazione)",
+            "autore": "Edvard Grieg; Czech National Symphony Orchestra (Musopen Kickstarter 2012, registrazioni donate al pubblico dominio)",
+            "licenza": "Pubblico dominio (PDM 1.0)"
+        },
+        {
+            "asset": "Borodin, Nelle steppe dell'Asia centrale (prima parte)",
+            "tipo": "Musica (registrazione, ricordo del vagone)",
+            "autore": "Aleksandr Borodin; Czech National Symphony Orchestra (Musopen Kickstarter 2012, registrazioni donate al pubblico dominio)",
+            "licenza": "Pubblico dominio (PDM 1.0)"
+        },
+        {
+            "asset": "Suk, Meditazione sul corale \"San Venceslao\" op. 35a",
+            "tipo": "Musica (registrazione, finale nel basso del 1994)",
+            "autore": "Josef Suk; Musopen String Quartet (Musopen Kickstarter 2012, registrazioni donate al pubblico dominio)",
+            "licenza": "Pubblico dominio (PDM 1.0)"
+        },
+        {
+            "asset": "Borodin, Quartetto per archi n. 2: Notturno",
+            "tipo": "Musica (registrazione, titoli di coda)",
+            "autore": "Aleksandr Borodin; esecuzione Musopen Kickstarter 2012, registrazioni donate al pubblico dominio",
+            "licenza": "Pubblico dominio (PDM 1.0)"
+        },
+        {
+            "asset": "La biondina in gondoletta (canzone veneziana, musica di G. S. Mayr)",
+            "tipo": "Musica (registrazione, vicolo dell'hub)",
+            "autore": "Quartetto Napoli, quartetto di mandolini (Victor, 11/02/1925); Library of Congress, National Jukebox (disco a 78 giri; registrazione anteriore al 1926, di pubblico dominio negli USA dal Music Modernization Act e nell'UE per scadenza dei diritti)",
+            "licenza": "Pubblico dominio (PDM 1.0)"
+        },
+        {
+            "asset": "Tosti, La serenata",
+            "tipo": "Musica (registrazione, ricordo degli stracci)",
+            "autore": "Francesco Paolo Tosti; Neapolitan Trio (Victor, 16/05/1913); Library of Congress, National Jukebox (disco a 78 giri; registrazione anteriore al 1926, di pubblico dominio negli USA dal Music Modernization Act e nell'UE per scadenza dei diritti)",
+            "licenza": "Pubblico dominio (PDM 1.0)"
+        },
+        {
+            "asset": "Massenet, Thaïs: Meditazione (trascrizione di M. P. Marsick)",
+            "tipo": "Musica (registrazione, ricordo di Modena)",
+            "autore": "Jules Massenet; violino Fritz Kreisler, pianoforte Carl Lamson (Victor, 28/03/1924); Library of Congress, National Jukebox (disco a 78 giri; registrazione anteriore al 1926, di pubblico dominio negli USA dal Music Modernization Act e nell'UE per scadenza dei diritti)",
+            "licenza": "Pubblico dominio (PDM 1.0)"
         },
         {
             "asset": "Cinemachine",

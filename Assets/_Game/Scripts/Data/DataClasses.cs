@@ -339,8 +339,9 @@ namespace TrenoBambini.Data
         public string rivivi = "", riviviNonQui = ""; // R011: rientrare in un ricordo gia' completato (per i segreti)
     }
 
-    /// <summary>R016: testi dei titoli di coda (ui_menu.json, blocco "finale"). velocita = pixel al secondo.</summary>
-    [Serializable] public class UiFinale { public string titolo = "", sottotitolo = "", fine = "", salta = ""; public float velocita = 55f; public List<string> righe = new List<string>(); }
+    /// <summary>R016: testi dei titoli di coda (ui_menu.json, blocco "finale"). velocita = pixel al secondo.
+    /// R029: musica = id del brano dei titoli (AudioLibrary), suonato una volta con la chiusa allineata alla fine dello scorrimento; vuoto = nessun cambio.</summary>
+    [Serializable] public class UiFinale { public string titolo = "", sottotitolo = "", fine = "", salta = "", musica = ""; public float velocita = 55f; public List<string> righe = new List<string>(); }
 
     /// <summary>R028: testi del pulsante altoparlante e della riga delle Impostazioni.</summary>
     [Serializable] public class UiVoceNarratore { public string mancante = "", autoNome = "", autoSpiega = ""; }

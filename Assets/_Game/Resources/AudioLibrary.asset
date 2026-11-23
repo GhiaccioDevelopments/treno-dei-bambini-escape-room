@@ -17,6 +17,10 @@ MonoBehaviour:
     categoria: Effetti
     clips:
     - {fileID: 8300000, guid: ffe301ed01db77d44a2e7333200a55a2, type: 3}
+  - id: finale_1994
+    categoria: Musica
+    clips:
+    - {fileID: 8300000, guid: e2f37397c7c24b44b9c81da851e0bd53, type: 3}
   - id: interno_silenzio
     categoria: Ambienti
     clips:
@@ -25,10 +29,34 @@ MonoBehaviour:
     categoria: Effetti
     clips:
     - {fileID: 8300000, guid: 633d09bdc1f45104eaf58b696b558064, type: 3}
+  - id: ricordo_modena
+    categoria: Musica
+    clips:
+    - {fileID: 8300000, guid: b6ecda26ff524e758502524a98a653bb, type: 3}
+  - id: ricordo_scarpe
+    categoria: Musica
+    clips:
+    - {fileID: 8300000, guid: 677bc97bdcbb448d9738d4a6a03d99a7, type: 3}
+  - id: ricordo_stazione
+    categoria: Musica
+    clips:
+    - {fileID: 8300000, guid: 73e231aaea6f412086e07398b1869f8d, type: 3}
+  - id: ricordo_stracci
+    categoria: Musica
+    clips:
+    - {fileID: 8300000, guid: 1bc206c72b3e4dab8a5286a5a76daf3c, type: 3}
   - id: ricordo_tono
     categoria: Ambienti
     clips:
     - {fileID: 8300000, guid: ef6a9390c098f0b4587b1a26fe335167, type: 3}
+  - id: ricordo_vagone
+    categoria: Musica
+    clips:
+    - {fileID: 8300000, guid: 1af382aad8714118af9eb8a111634194, type: 3}
+  - id: ricordo_volantino
+    categoria: Musica
+    clips:
+    - {fileID: 8300000, guid: 3861096b2cd049f98f683158ca1364b9, type: 3}
   - id: stazione_vapore
     categoria: Ambienti
     clips:
@@ -49,6 +77,10 @@ MonoBehaviour:
     categoria: Musica
     clips:
     - {fileID: 8300000, guid: a40ea1674da7b76459d96f11acc0ef76, type: 3}
+  - id: titoli_coda
+    categoria: Musica
+    clips:
+    - {fileID: 8300000, guid: b8668172487348868f128a73d9e2e669, type: 3}
   - id: venditore
     categoria: Effetti
     clips:

@@ -100,3 +100,44 @@ Le prove vecchie erano scritte per 3 stanze e per il gioco senza filmato inizial
 
 **Resta da fare**
 - Misure FPS per scena e preset (benchmark Windows), peso delle build, gioco a mano col gamepad, voci da registrare (utente).
+
+### Sessione 2026-11-23 (PC casa): personaggi d'epoca, prove complete, misure
+**Fatto**
+- Abiti d'epoca rigenerati e importati (11 personaggi, avatar validi, 52 ossa): gonna lunga a meta' polpaccio per le donne, Derna in giacca e gonna, controllore senza cravatta e con berretto da ferroviere (un po' alto, accettabile).
+- Minimappa: l'obiettivo resta sempre visibile (dopo ogni interazione, al passo successivo, dentro i ricordi, "esci dal ricordo" a capitolo finito).
+- Enigma "ordina" giocabile anche senza mouse (frecce + Invio).
+- Qualita' di partenza per piattaforma: Windows Alta, WebGL Bassa.
+
+**Prove automatiche sulla build Windows (tutte 0 FAIL, 1662 controlli)**
+| Prova | Esito |
+|---|---|
+| -menutest | 31 PASS |
+| -enigmitest | 260 PASS |
+| -segretitest | 452 PASS |
+| -mappatest | 440 PASS |
+| -introtest | 64 PASS |
+| -straccitest | 81 PASS |
+| -volantinotest | 86 PASS |
+| -cappottotest | 87 PASS |
+| -violinotest | 84 PASS |
+| -finaletest | 77 PASS |
+
+**Benchmark** (`-benchmark`, 15 s per scena e preset, 1280x720 in finestra, RTX 4060 Ti; FPS medi e, tra parentesi, 1% low)
+| Scena | Bassa | Media | Alta | Ultra |
+|---|---|---|---|---|
+| 01_Titolo | 2347 (779) | 600 (254) | 605 (322) | 458 (189) |
+| 10_Hub_Vicolo | 843 (247) | 586 (152) | 632 (321) | 461 (187) |
+| 20_Int_BassoAntonietta | 1137 (224) | 930 (145) | 892 (157) | 821 (310) |
+| 30_FB_Scarpe | 1176 (338) | 801 (341) | 708 (394) | 595 (309) |
+| 40_FB_Stracci | 1082 (433) | 709 (428) | 599 (339) | 523 (297) |
+| 50_FB_Volantino | 1107 (369) | 728 (430) | 611 (342) | 512 (257) |
+| 60_FB_Stazione | 1178 (357) | 819 (421) | 728 (338) | 604 (271) |
+| 61_FB_Vagone | 1337 (362) | 1014 (434) | 882 (356) | 815 (494) |
+| 70_FB_Modena | 1195 (343) | 911 (516) | 797 (469) | 676 (364) |
+| 80_Basso_1994 | 1391 (367) | 986 (155) | 957 (166) | 942 (496) |
+Ad Alta il minimo (1% low) e' 157 FPS: il criterio dei 60 FPS e' rispettato con largo margine su questo PC. Manca una misura su un PC scolastico (da fare a scuola con lo stesso comando).
+
+| Peso | Valore (23/11) |
+|---|---|
+| Build Windows (senza cartella di backup) | 697 MB |
+| Git LFS | 806 file, 550 MB (sotto 850) |

@@ -38,7 +38,7 @@
     },
     {
       "scena": "20_Int_BassoAntonietta",
-      "musica": "",
+      "musica": "tema_amerigo_ricordo",
       "ambiente": [
         "interno_silenzio",
         "pioggia_ovattata"
@@ -56,7 +56,7 @@
     },
     {
       "scena": "30_FB_Scarpe",
-      "musica": "tema_amerigo_ricordo",
+      "musica": "ricordo_scarpe",
       "ambiente": [
         "ricordo_tono"
       ],
@@ -71,7 +71,7 @@
     },
     {
       "scena": "40_FB_Stracci",
-      "musica": "tema_amerigo_ricordo",
+      "musica": "ricordo_stracci",
       "ambiente": [
         "ricordo_tono"
       ],
@@ -87,7 +87,7 @@
     },
     {
       "scena": "50_FB_Volantino",
-      "musica": "tema_amerigo_ricordo",
+      "musica": "ricordo_volantino",
       "ambiente": [
         "ricordo_tono",
         "pioggia"
@@ -104,7 +104,7 @@
     },
     {
       "scena": "60_FB_Stazione",
-      "musica": "tema_amerigo_ricordo",
+      "musica": "ricordo_stazione",
       "ambiente": [
         "ricordo_tono",
         "stazione_vapore"
@@ -120,7 +120,7 @@
     },
     {
       "scena": "61_FB_Vagone",
-      "musica": "tema_amerigo_ricordo",
+      "musica": "ricordo_vagone",
       "ambiente": [
         "ricordo_tono",
         "stazione_vapore"
@@ -136,7 +136,7 @@
     },
     {
       "scena": "70_FB_Modena",
-      "musica": "tema_amerigo_ricordo",
+      "musica": "ricordo_modena",
       "ambiente": [
         "ricordo_tono",
         "vento_mare"
@@ -152,7 +152,7 @@
     },
     {
       "scena": "80_Basso_1994",
-      "musica": "",
+      "musica": "finale_1994",
       "ambiente": [
         "interno_silenzio",
         "vicolo_brusio"
@@ -220,7 +220,7 @@
     }
   ],
   "volumi": {
-    "musica": 0.6,
+    "musica": 0.9,
     "ambiente": 0.7,
     "effetti": 0.9,
     "voci": 1.0,

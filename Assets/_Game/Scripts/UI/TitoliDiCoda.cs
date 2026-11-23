@@ -82,6 +82,10 @@ namespace TrenoBambini.UI
             LayoutRebuilder.ForceRebuildLayoutImmediate(contenuto);
             float h = contenuto.rect.height, schermo = ((RectTransform)transform).rect.height;
             float y = -20f, finale = h + schermo * 0.5f;
+            // R029: musica dei titoli, una volta sola, con la chiusa del brano sullo "Fine" (durata = scorrimento + attesa finale)
+            var f = GameData.UiMenu.finale;
+            if (f != null && !string.IsNullOrEmpty(f.musica) && AudioManager.I != null)
+                AudioManager.I.Music.Play(f.musica, 2.5f, (finale + 20f) / Mathf.Max(1f, velocita) + 2.5f);
             while (y < finale)
             {
                 y += velocita * Time.unscaledDeltaTime;
@@ -104,6 +108,9 @@ namespace TrenoBambini.UI
         void Chiudi()
         {
             InCorso = false;
+            // R029: se i titoli finiscono (o si saltano) prima della chiusa, il brano sfuma; il menu poi avvia la sua musica
+            var f = GameData.UiMenu.finale;
+            if (f != null && !string.IsNullOrEmpty(f.musica) && AudioManager.I != null && AudioManager.I.Music.CurrentId == f.musica) AudioManager.I.Music.Stop(2f);
             if (UIRoot.I != null) UIRoot.I.PopModal();
             if (GameManager.I != null) GameManager.I.PopBlock("titoli");
             var cb = fine;
